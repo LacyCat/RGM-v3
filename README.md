@@ -1,3 +1,3 @@
 # 랜덤게임모드 (SCP: Secret Laboratory)
 
-<img src="https://media.discordapp.net/attachments/830246342491111485/1280450523803160586/ezgif.com-gif-maker_10-1.gif?ex=66d9717a&is=66d81ffa&hm=11144ed079be2d143a5ef522bd6bcd6beb3c91fa5b3440a0124058933305faf1&=&width=1064&height=671">
+<img src="https://media.discordapp.net/attachments/830246342491111485/1280902368959008768/ezgif-6-7eddf2d69c.gif?ex=66d9c4ca&is=66d8734a&hm=10850411eb5c31a7343741d04ac6a10b0257db33463f6c631ac92143d4355f42&=">
