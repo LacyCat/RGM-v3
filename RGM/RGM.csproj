@@ -110,6 +110,7 @@
     <Compile Include="Commands\Plugin.Commands.cs" />
     <Compile Include="Configs\Config.cs" />
     <Compile Include="Modes\Blackout.cs" />
+    <Compile Include="Modes\Blessing.cs" />
     <Compile Include="Modes\Collector.cs" />
     <Compile Include="Modes\FriendlyFire.cs" />
     <Compile Include="Modes\Gamble.cs" />
@@ -117,11 +118,13 @@
     <Compile Include="Modes\InfiniteAmmo.cs" />
     <Compile Include="Modes\Jailbird.cs" />
     <Compile Include="Modes\JohnWick.cs" />
+    <Compile Include="Modes\KoreanSpeed.cs" />
     <Compile Include="Modes\Nesting.cs" />
     <Compile Include="Modes\OnePunch.cs" />
     <Compile Include="Modes\Outlaw.cs" />
     <Compile Include="Modes\SCPRUSH.cs" />
     <Compile Include="Modes\StandardItems.cs" />
+    <Compile Include="Modes\TrickorTreat.cs" />
     <Compile Include="Modes\WhereamI.cs" />
     <Compile Include="Modes\WhoamI.cs" />
     <Compile Include="Plugin.cs" />
