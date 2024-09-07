@@ -10,7 +10,7 @@ namespace RGM
 {
     public class Config : IConfig
     {
-        public bool IsEnabled { get; set; } = true;
+        public bool IsEnabled { get; set; } = false;
         public bool Debug { get; set; } = false;
 
         public string WebhookURL { get; set; } = "웹훅 URL(주소)를 입력해주세요.";
