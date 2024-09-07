@@ -38,16 +38,22 @@ namespace RGM.Discord
         public static async void Request(string requestBody, HttpListenerResponse response)
         { 
             string Content = WebUtility.UrlDecode(requestBody.Replace("data=", ""));
+            string[] Value = Content.Split('/');
             string result = "null";
             Log.Info(Content);
 
             if (Content.StartsWith("print"))
             {
-                result = Content.Split('/')[1];
+                result = Value[1];
             }
             else if (Content.StartsWith("command"))
             {
-                result = Server.ExecuteCommand(Content.Split('/')[1]);
+                result = Server.ExecuteCommand(Value[1]);
+            }
+            else if (Content.StartsWith("status"))
+            {
+                if (Value[1] == "players")
+                    result = $"{Server.PlayerCount} / {Server.MaxPlayerCount}";
             }
 
             response.ContentLength64 = result.Length;
@@ -67,7 +73,6 @@ namespace RGM.Discord
                 {
                     string requestBody = await reader.ReadToEndAsync();
 
-                    Log.Info(requestBody);
                     Request(requestBody, response);
                 }
             }
