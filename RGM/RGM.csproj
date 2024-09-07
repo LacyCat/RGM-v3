@@ -171,6 +171,8 @@
     <Compile Include="Configs\Config.cs" />
     <Compile Include="Discord\Command.cs" />
     <Compile Include="Discord\Webhook.cs" />
+    <Compile Include="Extensions\Broadcast.cs" />
+    <Compile Include="Extensions\Essential.cs" />
     <Compile Include="Modes\Blackout.cs" />
     <Compile Include="Modes\Blessing.cs" />
     <Compile Include="Modes\Collector.cs" />
@@ -199,5 +201,6 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

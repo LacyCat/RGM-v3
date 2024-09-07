@@ -3,11 +3,76 @@ using System.Collections.Generic;
 using System.Linq;
 using CommandSystem;
 using Exiled.API.Features;
+using UnityEngine;
+using PlayerRoles;
 using MEC;
-using PluginAPI.Loader.Features;
+using static System.Net.Mime.MediaTypeNames;
+using System.Xml.Linq;
 
 namespace RGM.Commands
 {
+    [CommandHandler(typeof(ClientCommandHandler))]
+    public class Chat : ICommand
+    {
+        public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
+        {
+            Player player = Player.Get(sender);
+
+            if (player.IsScp)
+            {
+                if (arguments.Count == 0)
+                {
+                    response = "보낼 메세지를 입력해주세요.";
+                    return false;
+                }
+
+                string text = player.Role.Name;
+                string text2 = string.Concat(new string[]
+                {
+                    "<size=25><color=#F6CECE>",
+                    text,
+                    $"</color> ({player.Nickname}) <b>|</b> ",
+                    string.Join(" ", arguments),
+                    "</size>"
+                });
+                foreach (Player ply in Player.List.Where(x => x.IsScp))
+                {
+                    Bc.Message(ply, 6, text2);
+                }
+                response = $"'{text2}'";
+                return true;
+            }
+            else
+            {
+                string text = player.Role.Name;
+                string text2 = string.Concat(new string[]
+                {
+                            "<size=25><color=#FFFFFF>",
+                            text,
+                            $"</color> ({player.Nickname}) <b>|</b> ",
+                            string.Join(" ", arguments),
+                            "</size>"
+                });
+
+                foreach (Player ply in Player.List)
+                {
+                    if (Vector3.Distance(ply.Position, player.Position) <= 5f)
+                    {
+                        Bc.Message(player, 6, text2);
+                        Bc.Message(ply, 6, text2);
+                    }
+                }
+
+                response = $"'{text2}'";
+                return true;
+            }
+        }
+
+        public string Command { get; } = "chat";
+        public string[] Aliases { get; } = new string[] { "챗", "채팅", "ㅊ", "c" };
+        public string Description { get; } = "텍스트 채팅을 사용할 수 있습니다.";
+    }
+
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     public class ForceMode : ICommand
     {
