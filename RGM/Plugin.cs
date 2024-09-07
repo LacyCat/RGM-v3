@@ -133,8 +133,8 @@ namespace RGM
 
             foreach (var player in Player.List)
             {
-                player.ClearBroadcasts();
-                player.Broadcast(10, Config.StartModeDescription
+                Bc.MessageClear(player);
+                Bc.Message(player, 10, Config.StartModeDescription
                     .Replace("{ModeColor}", ModeColor)
                     .Replace("{CurrentMode}", CurrentMode)
                     .Replace("{ModeDescription}", ModeDescription)
@@ -164,7 +164,7 @@ namespace RGM
         {
             if (Round.IsStarted)
             {
-                ev.Player.Broadcast(10, Config.LateJoinModeDescription
+                Bc.Message(ev.Player, 10, Config.LateJoinModeDescription
                     .Replace("{ModeColor}", ModeList[CurrentMode][0])
                     .Replace("{CurrentMode}", CurrentMode)
                     );
@@ -189,7 +189,7 @@ namespace RGM
                 ev.Player.Role.Set(Humans[UnityEngine.Random.Range(0, Humans.Count())]);
                 ev.Player.ClearInventory();
                 ev.Player.Position = new Vector3(47.103f, 1007.963f, -6.374592f);
-                ev.Player.Broadcast(10, Config.WelcomeMessage);
+                Bc.Message(ev.Player, 10, Config.WelcomeMessage);
 
                 string iv(int num)
                 {
@@ -245,7 +245,7 @@ namespace RGM
             if (ev.Player.IsScp && ev.Reason == Exiled.API.Enums.SpawnReason.RoundStart)
             {
                 if (UnityEngine.Random.Range(1, 14) == 1)
-                    ev.Player.Role.Set(PlayerRoles.RoleTypeId.Scp3114);
+                    ev.Player.Role.Set(RoleTypeId.Scp3114);
             }
         }
 
