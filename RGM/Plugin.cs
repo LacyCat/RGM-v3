@@ -27,6 +27,7 @@ namespace RGM
         public override void OnEnabled()
         {
             Instance = this;
+            base.OnEnabled();
 
             WebhookURL = Config.WebhookURL;
             ModeList = Config.Modes;
@@ -54,6 +55,7 @@ namespace RGM
             Exiled.Events.Handlers.Player.Spawning -= OnSpawned;
             Exiled.Events.Handlers.Player.InteractingDoor -= OnInteractingDoor;
 
+            base.OnDisabled();
             Instance = null;
         }
 
@@ -64,6 +66,9 @@ namespace RGM
 
             var webhook = new Discord.Webhook();
             webhook.OnEnabled();
+
+            var command = new Discord.Command();
+            command.OnEnabled();
 
             for (int i=1; i<4; i++)
             {
