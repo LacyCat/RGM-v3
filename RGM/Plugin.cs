@@ -112,6 +112,11 @@ namespace RGM
         // EventArgs / Round
         public void OnRoundStarted()
         {
+            foreach (var player in Player.List)
+            {
+                player.VoiceChannel = VoiceChat.VoiceChatChannel.Proximity;
+            }
+
             if (CurrentMode == null)
             {
                 var maxLength = ModeVote.Values.Max(list => list.Count);
@@ -166,6 +171,11 @@ namespace RGM
             }
             else
             {
+                foreach (var player in Player.List)
+                {
+                    player.VoiceChannel = VoiceChat.VoiceChatChannel.Intercom;
+                }
+
                 List<RoleTypeId> Humans = new List<RoleTypeId>()
                 {
                     RoleTypeId.ClassD,
