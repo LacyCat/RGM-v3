@@ -217,6 +217,12 @@ namespace RGM
                     .Replace("{ModeColor}", ModeList[CurrentMode][0])
                     .Replace("{CurrentMode}", CurrentMode)
                     );
+
+                string ModeDescription = ModeList[CurrentMode][1];
+                ev.Player.SendConsoleMessage($"\n[ {CurrentMode} ]\n" +
+                    $"------------------------------------------------------------------------" +
+                    $"\n{ModeDescription}\n" +
+                    $"------------------------------------------------------------------------", "white");
             }
             else
             {
