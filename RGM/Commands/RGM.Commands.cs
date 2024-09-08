@@ -28,7 +28,7 @@ namespace RGM.Commands
                 {
                     $"<size=25><color={player.Role.Color.ToHex()}>",
                     text,
-                    $"</color> ({player.Nickname}) <b>|</b>",
+                    $"</color> ({player.Nickname}) <b> | </b>",
                     string.Join(" ", arguments),
                     "</size>"
                 });
@@ -46,7 +46,7 @@ namespace RGM.Commands
                 {
                     $"<size=25><color={player.Role.Color.ToHex()}>",
                     text,
-                    $"</color> ({player.Nickname}) <b>|</b>",
+                    $"</color> ({player.Nickname}) <b> | </b>",
                     string.Join(" ", arguments),
                     "</size>"
                 });
@@ -64,7 +64,7 @@ namespace RGM.Commands
                 {
                     $"<size=25><color={player.Role.Color.ToHex()}>",
                     text,
-                    $"</color> ({player.Nickname}) <b>|</b>",
+                    $"</color> ({player.Nickname}) <b> | </b>",
                     string.Join(" ", arguments),
                     "</size>"
                 });
