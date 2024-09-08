@@ -9,6 +9,67 @@ using UnityEngine;
 namespace RGM.Commands
 {
     [CommandHandler(typeof(ClientCommandHandler))]
+    public class ScpList : ICommand
+    {
+        public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
+        {
+            Player player = Player.Get(sender);
+
+            if (player.IsScp)
+            {
+                response = string.Join("\n", Player.List.Where(x => x.IsScp).Select(x => $"{x.Role.Name} - ({x.Nickname})"));
+                return true;
+            }
+            else
+            {
+                response = "SCP만 사용할 수 있는 명령어입니다.";
+                return false;
+            }
+        }
+
+        public string Command { get; } = "scplist";
+
+        public string[] Aliases { get; } = { "sl", "scp" };
+
+        public string Description { get; } = "[RGM] 존재하는 SCP 리스트를 나열합니다.";
+
+        public bool SanitizeResponse { get; } = true;
+    }
+
+    [CommandHandler(typeof(ClientCommandHandler))]
+    public class CurrentMode : ICommand
+    {
+        public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
+        {
+            string CurrentMode = RGM.Instance.CurrentMode;
+            if (RGM.Instance.CurrentMode == null)
+            {
+                response = "현재 모드가 설정되지 않았습니다.";
+                return false;
+            }
+            else
+            {
+                string ModeDescription = RGM.Instance.ModeList[CurrentMode][1];
+
+                response = $"\n[ {CurrentMode} ]\n" +
+                    $"------------------------------------------------------------------------" +
+                    $"\n{ModeDescription}\n" +
+                    $"------------------------------------------------------------------------";
+
+                return true;
+            }
+        }
+
+        public string Command { get; } = "currentmode";
+
+        public string[] Aliases { get; } = { "모드", "mode" };
+
+        public string Description { get; } = "[RGM] 현재 모드를 확인합니다.";
+
+        public bool SanitizeResponse { get; } = true;
+    }
+
+    [CommandHandler(typeof(ClientCommandHandler))]
     public class Chat : ICommand
     {
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
@@ -82,7 +143,7 @@ namespace RGM.Commands
 
         public string Command { get; } = "chat";
         public string[] Aliases { get; } = new string[] { "챗", "채팅", "ㅊ", "c" };
-        public string Description { get; } = "텍스트 채팅을 사용할 수 있습니다.";
+        public string Description { get; } = "[RGM] 텍스트 채팅을 사용할 수 있습니다.";
     }
 
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
