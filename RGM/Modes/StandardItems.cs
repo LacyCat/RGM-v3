@@ -24,6 +24,8 @@ namespace RGM.Modes
 
         public IEnumerator<float> OnModeStarted()
         {
+            yield return Timing.WaitForSeconds(0.5f);
+
             foreach (var player in Player.List)
             {
                 Spawned(player);
@@ -39,9 +41,11 @@ namespace RGM.Modes
 
         public void Spawned(Player player)
         {
+            player.ClearInventory();
+
             List<ItemType> itemList = Tools.EnumToList<ItemType>();
 
-            for (int i=1; i<=UnityEngine.Random.Range(5, 9); i++)
+            for (int i=1; i<UnityEngine.Random.Range(6, 9); i++)
             {
                 var toGive = itemList[UnityEngine.Random.Range(0, itemList.Count())];
                 Item CurrentItem = player.AddItem(toGive);

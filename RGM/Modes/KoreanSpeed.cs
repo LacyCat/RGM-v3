@@ -24,6 +24,8 @@ namespace RGM.Modes
 
         public IEnumerator<float> OnModeStarted()
         {
+            yield return Timing.WaitForSeconds(0.5f);
+
             foreach (var player in Player.List)
             {
                 Spawned(player);

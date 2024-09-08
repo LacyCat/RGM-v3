@@ -79,7 +79,8 @@ namespace RGM
 
             for (int i=1; i<4; i++)
             {
-                var mode = ModeList.Keys.Where(x => ModeList[x][3] != "private" && !ModeVote.ContainsKey(x)).ToList()[UnityEngine.Random.Range(0, ModeList.Count)];
+                var StaticModeList = ModeList.Keys.Where(x => ModeList[x][3] != "private" && !ModeVote.ContainsKey(x)).ToList();
+                var mode = StaticModeList[UnityEngine.Random.Range(0, StaticModeList.Count())];
                 ModeVote.Add(mode, new List<Player>());
             }
 
@@ -119,7 +120,7 @@ namespace RGM
         {
             foreach (var player in Player.List)
             {
-                player.VoiceChannel = VoiceChat.VoiceChatChannel.Proximity;
+                Server.ExecuteCommand($"/speak {player.Id} disable");
             }
 
             if (CurrentMode == null)
@@ -179,7 +180,7 @@ namespace RGM
             {
                 foreach (var player in Player.List)
                 {
-                    player.VoiceChannel = VoiceChat.VoiceChatChannel.Intercom;
+                    Server.ExecuteCommand($"/speak {player.Id} enable");
                 }
 
                 List<RoleTypeId> Humans = new List<RoleTypeId>()

@@ -27,17 +27,21 @@ namespace RGM.Modes
 
         public void OnHurting(Exiled.Events.EventArgs.Player.HurtingEventArgs ev)
         {
-            List<ItemType> Pistols = new List<ItemType>()
+            if (ev.Attacker != null)
             {
-                ItemType.GunCOM15,
-                ItemType.GunCOM18,
-                ItemType.GunCom45,
-                ItemType.GunRevolver
-            };
+                List<ItemType> Pistols = new List<ItemType>()
+                {
+                    ItemType.GunCOM15,
+                    ItemType.GunCOM18,
+                    ItemType.GunCom45,
+                    ItemType.GunRevolver
+                };
 
-            if (Pistols.Contains(ev.Attacker.CurrentItem.Type))
-            {
-                ev.DamageHandler.Damage = 4 * ev.DamageHandler.Damage;
+                if (Pistols.Contains(ev.Attacker.CurrentItem.Type))
+                {
+                    ev.DamageHandler.Damage = 4 * ev.DamageHandler.Damage;
+                }
+
             }
         }
     }
