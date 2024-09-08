@@ -228,12 +228,6 @@ C:\GoldenPig1205\Visual Studio 2022\RGM\RGM\bin\Debug\System.Runtime.CompilerSer
 C:\GoldenPig1205\Visual Studio 2022\RGM\RGM\bin\Debug\System.Threading.Tasks.Extensions.xml
 C:\GoldenPig1205\Visual Studio 2022\RGM\RGM\bin\Debug\System.ValueTuple.xml
 D:\GoldenPig1205\Visual Studio 2022\RGM\RGM\bin\Debug\RGM.dll.config
-D:\GoldenPig1205\Visual Studio 2022\RGM\RGM\bin\Debug\Discord.Net.Commands.dll
-D:\GoldenPig1205\Visual Studio 2022\RGM\RGM\bin\Debug\Discord.Net.Core.dll
-D:\GoldenPig1205\Visual Studio 2022\RGM\RGM\bin\Debug\Discord.Net.Interactions.dll
-D:\GoldenPig1205\Visual Studio 2022\RGM\RGM\bin\Debug\Discord.Net.Rest.dll
-D:\GoldenPig1205\Visual Studio 2022\RGM\RGM\bin\Debug\Discord.Net.Webhook.dll
-D:\GoldenPig1205\Visual Studio 2022\RGM\RGM\bin\Debug\Discord.Net.WebSocket.dll
 D:\GoldenPig1205\Visual Studio 2022\RGM\RGM\bin\Debug\Microsoft.Bcl.AsyncInterfaces.dll
 D:\GoldenPig1205\Visual Studio 2022\RGM\RGM\bin\Debug\Microsoft.Extensions.DependencyInjection.Abstractions.dll
 D:\GoldenPig1205\Visual Studio 2022\RGM\RGM\bin\Debug\System.Buffers.dll
@@ -245,12 +239,6 @@ D:\GoldenPig1205\Visual Studio 2022\RGM\RGM\bin\Debug\System.Numerics.Vectors.dl
 D:\GoldenPig1205\Visual Studio 2022\RGM\RGM\bin\Debug\System.Reactive.dll
 D:\GoldenPig1205\Visual Studio 2022\RGM\RGM\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
 D:\GoldenPig1205\Visual Studio 2022\RGM\RGM\bin\Debug\System.Threading.Tasks.Extensions.dll
-D:\GoldenPig1205\Visual Studio 2022\RGM\RGM\bin\Debug\Discord.Net.Commands.xml
-D:\GoldenPig1205\Visual Studio 2022\RGM\RGM\bin\Debug\Discord.Net.Core.xml
-D:\GoldenPig1205\Visual Studio 2022\RGM\RGM\bin\Debug\Discord.Net.Interactions.xml
-D:\GoldenPig1205\Visual Studio 2022\RGM\RGM\bin\Debug\Discord.Net.Rest.xml
-D:\GoldenPig1205\Visual Studio 2022\RGM\RGM\bin\Debug\Discord.Net.Webhook.xml
-D:\GoldenPig1205\Visual Studio 2022\RGM\RGM\bin\Debug\Discord.Net.WebSocket.xml
 D:\GoldenPig1205\Visual Studio 2022\RGM\RGM\bin\Debug\Microsoft.Bcl.AsyncInterfaces.xml
 D:\GoldenPig1205\Visual Studio 2022\RGM\RGM\bin\Debug\Microsoft.Extensions.DependencyInjection.Abstractions.xml
 D:\GoldenPig1205\Visual Studio 2022\RGM\RGM\bin\Debug\Newtonsoft.Json.xml
@@ -265,3 +253,4 @@ D:\GoldenPig1205\Visual Studio 2022\RGM\RGM\bin\Debug\System.Runtime.CompilerSer
 D:\GoldenPig1205\Visual Studio 2022\RGM\RGM\bin\Debug\System.Threading.Tasks.Extensions.xml
 D:\GoldenPig1205\Visual Studio 2022\RGM\RGM\bin\Debug\System.ValueTuple.xml
 D:\GoldenPig1205\Visual Studio 2022\RGM\RGM\bin\Debug\MapEditorReborn.dll
+D:\GoldenPig1205\Visual Studio 2022\RGM\RGM\bin\Debug\MultiBroadcast.dll

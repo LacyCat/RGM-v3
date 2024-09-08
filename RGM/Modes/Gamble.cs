@@ -31,9 +31,17 @@ namespace RGM.Modes
             List<ItemType> ItemList = Tools.EnumToList<ItemType>();
             ItemType Item = ItemList[UnityEngine.Random.Range(0, ItemList.Count())];
 
-            ev.Item.Destroy();
-            Item CurrentItem = ev.Player.AddItem(Item);
-            ev.Player.DropItem(CurrentItem);
+            int rand = UnityEngine.Random.Range(1, 101);
+            if (0 < rand && rand < 3)
+            {
+                ev.Player.EnableEffect(Exiled.API.Enums.EffectType.SeveredHands);
+            }
+            else
+            {
+                ev.Item.Destroy();
+                Item CurrentItem = ev.Player.AddItem(Item);
+                ev.Player.DropItem(CurrentItem);
+            }
         }
     }
 }

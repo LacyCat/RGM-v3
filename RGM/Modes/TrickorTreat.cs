@@ -40,9 +40,19 @@ namespace RGM.Modes
 
         public void Spawned(Player player)
         {
-            List<CandyKindID> CandyList = Tools.EnumToList<CandyKindID>();
+            List<CandyKindID> CandyList = new List<CandyKindID>()
+            {
+                CandyKindID.Rainbow,
+                CandyKindID.Blue,
+                CandyKindID.Green,
+                CandyKindID.Purple,
+                CandyKindID.Red,
+                CandyKindID.Yellow,
+                CandyKindID.Pink
+            };
 
-            for (int i = 1; i < 5; i++)
+
+            for (int i=1; i<5; i++)
             {
                 var toGive = CandyList[UnityEngine.Random.Range(0, CandyList.Count())];
                 player.TryAddCandy(toGive);
