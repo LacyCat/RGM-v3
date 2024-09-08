@@ -79,7 +79,6 @@ namespace RGM
 
         public async void OnWaitingForPlayers()
         {
-            Server.ExecuteCommand("rnr");
             Server.ExecuteCommand($"/mp load RGMLobby");
 
             var webhook = new Discord.Webhook();
@@ -116,7 +115,17 @@ namespace RGM
 
             while (!Round.IsStarted)
             {
-                if (Player.List.Count() > 3 && Round.LobbyWaitingTime < 1)
+                if (Player.List.Count() > 1)
+                    break;
+
+                await Task.Delay(1000);
+            }
+
+            await Task.Delay(5000);
+
+            while (!Round.IsStarted)
+            {
+                if (Player.List.Count() > 1 && Round.LobbyWaitingTime < 1)
                 {
                     Player.List.ToList().ForEach(x => x.Role.Set(RoleTypeId.Spectator));
                     Round.Start();
@@ -203,9 +212,11 @@ namespace RGM
             }
         }
 
-        public void OnRoundEnded(Exiled.Events.EventArgs.Server.RoundEndedEventArgs ev)
+        public async void OnRoundEnded(Exiled.Events.EventArgs.Server.RoundEndedEventArgs ev)
         {
+            await Task.Delay(19000);
 
+            Server.ExecuteCommand("sr");
         }
 
         // EventArgs / Player
