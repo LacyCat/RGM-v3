@@ -52,10 +52,7 @@ namespace RGM.Commands
                 });
 
                 foreach (Player ply in Player.List.Where(x => x.Role.Type == PlayerRoles.RoleTypeId.Spectator))
-                {
-                    if (Vector3.Distance(ply.Position, player.Position) <= 5f)
-                        ply.AddBroadcast(6, text2);
-                }
+                    ply.AddBroadcast(6, text2);
 
                 response = $"'{text2}'";
                 return true;
@@ -74,7 +71,7 @@ namespace RGM.Commands
 
                 foreach (Player ply in Player.List)
                 {
-                    if (Vector3.Distance(ply.Position, player.Position) <= 5f)
+                    if (Vector3.Distance(ply.Position, player.Position) <= 10 || ply.Role.Type == PlayerRoles.RoleTypeId.Spectator)
                         ply.AddBroadcast(6, text2);
                 }
 
