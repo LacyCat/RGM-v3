@@ -9,7 +9,7 @@ using PlayerRoles;
 using PlayerRoles.FirstPersonControl;
 using UnityEngine;
 using MapEditorReborn.API.Features.Objects;
-using HarmonyLib;
+using MultiBroadcast.API;
 
 namespace RGM
 {
@@ -42,6 +42,8 @@ namespace RGM
 
             // + EventHandlers / Player
             Exiled.Events.Handlers.Player.Verified += OnVerified;
+            Exiled.Events.Handlers.Player.Left += OnLeft;
+            Exiled.Events.Handlers.Player.SpawningRagdoll += OnSpawningRagdoll;
             Exiled.Events.Handlers.Player.Spawning += OnSpawned;
             Exiled.Events.Handlers.Player.InteractingDoor += OnInteractingDoor;
         }
@@ -55,6 +57,8 @@ namespace RGM
 
             // - EventHandlers / Player
             Exiled.Events.Handlers.Player.Verified -= OnVerified;
+            Exiled.Events.Handlers.Player.Left -= OnLeft;
+            Exiled.Events.Handlers.Player.SpawningRagdoll -= OnSpawningRagdoll;
             Exiled.Events.Handlers.Player.Spawning -= OnSpawned;
             Exiled.Events.Handlers.Player.InteractingDoor -= OnInteractingDoor;
 
@@ -134,8 +138,8 @@ namespace RGM
 
             foreach (var player in Player.List)
             {
-                MultiBroadcast.API.MultiBroadcast.ClearPlayerBroadcasts(player);
-                MultiBroadcast.API.MultiBroadcast.AddPlayerBroadcast(player, 10, Config.StartModeDescription
+                player.ClearPlayerBroadcasts();
+                player.AddBroadcast(10, Config.StartModeDescription
                 .Replace("{ModeColor}", ModeColor)
                 .Replace("{CurrentMode}", CurrentMode)
                 .Replace("{ModeDescription}", ModeDescription)
@@ -166,8 +170,7 @@ namespace RGM
         {
             if (Round.IsStarted)
             {
-                MultiBroadcast.API.MultiBroadcast.AddPlayerBroadcast(
-                    ev.Player, 10, Config.LateJoinModeDescription
+                ev.Player.AddBroadcast(10, Config.LateJoinModeDescription
                     .Replace("{ModeColor}", ModeList[CurrentMode][0])
                     .Replace("{CurrentMode}", CurrentMode)
                     );
@@ -230,15 +233,32 @@ namespace RGM
             }
         }
 
-        public void OnSpawned(Exiled.Events.EventArgs.Player.SpawningEventArgs ev)
-        {
-            ev.Player.EnableEffect(Exiled.API.Enums.EffectType.FogControl);
-        }
-
         public void OnLeft(Exiled.Events.EventArgs.Player.LeftEventArgs ev)
         {
             if (OnGround.ContainsKey(ev.Player))
                 OnGround.Remove(ev.Player);
+
+            if (!Round.IsStarted)
+            {
+                for (int i = 0; i < 3; i++)
+                {
+                    if (ModeVote.ContainsKey(ModeVote.Keys.ToList()[i]) && ModeVote[ModeVote.Keys.ToList()[i]].Contains(ev.Player))
+                        ModeVote[ModeVote.Keys.ToList()[i]].Remove(ev.Player);
+                }
+            }
+        }
+
+        public void OnSpawningRagdoll(Exiled.Events.EventArgs.Player.SpawningRagdollEventArgs ev)
+        {
+            if (!Round.IsStarted)
+            {
+                ev.IsAllowed = false;
+            }
+        }
+
+        public void OnSpawned(Exiled.Events.EventArgs.Player.SpawningEventArgs ev)
+        {
+            ev.Player.EnableEffect(Exiled.API.Enums.EffectType.FogControl);
         }
 
         public void OnSpawned(Exiled.Events.EventArgs.Player.SpawnedEventArgs ev)

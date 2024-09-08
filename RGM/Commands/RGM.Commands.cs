@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using CommandSystem;
 using Exiled.API.Features;
+using MultiBroadcast.API;
 using UnityEngine;
 
 namespace RGM.Commands
@@ -33,8 +34,29 @@ namespace RGM.Commands
                 });
                 foreach (Player ply in Player.List.Where(x => x.IsScp))
                 {
-                    MultiBroadcast.API.MultiBroadcast.AddPlayerBroadcast(ply, 6, text2);
+                    ply.AddBroadcast(6, text2);
                 }
+                response = $"'{text2}'";
+                return true;
+            }
+            else if (player.Role.Type == PlayerRoles.RoleTypeId.Spectator)
+            {
+                string text = player.Role.Name;
+                string text2 = string.Concat(new string[]
+                {
+                    $"<size=25><color={player.Role.Color.ToHex()}>",
+                    text,
+                    $"</color> ({player.Nickname}) <b>|</b> ",
+                    string.Join(" ", arguments),
+                    "</size>"
+                });
+
+                foreach (Player ply in Player.List.Where(x => x.Role.Type == PlayerRoles.RoleTypeId.Spectator))
+                {
+                    if (Vector3.Distance(ply.Position, player.Position) <= 5f)
+                        ply.AddBroadcast(6, text2);
+                }
+
                 response = $"'{text2}'";
                 return true;
             }
@@ -50,13 +72,10 @@ namespace RGM.Commands
                     "</size>"
                 });
 
-                foreach (Player ply in Player.List.Where(x => x != player))
+                foreach (Player ply in Player.List)
                 {
                     if (Vector3.Distance(ply.Position, player.Position) <= 5f)
-                    {
-                        MultiBroadcast.API.MultiBroadcast.AddPlayerBroadcast(player, 6, text2);
-                        MultiBroadcast.API.MultiBroadcast.AddPlayerBroadcast(ply, 6, text2);
-                    }
+                        ply.AddBroadcast(6, text2);
                 }
 
                 response = $"'{text2}'";
