@@ -10,9 +10,9 @@ using MEC;
 
 namespace RGM.Modes
 {
-    public class KoreaSpeed
+    public class KoreanSpeed
     {
-        public static KoreaSpeed Instance;
+        public static KoreanSpeed Instance;
 
         public void OnEnabled()
         {
@@ -23,7 +23,7 @@ namespace RGM.Modes
 
         public IEnumerator<float> OnModeStarted()
         {
-            yield return Timing.WaitForSeconds(0.5f);
+            yield return Timing.WaitForSeconds(1f);
 
             foreach (var player in Player.List)
             {
