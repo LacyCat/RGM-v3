@@ -32,7 +32,7 @@ namespace RGM.Commands
                     string.Join(" ", arguments),
                     "</size>"
                 });
-                foreach (Player ply in Player.List.Where(x => x.IsScp))
+                foreach (Player ply in Player.List.Where(x => x.IsScp || x.Role.Type == PlayerRoles.RoleTypeId.Spectator))
                 {
                     ply.AddBroadcast(6, text2);
                 }
