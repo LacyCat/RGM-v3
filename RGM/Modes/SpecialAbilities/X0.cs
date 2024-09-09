@@ -33,7 +33,8 @@ namespace RGM.Modes.SpecialAbilities
                 {
                     var player = Player.Get(hit.collider.GetComponentInParent<ReferenceHub>());
 
-                    Server.ExecuteCommand($"/rocket {player.Id} 1");
+                    if (target != player)
+                        Server.ExecuteCommand($"/rocket {player.Id} 1");
                 }
 
                 yield return Timing.WaitForSeconds(1f);
