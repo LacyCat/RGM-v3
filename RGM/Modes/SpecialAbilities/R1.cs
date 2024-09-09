@@ -38,9 +38,9 @@ namespace RGM.Modes.SpecialAbilities
         {
             if (ev.Attacker != null && ev.Attacker == target)
             {
-                float damageIncrease = ev.DamageHandler.Damage * 0.2f;
-                float ahpIncrease = damageIncrease * 0.2f;
-                ev.Attacker.Health += ahpIncrease;
+                float damageIncrease = ev.DamageHandler.Damage * 0.4f;
+                float ahpIncrease = damageIncrease * 0.4f;
+                ev.Attacker.AddAhp(ahpIncrease);
             }
         }
     }
