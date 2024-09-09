@@ -23,14 +23,23 @@ namespace RGM.Modes
             { "재생", "N/0/매 초마다 체력이 2% 증가합니다." },
             { "운동", "N/1/최대 체력이 50% 추가로 증가합니다." },
             { "벌크업", "N/2/공격력이 20% 증가합니다." },
-            { "종이접기", "N/3/몸이 종잇장이 됩니다." }
+            { "종이접기", "N/3/몸이 종잇장이 됩니다." },
+            { "경공", "N/4/이동 속도가 조금 증가합니다." },
+            { "만병통치약", "N/5/해로운 효과에 면역이 됩니다." },
+            { "얼어붙은 심장", "N/6/스테미나가 무제한이 됩니다." },
+            { "무기 전문가", "N/7/SCP-1853의 효과를 가지고 시작합니다." },
+            { "가챠", "N/8/랜덤한 아이템을 가지고 시작합니다." },
+            { "갑주", "N/9/5의 피해 감소 효과를 가지고 시작합니다." },
+            { "권법", "N/10/ALT키를 눌러 근거리의 상대에게 30 데미지를 줍니다. (콜타임 1초)" },
+            { "[여긴 어디?] 박스", "N/11/랜덤한 위치로 이동된 상태로 시작합니다." }
         };
         public Dictionary<string, string> R_Abilities = new Dictionary<string, string>()
         {
             { "광전사", "R/0/남은 체력이 적어질수록 공격력이 1%씩 증가합니다." },
-            { "흡혈귀", "R/1/상대를 공격하면 데미지의 20%를 AHP로 받습니다." },
+            { "흡혈귀", "R/1/상대를 공격하면 데미지의 40%를 AHP로 받습니다." },
             { "행운아", "R/2/문에 상호작용하면 5% 확률로 문이 열립니다." },
-            { "난쟁이", "R/3/몸의 크기가 50% 작아집니다." }
+            { "난쟁이", "R/3/몸의 크기가 50% 작아집니다." },
+            { "킬스트릭", "R/4/상대를 죽일 때마다 랜덤한 버프를 얻습니다." }
         };
         public Dictionary<string, string> SR_Abilities = new Dictionary<string, string>()
         {
@@ -158,6 +167,8 @@ namespace RGM.Modes
                 }
             }
 
+            string[] strings = AllAbilities[SelectedAbility].Split('/');
+
             string ColorPicker()
             {
                 Dictionary<string, string> Colors = new Dictionary<string, string>()
@@ -170,12 +181,11 @@ namespace RGM.Modes
                         { "CCTV", "58FA58" }
                     };
 
-                return Colors[AllAbilities[SelectedAbility].Split('/')[0]];
+                return Colors[strings[0]];
             }
 
-            player.ShowHint($"<b><color=#{ColorPicker()}>[{AllAbilities[SelectedAbility].Split('/')[0]}] {SelectedAbility}</color></b> 특수능력을 획득하였습니다.\n<size=20>{AllAbilities[SelectedAbility].Split('/')[2]}</size>", 10);
+            player.ShowHint($"<b><color=#{ColorPicker()}>[{strings[0]}] {SelectedAbility}</color></b> 특수능력을 획득하였습니다.\n<size=20>{strings[2]}</size>", 10);
 
-            string[] strings = AllAbilities[PlayerAbilities[player]].Split('/');
             var modeType = Type.GetType($"RGM.Modes.SpecialAbilities.{strings[0]}{strings[1]}");
             if (modeType != null)
             {

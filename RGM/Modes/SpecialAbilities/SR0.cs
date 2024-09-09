@@ -31,7 +31,12 @@ namespace RGM.Modes.SpecialAbilities
                 {
                     List<ItemType> itemList = Tools.EnumToList<ItemType>();
                     ItemType toGive = itemList[UnityEngine.Random.Range(0, itemList.Count())];
-                    target.AddItem(toGive);
+                    var item = target.AddItem(toGive);
+
+                    if (target.IsScp)
+                    {
+                        target.CurrentItem = item;
+                    }
                     Stack = 0;
                 }
 
