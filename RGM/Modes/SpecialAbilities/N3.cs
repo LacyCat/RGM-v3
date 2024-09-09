@@ -21,7 +21,7 @@ namespace RGM.Modes.SpecialAbilities
 
         public IEnumerator<float> OnStarted()
         {
-            target.Scale = new UnityEngine.Vector3(0.01f, 1f, 1f);
+            target.Scale = new UnityEngine.Vector3(0.1f, 1f, 1f);
 
             yield return 1f;
         }
