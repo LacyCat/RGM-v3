@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Exiled.API.Features.Roles;
+using MultiBroadcast.API;
 
 namespace RGM.Modes
 {
@@ -82,7 +83,7 @@ namespace RGM.Modes
             switch (team)
             {
                 default:
-                    p.Broadcast(10, $"<size=25>YOU ARE A <color=#CEF6E3>LEADER</color>.</size>");
+                    p.AddBroadcast(10, $"<size=25>당신이 <color=#CEF6E3>리더</color>입니다.</size>");
                     Leaders[team] = p;
                     p.CustomInfo = "LEADER";
                     p.MaxHealth = p.MaxHealth + 100;
@@ -101,7 +102,7 @@ namespace RGM.Modes
                 case "NTF":
                     if (Leaders[team] != null) break;
 
-                    p.Broadcast(10, $"<size=25>YOU ARE A <color=#CEF6E3>LEADER</color>.</size>");
+                    p.AddBroadcast(10, $"<size=25>당신이 <color=#CEF6E3>리더</color>입니다.</size>");
                     Leaders[team] = p;
                     p.CustomInfo = "LEADER";
                     p.MaxHealth = p.MaxHealth + 100;
@@ -117,7 +118,7 @@ namespace RGM.Modes
                     p.AddItem(ItemType.GrenadeHE);
                     break;
                 case "SCP":
-                    p.Broadcast(10, $"<size=25>YOU ARE A <color=#F5A9A9>LEADER</color>.</size>");
+                    p.AddBroadcast(10, $"<size=25>당신이 <color=#F5A9A9>리더</color>입니다.</size>");
                     Leaders[team] = p;
                     if (p.Role == RoleTypeId.Scp079)
                     {
@@ -128,7 +129,7 @@ namespace RGM.Modes
                     }
                     else
                     {
-                        p.CustomInfo = "LEADER";
+                        p.CustomInfo = "리더";
                     }
                     break;
             }
@@ -141,7 +142,7 @@ namespace RGM.Modes
             if (!(Leaders.Where(x => x.Value == ev.Player).Count() > 0)) return;
             foreach (var p in Player.List.Where(x => x != ev.Player && x.Role.Team == ev.NewRole.GetTeam()))
             {
-                Player.List.ToList().ForEach(x => x.Broadcast(10, $"LEADER HAS ESCAPED"));
+                Player.List.ToList().ForEach(x => x.AddBroadcast(10, $"리더가 탈출하였습니다."));
                 if (ev.Player.Role.Team == ev.NewRole.GetTeam()) // 순수 탈출
                 {
                     if (buffedTeam.ContainsKey(ev.NewRole.GetTeam()))

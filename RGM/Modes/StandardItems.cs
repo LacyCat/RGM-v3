@@ -45,9 +45,9 @@ namespace RGM.Modes
 
             List<ItemType> itemList = Tools.EnumToList<ItemType>();
 
-            for (int i=1; i<UnityEngine.Random.Range(6, 9); i++)
+            for (int i=1; i<UnityEngine.Random.Range(6, 10); i++)
             {
-                ItemType toGive = itemList[UnityEngine.Random.Range(0, itemList.Count())];
+                ItemType toGive = itemList[UnityEngine.Random.Range(1, itemList.Count())];
                 Item CurrentItem = player.AddItem(toGive);
 
                 if (player.IsScp)

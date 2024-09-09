@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Exiled.API.Features;
 using MEC;
 using MultiBroadcast;
+using MultiBroadcast.API;
 
 namespace RGM.Modes
 {
@@ -30,7 +31,7 @@ namespace RGM.Modes
 
         public IEnumerator<float> OnModeStarted()
         {
-            yield return Timing.WaitForSeconds(10f);
+            yield return Timing.WaitForSeconds(1f);
 
             for (int i=0; i<2; i++)
             {
@@ -43,7 +44,7 @@ namespace RGM.Modes
                 }
             }
 
-            Player.List.ToList().ForEach(x => x.Broadcast(10, $"<size=25><b>[<color=#{Mods[mod1][0]}>{mod1}</color> + <color=#{Mods[mod2][0]}>{mod2}</color>]</b></size>"));
+            Player.List.ToList().ForEach(x => x.AddBroadcast(10, $"<size=25><b>[<color=#{Mods[mod1][0]}>{mod1}</color> + <color=#{Mods[mod2][0]}>{mod2}</color>]</b></size>"));
         }
     }
 }
