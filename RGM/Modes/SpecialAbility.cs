@@ -136,17 +136,17 @@ namespace RGM.Modes
                     SelectedAbility = RGM.GetRandomValue(X_Abilities.Keys.ToList());
                     PlayerAbilities.Add(player, SelectedAbility);
                 }
-                else if (Random < 31)
+                else if (Random < 41)
                 {
                     SelectedAbility = RGM.GetRandomValue(SSR_Abilities.Keys.ToList());
                     PlayerAbilities.Add(player, SelectedAbility);
                 }
-                else if (Random < 101)
+                else if (Random < 151)
                 {
                     SelectedAbility = RGM.GetRandomValue(SR_Abilities.Keys.ToList());
                     PlayerAbilities.Add(player, SelectedAbility);
                 }
-                else if (Random < 301)
+                else if (Random < 501)
                 {
                     SelectedAbility = RGM.GetRandomValue(R_Abilities.Keys.ToList());
                     PlayerAbilities.Add(player, SelectedAbility);
@@ -173,7 +173,7 @@ namespace RGM.Modes
                 return Colors[AllAbilities[SelectedAbility].Split('/')[0]];
             }
 
-            player.ShowHint($"<b><color=#{ColorPicker()}>[{AllAbilities[SelectedAbility].Split('/')[0]}] {SelectedAbility}</color></b> 특수능력을 획득하셨습니다.\n<size=20>{AllAbilities[SelectedAbility].Split('/')[2]}</size>", 10);
+            player.ShowHint($"<b><color=#{ColorPicker()}>[{AllAbilities[SelectedAbility].Split('/')[0]}] {SelectedAbility}</color></b> 특수능력을 획득하였습니다.\n<size=20>{AllAbilities[SelectedAbility].Split('/')[2]}</size>", 10);
 
             string[] strings = AllAbilities[PlayerAbilities[player]].Split('/');
             var modeType = Type.GetType($"RGM.Modes.SpecialAbilities.{strings[0]}{strings[1]}");
