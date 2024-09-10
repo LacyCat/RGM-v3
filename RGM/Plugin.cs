@@ -254,7 +254,7 @@ namespace RGM
                 onEnabledMethod?.Invoke(modeInstance, null);
             }
 
-            await Task.Delay(9000);
+            await Task.Delay(19000);
 
             Server.ExecuteCommand("sr");
         }
