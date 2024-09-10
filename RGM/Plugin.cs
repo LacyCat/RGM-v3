@@ -389,6 +389,10 @@ namespace RGM
                         ev.Player.MaxHealth = 1000;
                         ev.Player.Health = ev.Player.MaxHealth;
                     }
+                    else if (rand == 2)
+                    {
+                        ev.Player.Scale = new Vector3(-1, -1, -1);
+                    }
                 }
             }
         }
