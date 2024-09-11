@@ -269,32 +269,43 @@ namespace RGM
                 {
                     if (Physics.Raycast(ev.Player.Position, Vector3.down, out RaycastHit hit, 2f, (LayerMask)1))
                     {
-                        string SelectedMode = null;
-
+                        string SelectedMode;
+                        string ModeColor;
+                        string ModeDescription;
+                        
                         for (int i = 0; i < 3; i++)
                         {
                             if (ModeVote.ContainsKey(ModeVote.Keys.ToList()[i]) && ModeVote[ModeVote.Keys.ToList()[i]].Contains(ev.Player))
                                 ModeVote[ModeVote.Keys.ToList()[i]].Remove(ev.Player);
                         }
 
-                        if (hit.collider.name == "First")
+                        if (new List<string>() { "First", "Second", "Third" }.Contains(hit.collider.name))
                         {
-                            SelectedMode = ModeVote.Keys.ToList()[0];
-                            ModeVote[SelectedMode].Add(ev.Player);
-                        }
-                        else if (hit.collider.name == "Second")
-                        {
-                            SelectedMode = ModeVote.Keys.ToList()[1];
-                            ModeVote[SelectedMode].Add(ev.Player);
-                        }
-                        else if (hit.collider.name == "Third")
-                        {
-                            SelectedMode = ModeVote.Keys.ToList()[2];
-                            ModeVote[SelectedMode].Add(ev.Player);
-                        }
+                            if (hit.collider.name == "First")
+                            {
+                                SelectedMode = ModeVote.Keys.ToList()[0];
+                                ModeVote[SelectedMode].Add(ev.Player);
+                            }
+                            else if (hit.collider.name == "Second")
+                            {
+                                SelectedMode = ModeVote.Keys.ToList()[1];
+                                ModeVote[SelectedMode].Add(ev.Player);
+                            }
+                            else
+                            {
+                                SelectedMode = ModeVote.Keys.ToList()[2];
+                                ModeVote[SelectedMode].Add(ev.Player);
+                            }
 
-                        string ModeColor = ModeList[SelectedMode][0];
-                        string ModeDescription = ModeList[SelectedMode][1];
+                            ModeColor = ModeList[SelectedMode][0];
+                            ModeDescription = ModeList[SelectedMode][1];
+                        }
+                        else
+                        {
+                            SelectedMode = "<i>[ 서버 설명 (TIP) ]</i>";
+                            ModeColor = "FFFFFF";
+                            ModeDescription = "원하는 모드의 번호가 할당된 플랫폼을 밟아 투표하세요.\n<size=25>콘솔(` 또는 ~)을 열고 .help를 입력하여 사용 가능한 [RGM] 명령어 리스트를 확인할 수 있습니다.</size>";
+                        }
 
                         ev.Player.ShowHint(Config.LobbyMessage
                             .Replace("{First}", iv(1)).Replace("{FirstVote}", ModeVote[iv(1)].Contains(ev.Player) ? $"<color=yellow>{ModeVote[iv(1)].Count()}</color>" : ModeVote[iv(1)].Count().ToString())
