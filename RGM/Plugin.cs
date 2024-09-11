@@ -348,6 +348,7 @@ namespace RGM
 
         public void OnSpawned(Exiled.Events.EventArgs.Player.SpawnedEventArgs ev)
         {
+            ev.Player.Scale = new Vector3(1, 1, 1);
             ev.Player.EnableEffect(Exiled.API.Enums.EffectType.FogControl);
 
             if (ev.Reason == Exiled.API.Enums.SpawnReason.RoundStart)
@@ -488,9 +489,9 @@ namespace RGM
 
                 if (pressing)
                 {
-                    RemainingPress -= 0.1f * stack;
+                    RemainingPress -= 0.05f * stack;
 
-                    redObject.position = new Vector3(redObject.position.x, redObject.position.y - 0.001f * stack, redObject.transform.position.z);
+                    redObject.position = new Vector3(redObject.position.x, redObject.position.y - 0.0005f * stack, redObject.transform.position.z);
                 }
                 else
                 {
@@ -498,7 +499,7 @@ namespace RGM
                     {
                         RemainingPress += 1;
 
-                        redObject.position = new Vector3(redObject.transform.position.x, redObject.transform.position.y + 0.001f * stack, redObject.transform.position.z);
+                        redObject.position = new Vector3(redObject.transform.position.x, redObject.transform.position.y + 0.0005f * stack, redObject.transform.position.z);
                     }
                 }
 
