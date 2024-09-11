@@ -15,7 +15,7 @@ namespace RGM.Modes
     {
         public static SoulMate Instance;
 
-        private Dictionary<Player, Player> soulMates;
+        private Dictionary<Player, Player> soulMates = new Dictionary<Player, Player>();
 
         public void OnEnabled()
         {
@@ -32,32 +32,7 @@ namespace RGM.Modes
         {
             yield return Timing.WaitForSeconds(10f);
 
-            soulMates = new Dictionary<Player, Player>();
-
-            List<Player> players = Player.List.ToList();
-
-            players.ShuffleList();
-
-            for (int i = 0; i < players.Count; i += 2)
-            {
-                if (i + 1 < players.Count)
-                {
-                    soulMates.Add(players[i], players[i + 1]);
-                    soulMates.Add(players[i + 1], players[i]);
-
-                    for (int n = i; n < i + 2; n++)
-                        players[n].ShowHint($"당신의 단짝이 존재하나 누군지 모릅니다..", 5);
-                }
-                else
-                {
-                    soulMates.Add(players[i], null);
-
-                    players[i].ShowHint($"당신은 <color=#BFFF00>외톨이</color>입니다.\n<color=red>분노</color>로 인해 체력이 2배 상승합니다.", 5);
-                    players[i].MaxHealth = players[i].MaxHealth * 2;
-                    players[i].Health = players[i].MaxHealth;
-                    players[i].Group = new UserGroup { BadgeText = "외톨이", BadgeColor = "lime" };
-                }
-            }
+            Timing.RunCoroutine(SoulMateManager());
 
             yield return Timing.WaitForSeconds(5f);
 
@@ -79,6 +54,40 @@ namespace RGM.Modes
                 }
 
                 yield return Timing.WaitForSeconds(1f);
+            }
+        }
+
+        public IEnumerator<float> SoulMateManager()
+        {
+            while (true)
+            {
+                List<Player> players = Player.List.ToList();
+
+                players.ShuffleList();
+
+                foreach (var player in players)
+                {
+                    if (player.IsDead)
+                    {
+                        if (soulMates.ContainsKey(player))
+                            soulMates.Remove(player);
+                    }
+                    else
+                    {
+                        if (!soulMates.ContainsKey(player))
+                        {
+                            Player soulMate = players.Where(x => x.IsAlive && !soulMates.ContainsValue(x) && x != player).FirstOrDefault();
+
+                            if (soulMate != null)
+                            {
+                                soulMates.Add(player, soulMate);
+                                soulMates.Add(soulMate, player);
+                            }
+                        }
+                    }
+
+                    yield return Timing.WaitForSeconds(10f);
+                }
             }
         }
 
