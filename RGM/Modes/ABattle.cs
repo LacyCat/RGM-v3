@@ -16,6 +16,7 @@ using InventorySystem.Items.Usables.Scp330;
 using MapEditorReborn.API.Features.Objects;
 using MEC;
 using MultiBroadcast;
+using MultiBroadcast.API;
 using PluginAPI.Roles;
 using UnityEngine;
 
@@ -217,7 +218,7 @@ namespace RGM.Modes
                 PlayerAbilities[player.UserId].Add(abilityName);
                 string styleName = abilityName.Replace("[신화]", "<color=#DF0101>[신화]</color>").Replace("[전설]", "<color=#ffd700>[전설]</color>").Replace("[영웅]", "<color=#FF00FF>[영웅]</color>").Replace("[희귀]", "<color=#2ECCFA>[희귀]</color>").Replace("[일반]", "<color=#A4A4A4>[일반]</color>");
                 player.ClearBroadcasts();
-                player.Broadcast(8, $"<size=20><b>다음 능력이 추가되었습니다.</b></size>\n<size=30>{styleName}</size>\n<size=25>{AbilityList()[abilityName]}</size>");
+                player.AddBroadcast(8, $"<size=20><b>다음 능력이 추가되었습니다.</b></size>\n<size=30>{styleName}</size>\n<size=25>{AbilityList()[abilityName]}</size>");
             }
 
             string abilityName = GetRandomValue(AbilityList().Keys.ToList());
