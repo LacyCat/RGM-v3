@@ -60,6 +60,12 @@ namespace RGM.Modes
 
             Item CurrentItem = player.AddItem(FirearmList[UnityEngine.Random.Range(0, FirearmList.Count())]);
 
+            if (CurrentItem is Firearm firearm)
+            {
+                for (int i=1; i<4; i++)
+                    player.AddItem((ItemType)firearm.AmmoType);
+            }
+
             if (player.IsScp)
             {
                 player.CurrentItem = CurrentItem;
