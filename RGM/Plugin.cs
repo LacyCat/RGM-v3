@@ -10,6 +10,7 @@ using PlayerRoles.FirstPersonControl;
 using UnityEngine;
 using MapEditorReborn.API.Features.Objects;
 using MultiBroadcast.API;
+using Hints;
 
 namespace RGM
 {
@@ -456,35 +457,38 @@ namespace RGM
 
         public IEnumerator<float> ModeResetButton()
         {
-            int RemainingPress = 20;
+            float RemainingPress = 20;
             bool ButtonPressed = false;
             Transform redObject = null;
 
             while (!ButtonPressed)
             {
                 bool pressing = false;
+                RaycastHit hit;
+                int stack = 0;
 
                 foreach (var player in Player.List)
                 {
-                    if (Physics.Raycast(player.Position, Vector3.down, out RaycastHit hit, 1f, (LayerMask)1))
+                    if (Physics.Raycast(player.Position, Vector3.down, out hit, 1f, (LayerMask)1))
                     {
                         if (hit.transform.name == "ModeResetRed")
                         {
-                            if (Player.List.Count() > 1)
-                            {
-                                if (RemainingPress <= 0)
-                                    ButtonPressed = true;
-                            }
-
+                            stack += 1;
                             redObject = hit.transform;
                             pressing = true;
-
-                            RemainingPress -= 1;
-
-                            redObject.position = new Vector3(redObject.position.x, redObject.position.y - 0.015f, redObject.transform.position.z);
                         }
                     }
                 }
+
+                if (Player.List.Count() > 1)
+                {
+                    if (RemainingPress <= 0)
+                        ButtonPressed = true;
+                }
+
+                RemainingPress -= 0.2f * stack;
+
+                redObject.position = new Vector3(redObject.position.x, redObject.position.y - 0.002f * stack, redObject.transform.position.z);
 
                 if (!pressing)
                 {
@@ -492,7 +496,7 @@ namespace RGM
                     {
                         RemainingPress += 1;
 
-                        redObject.position = new Vector3(redObject.transform.position.x, redObject.transform.position.y + 0.015f, redObject.transform.position.z);
+                        redObject.position = new Vector3(redObject.transform.position.x, redObject.transform.position.y + 0.002f * stack, redObject.transform.position.z);
                     }
                 }
 
