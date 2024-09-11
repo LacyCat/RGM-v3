@@ -262,7 +262,7 @@ namespace RGM.Modes
                         player.CurrentItem = pc;
                     break;
                 case "강철 껍질": player.GetEffect(Exiled.API.Enums.EffectType.DamageReduction).Intensity += 1; break;
-                case "투명 망토": player.GetEffect(Exiled.API.Enums.EffectType.Invisible).Intensity += 25; break;
+                case "투명 망토": player.EnableEffect(Exiled.API.Enums.EffectType.Invisible, 1, 25); break;
                 case "순간이동":
                     Item fc = player.AddItem(ItemType.Coin);
                     FollowCoinSerials.Add(fc.Serial);
