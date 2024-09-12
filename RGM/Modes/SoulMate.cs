@@ -16,35 +16,33 @@ namespace GPOffice.Modes
     {
         public static SoulMate Instance;
 
-        private Dictionary<Player, Player> soulMates;
+        private Dictionary<Player, Player> soulMates = new Dictionary<Player, Player>();
 
         public void OnEnabled()
         {
-            Timing.RunCoroutine(OnModeStarted());
-
             Exiled.Events.Handlers.Player.Died += OnDied;
             Exiled.Events.Handlers.Player.Hurt += OnHurt;
             Exiled.Events.Handlers.Player.ChangingItem += OnChaningItem;
+
+            Timing.RunCoroutine(OnModeStarted());
         }
 
         public IEnumerator<float> OnModeStarted()
         {
             yield return Timing.WaitForSeconds(10f);
 
-            soulMates = new Dictionary<Player, Player>();
-
             List<Player> players = Player.List.ToList();
 
             players.ShuffleList();
 
-            for (int i = 0; i < players.Count; i += 2)
+            for (int i=0; i<players.Count; i+=2)
             {
                 if (i + 1 < players.Count)
                 {
                     soulMates.Add(players[i], players[i + 1]);
                     soulMates.Add(players[i + 1], players[i]);
 
-                    for (int n = i; n < i + 2; n++)
+                    for (int n=i; n<i+2; n++)
                         players[n].ShowHint($"당신의 단짝이 존재하나 누군지 모릅니다..", 5);
                 }
                 else
