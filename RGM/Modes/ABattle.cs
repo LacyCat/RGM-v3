@@ -582,7 +582,11 @@ namespace RGM.Modes
 
                     ev.Attacker.Kill($"몸이 교체되는 마술에 당했네요!");
                     ev.IsAllowed = false;
-                    Server.ExecuteCommand($"/fc {ev.Player.Id} {ev.Attacker.Role.Name} 0");
+
+                    ev.Player.Role.Set(ev.Attacker.Role, Exiled.API.Enums.SpawnReason.ForceClass, PlayerRoles.RoleSpawnFlags.None);
+                    ev.Player.Health = ev.Attacker.Health;
+                    foreach (Item Item in ev.Attacker.Items)
+                        ev.Player.AddItem(Item);
                 }
 
                 if (posions.Contains(ev.Player))
