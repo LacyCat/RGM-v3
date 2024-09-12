@@ -76,68 +76,78 @@ namespace RGM.Commands
         {
             Player player = Player.Get(sender);
 
-            if (player.IsScp)
+            if (RGM.Instance.ChatCooldown.Contains(player))
             {
-                if (arguments.Count == 0)
-                {
-                    response = "보낼 메세지를 입력해주세요.";
-                    return false;
-                }
-
-                string text = player.Role.Name;
-                string text2 = string.Concat(new string[]
-                {
-                    $"<size=25><color={player.Role.Color.ToHex()}>",
-                    text,
-                    $"</color> ({player.Nickname}) <b> | </b>",
-                    string.Join(" ", arguments),
-                    "</size>"
-                });
-                foreach (Player ply in Player.List.Where(x => x.IsScp))
-                {
-                    ply.AddBroadcast(6, text2);
-                }
-                response = $"'{text2}'";
-                return true;
-            }
-            else if (player.IsDead)
-            {
-                string text = player.Role.Name;
-                string text2 = string.Concat(new string[]
-                {
-                    $"<size=25><color={player.Role.Color.ToHex()}>",
-                    text,
-                    $"</color> ({player.Nickname}) <b> | </b>",
-                    string.Join(" ", arguments),
-                    "</size>"
-                });
-
-                foreach (Player ply in Player.List.Where(x => x.IsDead))
-                    ply.AddBroadcast(6, text2);
-
-                response = $"'{text2}'";
-                return true;
+                response = "너무 빠른 간격으로 입력을 보내고 있습니다!";
+                return false;
             }
             else
             {
-                string text = player.Role.Name;
-                string text2 = string.Concat(new string[]
+                RGM.Instance.ChatCooldown.Add(player);
+
+                if (player.IsScp)
                 {
+                    if (arguments.Count == 0)
+                    {
+                        response = "보낼 메세지를 입력해주세요.";
+                        return false;
+                    }
+
+                    string text = player.Role.Name;
+                    string text2 = string.Concat(new string[]
+                    {
                     $"<size=25><color={player.Role.Color.ToHex()}>",
                     text,
                     $"</color> ({player.Nickname}) <b> | </b>",
                     string.Join(" ", arguments),
                     "</size>"
-                });
-
-                foreach (Player ply in Player.List)
-                {
-                    if (Vector3.Distance(ply.Position, player.Position) <= 10 || ply.IsDead)
+                    });
+                    foreach (Player ply in Player.List.Where(x => x.IsScp))
+                    {
                         ply.AddBroadcast(6, text2);
+                    }
+                    response = $"'{text2}'";
+                    return true;
                 }
+                else if (player.IsDead)
+                {
+                    string text = player.Role.Name;
+                    string text2 = string.Concat(new string[]
+                    {
+                    $"<size=25><color={player.Role.Color.ToHex()}>",
+                    text,
+                    $"</color> ({player.Nickname}) <b> | </b>",
+                    string.Join(" ", arguments),
+                    "</size>"
+                    });
 
-                response = $"'{text2}'";
-                return true;
+                    foreach (Player ply in Player.List.Where(x => x.IsDead))
+                        ply.AddBroadcast(6, text2);
+
+                    response = $"'{text2}'";
+                    return true;
+                }
+                else
+                {
+                    string text = player.Role.Name;
+                    string text2 = string.Concat(new string[]
+                    {
+                    $"<size=25><color={player.Role.Color.ToHex()}>",
+                    text,
+                    $"</color> ({player.Nickname}) <b> | </b>",
+                    string.Join(" ", arguments),
+                    "</size>"
+                    });
+
+                    foreach (Player ply in Player.List)
+                    {
+                        if (Vector3.Distance(ply.Position, player.Position) <= 10 || ply.IsDead)
+                            ply.AddBroadcast(6, text2);
+                    }
+                    
+                    response = $"'{text2}'";
+                    return true;
+                }
             }
         }
 
