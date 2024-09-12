@@ -10,7 +10,6 @@ using PlayerRoles.FirstPersonControl;
 using UnityEngine;
 using MapEditorReborn.API.Features.Objects;
 using MultiBroadcast.API;
-using Hints;
 
 namespace RGM
 {
@@ -26,6 +25,7 @@ namespace RGM
         public Dictionary<string, List<Player>> ModeVote = new Dictionary<string, List<Player>>();
         public Dictionary<Player, float> OnGround = new Dictionary<Player, float>();
         public Dictionary<Player, Room> CurrentRoom = new Dictionary<Player, Room>();
+        public List<Player> ChatCooldown = new List<Player>();
 
         public int StartupRandom = UnityEngine.Random.Range(1, 21);
         public bool AutoNuke = false;
@@ -94,6 +94,7 @@ namespace RGM
             Exiled.Events.Handlers.Scp244.OpeningScp244 += OnOpeningScp244;
 
             Timing.RunCoroutine(IsFallDown());
+            Timing.RunCoroutine(ChattingCooldown());
 
         }
 
@@ -542,6 +543,16 @@ namespace RGM
                 }
 
                 yield return Timing.WaitForSeconds(0.1f);
+            }
+        }
+
+        public IEnumerator<float> ChattingCooldown()
+        {
+            while (true)
+            {
+                ChatCooldown.Clear();
+
+                yield return Timing.WaitForSeconds(1f);
             }
         }
     }
