@@ -91,6 +91,8 @@ namespace RGM
 
             Exiled.Events.Handlers.Scp330.InteractingScp330 += OnInteractingScp330;
 
+            Exiled.Events.Handlers.Scp244.OpeningScp244 += OnOpeningScp244;
+
             Timing.RunCoroutine(IsFallDown());
 
         }
@@ -110,6 +112,8 @@ namespace RGM
             Exiled.Events.Handlers.Warhead.Stopping -= OnStopping;
 
             Exiled.Events.Handlers.Scp330.InteractingScp330 -= OnInteractingScp330;
+
+            Exiled.Events.Handlers.Scp244.OpeningScp244 -= OnOpeningScp244;
 
             base.OnDisabled();
             Instance = null;
@@ -405,6 +409,13 @@ namespace RGM
                 ev.IsAllowed = false;
                 ev.Player.TryAddCandy(InventorySystem.Items.Usables.Scp330.CandyKindID.Pink);
             }
+        }
+
+        public async void OnOpeningScp244(Exiled.Events.EventArgs.Scp244.OpeningScp244EventArgs ev)
+        {
+            await Task.Delay(60 * 1000);
+
+            ev.Pickup.Destroy();
         }
 
         public IEnumerator<float> GameStartButton()

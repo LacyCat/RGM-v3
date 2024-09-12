@@ -269,7 +269,7 @@ namespace RGM.Modes
 
             switch (aT)
             {
-                case "운동": player.MaxHealth = player.MaxHealth * (125/100); player.Health = player.MaxHealth; break;
+                case "운동": player.MaxHealth = player.MaxHealth + player.MaxHealth * (25/100); player.Health = player.MaxHealth; break;
                 case "경공": player.GetEffect(Exiled.API.Enums.EffectType.MovementBoost).Intensity += 10; break;
                 case "진화": player.Scale = new Vector3(player.Scale.x - 0.12f, player.Scale.y - 0.12f, player.Scale.z - 0.12f); break;
                 case "체력 보충": player.TryAddCandy(CandyKindID.Blue); break;
@@ -404,7 +404,7 @@ namespace RGM.Modes
                 {
                     var player = Player.Get(hit.collider.GetComponentInParent<ReferenceHub>());
 
-                    if (ev.Player != player && !MeleeCooldown.Contains(ev.Player))
+                    if (ev.Player != player && !MeleeCooldown.Contains(ev.Player) && ev.Player.LeadingTeam != player.LeadingTeam)
                     {
                         Hitmarker.SendHitmarkerDirectly(ev.Player.ReferenceHub, 0.7f);
                         player.Hurt(12.05f * 3, "무지성으로 구타당해 죽었습니다.");
