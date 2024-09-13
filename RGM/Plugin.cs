@@ -10,6 +10,7 @@ using PlayerRoles.FirstPersonControl;
 using UnityEngine;
 using MapEditorReborn.API.Features.Objects;
 using MultiBroadcast.API;
+using Exiled.API.Enums;
 
 namespace RGM
 {
@@ -88,6 +89,7 @@ namespace RGM
             Exiled.Events.Handlers.Player.InteractingDoor += OnInteractingDoor;
 
             Exiled.Events.Handlers.Warhead.Stopping += OnStopping;
+            Exiled.Events.Handlers.Warhead.Detonating += OnDetonating;
 
             Exiled.Events.Handlers.Scp330.InteractingScp330 += OnInteractingScp330;
 
@@ -111,6 +113,7 @@ namespace RGM
             Exiled.Events.Handlers.Player.InteractingDoor -= OnInteractingDoor;
 
             Exiled.Events.Handlers.Warhead.Stopping -= OnStopping;
+            Exiled.Events.Handlers.Warhead.Detonating -= OnDetonating;
 
             Exiled.Events.Handlers.Scp330.InteractingScp330 -= OnInteractingScp330;
 
@@ -401,6 +404,11 @@ namespace RGM
         {
             if (AutoNuke)
                 ev.IsAllowed = false;
+        }
+
+        public void OnDetonating(Exiled.Events.EventArgs.Warhead.DetonatingEventArgs ev)
+        {
+            Player.List.ToList().Where(x => x.CurrentRoom.Type != RoomType.Surface).ToList().ForEach(x => x.Kill("핵폭발에 사망하였습니다."));
         }
 
         public void OnInteractingScp330(Exiled.Events.EventArgs.Scp330.InteractingScp330EventArgs ev)
