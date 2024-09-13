@@ -229,7 +229,7 @@ namespace RGM.Modes
                             if (player != target)
                             {
                                 Hitmarker.SendHitmarkerDirectly(player.ReferenceHub, 0.8f);
-                                target.EnableEffect(EffectType.Flashed, 1, 1);
+                                target.EnableEffect(EffectType.Flashed, 1, 1.6f);
                             }
                         }
                     }
@@ -341,17 +341,10 @@ namespace RGM.Modes
                 case "보험": insurers.Add(player); break;
                 case "주먹다짐": fighters.Add(player); break;
                 case "보급":
-                    List<AmmoType> Ammos = new List<AmmoType>() 
-                    { 
-                        AmmoType.Ammo44Cal,
-                        AmmoType.Nato556,
-                        AmmoType.Nato9,
-                        AmmoType.Nato762,
-                        AmmoType.Ammo12Gauge
-                    };
+                    List<string> Ammos = new List<string> { "19", "22", "27", "28", "29" };
 
-                    player.AddAmmo(RGM.GetRandomValue(Ammos), 3);
-
+                    for (int i=1; i<4; i++)
+                        Server.ExecuteCommand($"/give {player.Id} {RGM.GetRandomValue(Ammos)}");
                     break;
                 case "강철 껍질": player.GetEffect(EffectType.DamageReduction).Intensity += 1; break;
                 case "투명 망토": player.EnableEffect(EffectType.Invisible, 1, 25); break;
@@ -375,7 +368,7 @@ namespace RGM.Modes
                         player.CurrentItem = gc;
                     break;
                 case "잠수": player.IsUsingStamina = false; break;
-                case "고스트룰": player.GetEffect(Exiled.API.Enums.EffectType.Ghostly).Intensity += 1; break;
+                case "고스트룰": player.GetEffect(EffectType.Ghostly).Intensity += 1; break;
                 case "회중시계":
                     Item cc = player.AddItem(ItemType.Coin);
                     ClockCoinSerials.Add(cc.Serial);
@@ -548,6 +541,18 @@ namespace RGM.Modes
                         break;
 
                     ev.Player.ShowHint("이 동전을 튕기면 <b>회중시계</b> 능력을 사용할 수 있습니다.", 1.2f);
+
+                    await Task.Delay(1000);
+                }
+            }
+            else if (FlashLightSerials.Contains(ev.Item.Serial))
+            {
+                while (true)
+                {
+                    if (ev.Player.CurrentItem == null || !FlashLightSerials.Contains(ev.Player.CurrentItem.Serial))
+                        break;
+
+                    ev.Player.ShowHint("손전등을 상대에게 비추면 <b>플래시라이트</b> 능력을 사용할 수 있습니다.", 1.2f);
 
                     await Task.Delay(1000);
                 }

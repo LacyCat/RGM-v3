@@ -8,7 +8,6 @@ using Exiled.API.Features;
 using MEC;
 using RGM.API;
 using UnityEngine;
-using InventorySystem.Items.Usables.Scp244.Hypothermia;
 
 namespace RGM.Modes
 {
@@ -34,10 +33,10 @@ namespace RGM.Modes
                         if (p1 != p2 && Vector3.Distance(p1.Position, p2.Position) < 3f)
                         {
                             if (!PassPlayers.Contains(p1))
-                            {
                                 PassPlayers.Add(p1);
+
+                            if (!PassPlayers.Contains(p2))
                                 PassPlayers.Add(p2);
-                            }
                         }
                     }
                 }
