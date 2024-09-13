@@ -422,8 +422,11 @@ namespace RGM.Modes
                         p.Role.Set(PlayerRoles.RoleTypeId.Tutorial);
                         p.Position = new Vector3(-0.08203125f, 1000.96f, 6.828125f);
 
-                        foreach (ItemType Item in new List<ItemType> { ItemType.KeycardFacilityManager, ItemType.GunFSP9, ItemType.GunRevolver, ItemType.Adrenaline, ItemType.AntiSCP207, ItemType.Ammo9x19, ItemType.Ammo44cal })
+                        foreach (ItemType Item in new List<ItemType> { ItemType.KeycardFacilityManager, ItemType.GunFSP9, ItemType.GunRevolver, ItemType.Adrenaline, ItemType.AntiSCP207 })
                             p.AddItem(Item);
+
+                        for (int i = 1; i < 3; i++)
+                            Player.List.ToList().ForEach(x => Server.ExecuteCommand($"/give {x.Id} 27.29."));
                     }
 
                     player.ShowHint($"<i>{SnakeHands.Count()}명의 <color=#FE2EF7>동료</color>들이 당신과 함께합니다..</i>", 5);

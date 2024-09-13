@@ -62,7 +62,8 @@ namespace RGM.Modes
 
             if (CurrentItem is Firearm firearm)
             {
-                player.AddAmmo(firearm.AmmoType, 3);
+                for (int i=0; i<3; i++)
+                    player.AddAmmo(firearm.AmmoType, firearm.MaxAmmo);
             }
 
             if (player.IsScp)
