@@ -6,6 +6,7 @@ using System.Runtime.Remoting;
 using System.Text;
 using System.Threading.Tasks;
 using CommandSystem.Commands.RemoteAdmin;
+using Exiled.API.Enums;
 using Exiled.API.Extensions;
 using Exiled.API.Features;
 using Exiled.API.Features.Items;
@@ -35,6 +36,7 @@ namespace RGM.Modes
         public List<ushort> FollowCoinSerials = new List<ushort>();
         public List<ushort> GrapCoinSerials = new List<ushort>();
         public List<ushort> ClockCoinSerials = new List<ushort>();
+        public List<ushort> FlashLightSerials = new List<ushort>();
 
         public List<Player> insurers = new List<Player>();
         public List<Player> fighters = new List<Player>();
@@ -58,7 +60,8 @@ namespace RGM.Modes
             // {"[일반] 광고", "현재 진영 정보를 출력합니다."},
             {"[일반] 뽑기", "지급된 동전을 튕기면 10% 확률로 새로운 능력을 3개 더 얻습니다."},
             {"[일반] 보험", "사망 판정을 받을 경우 1번 버텨냅니다." },
-            {"[일반] 회축", "[ALT]를 눌러 발차기 공격을 가할 수 있습니다. (쿨타임 1초)"}
+            {"[일반] 회축", "[ALT]를 눌러 발차기 공격을 가할 수 있습니다. (쿨타임 1초)"},
+            {"[일반] 보급", "탄약이 랜덤하게 지급됩니다."}
         };
         public Dictionary<string, string> RareAbilities = new Dictionary<string, string>()
         {
@@ -91,7 +94,8 @@ namespace RGM.Modes
             {"[전설] 뱀의 손 무전기", "즉시 뱀의 손 지원을 부르며, 자신도 뱀의 손 소속이 됩니다."},
             {"[전설] 모드 설치", "현재 라운드에 모드를 하나 더 추가합니다."},
             {"[전설] 랜덤택배", "서버 인원 수 만큼 랜덤한 아이템을 드롭합니다."},
-            {"[전설] 마술사", "누군가에게 죽으면 죽인 자와 교체됩니다."}
+            {"[전설] 마술사", "누군가에게 죽으면 죽인 자와 교체됩니다."},
+            {"[전설] 플래시라이트", "지급된 손전등을 들고 상대를 쳐다보면 눈뽕 공격을 가할 수 있습니다."}
         };
         public Dictionary<string, string> MythicAbilities = new Dictionary<string, string>()
         {
@@ -304,8 +308,21 @@ namespace RGM.Modes
                     break;
                 case "보험": insurers.Add(player); break;
                 case "주먹다짐": fighters.Add(player); break;
-                case "강철 껍질": player.GetEffect(Exiled.API.Enums.EffectType.DamageReduction).Intensity += 1; break;
-                case "투명 망토": player.EnableEffect(Exiled.API.Enums.EffectType.Invisible, 1, 25); break;
+                case "보급":
+                    List<AmmoType> Ammos = new List<AmmoType>() 
+                    { 
+                        AmmoType.Ammo44Cal,
+                        AmmoType.Nato556,
+                        AmmoType.Nato9,
+                        AmmoType.Nato762,
+                        AmmoType.Ammo12Gauge
+                    };
+
+                    player.AddAmmo(RGM.GetRandomValue(Ammos), 3);
+
+                    break;
+                case "강철 껍질": player.GetEffect(EffectType.DamageReduction).Intensity += 1; break;
+                case "투명 망토": player.EnableEffect(EffectType.Invisible, 1, 25); break;
                 case "순간이동":
                     Item fc = player.AddItem(ItemType.Coin);
                     FollowCoinSerials.Add(fc.Serial);
