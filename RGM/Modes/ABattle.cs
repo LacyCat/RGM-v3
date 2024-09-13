@@ -111,6 +111,7 @@ namespace RGM.Modes
             Timing.RunCoroutine(UpgradeBody());
             Timing.RunCoroutine(Spirit());
             Timing.RunCoroutine(Twinkle());
+            Timing.RunCoroutine(FlashLight());
 
             Exiled.Events.Handlers.Player.TogglingNoClip += OnTogglingNoClip;
             Exiled.Events.Handlers.Player.Jumping += OnJumping;
@@ -180,7 +181,7 @@ namespace RGM.Modes
                 foreach (var player in Player.List)
                 {
                     if (spirits.Contains(player))
-                        player.EnableEffect(Exiled.API.Enums.EffectType.Invisible);
+                        player.EnableEffect(EffectType.Invisible);
                 }
 
                 yield return Timing.WaitForSeconds(2f);
@@ -209,6 +210,32 @@ namespace RGM.Modes
                 }
 
                 yield return Timing.WaitForSeconds(1f);
+            }
+        }
+
+        public IEnumerator<float> FlashLight()
+        {
+            while (true)
+            {
+                foreach (var player in Player.List)
+                {
+                    if (player.CurrentItem != null && FlashLightSerials.Contains(player.CurrentItem.Serial))
+                    {
+                        if (Physics.Raycast(player.ReferenceHub.PlayerCameraReference.position + player.ReferenceHub.PlayerCameraReference.forward * 0.2f, player.ReferenceHub.PlayerCameraReference.forward, out RaycastHit hit, 10f, InventorySystem.Items.Firearms.Modules.StandardHitregBase.HitregMask) &&
+                            hit.collider.TryGetComponent<IDestructible>(out IDestructible destructible))
+                        {
+                            var target = Player.Get(hit.collider.GetComponentInParent<ReferenceHub>());
+
+                            if (player != target)
+                            {
+                                Hitmarker.SendHitmarkerDirectly(player.ReferenceHub, 0.8f);
+                                target.EnableEffect(EffectType.Flashed, 1, 1);
+                            }
+                        }
+                    }
+                }
+
+                yield return Timing.WaitForSeconds(2f);
             }
         }
 
@@ -406,6 +433,13 @@ namespace RGM.Modes
                         Server.ExecuteCommand($"/drop {player.Id} {UnityEngine.Random.Range(1, 55)} 1");
                     break;
                 case "마술사": magicians.Add(player); break;
+                case "플래시라이트":
+                    Item fl = player.AddItem(ItemType.Flashlight);
+                    FlashLightSerials.Add(fl.Serial);
+
+                    if (player.IsScp)
+                        player.CurrentItem = fl;
+                    break;
                 case "해킹": Warhead.Start(); Warhead.Detonate(); Server.ExecuteCommand($"/cassie_sl {player.DisplayNickname}(이)가 핵을 <b>원격으로 터트렸습니다.</b>"); break;
                 case "스피릿": spirits.Add(player); break;
                 case "눈빛맨": twinkles.Add(player); break;
