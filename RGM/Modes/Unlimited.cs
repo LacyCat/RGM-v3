@@ -20,7 +20,6 @@ namespace RGM.Modes
             Timing.RunCoroutine(OnModeStarted());
 
             Exiled.Events.Handlers.Player.Spawned += OnSpawned;
-            Exiled.Events.Handlers.Player.DroppingItem += OnDroppingItem;
 
             Exiled.Events.Handlers.Scp106.Teleporting += OnTeleporting;
             Exiled.Events.Handlers.Scp106.Stalking += OnStalking;
@@ -38,7 +37,6 @@ namespace RGM.Modes
             Exiled.Events.Handlers.Scp173.PlacingTantrum += OnPlacingTantrum;
             Exiled.Events.Handlers.Scp173.UsingBreakneckSpeeds += OnUsingBreakneckSpeeds;
 
-            Exiled.Events.Handlers.Player.SearchingPickup += OnSearchingPickup;
             Exiled.Events.Handlers.Player.Shooting += OnShooting;
             Exiled.Events.Handlers.Player.ChangingMicroHIDState += OnChangingMicroHIDState;
             Exiled.Events.Handlers.Player.UsingMicroHIDEnergy += OnUsingMicroHIDEnergy;
@@ -62,17 +60,6 @@ namespace RGM.Modes
         {
             player.MaxHealth = 30000;
             player.IsUsingStamina = false;
-        }
-
-        public void OnDroppingItem(Exiled.Events.EventArgs.Player.DroppingItemEventArgs ev)
-        {
-            if (ev.Item.Type == ItemType.GrenadeHE)
-            {
-                if (UnityEngine.Random.Range(1, 50) == 1)
-                    Server.ExecuteCommand($"/rocket {ev.Player.Id} 0.1");
-                else
-                    ev.Player.ShowHint($"<color=red><i><size=20>\"불길한 느낌이 들어..\"</size></i></color>", 2);
-            }
         }
 
         public async void OnTeleporting(Exiled.Events.EventArgs.Scp106.TeleportingEventArgs ev)
@@ -146,17 +133,6 @@ namespace RGM.Modes
         {
             await Task.Delay(100);
             ev.Scp173.RemainingBreakneckCooldown = 0;
-        }
-
-        public void OnSearchingPickup(Exiled.Events.EventArgs.Player.SearchingPickupEventArgs ev)
-        {
-            ev.IsAllowed = false;
-            ev.Player.AddItem(ev.Pickup);
-
-            if (UnityEngine.Random.Range(1, 50) == 1)
-                Server.ExecuteCommand($"/rocket {ev.Player.Id} 0.1");
-            else
-                ev.Player.ShowHint($"<color=red><i><size=20>\"불길한 느낌이 들어..\"</size></i></color>", 2);
         }
 
         public void OnShooting(Exiled.Events.EventArgs.Player.ShootingEventArgs ev)
