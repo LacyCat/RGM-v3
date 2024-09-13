@@ -21,7 +21,7 @@ namespace RGM.Modes
         public void OnEnabled()
         {
             Timing.RunCoroutine(OnModeStarted());
-            Timing.RunCoroutine(CurrentItemAsync());
+            // Timing.RunCoroutine(CurrentItemAsync());
 
             Exiled.Events.Handlers.Player.Hurt += OnHurt;
             Exiled.Events.Handlers.Player.ChangingItem += OnChaningItem;
@@ -87,7 +87,7 @@ namespace RGM.Modes
 
             while (true)
             {
-                foreach (var player in Player.List)
+                foreach (var player in Player.List.Where(x => x.IsAlive))
                 {
                     if (soulMates.ContainsKey(player))
                     {
@@ -107,13 +107,13 @@ namespace RGM.Modes
                     }
                 }
 
-                yield return Timing.WaitForSeconds(0.1f);
+                yield return Timing.WaitForSeconds(1f);
             }
         }
 
         public void OnHurt(Exiled.Events.EventArgs.Player.HurtEventArgs ev)
         {
-            if (soulMates.ContainsKey(ev.Player))
+            if (soulMates.ContainsKey(ev.Player) && ev.Player.IsAlive)
             {
                 Player soulMate = soulMates[ev.Player];
 
@@ -121,7 +121,7 @@ namespace RGM.Modes
                 {
                     soulMate.Health = ev.Player.Health;
                     
-                    if (ev.Player.Health <= 0)
+                    if (ev.Player.Health <= 0 && !ev.Player.IsDead)
                     {
                         soulMate.Kill($"{ev.Player.DisplayNickname}(와)과 {soulMate.DisplayNickname}(은)는 영혼의 단짝이였습니다.");
                         ev.Player.Kill($"{soulMate.DisplayNickname}(와)과 {ev.Player.DisplayNickname}(은)는 영혼의 단짝이였습니다.");
@@ -133,7 +133,7 @@ namespace RGM.Modes
 
         public void OnChaningItem(Exiled.Events.EventArgs.Player.ChangingItemEventArgs ev)
         {
-            if (soulMates.ContainsKey(ev.Player))
+            if (soulMates.ContainsKey(ev.Player) && ev.Player.IsAlive)
             {
                 Player soulMate = soulMates[ev.Player];
 
