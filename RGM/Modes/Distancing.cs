@@ -30,7 +30,7 @@ namespace RGM.Modes
                 {
                     foreach (var p2 in Player.List)
                     {
-                        if (p1 != p2 && Vector3.Distance(p1.Position, p2.Position) < 10f)
+                        if (p1 != p2 && Vector3.Distance(p1.Position, p2.Position) < 5f)
                         {
                             if (!DamagePlayers.Contains(p1))
                                 DamagePlayers.Add(p1);
@@ -42,7 +42,12 @@ namespace RGM.Modes
                 }
 
                 foreach (var player in DamagePlayers)
-                    player.Health -= player.MaxHealth / 10;
+                {
+                    player.Health -= player.MaxHealth / 50;
+
+                    if (player.Health < 1)
+                        player.Kill("바이러스가 당신을 끝장냈습니다.");
+                }
 
                 yield return Timing.WaitForSeconds(1f);
             }
