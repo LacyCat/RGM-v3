@@ -21,8 +21,10 @@ namespace RGM.Modes
         public void OnEnabled()
         {
             Timing.RunCoroutine(OnModeStarted());
+            Timing.RunCoroutine(CurrentItemAsync());
 
             Exiled.Events.Handlers.Player.Hurt += OnHurt;
+            Exiled.Events.Handlers.Player.ChangingItem += OnChaningItem;
         }
 
         public IEnumerator<float> OnModeStarted()
@@ -79,6 +81,36 @@ namespace RGM.Modes
             }
         }
 
+        public IEnumerator<float> CurrentItemAsync()
+        {
+            Dictionary<Player, Item> CurrentItem = new Dictionary<Player, Item>();
+
+            while (true)
+            {
+                foreach (var player in Player.List)
+                {
+                    if (soulMates.ContainsKey(player))
+                    {
+                        Player soulmate = soulMates[player];
+
+                        if (CurrentItem.ContainsKey(player))
+                        {
+                            if (CurrentItem[player] != player.CurrentItem)
+                                soulmate.CurrentItem = player.CurrentItem;
+                        }
+                        else
+                        {
+                            CurrentItem.Add(player, player.CurrentItem);
+                        }
+
+                        soulmate.CurrentItem = player.CurrentItem;
+                    }
+                }
+
+                yield return Timing.WaitForSeconds(0.1f);
+            }
+        }
+
         public void OnHurt(Exiled.Events.EventArgs.Player.HurtEventArgs ev)
         {
             if (soulMates.ContainsKey(ev.Player))
@@ -95,6 +127,22 @@ namespace RGM.Modes
                         ev.Player.Kill($"{soulMate.DisplayNickname}(와)과 {ev.Player.DisplayNickname}(은)는 영혼의 단짝이였습니다.");
                         Server.ExecuteCommand($"/cassie_sl <color=red>{ev.Attacker.DisplayNickname}</color>(이)가 영혼의 단짝이였던 <color=#5858FA>{ev.Player.DisplayNickname}</color>와(과) <color=#FE2EF7>{soulMate.DisplayNickname}</color>을(를) 사이좋게 하늘로 보냈습니다.");
                     }
+                }
+            }
+        }
+
+        public void OnChaningItem(Exiled.Events.EventArgs.Player.ChangingItemEventArgs ev)
+        {
+            if (soulMates.ContainsKey(ev.Player))
+            {
+                Player soulMate = soulMates[ev.Player];
+
+                if (soulMate != null && soulMate.IsAlive)
+                {
+                    soulMate.ClearInventory();
+
+                    foreach (Item Item in ev.Player.Items)
+                        soulMate.AddItem(Item);
                 }
             }
         }
