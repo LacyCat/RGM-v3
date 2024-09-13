@@ -89,7 +89,7 @@ namespace RGM.Modes
                 {
                     soulMate.Health = ev.Player.Health;
                     
-                    if (soulMate.IsDead && ev.Player.IsDead)
+                    if (ev.Player.Health <= 0)
                     {
                         soulMate.Kill($"{ev.Player.DisplayNickname}(와)과 {soulMate.DisplayNickname}(은)는 영혼의 단짝이였습니다.");
                         ev.Player.Kill($"{soulMate.DisplayNickname}(와)과 {ev.Player.DisplayNickname}(은)는 영혼의 단짝이였습니다.");
