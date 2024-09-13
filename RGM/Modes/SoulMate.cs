@@ -22,7 +22,6 @@ namespace RGM.Modes
         {
             Timing.RunCoroutine(OnModeStarted());
 
-            Exiled.Events.Handlers.Player.Died += OnDied;
             Exiled.Events.Handlers.Player.Hurt += OnHurt;
         }
 
@@ -80,21 +79,6 @@ namespace RGM.Modes
             }
         }
 
-        public void OnDied(Exiled.Events.EventArgs.Player.DiedEventArgs ev)
-        {
-            if (soulMates.ContainsKey(ev.Player))
-            {
-                Player soulMate = soulMates[ev.Player];
-
-                if (soulMate != null && soulMate.IsAlive)
-                {
-                    soulMate.Kill($"{ev.Player.DisplayNickname}(와)과 {soulMate.DisplayNickname}(은)는 영혼의 단짝이였습니다.");
-                    ev.Player.Kill($"{soulMate.DisplayNickname}(와)과 {ev.Player.DisplayNickname}(은)는 영혼의 단짝이였습니다.");
-                    Server.ExecuteCommand($"/cassie_sl <color=red>{ev.Attacker.DisplayNickname}</color>(이)가 영혼의 단짝이였던 <color=#5858FA>{ev.Player.DisplayNickname}</color>와(과) <color=#FE2EF7>{soulMate.DisplayNickname}</color>을(를) 사이좋게 하늘로 보냈습니다.");
-                }
-            }
-        }
-
         public void OnHurt(Exiled.Events.EventArgs.Player.HurtEventArgs ev)
         {
             if (soulMates.ContainsKey(ev.Player))
@@ -104,6 +88,13 @@ namespace RGM.Modes
                 if (soulMate != null && soulMate.IsAlive)
                 {
                     soulMate.Health = ev.Player.Health;
+                    
+                    if (soulMate.IsDead && ev.Player.IsDead)
+                    {
+                        soulMate.Kill($"{ev.Player.DisplayNickname}(와)과 {soulMate.DisplayNickname}(은)는 영혼의 단짝이였습니다.");
+                        ev.Player.Kill($"{soulMate.DisplayNickname}(와)과 {ev.Player.DisplayNickname}(은)는 영혼의 단짝이였습니다.");
+                        Server.ExecuteCommand($"/cassie_sl <color=red>{ev.Attacker.DisplayNickname}</color>(이)가 영혼의 단짝이였던 <color=#5858FA>{ev.Player.DisplayNickname}</color>와(과) <color=#FE2EF7>{soulMate.DisplayNickname}</color>을(를) 사이좋게 하늘로 보냈습니다.");
+                    }
                 }
             }
         }
