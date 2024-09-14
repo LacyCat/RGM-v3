@@ -115,7 +115,7 @@ namespace RGM.Modes
                 player.Role.Set(RoleTypeId.Scp939);
 
             if (player.Role is Scp079Role scp079)
-                scp079.Level = 3;
+                scp079.AddExperience(1205);
         }
 
         public void OnSearchingPickup(Exiled.Events.EventArgs.Player.SearchingPickupEventArgs ev)
