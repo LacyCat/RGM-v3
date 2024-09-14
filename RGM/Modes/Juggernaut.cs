@@ -54,7 +54,7 @@ namespace RGM.Modes
 
             juggernaut.Role.Set(RoleTypeId.Tutorial);
             juggernaut.Scale = new Vector3(1.2f, 1.1f, 1.2f);
-            juggernaut.MaxHealth = 200 * Player.List.Count() + 80 * Player.List.Count();
+            juggernaut.MaxHealth = 300 * Player.List.Count() + 100 * Player.List.Count();
             juggernaut.Health = juggernaut.MaxHealth;
             juggernaut.IsBypassModeEnabled = true;
             juggernaut.EnableEffect(EffectType.SinkHole);
@@ -172,9 +172,7 @@ namespace RGM.Modes
         public void OnReceivingEffect(Exiled.Events.EventArgs.Player.ReceivingEffectEventArgs ev)
         {
             if (ev.Effect.GetEffectType() == EffectType.PocketCorroding)
-            {
                 ev.IsAllowed = false;
-            }
         }
     }
 }
