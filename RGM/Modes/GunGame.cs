@@ -12,6 +12,9 @@ using MEC;
 using Mirror;
 using MultiBroadcast;
 using UnityEngine;
+using Exiled.API.Enums;
+using PlayerRoles;
+using MultiBroadcast.API;
 
 namespace RGM.Modes
 {
@@ -19,20 +22,126 @@ namespace RGM.Modes
     {
         public static GunGame Instance;
 
-         
+        public Dictionary<Player, int> Stage = new Dictionary<Player, int>(); 
+        public bool IsEnd = false;
+
+        public List<ItemType> GunsList = new List<ItemType>()
+        { 
+            ItemType.Jailbird,
+            ItemType.GunFRMG0,
+            ItemType.GunLogicer,
+            ItemType.GunE11SR,
+            ItemType.GunAK,
+            ItemType.GunCrossvec,
+            ItemType.GunA7,
+            ItemType.GunFSP9,
+            ItemType.GunCom45,
+            ItemType.GunRevolver,
+            ItemType.GunCOM18,
+            ItemType.GunCOM15,
+            ItemType.MicroHID
+        };
 
         public void OnEnabled()
         {
-            Server.FriendlyFire = true;
-            Round.IsLocked = true;
-            Respawn.TimeUntilNextPhase = 10000;
+            Exiled.Events.Handlers.Player.Dying += OnDying;
+            Exiled.Events.Handlers.Player.Spawned += OnSpawned;
 
             Timing.RunCoroutine(OnModeStarted());
+            Timing.RunCoroutine(ScoreBoard());
         }
 
         public IEnumerator<float> OnModeStarted()
         {
+            Server.FriendlyFire = true;
+            Round.IsLocked = true;
+            Respawn.TimeUntilNextPhase = 10000;
+            foreach (var Door in Door.List)
+            {
+                if (Door.IsCheckpoint || Door.IsElevator)
+                    Door.Lock(1205, DoorLockType.Lockdown079);
+            }
+
             yield return Timing.WaitForSeconds(1f);
+
+            while (!IsEnd)
+            {
+                foreach (var player in Player.List)
+                {
+                    if (Stage.ContainsKey(player))
+                    {
+                        if (Stage[player] >= GunsList.Count - 1)
+                        {
+                            Server.ExecuteCommand($"/cassie_sl <b><color=yellow>{player.Nickname}</color></b>(이)가 <color=#088A08>Gun Game</color>에서 우승했습니다!");
+                            Round.IsLocked = false;
+                            IsEnd = true;
+                        }
+                        else
+                        {
+                            if (player.IsDead)
+                                PlayerSpawn(player);
+                        }
+                    }
+                    else
+                    {
+                        Stage.Add(player, 0);
+                    }
+                }
+
+                yield return Timing.WaitForSeconds(1f);
+            }
+        }
+
+        public IEnumerator<float> ScoreBoard()
+        {
+            while (!IsEnd)
+            {
+                Map.CleanAllItems();
+                Map.CleanAllRagdolls();
+
+                foreach (var player in Player.List)
+                {
+                    if (Stage.ContainsKey(player))
+                    {
+                        player.ClearPlayerBroadcasts();
+                        Player topPlayer = Stage.OrderByDescending(x => x.Value).FirstOrDefault().Key;
+                        player.AddBroadcast(2, $"<size=25><b><color=yellow>선두주자(1st) 플레이어</color> - {topPlayer.Nickname}({Stage[topPlayer]})</b></size>\n" +
+                            $"<size=20><i>우승까지 <color=red>{GunsList.Count - Stage[topPlayer] - 1}</color>킬 남았습니다.</i></size>");
+                    }
+                }
+
+                yield return Timing.WaitForSeconds(1f);
+            }
+        }
+
+        public void PlayerSpawn(Player player)
+        {
+            Door SelectedDoor = RGM.GetRandomValue(Door.List.Where(x => !x.IsElevator && !x.IsPartOfCheckpoint && x.Zone == ZoneType.HeavyContainment).ToList());
+
+            player.Role.Set(RoleTypeId.ClassD);
+            player.AddItem(GunsList[Stage[player]]);
+            player.Position = new Vector3(SelectedDoor.Position.x, SelectedDoor.Position.y + 2, SelectedDoor.Position.z);
+        }
+
+        public void OnDying(Exiled.Events.EventArgs.Player.DyingEventArgs ev)
+        {
+            if (Stage.ContainsKey(ev.Player))
+            {
+                Stage[ev.Attacker]++;
+                ev.Attacker.ClearInventory();
+                ev.Attacker.AddItem(GunsList[Stage[ev.Attacker]]);
+            }
+        }
+
+        public void OnSpawned(Exiled.Events.EventArgs.Player.SpawnedEventArgs ev)
+        {
+            List<string> AmmosList = new List<string>() { "19", "22", "27", "28", "29" };
+
+            foreach (var Ammo in AmmosList)
+            {
+                for (int i=1; i<4; i++)
+                    Server.ExecuteCommand($"/give {ev.Player.Id} {Ammo}");
+            }
         }
     }
 }
