@@ -15,6 +15,8 @@ using MultiBroadcast.API;
 using CustomPlayerEffects;
 using Exiled.API.Enums;
 using Exiled.API.Extensions;
+using PlayerRoles;
+using Exiled.API.Features.Roles;
 
 namespace RGM.Modes
 {
@@ -50,7 +52,7 @@ namespace RGM.Modes
 
             juggernaut = RGM.GetRandomValue(Player.List.ToList());
 
-            juggernaut.Role.Set(PlayerRoles.RoleTypeId.Tutorial);
+            juggernaut.Role.Set(RoleTypeId.Tutorial);
             juggernaut.Scale = new Vector3(1.2f, 1.1f, 1.2f);
             juggernaut.MaxHealth = 200 * Player.List.Count() + 80 * Player.List.Count();
             juggernaut.Health = juggernaut.MaxHealth;
@@ -84,7 +86,7 @@ namespace RGM.Modes
                 yield return Timing.WaitForSeconds(1f);
             }
 
-            Player.List.ToList().ForEach(x => x.Role.Set(PlayerRoles.RoleTypeId.Tutorial, PlayerRoles.RoleSpawnFlags.None));
+            Player.List.ToList().ForEach(x => x.Role.Set(RoleTypeId.Tutorial, RoleSpawnFlags.None));
             Round.IsLocked = false;
         }
 
@@ -107,10 +109,11 @@ namespace RGM.Modes
 
         public void Spawned(Player player)
         {
-            if (player.Role.Type == PlayerRoles.RoleTypeId.Scp3114)
-            {
-                player.Role.Set(PlayerRoles.RoleTypeId.Scp939);
-            }
+            if (player.Role.Type == RoleTypeId.Scp3114)
+                player.Role.Set(RoleTypeId.Scp939);
+
+            if (player.Role is Scp079Role scp079)
+                scp079.Level = 3;
         }
 
         public void OnSearchingPickup(Exiled.Events.EventArgs.Player.SearchingPickupEventArgs ev)
@@ -143,8 +146,20 @@ namespace RGM.Modes
                     }
                     else if (ev.Attacker != juggernaut && ev.Player == juggernaut)
                     {
-                        if (ev.DamageHandler.Damage == -1 || ev.DamageHandler.Damage > 300)
-                            ev.DamageHandler.Damage = 300;
+                        List<RoleTypeId> Scps = new List<RoleTypeId>() 
+                        { 
+                            RoleTypeId.Scp173,
+                            RoleTypeId.Scp049,
+                            RoleTypeId.Scp106,
+                            RoleTypeId.Scp096,
+                            RoleTypeId.Scp939
+                        };
+
+                        if (Scps.Contains(ev.Attacker.Role.Type))
+                        {
+                            ev.IsAllowed = false;
+                            ev.Player.Hurt(300, DamageType.Scp);
+                        }
                     }
                 }
                 else

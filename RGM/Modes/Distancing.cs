@@ -45,7 +45,7 @@ namespace RGM.Modes
                 {
                     player.Health -= player.MaxHealth / 50;
 
-                    if (player.Health < 1)
+                    if (player.IsAlive && player.Health < 1)
                         player.Kill("바이러스가 당신을 끝장냈습니다.");
                 }
 
