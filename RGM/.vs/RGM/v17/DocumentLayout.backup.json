@@ -36,7 +36,7 @@
               "RelativeDocumentMoniker": "Plugin.cs",
               "ToolTip": "D:\\GoldenPig1205\\Visual Studio 2022\\RGM\\RGM\\Plugin.cs",
               "RelativeToolTip": "Plugin.cs",
-              "ViewState": "AgIAAHoBAAAAAAAAAAAUwJkBAAANAAAAAAAAAA==",
+              "ViewState": "AgIAAI8BAAAAAAAAAAAUwKQBAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-09-07T16:14:40.698Z",
               "EditorCaption": ""
@@ -51,8 +51,7 @@
               "RelativeToolTip": "Configs\\Modes.cs",
               "ViewState": "AgIAAAYAAAAAAAAAAAAAADEAAAA3AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-13T14:10:12.077Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-13T14:10:12.077Z"
             },
             {
               "$type": "Document",
@@ -76,8 +75,7 @@
               "RelativeToolTip": "Commands\\RGM.Commands.cs",
               "ViewState": "AgIAAGUAAAAAAAAAAAAswHwAAABIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-05T14:24:34.286Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-05T14:24:34.286Z"
             }
           ]
         }
