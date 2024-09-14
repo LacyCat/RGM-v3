@@ -651,7 +651,7 @@ namespace RGM.Modes
                     ev.Player.Role.Set(ev.Attacker.Role, SpawnReason.ForceClass, PlayerRoles.RoleSpawnFlags.None);
                     ev.Player.Health = ev.Attacker.Health;
                     foreach (Item Item in ev.Attacker.Items)
-                        ev.Player.AddItem(Item);
+                        ev.Player.AddItem(Item.Type);
 
                     ev.Attacker.Kill($"몸이 교체되는 마술에 당했네요!");
                 }
