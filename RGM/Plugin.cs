@@ -98,6 +98,8 @@ namespace RGM
             Exiled.Events.Handlers.Scp244.UsingScp244 += OnUsingScp244;
             Exiled.Events.Handlers.Scp244.OpeningScp244 += OnOpeningScp244;
 
+            Exiled.Events.Handlers.Scp079.Recontained += OnRecontained;
+
             Timing.RunCoroutine(IsFallDown());
             Timing.RunCoroutine(ChattingCooldown());
 
@@ -122,6 +124,8 @@ namespace RGM
 
             Exiled.Events.Handlers.Scp244.UsingScp244 -= OnUsingScp244;
             Exiled.Events.Handlers.Scp244.OpeningScp244 -= OnOpeningScp244;
+
+            Exiled.Events.Handlers.Scp079.Recontained -= OnRecontained;
 
             base.OnDisabled();
             Instance = null;
@@ -453,6 +457,11 @@ namespace RGM
 
             ev.Pickup.Health = 0;
             ev.Pickup.Destroy();
+        }
+
+        public void OnRecontained(Exiled.Events.EventArgs.Scp079.RecontainedEventArgs ev)
+        {
+            ev.Player.Kill("재격리 버튼에 의해 격리되었습니다.");
         }
 
         public IEnumerator<float> GameStartButton()
