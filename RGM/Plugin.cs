@@ -461,7 +461,7 @@ namespace RGM
             bool ButtonPressed = false;
             Transform redObject = null;
 
-            while (!ButtonPressed)
+            while (!ButtonPressed && !FreezeGameStart)
             {
                 bool pressing = false;
 
@@ -489,7 +489,7 @@ namespace RGM
 
                 if (!pressing)
                 {
-                    if (!FreezeGameStart && RemainingPress < 20)
+                    if (RemainingPress < 20)
                     {
                         RemainingPress += 1;
 
