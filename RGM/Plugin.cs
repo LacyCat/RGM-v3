@@ -190,7 +190,7 @@ namespace RGM
                 onEnabledMethod?.Invoke(modeInstance, null);
             }
 
-            await Task.Delay(25 * 60 * 1000);
+            await Task.Delay(20 * 60 * 1000);
 
             if (Warhead.IsDetonated)
             {
