@@ -34,8 +34,6 @@ namespace RGM.Modes
 
             Exiled.Events.Handlers.Player.Dying += OnDying;
             Exiled.Events.Handlers.Player.Spawned += OnSpawned;
-            Exiled.Events.Handlers.Player.DroppingAmmo += OnDroppingAmmo;
-            Exiled.Events.Handlers.Player.DroppingItem += OnDroppingItem;
             Exiled.Events.Handlers.Player.SpawningRagdoll += OnSpawnRagdoll;
         }
 
@@ -113,16 +111,6 @@ namespace RGM.Modes
                 foreach (var item in StartupItems)
                     player.AddItem(item);
             }
-        }
-
-        public void OnDroppingAmmo(Exiled.Events.EventArgs.Player.DroppingAmmoEventArgs ev)
-        {
-            ev.IsAllowed = false;
-        }
-
-        public void OnDroppingItem(Exiled.Events.EventArgs.Player.DroppingItemEventArgs ev)
-        {
-            ev.IsAllowed = false;
         }
 
         public void OnSpawnRagdoll(Exiled.Events.EventArgs.Player.SpawningRagdollEventArgs ev)
