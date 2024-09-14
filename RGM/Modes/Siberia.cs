@@ -42,9 +42,7 @@ namespace RGM.Modes
                 }
 
                 foreach (var player in Player.List.Where(x => !PassPlayers.Contains(x)))
-                {
                     player.EnableEffect(Exiled.API.Enums.EffectType.Hypothermia, 255, 1.5f);
-                }
 
                 yield return Timing.WaitForSeconds(1f);
             }
