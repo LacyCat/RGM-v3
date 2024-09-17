@@ -107,24 +107,24 @@ namespace RGM.Modes
 
         public void OnEnabled()
         {
-            Timing.RunCoroutine(OnModeStarted());
-            Timing.RunCoroutine(UpgradeBody());
-            Timing.RunCoroutine(Spirit());
-            Timing.RunCoroutine(Twinkle());
-            Timing.RunCoroutine(FlashLight());
-
             Exiled.Events.Handlers.Player.TogglingNoClip += OnTogglingNoClip;
             Exiled.Events.Handlers.Player.Jumping += OnJumping;
             Exiled.Events.Handlers.Player.FlippingCoin += OnFlippingCoin;
             Exiled.Events.Handlers.Player.ChangedItem += OnChangedItem;
             Exiled.Events.Handlers.Player.Dying += OnDying;
-            Exiled.Events.Handlers.Player.InteractingDoor += InteractingDoor;
+            Exiled.Events.Handlers.Player.InteractingDoor += OnInteractingDoor;
             Exiled.Events.Handlers.Player.InteractingLocker += OnInteractingLocker;
             Exiled.Events.Handlers.Player.DroppedItem += OnDroppedItem;
             Exiled.Events.Handlers.Player.Hurting += OnHurting;
             Exiled.Events.Handlers.Player.Hurt += OnHurt;
             Exiled.Events.Handlers.Player.Shot += OnShot;
             Exiled.Events.Handlers.Player.ChangingSpectatedPlayer += OnChangingSpectatedPlayer;
+
+            Timing.RunCoroutine(OnModeStarted());
+            Timing.RunCoroutine(UpgradeBody());
+            Timing.RunCoroutine(Spirit());
+            Timing.RunCoroutine(Twinkle());
+            Timing.RunCoroutine(FlashLight());
         }
 
         public IEnumerator<float> OnModeStarted()
@@ -205,14 +205,14 @@ namespace RGM.Modes
 
                             if (player != target)
                             {
-                                target.EnableEffect(EffectType.Slowness, 50, 1);
+                                target.EnableEffect(EffectType.Slowness, 50, 0.2f);
                                 Hitmarker.SendHitmarkerDirectly(player.ReferenceHub, 0.5f);
                             }
                         }
                     }
                 }
 
-                yield return Timing.WaitForSeconds(1f);
+                yield return Timing.WaitForSeconds(0.1f);
             }
         }
 
@@ -669,7 +669,7 @@ namespace RGM.Modes
             }
         }
 
-        public void InteractingDoor(Exiled.Events.EventArgs.Player.InteractingDoorEventArgs ev)
+        public void OnInteractingDoor(Exiled.Events.EventArgs.Player.InteractingDoorEventArgs ev)
         {
             if (ev.Player != null && PlayerAbilities[ev.Player.UserId].Contains("[일반] 행운") && UnityEngine.Random.Range(0, 100) <= 5)
             {
@@ -716,7 +716,7 @@ namespace RGM.Modes
 
         public void OnHurting(Exiled.Events.EventArgs.Player.HurtingEventArgs ev)
         {
-            try
+            if (ev.Attacker != null)
             {
                 if (PlayerAbilities[ev.Player.UserId].Contains("[일반] 단련"))
                 {
@@ -731,16 +731,6 @@ namespace RGM.Modes
                 if (PlayerAbilities[ev.Attacker.UserId].Contains("[신화] 로켓 런처") && ev.Attacker.LeadingTeam != ev.Player.LeadingTeam)
                     Server.ExecuteCommand($"/rocket {ev.Player.Id} 1");
             }
-            catch (Exception ex)
-            {
-
-            }
-        }
-
-        public void OnShot(Exiled.Events.EventArgs.Player.ShotEventArgs ev)
-        {
-            if (spirits.Contains(ev.Player))
-                ev.Player.DisableEffect(EffectType.Invisible);
         }
 
         public void OnHurt(Exiled.Events.EventArgs.Player.HurtEventArgs ev)
@@ -752,12 +742,19 @@ namespace RGM.Modes
                 ev.Player.DisableEffect(EffectType.Invisible);
         }
 
+        public void OnShot(Exiled.Events.EventArgs.Player.ShotEventArgs ev)
+        {
+            if (spirits.Contains(ev.Player))
+                ev.Player.DisableEffect(EffectType.Invisible);
+        }
+
         public void OnChangingSpectatedPlayer(Exiled.Events.EventArgs.Player.ChangingSpectatedPlayerEventArgs ev)
         {
             if (ev.NewTarget != null)
             {
                 if (PlayerAbilities[ev.NewTarget.UserId].Count <= 0)
                     ev.Player.ShowHint($"<align=left><b><size=22>워크스테이션 위에서 점프하면 능력을 획득할 수 있습니다.</size></b></align>", 250f);
+
                 else
                 {
                     string abilitiesText = string.Join(", ", PlayerAbilities[ev.NewTarget.UserId]);
