@@ -33,6 +33,7 @@ namespace RGM.Modes
             Timing.RunCoroutine(OnModeStarted());
 
             Exiled.Events.Handlers.Player.Dying += OnDying;
+            Exiled.Events.Handlers.Player.Hurting += OnHurting;
         }
 
         public IEnumerator<float> OnModeStarted()
@@ -40,6 +41,8 @@ namespace RGM.Modes
             yield return Timing.WaitForSeconds(1f);
 
             Server.ExecuteCommand($"/mp load Spleef");
+
+            Player.List.ToList().CopyTo(pl);
 
             foreach (var player in Player.List)
             {
@@ -63,6 +66,11 @@ namespace RGM.Modes
 
                         else if (hit.transform.name == "Lava")
                             player.Kill("용암을 좋아한 나머지 뛰어들어갔습니다.");
+
+                        else
+                        {
+                            player.Hurt(12.05f, "떨어지지 않으려면 계속 움직이세요.");
+                        }
                     }
                 }
 
@@ -78,6 +86,14 @@ namespace RGM.Modes
 
                 if (pl.Count < 2)
                     Round.IsLocked = false;
+            }
+        }
+
+        public void OnHurting(Exiled.Events.EventArgs.Player.HurtingEventArgs ev)
+        {
+            if (ev.DamageHandler.Type == Exiled.API.Enums.DamageType.Falldown)
+            {
+                ev.IsAllowed = false;
             }
         }
     }
