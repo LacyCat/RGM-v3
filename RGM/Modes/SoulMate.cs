@@ -17,22 +17,44 @@ namespace RGM.Modes
         public static SoulMate Instance;
 
         private Dictionary<Player, Player> soulMates;
+        private List<Player> waitingPlayers;
 
         public void OnEnabled()
         {
-            Timing.RunCoroutine(OnModeStarted());
-
             Exiled.Events.Handlers.Player.Died += OnDied;
             Exiled.Events.Handlers.Player.Hurt += OnHurt;
             Exiled.Events.Handlers.Player.Healed += OnHealed;
             Exiled.Events.Handlers.Player.Escaping += OnEscaping;
+            Exiled.Events.Handlers.Player.ItemAdded += OnItemAdded;
+            Exiled.Events.Handlers.Player.ItemRemoved += OnItemRemoved;
+
+            Timing.RunCoroutine(OnModeStarted());
+            Timing.RunCoroutine(CurrentItemAsync());
+            Timing.RunCoroutine(SoulMateMatching());
         }
 
         public IEnumerator<float> OnModeStarted()
         {
-            yield return Timing.WaitForSeconds(1f);
+            while (true)
+            {
+                foreach (var player in Player.List)
+                {
+                    if (Player.List.ToList().Where(x => x.IsAlive).Count() < 3 && player.Role.Type != PlayerRoles.RoleTypeId.Tutorial)
+                    {
+                        Player.List.ToList().Where(x => x.IsAlive).ToList().ForEach(x => Server.ExecuteCommand($"/fc {x.Id} Tutorial 1"));
+                        Player.List.ToList().ForEach(x => x.Broadcast(15, $"<size=30><b>{(Player.List.ToList().Where(x => x.IsAlive).Count() == 2 ? "<color=#ffd700>소울메이트</color>" : "<color=#BFFF00>외톨이</color>")}</b>({string.Join(", ", Player.List.ToList().Where(x => x.IsAlive).Select(x => x.DisplayNickname))})의 승리입니다!</size>"));
+                        yield return Timing.WaitForSeconds(100f);
+                    }
+                }
 
+                yield return Timing.WaitForSeconds(1f);
+            }
+        }
+
+        public IEnumerator<float> SoulMateMatching()
+        {
             soulMates = new Dictionary<Player, Player>();
+            waitingPlayers = new List<Player>();
 
             List<Player> players = Player.List.ToList();
 
@@ -44,41 +66,39 @@ namespace RGM.Modes
                 {
                     soulMates.Add(players[i], players[i + 1]);
                     soulMates.Add(players[i + 1], players[i]);
-
-                    for (int n = i; n < i + 2; n++)
-                        players[n].ShowHint($"당신의 단짝이 존재하나 누군지 모릅니다..", 5);
-                }
-                else
-                {
-                    soulMates.Add(players[i], null);
-
-                    players[i].ShowHint($"당신은 <color=#BFFF00>외톨이</color>입니다.\n<color=red>분노</color>로 인해 체력이 2배 상승합니다.", 5);
-                    players[i].MaxHealth = players[i].MaxHealth * 2;
-                    players[i].Health = players[i].MaxHealth;
-                    players[i].Group = new UserGroup { BadgeText = "외톨이", BadgeColor = "lime" };
                 }
             }
 
-            yield return Timing.WaitForSeconds(5f);
+            yield return Timing.WaitForSeconds(10f);
 
             while (true)
             {
-                foreach (var player in Player.List)
+                foreach (var player in soulMates.Keys.ToList())
                 {
-                    /*
-                    if (soulMates.ContainsKey(player) && soulMates[player] != null && soulMates[player].IsAlive)
-                        player.ShowHint($"당신의 단짝은 <b>{soulMates[player].CurrentRoom.Name}</b>에 있습니다.", 1.2f);
-                    */
-
-                    if (Player.List.ToList().Where(x => x.IsAlive).Count() < 3 && player.Role.Type != PlayerRoles.RoleTypeId.Tutorial)
+                    if (player.IsDead)
                     {
-                        Player.List.ToList().Where(x => x.IsAlive).ToList().ForEach(x => Server.ExecuteCommand($"/fc {x.Id} Tutorial 1"));
-                        Player.List.ToList().ForEach(x => x.Broadcast(15, $"<size=30><b>{(Player.List.ToList().Where(x => x.IsAlive).Count() == 2 ? "<color=#ffd700>소울메이트</color>" : "<color=#BFFF00>외톨이</color>")}</b>({string.Join(", ", Player.List.ToList().Where(x => x.IsAlive).Select(x => x.DisplayNickname))})의 승리입니다!</size>"));
-                        yield return Timing.WaitForSeconds(100f);
+                        Player soulMate = soulMates[player];
+                        soulMates.Remove(player);
+                    }
+                    else if (player.IsAlive && !soulMates.ContainsKey(player))
+                    {
+                        waitingPlayers.Add(player);
                     }
                 }
 
-                yield return Timing.WaitForSeconds(1f);
+                if (waitingPlayers.Count >= 2)
+                {
+                    Player player1 = waitingPlayers[0];
+                    Player player2 = waitingPlayers[1];
+
+                    soulMates.Add(player1, player2);
+                    soulMates.Add(player2, player1);
+
+                    waitingPlayers.Remove(player1);
+                    waitingPlayers.Remove(player2);
+                }
+
+                yield return Timing.WaitForSeconds(10f);
             }
         }
 
@@ -97,7 +117,13 @@ namespace RGM.Modes
                         if (CurrentItem.ContainsKey(player))
                         {
                             if (CurrentItem[player] != player.CurrentItem)
-                                soulmate.CurrentItem = player.CurrentItem;
+                            {
+                                foreach (var Item in soulmate.Items)
+                                {
+                                    if (Item.Type == player.CurrentItem.Type)
+                                        soulmate.CurrentItem = Item;
+                                }
+                            }
                         }
                         else
                         {
@@ -162,6 +188,36 @@ namespace RGM.Modes
 
             ev.Player.MaxHealth = MaxHealth;
             ev.Player.Health = Health;
+        }
+
+        public void OnItemAdded(Exiled.Events.EventArgs.Player.ItemAddedEventArgs ev)
+        {
+            if (!ev.Item.IsAmmo && soulMates.ContainsKey(ev.Player))
+            {
+                Player soulMate = soulMates[ev.Player];
+
+                if (soulMate != null && soulMate.IsAlive)
+                {
+                    soulMate.AddItem(ev.Item.Type);
+                }
+            }
+        }
+
+        public void OnItemRemoved(Exiled.Events.EventArgs.Player.ItemRemovedEventArgs ev)
+        {
+            if (!ev.Item.IsAmmo && soulMates.ContainsKey(ev.Player))
+            {
+                Player soulMate = soulMates[ev.Player];
+
+                if (soulMate != null && soulMate.IsAlive)
+                {
+                    foreach (var Item in soulMate.Items)
+                    {
+                        if (Item.Type == ev.Item.Type)
+                            soulMate.RemoveItem(Item);
+                    }
+                }
+            }
         }
     }
 }
