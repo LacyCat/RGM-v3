@@ -205,6 +205,7 @@ namespace RGM.Modes
 
                             if (player != target)
                             {
+                                target.EnableEffect(EffectType.Slowness, 50, 1);
                                 Hitmarker.SendHitmarkerDirectly(player.ReferenceHub, 0.5f);
                             }
                         }
