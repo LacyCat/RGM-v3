@@ -64,7 +64,7 @@ namespace RGM.Modes
                         PlayerRotation.Add(player, player.Rotation);
                     }
 
-                    yield return Timing.WaitForSeconds(0.1f);
+                    yield return Timing.WaitForSeconds(0.35f);
                 }
             }
         }
@@ -96,7 +96,7 @@ namespace RGM.Modes
                         }
                     }
 
-                    yield return Timing.WaitForSeconds(0.2f);
+                    yield return Timing.WaitForSeconds(0.35f);
                 }
             }
         }
