@@ -31,6 +31,7 @@ namespace RGM.Modes
             Door.List.ToList().ForEach(x => x.Lock(1205, Exiled.API.Enums.DoorLockType.Lockdown079));
 
             Timing.RunCoroutine(OnModeStarted());
+            Timing.RunCoroutine(CleanAll());
 
             Exiled.Events.Handlers.Player.Dying += OnDying;
             Exiled.Events.Handlers.Player.Spawned += OnSpawned;
@@ -77,7 +78,10 @@ namespace RGM.Modes
                 player.Position = BusterCall.Position;
                 player.Broadcast(5, "<b><size=30>[<color=yellow>버스터콜</color>]</size></b>\n<size=20>모두가 한자리에 모입니다.</size>");
             }
+        }
 
+        public IEnumerator<float> CleanAll()
+        {
             while (true)
             {
                 Map.CleanAllItems();
