@@ -25,6 +25,7 @@ namespace RGM.Modes
             Exiled.Events.Handlers.Player.Died += OnDied;
             Exiled.Events.Handlers.Player.Hurt += OnHurt;
             Exiled.Events.Handlers.Player.Healed += OnHealed;
+            Exiled.Events.Handlers.Player.Escaping += OnEscaping;
         }
 
         public IEnumerator<float> OnModeStarted()
@@ -150,6 +151,17 @@ namespace RGM.Modes
                     soulMate.Health = ev.Player.Health;
                 }
             }
+        }
+
+        public async void OnEscaping(Exiled.Events.EventArgs.Player.EscapingEventArgs ev)
+        {
+            float MaxHealth = ev.Player.MaxHealth;
+            float Health = ev.Player.Health;
+
+            await Task.Delay(500);
+
+            ev.Player.MaxHealth = MaxHealth;
+            ev.Player.Health = Health;
         }
     }
 }
