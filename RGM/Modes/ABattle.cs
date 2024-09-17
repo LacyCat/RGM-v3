@@ -129,7 +129,7 @@ namespace RGM.Modes
 
         public IEnumerator<float> OnModeStarted()
         {
-            // Server.ExecuteCommand($"/mp load ABattle");
+            Server.ExecuteCommand($"/mp load ABattle");
 
             while (true)
             {
@@ -256,7 +256,7 @@ namespace RGM.Modes
                 abilityGrade = "[희귀]";
             else if (grade <= 995)
                 abilityGrade = "[영웅]";
-            else if (grade <= 1000)
+            else if (grade <= 999)
                 abilityGrade = "[전설]";
             else
                 abilityGrade = "[신화]";
