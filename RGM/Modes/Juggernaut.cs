@@ -178,7 +178,7 @@ namespace RGM.Modes
 
         public void OnReceivingEffect(Exiled.Events.EventArgs.Player.ReceivingEffectEventArgs ev)
         {
-            if (ev.Player == juggernaut)
+            if (ev.Effect.GetEffectType() != EffectType.SinkHole)
                 ev.IsAllowed = false;
         }
     }

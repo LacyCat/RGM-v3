@@ -151,31 +151,5 @@ namespace RGM.Modes
                 }
             }
         }
-
-        public void OnItemAdded(Exiled.Events.EventArgs.Player.ItemAddedEventArgs ev)
-        {
-            if (!ev.Item.IsAmmo && soulMates.ContainsKey(ev.Player))
-            {
-                Player soulMate = soulMates[ev.Player];
-
-                if (soulMate != null && soulMate.IsAlive && !soulMate.Items.Contains(ev.Item))
-                {
-                    soulMate.AddItem(ev.Item);
-                }
-            }
-        }
-
-        public void OnItemRemoved(Exiled.Events.EventArgs.Player.ItemRemovedEventArgs ev)
-        {
-            if (!ev.Item.IsAmmo && soulMates.ContainsKey(ev.Player))
-            {
-                Player soulMate = soulMates[ev.Player];
-
-                if (soulMate != null && soulMate.IsAlive && soulMate.Items.Contains(ev.Item))
-                {
-                    soulMate.RemoveItem(ev.Item);
-                }
-            }
-        }
     }
 }
