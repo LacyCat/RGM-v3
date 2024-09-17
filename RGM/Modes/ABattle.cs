@@ -313,7 +313,9 @@ namespace RGM.Modes
                 case "진화": player.Scale = new Vector3(player.Scale.x - 0.12f, player.Scale.y - 0.12f, player.Scale.z - 0.12f); break;
                 case "체력 보충": 
                     player.TryAddCandy(CandyKindID.Blue);
-                    Server.ExecuteCommand($"/forceeq {player.Id} 42");
+
+                    if (player.IsScp)
+                        Server.ExecuteCommand($"/forceeq {player.Id} 42");
                     break;
                 case "랜덤박스":
                     int rn = UnityEngine.Random.Range(0, 55);

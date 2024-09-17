@@ -50,7 +50,6 @@ namespace RGM.Modes
             foreach (var player in Player.List)
             {
                 player.Role.Set(PlayerRoles.RoleTypeId.Tutorial);
-                player.EnableEffect(EffectType.FogControl);
                 Timing.CallDelayed(0.01f, () =>
                 {
                     player.Position = RandomPosition();
