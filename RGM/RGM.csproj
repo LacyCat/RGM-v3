@@ -186,6 +186,7 @@
     <Compile Include="Modes\HotPotato.cs" />
     <Compile Include="Modes\JumpMap.cs" />
     <Compile Include="Modes\RedLightGreenLight.cs" />
+    <Compile Include="Modes\Reversal.cs" />
     <Compile Include="Modes\Siberia.cs" />
     <Compile Include="Modes\InfiniteAmmo.cs" />
     <Compile Include="Modes\Jailbird.cs" />
