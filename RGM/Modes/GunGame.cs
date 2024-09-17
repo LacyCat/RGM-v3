@@ -138,19 +138,20 @@ namespace RGM.Modes
             player.ClearInventory();
             player.AddItem(GunsList[Stage[player]]);
             player.Position = new Vector3(SelectedDoor.Position.x, SelectedDoor.Position.y + 2, SelectedDoor.Position.z);
+
+            List<string> AmmosList = new List<string>() { "19", "22", "27", "28", "29" };
+
+            foreach (var Ammo in AmmosList)
+            {
+                for (int i = 1; i < 4; i++)
+                    Server.ExecuteCommand($"/give {ev.Player.Id} {Ammo}");
+            }
         }
 
         public void OnDying(Exiled.Events.EventArgs.Player.DyingEventArgs ev)
         {
             if (Stage.ContainsKey(ev.Player))
             {
-                List<string> AmmosList = new List<string>() { "19", "22", "27", "28", "29" };
-
-                foreach (var Ammo in AmmosList)
-                {
-                    for (int i = 1; i < 4; i++)
-                        Server.ExecuteCommand($"/give {ev.Player.Id} {Ammo}");
-                }
 
                 Stage[ev.Attacker]++;
                 ev.Attacker.ClearInventory();
