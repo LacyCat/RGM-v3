@@ -215,6 +215,7 @@
     <Compile Include="Modes\SpecialAbility.cs" />
     <Compile Include="Modes\SpecialAbilities\N0.cs" />
     <Compile Include="Modes\Spirit.cs" />
+    <Compile Include="Modes\Spleef.cs" />
     <Compile Include="Modes\StandardItems.cs" />
     <Compile Include="Modes\SuperStar.cs" />
     <Compile Include="Modes\Tomb.cs" />
