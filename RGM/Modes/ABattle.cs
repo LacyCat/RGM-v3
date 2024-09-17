@@ -119,12 +119,12 @@ namespace RGM.Modes
             Exiled.Events.Handlers.Player.ChangedItem += OnChangedItem;
             Exiled.Events.Handlers.Player.Dying += OnDying;
             Exiled.Events.Handlers.Player.InteractingDoor += InteractingDoor;
-            Exiled.Events.Handlers.Player.InteractingLocker += InteractingLocker;
-            Exiled.Events.Handlers.Player.DroppedItem += DroppedItem;
-            Exiled.Events.Handlers.Player.Hurting += Hurting;
+            Exiled.Events.Handlers.Player.InteractingLocker += OnInteractingLocker;
+            Exiled.Events.Handlers.Player.DroppedItem += OnDroppedItem;
+            Exiled.Events.Handlers.Player.Hurting += OnHurting;
             Exiled.Events.Handlers.Player.Hurt += OnHurt;
             Exiled.Events.Handlers.Player.Shot += OnShot;
-            Exiled.Events.Handlers.Player.ChangingSpectatedPlayer += ChangingSpectatedPlayer;
+            Exiled.Events.Handlers.Player.ChangingSpectatedPlayer += OnChangingSpectatedPlayer;
         }
 
         public IEnumerator<float> OnModeStarted()
@@ -681,7 +681,7 @@ namespace RGM.Modes
             }
         }
 
-        public void InteractingLocker(Exiled.Events.EventArgs.Player.InteractingLockerEventArgs ev)
+        public void OnInteractingLocker(Exiled.Events.EventArgs.Player.InteractingLockerEventArgs ev)
         {
             if (ev.Player != null && PlayerAbilities[ev.Player.UserId].Contains("[일반] 행운") && UnityEngine.Random.Range(0, 100) <= 5)
             {
@@ -699,7 +699,7 @@ namespace RGM.Modes
                 ev.IsAllowed = false;
         }
 
-        public void DroppedItem(Exiled.Events.EventArgs.Player.DroppedItemEventArgs ev)
+        public void OnDroppedItem(Exiled.Events.EventArgs.Player.DroppedItemEventArgs ev)
         {
             if (PlayerAbilities[ev.Player.UserId].Contains("[영웅] 도박꾼"))
             {
@@ -714,7 +714,7 @@ namespace RGM.Modes
             }
         }
 
-        public void Hurting(Exiled.Events.EventArgs.Player.HurtingEventArgs ev)
+        public void OnHurting(Exiled.Events.EventArgs.Player.HurtingEventArgs ev)
         {
             try
             {
@@ -752,7 +752,7 @@ namespace RGM.Modes
                 ev.Player.DisableEffect(EffectType.Invisible);
         }
 
-        public void ChangingSpectatedPlayer(Exiled.Events.EventArgs.Player.ChangingSpectatedPlayerEventArgs ev)
+        public void OnChangingSpectatedPlayer(Exiled.Events.EventArgs.Player.ChangingSpectatedPlayerEventArgs ev)
         {
             if (ev.NewTarget != null)
             {
