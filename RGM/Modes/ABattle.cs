@@ -684,7 +684,7 @@ namespace RGM.Modes
 
                     var g = (ExplosiveGrenade)Item.Create(ItemType.GrenadeHE, ev.Player);
                     g.FuseTime = 3f;
-                    g.SpawnActive(new Vector3(UnityEngine.Random.Range(-9.941405f, 10.92998f), 1004.188f, UnityEngine.Random.Range(-15.76172f, 2.550781f)), ev.Player);
+                    g.SpawnActive(ev.Player.Position, ev.Player);
                 }
 
                 if (BlackOutCooldown.Contains(ev.Player.UserId))
