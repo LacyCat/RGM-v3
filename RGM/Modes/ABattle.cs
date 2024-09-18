@@ -85,7 +85,7 @@ namespace RGM.Modes
         public Dictionary<string, string> EpicAbilities = new Dictionary<string, string>()
         {
             {"[영웅] 테러리스트의 유품", "핑크 사탕을 지급받습니다."},
-            {"[영웅] 도박꾼", "아이템을 버리면 새로운 아이템을 받지만, 5% 확률로 손이 잘립니다!"},
+            {"[영웅] 도박꾼", "아이템을 버리면 새로운 아이템을 받지만, 5% 확률로 손이 잘립니다."},
             {"[영웅] 랜덤상자", "랜덤하지만 좋은 아이템을 지급받습니다."},
             // {"[영웅] 핵 리모컨", "핵 프로세스를 시작합니다."},
             {"[영웅] 수리 기사", "모든 잠겨진 문에 액세스할 수 있으며, 테슬라를 작동시키지 않습니다."},
@@ -121,6 +121,7 @@ namespace RGM.Modes
             Exiled.Events.Handlers.Player.Dying += OnDying;
             Exiled.Events.Handlers.Player.InteractingDoor += OnInteractingDoor;
             Exiled.Events.Handlers.Player.InteractingLocker += OnInteractingLocker;
+            Exiled.Events.Handlers.Player.TriggeringTesla += OnTriggeringTesla;
             Exiled.Events.Handlers.Player.DroppedItem += OnDroppedItem;
             Exiled.Events.Handlers.Player.Hurting += OnHurting;
             Exiled.Events.Handlers.Player.Hurt += OnHurt;
