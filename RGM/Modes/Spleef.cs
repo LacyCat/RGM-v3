@@ -67,22 +67,19 @@ namespace RGM.Modes
                     if (Physics.Raycast(player.Position, Vector3.down, out RaycastHit hit, 1f, (LayerMask)1))
                     {
                         if (hit.transform.name == "Platform")
-                        {
                             Processing(hit.transform.gameObject);
-                        }
 
                         else if (hit.transform.name == "Lava")
                             player.Kill("용암을 좋아한 나머지 뛰어들어갔습니다.");
                     }
                     else
                     {
-                        Vector3 playerPosition = player.Position;
                         Transform closestPlatform = null;
                         float closestDistance = float.MaxValue;
 
-                        foreach (var platform in GameObject.FindGameObjectsWithTag("Platform"))
+                        foreach (var platform in GameObject.FindObjectsOfType<Transform>().Where(t => t.name == "Platform").ToList())
                         {
-                            float distance = Vector3.Distance(playerPosition, platform.transform.position);
+                            float distance = Vector3.Distance(player.Position, platform.transform.position);
 
                             if (distance < closestDistance)
                             {
