@@ -26,6 +26,7 @@ namespace RGM.Modes
             Exiled.Events.Handlers.Player.Healed += OnHealed;
             Exiled.Events.Handlers.Player.PickingUpItem += OnPickingUpItem;
             Exiled.Events.Handlers.Player.DroppingItem += OnDroppingItem;
+            Exiled.Events.Handlers.Player.UsingItemCompleted += OnUsingItemCompleted;
             Exiled.Events.Handlers.Player.Escaping += OnEscaping;
 
             Timing.RunCoroutine(OnModeStarted());
@@ -86,6 +87,17 @@ namespace RGM.Modes
 
                     soulMates.Add(first, second);
                     soulMates.Add(second, first);
+
+
+                    second.MaxArtificialHealth = first.MaxArtificialHealth;
+                    second.ArtificialHealth = first.ArtificialHealth;
+                    second.HumeShield = first.HumeShield;
+                    second.MaxHealth = first.MaxHealth;
+                    second.Health = first.Health;
+
+                    second.ClearInventory();
+                    foreach (var Item in first.Items)
+                        second.AddItem(Item.Type);
                 }
 
                 yield return Timing.WaitForSeconds(1f);
@@ -104,20 +116,17 @@ namespace RGM.Modes
                     {
                         if (currentItems[player] != player.CurrentItem)
                         {
-                            Timing.CallDelayed(0.1f, () =>
-                            {
-                                Player soulMate = soulMates[player];
+                            Player soulMate = soulMates[player];
 
-                                foreach (var Item in soulMate.Items)
+                            foreach (var Item in soulMate.Items)
+                            {
+                                if (Item.Type == player.CurrentItem.Type)
                                 {
-                                    if (Item.Type == player.CurrentItem.Type)
-                                    {
-                                        soulMate.CurrentItem = Item;
-                                        break;
-                                    }
+                                    soulMate.CurrentItem = Item;
+                                    break;
                                 }
-                            });
-                        }
+                            }
+                        };
 
                         currentItems[player] = player.CurrentItem;
                     }
@@ -152,6 +161,7 @@ namespace RGM.Modes
 
                 soulMate.MaxArtificialHealth = ev.Player.MaxArtificialHealth;
                 soulMate.ArtificialHealth = ev.Player.ArtificialHealth;
+                soulMate.HumeShield = ev.Player.HumeShield;
                 soulMate.MaxHealth = ev.Player.MaxHealth;
                 soulMate.Health = ev.Player.Health;
             }
@@ -165,6 +175,7 @@ namespace RGM.Modes
 
                 soulMate.MaxArtificialHealth = ev.Player.MaxArtificialHealth;
                 soulMate.ArtificialHealth = ev.Player.ArtificialHealth;
+                soulMate.HumeShield = ev.Player.HumeShield;
                 soulMate.MaxHealth = ev.Player.MaxHealth;
                 soulMate.Health = ev.Player.Health;
             }
@@ -197,6 +208,23 @@ namespace RGM.Modes
             }
         }
 
+        public void OnUsingItemCompleted(Exiled.Events.EventArgs.Player.UsingItemCompletedEventArgs ev)
+        {
+            if (soulMates.ContainsKey(ev.Player))
+            {
+                Player soulMate = soulMates[ev.Player];
+
+                foreach (var Item in soulMate.Items)
+                {
+                    if (Item.Type == ev.Item.Type)
+                    {
+                        soulMate.RemoveItem(Item);
+                        break;
+                    }
+                }
+            }
+        }
+
         public void OnEscaping(Exiled.Events.EventArgs.Player.EscapingEventArgs ev)
         {
             Timing.CallDelayed(0.1f, () => 
@@ -207,8 +235,13 @@ namespace RGM.Modes
 
                     soulMate.MaxArtificialHealth = ev.Player.MaxArtificialHealth;
                     soulMate.ArtificialHealth = ev.Player.ArtificialHealth;
+                    soulMate.HumeShield = ev.Player.HumeShield;
                     ev.Player.MaxHealth = soulMate.MaxHealth;
                     ev.Player.Health = soulMate.Health;
+
+                    soulMate.ClearInventory();
+                    foreach (var Item in ev.Player.Items)
+                        soulMate.AddItem(Item.Type);
                 }
             });
         }
