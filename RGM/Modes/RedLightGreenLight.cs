@@ -59,9 +59,9 @@ namespace RGM.Modes
                         PlayerPosition.Add(player, player.Position);
                         PlayerRotation.Add(player, player.Rotation);
                     }
-
-                    yield return Timing.WaitForSeconds(0.5f);
                 }
+
+                yield return Timing.WaitForSeconds(1f);
             }
         }
 
@@ -72,7 +72,7 @@ namespace RGM.Modes
                 while (Light == "Green")
                     yield return Timing.WaitForSeconds(0.1f);
 
-                yield return Timing.WaitForSeconds(0.5f);
+                yield return Timing.WaitForSeconds(1f);
 
                 while (Light == "Red")
                 {
@@ -90,7 +90,7 @@ namespace RGM.Modes
                         }
                     }
 
-                    yield return Timing.WaitForSeconds(0.5f);
+                    yield return Timing.WaitForSeconds(1f);
                 }
             }
         }
