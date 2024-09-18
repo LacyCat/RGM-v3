@@ -205,7 +205,7 @@ namespace RGM.Modes
                 {
                     if (twinkles.Contains(player))
                     {
-                        if (Physics.Raycast(player.ReferenceHub.PlayerCameraReference.position + player.ReferenceHub.PlayerCameraReference.forward * 0.2f, player.ReferenceHub.PlayerCameraReference.forward, out RaycastHit hit, 2f, InventorySystem.Items.Firearms.Modules.StandardHitregBase.HitregMask) &&
+                        if (Physics.Raycast(player.ReferenceHub.PlayerCameraReference.position + player.ReferenceHub.PlayerCameraReference.forward * 0.2f, player.ReferenceHub.PlayerCameraReference.forward, out RaycastHit hit, 100f, InventorySystem.Items.Firearms.Modules.StandardHitregBase.HitregMask) &&
                             hit.collider.TryGetComponent<IDestructible>(out IDestructible destructible))
                         {
                             var target = Player.Get(hit.collider.GetComponentInParent<ReferenceHub>());
@@ -232,7 +232,7 @@ namespace RGM.Modes
                 {
                     if (player.CurrentItem != null && FlashLightSerials.Contains(player.CurrentItem.Serial))
                     {
-                        if (Physics.Raycast(player.ReferenceHub.PlayerCameraReference.position + player.ReferenceHub.PlayerCameraReference.forward * 0.2f, player.ReferenceHub.PlayerCameraReference.forward, out RaycastHit hit, 15f, InventorySystem.Items.Firearms.Modules.StandardHitregBase.HitregMask) &&
+                        if (Physics.Raycast(player.ReferenceHub.PlayerCameraReference.position + player.ReferenceHub.PlayerCameraReference.forward * 0.2f, player.ReferenceHub.PlayerCameraReference.forward, out RaycastHit hit, 45f, InventorySystem.Items.Firearms.Modules.StandardHitregBase.HitregMask) &&
                             hit.collider.TryGetComponent<IDestructible>(out IDestructible destructible))
                         {
                             var target = Player.Get(hit.collider.GetComponentInParent<ReferenceHub>());
