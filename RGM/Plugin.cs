@@ -430,7 +430,11 @@ namespace RGM
 
         public void OnDetonating(Exiled.Events.EventArgs.Warhead.DetonatingEventArgs ev)
         {
-            Player.List.ToList().Where(x => x.CurrentRoom.Type != RoomType.Surface).ToList().ForEach(x => x.Kill("핵폭발에 사망하였습니다."));
+            Player.List.ToList().Where(x => x.CurrentRoom.Type != RoomType.Surface && x.IsAlive).ToList().ForEach(x => 
+            {
+                x.IsGodModeEnabled = false;
+                x.Kill("핵폭발에 사망하였습니다."); 
+            });
         }
 
         public void OnInteractingScp330(Exiled.Events.EventArgs.Scp330.InteractingScp330EventArgs ev)
