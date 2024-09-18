@@ -26,6 +26,7 @@ namespace RGM.Modes
             Exiled.Events.Handlers.Player.Healed += OnHealed;
             Exiled.Events.Handlers.Player.PickingUpItem += OnPickingUpItem;
             Exiled.Events.Handlers.Player.DroppingItem += OnDroppingItem;
+            Exiled.Events.Handlers.Player.Escaping += OnEscaping;
 
             Timing.RunCoroutine(OnModeStarted());
             Timing.RunCoroutine(SoulMateMatching());
@@ -149,6 +150,8 @@ namespace RGM.Modes
             {
                 Player soulMate = soulMates[ev.Player];
 
+                soulMate.MaxArtificialHealth = ev.Player.MaxArtificialHealth;
+                soulMate.ArtificialHealth = ev.Player.ArtificialHealth;
                 soulMate.MaxHealth = ev.Player.MaxHealth;
                 soulMate.Health = ev.Player.Health;
             }
@@ -160,6 +163,8 @@ namespace RGM.Modes
             {
                 Player soulMate = soulMates[ev.Player];
 
+                soulMate.MaxArtificialHealth = ev.Player.MaxArtificialHealth;
+                soulMate.ArtificialHealth = ev.Player.ArtificialHealth;
                 soulMate.MaxHealth = ev.Player.MaxHealth;
                 soulMate.Health = ev.Player.Health;
             }
@@ -190,6 +195,22 @@ namespace RGM.Modes
                     }
                 }
             }
+        }
+
+        public void OnEscaping(Exiled.Events.EventArgs.Player.EscapingEventArgs ev)
+        {
+            Timing.CallDelayed(0.1f, () => 
+            {
+                if (soulMates.ContainsKey(ev.Player))
+                {
+                    Player soulMate = soulMates[ev.Player];
+
+                    soulMate.MaxArtificialHealth = ev.Player.MaxArtificialHealth;
+                    soulMate.ArtificialHealth = ev.Player.ArtificialHealth;
+                    ev.Player.MaxHealth = soulMate.MaxHealth;
+                    ev.Player.Health = soulMate.Health;
+                }
+            });
         }
     }
 }
