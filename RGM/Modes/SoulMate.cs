@@ -21,9 +21,14 @@ namespace RGM.Modes
 
         public void OnEnabled()
         {
+            Exiled.Events.Handlers.Player.Hurt += OnHurt;
+            Exiled.Events.Handlers.Player.Healed += OnHealed;
+            Exiled.Events.Handlers.Player.PickingUpItem += OnPickingUpItem;
+            Exiled.Events.Handlers.Player.DroppingItem += OnDroppingItem;
+
             Timing.RunCoroutine(OnModeStarted());
-            Timing.RunCoroutine(SoulMateAsync());
             Timing.RunCoroutine(SoulMateMatching());
+            Timing.RunCoroutine(CurrentItemAsync());
         }
 
         public IEnumerator<float> OnModeStarted()
@@ -39,25 +44,6 @@ namespace RGM.Modes
                         Player.List.ToList().Where(x => x.IsAlive).ToList().ForEach(x => Server.ExecuteCommand($"/fc {x.Id} Tutorial 1"));
                         Player.List.ToList().ForEach(x => x.Broadcast(15, $"<size=30><b>{(Player.List.ToList().Where(x => x.IsAlive).Count() == 2 ? "<color=#ffd700>소울메이트</color>" : "<color=#BFFF00>외톨이</color>")}</b>({string.Join(", ", Player.List.ToList().Where(x => x.IsAlive).Select(x => x.DisplayNickname))})의 승리입니다!</size>"));
                         yield return Timing.WaitForSeconds(100f);
-                    }
-                }
-
-                yield return Timing.WaitForSeconds(1f);
-            }
-        }
-
-        public IEnumerator<float> SoulMateAsync()
-        {
-            while (true)
-            {
-                foreach (var player in Player.List)
-                {
-                    if (soulMates.ContainsKey(player))
-                    {
-                        Player soulMate = soulMates[player];
-
-                        soulMate.MaxHealth = player.MaxHealth;
-                        soulMate.Health = player.Health;
                     }
                 }
 
@@ -101,6 +87,85 @@ namespace RGM.Modes
                 }
 
                 yield return Timing.WaitForSeconds(1f);
+            }
+        }
+
+        public IEnumerator<float> CurrentItemAsync()
+        {
+            Dictionary<Player, Item> currentItems = new Dictionary<Player, Item>();
+
+            while (true)
+            {
+                foreach (var player in Player.List)
+                {
+                    if (currentItems.ContainsKey(player))
+                    {
+                        if (currentItems[player] != player.CurrentItem)
+                        {
+                            Player soulMate = soulMates[player];
+
+                            foreach (var Item in soulMate.Items)
+                            {
+                                if (Item.Type == player.CurrentItem.Type)
+                                    soulMate.CurrentItem = Item;
+                            }
+                        }
+
+                        currentItems[player] = player.CurrentItem;
+                    }
+                    else
+                    {
+                        currentItems.Add(player, player.CurrentItem);
+                    }
+                }
+
+                yield return Timing.WaitForSeconds(1f);
+            }
+        }
+
+        public void OnHurt(Exiled.Events.EventArgs.Player.HurtEventArgs ev)
+        {
+            if (soulMates.ContainsKey(ev.Player))
+            {
+                Player soulMate = soulMates[ev.Player];
+
+                soulMate.MaxHealth = ev.Player.MaxHealth;
+                soulMate.Health = ev.Player.Health;
+            }
+        }
+
+        public void OnHealed(Exiled.Events.EventArgs.Player.HealedEventArgs ev)
+        {
+            if (soulMates.ContainsKey(ev.Player))
+            {
+                Player soulMate = soulMates[ev.Player];
+
+                soulMate.MaxHealth = ev.Player.MaxHealth;
+                soulMate.Health = ev.Player.Health;
+            }
+        }
+
+        public void OnPickingUpItem(Exiled.Events.EventArgs.Player.PickingUpItemEventArgs ev)
+        {
+            if (soulMates.ContainsKey(ev.Player))
+            {
+                Player soulMate = soulMates[ev.Player];
+
+                soulMate.AddItem(ev.Pickup.Type);
+            }
+        }
+
+        public void OnDroppingItem(Exiled.Events.EventArgs.Player.DroppingItemEventArgs ev)
+        {
+            if (soulMates.ContainsKey(ev.Player))
+            {
+                Player soulMate = soulMates[ev.Player];
+
+                foreach (var Item in soulMate.Items)
+                {
+                    if (Item.Type == ev.Item.Type)
+                        soulMate.RemoveItem(Item);
+                }
             }
         }
     }
