@@ -27,8 +27,6 @@ namespace RGM.Modes
 
         public IEnumerator<float> OnModeStarted()
         {
-            yield return Timing.WaitForSeconds(10f);
-
             Player.List.ToList().ForEach(x => x.ShowHint($"<color=green>초록 불</color>! 움직여도 됩니다.", 250));
 
             while (true)
@@ -47,8 +45,6 @@ namespace RGM.Modes
 
         public IEnumerator<float> RecordPlayerInfo()
         {
-            yield return Timing.WaitForSeconds(10f);
-
             while (true)
             {
                 foreach (var player in Player.List)
@@ -64,15 +60,13 @@ namespace RGM.Modes
                         PlayerRotation.Add(player, player.Rotation);
                     }
 
-                    yield return Timing.WaitForSeconds(0.35f);
+                    yield return Timing.WaitForSeconds(0.5f);
                 }
             }
         }
 
         public IEnumerator<float> CheckRedLight()
         {
-            yield return Timing.WaitForSeconds(10f);
-
             while (true)
             {
                 while (Light == "Green")
@@ -96,7 +90,7 @@ namespace RGM.Modes
                         }
                     }
 
-                    yield return Timing.WaitForSeconds(0.35f);
+                    yield return Timing.WaitForSeconds(0.5f);
                 }
             }
         }
