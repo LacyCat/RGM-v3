@@ -9,7 +9,9 @@ using CommandSystem.Commands.RemoteAdmin;
 using Exiled.API.Enums;
 using Exiled.API.Extensions;
 using Exiled.API.Features;
+using Exiled.API.Features.Doors;
 using Exiled.API.Features.Items;
+using Exiled.API.Features.Roles;
 using Exiled.Loader.Models;
 using InventorySystem;
 using InventorySystem.Items.Coin;
@@ -112,6 +114,17 @@ namespace RGM.Modes
             {"[신화] 눈빛맨", "쳐다보는 것만으로도 당신을 두려워할 것입니다!"}
         };
 
+        public Dictionary<string, string> Scp079Abilities = new Dictionary<string, string>() 
+        {
+            {"[전용] 핑 리모컨", "핑한 장소에 0.5초 간 정전이 됩니다."},
+            {"[전용] 간이 충전기", "즉시 20 경험치를 받습니다."},
+            {"[전용] 과전류", "10초 간 전력이 무제한이 됩니다."},
+            {"[전용] 랜덤 함수", "정전하면 랜덤한 방 5개를 더 정전합니다."},
+            {"[전용] RTX4090", "격리당하면 튜토리얼(능력 5~10개)로 부활합니다."},
+            {"[전용] 고대의 존재 압도", "마이크를 키는 순간 해당 방에 있는 플레이어의 속도가 감소합니다."}
+        };
+
+
         public void OnEnabled()
         {
             Exiled.Events.Handlers.Player.TogglingNoClip += OnTogglingNoClip;
@@ -125,8 +138,13 @@ namespace RGM.Modes
             Exiled.Events.Handlers.Player.DroppedItem += OnDroppedItem;
             Exiled.Events.Handlers.Player.Hurting += OnHurting;
             Exiled.Events.Handlers.Player.Hurt += OnHurt;
-            Exiled.Events.Handlers.Player.Shot += OnShot;
             Exiled.Events.Handlers.Player.ChangingSpectatedPlayer += OnChangingSpectatedPlayer;
+
+            Exiled.Events.Handlers.Scp079.GainingLevel += OnGainingLevel;
+            Exiled.Events.Handlers.Scp079.Pinging += OnPinging;
+            Exiled.Events.Handlers.Scp079.ZoneBlackout += OnZoneBlackout;
+            Exiled.Events.Handlers.Scp079.Recontained += OnRecontained;
+            Exiled.Events.Handlers.Scp079.ChangingSpeakerStatus += OnChangingSpeakerStatus;
 
             Timing.RunCoroutine(OnModeStarted());
             Timing.RunCoroutine(UpgradeBody());
@@ -259,16 +277,22 @@ namespace RGM.Modes
             int grade = UnityEngine.Random.Range(1, 1001);
             string abilityGrade;
 
-            if (grade <= 650)
-                abilityGrade = "[일반]";
-            else if (grade <= 920)
-                abilityGrade = "[희귀]";
-            else if (grade <= 995)
-                abilityGrade = "[영웅]";
-            else if (grade <= 999)
-                abilityGrade = "[전설]";
+            if (player.Role.Type == RoleTypeId.Scp079)
+                abilityGrade = "[전용]";
+
             else
-                abilityGrade = "[신화]";
+            {
+                if (grade <= 650)
+                    abilityGrade = "[일반]";
+                else if (grade <= 920)
+                    abilityGrade = "[희귀]";
+                else if (grade <= 995)
+                    abilityGrade = "[영웅]";
+                else if (grade <= 999)
+                    abilityGrade = "[전설]";
+                else
+                    abilityGrade = "[신화]";
+            }
 
             Dictionary<string, string> AbilityList()
             {
@@ -288,18 +312,24 @@ namespace RGM.Modes
                     Server.ExecuteCommand($"/cassie_sl {player.DisplayNickname}(이)가 <color=#ffd700>[전설]</color> 업그레이드를 입수하였습니다.");
                     return LegendAbilities;
                 }
-                else
+                else if (abilityGrade == "[신화]")
                 {
                     Cassie.Clear();
                     Server.ExecuteCommand($"/cassie_sl {player.DisplayNickname}(이)가 <color=#DF0101>[신화]</color> 업그레이드를 입수하였습니다.");
                     return MythicAbilities;
+                }
+                else
+                {
+                    Cassie.Clear();
+                    Server.ExecuteCommand($"/cassie_sl {player.DisplayNickname}(이)가 <color=#F7819F>[전용]</color> 업그레이드를 입수하였습니다.");
+                    return Scp079Abilities;
                 }
             }
 
             void ApplyGiveAbility(string abilityName)
             {
                 PlayerAbilities[player.UserId].Add(abilityName);
-                string styleName = abilityName.Replace("[신화]", "<color=#DF0101>[신화]</color>").Replace("[전설]", "<color=#ffd700>[전설]</color>").Replace("[영웅]", "<color=#FF00FF>[영웅]</color>").Replace("[희귀]", "<color=#2ECCFA>[희귀]</color>").Replace("[일반]", "<color=#A4A4A4>[일반]</color>");
+                string styleName = abilityName.Replace("[전용]", "<color=#F7819F>[전용]</color>").Replace("[신화]", "<color=#DF0101>[신화]</color>").Replace("[전설]", "<color=#ffd700>[전설]</color>").Replace("[영웅]", "<color=#FF00FF>[영웅]</color>").Replace("[희귀]", "<color=#2ECCFA>[희귀]</color>").Replace("[일반]", "<color=#A4A4A4>[일반]</color>");
                 player.ClearBroadcasts();
                 player.AddBroadcast(8, $"<size=20><b>다음 능력이 추가되었습니다.</b></size>\n<size=30>{styleName}</size>\n<size=25>{AbilityList()[abilityName]}</size>");
             }
@@ -308,7 +338,7 @@ namespace RGM.Modes
 
             ApplyGiveAbility(abilityName);
 
-            string aT = abilityName.Replace("[일반] ", "").Replace("[희귀] ", "").Replace("[영웅] ", "").Replace("[전설] ", "").Replace("[신화] ", "");
+            string aT = abilityName.Replace("[전용]", "").Replace("[일반] ", "").Replace("[희귀] ", "").Replace("[영웅] ", "").Replace("[전설] ", "").Replace("[신화] ", "");
 
             switch (aT)
             {
@@ -421,7 +451,6 @@ namespace RGM.Modes
                     break;
                 case "럭키비키": PlayerWorkstation[player.UserId].Clear(); break;
                 case "핵 리모컨": Warhead.Start(); Server.ExecuteCommand($"/cassie_sl {player.DisplayNickname}(이)가 핵을 <b>원격으로 활성화했습니다.</b>"); break;
-                case "수리 기사": player.IsBypassModeEnabled = true; await Task.Delay(15000); Server.ExecuteCommand("/el u all"); break;
                 case "슈퍼 스타": Server.ExecuteCommand($"/speak {player.Id} enable"); break;
                 case "극독": posions.Add(player); break;
                 case "구사일생": ability941s.Add(player); break;
@@ -475,6 +504,27 @@ namespace RGM.Modes
                 case "해킹": Warhead.Start(); Warhead.Detonate(); Server.ExecuteCommand($"/cassie_sl {player.DisplayNickname}(이)가 핵을 <b>원격으로 터트렸습니다.</b>"); break;
                 case "스피릿": spirits.Add(player); break;
                 case "눈빛맨": twinkles.Add(player); break;
+                case "핑 리모컨": 
+                    break;
+                case "간이 충전기":
+                    if (player.Role is Scp079Role scp079)
+                        scp079.Experience += 20;
+                    break;
+                case "과전류":
+                    for (int i=1; i<11; i++)
+                    {
+                        if (player.Role is Scp079Role scp0791)
+                            scp0791.Energy = scp0791.MaxEnergy;
+
+                        await Task.Delay(1000);
+                    }
+                    break;
+                case "랜덤 함수":
+                    break;
+                case "RTX4090":
+                    break;
+                case "고대의 존재 압도":
+                    break;
             }
         }
 
@@ -722,7 +772,7 @@ namespace RGM.Modes
             if (ev.Door.Type == DoorType.Scp079First)
                 return;
 
-            if (ev.Player != null && PlayerAbilities[ev.Player.UserId].Contains("[일반] 행운") && UnityEngine.Random.Range(0, 100) <= 5)
+            if (ev.Player != null && ((PlayerAbilities[ev.Player.UserId].Contains("[일반] 행운") && UnityEngine.Random.Range(0, 100) <= 5) || PlayerAbilities[ev.Player.UserId].Contains("[영웅] 수리 기사")))
             {
                 if (ev.Door.IsOpen)
                     ev.Door.IsOpen = false;
@@ -789,16 +839,10 @@ namespace RGM.Modes
 
         public void OnHurt(Exiled.Events.EventArgs.Player.HurtEventArgs ev)
         {
-            if (ev.Attacker != null && spirits.Contains(ev.Attacker))
+            if (ev.Attacker != null && PlayerAbilities[ev.Attacker.UserId].Contains("[신화] 스피릿"))
                 ev.Attacker.DisableEffect(EffectType.Invisible);
 
-            if (spirits.Contains(ev.Player))
-                ev.Player.DisableEffect(EffectType.Invisible);
-        }
-
-        public void OnShot(Exiled.Events.EventArgs.Player.ShotEventArgs ev)
-        {
-            if (spirits.Contains(ev.Player))
+            if (PlayerAbilities[ev.Player.UserId].Contains("[신화] 스피릿"))
                 ev.Player.DisableEffect(EffectType.Invisible);
         }
 
@@ -812,12 +856,53 @@ namespace RGM.Modes
                 else
                 {
                     string abilitiesText = string.Join(", ", PlayerAbilities[ev.NewTarget.UserId]);
-                    abilitiesText = abilitiesText.Replace("[신화]", "<color=#DF0101>[신화]</color>").Replace("[전설]", "<color=#ffd700>[전설]</color>").Replace("[영웅]", "<color=#FF00FF>[영웅]</color>").Replace("[희귀]", "<color=#2ECCFA>[희귀]</color>").Replace("[일반]", "<color=#A4A4A4>[일반]</color>");
+                    abilitiesText = abilitiesText.Replace("[전용]", "<color=#F7819F>[전용]</color>").Replace("[신화]", "<color=#DF0101>[신화]</color>").Replace("[전설]", "<color=#ffd700>[전설]</color>").Replace("[영웅]", "<color=#FF00FF>[영웅]</color>").Replace("[희귀]", "<color=#2ECCFA>[희귀]</color>").Replace("[일반]", "<color=#A4A4A4>[일반]</color>");
 
                     ev.Player.ShowHint($"<align=left><b><size=25>보유 업그레이드</size></b>\n<size=20>{abilitiesText}</size></align>", 250f);
                 }
             }
         }
 
+        public void OnGainingLevel(Exiled.Events.EventArgs.Scp079.GainingLevelEventArgs ev)
+        {
+            AddAbility(ev.Player);
+        }
+
+        public void OnPinging(Exiled.Events.EventArgs.Scp079.PingingEventArgs ev)
+        {
+            if (PlayerAbilities[ev.Player.UserId].Contains("[전용] 핑 리모컨"))
+                ev.Room.TurnOffLights(0.5f);
+        }
+
+        public void OnZoneBlackout(Exiled.Events.EventArgs.Scp079.ZoneBlackoutEventArgs ev)
+        {
+            if (PlayerAbilities[ev.Player.UserId].Contains("[전용] 랜덤 함수"))
+            {
+                for (int i = 1; i < 6; i++)
+                {
+                    Room SelectedRoom = RGM.GetRandomValue(Room.List.ToList());
+
+                    SelectedRoom.TurnOffLights(10);
+                }
+            }
+        }
+
+        public void OnRecontained(Exiled.Events.EventArgs.Scp079.RecontainedEventArgs ev)
+        {
+            if (PlayerAbilities[ev.Player.UserId].Contains("[전용] RTX4090"))
+            {
+                ev.Player.Role.Set(RoleTypeId.Tutorial);
+                ev.Player.Position = Door.Get(DoorType.Scp079First).Position;
+
+                for (int i = 1; i < UnityEngine.Random.Range(7, 12); i++)
+                    AddAbility(ev.Player);
+            }
+        }
+
+        public void OnChangingSpeakerStatus(Exiled.Events.EventArgs.Scp079.ChangingSpeakerStatusEventArgs ev)
+        {
+            foreach (var player in ev.Room.Players)
+                player.EnableEffect(EffectType.Slowness, 50, 1f);
+        }
     }
 }
