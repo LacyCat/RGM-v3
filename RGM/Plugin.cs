@@ -260,10 +260,7 @@ namespace RGM
             }
             else
             {
-                foreach (var player in Player.List)
-                {
-                    Server.ExecuteCommand($"/speak {player.Id} enable");
-                }
+                Server.ExecuteCommand($"/speak {ev.Player.Id} enable");
 
                 List<RoleTypeId> Humans = new List<RoleTypeId>()
                 {
