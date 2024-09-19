@@ -106,7 +106,7 @@ namespace RGM.Modes
 
         public IEnumerator<float> ScoreBoard()
         {
-            while (!IsEnd)
+            IEnumerator<float> Processing()
             {
                 Map.CleanAllItems();
                 Map.CleanAllRagdolls();
@@ -121,6 +121,13 @@ namespace RGM.Modes
                             $"<size=20><i>우승까지 <color=red>{GunsList.Count - Stage[player] - 1}</color>킬({Stage[player]}점) 남았습니다.</i></size>");
                     }
                 }
+
+                yield return 0f;
+            }
+
+            while (!IsEnd)
+            {
+                Timing.RunCoroutine(Processing());
 
                 yield return Timing.WaitForSeconds(1f);
             }
