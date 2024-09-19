@@ -612,7 +612,7 @@ namespace RGM
             {
                 ChatCooldown.Clear();
 
-                yield return Timing.WaitForSeconds(1f);
+                yield return Timing.WaitForSeconds(2f);
             }
         }
     }
