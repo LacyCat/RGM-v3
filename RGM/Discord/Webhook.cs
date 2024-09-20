@@ -15,14 +15,14 @@ namespace RGM.Discord
 
         public static async void Send(string msg, string url = null)
         {
-            await _send(msg, url);
-        }
-
-        private static async Task _send(string message, string url = null)
-        {
             if (url == null)
                 url = RGM.WebhookURL;
 
+            await _send(msg, url);
+        }
+
+        private static async Task _send(string message, string url)
+        {
             WebClient client = new WebClient();
             client.Headers.Add("Content-Type", "application/json");
             string payload = "{\"content\": \"" + message + "\"}";
