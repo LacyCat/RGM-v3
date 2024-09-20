@@ -160,8 +160,6 @@ namespace RGM
                 IsRandomSelectModeEnabled = true;
                 Timing.RunCoroutine(RandomSelectMode());
             }
-
-            Log.Info(string.Join("\n", Tools.EnumToList<RoleTypeId>()));
         }
 
         public async void OnRoundStarted()
@@ -286,7 +284,7 @@ namespace RGM
 
                 ev.Player.Role.Set(Humans[UnityEngine.Random.Range(0, Humans.Count())]);
                 ev.Player.ClearInventory();
-                ev.Player.Position = new Vector3(47.103f, 1007.963f, -6.374592f);
+                ev.Player.Position = new Vector3(64.66287f, 893.0417f, -73.39104f);
                 MultiBroadcast.API.MultiBroadcast.AddPlayerBroadcast(ev.Player, 10, Notions.WelcomeMessage);
 
                 string iv(int num)
