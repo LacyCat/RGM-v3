@@ -50,7 +50,7 @@ namespace RGM.Modes
 
         public async void OnDied(Exiled.Events.EventArgs.Player.DiedEventArgs ev)
         {
-            if (spirits.Contains(ev.Player) || ev.Attacker == ev.Player)
+            if (spirits.Contains(ev.Player) || ev.DamageHandler.Type == DamageType.Falldown)
             {
                 ev.Player.ShowHint($"성불했습니다..", 3);
                 spirits.Remove(ev.Player);
