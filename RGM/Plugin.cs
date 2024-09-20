@@ -408,7 +408,8 @@ namespace RGM
 
         public void OnSpawned(Exiled.Events.EventArgs.Player.SpawnedEventArgs ev)
         {
-            ev.Player.Scale = new Vector3(1, 1, 1);
+            if (ev.Player.IsAlive)
+                ev.Player.Scale = new Vector3(1, 1, 1);
 
             if (ev.Reason == SpawnReason.RoundStart)
             {
