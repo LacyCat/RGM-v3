@@ -152,9 +152,10 @@ namespace RGM
             Timing.RunCoroutine(IsFallDown());
             Timing.RunCoroutine(ChattingCooldown());
 
-            if (UnityEngine.Random.Range(1, 4) == 1)
+            if (UnityEngine.Random.Range(1, 6) == 1)
             {
                 IsRandomSelectModeEnabled = true;
+                Player.List.ToList().ForEach(x => x.AddBroadcast(10, $"<b>랜덤 모드</b>(20%, 정규) 기믹이 적용되었습니다."));
                 Timing.RunCoroutine(RandomSelectMode());
             }
         }
@@ -465,7 +466,7 @@ namespace RGM
                 ev.Player.Health = ev.Player.MaxHealth;
             }
 
-            if (ev.Player.IsAlive)
+            if (ev.Player.IsAlive && Round.IsStarted)
             {
                 ev.Player.IsGodModeEnabled = true;
 
