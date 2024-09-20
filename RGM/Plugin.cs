@@ -185,19 +185,17 @@ namespace RGM
 
             Log.Info($"이번 라운드의 모드 : [{CurrentMode}]");
 
+            string Message = Notions.StartModeDescription
+                .Replace("{ModeColor}", ModeColor)
+                .Replace("{CurrentMode}", CurrentMode)
+                .Replace("{ModeDescription}", ModeDescription);
+
             foreach (var player in Player.List)
             {
                 player.ClearPlayerBroadcasts();
-                player.AddBroadcast(10, Notions.StartModeDescription
-                .Replace("{ModeColor}", ModeColor)
-                .Replace("{CurrentMode}", CurrentMode)
-                .Replace("{ModeDescription}", ModeDescription)
-                );
+                player.AddBroadcast(10, Message);
 
-                player.SendConsoleMessage($"\n[ {CurrentMode} ]\n" +
-                    $"------------------------------------------------------------------------" +
-                    $"\n{ModeDescription}\n" +
-                    $"------------------------------------------------------------------------", "white");
+                player.SendConsoleMessage(Message, null);
             }
 
             var modeType = Type.GetType($"RGM.Modes.{ModeFileName}");
