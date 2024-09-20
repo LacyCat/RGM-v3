@@ -21,7 +21,7 @@ namespace RGM.Modes
 
         public void OnHurt(Exiled.Events.EventArgs.Player.HurtEventArgs ev)
         {
-            if (!ev.DamageHandler.IsFriendlyFire)
+            if (!ev.DamageHandler.IsFriendlyFire && ev.Player != ev.Attacker)
             {
                 if (ev.Player.IsScp)
                     Server.ExecuteCommand($"<color=#{ev.Player.Role.Color.ToHex()}>{ev.Player.Role.Name}</color>(이)가 하늘로 승천했습니다.");
