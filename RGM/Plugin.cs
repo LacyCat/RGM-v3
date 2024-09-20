@@ -195,7 +195,7 @@ namespace RGM
                 player.ClearPlayerBroadcasts();
                 player.AddBroadcast(10, Message);
 
-                player.SendConsoleMessage(Message, null);
+                player.SendConsoleMessage($"\n<color=white>{Message}</color>", null);
             }
 
             var modeType = Type.GetType($"RGM.Modes.{ModeFileName}");
