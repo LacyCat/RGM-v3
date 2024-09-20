@@ -115,19 +115,16 @@ namespace RGM.Modes
                     {
                         if (currentItems[player] != player.CurrentItem)
                         {
-                            Timing.CallDelayed(0.1f, () =>
-                            {
-                                Player soulMate = soulMates[player];
+                            Player soulMate = soulMates[player];
 
-                                foreach (var Item in soulMate.Items)
+                            foreach (var Item in soulMate.Items)
+                            {
+                                if (Item.Type == player.CurrentItem.Type)
                                 {
-                                    if (Item.Type == player.CurrentItem.Type)
-                                    {
-                                        soulMate.CurrentItem = Item;
-                                        break;
-                                    }
+                                    soulMate.CurrentItem = Item;
+                                    break;
                                 }
-                            });
+                            }
                         };
 
                         currentItems[player] = player.CurrentItem;
