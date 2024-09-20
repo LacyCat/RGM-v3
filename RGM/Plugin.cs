@@ -180,6 +180,7 @@ namespace RGM
             string ModeColor = ModeList[CurrentMode][0];
             string ModeDescription = ModeList[CurrentMode][1];
             string ModeFileName = ModeList[CurrentMode][2];
+            string ModeDescriptionDetail = ModeList[CurrentMode][5];
 
             Log.Info($"이번 라운드의 모드 : [{CurrentMode}]");
 
@@ -194,6 +195,11 @@ namespace RGM
                 player.AddBroadcast(10, Message);
 
                 player.SendConsoleMessage($"\n<color=white>{Message}</color>", null);
+                if (ModeDescriptionDetail != "")
+                    player.SendConsoleMessage($"\n해당 모드에 대한 자세한 설명이 없습니다.", null);
+
+                else
+                    player.SendConsoleMessage($"\n{ModeDescriptionDetail}", null);
             }
 
             var modeType = Type.GetType($"RGM.Modes.{ModeFileName}");
@@ -257,16 +263,24 @@ namespace RGM
 
             if (Round.IsStarted)
             {
-                ev.Player.AddBroadcast(10, Notions.LateJoinModeDescription
-                    .Replace("{ModeColor}", ModeList[CurrentMode][0])
-                    .Replace("{CurrentMode}", CurrentMode)
-                    );
-
+                string ModeColor = ModeList[CurrentMode][0];
                 string ModeDescription = ModeList[CurrentMode][1];
-                ev.Player.SendConsoleMessage($"\n[ {CurrentMode} ]\n" +
-                    $"------------------------------------------------------------------------" +
-                    $"\n{ModeDescription}\n" +
-                    $"------------------------------------------------------------------------", "white");
+                string ModeFileName = ModeList[CurrentMode][2];
+                string ModeDescriptionDetail = ModeList[CurrentMode][5];
+
+                string Message = Notions.LateJoinModeDescription
+                .Replace("{ModeColor}", ModeColor)
+                .Replace("{CurrentMode}", CurrentMode)
+                .Replace("{ModeDescription}", ModeDescription);
+
+                ev.Player.AddBroadcast(10, Message);
+
+                ev.Player.SendConsoleMessage($"\n<color=white>{Message}</color>", null);
+                if (ModeDescriptionDetail != "")
+                    ev.Player.SendConsoleMessage($"\n해당 모드에 대한 자세한 설명이 없습니다.", null);
+
+                else
+                    ev.Player.SendConsoleMessage($"\n{ModeDescriptionDetail}", null);
             }
             else
             {
