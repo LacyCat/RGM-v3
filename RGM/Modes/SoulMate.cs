@@ -67,7 +67,7 @@ namespace RGM.Modes
                 {
                     if (player.IsAlive)
                     {
-                        if (!soulMates.ContainsKey(player))
+                        if (!waitingPlayers.Contains(player))
                             waitingPlayers.Add(player);
                     }
                     else
