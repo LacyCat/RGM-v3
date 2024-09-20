@@ -33,9 +33,9 @@ namespace RGM.Modes
             {
                 List<Player> PassPlayers = new List<Player>();
 
-                foreach (var p1 in Player.List)
+                foreach (var p1 in Player.List.Where(x => x.IsAlive))
                 {
-                    foreach (var p2 in Player.List)
+                    foreach (var p2 in Player.List.Where(x => x.IsAlive))
                     {
                         if (p1 != p2 && Vector3.Distance(p1.Position, p2.Position) < 3f)
                         {
@@ -48,7 +48,7 @@ namespace RGM.Modes
                     }
                 }
 
-                foreach (var player in Player.List.Where(x => !PassPlayers.Contains(x)))
+                foreach (var player in Player.List.Where(x => !PassPlayers.Contains(x) && x.IsAlive))
                     player.EnableEffect(Exiled.API.Enums.EffectType.Hypothermia, 255, 1.5f);
 
                 yield return Timing.WaitForSeconds(1f);
