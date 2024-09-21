@@ -727,10 +727,13 @@ namespace RGM.Modes
                 ev.Item.Destroy();
 
                 ev.Player.EnableEffect(EffectType.Ensnared, 1, 3);
-                ev.Player.IsGodModeEnabled = true;
+
+                RGM.Instance.GodModePlayers.Add(ev.Player);
 
                 await Task.Delay(3000);
-                ev.Player.IsGodModeEnabled = false;
+
+                if (RGM.Instance.GodModePlayers.Contains(ev.Player))
+                    RGM.Instance.GodModePlayers.Remove(ev.Player);
             }
         }
 
@@ -769,10 +772,11 @@ namespace RGM.Modes
                         ev.Player.EnableEffect(EffectType.Blinded, 1, 3);
                         ev.Player.EnableEffect(EffectType.Invisible, 1, 3);
                         ev.Player.GetEffect(EffectType.MovementBoost).Intensity += 20;
-                        ev.Player.IsGodModeEnabled = true;
+                        RGM.Instance.GodModePlayers.Add(ev.Player);
                         await Task.Delay(3000);
                         ev.Player.GetEffect(EffectType.MovementBoost).Intensity -= 20;
-                        ev.Player.IsGodModeEnabled = false;
+                        if (RGM.Instance.GodModePlayers.Contains(ev.Player))
+                            RGM.Instance.GodModePlayers.Remove(ev.Player);
                         return;
                     }
 
@@ -782,11 +786,12 @@ namespace RGM.Modes
                         ev.IsAllowed = false;
 
                         ev.Player.GetEffect(EffectType.MovementBoost).Intensity += 30;
-                        ev.Player.IsGodModeEnabled = true;
+                        RGM.Instance.GodModePlayers.Add(ev.Player);
 
                         Timing.CallDelayed(5f, () =>
                         {
-                            ev.Player.IsGodModeEnabled = false;
+                            if (RGM.Instance.GodModePlayers.Contains(ev.Player))
+                                RGM.Instance.GodModePlayers.Remove(ev.Player);
                             ev.Player.Kill("최후의 발악의 효과로 사망하였습니다.");
                         });
                         return;
@@ -797,7 +802,8 @@ namespace RGM.Modes
                     ev.Player.Scale = new Vector3(1, 1, 1);
                     Server.ExecuteCommand($"/speak {ev.Player.Id} disable");
                     ev.Player.IsUsingStamina = true;
-                    ev.Player.IsBypassModeEnabled = false;
+                    if (RGM.Instance.GodModePlayers.Contains(ev.Player))
+                        RGM.Instance.GodModePlayers.Remove(ev.Player);
 
                     if (fighters.Contains(ev.Player))
                         fighters.Remove(ev.Player);

@@ -102,7 +102,7 @@ namespace RGM.Modes
                 foreach (var cdp in Player.List.Where(x => x.Role == RoleTypeId.ClassD))
                 {
                     cdp.DisableAllEffects();
-                    cdp.IsGodModeEnabled = true;
+                    RGM.Instance.GodModePlayers.Add(cdp);
                 }
                 var scp = Player.Get(ca._attacker.Hub);
                 scp.Health = 1;
