@@ -64,8 +64,11 @@ namespace RGM.Modes
         {
             List<CandyKindID> CandyList = Tools.EnumToList<CandyKindID>();
             {
-                var toGive = CandyList[UnityEngine.Random.Range(0, CandyList.Count())];
+                var toGive = RGM.GetRandomValue(CandyList);
                 ev.Attacker.TryAddCandy(toGive);
+
+                if (ev.Player.IsScp)
+                    Server.ExecuteCommand($"/forceeq {ev.Player.Id} 42");
             }
         }
     }
