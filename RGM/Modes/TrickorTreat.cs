@@ -53,9 +53,10 @@ namespace RGM.Modes
                     };
 
                 foreach (var Candy in Candies)
-                {
                     candy.AddCandy(Candy);
-                }
+
+                if (player.IsScp)
+                    Server.ExecuteCommand($"/forceeq {player.Id} 42");
             }
         }
 
