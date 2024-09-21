@@ -146,7 +146,6 @@ namespace RGM.Modes
             Exiled.Events.Handlers.Scp079.GainingLevel += OnGainingLevel;
             Exiled.Events.Handlers.Scp079.Pinging += OnPinging;
             Exiled.Events.Handlers.Scp079.ZoneBlackout += OnZoneBlackout;
-            Exiled.Events.Handlers.Scp079.Recontained += OnRecontained;
             Exiled.Events.Handlers.Scp079.ChangingSpeakerStatus += OnChangingSpeakerStatus;
 
             Timing.RunCoroutine(OnModeStarted());
@@ -739,88 +738,104 @@ namespace RGM.Modes
         {
             if (PlayerWorkstation.ContainsKey(ev.Player))
             {
-                if (insurers.Contains(ev.Player))
+                if (ev.Player.Role.Type == RoleTypeId.Scp079)
                 {
-                    insurers.Remove(ev.Player);
-                    ev.IsAllowed = false;
-                    return;
-                }
-                if (ability941s.Contains(ev.Player))
-                {
-                    ability941s.Remove(ev.Player);
-                    ev.IsAllowed = false;
-
-                    ev.Player.EnableEffect(EffectType.Blinded, 1, 3);
-                    ev.Player.EnableEffect(EffectType.Invisible, 1, 3);
-                    ev.Player.GetEffect(EffectType.MovementBoost).Intensity += 20;
-                    ev.Player.IsGodModeEnabled = true;
-                    await Task.Delay(3000);
-                    ev.Player.GetEffect(EffectType.MovementBoost).Intensity -= 20;
-                    ev.Player.IsGodModeEnabled = false;
-                    return;
-                }
-
-                if (culprits.Contains(ev.Player))
-                {
-                    culprits.Remove(ev.Player);
-                    ev.IsAllowed = false;
-
-                    ev.Player.GetEffect(EffectType.MovementBoost).Intensity += 30;
-                    ev.Player.IsGodModeEnabled = true;
-
-                    Timing.CallDelayed(5f, () =>
+                    if (PlayerAbilities[ev.Player].Contains("[전용] RTX4090"))
                     {
+                        ev.Player.Role.Set(RoleTypeId.Tutorial);
+
+                        Vector3 Pos = Door.Get(DoorType.Scp079First).Position;
+                        ev.Player.Position = new Vector3(Pos.x, Pos.y + 2, Pos.z);
+
+                        for (int i = 1; i < UnityEngine.Random.Range(7, 12); i++)
+                            AddAbility(ev.Player);
+                    }
+                }
+                else
+                {
+                    if (insurers.Contains(ev.Player))
+                    {
+                        insurers.Remove(ev.Player);
+                        ev.IsAllowed = false;
+                        return;
+                    }
+                    if (ability941s.Contains(ev.Player))
+                    {
+                        ability941s.Remove(ev.Player);
+                        ev.IsAllowed = false;
+
+                        ev.Player.EnableEffect(EffectType.Blinded, 1, 3);
+                        ev.Player.EnableEffect(EffectType.Invisible, 1, 3);
+                        ev.Player.GetEffect(EffectType.MovementBoost).Intensity += 20;
+                        ev.Player.IsGodModeEnabled = true;
+                        await Task.Delay(3000);
+                        ev.Player.GetEffect(EffectType.MovementBoost).Intensity -= 20;
                         ev.Player.IsGodModeEnabled = false;
-                        ev.Player.Kill("최후의 발악의 효과로 사망하였습니다.");
-                    });
-                    return;
-                }
+                        return;
+                    }
 
-                PlayerWorkstation[ev.Player].Clear();
-                PlayerAbilities[ev.Player].Clear();
-                ev.Player.Scale = new Vector3(1, 1, 1);
-                Server.ExecuteCommand($"/speak {ev.Player.Id} disable");
-                ev.Player.IsUsingStamina = true;
-                ev.Player.IsBypassModeEnabled = false;
+                    if (culprits.Contains(ev.Player))
+                    {
+                        culprits.Remove(ev.Player);
+                        ev.IsAllowed = false;
 
-                if (fighters.Contains(ev.Player))
-                    fighters.Remove(ev.Player);
+                        ev.Player.GetEffect(EffectType.MovementBoost).Intensity += 30;
+                        ev.Player.IsGodModeEnabled = true;
 
-                if (martyrs.Contains(ev.Player))
-                {
-                    martyrs.Remove(ev.Player);
+                        Timing.CallDelayed(5f, () =>
+                        {
+                            ev.Player.IsGodModeEnabled = false;
+                            ev.Player.Kill("최후의 발악의 효과로 사망하였습니다.");
+                        });
+                        return;
+                    }
 
-                    var g = (ExplosiveGrenade)Item.Create(ItemType.GrenadeHE, ev.Player);
-                    g.FuseTime = 3f;
-                    g.SpawnActive(ev.Player.Position, ev.Player);
-                }
+                    PlayerWorkstation[ev.Player].Clear();
+                    PlayerAbilities[ev.Player].Clear();
+                    ev.Player.Scale = new Vector3(1, 1, 1);
+                    Server.ExecuteCommand($"/speak {ev.Player.Id} disable");
+                    ev.Player.IsUsingStamina = true;
+                    ev.Player.IsBypassModeEnabled = false;
 
-                if (BlackOutCooldown.Contains(ev.Player))
-                    BlackOutCooldown.Remove(ev.Player);
+                    if (fighters.Contains(ev.Player))
+                        fighters.Remove(ev.Player);
 
-                if (spirits.Contains(ev.Player))
-                    spirits.Remove(ev.Player);
+                    if (martyrs.Contains(ev.Player))
+                    {
+                        martyrs.Remove(ev.Player);
 
-                if (repairs.Contains(ev.Player))
-                    repairs.Remove(ev.Player);
+                        var g = (ExplosiveGrenade)Item.Create(ItemType.GrenadeHE, ev.Player);
+                        g.FuseTime = 3f;
+                        g.SpawnActive(ev.Player.Position, ev.Player);
+                    }
 
-                if (magicians.Contains(ev.Player))
-                {
-                    magicians.Remove(ev.Player);
+                    if (BlackOutCooldown.Contains(ev.Player))
+                        BlackOutCooldown.Remove(ev.Player);
 
-                    ev.Player.Role.Set(ev.Attacker.Role, SpawnReason.ForceClass, RoleSpawnFlags.None);
-                    ev.Player.Health = ev.Attacker.Health;
-                    foreach (Item Item in ev.Attacker.Items)
-                        ev.Player.AddItem(Item.Type);
+                    if (spirits.Contains(ev.Player))
+                        spirits.Remove(ev.Player);
 
-                    ev.Attacker.Kill($"몸이 교체되는 마술에 당했네요!");
-                }
+                    if (repairs.Contains(ev.Player))
+                        repairs.Remove(ev.Player);
 
-                if (posions.Contains(ev.Player))
-                {
-                    posions.Remove(ev.Player);
+                    if (magicians.Contains(ev.Player))
+                    {
+                        magicians.Remove(ev.Player);
 
-                    ev.Attacker.EnableEffect(EffectType.CardiacArrest);
+                        ev.Player.Role.Set(ev.Attacker.Role, SpawnReason.ForceClass, RoleSpawnFlags.None);
+                        ev.Player.Health = ev.Attacker.Health;
+                        foreach (Item Item in ev.Attacker.Items)
+                            ev.Player.AddItem(Item.Type);
+
+                        ev.Attacker.Kill($"몸이 교체되는 마술에 당했네요!");
+                    }
+
+                    if (posions.Contains(ev.Player))
+                    {
+                        posions.Remove(ev.Player);
+
+                        ev.Attacker.EnableEffect(EffectType.CardiacArrest);
+                    }
                 }
             }
         }
@@ -935,20 +950,6 @@ namespace RGM.Modes
 
                     SelectedRoom.TurnOffLights(10);
                 }
-            }
-        }
-
-        public void OnRecontained(Exiled.Events.EventArgs.Scp079.RecontainedEventArgs ev)
-        {
-            if (PlayerAbilities[ev.Player].Contains("[전용] RTX4090"))
-            {
-                PlayerAbilities[ev.Player].Clear();
-
-                ev.Player.Role.Set(RoleTypeId.Tutorial);
-                ev.Player.Position = Door.Get(DoorType.Scp079First).Position;
-
-                for (int i = 1; i < UnityEngine.Random.Range(7, 12); i++)
-                    AddAbility(ev.Player);
             }
         }
 
