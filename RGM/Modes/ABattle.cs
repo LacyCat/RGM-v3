@@ -76,7 +76,7 @@ namespace RGM.Modes
         public Dictionary<string, string> RareAbilities = new Dictionary<string, string>()
         {
             {"[희귀] 육체 강화", "1초당 1HP를 받습니다."},
-            {"[희귀] 강철 껍질", "데미지 경감 효과를 1 받습니다."},
+            {"[희귀] 강철 껍질", "데미지 경감 효과가 5% 추가됩니다."},
             {"[희귀] 투명 망토", "25초 간 투명 효과를 받습니다."},
             {"[희귀] 흡혈귀", "상대에게 입힌 피해량의 20%만큼 AHP를 받습니다."},
             {"[희귀] 순간이동", "지급된 동전을 튕기면 랜덤한 유저의 위치로 순간이동합니다."},
@@ -439,7 +439,7 @@ namespace RGM.Modes
                             AddAbility(player);
                     }
                     break;
-                case "강철 껍질": player.GetEffect(EffectType.DamageReduction).Intensity += 1; break;
+                case "강철 껍질": player.GetEffect(EffectType.DamageReduction).Intensity += 10; break;
                 case "투명 망토": player.EnableEffect(EffectType.Invisible, 1, 25); break;
                 case "순간이동":
                     Item fc = player.AddItem(ItemType.Coin);

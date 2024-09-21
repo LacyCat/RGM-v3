@@ -422,7 +422,7 @@ namespace RGM
                     {
                         ev.Player.Role.Set(RoleTypeId.Scp3114);
 
-                        ev.Player.AddBroadcast(10, $"당신은 <color={ev.Player.Role.Color.ToHex()}>SCP-3114(5%, 정규)</color> 기믹이 적용되었습니다.");
+                        ev.Player.AddBroadcast(10, $"<color={ev.Player.Role.Color.ToHex()}>SCP-3114(5%, 정규)</color> 기믹이 적용되었습니다.");
                         IsScp3114Enabled = true;
                     }
                 }
@@ -434,7 +434,7 @@ namespace RGM
                         {
                             ev.Player.Role.Set(RoleTypeId.ChaosConscript);
 
-                            ev.Player.AddBroadcast(10, $"당신은 <color={ev.Player.Role.Color.ToHex()}>시작 카오스(5%, 정규)</color> 기믹이 적용되었습니다.");
+                            ev.Player.AddBroadcast(10, $"<color={ev.Player.Role.Color.ToHex()}>시작 카오스(5%, 정규)</color> 기믹이 적용되었습니다.");
                         }
                     }
                     if (StartupRandom == 2) // 시작 NTF
@@ -443,7 +443,7 @@ namespace RGM
                         {
                             ev.Player.Role.Set(RoleTypeId.NtfPrivate);
 
-                            ev.Player.AddBroadcast(10, $"당신은 <color={ev.Player.Role.Color.ToHex()}>시작 NTF(5%, 정규)</color> 기믹이 적용되었습니다.");
+                            ev.Player.AddBroadcast(10, $"<color={ev.Player.Role.Color.ToHex()}>시작 NTF(5%, 정규)</color> 기믹이 적용되었습니다.");
                         }
                     }
 
@@ -454,13 +454,13 @@ namespace RGM
                         ev.Player.MaxHealth = 1000;
                         ev.Player.Health = ev.Player.MaxHealth;
 
-                        ev.Player.AddBroadcast(10, $"당신은 <color={ev.Player.Role.Color.ToHex()}>시작 좀비(1%, 이스터에그)</color> 기믹이 적용되었습니다.");
+                        ev.Player.AddBroadcast(10, $"<color={ev.Player.Role.Color.ToHex()}>시작 좀비(1%, 이스터에그)</color> 기믹이 적용되었습니다.");
                     }
                     else if (rand == 2)
                     {
                         ev.Player.Scale = new Vector3(-1, -1, -1);
 
-                        ev.Player.AddBroadcast(10, $"당신은 <color={ev.Player.Role.Color.ToHex()}>뒤집기(1%, 이스터에그)</color> 기믹이 적용되었습니다.");
+                        ev.Player.AddBroadcast(10, $"<color={ev.Player.Role.Color.ToHex()}>뒤집기(1%, 이스터에그)</color> 기믹이 적용되었습니다.");
                     }
                 }
             }
@@ -533,7 +533,7 @@ namespace RGM
                 ev.IsAllowed = false;
                 ev.Player.TryAddCandy(InventorySystem.Items.Usables.Scp330.CandyKindID.Pink);
 
-                ev.Player.AddBroadcast(10, $"당신은 <color=#FF00FF>핑크 캔디(5%, 정규)</color> 기믹이 적용되었습니다.");
+                ev.Player.AddBroadcast(10, $"<color=#FF00FF>핑크 캔디(5%, 정규)</color> 기믹이 적용되었습니다.");
             }
         }
 
