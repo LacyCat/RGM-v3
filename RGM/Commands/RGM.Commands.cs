@@ -18,7 +18,6 @@ namespace RGM.Commands
 
             if (player.IsAlive && Round.IsStarted)
             {
-                player.IsGodModeEnabled = false;
                 player.Kill("벌레를 피하다가 사망하였습니다.");
                 response = "당신의 기도는 저 하늘에 닿았습니다.";
                 return true;

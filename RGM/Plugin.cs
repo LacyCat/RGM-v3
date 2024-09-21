@@ -35,6 +35,7 @@ namespace RGM
         public Dictionary<string, List<Player>> ModeVote = new Dictionary<string, List<Player>>();
         public Dictionary<Player, float> OnGround = new Dictionary<Player, float>();
         public Dictionary<Player, Room> CurrentRoom = new Dictionary<Player, Room>();
+        public List<Player> GodModePlayers = new List<Player>();
         public List<Player> ChatCooldown = new List<Player>();
 
         List<Transform> First;
@@ -472,7 +473,7 @@ namespace RGM
 
             if (ev.Player.IsAlive && Round.IsStarted && (ev.Reason == SpawnReason.RoundStart || ev.Reason == SpawnReason.Respawn))
             {
-                ev.Player.IsGodModeEnabled = true;
+                GodModePlayers.Add(ev.Player);
 
                 for (int i = 1; i < 6; i++)
                 {
@@ -483,7 +484,8 @@ namespace RGM
 
                 ev.Player.ShowHint($"스폰 무적이 해제되었습니다.");
 
-                ev.Player.IsGodModeEnabled = false;
+                if (GodModePlayers.Contains(ev.Player))
+                    GodModePlayers.Add(ev.Player);
             }
         }
 
@@ -495,14 +497,17 @@ namespace RGM
 
         public void OnHurting(Exiled.Events.EventArgs.Player.HurtingEventArgs ev)
         {
-            if (ev.Attacker == null)
-                ev.Player.IsGodModeEnabled = false;
+            if (GodModePlayers.Contains(ev.Player))
+            {
+                if (ev.Attacker != null)
+                    ev.IsAllowed = false;
+            }
         }
 
         public void OnDying(Exiled.Events.EventArgs.Player.DyingEventArgs ev)
         {
-            if (ev.Attacker == null)
-                ev.Player.IsGodModeEnabled = false;
+            if (GodModePlayers.Contains(ev.Player))
+                GodModePlayers.Remove(ev.Player);
         }
 
         public void OnStopping(Exiled.Events.EventArgs.Warhead.StoppingEventArgs ev)
@@ -515,7 +520,8 @@ namespace RGM
         {
             Player.List.Where(x => x.Zone != ZoneType.Surface && x.IsAlive).ToList().ForEach(x => 
             {
-                x.IsGodModeEnabled = false;
+                if (GodModePlayers.Contains(x))
+                    GodModePlayers.Remove(x);
                 x.Kill("핵폭발에 사망하였습니다."); 
             });
         }
