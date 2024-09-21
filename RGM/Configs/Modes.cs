@@ -24,12 +24,13 @@ namespace RGM
 • <color=#F7819F>전용</color> - 100%
 
 20% 확률로 피버 모드가 활성화됩니다.
-<b><i><color=#FF00EA>피</color><color=#EF00EB>버</color> <color=#CF00ED>모</color><color=#BF00EF>드</color> 활성 시, 재단에 등장하는 워크스테이션의 수가 증가합니다.
+<b><i><color=#FF00EA>피</color><color=#EF00EB>버</color> <color=#CF00ED>모</color><color=#BF00EF>드</color></b> 활성화 시, 재단에 등장하는 워크스테이션의 수가 증가합니다.
 """ } },
             { "블랙아웃", new List<string>() { "2A0A0A", "시설 곳곳이 정전됩니다.", "Blackout", "public", "", "" } },
             { "축복", new List<string>() { "F6D8CE", "관전자의 수에 비례해 능력치가 상승합니다.", "Blessing", "public", "", "" } },
             { "폭탄 파티", new List<string>() { "FAAC58", "버티면 버틸수록 난이도가 올라갑니다.", "BombParty", "public", "", "" } },
             { "수집가", new List<string>() { "FFBF00", "SCP 아이템 3개를 가지고 시작합니다.", "Collector", "public", "", "" } },
+            { "데스런", new List<string>() { "FF4000", "과학자는 죄수들의 접근을 막아야 합니다.\n널리 퍼져 있는 함정들을 조심하십시오!", "DeathRun", "public", "", "" } },
             { "사회적 거리두기", new List<string>() { "38610B", "최대한 다른 사람과 멀어지세요! 감염 예방이 최우선입니다!", "Distancing", "public", "", "" } },
             { "더블업", new List<string>() { "5882FA", "모드 2개가 동시에 적용됩니다.", "DoubleUp", "public", "", "" } },
             { "개인전", new List<string>() { "FA58F4", "최후의 1인이 되세요!", "FreeForAll", "public", "", "" } },
