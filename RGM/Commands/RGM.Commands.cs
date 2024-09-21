@@ -129,6 +129,9 @@ namespace RGM.Commands
                 if (ModeDescriptionDetail == "")
                     player.SendConsoleMessage($"\n해당 모드에 대한 자세한 설명이 없습니다.", "white");
 
+                else
+                    player.SendConsoleMessage($"\n{ModeDescriptionDetail}", "white");
+
                 return true;
             }
         }
