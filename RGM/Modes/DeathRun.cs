@@ -25,7 +25,6 @@ namespace RGM.Modes
             Respawn.TimeUntilNextPhase = 10000;
 
             Timing.RunCoroutine(OnModeStarted());
-            Timing.RunCoroutine(Timer());
         }
 
         public IEnumerator<float> OnModeStarted()
@@ -50,6 +49,8 @@ namespace RGM.Modes
                 yield return Timing.WaitForSeconds(1f);
             }
 
+            Timing.RunCoroutine(Timer());
+
             foreach (var player in Player.List.Where(x => x != Tagger))
             {
                 player.Role.Set(RoleTypeId.ClassD);
@@ -67,6 +68,14 @@ namespace RGM.Modes
                     player.AddBroadcast(2, $"<size=25><b><color=yellow>과학자</color> 승리까지 <color=red>{181 - i}</color>초 남았습니다.</b></size>");
                 }
                 yield return Timing.WaitForSeconds(1f);
+            }
+
+            Round.EndRound(true);
+
+            foreach (var player in Player.List)
+            {
+                player.ClearPlayerBroadcasts();
+                player.AddBroadcast(20, $"<size=25><b><color=yellow>과학자</color>({player.Nickname})의 승리입니다!");
             }
 
             Tagger.AddItem(ItemType.GunE11SR);
