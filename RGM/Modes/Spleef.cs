@@ -70,7 +70,7 @@ namespace RGM.Modes
             {
                 foreach (var player in Player.List.Where(x => x.IsAlive).ToList())
                 {
-                    if (Physics.Raycast(player.Position, Vector3.down, out RaycastHit hit, 1f, (LayerMask)1))
+                    if (Physics.Raycast(player.Position, Vector3.down, out RaycastHit hit, 3f, (LayerMask)1))
                     {
                         OnGround[player] = 5;
 
