@@ -9,6 +9,7 @@ using MEC;
 using RGM.API;
 using UnityEngine;
 using Exiled.API.Enums;
+using PlayerRoles;
 
 namespace RGM.Modes
 {
@@ -42,7 +43,7 @@ namespace RGM.Modes
                     }
                 }
 
-                foreach (var player in DamagePlayers)
+                foreach (var player in DamagePlayers.Where(x => x.Role.Type != RoleTypeId.Scp079))
                 {
                     player.Health -= player.MaxHealth / 50;
 
