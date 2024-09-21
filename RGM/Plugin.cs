@@ -158,7 +158,6 @@ namespace RGM
             if (UnityEngine.Random.Range(1, 6) == 1)
             {
                 IsRandomSelectModeEnabled = true;
-                Player.List.ToList().ForEach(x => x.AddBroadcast(10, $"<b>랜덤 모드</b>(20%, 정규) 기믹이 적용되었습니다."));
                 Timing.RunCoroutine(RandomSelectMode());
             }
         }
@@ -523,7 +522,7 @@ namespace RGM
                 ev.IsAllowed = false;
                 ev.Player.TryAddCandy(InventorySystem.Items.Usables.Scp330.CandyKindID.Pink);
 
-                ev.Player.AddBroadcast(10, $"당신은 <color={ev.Player.Role.Color.ToHex()}>핑크 캔디(5%, 정규)</color> 기믹이 적용되었습니다.");
+                ev.Player.AddBroadcast(10, $"당신은 <color=#FF00FF>핑크 캔디(5%, 정규)</color> 기믹이 적용되었습니다.");
             }
         }
 

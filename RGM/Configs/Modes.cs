@@ -22,6 +22,9 @@ namespace RGM
 • <color=#ffd700>전설</color> - 0.4%
 • <color=#DF0101>신화</color> - 0.1%
 • <color=#F7819F>전용</color> - 100%
+
+20% 확률로 피버 모드가 활성화됩니다.
+<b><i><color=#FF00EA>피</color><color=#EF00EB>버</color> <color=#CF00ED>모</color><color=#BF00EF>드</color> 활성 시, 재단에 등장하는 워크스테이션의 수가 증가합니다.
 """ } },
             { "블랙아웃", new List<string>() { "2A0A0A", "시설 곳곳이 정전됩니다.", "Blackout", "public", "", "" } },
             { "축복", new List<string>() { "F6D8CE", "관전자의 수에 비례해 능력치가 상승합니다.", "Blessing", "public", "", "" } },

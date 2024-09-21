@@ -30,6 +30,7 @@ namespace RGM.Modes
     {
         public static ABattle Instance;
 
+        public bool IsFeverModeEnabled = false;
         public Dictionary<Player, List<Vector3>> PlayerWorkstation = new Dictionary<Player, List<Vector3>>();
         public Dictionary<Player, List<string>> PlayerAbilities = new Dictionary<Player, List<string>>();
 
@@ -157,7 +158,14 @@ namespace RGM.Modes
 
         public IEnumerator<float> OnModeStarted()
         {
-            Server.ExecuteCommand($"/mp load ABattle");
+            if (UnityEngine.Random.Range(1, 6) == 1)
+                IsFeverModeEnabled = true;
+
+            if (IsFeverModeEnabled)
+            {
+                Server.ExecuteCommand($"/mp load ABattle");
+                Player.List.ToList().ForEach(x => x.AddBroadcast(10, "<size=25><b><i><color=#FF00EA>피</color><color=#EF00EB>버</color> <color=#CF00ED>모</color><color=#BF00EF>드</color><color=#AF00F0>가</color> <color=#8F00F3>활</color><color=#7F00F4>성</color><color=#6F00F5>화</color><color=#5F00F7>되</color><color=#4F00F8>었</color><color=#3F00F9>습</color><color=#2F00FB>니</color><color=#1F00FC>다</color><color=#0F00FD>!</color></i></b></size>"));
+            }
 
             while (true)
             {
