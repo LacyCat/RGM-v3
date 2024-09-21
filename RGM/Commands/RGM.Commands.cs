@@ -103,6 +103,7 @@ namespace RGM.Commands
     {
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
+            Player player = Player.Get(sender);
             string CurrentMode = RGM.Instance.CurrentMode;
 
             if (RGM.Instance.CurrentMode == null)
@@ -115,13 +116,18 @@ namespace RGM.Commands
                 string ModeColor = RGM.Instance.ModeList[CurrentMode][0];
                 string ModeDescription = RGM.Instance.ModeList[CurrentMode][1];
                 string ModeFileName = RGM.Instance.ModeList[CurrentMode][2];
+                string ModeDescriptionDetail = RGM.Instance.ModeList[CurrentMode][5];
 
                 string Message = Notions.StartModeDescription
                     .Replace("{ModeColor}", ModeColor)
                     .Replace("{CurrentMode}", CurrentMode)
                     .Replace("{ModeDescription}", ModeDescription);
 
-                response = $"\n<color=#ffffff>{Message}</color>";
+                response = $"성공적으로 모드 설명을 불러왔습니다.";
+
+                player.SendConsoleMessage($"\n{Message}", "white");
+                if (ModeDescriptionDetail == "")
+                    player.SendConsoleMessage($"\n해당 모드에 대한 자세한 설명이 없습니다.", "white");
 
                 return true;
             }
