@@ -8,6 +8,7 @@ using Exiled.API.Features;
 using MEC;
 using RGM.API;
 using UnityEngine;
+using Exiled.API.Enums;
 
 namespace RGM.Modes
 {
@@ -44,12 +45,14 @@ namespace RGM.Modes
 
                             if (!PassPlayers.Contains(p2))
                                 PassPlayers.Add(p2);
+
+                            break;
                         }
                     }
                 }
 
                 foreach (var player in Player.List.Where(x => !PassPlayers.Contains(x) && x.IsAlive))
-                    player.EnableEffect(Exiled.API.Enums.EffectType.Hypothermia, 255, 1.5f);
+                    player.EnableEffect(EffectType.Hypothermia, 255, 1.5f);
 
                 yield return Timing.WaitForSeconds(1f);
             }
@@ -63,7 +66,7 @@ namespace RGM.Modes
         public async void Spawned(Player player)
         {
             await Task.Delay(1000);
-            player.EnableEffect(Exiled.API.Enums.EffectType.FogControl, 7);
+            player.EnableEffect(EffectType.FogControl, 7);
         }
     }
 }
