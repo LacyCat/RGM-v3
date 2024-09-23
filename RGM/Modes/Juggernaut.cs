@@ -192,7 +192,7 @@ namespace RGM.Modes
             if (ev.Player == juggernaut && ev.Effect.GetEffectType() != EffectType.SinkHole)
                 ev.IsAllowed = false;
 
-            else if (ev.Player != juggernaut)
+            else if (ev.Player != juggernaut && ev.Effect.GetEffectType() != EffectType.SeveredHands)
                 ev.IsAllowed = false;
         }
 
