@@ -35,8 +35,6 @@ namespace RGM.Modes
         {
             yield return Timing.WaitForSeconds(1f);
 
-            Server.FriendlyFire = true;
-
             while (true)
             {
                 foreach (var player in Player.List)
@@ -89,8 +87,8 @@ namespace RGM.Modes
 
         public void OnHurting(Exiled.Events.EventArgs.Player.HurtingEventArgs ev)
         {
-            if (ev.Player.LeadingTeam == ev.Attacker.LeadingTeam && ev.Player.Role.Type != RoleTypeId.Tutorial)
-                ev.IsAllowed = false;
+            if (ev.Player.Role.Type == RoleTypeId.Tutorial)
+                ev.IsAllowed = true;
         }
     }
 }
