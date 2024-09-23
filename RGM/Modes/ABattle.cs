@@ -139,6 +139,7 @@ namespace RGM.Modes
             Exiled.Events.Handlers.Player.FlippingCoin += OnFlippingCoin;
             Exiled.Events.Handlers.Player.ChangedItem += OnChangedItem;
             Exiled.Events.Handlers.Player.Dying += OnDying;
+            Exiled.Events.Handlers.Player.Died += OnDied;
             Exiled.Events.Handlers.Player.InteractingDoor += OnInteractingDoor;
             Exiled.Events.Handlers.Player.TriggeringTesla += OnTriggeringTesla;
             Exiled.Events.Handlers.Player.DroppedItem += OnDroppedItem;
@@ -889,6 +890,15 @@ namespace RGM.Modes
                         ev.Attacker.EnableEffect(EffectType.CardiacArrest);
                     }
                 }
+            }
+        }
+
+        public void OnDied(Exiled.Events.EventArgs.Player.DiedEventArgs ev)
+        {
+            if (PlayerAbilities.ContainsKey(ev.Attacker))
+            {
+                if (PlayerAbilities[ev.Attacker].Contains("[전설] 킬스트릭"))
+                    AddAbility(ev.Attacker);
             }
         }
 
