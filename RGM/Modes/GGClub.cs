@@ -35,6 +35,7 @@ namespace RGM.Modes
         public void OnEnabled()
         {
             Round.IsLocked = true;
+            Respawn.TimeUntilNextPhase = 10000;
 
             Timing.RunCoroutine(OnModeStarted());
             Timing.RunCoroutine(gingerbreadHint());
@@ -100,7 +101,7 @@ namespace RGM.Modes
                         goldPads.Add(goldPad);
                 }
 
-                yield return Timing.WaitForSeconds(1.8f);
+                yield return Timing.WaitForSeconds(1.25f);
 
                 foreach (var player in Player.List)
                 {
@@ -127,7 +128,7 @@ namespace RGM.Modes
                     }
                 }
 
-                yield return Timing.WaitForSeconds(2.5f);
+                yield return Timing.WaitForSeconds(1.25f);
 
                 IsSongStopped = false;
                 goldPads.Clear();
