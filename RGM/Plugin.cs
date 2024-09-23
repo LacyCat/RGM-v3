@@ -727,7 +727,7 @@ GoldenPig1205(@GoldenPig1205) - 메인 개발자
 
             FreezeGameStart = true;
 
-            yield return Timing.WaitForSeconds(5f);
+            yield return Timing.WaitForSeconds(10f);
 
             FreezeGameStart = false;
 
