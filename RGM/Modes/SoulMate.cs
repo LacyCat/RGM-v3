@@ -67,7 +67,7 @@ namespace RGM.Modes
                         soulMates.Remove(soulMate);
                         soulMates.Remove(sm);
 
-                        sm.ShowHint("누군가와의 매칭이 해제되었습니다.", 5);
+                        sm.ShowHint("누군가와의 매칭이 해제되었습니다.", 1.2f);
                     }
                 }
 
@@ -77,9 +77,10 @@ namespace RGM.Modes
                     {
                         if (!soulMates.ContainsKey(player))
                         {
-                            waitingPlayers.Add(player);
+                            if (!waitingPlayers.Contains(player))
+                                waitingPlayers.Add(player);
 
-                            player.ShowHint("누군가와 매칭되기를 기다리는 중입니다..", 250);
+                            player.ShowHint("누군가와 매칭되기를 기다리는 중입니다..", 1.2f);
                         }
                     }
                     else
@@ -91,8 +92,8 @@ namespace RGM.Modes
                             soulMates.Remove(soulMate);
                             soulMates.Remove(player);
 
-                            player.ShowHint("누군가와의 매칭이 해제되었습니다.", 5);
-                            soulMate.ShowHint("누군가와의 매칭이 해제되었습니다.", 5);
+                            player.ShowHint("누군가와의 매칭이 해제되었습니다.", 1.2f);
+                            soulMate.ShowHint("누군가와의 매칭이 해제되었습니다.", 1.2f);
                         }
                     }
                 }
