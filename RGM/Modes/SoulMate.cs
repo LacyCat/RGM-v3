@@ -58,17 +58,42 @@ namespace RGM.Modes
         {
             while (true)
             {
+                foreach (var sm in soulMates.Keys.ToList())
+                {
+                    if (soulMates[sm] == null)
+                    {
+                        Player soulMate = soulMates[sm];
+
+                        soulMates.Remove(soulMate);
+                        soulMates.Remove(sm);
+
+                        sm.ShowHint("누군가와의 매칭이 해제되었습니다.", 5);
+                    }
+                }
+
                 foreach (var player in Player.List)
                 {
                     if (player.IsAlive)
                     {
                         if (!soulMates.ContainsKey(player))
+                        {
                             waitingPlayers.Add(player);
+
+                            player.ShowHint("누군가와 매칭되기를 기다리는 중입니다..", 250);
+                        }
                     }
-                    else if (player.IsDead)
+                    else
                     {
                         if (soulMates.ContainsKey(player))
+                        {
+                            Player soulMate = soulMates[player];
+
+                            soulMates.Remove(soulMate);
                             soulMates.Remove(player);
+
+                            player.ShowHint("누군가와의 매칭이 해제되었습니다.", 5);
+                            soulMate.ShowHint("누군가와의 매칭이 해제되었습니다.", 5);
+                        }
                     }
                 }
 
@@ -91,9 +116,12 @@ namespace RGM.Modes
                     second.ClearInventory();
                     foreach (var Item in first.Items)
                         second.AddItem(Item.Type);
+
+                    first.ShowHint("누군가와 새롭게 매칭되었습니다.", 5);
+                    second.ShowHint("누군가와 새롭게 매칭되었습니다.", 5);
                 }
 
-                yield return Timing.WaitForSeconds(10f);
+                yield return Timing.WaitForSeconds(1f);
             }
         }
 
@@ -109,7 +137,7 @@ namespace RGM.Modes
                     {
                         if (currentItems[player] != player.CurrentItem)
                         {
-                            Timing.CallDelayed(1f, () =>
+                            Timing.CallDelayed(0.1f, () =>
                             {
                                 Player soulMate = soulMates[player];
 
@@ -130,7 +158,7 @@ namespace RGM.Modes
                         currentItems.Add(player, player.CurrentItem);
                 }
 
-                yield return Timing.WaitForSeconds(1f);
+                yield return Timing.WaitForSeconds(0.1f);
             }
         }
 
