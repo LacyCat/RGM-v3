@@ -56,16 +56,6 @@ namespace RGM.Modes
                 player.Position = new Vector3(41.58984f, 1044.594f, -113.3477f);
             }
 
-            async void Processing(GameObject gameObject)
-            {
-                Primitive Platform = gameObject.GetComponent<PrimitiveObject>().Primitive;
-                Platform.Color = new Color(255, 0, 0);
-
-                await Task.Delay(750);
-
-                Platform.Destroy();
-            }
-
             while (true)
             {
                 foreach (var player in Player.List.Where(x => x.IsAlive).ToList())
@@ -74,8 +64,13 @@ namespace RGM.Modes
                     {
                         OnGround[player] = 5;
 
-                        if (hit.transform.name == "Platform")
-                            Processing(hit.transform.gameObject);
+                        if (hit.transform.name == "Platform") 
+                        {
+                            Primitive Platform = hit.transform.gameObject.GetComponent<PrimitiveObject>().Primitive;
+                            Platform.Color = new Color(255, 0, 0);
+
+                            Timing.CallDelayed(0.75f, Platform.Destroy);
+                        }
 
                         else if (hit.collider.name == "Lava")
                             player.Kill("용암을 좋아한 나머지 뛰어들어갔습니다.");

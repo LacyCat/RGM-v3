@@ -309,7 +309,7 @@ namespace RGM
                 ev.Player.Role.Set(Humans[UnityEngine.Random.Range(0, Humans.Count())]);
                 ev.Player.ClearInventory();
                 ev.Player.Position = new Vector3(64.66287f, 893.0417f, -73.39104f);
-                MultiBroadcast.API.MultiBroadcast.AddPlayerBroadcast(ev.Player, 10, Notions.WelcomeMessage);
+                ev.Player.AddBroadcast(10, Notions.WelcomeMessage);
 
                 string iv(int num)
                 {
