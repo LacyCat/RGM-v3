@@ -78,6 +78,8 @@ namespace RGM.Modes
             {
                 player.Role.Set(RoleTypeId.Scp3114);
                 player.Position = new Vector3(74.99881f, 1012.823f, -43.1801f);
+
+                Server.ExecuteCommand($"/speak {player.Id} 1");
             }
 
             Player.List.CopyTo(pl);
@@ -216,6 +218,8 @@ namespace RGM.Modes
 
         public void OnDied(Exiled.Events.EventArgs.Player.DiedEventArgs ev)
         {
+            Server.ExecuteCommand($"/speak {ev.Player.Id} 0");
+
             if (pl.Contains(ev.Player))
             {
                 pl.Remove(ev.Player);
