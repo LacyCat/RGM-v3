@@ -200,7 +200,10 @@ namespace RGM.Modes
                     else
                     {
                         if (player.Role is SpectatorRole spectator)
-                            ShowStatus(player, spectator.SpectatedPlayer);
+                        {
+                            if (spectator != null)
+                                ShowStatus(player, spectator.SpectatedPlayer);
+                        }
                     }
                 }
 
@@ -293,7 +296,7 @@ namespace RGM.Modes
 
         public async void AddAbility(Player player, bool force = false)
         {
-            if (force || UnityEngine.Random.Range(1, 3) == 1)
+            if (force || (UnityEngine.Random.Range(1, 3) == 1))
             {
                 if (player.IsScp)
                 {
