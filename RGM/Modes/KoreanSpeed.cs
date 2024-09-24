@@ -30,9 +30,6 @@ namespace RGM.Modes
                 {
                     player.EnableEffect(EffectType.MovementBoost, 125);
                     player.EnableEffect(EffectType.Scp1853, 5);
-
-                    if (player.Role is Scp173Role scp173)
-                        scp173.BlinkCooldown = scp173.BlinkCooldown / 2;
                 }
 
                 yield return Timing.WaitForSeconds(1f);
