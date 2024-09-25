@@ -42,6 +42,7 @@ namespace RGM
         List<Transform> Second;
         List<Transform> Third;
         List<Transform> Numbers;
+        List<Transform> RandomColors;
 
         public static T GetRandomValue<T>(List<T> list)
         {
@@ -69,10 +70,12 @@ namespace RGM
                     Pad.GetComponent<PrimitiveObject>().Primitive.Color = ColorUtility.TryParseHtmlString("#" + ModeList[ModeVote.Keys.ToList()[i]][0], out Color color) ? color : Color.white;
             }
 
-            Color randomColor = new Color(UnityEngine.Random.value, UnityEngine.Random.value, UnityEngine.Random.value);
+            Color randomColor = new Color(UnityEngine.Random.value, UnityEngine.Random.value, UnityEngine.Random.value, UnityEngine.Random.value);
 
             foreach (var Number in Numbers)
                 Number.GetComponent<PrimitiveObject>().Primitive.Color = randomColor;
+
+            RandomColors.ForEach(x => x.GetComponent<PrimitiveObject>().Primitive.Color = randomColor);
         }
 
         public override void OnEnabled()
@@ -150,6 +153,7 @@ namespace RGM
             Second = GameObject.FindObjectsOfType<Transform>().Where(t => t.name == "Second").ToList();
             Third = GameObject.FindObjectsOfType<Transform>().Where(t => t.name == "Third").ToList();
             Numbers = GameObject.FindObjectsOfType<Transform>().Where(t => t.name == "Number").ToList();
+            RandomColors = GameObject.FindObjectsOfType<Transform>().Where(t => t.name == "RandomColor").ToList();
 
             PickModes();
 
