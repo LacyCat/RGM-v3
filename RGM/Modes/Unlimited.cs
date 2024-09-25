@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Exiled.API.Features;
 using MEC;
 using MultiBroadcast;
+using PlayerRoles;
 
 namespace RGM.Modes
 {
@@ -62,6 +63,9 @@ namespace RGM.Modes
         public void Spawned(Player player)
         {
             player.IsUsingStamina = false;
+
+            if (player.Role.Type == RoleTypeId.Scp0492)
+                player.MaxHealth += 100;
         }
 
 
@@ -111,7 +115,7 @@ namespace RGM.Modes
             ev.Scp049.RemainingAttackCooldown = 0;
             ev.Scp049.GoodSenseCooldown = 0;
         }
-
+        
         public void OnConsumingCorpse(Exiled.Events.EventArgs.Scp0492.ConsumingCorpseEventArgs ev)
         {
             ev.Player.MaxHealth = ev.Player.MaxHealth + 100;
