@@ -105,7 +105,7 @@ namespace RGM.Modes
             {"[영웅] 최후의 발악", "5초 뒤 반드시 죽지만, 그동안 무적이 되며 속도가 매우 빨라집니다."},
             {"[영웅] 초재생", "핑크 콜라를 지급받습니다."},
             {"[영웅] 고스트룰", "문을 통과할 수 있습니다."},
-            {"[영웅] 잠수부", "스태미나가 줄어들지 않습니다."}
+            {"[영웅] 잠수부", "스태미나가 줄어들지 않습니다."},
         };
         public Dictionary<string, string> LegendAbilities = new Dictionary<string, string>()
         {
@@ -722,7 +722,7 @@ namespace RGM.Modes
                     if (ev.Player.CurrentItem == null || !PickCoinSerials.Contains(ev.Player.CurrentItem.Serial))
                         break;
 
-                    ev.Player.ShowHint("이 동전을 튕기면 <b>뽑기</b> 능력을 사용할 수 있습니다.", 1.2f);
+                    ev.Player.ShowHint("이 동전을 튕기면 <b><color=#A4A4A4>뽑기</color></b> 능력을 사용할 수 있습니다.", 1.2f);
 
                     await Task.Delay(1000);
                 }
@@ -734,7 +734,7 @@ namespace RGM.Modes
                     if (ev.Player.CurrentItem == null || !FollowCoinSerials.Contains(ev.Player.CurrentItem.Serial))
                         break;
 
-                    ev.Player.ShowHint("이 동전을 튕기면 <b>순간이동</b> 능력을 사용할 수 있습니다.", 1.2f);
+                    ev.Player.ShowHint("이 동전을 튕기면 <b><color=#58D3F7>순간이동</color></b> 능력을 사용할 수 있습니다.", 1.2f);
 
                     await Task.Delay(1000);
                 }
@@ -746,7 +746,7 @@ namespace RGM.Modes
                     if (ev.Player.CurrentItem == null || !GrapCoinSerials.Contains(ev.Player.CurrentItem.Serial))
                         break;
 
-                    ev.Player.ShowHint("이 동전을 튕기면 <b>갈고리</b> 능력을 사용할 수 있습니다.", 1.2f);
+                    ev.Player.ShowHint("이 동전을 튕기면 <b><color=#58D3F7>갈고리</color></b> 능력을 사용할 수 있습니다.", 1.2f);
 
                     await Task.Delay(1000);
                 }
@@ -758,7 +758,19 @@ namespace RGM.Modes
                     if (ev.Player.CurrentItem == null || !ClockCoinSerials.Contains(ev.Player.CurrentItem.Serial))
                         break;
 
-                    ev.Player.ShowHint("이 동전을 튕기면 <b>회중시계</b> 능력을 사용할 수 있습니다.", 1.2f);
+                    ev.Player.ShowHint("이 동전을 튕기면 <b><color=#58D3F7>회중시계</color></color></b> 능력을 사용할 수 있습니다.", 1.2f);
+
+                    await Task.Delay(1000);
+                }
+            }
+            else if (InstallModeSerials.Contains(ev.Item.Serial))
+            {
+                while (true)
+                {
+                    if (ev.Player.CurrentItem == null || !InstallModeSerials.Contains(ev.Player.CurrentItem.Serial))
+                        break;
+
+                    ev.Player.ShowHint("이 동전을 튕기면 <b><color=yellow>모드 설치</color></b> 능력을 사용할 수 있습니다.", 1.2f);
 
                     await Task.Delay(1000);
                 }
@@ -770,7 +782,7 @@ namespace RGM.Modes
                     if (ev.Player.CurrentItem == null || !FlashLightSerials.Contains(ev.Player.CurrentItem.Serial))
                         break;
 
-                    ev.Player.ShowHint("손전등을 상대에게 비추면 <b>플래시라이트</b> 능력을 사용할 수 있습니다.", 1.2f);
+                    ev.Player.ShowHint("손전등을 상대에게 비추면 <b><color=yellow>플래시라이트</color></b> 능력을 사용할 수 있습니다.", 1.2f);
 
                     await Task.Delay(1000);
                 }
@@ -802,7 +814,7 @@ namespace RGM.Modes
                 Player target1 = RGM.GetRandomValue(Player.List.Where(x => x.IsAlive && x != ev.Player && x.Role.Type != RoleTypeId.Scp079).ToList());
                 target1.Position = ev.Player.Position;
             }
-            if (ClockCoinSerials.Contains(ev.Item.Serial))
+            else if (ClockCoinSerials.Contains(ev.Item.Serial))
             {
                 ev.Item.Destroy();
 
@@ -815,8 +827,55 @@ namespace RGM.Modes
                 if (RGM.Instance.GodModePlayers.Contains(ev.Player))
                     RGM.Instance.GodModePlayers.Remove(ev.Player);
             }
+            else if (InstallModeSerials.Contains(ev.Item.Serial))
+            {
+                ev.Item.Destroy();
+
+                string Mode1 = RGM.GetRandomValue(RGM.Instance.ModeList.Keys.Where(x => RGM.Instance.ModeList[x][3] != "private").ToList());
+                string mod1 = Mode1.ToString();
+
+                var modeType = Type.GetType($"RGM.Modes.{RGM.Instance.ModeList[Mode1][2]}");
+                if (modeType != null)
+                {
+                    var modeInstance = Activator.CreateInstance(modeType);
+                    var onEnabledMethod = modeType.GetMethod("OnEnabled");
+                    onEnabledMethod?.Invoke(modeInstance, null);
+                }
+
+                Server.ExecuteCommand($"/cassie_sl {ev.Player.DisplayNickname}(이)가 [{mod1}] 모드를 설치했습니다.");
+            }
         }
 
+        public async void OnTogglingRadio(Exiled.Events.EventArgs.Player.TogglingRadioEventArgs ev)
+        {
+            if (CallSnakeHandsSerials.Contains(ev.Item.Serial))
+            {
+                ev.Item.Destroy();
+
+                ev.Player.Role.Set(RoleTypeId.Tutorial, SpawnReason.ForceClass, RoleSpawnFlags.None);
+
+                List<Player> SnakeHands = Player.List.Where(x => x.IsDead).ToList();
+
+                foreach (var p in SnakeHands)
+                {
+                    p.Role.Set(RoleTypeId.Tutorial);
+                    p.Position = new Vector3(-0.08203125f, 1000.96f, 6.828125f);
+
+                    foreach (ItemType Item in new List<ItemType> { ItemType.KeycardFacilityManager, ItemType.GunFSP9, ItemType.GunRevolver, ItemType.Adrenaline, ItemType.AntiSCP207 })
+                        p.AddItem(Item);
+
+                    for (int i = 1; i < 3; i++)
+                        Player.List.ToList().ForEach(x => Server.ExecuteCommand($"/give {x.Id} 27.29."));
+                }
+
+                for (int i = 1; i < 6; i++)
+                {
+                    ev.Player.ShowHint($"<i>{SnakeHands.Count()}명의 <color=#FE2EF7>동료</color>들이 당신과 함께합니다..</i>", 1.2f);
+
+                    await Task.Delay(1000);
+                }
+            }
+        }
         public async void OnDying(Exiled.Events.EventArgs.Player.DyingEventArgs ev)
         {
             if (PlayerWorkstation.ContainsKey(ev.Player))
