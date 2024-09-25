@@ -58,9 +58,9 @@ namespace RGM.Modes
                 {
                     if (UnityEngine.Random.Range(1, 4) == 1)
                     {
-                        var g1 = (FlashGrenade)Item.Create(ItemType.GrenadeFlash, Server.Host);
+                        var g1 = (FlashGrenade)Item.Create(ItemType.GrenadeFlash);
                         g1.FuseTime = 2f;
-                        g1.SpawnActive(GetRandomPosition(), Server.Host);
+                        g1.SpawnActive(GetRandomPosition());
                     }
                 }
                 if (t > 60)
