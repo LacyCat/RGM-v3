@@ -37,6 +37,18 @@ namespace RGM.Modes
                         player.GetEffect(EffectType.MovementBoost).Intensity = (byte)(5 * s);
                         player.GetEffect(EffectType.DamageReduction).Intensity = (byte)(5 * s);
                         player.Heal(0.35f * s);
+
+                        if (s > 10)
+                            player.IsBypassModeEnabled = true;
+
+                        else
+                            player.IsBypassModeEnabled = false;
+
+                        if (s > 15)
+                            player.EnableEffect(EffectType.Ghostly, 1, 1.2f);
+
+                        if (s > 20)
+                            player.EnableEffect(EffectType.Invisible, 1, 1.2f);
                     }
                     else
                     {

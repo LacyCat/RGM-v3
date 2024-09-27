@@ -31,9 +31,6 @@ namespace RGM.Modes
             Exiled.Events.Handlers.Player.Hurting += OnHurting;
 
             Timing.RunCoroutine(OnModeStarted());
-
-            Harmony harmony = new Harmony("VisibilityControllerPatchPatch");
-            harmony.PatchAll();
         }
 
         public IEnumerator<float> OnModeStarted()
@@ -92,7 +89,7 @@ namespace RGM.Modes
 
         public void OnHurting(Exiled.Events.EventArgs.Player.HurtingEventArgs ev)
         {
-            if (ev.Player.Role.Type == RoleTypeId.Tutorial)
+            if (ev.Player.Role.Type == RoleTypeId.Tutorial && ev.DamageHandler.Type != DamageType.Marshmallow)
                 ev.Player.Hurt(ev.DamageHandler.Damage, DamageType.Marshmallow);
         }
     }
