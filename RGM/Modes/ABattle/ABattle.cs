@@ -110,7 +110,7 @@ namespace RGM.Modes
         public Dictionary<string, string> LegendAbilities = new Dictionary<string, string>()
         {
             {"[전설] 스피드왜건", "속도가 크게 증가합니다."},
-            {"[전설] 뱀의 손 무전기", "지급된 무전기를 조작하면 뱀의 손 지원을 부르며, 자신도 뱀의 손 소속이 됩니다."},
+            {"[전설] 뱀의 손 무전기", "무전기를 든 상태로 우클릭하면 뱀의 손 지원을 부르며, 자신도 뱀의 손 소속이 됩니다."},
             // {"[전설] 모드 설치", "지급된 동전을 튕기면 모드를 하나 더 추가할 수 있습니다."},
             {"[전설] 랜덤택배", "서버 인원 수 만큼 랜덤한 아이템을 드롭합니다."},
             {"[전설] 마술사", "누군가에게 죽으면 죽인 자와 교체됩니다."},
@@ -927,6 +927,18 @@ namespace RGM.Modes
                         break;
 
                     ev.Player.ShowHint("이 동전을 튕기면 <b><color=yellow>모드 설치</color></b> 능력을 사용할 수 있습니다.", 1.2f);
+
+                    await Task.Delay(1000);
+                }
+            }
+            else if (CallSnakeHandsSerials.Contains(ev.Item.Serial))
+            {
+                while (true)
+                {
+                    if (ev.Player.CurrentItem == null || !CallSnakeHandsSerials.Contains(ev.Player.CurrentItem.Serial))
+                        break;
+
+                    ev.Player.ShowHint("우클릭하여 <b><color=yellow>뱀의 손 무전기</color></b> 능력을 사용할 수 있습니다.", 1.2f);
 
                     await Task.Delay(1000);
                 }
