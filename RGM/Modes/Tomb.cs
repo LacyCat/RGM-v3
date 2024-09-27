@@ -43,19 +43,19 @@ namespace RGM.Modes
             Player Dummy = Player.List.ToList()[0];
             Player.List.CopyTo(pl);
 
-            for (int i = 1; i < 250; i++)
+            List<Item> Items = Tools.EnumToList<Item>();
+
+            for (int i = 1; i < 300; i++)
             {
-                List<Item> Items = Tools.EnumToList<Item>();
-                Server.ExecuteCommand($"/drop {Dummy.Id} {UnityEngine.Random.Range(0, 55)} {UnityEngine.Random.Range(1, 3)}");
+                Item Item = RGM.GetRandomValue(Items);
+
+                Item.CreatePickup(RandomPosition());
             }
 
             foreach (var player in Player.List)
             {
                 player.Role.Set(PlayerRoles.RoleTypeId.Tutorial);
-                Timing.CallDelayed(0.01f, () =>
-                {
-                    player.Position = RandomPosition();
-                });
+                player.Position = RandomPosition();
             }
 
             yield return 0f;
