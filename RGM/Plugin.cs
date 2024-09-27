@@ -599,9 +599,6 @@ GoldenPig1205(@GoldenPig1205) - 메인 개발자
             {
                 if (ev.Attacker != null && ev.Attacker != ev.Player)
                     ev.IsAllowed = false;
-
-                else
-                    GodModePlayers.Remove(ev.Player);
             }
         }
 
