@@ -13,15 +13,15 @@ namespace RGM
             { "워크스테이션 업그레이드", new List<string>() { "00FFFF", "워크스테이션에서 업그레이드하세요!", "ABattle", "public", "",
 """
 <color=#F5DA81>인간 진영</color>일 경우, 워크스테이션에서 점프하면 능력을 1개 얻습니다.
-<color=red>SCP-079</color>일 경우, 아군 SCP가 능력을 얻으면 10% 확률로 획득합니다.
+<color=red>SCP-079</color>일 경우, 아군 SCP가 능력을 얻으면 5% 확률로 획득합니다.
 
 각 능력 등급들의 확률을 확인하려면 아래를 참고하십시오.
-• <color=#A4A4A4>일반</color> - 65%
-• <color=#2ECCFA>희귀</color> - 27%
-• <color=#FF00FF>영웅</color> - 7%
-• <color=#ffd700>전설</color> - 0.4%
+• <color=#A4A4A4>일반</color> - 59.4%
+• <color=#2ECCFA>희귀</color> - 25%
+• <color=#FF00FF>영웅</color> - 5%
+• <color=#ffd700>전설</color> - 0.5%
 • <color=#DF0101>신화</color> - 0.1%
-• <color=#F7819F>전용</color> - 100%
+• <color=#F7819F>전용</color> - 10%
 
 20% 확률로 피버 모드가 활성화됩니다.
 <b><i><color=#FF00EA>피</color><color=#EF00EB>버</color> <color=#CF00ED>모</color><color=#BF00EF>드</color></i></b> 활성화 시, 재단에 등장하는 워크스테이션의 수가 증가합니다.
@@ -52,7 +52,7 @@ namespace RGM
 3분 이상 버틴다면 스스로를 칭찬해주세요.
 """ } },
             { "수집가", new List<string>() { "FFBF00", "SCP 아이템 3개를 가지고 시작합니다.", "Collector", "public", "", "" } },
-            { "데스런", new List<string>() { "FF4000", "과학자는 죄수들의 접근을 막아야 합니다.\n널리 퍼져 있는 함정들을 조심하십시오!", "DeathRun", "public", "",
+            { "데스런", new List<string>() { "FF4000", "과학자는 죄수들의 접근을 막아야 합니다. 널리 퍼져 있는 함정들을 조심하십시오!", "DeathRun", "public", "",
 """
 <color=yellow>과학자</color>의 경우, <color=red>빨간 버튼</color>을 눌러 함정을 발동시킬 수 있습니다.
 단, 함정은 1번만 작동시킬 수 있으므로, 한번에 최대한 많은 <color=orange>D계급</color>들을 죽이세요.

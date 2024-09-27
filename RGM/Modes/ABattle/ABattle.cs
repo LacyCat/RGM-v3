@@ -44,13 +44,14 @@ namespace RGM.Modes
         public List<ushort> InstallModeSerials = new List<ushort>();
         public List<ushort> CallSnakeHandsSerials = new List<ushort>();
         public List<ushort> FlashLightSerials = new List<ushort>();
+        public List<ushort> ChaosCoinSerials = new List<ushort>();
 
         public List<Player> insurers = new List<Player>();
         public List<Player> fighters = new List<Player>();
         public List<Player> martyrs = new List<Player>();
         public List<Player> repairs = new List<Player>();
         public List<Player> ability941s = new List<Player>();
-        public List<Player> culprits = new List<Player>(); // 최후의 발악
+        public List<Player> culprits = new List<Player>();
         public List<Player> magicians = new List<Player>();
         public List<Player> posions = new List<Player>();
         public List<Player> spirits = new List<Player>();
@@ -88,7 +89,6 @@ namespace RGM.Modes
             {"[희귀] 회중시계", "지급된 동전을 튕기면 3초간 움직일 수 없는 대신에 무적 상태가 됩니다."},
             {"[희귀] 스테로이드", "25초 간 이동 속도가 많이 증가합니다."},
             {"[희귀] 순교", "사망할 시 해당 지역에 점화된 수류탄을 떨굽니다."},
-            {"[희귀] 소매치기", "[ALT]를 눌러 상대의 아이템 중 하나를 빼앗을 수 있습니다. (쿨타임 1분)"},
             {"[희귀] 하이패스", "25초 간 무적이 됩니다."}
         };
         public Dictionary<string, string> EpicAbilities = new Dictionary<string, string>()
@@ -124,7 +124,59 @@ namespace RGM.Modes
             {"[신화] 스피릿", "2초마다 영혼 상태가 됩니다!"},
             {"[신화] 눈빛맨", "쳐다보는 것만으로도 당신을 두려워할 것입니다!"}
         };
-
+        public Dictionary<string, string> ClassDAbilities = new Dictionary<string, string>()
+        {
+            {"[전용] 소매치기", "[ALT]를 눌러 상대의 아이템 중 하나를 빼앗을 수 있습니다. (쿨타임 1분)"}
+        };
+        public Dictionary<string, string> ScientistAbilities = new Dictionary<string, string>()
+        {
+            {"[전용] 05 평의회", "05등급 키카드를 지급받습니다."}
+        };
+        public Dictionary<string, string> GuardAbilities = new Dictionary<string, string>()
+        {
+            {"[전용] 관리 의무자", "손전등과 Crossvec를 지급받습니다."}
+        };
+        public Dictionary<string, string> NtfAbilities = new Dictionary<string, string>()
+        {
+            {"[전용] 격리 의무자", "고폭 수류탄과 섬광탄을 지급받습니다."}
+        };
+        public Dictionary<string, string> ChaosAbilities = new Dictionary<string, string>()
+        {
+            {"[전용] 카오스 볼", "SCP-018을 획득합니다."},
+            {"[전용] 혼돈의 손길", "지급된 동전을 튕기면 보유한 능력을 전부 삭제합니다."}
+        };
+        public Dictionary<string, string> SnakeAbilities = new Dictionary<string, string>()
+        {
+            {"[전용] 세치 혀", "SCP-1576을 획득합니다."}
+        };
+        public Dictionary<string, string> Scp173Abilities = new Dictionary<string, string>()
+        {
+            {"[전용] 공포", "인간을 죽이면 그 방에 있는 인간들이 0.5초 동안 움직일 수 없게 됩니다."}
+        };
+        public Dictionary<string, string> Scp049Abilities = new Dictionary<string, string>()
+        {
+            {"[전용] 사자", "공격 쿨타임이 1/2배가 됩니다."}
+        };
+        public Dictionary<string, string> Scp0492Abilities = new Dictionary<string, string>()
+        {
+            {"[전용] 허기", "인간을 섭취할 때 얻는 회복량이 2배가 됩니다."}
+        };
+        public Dictionary<string, string> Scp096Abilities = new Dictionary<string, string>()
+        {
+            {"[전용] 분노", "분노 때에는 어떠한 데미지도 입지 않습니다."}
+        };
+        public Dictionary<string, string> Scp106Abilities = new Dictionary<string, string>()
+        {
+            {"[전용] 회춘", "데미지를 20% 경감시키는 효과를 받습니다."}
+        };
+        public Dictionary<string, string> Scp939Abilities = new Dictionary<string, string>()
+        {
+            {"[전용] 흉내쟁이", "흉내 쿨타임이 1/2배가 됩니다."}
+        };
+        public Dictionary<string, string> Scp3114Abilities = new Dictionary<string, string>()
+        {
+            {"[전용] 숙련된 암살자", "교살 데미지가 10배가 됩니다."}
+        };
         public Dictionary<string, string> Scp079Abilities = new Dictionary<string, string>() 
         {
             {"[전용] 핑 리모컨", "핑한 장소에 0.5초 간 정전이 됩니다."},
@@ -300,7 +352,7 @@ namespace RGM.Modes
 
         public async void AddAbility(Player player, bool force = false)
         {
-            if (player.IsScp)
+            if (player.IsScp && player.Role.Type != RoleTypeId.Scp0492)
             {
                 foreach (var scp079 in Player.List.Where(x => x.IsAlive))
                 {
@@ -332,16 +384,23 @@ namespace RGM.Modes
 
                 else
                 {
-                    if (grade <= 650)
-                        abilityGrade = "[일반]";
-                    else if (grade <= 920)
-                        abilityGrade = "[희귀]";
-                    else if (grade <= 995)
-                        abilityGrade = "[영웅]";
-                    else if (grade <= 999)
-                        abilityGrade = "[전설]";
-                    else
+                    if (grade < 2)
                         abilityGrade = "[신화]";
+
+                    else if (grade < 7)
+                        abilityGrade = "[전설]";
+
+                    else if (grade < 57)
+                        abilityGrade = "[영웅]";
+
+                    else if (grade < 257)
+                        abilityGrade = "[희귀]";
+
+                    else if (grade < 317)
+                        abilityGrade = "[전용]";
+
+                    else
+                        abilityGrade = "[일반]";
                 }
 
                 Dictionary<string, string> AbilityList()
@@ -370,9 +429,43 @@ namespace RGM.Modes
                     }
                     else
                     {
+                        Dictionary<string, string> Format()
+                        {
+                            RoleTypeId role = player.Role.Type;
+
+                            if (role == RoleTypeId.ClassD)
+                                return ClassDAbilities;
+                            else if (role == RoleTypeId.Scientist)
+                                return ScientistAbilities;
+                            else if (role == RoleTypeId.FacilityGuard)
+                                return GuardAbilities;
+                            else if (player.IsNTF)
+                                return NtfAbilities;
+                            else if (player.IsCHI)
+                                return ChaosAbilities;
+                            else if (role == RoleTypeId.Tutorial)
+                                return SnakeAbilities;
+                            else if (role == RoleTypeId.Scp173)
+                                return Scp173Abilities;
+                            else if (role == RoleTypeId.Scp049)
+                                return Scp049Abilities;
+                            else if (role == RoleTypeId.Scp0492)
+                                return Scp0492Abilities;
+                            else if (role == RoleTypeId.Scp096)
+                                return Scp096Abilities;
+                            else if (role == RoleTypeId.Scp106)
+                                return Scp106Abilities;
+                            else if (role == RoleTypeId.Scp939)
+                                return Scp939Abilities;
+                            else if (role == RoleTypeId.Scp3114)
+                                return Scp3114Abilities;
+                            else
+                                return Scp079Abilities;
+                        }
+
                         Cassie.Clear();
                         Server.ExecuteCommand($"/cassie_sl {player.DisplayNickname}(이)가 <color=#F7819F>[전용]</color> 업그레이드를 입수하였습니다.");
-                        return Scp079Abilities;
+                        return Format();
                     }
                 }
 
@@ -591,6 +684,67 @@ namespace RGM.Modes
                     case "해킹": Warhead.Start(); Warhead.Detonate(); Server.ExecuteCommand($"/cassie_sl {player.DisplayNickname}(이)가 핵을 <b>원격으로 터트렸습니다.</b>"); break;
                     case "스피릿": spirits.Add(player); break;
                     case "눈빛맨": twinkles.Add(player); break;
+                    case "05 평의회": player.AddItem(ItemType.KeycardO5); break;
+                    case "관리 의무자":
+                        List<ItemType> ManageDuty = new List<ItemType>() 
+                        { 
+                            ItemType.GunCrossvec, 
+                            ItemType.Flashlight, 
+                            ItemType.Ammo9x19, 
+                            ItemType.Ammo9x19
+                        };
+
+                        foreach (var item in ManageDuty)
+                            player.AddItem(item);
+                        break;
+                    case "격리 의무자":
+                        List<ItemType> ContainDuty = new List<ItemType>()
+                        {
+                            ItemType.GrenadeFlash,
+                            ItemType.GrenadeHE
+                        };
+
+                        foreach (var item in ContainDuty)
+                            player.AddItem(item);
+                        break;
+                    case "카오스 볼":
+                        Item c = player.AddItem(ItemType.SCP018);
+
+                        if (player.IsScp)
+                            player.CurrentItem = c;
+                        break;
+                    case "혼돈의 손길":
+                        Item Ch = player.AddItem(ItemType.Coin);
+                        ChaosCoinSerials.Add(Ch.Serial);
+
+                        if (player.IsScp)
+                            player.CurrentItem = Ch;
+                        break;
+                    case "세치 혀":
+                        Item Scp1576 = player.AddItem(ItemType.SCP1576);
+
+                        if (player.IsScp)
+                            player.CurrentItem = Scp1576;
+                        break;
+                    case "공포": 
+                        break;
+                    case "사자":
+                        if (player.Role is Scp049Role scp049)
+                            scp049.RemainingAttackCooldown /= 2;
+                        break;
+                    case "허기":
+                        break;
+                    case "격노":
+                        break;
+                    case "회춘":
+                        player.GetEffect(EffectType.DamageReduction).Intensity += 40;
+                        break;
+                    case "흉내쟁이":
+                        if (player.Role is Scp939Role scp939)
+                            scp939.MimicryCooldown /= 2;
+                        break;
+                    case "숙련된 암살자":
+                        break;
                     case "핑 리모컨":
                         break;
                     case "간이 충전기":
@@ -646,7 +800,7 @@ namespace RGM.Modes
                     }
                 }
 
-                if (PlayerAbilities[ev.Player].Contains("[희귀] 소매치기"))
+                if (PlayerAbilities[ev.Player].Contains("[전용] 소매치기"))
                 {
                     if (!PickPocketCooldown.Contains(ev.Player))
                     {
@@ -787,7 +941,20 @@ namespace RGM.Modes
                     await Task.Delay(1000);
                 }
             }
+            else if (ChaosCoinSerials.Contains(ev.Item.Serial))
+            {
+                while (true)
+                {
+                    if (ev.Player.CurrentItem == null || !ChaosCoinSerials.Contains(ev.Player.CurrentItem.Serial))
+                        break;
+
+                    ev.Player.ShowHint("이 동전을 튕기면 <b><color=#F7819F>혼돈의 손길</color></color></b> 능력을 사용할 수 있습니다.", 1.2f);
+
+                    await Task.Delay(1000);
+                }
+            }
         }
+
         public async void OnFlippingCoin(Exiled.Events.EventArgs.Player.FlippingCoinEventArgs ev)
         {
             if (PickCoinSerials.Contains(ev.Item.Serial))
@@ -844,6 +1011,16 @@ namespace RGM.Modes
 
                 Server.ExecuteCommand($"/cassie_sl {ev.Player.DisplayNickname}(이)가 [{mod1}] 모드를 설치했습니다.");
             }
+            else if (ChaosCoinSerials.Contains(ev.Item.Serial))
+            {
+                ev.Item.Destroy();
+
+                if (PlayerAbilities.ContainsKey(ev.Player))
+                {
+                    PlayerAbilities[ev.Player].Clear();
+                    PlayerWorkstation[ev.Player].Clear();
+                }
+            }
         }
 
         public async void OnTogglingRadio(Exiled.Events.EventArgs.Player.TogglingRadioEventArgs ev)
@@ -893,6 +1070,7 @@ namespace RGM.Modes
                 }
             }
         }
+
         public async void OnDying(Exiled.Events.EventArgs.Player.DyingEventArgs ev)
         {
             if (PlayerWorkstation.ContainsKey(ev.Player))
@@ -1010,8 +1188,16 @@ namespace RGM.Modes
         {
             if (PlayerAbilities.ContainsKey(ev.Attacker))
             {
-                if (PlayerAbilities[ev.Attacker].Contains("[전설] 킬스트릭"))
+                List<string> aa = PlayerAbilities[ev.Attacker];
+
+                if (aa.Contains("[전설] 킬스트릭"))
                     AddAbility(ev.Attacker);
+
+                if (aa.Contains("[전용] 공포"))
+                {
+                    foreach (var player in ev.Attacker.CurrentRoom.Players.Where(x => !x.IsScp))
+                        player.EnableEffect(EffectType.Ensnared, 1, 0.5f);
+                }
             }
         }
 
@@ -1069,6 +1255,21 @@ namespace RGM.Modes
                     if (UnityEngine.Random.Range(1, 21) == 1)
                         Server.ExecuteCommand($"/rocket {ev.Player.Id} 1");
                 }
+
+                if (PlayerAbilities[ev.Player].Contains("[전용] 격노"))
+                {
+                    if (ev.Player.Role is Scp096Role Scp096)
+                    {
+                        if (Scp096.RageManager.IsEnraged && ev.Attacker != null && ev.Attacker != ev.Player)
+                            ev.IsAllowed = false;
+                    }
+                }
+
+                if (PlayerAbilities[ev.Player].Contains("[전용] 숙련된 암살자"))
+                {
+                    if (ev.DamageHandler.Type == DamageType.Strangled)
+                        ev.DamageHandler.Damage *= 10;
+                }
             }
         }
 
@@ -1085,6 +1286,12 @@ namespace RGM.Modes
         {
             if (PlayerAbilities[ev.Player].Contains("[영웅] 수리 기사"))
                 ev.DisableTesla = true;
+        }
+
+        public void OnConsumedCorpse(Exiled.Events.EventArgs.Scp0492.ConsumedCorpseEventArgs ev)
+        {
+            if (PlayerAbilities[ev.Player].Contains("[전용] 허기"))
+                ev.ConsumeHeal *= 2;
         }
 
         public void OnPinging(Exiled.Events.EventArgs.Scp079.PingingEventArgs ev)
