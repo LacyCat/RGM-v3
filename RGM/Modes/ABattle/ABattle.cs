@@ -126,7 +126,8 @@ namespace RGM.Modes
         };
         public Dictionary<string, string> ClassDAbilities = new Dictionary<string, string>()
         {
-            {"[전용] 소매치기", "[ALT]를 눌러 상대의 아이템 중 하나를 빼앗을 수 있습니다. (쿨타임 1분)"}
+            {"[전용] 소매치기", "[ALT]를 눌러 상대의 아이템 중 하나를 빼앗을 수 있습니다. (쿨타임 1분)"},
+            {"[전용] 변장의 달인", "SCP-268을 지급받습니다."}
         };
         public Dictionary<string, string> ScientistAbilities = new Dictionary<string, string>()
         {
@@ -142,12 +143,12 @@ namespace RGM.Modes
         };
         public Dictionary<string, string> ChaosAbilities = new Dictionary<string, string>()
         {
-            {"[전용] 카오스 볼", "SCP-018을 획득합니다."},
+            {"[전용] 카오스 볼", "SCP-018을 지급받습니다."},
             {"[전용] 혼돈의 손길", "지급된 동전을 튕기면 보유한 능력을 전부 삭제합니다."}
         };
         public Dictionary<string, string> SnakeAbilities = new Dictionary<string, string>()
         {
-            {"[전용] 세치 혀", "SCP-1576을 획득합니다."}
+            {"[전용] 세치 혀", "SCP-1576을 지급받습니다."}
         };
         public Dictionary<string, string> Scp173Abilities = new Dictionary<string, string>()
         {
@@ -155,7 +156,9 @@ namespace RGM.Modes
         };
         public Dictionary<string, string> Scp049Abilities = new Dictionary<string, string>()
         {
-            {"[전용] 사자", "공격 쿨타임이 1/2배가 됩니다."}
+            {"[전용] 사자", "공격 쿨타임이 1/2배가 됩니다."},
+            {"[전용] 유능한 의사", "소생된 좀비의 체력이 50% 확률로 1.5배가 됩니다."},
+            {"[전용] 능수능란", "소생 시간이 1/2배가 됩니다."}
         };
         public Dictionary<string, string> Scp0492Abilities = new Dictionary<string, string>()
         {
@@ -196,6 +199,7 @@ namespace RGM.Modes
             Exiled.Events.Handlers.Player.TogglingRadio += OnTogglingRadio;
             Exiled.Events.Handlers.Player.Dying += OnDying;
             Exiled.Events.Handlers.Player.Died += OnDied;
+            Exiled.Events.Handlers.Player.Escaping += OnEscaping;
             Exiled.Events.Handlers.Player.InteractingDoor += OnInteractingDoor;
             Exiled.Events.Handlers.Player.DroppedItem += OnDroppedItem;
             Exiled.Events.Handlers.Player.Hurting += OnHurting;
@@ -203,6 +207,8 @@ namespace RGM.Modes
             Exiled.Events.Handlers.Player.TriggeringTesla += OnTriggeringTesla;
 
             Exiled.Events.Handlers.Scp049.Attacking += OnAttacking;
+            Exiled.Events.Handlers.Scp049.StartingRecall += OnStartingRecall;
+            Exiled.Events.Handlers.Scp049.FinishingRecall += OnFinishingRecall;
 
             Exiled.Events.Handlers.Scp0492.ConsumedCorpse += OnConsumedCorpse;
 
@@ -688,6 +694,7 @@ namespace RGM.Modes
                     case "해킹": Warhead.Start(); Warhead.Detonate(); Server.ExecuteCommand($"/cassie_sl {player.DisplayNickname}(이)가 핵을 <b>원격으로 터트렸습니다.</b>"); break;
                     case "스피릿": spirits.Add(player); break;
                     case "눈빛맨": twinkles.Add(player); break;
+                    case "변장의 달인": player.AddItem(ItemType.SCP268); break;
                     case "05 평의회": player.AddItem(ItemType.KeycardO5); break;
                     case "관리 의무자":
                         List<ItemType> ManageDuty = new List<ItemType>() 
@@ -730,24 +737,12 @@ namespace RGM.Modes
                         if (player.IsScp)
                             player.CurrentItem = Scp1576;
                         break;
-                    case "공포": 
-                        break;
-                    case "사자":
-                        break;
-                    case "허기":
-                        break;
-                    case "격노":
-                        break;
                     case "회춘":
                         player.GetEffect(EffectType.DamageReduction).Intensity += 40;
                         break;
                     case "흉내쟁이":
                         if (player.Role is Scp939Role scp939)
                             scp939.MimicryCooldown /= 2;
-                        break;
-                    case "숙련된 암살자":
-                        break;
-                    case "핑 리모컨":
                         break;
                     case "간이 충전기":
                         if (player.Role is Scp079Role scp079)
@@ -761,12 +756,6 @@ namespace RGM.Modes
 
                             await Task.Delay(1000);
                         }
-                        break;
-                    case "랜덤 함수":
-                        break;
-                    case "RTX4090":
-                        break;
-                    case "고대의 존재 압도":
                         break;
                 }
             }
@@ -1215,6 +1204,15 @@ namespace RGM.Modes
             }
         }
 
+        public void OnEscaping(Exiled.Events.EventArgs.Player.EscapingEventArgs ev)
+        {
+            if (PlayerAbilities.ContainsKey(ev.Player))
+            {
+                PlayerAbilities[ev.Player].Clear();
+                PlayerWorkstation[ev.Player].Clear();
+            }
+        }
+
         public void OnInteractingDoor(Exiled.Events.EventArgs.Player.InteractingDoorEventArgs ev)
         {
             if (ev.Door.Type == DoorType.Scp079First)
@@ -1309,6 +1307,25 @@ namespace RGM.Modes
                 Timing.CallDelayed(0.1f, () =>
                 {
                     ev.Scp049.RemainingAttackCooldown /= 2;
+                });
+            }
+        }
+
+        public void OnStartingRecall(Exiled.Events.EventArgs.Scp049.StartingRecallEventArgs ev)
+        {
+            if (PlayerAbilities[ev.Player].Contains("[전용] 능수능란"))
+            {
+                ev.Scp049.RemainingCallDuration /= 2;
+            }
+        }
+
+        public void OnFinishingRecall(Exiled.Events.EventArgs.Scp049.FinishingRecallEventArgs ev)
+        {
+            if (PlayerAbilities[ev.Player].Contains("[전용] 유능한 의사"))
+            {
+                Timing.CallDelayed(0.1f, () =>
+                {
+                    ev.Target.MaxHealth *= 3/2;
                 });
             }
         }
