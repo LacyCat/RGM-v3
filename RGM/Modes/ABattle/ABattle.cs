@@ -260,15 +260,19 @@ namespace RGM.Modes
             {
                 foreach (var player in Player.List)
                 {
-                    if (player.IsAlive)
-                        ShowStatus(player, player);
-
-                    else
+                    string CurrentHint = player.CurrentHint.Content;
+                    if (!player.HasHint || (CurrentHint.Contains("워크스테이션") || CurrentHint.Contains("보유 업그레이드")))
                     {
-                        if (player.Role is SpectatorRole spectator)
+                        if (player.IsAlive)
+                            ShowStatus(player, player);
+
+                        else
                         {
-                            if (spectator.SpectatedPlayer != null)
-                                ShowStatus(player, spectator.SpectatedPlayer);
+                            if (player.Role is SpectatorRole spectator)
+                            {
+                                if (spectator.SpectatedPlayer != null)
+                                    ShowStatus(player, spectator.SpectatedPlayer);
+                            }
                         }
                     }
                 }
@@ -1323,10 +1327,13 @@ namespace RGM.Modes
         {
             if (PlayerAbilities[ev.Player].Contains("[전용] 유능한 의사"))
             {
-                Timing.CallDelayed(0.1f, () =>
+                if (UnityEngine.Random.Range(1, 3) == 1)
                 {
-                    ev.Target.MaxHealth *= 3/2;
-                });
+                    Timing.CallDelayed(0.1f, () =>
+                    {
+                        ev.Target.MaxHealth *= 3 / 2;
+                    });
+                }
             }
         }
 
