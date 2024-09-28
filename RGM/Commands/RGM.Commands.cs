@@ -5,6 +5,7 @@ using CommandSystem;
 using Exiled.API.Extensions;
 using Exiled.API.Features;
 using MultiBroadcast.API;
+using PlayerRoles;
 using UnityEngine;
 
 namespace RGM.Commands
@@ -104,35 +105,74 @@ namespace RGM.Commands
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
             Player player = Player.Get(sender);
+
             string CurrentMode = RGM.Instance.CurrentMode;
 
-            if (RGM.Instance.CurrentMode == null)
+            if (arguments.Count == 0)
             {
-                response = "현재 모드가 설정되지 않았습니다.";
-                return false;
+                if (RGM.Instance.CurrentMode == null)
+                {
+                    response = "현재 모드가 설정되지 않았습니다.";
+                    return false;
+                }
+                else
+                {
+                    string ModeColor = RGM.Instance.ModeList[CurrentMode][0];
+                    string ModeDescription = RGM.Instance.ModeList[CurrentMode][1];
+                    string ModeFileName = RGM.Instance.ModeList[CurrentMode][2];
+                    string ModeDescriptionDetail = RGM.Instance.ModeList[CurrentMode][5];
+
+                    string Message = Notions.StartModeDescription
+                        .Replace("{ModeColor}", ModeColor)
+                        .Replace("{CurrentMode}", CurrentMode)
+                        .Replace("{ModeDescription}", ModeDescription);
+
+                    response = $"성공적으로 모드 설명을 불러왔습니다.";
+
+                    player.SendConsoleMessage($"\n{Message}", "white");
+                    if (ModeDescriptionDetail == "")
+                        player.SendConsoleMessage($"\n해당 모드에 대한 자세한 설명이 없습니다.", "white");
+
+                    else
+                        player.SendConsoleMessage($"\n{ModeDescriptionDetail}", "white");
+
+                    return true;
+                }
             }
             else
             {
-                string ModeColor = RGM.Instance.ModeList[CurrentMode][0];
-                string ModeDescription = RGM.Instance.ModeList[CurrentMode][1];
-                string ModeFileName = RGM.Instance.ModeList[CurrentMode][2];
-                string ModeDescriptionDetail = RGM.Instance.ModeList[CurrentMode][5];
+                string args = string.Join(" ", arguments).Trim();
 
-                string Message = Notions.StartModeDescription
-                    .Replace("{ModeColor}", ModeColor)
-                    .Replace("{CurrentMode}", CurrentMode)
-                    .Replace("{ModeDescription}", ModeDescription);
+                if (RGM.Instance.ModeList.Keys.Contains(args))
+                {
+                    CurrentMode = args;
 
-                response = $"성공적으로 모드 설명을 불러왔습니다.";
+                    string ModeColor = RGM.Instance.ModeList[CurrentMode][0];
+                    string ModeDescription = RGM.Instance.ModeList[CurrentMode][1];
+                    string ModeFileName = RGM.Instance.ModeList[CurrentMode][2];
+                    string ModeDescriptionDetail = RGM.Instance.ModeList[CurrentMode][5];
 
-                player.SendConsoleMessage($"\n{Message}", "white");
-                if (ModeDescriptionDetail == "")
-                    player.SendConsoleMessage($"\n해당 모드에 대한 자세한 설명이 없습니다.", "white");
+                    string Message = Notions.StartModeDescription
+                        .Replace("{ModeColor}", ModeColor)
+                        .Replace("{CurrentMode}", CurrentMode)
+                        .Replace("{ModeDescription}", ModeDescription);
 
+                    response = $"성공적으로 모드 설명을 불러왔습니다.";
+
+                    player.SendConsoleMessage($"\n{Message}", "white");
+                    if (ModeDescriptionDetail == "")
+                        player.SendConsoleMessage($"\n해당 모드에 대한 자세한 설명이 없습니다.", "white");
+
+                    else
+                        player.SendConsoleMessage($"\n{ModeDescriptionDetail}", "white");
+
+                    return true;
+                }
                 else
-                    player.SendConsoleMessage($"\n{ModeDescriptionDetail}", "white");
-
-                return true;
+                {
+                    response = "존재하지 않는 <모드 이름>입니다.\nSending Command Error..";
+                    return false;
+                }
             }
         }
 
@@ -302,6 +342,7 @@ namespace RGM.Commands
             Player player = Player.Get(sender);
 
             player.Kill("이 자는 개발의 의무를 짊어지고 죽었습니다.");
+            player.Role.Set(RoleTypeId.Overwatch);
 
             response = "Complete!";
 
