@@ -295,6 +295,29 @@ namespace RGM.Commands
     }
 
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
+    public class Develop : ICommand
+    {
+        public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
+        {
+            Player player = Player.Get(sender);
+
+            player.Kill("이 자는 개발의 의무를 짊어지고 죽었습니다.");
+
+            response = "Complete!";
+
+            return true;
+        }
+
+        public string Command { get; } = "develop";
+
+        public string[] Aliases { get; } = { "dv", "dev" };
+
+        public string Description { get; } = "개발하러 갈 때 사용하세요!";
+
+        public bool SanitizeResponse { get; } = true;
+    }
+
+    [CommandHandler(typeof(RemoteAdminCommandHandler))]
     public class Invisible : ICommand
     {
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
