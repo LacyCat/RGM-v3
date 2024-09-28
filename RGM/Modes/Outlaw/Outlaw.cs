@@ -8,6 +8,7 @@ using Exiled.API.Features;
 using MEC;
 using RGM.API;
 using PlayerRoles;
+using Exiled.API.Enums;
 
 namespace RGM.Modes
 {
@@ -65,8 +66,11 @@ namespace RGM.Modes
 
                 if (CurrentItem is Firearm firearm)
                 {
-                    for (int i = 0; i < 3; i++)
-                        player.AddAmmo(firearm.AmmoType, firearm.MaxAmmo);
+                    if (firearm.AmmoType != AmmoType.None)
+                    {
+                        for (int i = 0; i < 3; i++)
+                            player.AddAmmo(firearm.AmmoType, firearm.MaxAmmo);
+                    }
                 }
 
                 if (player.IsScp)
