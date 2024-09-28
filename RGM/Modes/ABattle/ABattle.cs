@@ -232,15 +232,21 @@ namespace RGM.Modes
             }
             else
             {
-                if (PlayerAbilities[target].Count <= 0)
-                    player.ShowHint($"<align=left><b><size=22>워크스테이션 위에서 점프하면 능력을 획득할 수 있습니다.</size></b></align>", 0.6f);
+                if (player != target)
+                    player.CurrentHint.Content = target.CurrentHint.Content;
 
                 else
                 {
-                    string abilitiesText = string.Join(", ", PlayerAbilities[target]);
-                    abilitiesText = abilitiesText.Replace("[전용]", "<color=#F7819F>[전용]</color>").Replace("[신화]", "<color=#DF0101>[신화]</color>").Replace("[전설]", "<color=#ffd700>[전설]</color>").Replace("[영웅]", "<color=#FF00FF>[영웅]</color>").Replace("[희귀]", "<color=#2ECCFA>[희귀]</color>").Replace("[일반]", "<color=#A4A4A4>[일반]</color>");
+                    if (PlayerAbilities[target].Count <= 0)
+                        player.ShowHint($"<align=left><b><size=22>워크스테이션 위에서 점프하면 능력을 획득할 수 있습니다.</size></b></align>", 0.6f);
 
-                    player.ShowHint($"<align=left><b><size=25>보유 업그레이드</size></b>\n<size=20>{abilitiesText}</size></align>", 0.6f);
+                    else
+                    {
+                        string abilitiesText = string.Join(", ", PlayerAbilities[target]);
+                        abilitiesText = abilitiesText.Replace("[전용]", "<color=#F7819F>[전용]</color>").Replace("[신화]", "<color=#DF0101>[신화]</color>").Replace("[전설]", "<color=#ffd700>[전설]</color>").Replace("[영웅]", "<color=#FF00FF>[영웅]</color>").Replace("[희귀]", "<color=#2ECCFA>[희귀]</color>").Replace("[일반]", "<color=#A4A4A4>[일반]</color>");
+
+                        player.ShowHint($"<align=left><b><size=25>보유 업그레이드</size></b>\n<size=20>{abilitiesText}</size></align>", 0.6f);
+                    }
                 }
             }
         }
@@ -260,8 +266,10 @@ namespace RGM.Modes
             {
                 foreach (var player in Player.List)
                 {
-                    string CurrentHint = player.CurrentHint.Content;
-                    if (!player.HasHint || (CurrentHint.Contains("워크스테이션") || CurrentHint.Contains("보유 업그레이드")))
+                    Hint CurrentHint = player.CurrentHint;
+                    bool IsStatusHint = CurrentHint.Content.Contains("워크스테이션") || CurrentHint.Content.Contains("보유 업그레이드");
+
+                    if (CurrentHint == null || IsStatusHint)
                     {
                         if (player.IsAlive)
                             ShowStatus(player, player);
