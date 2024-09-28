@@ -1332,6 +1332,7 @@ namespace RGM.Modes
                     Timing.CallDelayed(0.1f, () =>
                     {
                         ev.Target.MaxHealth *= 3 / 2;
+                        ev.Target.Health = ev.Target.MaxHealth;
                     });
                 }
             }
