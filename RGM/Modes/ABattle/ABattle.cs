@@ -1359,8 +1359,8 @@ namespace RGM.Modes
         {
             if (PlayerAbilities[ev.Player].Contains("[전용] 고대의 존재 압도"))
             {
-                foreach (var player in Player.List.Where(x => x.CurrentRoom == ev.Room))
-                    player.EnableEffect(EffectType.SinkHole, 1, 1);
+                foreach (var player in Player.List.Where(x => !x.IsScp && x.CurrentRoom == ev.Room))
+                    player.EnableEffect(EffectType.SinkHole, 1, 1.2f);
             }
         }
     }
