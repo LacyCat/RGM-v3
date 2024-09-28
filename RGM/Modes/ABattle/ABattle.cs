@@ -252,25 +252,32 @@ namespace RGM.Modes
             {
                 foreach (var player in Player.List)
                 {
-                    Hint CurrentHint = player.CurrentHint;
-                    bool IsStatusHint = CurrentHint.Content.Contains("워크스테이션") || CurrentHint.Content.Contains("보유 업그레이드");
-
-                    if (CurrentHint == null || IsStatusHint)
+                    try
                     {
-                        if (player.IsAlive)
-                            ShowStatus(player);
+                        Hint CurrentHint = player.CurrentHint;
+                        bool IsStatusHint = CurrentHint.Content.Contains("워크스테이션") || CurrentHint.Content.Contains("보유 업그레이드");
 
-                        else
+                        if (CurrentHint == null || IsStatusHint)
                         {
-                            if (player.Role is SpectatorRole spectator)
+                            if (player.IsAlive)
+                                ShowStatus(player);
+
+                            else
                             {
-                                if (spectator.SpectatedPlayer != null)
+                                if (player.Role is SpectatorRole spectator)
                                 {
-                                    if (spectator.SpectatedPlayer.CurrentHint != null)
-                                        player.CurrentHint.Content = spectator.SpectatedPlayer.CurrentHint.Content;
+                                    if (spectator.SpectatedPlayer != null)
+                                    {
+                                        if (spectator.SpectatedPlayer.CurrentHint != null)
+                                            player.CurrentHint.Content = spectator.SpectatedPlayer.CurrentHint.Content;
+                                    }
                                 }
                             }
                         }
+                    }
+                    catch (Exception e)
+                    {
+                        Log.Error(e);
                     }
                 }
 
