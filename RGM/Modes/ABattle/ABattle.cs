@@ -1210,7 +1210,11 @@ namespace RGM.Modes
 
         public void OnEscaping(Exiled.Events.EventArgs.Player.EscapingEventArgs ev)
         {
-            if (PlayerAbilities.ContainsKey(ev.Player))
+            if (PlayerAbilities.ContainsKey(ev.Player) && new List<RoleTypeId>() 
+                { 
+                    RoleTypeId.Scientist, 
+                    RoleTypeId.ClassD 
+                }.Contains(ev.Player.Role.Type))
             {
                 PlayerAbilities[ev.Player].Clear();
                 PlayerWorkstation[ev.Player].Clear();
