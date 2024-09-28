@@ -140,7 +140,8 @@ namespace RGM.Modes
         };
         public Dictionary<string, string> Scp173Abilities = new Dictionary<string, string>()
         {
-            {"[전용] 공포", "인간을 죽이면 그 방에 있는 인간들이 0.5초 동안 움직일 수 없게 됩니다."}
+            {"[전용] 공포", "인간을 죽이면 근처에 있는 인간들이 0.5초 동안 움직일 수 없게 됩니다."},
+            {"[전용] 괴이", "인간들이 눈을 깜빡일 때마다 그 방이 정전됩니다."}
         };
         public Dictionary<string, string> Scp049Abilities = new Dictionary<string, string>()
         {
@@ -194,6 +195,7 @@ namespace RGM.Modes
             Exiled.Events.Handlers.Player.Hurt += OnHurt;
             Exiled.Events.Handlers.Player.TriggeringTesla += OnTriggeringTesla;
 
+            Exiled.Events.Handlers.Scp173.Blinking += OnBlinking;
             Exiled.Events.Handlers.Scp049.Attacking += OnAttacking;
             Exiled.Events.Handlers.Scp049.StartingRecall += OnStartingRecall;
             Exiled.Events.Handlers.Scp049.FinishingRecall += OnFinishingRecall;
@@ -821,7 +823,7 @@ namespace RGM.Modes
             }
         }
 
-        public async void OnJumping(Exiled.Events.EventArgs.Player.JumpingEventArgs ev)
+        public void OnJumping(Exiled.Events.EventArgs.Player.JumpingEventArgs ev)
         {
             if (Physics.Raycast(ev.Player.Position, Vector3.down, out RaycastHit hit, 5, (LayerMask)1))
             {
@@ -1167,8 +1169,11 @@ namespace RGM.Modes
 
                 if (aa.Contains("[전용] 공포"))
                 {
-                    foreach (var player in Player.List.Where(x => x.CurrentRoom == ev.Player.CurrentRoom && !ev.Player.IsScp))
-                        player.EnableEffect(EffectType.Ensnared, 1, 0.5f);
+                    foreach (var player in Player.List.Where(x => x.IsHuman))
+                    {
+                        if (Vector3.Distance(player.Position, ev.Attacker.Position) <= 10)
+                            player.EnableEffect(EffectType.Ensnared, 1, 0.5f);
+                    }
                 }
             }
         }
@@ -1273,6 +1278,12 @@ namespace RGM.Modes
                 ev.DisableTesla = true;
         }
 
+        public void OnBlinking(Exiled.Events.EventArgs.Scp173.BlinkingEventArgs ev)
+        {
+            if (PlayerAbilities[ev.Player].Contains("[전용] 괴이"))
+                ev.Player.CurrentRoom.TurnOffLights(0.5f);
+        }
+
         public void OnAttacking(Exiled.Events.EventArgs.Scp049.AttackingEventArgs ev)
         {
             if (PlayerAbilities[ev.Player].Contains("[전용] 사자"))
@@ -1336,8 +1347,11 @@ namespace RGM.Modes
         {
             if (PlayerAbilities[ev.Player].Contains("[전용] 고대의 존재 압도"))
             {
-                foreach (var player in Player.List.Where(x => !x.IsScp && x.CurrentRoom == ev.Room))
-                    player.EnableEffect(EffectType.SinkHole, 1, 1.2f);
+                foreach (var player in Player.List.Where(x => x.IsHuman))
+                {
+                    if (player.CurrentRoom.Position == ev.Player.CurrentRoom.Position)
+                        player.EnableEffect(EffectType.SinkHole, 1, 1.2f);
+                }
             }
         }
     }
