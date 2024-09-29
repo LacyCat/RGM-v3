@@ -113,7 +113,8 @@ namespace RGM.Modes
             // {"[신화] 해킹", "시설 핵을 즉시 터트립니다."},
             {"[신화] 로켓 런처", "5% 확률로 상대방을 하늘로 승천시킬 수 있습니다! (중첩 불가)"},
             {"[신화] 스피릿", "2초마다 영혼 상태가 됩니다! (중첩 불가)"},
-            {"[신화] 눈빛맨", "쳐다보는 것만으로도 당신을 두려워할 것입니다! (중첩 불가)"}
+            {"[신화] 눈빛맨", "쳐다보는 것만으로도 당신을 두려워할 것입니다! (중첩 불가)"},
+            {"[신화] 차원 강탈자", "죽인 누군가의 능력을 모조리 흡수합니다! (중첩 불가)"}
         };
         public Dictionary<string, string> ClassDAbilities = new Dictionary<string, string>()
         {
@@ -1132,6 +1133,17 @@ namespace RGM.Modes
                             ev.Player.Kill("최후의 발악의 효과로 사망하였습니다.");
                         });
                         return;
+                    }
+
+                    // 죽음이 확정된 상황
+
+                    if (ev.Attacker != null)
+                    {
+                        if (PlayerAbilities[ev.Attacker].Contains("[신화] 차원 강탈자"))
+                        {
+                            foreach (var Ability in PlayerAbilities[ev.Player])
+                                PlayerAbilities[ev.Attacker].Add(Ability);
+                        }
                     }
 
                     if (PlayerAbilities[ev.Player].Contains("[희귀] 순교"))
