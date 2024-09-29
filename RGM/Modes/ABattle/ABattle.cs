@@ -211,6 +211,8 @@ namespace RGM.Modes
             Exiled.Events.Handlers.Scp079.ZoneBlackout += OnZoneBlackout;
             Exiled.Events.Handlers.Scp079.ChangingSpeakerStatus += OnChangingSpeakerStatus;
 
+            MapEditorReborn.Events.Handlers.Map.LoadingMap += OnLoadingMap;
+
             Timing.RunCoroutine(OnModeStarted());
             Timing.RunCoroutine(UpgradeBody());
             Timing.RunCoroutine(Spirit());
@@ -246,10 +248,7 @@ namespace RGM.Modes
                 IsFeverModeEnabled = true;
 
             if (IsFeverModeEnabled)
-            {
                 Server.ExecuteCommand($"/mp load ABattle");
-                Player.List.ToList().ForEach(x => x.AddBroadcast(10, "<size=25><b><i><color=#FF00EA>피</color><color=#EF00EB>버</color> <color=#CF00ED>모</color><color=#BF00EF>드</color><color=#AF00F0>가</color> <color=#8F00F3>활</color><color=#7F00F4>성</color><color=#6F00F5>화</color><color=#5F00F7>되</color><color=#4F00F8>었</color><color=#3F00F9>습</color><color=#2F00FB>니</color><color=#1F00FC>다</color><color=#0F00FD>!</color></i></b></size>"));
-            }
 
             while (true)
             {
@@ -1372,6 +1371,12 @@ namespace RGM.Modes
                         player.EnableEffect(EffectType.SinkHole, 1, 1.2f);
                 }
             }
+        }
+
+        public void OnLoadingMap(MapEditorReborn.Events.EventArgs.LoadingMapEventArgs ev)
+        {
+            if (ev.NewMap.Name == "ABattle")
+                Player.List.ToList().ForEach(x => x.AddBroadcast(10, "<size=25><b><i><color=#FF00EA>피</color><color=#EF00EB>버</color> <color=#CF00ED>모</color><color=#BF00EF>드</color><color=#AF00F0>가</color> <color=#8F00F3>활</color><color=#7F00F4>성</color><color=#6F00F5>화</color><color=#5F00F7>되</color><color=#4F00F8>었</color><color=#3F00F9>습</color><color=#2F00FB>니</color><color=#1F00FC>다</color><color=#0F00FD>!</color></i></b></size>"));
         }
     }
 }
