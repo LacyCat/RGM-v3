@@ -1315,7 +1315,10 @@ namespace RGM.Modes
         {
             if (PlayerAbilities[ev.Player].Contains("[전용] 능수능란"))
             {
-                ev.Scp049.RemainingCallDuration /= 2;
+                Timing.CallDelayed(0.1f, () =>
+                {
+                    ev.Scp049.RemainingCallDuration /= 2;
+                });
             }
         }
 
