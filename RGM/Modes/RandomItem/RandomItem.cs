@@ -7,13 +7,17 @@ using CustomRendering;
 using Exiled.API.Features;
 using MEC;
 using Mirror;
+using RGM.API;
 using UnityEngine;
+using Exiled.API.Features.Items;
 
 namespace RGM.Modes
 {
     class RandomItem
     {
         public static RandomItem Instance;
+
+        List<ItemType> ItemTypes = Tools.EnumToList<ItemType>();
 
         public void OnEnabled()
         {
@@ -33,18 +37,12 @@ namespace RGM.Modes
             {
                 foreach (var player in Player.List)
                 {
-                    int ri = UnityEngine.Random.Range(0, 55);
+                    player.ClearInventory();
+
+                    Item Item = player.AddItem(RGM.GetRandomValue(ItemTypes));
 
                     if (player.IsScp)
-                    {
-                        player.ClearInventory();
-
-                        Server.ExecuteCommand($"/give {player.Id} {ri}");
-                        Server.ExecuteCommand($"/forceeq {player.Id} {ri}");
-                    }
-
-                    else
-                        Server.ExecuteCommand($"/give {player.Id} {ri}");
+                        player.CurrentItem = Item;
                 }
 
                 yield return Timing.WaitForSeconds(60f);
@@ -61,7 +59,12 @@ namespace RGM.Modes
             player.ClearInventory();
 
             for (int i = 1; i < 9; i++)
-                Server.ExecuteCommand($"/give {player.Id} {UnityEngine.Random.Range(0, 55)}");
+            {
+                Item Item = player.AddItem(RGM.GetRandomValue(ItemTypes));
+
+                if (player.IsScp)
+                    player.CurrentItem = Item;
+            }
         }
     }
 }
