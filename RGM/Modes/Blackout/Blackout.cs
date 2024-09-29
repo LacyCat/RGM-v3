@@ -25,15 +25,13 @@ namespace RGM.Modes
         {
             foreach (var room in Room.List)
             {
-                switch (UnityEngine.Random.Range(1, 4))
+                switch (UnityEngine.Random.Range(1, 3))
                 {
                     case 1:
                         room.TurnOffLights();
                         break;
                     case 2:
                         room.Color = new Color(UnityEngine.Random.value, UnityEngine.Random.value, UnityEngine.Random.value);
-                        break;
-                    case 3:
                         break;
                 }
             }
