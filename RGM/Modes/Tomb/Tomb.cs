@@ -43,11 +43,11 @@ namespace RGM.Modes
             Player Dummy = Player.List.ToList()[0];
             Player.List.CopyTo(pl);
 
-            List<Item> Items = Tools.EnumToList<Item>();
+            List<ItemType> ItemTypes = Tools.EnumToList<ItemType>();
 
-            for (int i = 1; i < 300; i++)
+            for (int i = 1; i < 500; i++)
             {
-                Item Item = RGM.GetRandomValue(Items);
+                Item Item = Item.Create(RGM.GetRandomValue(ItemTypes));
 
                 Item.CreatePickup(RandomPosition());
             }
