@@ -12,6 +12,7 @@ using MapEditorReborn.API.Features.Objects;
 using MultiBroadcast.API;
 using Exiled.API.Enums;
 using RGM.Features;
+using MapEditorReborn.Events.Handlers;
 
 namespace RGM
 {
@@ -860,8 +861,11 @@ GoldenPig1205(@GoldenPig1205) - 메인 개발자
                         if (Vector3.Distance(_ball.transform.position, player.Position) < 2)
                         {
                             _ball.gameObject.TryGetComponent<Rigidbody>(out Rigidbody rig);
-                            rig.AddForce(player.GameObject.transform.forward + new Vector3(0, 0.03f, 0), ForceMode.Impulse);
+                            rig.AddForce(player.GameObject.transform.forward + new Vector3(0, 0.1f, 0), ForceMode.Impulse);
                         }
+
+                        else if (Vector3.Distance(_ball.transform.position, player.Position) > 9)
+                            _ball.transform.position = new Vector3(player.Position.x, player.Position.y + 2, player.Position.z);
                     }
                 }
 
