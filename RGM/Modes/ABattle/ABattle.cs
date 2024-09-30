@@ -6,6 +6,7 @@ using System.Runtime.Remoting;
 using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Schema;
 using CommandSystem.Commands.RemoteAdmin;
 using Exiled.API.Enums;
 using Exiled.API.Extensions;
@@ -58,7 +59,6 @@ namespace RGM.Modes
             {"[일반] 체력 보충", "파란 사탕을 받습니다."},
             {"[일반] 랜덤박스", "랜덤한 아이템을 지급받습니다."},
             {"[일반] 위치 추적", "10초 간 랜덤한 1인의 위치를 확인합니다."},
-            // {"[일반] 광고", "현재 진영 정보를 출력합니다."},
             {"[일반] 뽑기", "지급된 동전을 튕기면 10% 확률로 새로운 능력을 3개 더 얻습니다."},
             {"[일반] 보험", "사망 판정을 받을 경우 1번 버텨냅니다." },
             {"[일반] 회축", "[ALT]를 눌러 발차기 공격을 가할 수 있습니다. (쿨타임 1초) (중첩 불가)"},
@@ -89,9 +89,8 @@ namespace RGM.Modes
             {"[영웅] 테러리스트의 유품", "핑크 사탕을 지급받습니다."},
             {"[영웅] 도박꾼", "아이템을 버리면 새로운 아이템을 받지만, 5% 확률로 손이 잘립니다."},
             {"[영웅] 랜덤상자", "랜덤하지만 좋은 아이템을 지급받습니다."},
-            // {"[영웅] 핵 리모컨", "핵 프로세스를 시작합니다."},
             {"[영웅] 수리 기사", "모든 잠겨진 문에 액세스할 수 있으며, 테슬라를 작동시키지 않습니다. (중첩 불가)"},
-            {"[영웅] 슈퍼 스타", "자신의 마이크가 모두에게 공유됩니다. (중첩 불가)"},
+            {"[영웅] 슈퍼 스타", "자신의 마이크가 모두에게 공유되고, 사망 시 사망한 사실이 모두에게 공개됩니다. (중첩 불가)"},
             {"[영웅] 럭키비키", "이전에 방문했던 워크스테이션에서 다시 한번 더 능력을 획득할 수 있습니다."},
             {"[영웅] 극독", "누군가에게 죽으면 죽인 자에게 심장 마비 효과를 겁니다. (중첩 불가)"},
             {"[영웅] 구사일생", "사망 판정을 받을 경우 1번 버텨내며 3초간 무적이 됩니다."},
@@ -104,7 +103,6 @@ namespace RGM.Modes
         {
             {"[전설] 스피드왜건", "속도가 크게 증가합니다."},
             {"[전설] 뱀의 손 무전기", "무전기를 든 상태로 우클릭하면 뱀의 손 지원을 부르며, 자신도 뱀의 손 소속이 됩니다."},
-            // {"[전설] 모드 설치", "지급된 동전을 튕기면 모드를 하나 더 추가할 수 있습니다."},
             {"[전설] 랜덤택배", "서버 인원 수 만큼 랜덤한 아이템을 드롭합니다."},
             {"[전설] 마술사", "누군가에게 죽으면 죽인 자와 교체됩니다. (중첩 불가)"},
             {"[전설] 플래시라이트", "지급된 손전등을 들고 상대를 쳐다보면 눈뽕 공격을 가할 수 있습니다."},
@@ -112,7 +110,6 @@ namespace RGM.Modes
         };
         public Dictionary<string, string> MythicAbilities = new Dictionary<string, string>()
         {
-            // {"[신화] 해킹", "시설 핵을 즉시 터트립니다."},
             {"[신화] 로켓 런처", "5% 확률로 상대방을 하늘로 승천시킬 수 있습니다! (중첩 불가)"},
             {"[신화] 스피릿", "2초마다 영혼 상태가 됩니다! (중첩 불가)"},
             {"[신화] 눈빛맨", "상대는 눈에 띄거나 근처에 있는 것만으로도 압도당할 것입니다! (중첩 불가)"},
@@ -127,45 +124,55 @@ namespace RGM.Modes
         public Dictionary<string, string> ScientistAbilities = new Dictionary<string, string>()
         {
             {"[전용] 05 평의회", "05등급 키카드를 지급받습니다."},
+            {"[전용] 공학 전공", "SCP-2176을 지급받습니다."},
             {"[전용] 특무부대의 씨앗", "NTF 티켓을 진체 인원 수의 20% 만큼 추가합니다."}
         };
         public Dictionary<string, string> GuardAbilities = new Dictionary<string, string>()
         {
             {"[전용] 관리 의무자", "손전등과 Crossvec를 지급받습니다."},
-            {"[전용] 보건소 직원", "주변에 있는 아군들에게 의료 아이템을 랜덤하게 지급합니다."}
+            {"[전용] 보건소 직원", "주변에 있는 아군들에게 의료 아이템을 랜덤하게 지급합니다."},
+            {"[전용] 산업재해보험", "보험 능력을 3개 얻습니다."}
         };
         public Dictionary<string, string> NtfAbilities = new Dictionary<string, string>()
         {
             {"[전용] 격리 의무자", "고폭 수류탄과 섬광탄을 지급받습니다."},
-            {"[전용] 의무병", "주변에 있는 아군들을 매 초마다 0.5HP씩 치료합니다."}
+            {"[전용] 의무병", "주변에 있는 아군들을 매 초마다 0.5HP씩 치료합니다."},
+            {"[전용] 집단 지성", "주변에 있는 아군 한명당 데미지가 10% 증가합니다."}
         };
         public Dictionary<string, string> ChaosAbilities = new Dictionary<string, string>()
         {
-            {"[전용] 카오스 볼", "SCP-018을 지급받습니다."},
-            {"[전용] 혼돈의 손길", "지급된 동전을 튕기면 보유한 능력을 전부 삭제합니다."}
+            {"[전용] 혼돈의 카오스", "SCP-018을 지급받습니다."},
+            {"[전용] 혼돈의 손길", "지급된 동전을 튕기면 보유한 능력을 전부 삭제합니다."},
+            {"[전용] 혼돈의 가방", "아이템 인벤토리가 전부 채워질 때까지 아이템을 받습니다."}
         };
         public Dictionary<string, string> SnakeAbilities = new Dictionary<string, string>()
         {
-            {"[전용] 세치 혀", "SCP-1576을 지급받습니다."}
+            {"[전용] 세치 혀", "SCP-1576을 지급받습니다."},
+            {"[전용] 제3세력", "뱀의 손 지원을 2명 더 부릅니다."},
+            {"[전용] SCP 연구자", "SCP 아이템 중 하나를 지급받습니다."}
         };
         public Dictionary<string, string> Scp173Abilities = new Dictionary<string, string>()
         {
             {"[전용] 공포", "인간을 죽이면 근처에 있는 인간들이 0.5초 동안 움직일 수 없게 됩니다. (중첩 불가)"},
-            {"[전용] 괴이", "인간들이 눈을 깜빡일 때마다 그 방이 정전됩니다. (중첩 불가)"}
+            {"[전용] 괴이", "순간이동한 방이 정전됩니다. (중첩 불가)"}
         };
         public Dictionary<string, string> Scp049Abilities = new Dictionary<string, string>()
         {
             {"[전용] 사자", "공격 쿨타임이 1/2배가 됩니다. (중첩 불가)"},
             {"[전용] 유능한 의사", "소생된 좀비의 체력이 50% 확률로 1.5배가 됩니다. (중첩 불가)"},
-            {"[전용] 능수능란", "소생 시간이 1/2배가 됩니다. (중첩 불가)"}
+            {"[전용] 능수능란", "소생 시간이 1/2배가 됩니다."}
         };
         public Dictionary<string, string> Scp0492Abilities = new Dictionary<string, string>()
         {
-            {"[전용] 허기", "인간을 섭취할 때 얻는 회복량이 2배가 됩니다. (중첩 불가)"}
+            {"[전용] 허기", "인간을 섭취할 때 얻는 회복량이 2배가 됩니다. (중첩 불가)"},
+            {"[전용] 급식", "최대 체력이 1.5배 증가합니다."},
+            {"[전용] 당혹감", "목표물로 삼은 인간은 실명합니다. (중첩 불가)"}
         };
         public Dictionary<string, string> Scp096Abilities = new Dictionary<string, string>()
         {
-            {"[전용] 격노", "분노 때에는 어떠한 데미지도 입지 않습니다. (중첩 불가)"}
+            {"[전용] 격노", "분노 때에는 어떠한 데미지도 입지 않습니다. (중첩 불가)"},
+            {"[전용] 별자리 찢기", "25% 확률로 공격한 대상을 즉사시킵니다. (중첩 불가)"},
+            {"[전용] 천리안", "분노 시에 30m 내의 인간들을 모두 목격자에 포함시킵니다. (중첩 불가)"}
         };
         public Dictionary<string, string> Scp106Abilities = new Dictionary<string, string>()
         {
@@ -205,6 +212,65 @@ namespace RGM.Modes
             }
         };
 
+        public Dictionary<string, string> RatingColor = new Dictionary<string, string>()
+        {
+            {"일반", "#A4A4A4"},
+            {"희귀", "#2ECCFA"},
+            {"영웅", "#FF00FF"},
+            {"전설", "#ffd700"},
+            {"신화", "#DF0101"},
+            {"전용", "#F7819F"},
+            {"시너지", "#F7819F"}
+        };
+
+        public string ColorFormat(string text)
+        {
+            return text.Replace("[시너지]", $"<color={RatingColor["시너지"]}>[시너지]<color>")
+                        .Replace("[전용]", $"<color={RatingColor["전용"]}>[전용]</color>")
+                        .Replace("[신화]", $"<color={RatingColor["신화"]}>[신화]</color>")
+                        .Replace("[전설]", $"<color={RatingColor["전설"]}>[전설]</color>")
+                        .Replace("[영웅]", $"<color={RatingColor["영웅"]}>[영웅]</color>")
+                        .Replace("[희귀]", $"<color={RatingColor["희귀"]}>[희귀]</color>")
+                        .Replace("[일반]", $"<color={RatingColor["일반"]}>[일반]</color>");
+        }
+
+        public void CallSnakeHand(Player Convener, List<Player> PlayerList)
+        {
+            List<Player> SnakeHands = PlayerList;
+
+            List<ItemType> Items = new List<ItemType>
+                {
+                    ItemType.KeycardFacilityManager,
+                    ItemType.GunFSP9,
+                    ItemType.GunRevolver,
+                    ItemType.Adrenaline,
+                    ItemType.AntiSCP207
+                };
+
+            List<ItemType> Ammos = new List<ItemType>
+                {
+                    ItemType.Ammo44cal,
+                    ItemType.Ammo762x39
+                };
+
+            foreach (var p in SnakeHands)
+            {
+                p.Role.Set(RoleTypeId.Tutorial);
+                p.Position = new Vector3(-0.08203125f, 1000.96f, 6.828125f);
+
+                foreach (ItemType Item in Items)
+                    p.AddItem(Item);
+
+                for (int i = 1; i < 3; i++)
+                {
+                    foreach (var Ammo in Ammos)
+                        p.AddItem(Ammo);
+                }
+            }
+
+            Convener.ShowHint($"<i>{SnakeHands.Count()}명의 <color=#FE2EF7>동료</color>들이 당신과 함께합니다..</i>", 5f);
+        }
+
         public void OnEnabled()
         {
             Exiled.Events.Handlers.Player.TogglingNoClip += OnTogglingNoClip;
@@ -222,11 +288,14 @@ namespace RGM.Modes
             Exiled.Events.Handlers.Player.TriggeringTesla += OnTriggeringTesla;
 
             Exiled.Events.Handlers.Scp173.Blinking += OnBlinking;
+
             Exiled.Events.Handlers.Scp049.Attacking += OnAttacking;
-            Exiled.Events.Handlers.Scp049.StartingRecall += OnStartingRecall;
+            Exiled.Events.Handlers.Scp049.Attacking += OnAttacking;
             Exiled.Events.Handlers.Scp049.FinishingRecall += OnFinishingRecall;
 
             Exiled.Events.Handlers.Scp0492.ConsumedCorpse += OnConsumedCorpse;
+
+            Exiled.Events.Handlers.Scp096.Charging += OnCharging;
 
             Exiled.Events.Handlers.Scp079.Pinging += OnPinging;
             Exiled.Events.Handlers.Scp079.ZoneBlackout += OnZoneBlackout;
@@ -234,10 +303,12 @@ namespace RGM.Modes
 
             MapEditorReborn.Events.Handlers.Map.LoadingMap += OnLoadingMap;
 
+            // 게임 구성 IEnumerator
             Timing.RunCoroutine(OnModeStarted());
             Timing.RunCoroutine(RequestManager());
             Timing.RunCoroutine(SynergyManager());
 
+            // 능력별 IEnumerator
             Timing.RunCoroutine(UpgradeBody());
             Timing.RunCoroutine(FlashLight());
             Timing.RunCoroutine(Spirit());
@@ -260,7 +331,7 @@ namespace RGM.Modes
                 else
                 {
                     string abilitiesText = string.Join(", ", PlayerAbilities[player]);
-                    abilitiesText = abilitiesText.Replace("[전용]", "<color=#F7819F>[전용]</color>").Replace("[신화]", "<color=#DF0101>[신화]</color>").Replace("[전설]", "<color=#ffd700>[전설]</color>").Replace("[영웅]", "<color=#FF00FF>[영웅]</color>").Replace("[희귀]", "<color=#2ECCFA>[희귀]</color>").Replace("[일반]", "<color=#A4A4A4>[일반]</color>");
+                    abilitiesText = ColorFormat(abilitiesText);
 
                     player.ShowHint($"<align=left><b><size=25>보유 업그레이드</size></b>\n<size=20>{abilitiesText}</size></align>", 1.2f);
                 }
@@ -355,7 +426,7 @@ namespace RGM.Modes
                 {
                     foreach (var synergy in Synergies)
                     {
-                        if (synergy.Value.Skip(0).All(x => PlayerAbilities[player].Contains(x)))
+                        if (synergy.Value.Skip(1).All(x => PlayerAbilities[player].Contains(x)))
                         {
                             if (!PlayerAbilities[player].Contains(synergy.Key))
                                 PlayerAbilities[player].Add(synergy.Key);
@@ -411,7 +482,7 @@ namespace RGM.Modes
                             if (player != target && player.LeadingTeam != target.LeadingTeam)
                             {
                                 Hitmarker.SendHitmarkerDirectly(player.ReferenceHub, 0.8f);
-                                target.EnableEffect(EffectType.Flashed, 1, 0.2f);
+                                target.EnableEffect(EffectType.Flashed, 1, 1f);
                             }
                         }
                     }
@@ -544,19 +615,19 @@ namespace RGM.Modes
                 else if (abilityGrade == "[영웅]")
                 {
                     Cassie.Clear();
-                    Server.ExecuteCommand($"/cassie_sl {player.DisplayNickname}(이)가 <color=#FF00FF>[영웅]</color> 업그레이드를 입수하였습니다.");
+                    Server.ExecuteCommand($"/cassie_sl {player.DisplayNickname}(이)가 <color={RatingColor["영웅"]}>[영웅]</color> 업그레이드를 입수하였습니다.");
                     return EpicAbilities;
                 }
                 else if (abilityGrade == "[전설]")
                 {
                     Cassie.Clear();
-                    Server.ExecuteCommand($"/cassie_sl {player.DisplayNickname}(이)가 <color=#ffd700>[전설]</color> 업그레이드를 입수하였습니다.");
+                    Server.ExecuteCommand($"/cassie_sl {player.DisplayNickname}(이)가 <color={RatingColor["전설"]}>[전설]</color> 업그레이드를 입수하였습니다.");
                     return LegendAbilities;
                 }
                 else if (abilityGrade == "[신화]")
                 {
                     Cassie.Clear();
-                    Server.ExecuteCommand($"/cassie_sl {player.DisplayNickname}(이)가 <color=#DF0101>[신화]</color> 업그레이드를 입수하였습니다.");
+                    Server.ExecuteCommand($"/cassie_sl {player.DisplayNickname}(이)가 <color={RatingColor["신화"]}>[신화]</color> 업그레이드를 입수하였습니다.");
                     return MythicAbilities;
                 }
                 else if (abilityGrade == "[전용]")
@@ -596,7 +667,7 @@ namespace RGM.Modes
                     }
 
                     Cassie.Clear();
-                    Server.ExecuteCommand($"/cassie_sl {player.DisplayNickname}(이)가 <color=#F7819F>[전용]</color> 업그레이드를 입수하였습니다.");
+                    Server.ExecuteCommand($"/cassie_sl {player.DisplayNickname}(이)가 <color={RatingColor["전용"]}>[전용]</color> 업그레이드를 입수하였습니다.");
                     return Format();
                 }
                 else
@@ -610,7 +681,7 @@ namespace RGM.Modes
                     }
 
                     Cassie.Clear();
-                    Server.ExecuteCommand($"/cassie_sl {player.DisplayNickname}(이)가 <color=#BFFF00>[시너지]</color> 효과를 입수하였습니다.");
+                    Server.ExecuteCommand($"/cassie_sl {player.DisplayNickname}(이)가 <color={RatingColor["시너지"]}>[시너지]</color> 효과를 입수하였습니다.");
                     return SynergiesFormat;
                 }
             }
@@ -618,7 +689,7 @@ namespace RGM.Modes
             void ApplyGiveAbility(string abilityName)
             {
                 PlayerAbilities[player].Add(abilityName);
-                string styleName = abilityName.Replace("[시너지]", "<color=#BFFF00>[시너지]</color>").Replace("[전용]", "<color=#F7819F>[전용]</color>").Replace("[신화]", "<color=#DF0101>[신화]</color>").Replace("[전설]", "<color=#ffd700>[전설]</color>").Replace("[영웅]", "<color=#FF00FF>[영웅]</color>").Replace("[희귀]", "<color=#2ECCFA>[희귀]</color>").Replace("[일반]", "<color=#A4A4A4>[일반]</color>");
+                string styleName = ColorFormat(abilityName);
 
                 string Message = $"<size=15><b>다음 능력이 추가되었습니다.</b></size>\n<size=25>{styleName}</size>\n<size=20>{AbilityList()[abilityName]}</size>";
                 player.AddBroadcast(8, Message);
@@ -648,16 +719,12 @@ namespace RGM.Modes
                         Server.ExecuteCommand($"/forceeq {player.Id} 42");
                     break;
                 case "랜덤박스":
-                    int rn = UnityEngine.Random.Range(0, 55);
+                    List<ItemType> RandomBox = Tools.EnumToList<ItemType>();
 
-                    if (player.IsInventoryFull)
-                        Server.ExecuteCommand($"/drop {player.Id} {rn} 1");
-
-                    else
-                        Server.ExecuteCommand($"/give {player.Id} {rn}");
+                    Item RandomBoxItem = player.AddItem(RGM.GetRandomValue(RandomBox));
 
                     if (player.IsScp)
-                        Server.ExecuteCommand($"/forceeq {player.Id} {rn}");
+                        player.CurrentItem = RandomBoxItem;
                     break;
                 case "위치 추적":
                     Player target1 = RGM.GetRandomValue(Player.List.Where(x => x.IsAlive).ToList());
@@ -668,7 +735,6 @@ namespace RGM.Modes
                         await Task.Delay(1000);
                     }
                     break;
-                case "광고": Server.ExecuteCommand($"/cassie_sl <b>[<color={player.Role.Color.ToHex()}>{player.DisplayNickname}</color>이(가) 출력한 진영 정보]</b>\n <color=red>SCP</color> : {Player.List.Where(x => x.IsScp).Count()} / <color=#088A29>혼돈의 반란</color> : {Player.List.Where(x => x.IsCHI).Count()} / <color=#0080FF>NTF</color> : {Player.List.Where(x => x.IsNTF).Count()}"); break;
                 case "뽑기":
                     Item pc = player.AddItem(ItemType.Coin);
                     PickCoinSerials.Add(pc.Serial);
@@ -776,19 +842,27 @@ namespace RGM.Modes
                         Server.ExecuteCommand($"/forceeq {player.Id} 42");
                     break;
                 case "랜덤상자":
-                    int rn1 = RGM.GetRandomValue(new List<int> { 11, 16, 18, 24, 31, 32, 47, 48, 49, 50, 51, 52, 53 });
+                    List<ItemType> RandomChest = new List<ItemType>() 
+                    { 
+                        ItemType.ParticleDisruptor,
+                        ItemType.Jailbird,
+                        ItemType.MicroHID,
+                        ItemType.SCP018,
+                        ItemType.SCP1576,
+                        ItemType.SCP2176,
+                        ItemType.SCP207,
+                        ItemType.AntiSCP207,
+                        ItemType.SCP268,
+                        ItemType.SCP500,
+                        ItemType.KeycardO5
+                    };
 
-                    if (player.IsInventoryFull)
-                        Server.ExecuteCommand($"/drop {player.Id} {rn1} 1");
-
-                    else
-                        Server.ExecuteCommand($"/give {player.Id} {rn1}");
+                    Item RandomChestItem = player.AddItem(RGM.GetRandomValue(RandomChest));
 
                     if (player.IsScp)
-                        Server.ExecuteCommand($"/forceeq {player.Id} {rn1}");
+                        player.CurrentItem = RandomChestItem;
                     break;
                 case "럭키비키": PlayerWorkstation[player].Clear(); break;
-                case "핵 리모컨": Warhead.Start(); Server.ExecuteCommand($"/cassie_sl {player.DisplayNickname}(이)가 핵을 <b>원격으로 활성화했습니다.</b>"); break;
                 case "슈퍼 스타": Server.ExecuteCommand($"/speak {player.Id} enable"); break;
                 case "초재생":
                     Item AntiScp207 = player.AddItem(ItemType.AntiSCP207);
@@ -830,10 +904,10 @@ namespace RGM.Modes
                     if (player.IsScp)
                         player.CurrentItem = fl;
                     break;
-                case "해킹": Warhead.Start(); Warhead.Detonate(); Server.ExecuteCommand($"/cassie_sl {player.DisplayNickname}(이)가 핵을 <b>원격으로 터트렸습니다.</b>"); break;
                 case "변장의 달인": player.AddItem(ItemType.SCP268); break;
                 case "반란의 씨앗": Respawn.ChaosTickets += (int)(Player.List.Count() * 0.2); break;
                 case "05 평의회": player.AddItem(ItemType.KeycardO5); break;
+                case "공학 전공": player.AddItem(ItemType.SCP2176); break;
                 case "특수부대의 씨앗": Respawn.NtfTickets += (int)(Player.List.Count() * 0.2); break;
                 case "관리 의무자":
                     List<ItemType> ManageDuty = new List<ItemType>() 
@@ -861,6 +935,11 @@ namespace RGM.Modes
                         team.AddItem(RGM.GetRandomValue(HealItem));
 
                     break;
+                case "산업재해보험":
+                    for (int i=1; i < 4; i++)
+                        AddAbility(player, "[일반] 보험");
+
+                    break;
                 case "격리 의무자":
                     List<ItemType> ContainDuty = new List<ItemType>()
                     {
@@ -871,7 +950,7 @@ namespace RGM.Modes
                     foreach (var item in ContainDuty)
                         player.AddItem(item);
                     break;
-                case "카오스 볼":
+                case "혼돈의 카오스":
                     Item c = player.AddItem(ItemType.SCP018);
 
                     if (player.IsScp)
@@ -884,14 +963,62 @@ namespace RGM.Modes
                     if (player.IsScp)
                         player.CurrentItem = Ch;
                     break;
+                case "혼돈의 가방":
+                    List<ItemType> ChaosBag = Tools.EnumToList<ItemType>();
+
+                    while (!player.IsInventoryFull)
+                    {
+                        Item ChaosBagItem = player.AddItem(RGM.GetRandomValue(ChaosBag));
+
+                        if (player.IsScp)
+                            player.CurrentItem = ChaosBagItem;
+                    }
+                    break;
                 case "세치 혀":
                     Item Scp1576 = player.AddItem(ItemType.SCP1576);
 
                     if (player.IsScp)
                         player.CurrentItem = Scp1576;
                     break;
-                case "회춘":
-                    player.GetEffect(EffectType.DamageReduction).Intensity += 40;
+                case "제3세력":
+                    List<Player> DeadPlayers = Player.List.Where(x => x.IsDead).ToList();
+                    DeadPlayers.ShuffleList();
+
+                    CallSnakeHand(player, DeadPlayers.Take(2).ToList());
+                    break;
+                case "SCP 연구자":
+                    List<ItemType> SCPItems = new List<ItemType>()
+                    {
+                        ItemType.SCP018,
+                        ItemType.SCP1576,
+                        ItemType.SCP1853,
+                        ItemType.SCP207,
+                        ItemType.SCP2176,
+                        ItemType.SCP244a,
+                        ItemType.SCP244b,
+                        ItemType.SCP268,
+                        ItemType.SCP330,
+                        ItemType.SCP500,
+                        ItemType.AntiSCP207
+                    };
+
+                    Item SCPItem = player.AddItem(RGM.GetRandomValue(SCPItems));
+
+                    if (player.IsScp)
+                        player.CurrentItem = SCPItem;
+                    break;
+                case "유능한 의사":
+                    if (player.Role is Scp049Role Scp049_2)
+                        Scp049_2.CallCooldown /= 2;
+                    break;
+                case "급식":
+                    player.MaxHealth = player.MaxHealth * 1.5f;
+                    break;
+                case "":
+                    if (player.Role is Scp096Role Scp096)
+                    {
+                        Scp096.ChargeCooldown /= 2;
+                    }
                     break;
                 case "흉내쟁이":
                     if (player.Role is Scp939Role scp939)
@@ -1007,7 +1134,7 @@ namespace RGM.Modes
                     if (ev.Player.CurrentItem == null || !PickCoinSerials.Contains(ev.Player.CurrentItem.Serial))
                         break;
 
-                    ev.Player.ShowHint("이 동전을 튕기면 <b><color=#A4A4A4>뽑기</color></b> 능력을 사용할 수 있습니다.", 1.2f);
+                    ev.Player.ShowHint($"이 동전을 튕기면 <b><color={RatingColor["일반"]}>뽑기</color></b> 능력을 사용할 수 있습니다.", 1.2f);
 
                     await Task.Delay(1000);
                 }
@@ -1019,7 +1146,7 @@ namespace RGM.Modes
                     if (ev.Player.CurrentItem == null || !FollowCoinSerials.Contains(ev.Player.CurrentItem.Serial))
                         break;
 
-                    ev.Player.ShowHint("이 동전을 튕기면 <b><color=#58D3F7>순간이동</color></b> 능력을 사용할 수 있습니다.", 1.2f);
+                    ev.Player.ShowHint($"이 동전을 튕기면 <b><color={RatingColor["희귀"]}>순간이동</color></b> 능력을 사용할 수 있습니다.", 1.2f);
 
                     await Task.Delay(1000);
                 }
@@ -1031,7 +1158,7 @@ namespace RGM.Modes
                     if (ev.Player.CurrentItem == null || !GrapCoinSerials.Contains(ev.Player.CurrentItem.Serial))
                         break;
 
-                    ev.Player.ShowHint("이 동전을 튕기면 <b><color=#58D3F7>갈고리</color></b> 능력을 사용할 수 있습니다.", 1.2f);
+                    ev.Player.ShowHint($"이 동전을 튕기면 <b><color={RatingColor["희귀"]}>갈고리</color></b> 능력을 사용할 수 있습니다.", 1.2f);
 
                     await Task.Delay(1000);
                 }
@@ -1043,19 +1170,7 @@ namespace RGM.Modes
                     if (ev.Player.CurrentItem == null || !ClockCoinSerials.Contains(ev.Player.CurrentItem.Serial))
                         break;
 
-                    ev.Player.ShowHint("이 동전을 튕기면 <b><color=#58D3F7>회중시계</color></color></b> 능력을 사용할 수 있습니다.", 1.2f);
-
-                    await Task.Delay(1000);
-                }
-            }
-            else if (InstallModeSerials.Contains(ev.Item.Serial))
-            {
-                while (true)
-                {
-                    if (ev.Player.CurrentItem == null || !InstallModeSerials.Contains(ev.Player.CurrentItem.Serial))
-                        break;
-
-                    ev.Player.ShowHint("이 동전을 튕기면 <b><color=yellow>모드 설치</color></b> 능력을 사용할 수 있습니다.", 1.2f);
+                    ev.Player.ShowHint($"이 동전을 튕기면 <b><color={RatingColor["희귀"]}>회중시계</color></color></b> 능력을 사용할 수 있습니다.", 1.2f);
 
                     await Task.Delay(1000);
                 }
@@ -1067,7 +1182,7 @@ namespace RGM.Modes
                     if (ev.Player.CurrentItem == null || !CallSnakeHandsSerials.Contains(ev.Player.CurrentItem.Serial))
                         break;
 
-                    ev.Player.ShowHint("우클릭하여 <b><color=yellow>뱀의 손 무전기</color></b> 능력을 사용할 수 있습니다.", 1.2f);
+                    ev.Player.ShowHint($"우클릭하여 <b><color={RatingColor["전설"]}>뱀의 손 무전기</color></b> 능력을 사용할 수 있습니다.", 1.2f);
 
                     await Task.Delay(1000);
                 }
@@ -1079,7 +1194,7 @@ namespace RGM.Modes
                     if (ev.Player.CurrentItem == null || !FlashLightSerials.Contains(ev.Player.CurrentItem.Serial))
                         break;
 
-                    ev.Player.ShowHint("손전등을 상대에게 비추면 <b><color=yellow>플래시라이트</color></b> 능력을 사용할 수 있습니다.", 1.2f);
+                    ev.Player.ShowHint($"손전등을 상대에게 비추면 <b><color={RatingColor["전설"]}>플래시라이트</color></b> 능력을 사용할 수 있습니다.", 1.2f);
 
                     await Task.Delay(1000);
                 }
@@ -1091,7 +1206,7 @@ namespace RGM.Modes
                     if (ev.Player.CurrentItem == null || !ChaosCoinSerials.Contains(ev.Player.CurrentItem.Serial))
                         break;
 
-                    ev.Player.ShowHint("이 동전을 튕기면 <b><color=#F7819F>혼돈의 손길</color></color></b> 능력을 사용할 수 있습니다.", 1.2f);
+                    ev.Player.ShowHint($"이 동전을 튕기면 <b><color={RatingColor["전용"]}>혼돈의 손길</color></color></b> 능력을 사용할 수 있습니다.", 1.2f);
 
                     await Task.Delay(1000);
                 }
@@ -1137,23 +1252,6 @@ namespace RGM.Modes
                 if (RGM.Instance.GodModePlayers.Contains(ev.Player))
                     RGM.Instance.GodModePlayers.Remove(ev.Player);
             }
-            else if (InstallModeSerials.Contains(ev.Item.Serial))
-            {
-                ev.Item.Destroy();
-
-                string Mode1 = RGM.GetRandomValue(RGM.Instance.ModeList.Keys.Where(x => RGM.Instance.ModeList[x][3] != "private").ToList());
-                string mod1 = Mode1.ToString();
-
-                var modeType = Type.GetType($"RGM.Modes.{RGM.Instance.ModeList[Mode1][2]}");
-                if (modeType != null)
-                {
-                    var modeInstance = Activator.CreateInstance(modeType);
-                    var onEnabledMethod = modeType.GetMethod("OnEnabled");
-                    onEnabledMethod?.Invoke(modeInstance, null);
-                }
-
-                Server.ExecuteCommand($"/cassie_sl {ev.Player.DisplayNickname}(이)가 [{mod1}] 모드를 설치했습니다.");
-            }
             else if (ChaosCoinSerials.Contains(ev.Item.Serial))
             {
                 ev.Item.Destroy();
@@ -1166,7 +1264,7 @@ namespace RGM.Modes
             }
         }
 
-        public async void OnTogglingRadio(Exiled.Events.EventArgs.Player.TogglingRadioEventArgs ev)
+        public void OnTogglingRadio(Exiled.Events.EventArgs.Player.TogglingRadioEventArgs ev)
         {
             if (CallSnakeHandsSerials.Contains(ev.Item.Serial))
             {
@@ -1174,43 +1272,7 @@ namespace RGM.Modes
 
                 ev.Player.Role.Set(RoleTypeId.Tutorial, SpawnReason.ForceClass, RoleSpawnFlags.None);
 
-                List<Player> SnakeHands = Player.List.Where(x => x.IsDead).ToList();
-
-                List<ItemType> Items = new List<ItemType>
-                {
-                    ItemType.KeycardFacilityManager,
-                    ItemType.GunFSP9, ItemType.GunRevolver,
-                    ItemType.Adrenaline,
-                    ItemType.AntiSCP207
-                };
-
-                List<ItemType> Ammos = new List<ItemType> 
-                {
-                    ItemType.Ammo44cal,
-                    ItemType.Ammo762x39
-                };
-
-                foreach (var p in SnakeHands)
-                {
-                    p.Role.Set(RoleTypeId.Tutorial);
-                    p.Position = new Vector3(-0.08203125f, 1000.96f, 6.828125f);
-
-                    foreach (ItemType Item in Items)
-                        p.AddItem(Item);
-
-                    for (int i = 1; i < 3; i++)
-                    {
-                        foreach (var Ammo in Ammos)
-                            p.AddItem(Ammo);
-                    }
-                }
-
-                for (int i = 1; i < 6; i++)
-                {
-                    ev.Player.ShowHint($"<i>{SnakeHands.Count()}명의 <color=#FE2EF7>동료</color>들이 당신과 함께합니다..</i>", 1.2f);
-
-                    await Task.Delay(1000);
-                }
+                CallSnakeHand(ev.Player, Player.List.Where(x => x.IsDead).ToList());
             }
         }
 
@@ -1300,15 +1362,6 @@ namespace RGM.Modes
 
                     // 죽음이 확정된 상황
 
-                    if (ev.Attacker != null)
-                    {
-                        if (PlayerAbilities[ev.Attacker].Contains("[신화] 차원 강탈자"))
-                        {
-                            foreach (var Ability in PlayerAbilities[ev.Player])
-                                PlayerAbilities[ev.Attacker].Add(Ability);
-                        }
-                    }
-
                     if (PlayerAbilities[ev.Player].Contains("[희귀] 순교"))
                     {
                         PlayerAbilities[ev.Player].Remove("[희귀] 순교");
@@ -1318,11 +1371,32 @@ namespace RGM.Modes
                         g.SpawnActive(ev.Player.Position, ev.Player);
                     }
 
+                    if (PlayerAbilities[ev.Player].Contains("[영웅] 슈퍼 스타"))
+                    {
+                        foreach (var player in Player.List)
+                        {
+                            player.AddBroadcast(10, "");
+                        }
+                    }
+
                     if (PlayerAbilities[ev.Player].Contains("[영웅] 극독"))
                     {
                         PlayerAbilities[ev.Player].Remove("[영웅] 극독");
 
                         ev.Attacker.EnableEffect(EffectType.CardiacArrest, 1, 15);
+
+                        ev.Attacker.ShowHint("극독에 당했습니다!");
+                    }
+
+                    if (ev.Attacker != null)
+                    {
+                        if (PlayerAbilities[ev.Attacker].Contains("[신화] 차원 강탈자"))
+                        {
+                            foreach (var Ability in PlayerAbilities[ev.Player])
+                                PlayerAbilities[ev.Attacker].Add(Ability);
+
+                            ev.Player.ShowHint("능력을 강탈당했습니다!");
+                        }
                     }
 
                     PlayerWorkstation[ev.Player].Clear();
@@ -1415,13 +1489,26 @@ namespace RGM.Modes
                     ev.DamageHandler.Damage = (int)(ev.DamageHandler.Damage * (1 + (0.2 * count)));
                 }
 
-                if (PlayerAbilities[ev.Attacker].Contains("[희귀] 흡혈귀") && ev.Player.LeadingTeam != ev.Attacker.LeadingTeam)
+                if (PlayerAbilities[ev.Attacker].Contains("[희귀] 흡혈귀") && ev.Attacker.LeadingTeam != ev.Player.LeadingTeam)
                     ev.Attacker.AddAhp(20 * (ev.DamageHandler.Damage / 100));
 
                 if (PlayerAbilities[ev.Attacker].Contains("[신화] 로켓 런처") && ev.Attacker.LeadingTeam != ev.Player.LeadingTeam)
                 {
                     if (UnityEngine.Random.Range(1, 21) == 1)
                         Server.ExecuteCommand($"/rocket {ev.Player.Id} 1");
+                }
+
+                if (PlayerAbilities[ev.Player].Contains("[전용] 집단 지성") && ev.Attacker.LeadingTeam != ev.Player.LeadingTeam)
+                {
+                    int PowerCount = 0;
+
+                    foreach (var player in Player.List.Where(x => x.IsAlive && x.LeadingTeam == ev.Player.LeadingTeam && x != ev.Player))
+                    {
+                        if (Vector3.Distance(player.Position, ev.Player.Position) < 11)
+                            PowerCount++;
+                    }
+
+                    ev.DamageHandler.Damage = (int)(ev.DamageHandler.Damage * (1 + (0.1 * PowerCount)));
                 }
 
                 if (PlayerAbilities[ev.Player].Contains("[전용] 격노"))
@@ -1431,6 +1518,12 @@ namespace RGM.Modes
                         if (Scp096.RageManager.IsEnraged && ev.Attacker != null && ev.Attacker != ev.Player)
                             ev.IsAllowed = false;
                     }
+                }
+
+                if (PlayerAbilities[ev.Player].Contains("[전용] 별자리 찢기"))
+                {
+                    if (UnityEngine.Random.Range(1, 5) == 1)
+                        ev.DamageHandler.Damage = -1;
                 }
 
                 if (PlayerAbilities[ev.Player].Contains("[전용] 숙련된 암살자"))
@@ -1473,17 +1566,6 @@ namespace RGM.Modes
             }
         }
 
-        public void OnStartingRecall(Exiled.Events.EventArgs.Scp049.StartingRecallEventArgs ev)
-        {
-            if (PlayerAbilities[ev.Player].Contains("[전용] 능수능란"))
-            {
-                Timing.CallDelayed(0.1f, () =>
-                {
-                    ev.Scp049.RemainingCallDuration /= 2;
-                });
-            }
-        }
-
         public void OnFinishingRecall(Exiled.Events.EventArgs.Scp049.FinishingRecallEventArgs ev)
         {
             if (PlayerAbilities[ev.Player].Contains("[전용] 유능한 의사"))
@@ -1503,6 +1585,27 @@ namespace RGM.Modes
         {
             if (PlayerAbilities[ev.Player].Contains("[전용] 허기"))
                 ev.ConsumeHeal *= 2;
+        }
+        
+        public void OnTriggeringBloodlust(Exiled.Events.EventArgs.Scp0492.TriggeringBloodlustEventArgs ev)
+        {
+            if (PlayerAbilities[ev.Player].Contains("[전용] 당혹감"))
+            {
+                ev.Target.EnableEffect(EffectType.Blinded, 1, 0.5f);
+                Hitmarker.SendHitmarkerDirectly(ev.Player.ReferenceHub, 0.2f);
+            }
+        }
+
+        public void OnCharging(Exiled.Events.EventArgs.Scp096.ChargingEventArgs ev)
+        {
+            if (PlayerAbilities[ev.Player].Contains("[전용] 천리안"))
+            {
+                foreach (var player in Player.List.Where(x => x.IsHuman))
+                {
+                    if (Vector3.Distance(player.Position, ev.Player.Position) < 31)
+                        ev.Scp096.AddTarget(player);
+                }
+            }
         }
 
         public void OnPinging(Exiled.Events.EventArgs.Scp079.PingingEventArgs ev)
