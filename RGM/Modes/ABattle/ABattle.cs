@@ -218,7 +218,7 @@ namespace RGM.Modes
                     "[희귀] 순간이동", "[희귀] 갈고리", "[영웅] 고스트룰", "[신화] 차원 강탈자"
                 }
             },
-            {"[시너지] 발광", new List<string>()
+            {"[시너지] 광휘", new List<string>()
                 {
                     "당신을 쳐다보는 눈은 멀어버릴 것입니다.",
                     "[전설] 플래시라이트", "[일반] 횃불"
@@ -572,28 +572,30 @@ namespace RGM.Modes
 
         public IEnumerator<float> Radiation()
         {
-            Dictionary<Player, Light> RadiationPlayers = new Dictionary<Player, Light>();
+            LightSourceSerializable LightSource;
+            LightSourceObject Light;
 
             while (true)
             {
-                foreach (var player in Player.List.Where(x => x.IsAlive))
+                foreach (Player player in Player.List.Where(x => x.IsAlive))
                 {
                     if (Physics.Raycast(player.ReferenceHub.PlayerCameraReference.position + player.ReferenceHub.PlayerCameraReference.forward * 0.2f, player.ReferenceHub.PlayerCameraReference.forward, out RaycastHit hit, 45f, InventorySystem.Items.Firearms.Modules.StandardHitregBase.HitregMask) &&
                         hit.collider.TryGetComponent<IDestructible>(out IDestructible destructible))
                     {
-                        var target = Player.Get(hit.collider.GetComponentInParent<ReferenceHub>());
+                        Player target = Player.Get(hit.collider.GetComponentInParent<ReferenceHub>());
 
-                        if (PlayerAbilities.ContainsKey(target) && PlayerAbilities[target].Contains("[시너지] 발광"))
+                        if (PlayerAbilities.ContainsKey(target))
                         {
-                            if (player != target && player.LeadingTeam != target.LeadingTeam)
+                            if (PlayerAbilities[target].Contains("[시너지] 광휘"))
                             {
-                                LightSourceSerializable LightSource = new LightSourceSerializable("#FFD700", 10, 10, true);
-                                LightSourceObject Light = ObjectSpawner.SpawnLightSource(LightSource, target.Position);
+                                if (player != target && player.LeadingTeam != target.LeadingTeam)
+                                {
+                                    LightSource = new LightSourceSerializable("#FFD700", 10, 10, true);
+                                    Light = ObjectSpawner.SpawnLightSource(LightSource, target.Position);
 
-                                Timing.CallDelayed(0.2f, Light.Destroy);
-
-                                Hitmarker.SendHitmarkerDirectly(target.ReferenceHub, 0.8f);
-                                player.EnableEffect(EffectType.Flashed, 1, 1f);
+                                    Hitmarker.SendHitmarkerDirectly(target.ReferenceHub, 0.8f);
+                                    player.EnableEffect(EffectType.Flashed, 1, 1f);
+                                }
                             }
                         }
                     }
