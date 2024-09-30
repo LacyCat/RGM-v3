@@ -209,6 +209,12 @@ namespace RGM.Modes
                     "시공간을 초월했습니다! 대단합니다!",
                     "[희귀] 순간이동", "[희귀] 갈고리", "[영웅] 고스트룰", "[신화] 차원 강탈자"
                 }
+            },
+            {"[시너지] 발광", new List<string>()
+                {
+                    "당신을 쳐다보는 눈은 멀어버릴 것입니다.",
+                    "[전설] 플래시라이트", "[일반] 횃불"
+                }
             }
         };
 
@@ -303,17 +309,16 @@ namespace RGM.Modes
 
             MapEditorReborn.Events.Handlers.Map.LoadingMap += OnLoadingMap;
 
-            // 게임 구성 IEnumerator
             Timing.RunCoroutine(OnModeStarted());
             Timing.RunCoroutine(RequestManager());
             Timing.RunCoroutine(SynergyManager());
 
-            // 능력별 IEnumerator
             Timing.RunCoroutine(UpgradeBody());
             Timing.RunCoroutine(FlashLight());
             Timing.RunCoroutine(Spirit());
             Timing.RunCoroutine(Twinkle());
             Timing.RunCoroutine(Medical());
+            Timing.RunCoroutine(Radiation());
         }
 
         public void ShowStatus(Player player)
@@ -551,6 +556,35 @@ namespace RGM.Modes
                 }
 
                 yield return Timing.WaitForSeconds(1f);
+            }
+        }
+
+        public IEnumerator<float> Radiation()
+        {
+            while (true)
+            {
+                foreach (var player in Player.List.Where(x => x.IsAlive))
+                {
+                    if (PlayerAbilities.ContainsKey(player))
+                    {
+                        if (Physics.Raycast(player.ReferenceHub.PlayerCameraReference.position + player.ReferenceHub.PlayerCameraReference.forward * 0.2f, player.ReferenceHub.PlayerCameraReference.forward, out RaycastHit hit, 45f, InventorySystem.Items.Firearms.Modules.StandardHitregBase.HitregMask) &&
+                            hit.collider.TryGetComponent<IDestructible>(out IDestructible destructible))
+                        {
+                            var target = Player.Get(hit.collider.GetComponentInParent<ReferenceHub>());
+
+                            if (PlayerAbilities[target].Contains("[시너지] 발광"))
+                            {
+                                if (player != target && player.LeadingTeam != target.LeadingTeam)
+                                {
+                                    Hitmarker.SendHitmarkerDirectly(target.ReferenceHub, 0.8f);
+                                    player.EnableEffect(EffectType.Flashed, 1, 1f);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                yield return Timing.WaitForSeconds(0.1f);
             }
         }
 
