@@ -455,7 +455,7 @@ namespace RGM.Modes
                 {
                     foreach (var synergy in Synergies)
                     {
-                        if (synergy.Value.Skip(1).All(x => PlayerAbilities[player].Contains(x)))
+                        if (synergy.Value.Skip(1).All(x => PlayerAbilities[player].Intersect(synergy.Value.Skip(1)).Count() == synergy.Value.Skip(1).Count()))
                         {
                             if (!PlayerAbilities[player].Contains(synergy.Key))
                                 AddAbility(player, synergy.Key);
@@ -595,18 +595,19 @@ namespace RGM.Modes
                     if (Physics.Raycast(player.ReferenceHub.PlayerCameraReference.position + player.ReferenceHub.PlayerCameraReference.forward * 0.2f, player.ReferenceHub.PlayerCameraReference.forward, out RaycastHit hit, 45f, InventorySystem.Items.Firearms.Modules.StandardHitregBase.HitregMask) &&
                         hit.collider.TryGetComponent<IDestructible>(out IDestructible destructible))
                     {
-                        Player target = Player.Get(hit.collider.GetComponentInParent<ReferenceHub>());
-
-                        if (PlayerAbilities.ContainsKey(target))
+                        if (Player.TryGet(hit.collider.GetComponentInParent<ReferenceHub>(), out Player target))
                         {
-                            if (PlayerAbilities[target].Contains("[시너지] 광휘"))
+                            if (PlayerAbilities.ContainsKey(target))
                             {
-                                if (player != target && player.LeadingTeam != target.LeadingTeam)
+                                if (PlayerAbilities[target].Contains("[시너지] 광휘"))
                                 {
-                                    Light.Position = target.Position;
+                                    if (player != target && player.LeadingTeam != target.LeadingTeam)
+                                    {
+                                        Light.Position = target.Position;
 
-                                    Hitmarker.SendHitmarkerDirectly(target.ReferenceHub, 0.8f);
-                                    player.EnableEffect(EffectType.Flashed, 1, 1f);
+                                        Hitmarker.SendHitmarkerDirectly(target.ReferenceHub, 0.8f);
+                                        player.EnableEffect(EffectType.Flashed, 1, 1f);
+                                    }
                                 }
                             }
                         }
@@ -921,7 +922,7 @@ namespace RGM.Modes
                     player.GetEffect(EffectType.MovementBoost).Intensity += 50;
                     Timing.CallDelayed(25, () => 
                     { 
-                        if (player.GetEffect(EffectType.MovementBoost).Intensity > 50)
+                        if (player.GetEffect(EffectType.MovementBoost).Intensity >= 50)
                             player.GetEffect(EffectType.MovementBoost).Intensity -= 50; 
                     });
                     break;
@@ -1382,7 +1383,7 @@ namespace RGM.Modes
 
         public async void OnDying(Exiled.Events.EventArgs.Player.DyingEventArgs ev)
         {
-            if (PlayerWorkstation.ContainsKey(ev.Player))
+            if (PlayerAbilities.ContainsKey(ev.Attacker) && PlayerAbilities.ContainsKey(ev.Player) && ev.Attacker != null)
             {
                 if (ev.Player.Role.Type == RoleTypeId.Scp079)
                 {
@@ -1516,7 +1517,7 @@ namespace RGM.Modes
 
         public void OnDied(Exiled.Events.EventArgs.Player.DiedEventArgs ev)
         {
-            if (ev.Attacker != null && PlayerAbilities.ContainsKey(ev.Attacker))
+            if (ev.Attacker != null && PlayerAbilities.ContainsKey(ev.Attacker) && PlayerAbilities.ContainsKey(ev.Player))
             {
                 List<string> aa = PlayerAbilities[ev.Attacker];
 
@@ -1648,7 +1649,7 @@ namespace RGM.Modes
 
                     Timing.CallDelayed(3f, () =>
                     {
-                        if (ev.Player.GetEffect(EffectType.MovementBoost).Intensity > 25)
+                        if (ev.Player.GetEffect(EffectType.MovementBoost).Intensity >= 25)
                             ev.Player.GetEffect(EffectType.MovementBoost).Intensity -= 25;
                     });
                 }
@@ -1737,7 +1738,7 @@ namespace RGM.Modes
 
                 Timing.CallDelayed(3f, () => 
                 {
-                    if (ev.Player.GetEffect(EffectType.MovementBoost).Intensity > 25)
+                    if (ev.Player.GetEffect(EffectType.MovementBoost).Intensity >= 25)
                         ev.Player.GetEffect(EffectType.MovementBoost).Intensity -= 25;
                 });
             }
