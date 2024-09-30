@@ -225,10 +225,10 @@ namespace RGM.Modes
                     "[전설] 플래시라이트", "[일반] 횃불"
                 }
             },
-            {"[시너지] 럭키비키니시티", new List<string>()
+            {"[시너지] 중첩 불가 파티 Ⅰ", new List<string>()
                 {
-                    "<행운, 행운, 행운> 능력은 행운 3개지만, 실제로는 불운인 당신! 럭키비키 능력을 얻으세요!",
-                    "[일반] 행운", "[일반] 행운", "[일반] 행운"
+                    "<회축, 육체 강화, 흡혈귀, 순교, 매의 눈> 일반, 희귀 능력 중에서 중첩이 불가한 것들을 전부 모으셨네요! 럭키비키 능력을 받고 중첩 불가한 능력들을 또 얻으세요!",
+                    "[일반] 회축", "[희귀] 육체 강화", "[희귀] 흡혈귀", "[희귀] 순교", "[희귀] 매의 눈"
                 }
             },
             {"[시너지] 타고난 사냥꾼", new List<string>()
@@ -455,7 +455,7 @@ namespace RGM.Modes
                 {
                     foreach (var synergy in Synergies)
                     {
-                        if (synergy.Value.Skip(1).All(x => PlayerAbilities[player].Intersect(synergy.Value.Skip(1)).Count() == synergy.Value.Skip(1).Count()))
+                        if (synergy.Value.Skip(1).All(x => PlayerAbilities[player].Intersect(synergy.Value.Skip(1)).Count() >= synergy.Value.Skip(1).Count()))
                         {
                             if (!PlayerAbilities[player].Contains(synergy.Key))
                                 AddAbility(player, synergy.Key);
@@ -766,8 +766,8 @@ namespace RGM.Modes
                             return Scp079Abilities;
                     }
 
-                    Cassie.Clear();
-                    Server.ExecuteCommand($"/cassie_sl {player.DisplayNickname}(이)가 <color={RatingColor["전용"]}>[전용]</color> 업그레이드를 입수하였습니다.");
+                    // Cassie.Clear();
+                    // Server.ExecuteCommand($"/cassie_sl {player.DisplayNickname}(이)가 <color={RatingColor["전용"]}>[전용]</color> 업그레이드를 입수하였습니다.");
                     return Format();
                 }
                 else
@@ -1145,7 +1145,7 @@ namespace RGM.Modes
                     if (player.MaxHealth < player.Health)
                         player.MaxHealth = player.Health;
                     break;
-                case "럭키비키니시티":
+                case "중첩 불가 파티 Ⅰ":
                     AddAbility(player, "[영웅] 럭키비키");
                     break;
             }
@@ -1503,20 +1503,20 @@ namespace RGM.Modes
                             ev.Player.ShowHint("능력을 강탈당했습니다!");
                         }
                     }
-
-                    PlayerWorkstation[ev.Player].Clear();
-                    PlayerAbilities[ev.Player].Clear();
-                    ev.Player.Scale = new Vector3(1, 1, 1);
-                    Server.ExecuteCommand($"/speak {ev.Player.Id} disable");
-                    ev.Player.IsUsingStamina = true;
-                    if (RGM.Instance.GodModePlayers.Contains(ev.Player))
-                        RGM.Instance.GodModePlayers.Remove(ev.Player);
                 }
             }
         }
 
         public void OnDied(Exiled.Events.EventArgs.Player.DiedEventArgs ev)
         {
+            PlayerWorkstation[ev.Player].Clear();
+            PlayerAbilities[ev.Player].Clear();
+            ev.Player.Scale = new Vector3(1, 1, 1);
+            Server.ExecuteCommand($"/speak {ev.Player.Id} disable");
+            ev.Player.IsUsingStamina = true;
+            if (RGM.Instance.GodModePlayers.Contains(ev.Player))
+                RGM.Instance.GodModePlayers.Remove(ev.Player);
+
             if (ev.Attacker != null && PlayerAbilities.ContainsKey(ev.Attacker) && PlayerAbilities.ContainsKey(ev.Player))
             {
                 List<string> aa = PlayerAbilities[ev.Attacker];
@@ -1578,7 +1578,11 @@ namespace RGM.Modes
                 else
                 {
                     ev.Pickup.Destroy();
-                    Server.ExecuteCommand($"/drop {ev.Player.Id} {UnityEngine.Random.Range(0, 55)} 1");
+
+                    List<ItemType> ItemTypes = Tools.EnumToList<ItemType>();
+
+                    Item Item = Item.Create(Tools.GetRandomValue(ItemTypes));
+                    Item.CreatePickup(ev.Player.Position);
                 }
             }
         }
