@@ -89,7 +89,7 @@ namespace RGM.Modes
                             player.Role.Set(RoleTypeId.NtfPrivate);
                             player.Position = new Vector3(18.08594f, 1001.957f, 15.34766f);
                             for (int i = 1; i < 10; i++)
-                                player.AddItem(ItemType.Ammo556x45);
+                                player.AddItem(ItemType.Ammo9x19);
                         }
                     }
 

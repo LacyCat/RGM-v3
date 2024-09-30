@@ -277,7 +277,7 @@ namespace RGM.Modes
             List<ItemType> Ammos = new List<ItemType>
                 {
                     ItemType.Ammo44cal,
-                    ItemType.Ammo762x39
+                    ItemType.Ammo9x19
                 };
 
             foreach (var p in SnakeHands)
