@@ -190,7 +190,9 @@ namespace RGM.Modes
         };
         public Dictionary<string, string> Scp3114Abilities = new Dictionary<string, string>()
         {
-            {"[전용] 숙련된 암살자", "교살 데미지가 10배 증가합니다. (중첩 불가)"}
+            {"[전용] 숙련된 암살자", "교살 데미지가 10배 증가합니다. (중첩 불가)"},
+            {"[전용] 반블럭", "데미지를 입으면 이동 속도가 증가합니다."},
+            {"[전용] 도라에몽 주머니", "변신을 해제할 때마다 아이템을 하나 지급받습니다. (중첩 불가)"}
         };
         public Dictionary<string, string> Scp079Abilities = new Dictionary<string, string>() 
         {
@@ -310,6 +312,8 @@ namespace RGM.Modes
             Exiled.Events.Handlers.Scp096.Charging += OnCharging;
 
             Exiled.Events.Handlers.Scp106.Attacking += OnScp106Attacking;
+
+            Exiled.Events.Handlers.Scp3114.Revealed += OnRevealed;
 
             Exiled.Events.Handlers.Scp079.Pinging += OnPinging;
             Exiled.Events.Handlers.Scp079.ZoneBlackout += OnZoneBlackout;
@@ -574,25 +578,22 @@ namespace RGM.Modes
             {
                 foreach (var player in Player.List.Where(x => x.IsAlive))
                 {
-                    if (PlayerAbilities.ContainsKey(player))
+                    if (Physics.Raycast(player.ReferenceHub.PlayerCameraReference.position + player.ReferenceHub.PlayerCameraReference.forward * 0.2f, player.ReferenceHub.PlayerCameraReference.forward, out RaycastHit hit, 45f, InventorySystem.Items.Firearms.Modules.StandardHitregBase.HitregMask) &&
+                        hit.collider.TryGetComponent<IDestructible>(out IDestructible destructible))
                     {
-                        if (Physics.Raycast(player.ReferenceHub.PlayerCameraReference.position + player.ReferenceHub.PlayerCameraReference.forward * 0.2f, player.ReferenceHub.PlayerCameraReference.forward, out RaycastHit hit, 45f, InventorySystem.Items.Firearms.Modules.StandardHitregBase.HitregMask) &&
-                            hit.collider.TryGetComponent<IDestructible>(out IDestructible destructible))
+                        var target = Player.Get(hit.collider.GetComponentInParent<ReferenceHub>());
+
+                        if (PlayerAbilities.ContainsKey(target) && PlayerAbilities[target].Contains("[시너지] 발광"))
                         {
-                            var target = Player.Get(hit.collider.GetComponentInParent<ReferenceHub>());
-
-                            if (PlayerAbilities[target].Contains("[시너지] 발광"))
+                            if (player != target && player.LeadingTeam != target.LeadingTeam)
                             {
-                                if (player != target && player.LeadingTeam != target.LeadingTeam)
-                                {
-                                    LightSourceSerializable LightSource = new LightSourceSerializable("#FFD700", 10, 10, true);
-                                    LightSourceObject Light = ObjectSpawner.SpawnLightSource(LightSource, target.Position);
+                                LightSourceSerializable LightSource = new LightSourceSerializable("#FFD700", 10, 10, true);
+                                LightSourceObject Light = ObjectSpawner.SpawnLightSource(LightSource, target.Position);
 
-                                    Timing.CallDelayed(0.2f, Light.Destroy);
+                                Timing.CallDelayed(0.2f, Light.Destroy);
 
-                                    Hitmarker.SendHitmarkerDirectly(target.ReferenceHub, 0.8f);
-                                    player.EnableEffect(EffectType.Flashed, 1, 1f);
-                                }
+                                Hitmarker.SendHitmarkerDirectly(target.ReferenceHub, 0.8f);
+                                player.EnableEffect(EffectType.Flashed, 1, 1f);
                             }
                         }
                     }
@@ -1623,6 +1624,17 @@ namespace RGM.Modes
                     if (ev.DamageHandler.Type == DamageType.Strangled)
                         ev.DamageHandler.Damage *= 10;
                 }
+
+                if (PlayerAbilities[ev.Player].Contains("[전용] 반블럭"))
+                {
+                    ev.Player.GetEffect(EffectType.MovementBoost).Intensity += 25;
+
+                    Timing.CallDelayed(3f, () =>
+                    {
+                        if (ev.Player.GetEffect(EffectType.MovementBoost).Intensity > 25)
+                            ev.Player.GetEffect(EffectType.MovementBoost).Intensity -= 25;
+                    });
+                }
             }
         }
 
@@ -1711,6 +1723,19 @@ namespace RGM.Modes
                     if (ev.Player.GetEffect(EffectType.MovementBoost).Intensity > 25)
                         ev.Player.GetEffect(EffectType.MovementBoost).Intensity -= 25;
                 });
+            }
+        }
+
+        public void OnRevealed(Exiled.Events.EventArgs.Scp3114.RevealedEventArgs ev)
+        {
+            if (PlayerAbilities[ev.Player].Contains("[전용] 도라에몽 주머니"))
+            {
+                List<ItemType> ItemTypes = Tools.EnumToList<ItemType>();
+
+                Item Item = ev.Player.AddItem(Tools.GetRandomValue(ItemTypes));
+
+                if (ev.Player.IsScp)
+                    ev.Player.CurrentItem = Item;
             }
         }
 
