@@ -65,30 +65,36 @@ namespace RGM.Modes
                 yield return Timing.WaitForSeconds(1f);
             }
 
+            IEnumerator<float> RemovingPlatform(Primitive Platform)
+            {
+                Platform.Color = Color.green;
+
+                yield return Timing.WaitForSeconds(0.75f);
+
+                Platform.Color = Color.yellow;
+
+                yield return Timing.WaitForSeconds(0.75f);
+
+                Platform.Color = Color.red;
+
+                yield return Timing.WaitForSeconds(0.75f);
+
+                Platform.Destroy();
+            }
+
             while (true)
             {
                 foreach (var player in Player.List.Where(x => x.IsAlive).ToList())
                 {
                     if (Physics.Raycast(player.Position, Vector3.down, out RaycastHit hit, 3f, (LayerMask)1))
                     {
-                        OnGround[player] = 5;
+                        OnGround[player] = 3;
 
                         if (hit.transform.name == "Platform") 
                         {
                             Primitive Platform = hit.transform.gameObject.GetComponent<PrimitiveObject>().Primitive;
-                            Platform.Color = new Color(255, 255, 0);
 
-                            Timing.CallDelayed(0.75f, () => 
-                            {
-                                Platform.Color = new Color(255, 165, 0);
-
-                                Timing.CallDelayed(0.75f, () =>
-                                {
-                                    Platform.Color = new Color(255, 0, 0);
-
-                                    Timing.CallDelayed(0.75f, Platform.Destroy);
-                                });
-                            });
+                            Timing.RunCoroutine(RemovingPlatform(Platform));
                         }
 
                         else if (hit.collider.name == "Lava")
