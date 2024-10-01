@@ -273,6 +273,51 @@ namespace RGM.Commands
         public string Description { get; } = "[RGM] 텍스트 채팅을 사용할 수 있습니다.";
     }
 
+    [CommandHandler(typeof(ClientCommandHandler))]
+    public class VoteWU : ICommand
+    {
+        public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
+        {
+            Player player = Player.Get(sender);
+
+            if (arguments.Count < 1)
+            {
+                RGM.Instance.Requests.Add($"ABattle/{player.Id}/Vote/Random");
+
+                response = "랜덤 선택 완료!";
+
+                return true;
+            }
+            else
+            {
+                string Number = arguments.At(0).Trim();
+
+                if (new List<string>() { "1", "2", "3" }.Contains(Number))
+                {
+                    RGM.Instance.Requests.Add($"ABattle/{player.Id}/Vote/{Number}");
+
+                    response = $"선택 완료! {Number}번을 골랐습니다.";
+
+                    return true;
+                }
+                else
+                {
+                    response = $"올바른 번호(1, 2, 3)를 선택하세요.";
+
+                    return false;
+                }
+            }
+        }
+
+        public string Command { get; } = "wu";
+
+        public string[] Aliases { get; } = { "선택", "워업" };
+
+        public string Description { get; } = "워크스테이션 업그레이드ㅣ원하는 능력을 선택하세요.";
+
+        public bool SanitizeResponse { get; } = true;
+    }
+
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     public class ForceMode : ICommand
     {

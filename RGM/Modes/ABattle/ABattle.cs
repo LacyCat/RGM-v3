@@ -29,6 +29,8 @@ using PluginAPI.Roles;
 using RGM.API;
 using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
+using System.Windows.Forms;
+using HarmonyLib;
 
 namespace RGM.Modes
 {
@@ -39,6 +41,7 @@ namespace RGM.Modes
         public bool IsFeverModeEnabled = false;
         public Dictionary<Player, List<Vector3>> PlayerWorkstation = new Dictionary<Player, List<Vector3>>();
         public Dictionary<Player, List<string>> PlayerAbilities = new Dictionary<Player, List<string>>();
+        public Dictionary<Player, string> PlayerVotes = new Dictionary<Player, string>();
 
         public List<Player> MeleeCooldown = new List<Player>();
         public List<Player> PickPocketCooldown = new List<Player>();
@@ -298,6 +301,145 @@ namespace RGM.Modes
             Convener.ShowHint($"<i>{SnakeHands.Count()}명의 <color=#FE2EF7>동료</color>들이 당신과 함께합니다..</i>", 5f);
         }
 
+        public string PickAbilityGrade(Player player, string force = null)
+        {
+            int grade = UnityEngine.Random.Range(1, 1001);
+            string abilityGrade;
+            if (force != null)
+                abilityGrade = "[" + force.Substring(force.IndexOf('[') + 1, force.IndexOf(']') - force.IndexOf('[') - 1) + "]".Trim();
+
+            else if (player.Role.Type == RoleTypeId.Scp079)
+                abilityGrade = "[전용]";
+
+            else
+            {
+                if (grade < 2)
+                    abilityGrade = "[신화]";
+
+                else if (grade < 7)
+                    abilityGrade = "[전설]";
+
+                else if (grade < 57)
+                    abilityGrade = "[영웅]";
+
+                else if (grade < 257)
+                    abilityGrade = "[희귀]";
+
+                else if (grade < 317)
+                    abilityGrade = "[전용]";
+
+                else
+                    abilityGrade = "[일반]";
+            }
+
+            return abilityGrade;
+        }
+
+        public Dictionary<string, string> AbilityList(Player player, string abilityGrade, bool get = true)
+        {
+            if (abilityGrade == "[일반]")
+                return CommonAbilities;
+
+            else if (abilityGrade == "[희귀]")
+                return RareAbilities;
+
+            else if (abilityGrade == "[영웅]")
+            {
+                Cassie.Clear();
+                if (get) Server.ExecuteCommand($"/cassie_sl {player.DisplayNickname}(이)가 <color={RatingColor["영웅"]}>[영웅]</color> 업그레이드를 입수하였습니다.");
+                return EpicAbilities;
+            }
+            else if (abilityGrade == "[전설]")
+            {
+                Cassie.Clear();
+                if (get) Server.ExecuteCommand($"/cassie_sl {player.DisplayNickname}(이)가 <color={RatingColor["전설"]}>[전설]</color> 업그레이드를 입수하였습니다.");
+                return LegendAbilities;
+            }
+            else if (abilityGrade == "[신화]")
+            {
+                Cassie.Clear();
+                if (get) Server.ExecuteCommand($"/cassie_sl {player.DisplayNickname}(이)가 <color={RatingColor["신화"]}>[신화]</color> 업그레이드를 입수하였습니다.");
+                return MythicAbilities;
+            }
+            else if (abilityGrade == "[전용]")
+            {
+                Dictionary<string, string> Format()
+                {
+                    RoleTypeId role = player.Role.Type;
+
+                    if (role == RoleTypeId.ClassD)
+                        return ClassDAbilities;
+
+                    else if (role == RoleTypeId.Scientist)
+                        return ScientistAbilities;
+
+                    else if (role == RoleTypeId.FacilityGuard)
+                        return GuardAbilities;
+
+                    else if (player.IsNTF)
+                        return NtfAbilities;
+
+                    else if (player.IsCHI)
+                        return ChaosAbilities;
+
+                    else if (role == RoleTypeId.Tutorial)
+                        return SnakeAbilities;
+
+                    else if (role == RoleTypeId.Scp173)
+                        return Scp173Abilities;
+
+                    else if (role == RoleTypeId.Scp049)
+                        return Scp049Abilities;
+
+                    else if (role == RoleTypeId.Scp0492)
+                        return Scp0492Abilities;
+
+                    else if (role == RoleTypeId.Scp096)
+                        return Scp096Abilities;
+
+                    else if (role == RoleTypeId.Scp106)
+                        return Scp106Abilities;
+
+                    else if (role == RoleTypeId.Scp939)
+                        return Scp939Abilities;
+
+                    else if (role == RoleTypeId.Scp3114)
+                        return Scp3114Abilities;
+
+                    else
+                        return Scp079Abilities;
+                }
+
+                // Cassie.Clear();
+                // Server.ExecuteCommand($"/cassie_sl {player.DisplayNickname}(이)가 <color={RatingColor["전용"]}>[전용]</color> 업그레이드를 입수하였습니다.");
+                return Format();
+            }
+            else
+            {
+                Dictionary<string, string> SynergiesFormat = new Dictionary<string, string>();
+
+                foreach (var kvp in Synergies)
+                {
+                    if (kvp.Value.Count > 0)
+                        SynergiesFormat.Add(kvp.Key, kvp.Value[0]);
+                }
+
+                Cassie.Clear();
+                Server.ExecuteCommand($"/cassie_sl {player.DisplayNickname}(이)가 <color={RatingColor["시너지"]}>[시너지]</color> 효과를 입수하였습니다.");
+                return SynergiesFormat;
+            }
+        }
+
+        public void ApplyGiveAbility(Player player, string abilityGrade, string abilityName)
+        {
+            PlayerAbilities[player].Add(abilityName);
+            string styleName = ColorFormat(abilityName);
+
+            string Message = $"<size=15><b>다음 능력이 추가되었습니다.</b></size>\n<size=25>{styleName}</size>\n<size=20>{AbilityList(player, abilityGrade)[abilityName]}</size>";
+            player.AddBroadcast(8, Message);
+            player.SendConsoleMessage($"\n{Message}", "white");
+        }
+
         public void OnEnabled()
         {
             Exiled.Events.Handlers.Player.TogglingNoClip += OnTogglingNoClip;
@@ -415,32 +557,41 @@ namespace RGM.Modes
         {
             while (true)
             {
-                try
+                foreach (var Request in RGM.Instance.Requests.ToList())
                 {
-                    foreach (var Request in RGM.Instance.Requests)
+                    string[] req = Request.Split('/');
+
+                    if (req[0] == "ABattle")
                     {
-                        string[] req = Request.Split('/');
+                        Player player = Player.Get(req[1]);
 
-                        if (req[0] == "ABattle")
+                        if (req[2] == "Add")
                         {
-                            Player player = Player.Get(req[1]);
-
-                            if (req[2] == "Add")
-                            {
-                                if (req[3] == "Random")
-                                    AddAbility(player);
-
-                                else
-                                    AddAbility(player, req[3]);
-                            }
-
-                            RGM.Instance.Requests.Remove(Request);
+                            if (req[3] == "Random")
+                                AddAbility(player);
+                            else
+                                AddAbility(player, req[3]);
                         }
+                        else if (req[2] == "Vote")
+                        {
+                            string VoteNum;
+
+                            if (req[3] == "Random")
+                                VoteNum = $"{UnityEngine.Random.Range(1, 4)}";
+                            else
+                                VoteNum = req[3];
+
+                            PlayerVotes.Add(player, VoteNum);
+
+                            Timing.CallDelayed(1f, () =>
+                            {
+                                if (PlayerVotes.ContainsKey(player))
+                                    PlayerVotes.Remove(player);
+                            });
+                        }
+
+                        RGM.Instance.Requests.Remove(Request);
                     }
-                }
-                catch (Exception e)
-                {
-                    Log.Error(e);
                 }
 
                 yield return Timing.WaitForSeconds(1f);
@@ -663,142 +814,10 @@ namespace RGM.Modes
                 }
             }
 
-            int grade = UnityEngine.Random.Range(1, 1001);
-            string abilityGrade;
+            string abilityGrade = PickAbilityGrade(player, force);
+            string abilityName = force == null ? Tools.GetRandomValue(AbilityList(player, abilityGrade).Keys.ToList()) : force;
 
-            if (force != null)
-                abilityGrade = "[" + force.Substring(force.IndexOf('[') + 1, force.IndexOf(']') - force.IndexOf('[') - 1) + "]".Trim();
-
-            else if (player.Role.Type == RoleTypeId.Scp079)
-                abilityGrade = "[전용]";
-
-            else
-            {
-                if (grade < 2)
-                    abilityGrade = "[신화]";
-
-                else if (grade < 7)
-                    abilityGrade = "[전설]";
-
-                else if (grade < 57)
-                    abilityGrade = "[영웅]";
-
-                else if (grade < 257)
-                    abilityGrade = "[희귀]";
-
-                else if (grade < 317)
-                    abilityGrade = "[전용]";
-
-                else
-                    abilityGrade = "[일반]";
-            }
-
-            Dictionary<string, string> AbilityList()
-            {
-                if (abilityGrade == "[일반]")
-                    return CommonAbilities;
-                else if (abilityGrade == "[희귀]")
-                    return RareAbilities;
-                else if (abilityGrade == "[영웅]")
-                {
-                    Cassie.Clear();
-                    Server.ExecuteCommand($"/cassie_sl {player.DisplayNickname}(이)가 <color={RatingColor["영웅"]}>[영웅]</color> 업그레이드를 입수하였습니다.");
-                    return EpicAbilities;
-                }
-                else if (abilityGrade == "[전설]")
-                {
-                    Cassie.Clear();
-                    Server.ExecuteCommand($"/cassie_sl {player.DisplayNickname}(이)가 <color={RatingColor["전설"]}>[전설]</color> 업그레이드를 입수하였습니다.");
-                    return LegendAbilities;
-                }
-                else if (abilityGrade == "[신화]")
-                {
-                    Cassie.Clear();
-                    Server.ExecuteCommand($"/cassie_sl {player.DisplayNickname}(이)가 <color={RatingColor["신화"]}>[신화]</color> 업그레이드를 입수하였습니다.");
-                    return MythicAbilities;
-                }
-                else if (abilityGrade == "[전용]")
-                {
-                    Dictionary<string, string> Format()
-                    {
-                        RoleTypeId role = player.Role.Type;
-
-                        if (role == RoleTypeId.ClassD)
-                            return ClassDAbilities;
-
-                        else if (role == RoleTypeId.Scientist)
-                            return ScientistAbilities;
-
-                        else if (role == RoleTypeId.FacilityGuard)
-                            return GuardAbilities;
-
-                        else if (player.IsNTF)
-                            return NtfAbilities;
-
-                        else if (player.IsCHI)
-                            return ChaosAbilities;
-
-                        else if (role == RoleTypeId.Tutorial)
-                            return SnakeAbilities;
-
-                        else if (role == RoleTypeId.Scp173)
-                            return Scp173Abilities;
-
-                        else if (role == RoleTypeId.Scp049)
-                            return Scp049Abilities;
-
-                        else if (role == RoleTypeId.Scp0492)
-                            return Scp0492Abilities;
-
-                        else if (role == RoleTypeId.Scp096)
-                            return Scp096Abilities;
-
-                        else if (role == RoleTypeId.Scp106)
-                            return Scp106Abilities;
-
-                        else if (role == RoleTypeId.Scp939)
-                            return Scp939Abilities;
-
-                        else if (role == RoleTypeId.Scp3114)
-                            return Scp3114Abilities;
-
-                        else
-                            return Scp079Abilities;
-                    }
-
-                    // Cassie.Clear();
-                    // Server.ExecuteCommand($"/cassie_sl {player.DisplayNickname}(이)가 <color={RatingColor["전용"]}>[전용]</color> 업그레이드를 입수하였습니다.");
-                    return Format();
-                }
-                else
-                {
-                    Dictionary<string, string> SynergiesFormat = new Dictionary<string, string>();
-
-                    foreach (var kvp in Synergies)
-                    {
-                        if (kvp.Value.Count > 0)
-                            SynergiesFormat.Add(kvp.Key, kvp.Value[0]);
-                    }
-
-                    Cassie.Clear();
-                    Server.ExecuteCommand($"/cassie_sl {player.DisplayNickname}(이)가 <color={RatingColor["시너지"]}>[시너지]</color> 효과를 입수하였습니다.");
-                    return SynergiesFormat;
-                }
-            }
-
-            void ApplyGiveAbility(string abilityName)
-            {
-                PlayerAbilities[player].Add(abilityName);
-                string styleName = ColorFormat(abilityName);
-
-                string Message = $"<size=15><b>다음 능력이 추가되었습니다.</b></size>\n<size=25>{styleName}</size>\n<size=20>{AbilityList()[abilityName]}</size>";
-                player.AddBroadcast(8, Message);
-                player.SendConsoleMessage($"\n{Message}", "white");
-            }
-
-            string abilityName = force == null ? Tools.GetRandomValue(AbilityList().Keys.ToList()) : force;
-
-            ApplyGiveAbility(abilityName);
+            ApplyGiveAbility(player, abilityGrade, abilityName);
 
             string aT = abilityName.Replace("[전용] ", "").Replace("[일반] ", "").Replace("[희귀] ", "").Replace("[영웅] ", "").Replace("[전설] ", "").Replace("[신화] ", "").Replace("[시너지] ", "");
 
@@ -1215,7 +1234,7 @@ namespace RGM.Modes
             }
         }
 
-        public void OnJumping(Exiled.Events.EventArgs.Player.JumpingEventArgs ev)
+        public async void OnJumping(Exiled.Events.EventArgs.Player.JumpingEventArgs ev)
         {
             if (Physics.Raycast(ev.Player.Position, Vector3.down, out RaycastHit hit, 5, (LayerMask)1))
             {
@@ -1225,7 +1244,41 @@ namespace RGM.Modes
                 {
                     PlayerWorkstation[ev.Player].Add(WorkStation.position);
 
-                    AddAbility(ev.Player);
+                    if (UnityEngine.Random.Range(1, 4) == 1)
+                    {
+                        List<string> AbilitesVote = new List<string>();
+                        List<string> DisplayVote = new List<string>();
+                        int SelectedAbilityNumber = 0;
+
+                        for (int i=1; i<4; i++)
+                        {
+                            List<string> abilityList = AbilityList(ev.Player, PickAbilityGrade(ev.Player), false).Keys.ToList();
+
+                            AbilitesVote.Add(Tools.GetRandomValue(abilityList));
+                        }
+
+                        for (int i=1; i<4; i++)
+                            DisplayVote.Add($"[{i}] {ColorFormat(AbilitesVote[i - 1])}");
+
+                        for (int i=1; i<21; i++)
+                        {
+                            ev.Player.ShowHint($"<align=left><size=30>{string.Join("\n", DisplayVote)}</size>\n\n<size=25><b>{21 - i}초 안에 원하는 능력을 선택하세요. (.선택 [번호])</b></size></align>\n\n", 1.2f);
+
+                            if (PlayerVotes.ContainsKey(ev.Player))
+                            {
+                                SelectedAbilityNumber = int.Parse(PlayerVotes[ev.Player]);
+                                break;
+                            }
+
+                            await Task.Delay(1000);
+                        }
+
+                        if (SelectedAbilityNumber == 0) SelectedAbilityNumber = UnityEngine.Random.Range(1, 4);
+
+                        AddAbility(ev.Player, AbilitesVote[SelectedAbilityNumber - 1]);
+                    }
+                    else
+                        AddAbility(ev.Player);
                 }
             }
         }
