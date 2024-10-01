@@ -34,7 +34,7 @@ namespace RGM.Modes
             Exiled.Events.Handlers.Scp049.StartingRecall += OnStartingRecall;
             Exiled.Events.Handlers.Scp049.Attacking += OnScp049Attacking;
 
-            Exiled.Events.Handlers.Scp0492.ConsumingCorpse += OnConsumingCorpse;
+            Exiled.Events.Handlers.Scp0492.ConsumedCorpse += OnConsumedCorpse;
 
             Exiled.Events.Handlers.Scp096.Enraging += OnEnraging;
 
@@ -116,7 +116,7 @@ namespace RGM.Modes
             ev.Scp049.RemainingGoodSenseDuration = 0;
         }
         
-        public void OnConsumingCorpse(Exiled.Events.EventArgs.Scp0492.ConsumingCorpseEventArgs ev)
+        public void OnConsumedCorpse(Exiled.Events.EventArgs.Scp0492.ConsumedCorpseEventArgs ev)
         {
             ev.Player.MaxHealth = ev.Player.MaxHealth + 100;
         }
