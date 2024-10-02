@@ -50,24 +50,22 @@ namespace RGM.Donator
 
                     if (Attacker[4] == "Kerfus")
                     {
-                        Vector3 pos = ev.Player.Position;
-
-                        SchematicObject Kerfus = ObjectSpawner.SpawnSchematic("Kerfusa", new Vector3(pos.x, pos.y + 10, pos.z), isStatic: false);
+                        SchematicObject Kerfus = ObjectSpawner.SpawnSchematic("Kerfusa", ev.Player.Position + new Vector3(0, 19, 0), isStatic: false);
 
                         for (int i = 1; i < 11; i++)
                         {
-                            Kerfus.Position = new Vector3(pos.x, pos.y - 1, pos.z);
+                            Kerfus.Position += new Vector3(0, -2f, 0);
 
-                            await Task.Delay(100);
+                            await Task.Delay(30);
                         }
 
-                        await Task.Delay(350);
+                        await Task.Delay(500);
 
                         for (int i = 1; i < 11; i++)
                         {
-                            Kerfus.Position = new Vector3(pos.x, pos.y + 1, pos.z);
+                            Kerfus.Position += new Vector3(0, 2f, 0);
 
-                            await Task.Delay(100);
+                            await Task.Delay(30);
                         }
 
                         Kerfus.Destroy();

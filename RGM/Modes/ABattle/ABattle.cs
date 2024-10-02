@@ -66,8 +66,7 @@ namespace RGM.Modes
             {"[일반] 횃불", "랜턴과 노란 사탕을 받습니다."},
             {"[일반] 잠행", "발걸음 소리가 줄어듭니다."},
             {"[일반] 위기 탈출", "넘버원! 지급된 동전을 튕기면 대상을 잠시 동안 멈추게 만듭니다."},
-            {"[일반] 저체중", "점프 속도가 10% 증가합니다."},
-            {"[일반] 토끼뜀", "점프력이 소급 증가합니다."}
+            {"[일반] 저체중", "점프 속도가 10% 증가합니다."}
         };
         public Dictionary<string, string> RareAbilities = new Dictionary<string, string>()
         {
@@ -81,8 +80,7 @@ namespace RGM.Modes
             {"[희귀] 회중시계", "지급된 동전을 튕기면 3초간 움직일 수 없는 대신에 무적 상태가 됩니다."},
             {"[희귀] 스테로이드", "25초 간 이동 속도가 많이 증가합니다."},
             {"[희귀] 순교", "사망할 시 해당 지역에 점화된 수류탄을 떨굽니다."},
-            {"[희귀] 하이패스", "25초 간 무적이 됩니다."},
-            {"[희귀] 매의 눈", "시야가 개선됩니다. (중첩 불가)"}
+            {"[희귀] 하이패스", "25초 간 무적이 됩니다."}
         };
         public Dictionary<string, string> EpicAbilities = new Dictionary<string, string>()
         {
@@ -97,7 +95,7 @@ namespace RGM.Modes
             {"[영웅] 최후의 발악", "5초 뒤 반드시 죽지만, 그동안 무적이 되며 속도가 매우 빨라집니다."},
             {"[영웅] 초재생", "핑크 콜라를 지급받습니다."},
             {"[영웅] 고스트룰", "문을 통과할 수 있습니다. (중첩 불가)"},
-            {"[영웅] 잠수부", "스테미나가 줄어들지 않습니다. (중첩 불가)"}
+            {"[영웅] 잠수부", "시야가 개선되고 스테미나가 줄어들지 않습니다. (중첩 불가)"}
         };
         public Dictionary<string, string> LegendAbilities = new Dictionary<string, string>()
         {
@@ -1025,7 +1023,6 @@ namespace RGM.Modes
                             RGM.Instance.GodModePlayers.Remove(player);
                     });
                     break;
-                case "매의 눈": player.EnableEffect(EffectType.Invigorated); break;
                 case "테러리스트의 유품":
                     player.TryAddCandy(CandyKindID.Pink);
 
@@ -1062,7 +1059,7 @@ namespace RGM.Modes
                         player.CurrentItem = AntiScp207;
                     break;
                 case "고스트룰": player.GetEffect(EffectType.Ghostly).Intensity += 1; break;
-                case "잠수부": player.IsUsingStamina = false; break;
+                case "잠수부": player.EnableEffect(EffectType.Invigorated); break;
                 case "스피드왜건": player.GetEffect(EffectType.MovementBoost).Intensity += 100; break;
                 case "모드 설치":
                     Item IM = player.AddItem(ItemType.Coin);
@@ -1368,25 +1365,6 @@ namespace RGM.Modes
                     }
                     else
                         AddAbility(ev.Player);
-                }
-            }
-
-            if (PlayerAbilities.ContainsKey(ev.Player))
-            {
-                if (PlayerAbilities[ev.Player].Contains("[일반] 토끼뜀"))
-                {
-                    Vector3 pos = ev.Player.Position;
-
-                    for (int i = 1; i < 11; i++)
-                    {
-                        pos = ev.Player.Position;
-
-                        if (Physics.Raycast(pos, Vector3.up, 1, (LayerMask)1))
-                            break;
-
-                        ev.Player.Position = new Vector3(pos.x, 0.05f * DuplicateCount(ev.Player, "[일반] 토끼뜀"), pos.z);
-                        await Task.Delay(10);
-                    }
                 }
             }
         }
