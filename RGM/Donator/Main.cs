@@ -16,21 +16,23 @@ namespace RGM.Donator
     {
         public void OnEnabled()
         {
-            Exiled.Events.Handlers.Player.Died += OnDied;
+            Exiled.Events.Handlers.Player.Dying += OnDying;
         }
 
-        public void OnDied(Exiled.Events.EventArgs.Player.DiedEventArgs ev)
+        public void OnDying(Exiled.Events.EventArgs.Player.DyingEventArgs ev)
         {
-            List<string> Attacker = DonatorsManager.UsersCache[ev.Attacker.UserId];
-            List<string> Player = DonatorsManager.UsersCache[ev.Player.UserId];
-
-            if (ev.Attacker != null && Attacker[0] != "0")
+            if (ev.Attacker != null)
             {
-                if (Attacker[0] == "영혼 가출" || Player[0] == "영혼 가출")
-                {
-                    DamageHandlerBase Disruptor = new DisruptorDamageHandler(ev.Attacker.Footprint, -1);
+                List<string> Attacker = DonatorsManager.UsersCache[ev.Attacker.UserId];
 
-                    Ragdoll.CreateAndSpawn(ev.TargetOldRole.GetRoleBase().RoleTypeId, Attacker[0], Disruptor, ev.Player.Position, ev.Player.Rotation);
+                if (Attacker[0] != "0")
+                {
+                    if (Attacker[0] == "영혼 가출")
+                    {
+                        DamageHandlerBase DisruptorDamage = new DisruptorDamageHandler(ev.Attacker.Footprint, -1);
+
+                        Ragdoll.CreateAndSpawn(ev.Player.Role.Type, Attacker[0], DisruptorDamage, ev.Player.Position, ev.Player.Rotation);
+                    }
                 }
             }
         }
