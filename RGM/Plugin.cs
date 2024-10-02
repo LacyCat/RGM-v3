@@ -340,7 +340,11 @@ namespace RGM
         public async void OnVerified(Exiled.Events.EventArgs.Player.VerifiedEventArgs ev)
         {
             if (!UsersManager.UsersCache.ContainsKey(ev.Player.UserId))
+            {
                 UsersManager.AddUser(ev.Player.UserId, new List<string>() { "0", "0", "0", "0", "0" });
+
+                UsersManager.SaveUsers();
+            }
 
             OnGround.Add(ev.Player, 5);
 
