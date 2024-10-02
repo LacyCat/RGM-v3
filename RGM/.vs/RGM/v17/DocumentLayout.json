@@ -3,8 +3,8 @@
   "WorkspaceRootPath": "D:\\GoldenPig1205\\Visual Studio 2022\\RGM\\RGM\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{DE4A6CC5-C16A-4E1D-9512-9CB02625B72B}|RGM.csproj|d:\\goldenpig1205\\visual studio 2022\\rgm\\rgm\\modes\\soulmate\\soulmate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DE4A6CC5-C16A-4E1D-9512-9CB02625B72B}|RGM.csproj|solutionrelative:modes\\soulmate\\soulmate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{DE4A6CC5-C16A-4E1D-9512-9CB02625B72B}|RGM.csproj|D:\\GoldenPig1205\\Visual Studio 2022\\RGM\\RGM\\modes\\spleef\\spleef.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DE4A6CC5-C16A-4E1D-9512-9CB02625B72B}|RGM.csproj|solutionrelative:modes\\spleef\\spleef.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{DE4A6CC5-C16A-4E1D-9512-9CB02625B72B}|RGM.csproj|d:\\goldenpig1205\\visual studio 2022\\rgm\\rgm\\donator\\main.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -43,14 +43,14 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "SoulMate.cs",
-              "DocumentMoniker": "D:\\GoldenPig1205\\Visual Studio 2022\\RGM\\RGM\\Modes\\SoulMate\\SoulMate.cs",
-              "RelativeDocumentMoniker": "Modes\\SoulMate\\SoulMate.cs",
-              "ToolTip": "D:\\GoldenPig1205\\Visual Studio 2022\\RGM\\RGM\\Modes\\SoulMate\\SoulMate.cs*",
-              "RelativeToolTip": "Modes\\SoulMate\\SoulMate.cs*",
-              "ViewState": "AgIAABIAAAAAAAAAAAAgwB8AAABJAAAAAAAAAA==",
+              "Title": "Spleef.cs",
+              "DocumentMoniker": "D:\\GoldenPig1205\\Visual Studio 2022\\RGM\\RGM\\Modes\\Spleef\\Spleef.cs",
+              "RelativeDocumentMoniker": "Modes\\Spleef\\Spleef.cs",
+              "ToolTip": "D:\\GoldenPig1205\\Visual Studio 2022\\RGM\\RGM\\Modes\\Spleef\\Spleef.cs*",
+              "RelativeToolTip": "Modes\\Spleef\\Spleef.cs*",
+              "ViewState": "AgIAADAAAAAAAAAAAAAAAEwAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-02T07:26:06.086Z",
+              "WhenOpened": "2024-10-01T16:13:14.904Z",
               "EditorCaption": ""
             },
             {
@@ -61,7 +61,7 @@
               "RelativeDocumentMoniker": "Donator\\Main.cs",
               "ToolTip": "D:\\GoldenPig1205\\Visual Studio 2022\\RGM\\RGM\\Donator\\Main.cs",
               "RelativeToolTip": "Donator\\Main.cs",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAAACEAAACAAAAAAAAAAA==",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAAACEAAACKAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-02T06:58:20.577Z",
               "EditorCaption": ""

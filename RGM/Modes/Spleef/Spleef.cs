@@ -69,15 +69,15 @@ namespace RGM.Modes
             {
                 Platform.Color = Color.green;
 
-                yield return Timing.WaitForSeconds(0.75f);
+                yield return Timing.WaitForSeconds(0.3f);
 
                 Platform.Color = Color.yellow;
 
-                yield return Timing.WaitForSeconds(0.75f);
+                yield return Timing.WaitForSeconds(0.3f);
 
                 Platform.Color = Color.red;
 
-                yield return Timing.WaitForSeconds(0.75f);
+                yield return Timing.WaitForSeconds(0.3f);
 
                 Platform.Destroy();
             }
