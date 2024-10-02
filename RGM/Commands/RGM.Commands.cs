@@ -382,7 +382,7 @@ namespace RGM.Commands
 
             response = $"성공적으로 플레이어 정보를 불러왔습니다.";
 
-            player.SendConsoleMessage($"<b>{player.Nickname}({player.UserId})</b>님의 정보\nExp: {uc[0]}\nRP: {uc[1]}\nCash: {uc[2]}", "white");
+            player.SendConsoleMessage($"\n<b>{player.Nickname}({player.UserId})</b>님의 정보\nExp: {uc[0]}\nRP: {uc[1]}\nCash: {uc[2]}", "white");
 
             return true;
         }
