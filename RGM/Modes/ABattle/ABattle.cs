@@ -341,19 +341,16 @@ namespace RGM.Modes
 
             else if (abilityGrade == "[영웅]")
             {
-                Cassie.Clear();
                 if (get) Server.ExecuteCommand($"/cassie_sl {player.DisplayNickname}(이)가 <color={RatingColor["영웅"]}>[영웅]</color> 업그레이드를 입수하였습니다.");
                 return EpicAbilities;
             }
             else if (abilityGrade == "[전설]")
             {
-                Cassie.Clear();
                 if (get) Server.ExecuteCommand($"/cassie_sl {player.DisplayNickname}(이)가 <color={RatingColor["전설"]}>[전설]</color> 업그레이드를 입수하였습니다.");
                 return LegendAbilities;
             }
             else if (abilityGrade == "[신화]")
             {
-                Cassie.Clear();
                 if (get) Server.ExecuteCommand($"/cassie_sl {player.DisplayNickname}(이)가 <color={RatingColor["신화"]}>[신화]</color> 업그레이드를 입수하였습니다.");
                 return MythicAbilities;
             }
@@ -406,7 +403,6 @@ namespace RGM.Modes
                         return Scp079Abilities;
                 }
 
-                // Cassie.Clear();
                 // Server.ExecuteCommand($"/cassie_sl {player.DisplayNickname}(이)가 <color={RatingColor["전용"]}>[전용]</color> 업그레이드를 입수하였습니다.");
                 return Format();
             }
@@ -420,7 +416,6 @@ namespace RGM.Modes
                         SynergiesFormat.Add(kvp.Key, kvp.Value[0]);
                 }
 
-                Cassie.Clear();
                 Server.ExecuteCommand($"/cassie_sl {player.DisplayNickname}(이)가 <color={RatingColor["시너지"]}>[시너지]</color> 효과를 입수하였습니다.");
                 return SynergiesFormat;
             }
