@@ -13,6 +13,7 @@ using MapEditorReborn.API.Features;
 using MapEditorReborn.API.Features.Objects;
 using MEC;
 using UnityEngine;
+using Exiled.API.Features.Toys;
 
 namespace RGM.Donator
 {

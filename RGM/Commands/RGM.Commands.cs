@@ -280,7 +280,7 @@ namespace RGM.Commands
     {
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
-            if (RGM.Instance.CurrentMode == "워크스테이션 업그레이드")
+            if (Round.IsStarted)
             {
                 Player player = Player.Get(sender);
 
@@ -292,7 +292,7 @@ namespace RGM.Commands
             }
             else
             {
-                response = "<b>워크스테이션 업그레이드</b> 모드에서만 사용할 수 있는 명령어입니다.";
+                response = "라운드 시작 전에는 사용할 수 없습니다.";
 
                 return false;
             }
@@ -312,7 +312,7 @@ namespace RGM.Commands
     {
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
-            if (RGM.Instance.CurrentMode == "워크스테이션 업그레이드")
+            if (Round.IsStarted)
             {
                 Player player = Player.Get(sender);
 
@@ -324,7 +324,7 @@ namespace RGM.Commands
             }
             else
             {
-                response = "<b>워크스테이션 업그레이드</b> 모드에서만 사용할 수 있는 명령어입니다.";
+                response = "라운드 시작 전에는 사용할 수 없습니다.";
 
                 return false;
             }
@@ -344,7 +344,7 @@ namespace RGM.Commands
     {
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
-            if (RGM.Instance.CurrentMode == "워크스테이션 업그레이드")
+            if (Round.IsStarted)
             {
                 Player player = Player.Get(sender);
 
@@ -356,7 +356,7 @@ namespace RGM.Commands
             }
             else
             {
-                response = "<b>워크스테이션 업그레이드</b> 모드에서만 사용할 수 있는 명령어입니다.";
+                response = "라운드 시작 전에는 사용할 수 없습니다.";
 
                 return false;
             }
@@ -446,7 +446,7 @@ RP: {uc[1]}
                         UsersManager.SaveUsers();
                         return true;
                     }
-                    else if (RGM.Instance.KillEffects.ContainsKey(args))
+                    else if (RGM.Instance.KillEffects.ContainsKey(args) && uc[3].Split('/').Contains(args))
                     {
                         uc[4] = args;
                         UsersManager.UsersCache[player.UserId] = uc;
@@ -457,7 +457,7 @@ RP: {uc[1]}
                     }
                     else
                     {
-                        response = "존재하지 않는 킬 이펙트입니다.\n-";
+                        response = "존재하지 않거나 보유하지 않은 킬 이펙트입니다.\n-";
                         return false;
                     }
                 }
