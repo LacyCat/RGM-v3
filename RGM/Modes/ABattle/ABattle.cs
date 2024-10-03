@@ -255,9 +255,9 @@ namespace RGM.Modes
                         .Replace("[일반]", $"<color={RatingColor["일반"]}>[일반]</color>");
         }
 
-        public int DuplicateCount(Player player, string AbilityName)
+        public int DuplicateCount(Player player, string abilityName)
         {
-            return PlayerAbilities[player].Count(x => x == AbilityName) + 1;
+            return PlayerAbilities[player].Count(a => a == abilityName);
         }
 
         public void CallSnakeHand(Player Convener, List<Player> PlayerList)
@@ -1592,8 +1592,6 @@ namespace RGM.Modes
 
                     if (PlayerAbilities[ev.Player].Contains("[희귀] 순교"))
                     {
-                        PlayerAbilities[ev.Player].Remove("[희귀] 순교");
-
                         for (int i = 1; i < DuplicateCount(ev.Player, "[희귀] 순교") + 1; i++)
                         {
                             var g = (ExplosiveGrenade)Item.Create(ItemType.GrenadeHE, ev.Player);
@@ -1611,8 +1609,6 @@ namespace RGM.Modes
 
                     if (PlayerAbilities[ev.Player].Contains("[영웅] 극독"))
                     {
-                        PlayerAbilities[ev.Player].Remove("[영웅] 극독");
-
                         ev.Attacker.EnableEffect(EffectType.CardiacArrest, 1, 12 * DuplicateCount(ev.Player, "[영웅] 극독"));
 
                         ev.Attacker.ShowHint("극독에 당했습니다!");
@@ -1634,29 +1630,32 @@ namespace RGM.Modes
 
         public void OnDied(Exiled.Events.EventArgs.Player.DiedEventArgs ev)
         {
-            PlayerWorkstation[ev.Player].Clear();
-            PlayerAbilities[ev.Player].Clear();
-            ev.Player.Scale = new Vector3(1, 1, 1);
-            Server.ExecuteCommand($"/speak {ev.Player.Id} disable");
-            ev.Player.IsUsingStamina = true;
-            if (RGM.Instance.GodModePlayers.Contains(ev.Player))
-                RGM.Instance.GodModePlayers.Remove(ev.Player);
-
-            if (ev.Attacker != null && PlayerAbilities.ContainsKey(ev.Attacker) && PlayerAbilities.ContainsKey(ev.Player))
+            try
             {
-                List<string> aa = PlayerAbilities[ev.Attacker];
-
-                if (aa.Contains("[전설] 킬스트릭"))
-                    AddAbility(ev.Attacker);
-
-                if (aa.Contains("[전용] 공포"))
+                if (ev.Attacker != null && PlayerAbilities.ContainsKey(ev.Attacker) && PlayerAbilities.ContainsKey(ev.Player))
                 {
-                    foreach (var player in Player.List.Where(x => x.IsHuman))
+                    if (PlayerAbilities[ev.Attacker].Contains("[전설] 킬스트릭"))
+                        AddAbility(ev.Attacker);
+
+                    if (PlayerAbilities[ev.Attacker].Contains("[전용] 공포"))
                     {
-                        if (Vector3.Distance(player.Position, ev.Attacker.Position) <= 10)
-                            player.EnableEffect(EffectType.Ensnared, 1, 1 * DuplicateCount(ev.Player, "[전용] 공포"));
+                        foreach (var player in Player.List.Where(x => x.IsHuman))
+                        {
+                            if (Vector3.Distance(player.Position, ev.Attacker.Position) <= 10)
+                                player.EnableEffect(EffectType.Ensnared, 1, 1 * DuplicateCount(ev.Attacker, "[전용] 공포"));
+                        }
                     }
                 }
+            }
+            finally
+            {
+                PlayerWorkstation[ev.Player].Clear();
+                PlayerAbilities[ev.Player].Clear();
+                ev.Player.Scale = new Vector3(1, 1, 1);
+                Server.ExecuteCommand($"/speak {ev.Player.Id} disable");
+                ev.Player.IsUsingStamina = true;
+                if (RGM.Instance.GodModePlayers.Contains(ev.Player))
+                    RGM.Instance.GodModePlayers.Remove(ev.Player);
             }
         }
 
