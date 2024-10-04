@@ -106,7 +106,7 @@ namespace RGM.Modes
 
                 IsSongStopped = true;
 
-                for (int i = 1; i < 11 - Phase; i++)
+                for (int i = 1; i < 12 - Phase; i++)
                 {
                     Transform goldPad = Tools.GetRandomValue(Pads);
 
