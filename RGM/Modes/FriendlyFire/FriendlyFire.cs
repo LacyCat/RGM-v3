@@ -32,8 +32,10 @@ namespace RGM.Modes
 
             Exiled.Events.Handlers.Scp939.Lunging += OnLunging;
 
-            Harmony harmony = new Harmony("HitboxIdentityPatch");
-            harmony.PatchAll();
+            Harmony harmony = new Harmony("FriendlyFire");
+            harmony.Patch(
+                AccessTools.Method(typeof(HitboxIdentity), nameof(HitboxIdentity.IsEnemy)), 
+                postfix: new HarmonyMethod(typeof(HitboxPatchPostfix), nameof(HitboxPatchPostfix.Postfix)));
         }
 
         public IEnumerator<float> OnModeStarted()

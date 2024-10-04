@@ -14,6 +14,9 @@ using UnityEngine;
 using PlayerRoles;
 using HarmonyLib;
 using PlayerRoles.Visibility;
+using GameCore;
+using RGM.Commands;
+using Utils;
 
 namespace RGM.Modes
 {
@@ -30,6 +33,11 @@ namespace RGM.Modes
             Exiled.Events.Handlers.Player.Hurt += OnHurt;
 
             Timing.RunCoroutine(OnModeStarted());
+
+            Harmony harmony = new Harmony("Spirit");
+            harmony.Patch(
+                AccessTools.Method(typeof(VisibilityController), nameof(VisibilityController.ValidateVisibility)), 
+                postfix: new(AccessTools.Method(typeof(VisibilityControllerPatchPostfix), nameof(VisibilityControllerPatchPostfix.Postfix))));
         }
 
         public IEnumerator<float> OnModeStarted()
@@ -85,5 +93,25 @@ namespace RGM.Modes
             if (spirits.Contains(ev.Player))
                 ev.Player.DisableEffect(EffectType.Invisible);
         }
+
+        [HarmonyPatch(typeof(VisibilityController), nameof(VisibilityController.ValidateVisibility), typeof(ReferenceHub))]
+        public class VisibilityControllerPatchPostfix
+        {
+            public static void Postfix(ref bool __result, ReferenceHub hub)
+            {
+                Player player = Player.Get(hub);
+
+                if (player.Role.Type == RoleTypeId.Tutorial)
+                {
+                    __result = false;
+                }
+                else
+                {
+                    ICustomVisibilityRole customVisibilityRole = hub.roleManager.CurrentRole as ICustomVisibilityRole;
+                    __result = customVisibilityRole == null || (customVisibilityRole.VisibilityController.GetActiveFlags(player.ReferenceHub) & ~InvisibilityFlags.None) == InvisibilityFlags.None;
+                }
+            }
+        }
+
     }
 }
