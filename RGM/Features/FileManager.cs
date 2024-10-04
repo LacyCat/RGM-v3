@@ -34,18 +34,20 @@ namespace RGM.Features
 
     public static class UsersManager
     {
+        // Exp;RP;Cash;보유한 킬 이펙트;장착한 킬 이펙트;
+
         public static string UsersFileName = Path.Combine(Paths.Configs, "RGM/Users.txt");
         public static Dictionary<string, List<string>> UsersCache = new Dictionary<string, List<string>>();
 
         public static string CheckUser(string UserId, int num)
         {
-            if (UsersCache.ContainsKey(UserId))
+            if (UsersCache.ContainsKey(UserId) && num >= 0 && num < UsersCache[UserId].Count)
                 return UsersCache[UserId][num];
 
             return null;
         }
 
-        public static bool AddUser(string UserId, List<string> UserInfo) // Exp;RP;Cash;보유한 킬 이펙트;장착한 킬 이펙트;
+        public static bool AddUser(string UserId, List<string> UserInfo) 
         {
             UsersCache[UserId] = UserInfo;
 
@@ -54,7 +56,7 @@ namespace RGM.Features
 
         public static void SaveUsers()
         {
-            var text = string.Join("\n", UsersCache.Select(x => $"{x.Key};{x.Value[0]};{x.Value[1]};{x.Value[2]};{x.Value[3]};{x.Value[4]}"));
+            var text = string.Join("\n", UsersCache.Select(x => $"{x.Key};{string.Join(";", x.Value)}"));
 
             FileManager.WriteFile(UsersFileName, text);
         }
@@ -75,7 +77,7 @@ namespace RGM.Features
                 if (parts.Length != parts.Count())
                     continue;
 
-                UsersCache.Add(parts[0], new List<string>() { parts[1], parts[2], parts[3], parts[4], parts[5] });
+                UsersCache.Add(parts[0], parts.Skip(1).ToList());
             }
         }
     }

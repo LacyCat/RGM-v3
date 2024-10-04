@@ -345,11 +345,27 @@ namespace RGM
 
         public async void OnVerified(Exiled.Events.EventArgs.Player.VerifiedEventArgs ev)
         {
+            List<string> DefaultValues = Enumerable.Repeat("0", 10).ToList();
+
             if (!UsersManager.UsersCache.ContainsKey(ev.Player.UserId))
             {
-                UsersManager.AddUser(ev.Player.UserId, new List<string>() { "0", "0", "0", "0", "0" });
+                UsersManager.AddUser(ev.Player.UserId, DefaultValues);
 
                 UsersManager.SaveUsers();
+            }
+            else
+            {
+                List<string> userValues = UsersManager.UsersCache[ev.Player.UserId];
+
+                if (userValues.Count < DefaultValues.Count)
+                {
+                    int diff = DefaultValues.Count - userValues.Count;
+
+                    for (int i = 0; i < diff; i++)
+                        userValues.Add(DefaultValues[userValues.Count + i]);
+
+                    UsersManager.SaveUsers();
+                }
             }
 
             OnGround.Add(ev.Player, 5);
