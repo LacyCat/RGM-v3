@@ -17,6 +17,7 @@ using UnityEngine;
 using SCPSLAudioApi.AudioCore;
 using MultiBroadcast;
 using RGM.API;
+using MultiBroadcast.API;
 
 namespace RGM.Modes
 {
@@ -30,6 +31,7 @@ namespace RGM.Modes
         public List<Transform> goldPads = new List<Transform>();
 
         public bool IsSongStopped = false;
+        public int Phase = 1;
 
         ReferenceHub dj;
 
@@ -65,7 +67,7 @@ namespace RGM.Modes
                 {
                     GGUtils.Gtool.Register(reg.Key, reg.Value);
                 }
-                catch (Exception e)
+                catch
                 {
                 }
             }
@@ -90,9 +92,11 @@ namespace RGM.Modes
 
             AudioPlayerBase val = AudioPlayerBase.Get(dj);
 
-            while (true)
+            while (Phase < 11)
             {
-                yield return Timing.WaitForSeconds(UnityEngine.Random.Range(3, 12));
+                Player.List.ToList().ForEach(x => x.AddBroadcast(3, $"Phase {Phase}"));
+
+                yield return Timing.WaitForSeconds(11 - Phase);
 
                 IsSongStopped = true;
 
@@ -135,7 +139,12 @@ namespace RGM.Modes
 
                 IsSongStopped = false;
                 goldPads.Clear();
+
+                Phase++;
             }
+
+            Round.IsLocked = false;
+            Player.List.ToList().ForEach(x => x.AddBroadcast(3, "게임이 종료되었습니다. 그런데 어떻게 살았?"));
         }
 
         public IEnumerator<float> gingerbreadHint()
@@ -213,7 +222,7 @@ namespace RGM.Modes
                     }
                 }
 
-                yield return Timing.WaitForSeconds(0.5f);
+                yield return Timing.WaitForSeconds(1.1f - Phase * 0.1f);
             }
         }
 
