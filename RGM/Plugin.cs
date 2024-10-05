@@ -456,6 +456,9 @@ namespace RGM
 Arloramäki(@alvar_noah) - 서버 소유자
 Serendipity(@mercedes83) - 총괄 관리자
 Normalperson(@normal._.person) - 관리자
+bluefox2322(@bluefox2322) - 수습 관리자
+pey paid for it(@0735_) - 수습 관리자
+leejihyuk(@leejihyuk) - 수습 관리자
 
 <b><size=35><color=#C8FE2E>개발진</color></size></b>
 GoldenPig1205(@GoldenPig1205) - 메인 개발자

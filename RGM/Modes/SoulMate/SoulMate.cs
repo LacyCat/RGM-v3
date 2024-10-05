@@ -182,7 +182,6 @@ namespace RGM.Modes
                     if (soulMates.ContainsKey(ev.Player))
                         soulMates.Remove(ev.Player);
                 }
-
                 else
                 {
                     if (soulMate != null && soulMate.IsAlive)
