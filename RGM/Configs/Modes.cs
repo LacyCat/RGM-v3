@@ -52,6 +52,10 @@ namespace RGM
 3분 이상 버틴다면 스스로를 칭찬해주세요.
 """ } },
             { "수집가", new List<string>() { "FFBF00", "SCP 아이템 3개를 가지고 시작합니다.", "Collector", "public", "", "" } },
+            { "데드 라인", new List<string>() { "FA8258", "빨간색을 밟지 마세요!", "DeadLine", "public", "",
+"""
+빨간색을 밟으면 죽습니다.
+""" } },
             { "데스런", new List<string>() { "FF4000", "과학자는 죄수들의 접근을 막아야 합니다. 널리 퍼져 있는 함정들을 조심하십시오!", "DeathRun", "private", "",
 """
 <color=yellow>과학자</color>의 경우, <color=red>빨간 버튼</color>을 눌러 함정을 발동시킬 수 있습니다.
@@ -78,7 +82,7 @@ namespace RGM
             { "점프맵 라운지", new List<string>() { "A9D0F5", "5분 안에 최대한 멀리 가세요!", "JumpMap", "private", "", "" } },
             { "한국인이 좋아하는 속도", new List<string>() { "5882FA", "이런 거 좋아하시죠?", "KoreanSpeed", "public", "", "" } },
             { "리더", new List<string>() { "64FE2E", "각 진영마다 리더가 정해집니다. 리더를 도와 진영을 승리로 이끄세요!", "Leader", "private", "", "" } },
-            { "미니 게임", new List<string>() { "6E6E6E", "미니 게임 중 하나가 랜덤으로 선택됩니다. 총 3개의 라운드로 진행됩니다.", "MiniGames", "public", "", "" } },
+            { "미니 게임", new List<string>() { "6E6E6E", "미니 게임 중 하나가 랜덤으로 선택됩니다. 총 3개의 라운드로 진행됩니다.", "MiniGames", "private", "", "" } },
             { "중첩", new List<string>() { "04B45F", "HP 제한이 제거됩니다.", "Nesting", "private", "", "" } },
             { "한 방", new List<string>() { "FAAC58", "피격당하는 즉시 죽습니다.", "OnePunch", "private", "", "" } },
             { "무법자", new List<string>() { "9F81F7", "모두가 총기 하나를 가지고 시작합니다.", "Outlaw", "public", "", "" } },
