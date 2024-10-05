@@ -32,6 +32,7 @@ namespace RGM.Modes
 
             Timing.RunCoroutine(OnModeStarted());
 
+            Exiled.Events.Handlers.Player.Spawned += OnSpawned;
             Exiled.Events.Handlers.Player.Hurting += OnHurting;
         }
 
@@ -75,7 +76,7 @@ namespace RGM.Modes
             {
                 for (int i = 1; i < pl.Count / 10 + 2; i++)
                 {
-                    Player BomberMan = Tools.GetRandomValue(pl.Where(x => !BomberMans.Contains(x)).ToList());
+                    Player BomberMan = Tools.GetRandomValue(pl.Where(x => !BomberMans.Contains(x) && !x.IsNPC).ToList());
 
                     BomberMan.Role.Set(RoleTypeId.Scp049, SpawnReason.ForceClass, RoleSpawnFlags.None);
                     BomberMans.Add(BomberMan);
@@ -90,6 +91,8 @@ namespace RGM.Modes
 
                 foreach (var bomber in BomberMans)
                 {
+                    BomberMans.Remove(bomber);
+
                     if (pl.Contains(bomber))
                     {
                         pl.Remove(bomber);
@@ -135,6 +138,11 @@ namespace RGM.Modes
             }
         }
 
+        public void OnSpawned(Exiled.Events.EventArgs.Player.SpawnedEventArgs ev)
+        {
+            ev.Player.GetEffect(EffectType.MovementBoost).Intensity = 100;
+        }
+
         public void OnHurting(Exiled.Events.EventArgs.Player.HurtingEventArgs ev)
         {
             ev.IsAllowed = false;
@@ -144,7 +152,6 @@ namespace RGM.Modes
                 BomberMans.Remove(ev.Attacker);
                 BomberMans.Add(ev.Player);
 
-                ev.Attacker.Role.Set(RoleTypeId.Scientist, SpawnReason.ForceClass, RoleSpawnFlags.None);
                 ev.Player.Role.Set(RoleTypeId.Scp049, SpawnReason.ForceClass, RoleSpawnFlags.None);
             }
         }
