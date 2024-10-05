@@ -160,7 +160,7 @@ namespace RGM.Modes
         };
         public Dictionary<string, string> Scp049Abilities = new Dictionary<string, string>()
         {
-            {"[전용] 사자", "공격 속도가 1/2배가 됩니다. (중첩 불가)"},
+            {"[전용] 사자", "공격 속도가 1/2배가 됩니다."},
             {"[전용] 유능한 의사", "소생된 좀비의 체력이 50% 확률로 1.5배가 됩니다. (중첩 불가)"},
             {"[전용] 능수능란", "소생 시간이 1/2배가 됩니다."}
         };
@@ -186,7 +186,7 @@ namespace RGM.Modes
         public Dictionary<string, string> Scp939Abilities = new Dictionary<string, string>()
         {
             {"[전용] 흉내쟁이", "흉내 쿨타임이 사라집니다. (중첩 불가)"},
-            {"[전용] 안아줘요", "런지 공격이 상대를 반드시 죽입니다. (중첩 불가)"},
+            {"[전용] 안아줘요", "공격 속도가 1/2배가 됩니다."},
             {"[전용] 민첩한 사냥 도구", "공격 속도가 1/2배가 됩니다."}
         };
         public Dictionary<string, string> Scp3114Abilities = new Dictionary<string, string>()
@@ -461,6 +461,7 @@ namespace RGM.Modes
 
             Exiled.Events.Handlers.Scp3114.Revealed += OnRevealed;
 
+            Exiled.Events.Handlers.Scp079.GainingLevel += OnGainingLevel;
             Exiled.Events.Handlers.Scp079.Pinging += OnPinging;
             Exiled.Events.Handlers.Scp079.ZoneBlackout += OnZoneBlackout;
             Exiled.Events.Handlers.Scp079.ChangingSpeakerStatus += OnChangingSpeakerStatus;
@@ -602,16 +603,23 @@ namespace RGM.Modes
         {
             while (true)
             {
-                foreach (var player in Player.List.Where(PlayerAbilities.ContainsKey))
+                try
                 {
-                    foreach (var synergy in Synergies)
+                    foreach (var player in Player.List.Where(PlayerAbilities.ContainsKey))
                     {
-                        if (synergy.Value.Skip(1).All(x => PlayerAbilities[player].Intersect(synergy.Value.Skip(1)).Count() >= synergy.Value.Skip(1).Count()))
+                        foreach (var synergy in Synergies)
                         {
-                            if (!PlayerAbilities[player].Contains(synergy.Key))
-                                AddAbility(player, synergy.Key);
+                            if (synergy.Value.Skip(1).All(x => PlayerAbilities[player].Intersect(synergy.Value.Skip(1)).Count() >= synergy.Value.Skip(1).Count()))
+                            {
+                                if (!PlayerAbilities[player].Contains(synergy.Key))
+                                    AddAbility(player, synergy.Key);
+                            }
                         }
                     }
+                }
+                catch (Exception e)
+                {
+                    Log.Error(e);
                 }
 
                 yield return Timing.WaitForSeconds(1f);
@@ -622,12 +630,20 @@ namespace RGM.Modes
         {
             while (true)
             {
-                foreach (var player in Player.List.Where(PlayerAbilities.ContainsKey))
+                try
                 {
-                    if (PlayerAbilities[player].Contains("[희귀] 육체 강화"))
-                        if (player.MaxHealth > player.Health)
-                            player.Health += DuplicateCount(player, "[희귀] 육체 강화");
+                    foreach (var player in Player.List.Where(PlayerAbilities.ContainsKey))
+                    {
+                        if (PlayerAbilities[player].Contains("[희귀] 육체 강화"))
+                            if (player.MaxHealth > player.Health)
+                                player.Health += DuplicateCount(player, "[희귀] 육체 강화");
+                    }
                 }
+                catch (Exception e)
+                {
+                    Log.Error(e);
+                }
+
                 yield return Timing.WaitForSeconds(1f);
             }
         }
@@ -636,10 +652,17 @@ namespace RGM.Modes
         {
             while (true)
             {
-                foreach (var player in Player.List.Where(PlayerAbilities.ContainsKey))
+                try
                 {
-                    if (PlayerAbilities[player].Contains("[신화] 스피릿"))
-                        player.EnableEffect(EffectType.Invisible);
+                    foreach (var player in Player.List.Where(PlayerAbilities.ContainsKey))
+                    {
+                        if (PlayerAbilities[player].Contains("[신화] 스피릿"))
+                            player.EnableEffect(EffectType.Invisible);
+                    }
+                }
+                catch (Exception e)
+                {
+                    Log.Error(e);
                 }
 
                 yield return Timing.WaitForSeconds(2f);
@@ -650,22 +673,29 @@ namespace RGM.Modes
         {
             while (true)
             {
-                foreach (var player in Player.List.Where(PlayerAbilities.ContainsKey))
+                try
                 {
-                    if (player.CurrentItem != null && FlashLightSerials.Contains(player.CurrentItem.Serial))
+                    foreach (var player in Player.List.Where(PlayerAbilities.ContainsKey))
                     {
-                        if (Physics.Raycast(player.ReferenceHub.PlayerCameraReference.position + player.ReferenceHub.PlayerCameraReference.forward * 0.2f, player.ReferenceHub.PlayerCameraReference.forward, out RaycastHit hit, 45f, InventorySystem.Items.Firearms.Modules.StandardHitregBase.HitregMask) &&
-                            hit.collider.TryGetComponent<IDestructible>(out IDestructible destructible))
+                        if (player.CurrentItem != null && FlashLightSerials.Contains(player.CurrentItem.Serial))
                         {
-                            var target = Player.Get(hit.collider.GetComponentInParent<ReferenceHub>());
-
-                            if (player != target && player.LeadingTeam != target.LeadingTeam)
+                            if (Physics.Raycast(player.ReferenceHub.PlayerCameraReference.position + player.ReferenceHub.PlayerCameraReference.forward * 0.2f, player.ReferenceHub.PlayerCameraReference.forward, out RaycastHit hit, 45f, InventorySystem.Items.Firearms.Modules.StandardHitregBase.HitregMask) &&
+                                hit.collider.TryGetComponent<IDestructible>(out IDestructible destructible))
                             {
-                                Hitmarker.SendHitmarkerDirectly(player.ReferenceHub, 0.8f);
-                                target.EnableEffect(EffectType.Flashed, 1, 1f);
+                                var target = Player.Get(hit.collider.GetComponentInParent<ReferenceHub>());
+
+                                if (player != target && player.LeadingTeam != target.LeadingTeam)
+                                {
+                                    Hitmarker.SendHitmarkerDirectly(player.ReferenceHub, 0.8f);
+                                    target.EnableEffect(EffectType.Flashed, 1, 1f);
+                                }
                             }
                         }
                     }
+                }
+                catch (Exception e)
+                {
+                    Log.Error(e);
                 }
 
                 yield return Timing.WaitForSeconds(0.1f);
@@ -676,14 +706,21 @@ namespace RGM.Modes
         {
             while (true)
             {
-                foreach (var Item in Item.List.Where(x => x.Type == ItemType.MicroHID))
+                try
                 {
-                    if (FlamethrowerSerials.Contains(Item.Serial))
+                    foreach (var Item in Item.List.Where(x => x.Type == ItemType.MicroHID))
                     {
-                        MicroHid MicroHID = (MicroHid)Item;
+                        if (FlamethrowerSerials.Contains(Item.Serial))
+                        {
+                            MicroHid MicroHID = (MicroHid)Item;
 
-                        MicroHID.Energy += 0.01f;
+                            MicroHID.Energy += 0.01f;
+                        }
                     }
+                }
+                catch (Exception e)
+                {
+                    Log.Error(e);
                 }
 
                 yield return Timing.WaitForSeconds(1f);
@@ -740,19 +777,26 @@ namespace RGM.Modes
         {
             while (true)
             {
-                foreach (var player in Player.List.Where(x => x.IsAlive))
+                try
                 {
-                    if (PlayerAbilities.ContainsKey(player))
+                    foreach (var player in Player.List.Where(x => x.IsAlive))
                     {
-                        if (PlayerAbilities[player].Contains("[전용] 의무병"))
+                        if (PlayerAbilities.ContainsKey(player))
                         {
-                            foreach (var team in Player.List.Where(x => x.LeadingTeam == player.LeadingTeam && x.IsAlive && x != player))
+                            if (PlayerAbilities[player].Contains("[전용] 의무병"))
                             {
-                                if (team.Health < team.MaxHealth)
-                                    team.Health += 0.5f;
+                                foreach (var team in Player.List.Where(x => x.LeadingTeam == player.LeadingTeam && x.IsAlive && x != player))
+                                {
+                                    if (team.Health < team.MaxHealth)
+                                        team.Health += 0.5f;
+                                }
                             }
                         }
                     }
+                }
+                catch (Exception e)
+                {
+                    Log.Error(e);
                 }
 
                 yield return Timing.WaitForSeconds(1f);
@@ -763,27 +807,34 @@ namespace RGM.Modes
         {
             while (true)
             {
-                foreach (var player in Player.List.Where(PlayerAbilities.ContainsKey))
+                try
                 {
-                    if (player.CurrentItem != null && RadarSerials.Contains(player.CurrentItem.Serial))
+                    foreach (var player in Player.List.Where(PlayerAbilities.ContainsKey))
                     {
-                        Player nearestPlayer = null;
-                        float radius = 99999;
-
-                        foreach (var near in Player.List.Where(x => x.IsAlive && x != player))
+                        if (player.CurrentItem != null && RadarSerials.Contains(player.CurrentItem.Serial))
                         {
-                            float Distance = Vector3.Distance(near.Position, player.Position);
+                            Player nearestPlayer = null;
+                            float radius = 99999;
 
-                            if (Distance < radius)
+                            foreach (var near in Player.List.Where(x => x.IsAlive && x != player))
                             {
-                                nearestPlayer = near;
-                                radius = Distance;
-                            }
-                        }
+                                float Distance = Vector3.Distance(near.Position, player.Position);
 
-                        if (nearestPlayer != null && radius < 99999)
-                            player.ShowHint($"<color={nearestPlayer.Role.Color.ToHex()}>{nearestPlayer.Role.Name}</color> - {radius}m", 1.2f);
+                                if (Distance < radius)
+                                {
+                                    nearestPlayer = near;
+                                    radius = Distance;
+                                }
+                            }
+
+                            if (nearestPlayer != null && radius < 99999)
+                                player.ShowHint($"<color={nearestPlayer.Role.Color.ToHex()}>{nearestPlayer.Role.Name}</color> - {radius}m", 1.2f);
+                        }
                     }
+                }
+                catch (Exception e)
+                {
+                    Log.Error(e);
                 }
 
                 yield return Timing.WaitForSeconds(1f);
@@ -797,28 +848,35 @@ namespace RGM.Modes
 
             while (true)
             {
-                foreach (Player player in Player.List.Where(x => x.IsAlive))
+                try
                 {
-                    if (Physics.Raycast(player.ReferenceHub.PlayerCameraReference.position + player.ReferenceHub.PlayerCameraReference.forward * 0.2f, player.ReferenceHub.PlayerCameraReference.forward, out RaycastHit hit, 45f, InventorySystem.Items.Firearms.Modules.StandardHitregBase.HitregMask) &&
-                        hit.collider.TryGetComponent<IDestructible>(out IDestructible destructible))
+                    foreach (Player player in Player.List.Where(x => x.IsAlive))
                     {
-                        if (Player.TryGet(hit.collider.GetComponentInParent<ReferenceHub>(), out Player target))
+                        if (Physics.Raycast(player.ReferenceHub.PlayerCameraReference.position + player.ReferenceHub.PlayerCameraReference.forward * 0.2f, player.ReferenceHub.PlayerCameraReference.forward, out RaycastHit hit, 45f, InventorySystem.Items.Firearms.Modules.StandardHitregBase.HitregMask) &&
+                            hit.collider.TryGetComponent<IDestructible>(out IDestructible destructible))
                         {
-                            if (PlayerAbilities.ContainsKey(target))
+                            if (Player.TryGet(hit.collider.GetComponentInParent<ReferenceHub>(), out Player target))
                             {
-                                if (PlayerAbilities[target].Contains("[시너지] 광휘"))
+                                if (PlayerAbilities.ContainsKey(target))
                                 {
-                                    if (player != target && player.LeadingTeam != target.LeadingTeam)
+                                    if (PlayerAbilities[target].Contains("[시너지] 광휘"))
                                     {
-                                        Light.Position = target.Position;
+                                        if (player != target && player.LeadingTeam != target.LeadingTeam)
+                                        {
+                                            Light.Position = target.Position;
 
-                                        Hitmarker.SendHitmarkerDirectly(target.ReferenceHub, 0.8f);
-                                        player.EnableEffect(EffectType.Flashed, 1, 1f);
+                                            Hitmarker.SendHitmarkerDirectly(target.ReferenceHub, 0.8f);
+                                            player.EnableEffect(EffectType.Flashed, 1, 1f);
+                                        }
                                     }
                                 }
                             }
                         }
                     }
+                }
+                catch (Exception e)
+                {
+                    Log.Error(e);
                 }
 
                 yield return Timing.WaitForSeconds(0.1f);
@@ -829,16 +887,23 @@ namespace RGM.Modes
         {
             while (true)
             {
-                foreach (var player in Player.List.Where(PlayerAbilities.ContainsKey))
+                try
                 {
-                    if (PlayerAbilities[player].Contains("[전용] 끈적한 늪"))
+                    foreach (var player in Player.List.Where(PlayerAbilities.ContainsKey))
                     {
-                        foreach (var near in Player.List.Where(x => x.IsAlive && Vector3.Distance(x.Position, player.Position) < 6))
+                        if (PlayerAbilities[player].Contains("[전용] 끈적한 늪"))
                         {
-                            if (player != near && player.LeadingTeam != near.LeadingTeam)
-                                near.EnableEffect(EffectType.SinkHole, 1, 0.2f);
+                            foreach (var near in Player.List.Where(x => x.IsAlive && Vector3.Distance(x.Position, player.Position) < 6))
+                            {
+                                if (player != near && player.LeadingTeam != near.LeadingTeam)
+                                    near.EnableEffect(EffectType.SinkHole, 1, 0.2f);
+                            }
                         }
                     }
+                }
+                catch (Exception e)
+                {
+                    Log.Error(e);
                 }
 
                 yield return Timing.WaitForSeconds(0.1f);
@@ -849,27 +914,6 @@ namespace RGM.Modes
 
         public async void AddAbility(Player player, string force = null)
         {
-            if (player.IsScp && player.Role.Type != RoleTypeId.Scp0492)
-            {
-                foreach (var scp079 in Player.List.Where(x => x.IsAlive))
-                {
-                    if (scp079.Role.Type == RoleTypeId.Scp079)
-                    {
-                        if (UnityEngine.Random.Range(1, 21) == 1)
-                        {
-                            if (scp079.Role.Type == RoleTypeId.Scp079)
-                            {
-                                foreach (var scp in Player.List.Where(x => x.IsScp))
-                                    scp.AddBroadcast(10, $"<size=25><color=red>{player.Nickname}</color>({player.Role.Name}) 덕분에 <color=red>{scp079.Nickname}</color>({scp079.Role.Name})(이)가 능력을 획득하였습니다.</size>");
-
-                                AddAbility(scp079);
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
-
             string abilityGrade = PickAbilityGrade(player, force);
             string abilityName = force == null ? Tools.GetRandomValue(AbilityList(player, abilityGrade).Keys.ToList()) : force;
 
@@ -1219,9 +1263,13 @@ namespace RGM.Modes
                     if (player.Role is Scp939Role Scp939)
                         Scp939.MimicryCooldown = 0;
                     break;
+                case "안아줘요":
+                    if (player.Role is Scp939Role Scp939_1)
+                        Scp939_1.AttackCooldown /= 2;
+                    break;
                 case "민첩한 사냥 도구":
-                    if (player.Role is Scp939Role Scp9391)
-                        Scp9391.AttackCooldown /= 2;
+                    if (player.Role is Scp939Role Scp939_2)
+                        Scp939_2.AttackCooldown /= 2;
                     break;
                 case "간이 충전기":
                     if (player.Role is Scp079Role scp079)
@@ -1778,12 +1826,6 @@ namespace RGM.Modes
                         ev.DamageHandler.Damage = -1;
                 }
 
-                if (PlayerAbilities[ev.Attacker].Contains("[전용] 안아줘요"))
-                {
-                    if (ev.DamageHandler.Type == DamageType.Crushed)
-                        ev.DamageHandler.Damage = -1;
-                }
-
                 if (PlayerAbilities[ev.Attacker].Contains("[전용] 숙련된 암살자"))
                 {
                     if (ev.DamageHandler.Type == DamageType.Strangled)
@@ -1902,6 +1944,12 @@ namespace RGM.Modes
                 if (ev.Player.IsScp)
                     ev.Player.CurrentItem = Item;
             }
+        }
+
+
+        public void OnGainingLevel(Exiled.Events.EventArgs.Scp079.GainingLevelEventArgs ev)
+        {
+            AddAbility(ev.Player);
         }
 
         public void OnPinging(Exiled.Events.EventArgs.Scp079.PingingEventArgs ev)
