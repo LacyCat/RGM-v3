@@ -342,17 +342,29 @@ namespace RGM.Modes
 
             else if (abilityGrade == "[영웅]")
             {
-                if (get) Cassie.Clear(); Server.ExecuteCommand($"/cassie_sl {player.DisplayNickname}(이)가 <color={RatingColor["영웅"]}>[영웅]</color> 업그레이드를 입수하였습니다.");
+                if (get) 
+                {
+                    Cassie.Clear(); 
+                    Server.ExecuteCommand($"/cassie_sl {player.DisplayNickname}(이)가 <color={RatingColor["영웅"]}>[영웅]</color> 업그레이드를 입수하였습니다.");
+                }
                 return EpicAbilities;
             }
             else if (abilityGrade == "[전설]")
             {
-                if (get) Cassie.Clear(); Server.ExecuteCommand($"/cassie_sl {player.DisplayNickname}(이)가 <color={RatingColor["전설"]}>[전설]</color> 업그레이드를 입수하였습니다.");
+                if (get)
+                {
+                    Cassie.Clear(); 
+                    Server.ExecuteCommand($"/cassie_sl {player.DisplayNickname}(이)가 <color={RatingColor["전설"]}>[전설]</color> 업그레이드를 입수하였습니다.");
+                }
                 return LegendAbilities;
             }
             else if (abilityGrade == "[신화]")
             {
-                if (get) Cassie.Clear(); Server.ExecuteCommand($"/cassie_sl {player.DisplayNickname}(이)가 <color={RatingColor["신화"]}>[신화]</color> 업그레이드를 입수하였습니다.");
+                if (get)
+                {
+                    Cassie.Clear(); 
+                    Server.ExecuteCommand($"/cassie_sl {player.DisplayNickname}(이)가 <color={RatingColor["신화"]}>[신화]</color> 업그레이드를 입수하였습니다.");
+                }
                 return MythicAbilities;
             }
             else if (abilityGrade == "[전용]")
