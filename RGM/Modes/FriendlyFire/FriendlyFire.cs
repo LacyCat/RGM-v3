@@ -35,7 +35,7 @@ namespace RGM.Modes
             Harmony harmony = new Harmony("FriendlyFire");
             harmony.Patch(
                 AccessTools.Method(typeof(HitboxIdentity), nameof(HitboxIdentity.IsEnemy)), 
-                postfix: new HarmonyMethod(typeof(HitboxPatchPostfix), nameof(HitboxPatchPostfix.Postfix)));
+                postfix: new(AccessTools.Method(typeof(HitboxPatchPostfix), nameof(HitboxPatchPostfix.Postfix))));
         }
 
         public IEnumerator<float> OnModeStarted()
