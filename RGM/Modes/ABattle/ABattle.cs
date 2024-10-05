@@ -19,6 +19,7 @@ using UnityEngine;
 using HarmonyLib;
 using Utils.NonAllocLINQ;
 using System.Threading;
+using Exiled.API.Extensions;
 
 namespace RGM.Modes
 {
@@ -162,7 +163,7 @@ namespace RGM.Modes
         {
             {"[전용] 사자", "공격 속도가 1/2배가 됩니다."},
             {"[전용] 유능한 의사", "소생된 좀비의 체력이 50% 확률로 1.5배가 됩니다. (중첩 불가)"},
-            {"[전용] 능수능란", "소생 시간이 1/2배가 됩니다."}
+            {"[전용] 능수능란", "좀비 버프 능력 쿨타임이 1/2배가 됩니다."}
         };
         public Dictionary<string, string> Scp0492Abilities = new Dictionary<string, string>()
         {
@@ -341,17 +342,17 @@ namespace RGM.Modes
 
             else if (abilityGrade == "[영웅]")
             {
-                if (get) Server.ExecuteCommand($"/cassie_sl {player.DisplayNickname}(이)가 <color={RatingColor["영웅"]}>[영웅]</color> 업그레이드를 입수하였습니다.");
+                if (get) Cassie.Clear(); Server.ExecuteCommand($"/cassie_sl {player.DisplayNickname}(이)가 <color={RatingColor["영웅"]}>[영웅]</color> 업그레이드를 입수하였습니다.");
                 return EpicAbilities;
             }
             else if (abilityGrade == "[전설]")
             {
-                if (get) Server.ExecuteCommand($"/cassie_sl {player.DisplayNickname}(이)가 <color={RatingColor["전설"]}>[전설]</color> 업그레이드를 입수하였습니다.");
+                if (get) Cassie.Clear(); Server.ExecuteCommand($"/cassie_sl {player.DisplayNickname}(이)가 <color={RatingColor["전설"]}>[전설]</color> 업그레이드를 입수하였습니다.");
                 return LegendAbilities;
             }
             else if (abilityGrade == "[신화]")
             {
-                if (get) Server.ExecuteCommand($"/cassie_sl {player.DisplayNickname}(이)가 <color={RatingColor["신화"]}>[신화]</color> 업그레이드를 입수하였습니다.");
+                if (get) Cassie.Clear(); Server.ExecuteCommand($"/cassie_sl {player.DisplayNickname}(이)가 <color={RatingColor["신화"]}>[신화]</color> 업그레이드를 입수하였습니다.");
                 return MythicAbilities;
             }
             else if (abilityGrade == "[전용]")
@@ -416,6 +417,7 @@ namespace RGM.Modes
                         SynergiesFormat.Add(kvp.Key, kvp.Value[0]);
                 }
 
+                Cassie.Clear();
                 Server.ExecuteCommand($"/cassie_sl {player.DisplayNickname}(이)가 <color={RatingColor["시너지"]}>[시너지]</color> 효과를 입수하였습니다.");
                 return SynergiesFormat;
             }
@@ -1256,7 +1258,7 @@ namespace RGM.Modes
                     break;
                 case "능수능란":
                     if (player.Role is Scp049Role Scp049_2)
-                        Scp049_2.CallCooldown /= 2;
+                        Scp049_2.GoodSenseCooldown /= 2;
                     break;
                 case "급식":
                     player.MaxHealth = player.MaxHealth * 1.5f;
