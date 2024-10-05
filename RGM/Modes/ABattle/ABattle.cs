@@ -493,8 +493,14 @@ namespace RGM.Modes
             else
             {
                 if (PlayerAbilities[player].Count() <= 0)
-                    player.ShowHint($"<align=left><b><size=22>워크스테이션 위에서 점프하면 능력을 획득할 수 있습니다.</size></b></align>", 1.2f);
+                {
+                    if (player.Role.Type == RoleTypeId.Scp079)
+                        player.ShowHint($"<align=left><b><size=22>레벨이 오를 때마다 능력을 획득할 수 있습니다.</size></b></align>", 1.2f);
 
+                    else
+                        player.ShowHint($"<align=left><b><size=22>워크스테이션 위에서 점프하면 능력을 획득할 수 있습니다.</size></b></align>", 1.2f);
+
+                }
                 else
                 {
                     string abilitiesText = string.Join(", ", PlayerAbilities[player]);
