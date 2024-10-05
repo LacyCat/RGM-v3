@@ -469,7 +469,7 @@ GoldenPig1205(@GoldenPig1205) - 메인 개발자
 <b><size=35><color=#F8E0F7>도움 주신 분들</color></size><b>
 Cocoa(@cocoa_1.19)
 </size></align>
-\n\n\n\n\n\n\n\n\n\n\n\n\n
+\n\n\n\n\n\n\n\n
 """, 1.2f);
                         }
                         else if (hit.transform.name == "Mode")

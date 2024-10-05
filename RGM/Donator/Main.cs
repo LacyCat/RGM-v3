@@ -14,76 +14,82 @@ using MapEditorReborn.API.Features.Objects;
 using MEC;
 using UnityEngine;
 using Exiled.API.Features.Toys;
+using MapEditorReborn.Commands.ModifyingCommands.Rotation;
 
 namespace RGM.Donator
 {
     public class Main
     {
+        public async void KillEffect(List<string> PlayerData, Player Attacker, Player Player)
+        {
+            Quaternion Rotation = new Quaternion(0, Attacker.CameraTransform.rotation.y + 180, 0, 0);
+
+            if (PlayerData[4] == "영혼 가출")
+            {
+                DamageHandlerBase DisruptorDamage = new DisruptorDamageHandler(Attacker.Footprint, -1);
+
+                Ragdoll.CreateAndSpawn(Player.Role.Type, PlayerData[4], DisruptorDamage, Player.Position, Rotation);
+            }
+
+            if (PlayerData[4] == "솔라 테라")
+            {
+                SchematicObject SolarTerra = ObjectSpawner.SpawnSchematic("SolarTerra", Player.Position, Rotation, isStatic: false);
+
+                Timing.CallDelayed(1.5f, SolarTerra.Destroy);
+            }
+
+            if (PlayerData[4] == "Kerfus")
+            {
+                SchematicObject Kerfus = ObjectSpawner.SpawnSchematic("Kerfusa", Player.Position + new Vector3(0, 19, 0), Rotation, isStatic: false);
+
+                for (int i = 1; i < 11; i++)
+                {
+                    Kerfus.Position += new Vector3(0, -2f, 0);
+
+                    await Task.Delay(50);
+                }
+
+                await Task.Delay(1500);
+
+                for (int i = 1; i < 11; i++)
+                {
+                    Kerfus.Position += new Vector3(0, 2f, 0);
+
+                    await Task.Delay(50);
+                }
+
+                Kerfus.Destroy();
+            }
+
+            if (PlayerData[4] == "은제 말뚝")
+            {
+                SchematicObject SilverStake = ObjectSpawner.SpawnSchematic("SilverStake", Player.Position, Rotation, isStatic: false);
+
+                Timing.CallDelayed(1.5f, SilverStake.Destroy);
+            }
+
+            if (PlayerData[4] == "KO 사인")
+            {
+                SchematicObject KO = ObjectSpawner.SpawnSchematic("KO", Player.Position, Rotation, isStatic: false);
+
+                Timing.CallDelayed(1.5f, KO.Destroy);
+            }
+        }
+
         public void OnEnabled()
         {
             Exiled.Events.Handlers.Player.Dying += OnDying;
         }
 
-        public async void OnDying(Exiled.Events.EventArgs.Player.DyingEventArgs ev)
+        public void OnDying(Exiled.Events.EventArgs.Player.DyingEventArgs ev)
         {
             if (ev.Attacker != null && UsersManager.UsersCache.ContainsKey(ev.Attacker.UserId))
             {
                 List<string> Attacker = UsersManager.UsersCache[ev.Attacker.UserId];
-                Quaternion Rotation = new Quaternion(0, ev.Attacker.CameraTransform.rotation.y + 180, 0, 0);
+                List<string> Player = UsersManager.UsersCache[ev.Attacker.UserId];
 
                 if (Attacker[4] != "0")
-                {
-                    if (Attacker[4] == "영혼 가출")
-                    {
-                        DamageHandlerBase DisruptorDamage = new DisruptorDamageHandler(ev.Attacker.Footprint, -1);
-
-                        Ragdoll.CreateAndSpawn(ev.Player.Role.Type, Attacker[4], DisruptorDamage, ev.Player.Position, Rotation);
-                    }
-
-                    if (Attacker[4] == "솔라 테라")
-                    {
-                        SchematicObject SolarTerra =  ObjectSpawner.SpawnSchematic("SolarTerra", ev.Player.Position, Rotation, isStatic: false);
-
-                        Timing.CallDelayed(1.5f, SolarTerra.Destroy);
-                    }
-
-                    if (Attacker[4] == "Kerfus")
-                    {
-                        SchematicObject Kerfus = ObjectSpawner.SpawnSchematic("Kerfusa", ev.Player.Position + new Vector3(0, 19, 0), Rotation, isStatic: false);
-
-                        for (int i = 1; i < 11; i++)
-                        {
-                            Kerfus.Position += new Vector3(0, -2f, 0);
-
-                            await Task.Delay(50);
-                        }
-
-                        await Task.Delay(1500);
-
-                        for (int i = 1; i < 11; i++)
-                        {
-                            Kerfus.Position += new Vector3(0, 2f, 0);
-
-                            await Task.Delay(50);
-                        }
-
-                        Kerfus.Destroy();
-                    }
-
-                    if (Attacker[4] == "은제 말뚝")
-                    {
-                        SchematicObject SilverStake = ObjectSpawner.SpawnSchematic("SilverStake", ev.Player.Position, Rotation, isStatic: false);
-
-                        Timing.CallDelayed(1.5f, SilverStake.Destroy);
-                    }
-
-                    if (Attacker[4] == "KO 사인")
-                    {
-                        SchematicObject KO = ObjectSpawner.SpawnSchematic("KO", ev.Player.Position, Rotation, isStatic: false);
-
-                        Timing.CallDelayed(1.5f, KO.Destroy);
-                    }
-                }
+                    KillEffect(Attacker, ev.Attacker, ev.Player);
             }
         }
     }

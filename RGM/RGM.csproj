@@ -178,6 +178,7 @@
     <Compile Include="Modes\Blessing\Blessing.cs" />
     <Compile Include="Modes\BombParty\BombParty.cs" />
     <Compile Include="Modes\Collector\Collector.cs" />
+    <Compile Include="Modes\DeadLine\DeadLine.cs" />
     <Compile Include="Modes\DeathRun\DeathRun.cs" />
     <Compile Include="Modes\Distancing\Distancing.cs" />
     <Compile Include="Modes\DoubleUp\DoubleUp.cs" />
