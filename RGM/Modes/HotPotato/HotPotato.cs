@@ -32,6 +32,7 @@ namespace RGM.Modes
 
             Exiled.Events.Handlers.Player.Spawned += OnSpawned;
             Exiled.Events.Handlers.Player.Hurting += OnHurting;
+            Exiled.Events.Handlers.Player.Died += OnDied;
 
             Timing.RunCoroutine(OnModeStarted());
         }
@@ -113,6 +114,7 @@ namespace RGM.Modes
 
                     pl[0].Role.Set(RoleTypeId.ClassD, SpawnReason.ForceClass, RoleSpawnFlags.None);
                     Player.List.ToList().ForEach(x => x.AddBroadcast(20, $"승리자 : {pl[0].Nickname}"));
+                    break;
                 }
 
                 Player.List.ToList().ForEach(x => x.ShowHint($"펑!", 2));
@@ -164,6 +166,17 @@ namespace RGM.Modes
 
                 ev.Attacker.Role.Set(RoleTypeId.ClassD, SpawnReason.ForceClass, RoleSpawnFlags.None);
                 ev.Player.Role.Set(RoleTypeId.Scp049, SpawnReason.ForceClass, RoleSpawnFlags.None);
+            }
+        }
+
+        public void OnDied(Exiled.Events.EventArgs.Player.DiedEventArgs ev)
+        {
+            if (pl.Contains(ev.Player))
+            {
+                pl.Remove(ev.Player);
+
+                if (pl.Count < 2)
+                    Round.IsLocked = false;
             }
         }
     }

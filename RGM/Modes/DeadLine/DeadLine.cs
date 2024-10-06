@@ -29,6 +29,8 @@ namespace RGM.Modes
             Round.IsLocked = true;
             Respawn.TimeUntilNextPhase = 10000;
 
+            Exiled.Events.Handlers.Player.Died += OnDied;
+
             Timing.RunCoroutine(OnModeStarted());
         }
 
@@ -117,6 +119,17 @@ namespace RGM.Modes
 
                     yield return Timing.WaitForSeconds(0.15f);
                 }
+            }
+        }
+
+        public void OnDied(Exiled.Events.EventArgs.Player.DiedEventArgs ev)
+        {
+            if (pl.Contains(ev.Player))
+            {
+                pl.Remove(ev.Player);
+
+                if (pl.Count < 2)
+                    Round.IsLocked = false;
             }
         }
     }
