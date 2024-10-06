@@ -40,7 +40,7 @@ namespace RGM.Modes
         {
             Server.ExecuteCommand($"/mp load hp");
 
-            Player.List.CopyTo(pl);
+            Player.List.Where(x => !x.IsNPC).CopyTo(pl);
 
             dj = GGUtils.Gtool.Spawn(RoleTypeId.Tutorial, new Vector3(82.51834f, 1014.692f, -50.10588f));
 
@@ -98,7 +98,12 @@ namespace RGM.Modes
                         pl.Remove(bomber);
 
                         if (pl.Count < 2)
+                        {
                             Round.IsLocked = false;
+
+                            pl[0].Role.Set(RoleTypeId.Tutorial);
+                            Player.List.ToList().ForEach(x => x.ShowHint($"승리자 : {pl[0].Nickname}", 20));
+                        }
 
                         bomber.Role.Set(RoleTypeId.ClassD);
                         bomber.Position = new Vector3(83.82303f, 1026.691f, -37.06291f);
@@ -147,7 +152,7 @@ namespace RGM.Modes
         {
             ev.IsAllowed = false;
 
-            if (BomberMans.Contains(ev.Attacker) && !BomberMans.Contains(ev.Player))
+            if (BomberMans.Contains(ev.Attacker) && !BomberMans.Contains(ev.Player) && !ev.Player.IsNPC)
             {
                 BomberMans.Remove(ev.Attacker);
                 BomberMans.Add(ev.Player);
