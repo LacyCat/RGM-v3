@@ -177,7 +177,7 @@ namespace RGM.Modes
             {"[전용] 격노", "분노 때에는 데미지를 50%만 받습니다. (중첩 불가)"},
             {"[전용] 별자리 찢기", "25% 확률로 공격한 대상을 즉사시킵니다. (중첩 불가)"},
             {"[전용] 천리안", "분노 시에 30m 내의 인간들을 모두 목격자에 포함시킵니다. (중첩 불가)"},
-            {"[전용] 원수", "분노 시간이 1/2배가 됩니다."}
+            {"[전용] 원수", "분노 충전 시간이 1/2배가 됩니다."}
         };
         public Dictionary<string, string> Scp106Abilities = new Dictionary<string, string>()
         {
@@ -736,7 +736,7 @@ namespace RGM.Modes
                         {
                             MicroHid MicroHID = (MicroHid)Item;
 
-                            MicroHID.Energy += 0.01f;
+                            MicroHID.Energy += 0.05f;
                         }
                     }
                 }
@@ -1884,8 +1884,11 @@ namespace RGM.Modes
 
         public void OnChangingMicroHIDState(Exiled.Events.EventArgs.Player.ChangingMicroHIDStateEventArgs ev)
         {
-            if (FlamethrowerSerials.Contains(ev.Player.CurrentItem.Serial) && ev.NewState == HidState.PoweringUp)
-                ev.MicroHID.State = HidState.Firing;
+            if (FlamethrowerSerials.Contains(ev.Player.CurrentItem.Serial))
+            {
+                if (ev.OldState == HidState.Idle && ev.NewState == HidState.PoweringUp)
+                    ev.NewState = HidState.Firing;
+            }
         }
 
         public void OnBlinking(Exiled.Events.EventArgs.Scp173.BlinkingEventArgs ev)
