@@ -36,6 +36,7 @@ namespace RGM.Modes
         public Dictionary<Player, string> PlayerVotes = new Dictionary<Player, string>();
 
         public List<Player> MeleeCooldown = new List<Player>();
+        public List<Player> TeleportCooldown = new List<Player>();
         public List<Player> PickPocketCooldown = new List<Player>();
 
         public List<ushort> PickCoinSerials = new List<ushort>();
@@ -105,7 +106,8 @@ namespace RGM.Modes
             {"[영웅] 최후의 발악", "5초 뒤 반드시 죽지만, 그동안 무적이 되며 속도가 매우 빨라집니다."},
             {"[영웅] 초재생", "핑크 콜라를 지급받습니다."},
             {"[영웅] 고스트룰", "문을 통과할 수 있습니다. (중첩 불가)"},
-            {"[영웅] 잠수부", "시야가 개선되고 스테미나가 줄어들지 않습니다. (중첩 불가)"}
+            {"[영웅] 잠수부", "시야가 개선되고 스테미나가 줄어들지 않습니다. (중첩 불가)"},
+            {"[영웅] 점멸", "점프할 때마다 근처 문으로 텔레포트합니다. (쿨타임 15초)"}
         };
         public Dictionary<string, string> LegendAbilities = new Dictionary<string, string>()
         {
@@ -1526,17 +1528,17 @@ namespace RGM.Modes
                         List<string> DisplayVote = new List<string>();
                         int SelectedAbilityNumber = 0;
 
-                        for (int i=1; i<4; i++)
+                        for (int i = 1; i < 4; i++)
                         {
                             List<string> abilityList = AbilityList(ev.Player, PickAbilityGrade(ev.Player), false).Keys.ToList();
 
                             AbilitesVote.Add(Tools.GetRandomValue(abilityList));
                         }
 
-                        for (int i=1; i<4; i++)
+                        for (int i = 1; i < 4; i++)
                             DisplayVote.Add($"[{i}] {ColorFormat(AbilitesVote[i - 1])}");
 
-                        for (int i=1; i<21; i++)
+                        for (int i = 1; i < 21; i++)
                         {
                             if (ev.Player.IsDead)
                                 return;
@@ -1558,6 +1560,34 @@ namespace RGM.Modes
                     }
                     else
                         AddAbility(ev.Player);
+                }
+            }
+
+            if (PlayerAbilities.ContainsKey(ev.Player) && PlayerAbilities[ev.Player].Contains("[영웅] 점멸"))
+            {
+                if (!TeleportCooldown.Contains(ev.Player))
+                {
+                    TeleportCooldown.Add(ev.Player);
+
+                    Door nearestDoor = null;
+                    float radius = 99999;
+
+                    foreach (var door in Door.List.Where(x => !x.IsElevator && x.Zone != ZoneType.LightContainment && !x.Type.ToString().Contains("Scp079")))
+                    {
+                        float Distance = Vector3.Distance(door.Position, ev.Player.Position);
+
+                        if (Distance < radius)
+                        {
+                            nearestDoor = door;
+                            radius = Distance;
+                        }
+                    }
+
+                    Vector3 pos = nearestDoor.Position;
+
+                    ev.Player.Position = new Vector3(pos.x, pos.y + 2, pos.z);
+
+                    Timing.CallDelayed(15, () => { TeleportCooldown.Remove(ev.Player); });
                 }
             }
         }
