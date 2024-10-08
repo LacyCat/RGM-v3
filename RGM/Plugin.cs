@@ -402,7 +402,6 @@ namespace RGM
                     RoleTypeId.Scp173,
                     RoleTypeId.Scp049,
                     RoleTypeId.Scp0492,
-                    RoleTypeId.Scp096,
                     RoleTypeId.Scp106,
                     RoleTypeId.Scp939,
                     RoleTypeId.Scp3114
@@ -430,6 +429,7 @@ namespace RGM
                 ev.Player.Role.Set(Tools.GetRandomValue(SelectedRole()));
                 ev.Player.ClearInventory();
                 ev.Player.Position = GameObject.Find("LobbyStartPoint").transform.position;
+                ev.Player.CameraTransform.Rotate(Vector3.left, 180);
                 ev.Player.AddBroadcast(10, Notions.WelcomeMessage);
 
                 string iv(int num)
@@ -467,7 +467,7 @@ GoldenPig1205(@GoldenPig1205) - 메인 개발자
 <size=20>[D.I.]Dotory001(@dotory001), 류세(@milkyway_0119), Lu(@1__neeko__1), 뇨호호(@yeeeee222), ㅠㅅㅠ(@tampast)</size>
 
 <b><size=35><color=#F8E0F7>도움 주신 분들</color></size><b>
-Cocoa(@cocoa_1.19)
+<size=20>Cocoa(@cocoa_1.19)</size>
 </size></align>
 \n\n\n\n\n\n\n\n
 """, 1.2f);

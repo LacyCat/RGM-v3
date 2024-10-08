@@ -40,7 +40,7 @@
               "RelativeDocumentMoniker": "Plugin.cs",
               "ToolTip": "D:\\GoldenPig1205\\Visual Studio 2022\\RGM\\RGM\\Plugin.cs*",
               "RelativeToolTip": "Plugin.cs*",
-              "ViewState": "AgIAAJgBAAAAAAAAAAAAAK8BAABWAAAAAAAAAA==",
+              "ViewState": "AgIAAHwBAAAAAAAAAADwv5YBAAAmAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-09-24T08:33:34.509Z",
               "EditorCaption": ""
@@ -55,8 +55,7 @@
               "RelativeToolTip": "Configs\\Notions.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-23T23:34:09.574Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-23T23:34:09.574Z"
             },
             {
               "$type": "Document",
@@ -68,8 +67,7 @@
               "RelativeToolTip": "Configs\\Modes.cs",
               "ViewState": "AgIAAEMAAAAAAAAAAAAAAGEAAAADAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-21T07:28:37.813Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-21T07:28:37.813Z"
             },
             {
               "$type": "Document",
@@ -81,8 +79,7 @@
               "RelativeToolTip": "Configs\\Config.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAABNAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-06T10:06:50.948Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-06T10:06:50.948Z"
             },
             {
               "$type": "Document",
@@ -94,8 +91,7 @@
               "RelativeToolTip": "Commands\\RGM.Commands.cs",
               "ViewState": "AgIAAH4CAAAAAAAAAAAAACwCAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-17T12:10:08.408Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-17T12:10:08.408Z"
             }
           ]
         }
