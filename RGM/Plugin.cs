@@ -429,7 +429,7 @@ namespace RGM
 
                 ev.Player.Role.Set(Tools.GetRandomValue(SelectedRole()));
                 ev.Player.ClearInventory();
-                ev.Player.Position = new Vector3(64.66287f, 893.0417f, -73.39104f);
+                ev.Player.Position = GameObject.Find("SpawnPoint").transform.position;
                 ev.Player.AddBroadcast(10, Notions.WelcomeMessage);
 
                 string iv(int num)
