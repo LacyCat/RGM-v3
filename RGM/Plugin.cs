@@ -373,7 +373,7 @@ namespace RGM
                     ev.Player.DisplayNickname = userValues[5];
 
                 if (userValues[6] != "0")
-                    ev.Player.UniqueRole = userValues[5];
+                    ev.Player.CustomInfo = userValues[6];
             }
 
             OnGround.Add(ev.Player, 5);
@@ -573,7 +573,7 @@ GoldenPig1205(@GoldenPig1205) - 메인 개발자
                                 .Replace("{Lines}", $"{(ModeDescription.Contains("\n") ? "\n" : "\n\n")}").Replace("{Tip}", Tip)
                                 .Replace("{Exp}", $"{uc[0]}")
                                 .Replace("{RP}", $"{uc[1]}")
-                                .Replace("{Cash}", $"{uc[2]}")
+                                .Replace("{Cash}", $"{int.Parse(uc[2]).ToString("NO")}")
                                 .Replace("{KillEffect}", $"{(uc[4] == "0" ? "-" : uc[4])}")
                                 , 1.2f);
                         }
