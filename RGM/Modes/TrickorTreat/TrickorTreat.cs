@@ -47,9 +47,9 @@ namespace RGM.Modes
             {
                 List<CandyKindID> Candies = new List<CandyKindID>
                     {
-                        (CandyKindID)UnityEngine.Random.Range(1, 8),
-                        (CandyKindID)UnityEngine.Random.Range(1, 8),
-                        (CandyKindID)UnityEngine.Random.Range(1, 8)
+                        (CandyKindID)UnityEngine.Random.Range(0, 8),
+                        (CandyKindID)UnityEngine.Random.Range(0, 8),
+                        (CandyKindID)UnityEngine.Random.Range(0, 8)
                     };
 
                 foreach (var Candy in Candies)
