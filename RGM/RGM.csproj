@@ -213,6 +213,7 @@
     <Compile Include="Modes\Spleef\Spleef.cs" />
     <Compile Include="Modes\StandardItems\StandardItems.cs" />
     <Compile Include="Modes\SuperStar\SuperStar.cs" />
+    <Compile Include="Modes\TailCatcher\TailCatcher.cs" />
     <Compile Include="Modes\Tomb\Tomb.cs" />
     <Compile Include="Modes\TrickorTreat\TrickorTreat.cs" />
     <Compile Include="Modes\Unlimited\Unlimited.cs" />
