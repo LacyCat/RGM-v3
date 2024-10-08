@@ -400,7 +400,7 @@ $"""
 SteamID: {player.UserId}
 Exp: {uc[0]}
 RP: {uc[1]}
-<i>Cash</i>: {uc[2]}
+<i>Cash</i>: {int.Parse(uc[2]).ToString("N0")}
 보유한 킬 이펙트: {KillEffects()}
 장착한 킬 이펙트: {(uc[4] == "0" ? "-" : uc[4])}
 <size=15>{(uc[4] == "0" ? "'.킬이펙트 <킬이펙트 이름>' 명령어를 사용하여 킬 이펙트를 장착할 수 있습니다." : RGM.Instance.KillEffects[uc[4]])}</size>
@@ -473,7 +473,7 @@ RP: {uc[1]}
 
         public string[] Aliases { get; } = { "킬이펙트장착", "킬이펙트" };
 
-        public string Description { get; } = "[RGM] 킬 이펙트 이름을 입력하여 장착을 변경합니다. (0 = 장착 해제)";
+        public string Description { get; } = "[RGM] 킬 이펙트 이름을 입력하여 장착을 변경합니다.";
 
         public bool SanitizeResponse { get; } = true;
     }
@@ -486,42 +486,31 @@ RP: {uc[1]}
             Player player = Player.Get(sender);
             string args = string.Join(" ", arguments).Trim();
 
-            if (args == "")
+            if (UsersManager.UsersCache.ContainsKey(player.UserId))
             {
-                response = "변경할 닉네임을 입력해주세요.\n-";
-                return false;
-            }
-            else
-            {
-                if (UsersManager.UsersCache.ContainsKey(player.UserId))
+                List<string> uc = UsersManager.UsersCache[player.UserId];
+
+                if (int.Parse(uc[2]) >= 50000)
                 {
-                    List<string> uc = UsersManager.UsersCache[player.UserId];
+                    uc[5] = args;
+                    UsersManager.UsersCache[player.UserId] = uc;
+                    player.DisplayNickname = args;
 
-                    if (int.Parse(uc[2]) >= 50000)
-                    {
-                        uc[5] = args;
-                        UsersManager.UsersCache[player.UserId] = uc;
-                        player.DisplayNickname = args;
+                    response = "닉네임 변경 완료!\n-";
 
-                        response = args == "0"  ? "닉네임 초기화 완료!\n-" : "닉네임 변경 완료!\n-";
-
-                        if (args == "0")
-                            player.DisplayNickname = player.Nickname;
-
-                        UsersManager.SaveUsers();
-                        return true;
-                    }
-                    else
-                    {
-                        response = "해당 기능은 50,000원 후원 혜택입니다.\n-";
-                        return false;
-                    }
+                    UsersManager.SaveUsers();
+                    return true;
                 }
                 else
                 {
-                    response = "플레이어 정보를 찾을 수 없습니다.\n-";
+                    response = "해당 기능은 50,000원 후원 혜택입니다.\n-";
                     return false;
                 }
+            }
+            else
+            {
+                response = "플레이어 정보를 찾을 수 없습니다.\n-";
+                return false;
             }
         }
 
@@ -529,7 +518,7 @@ RP: {uc[1]}
 
         public string[] Aliases { get; } = { "acdn", "닉네임" };
 
-        public string Description { get; } = "[RGM] 다른 유저에게 보여지는 이름을 수정합니다. (0 = 변경 해제)";
+        public string Description { get; } = "[RGM] 다른 유저에게 보여지는 이름을 수정합니다.";
 
         public bool SanitizeResponse { get; } = true;
     }
@@ -542,42 +531,31 @@ RP: {uc[1]}
             Player player = Player.Get(sender);
             string args = string.Join(" ", arguments).Trim();
 
-            if (args == "")
+            if (UsersManager.UsersCache.ContainsKey(player.UserId))
             {
-                response = "변경할 역할 설명을 입력해주세요.\n-";
-                return false;
-            }
-            else
-            {
-                if (UsersManager.UsersCache.ContainsKey(player.UserId))
+                List<string> uc = UsersManager.UsersCache[player.UserId];
+
+                if (int.Parse(uc[2]) >= 100000)
                 {
-                    List<string> uc = UsersManager.UsersCache[player.UserId];
+                    uc[6] = args;
+                    UsersManager.UsersCache[player.UserId] = uc;
+                    player.CustomInfo = args;
 
-                    if (int.Parse(uc[2]) >= 100000)
-                    {
-                        uc[6] = args;
-                        UsersManager.UsersCache[player.UserId] = uc;
-                        player.UniqueRole = args;
+                    response = "역할 설명 변경 완료!\n-";
 
-                        response = args == "0" ? "역할 설명 초기화 완료!\n-" : "역할 설명 변경 완료!\n-";
-
-                        if (args == "0")
-                            player.UniqueRole = player.Role.Name;
-
-                        UsersManager.SaveUsers();
-                        return true;
-                    }
-                    else
-                    {
-                        response = "해당 기능은 100,000원 후원 혜택입니다.\n-";
-                        return false;
-                    }
+                    UsersManager.SaveUsers();
+                    return true;
                 }
                 else
                 {
-                    response = "플레이어 정보를 찾을 수 없습니다.\n-";
+                    response = "해당 기능은 100,000원 후원 혜택입니다.\n-";
                     return false;
                 }
+            }
+            else
+            {
+                response = "플레이어 정보를 찾을 수 없습니다.\n-";
+                return false;
             }
         }
 
