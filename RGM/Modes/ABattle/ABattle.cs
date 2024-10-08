@@ -529,11 +529,14 @@ namespace RGM.Modes
 
         public IEnumerator<float> OnModeStarted()
         {
-            if (UnityEngine.Random.Range(1, 6) == 1)
-                IsFeverModeEnabled = true;
+            Timing.CallDelayed(UnityEngine.Random.Range(1, 11), () => 
+            {
+                if (UnityEngine.Random.Range(1, 6) == 1)
+                    IsFeverModeEnabled = true;
 
-            if (IsFeverModeEnabled)
-                Server.ExecuteCommand($"/mp load ABattle");
+                if (IsFeverModeEnabled)
+                    Server.ExecuteCommand($"/mp load ABattle");
+            });
 
             while (true)
             {
