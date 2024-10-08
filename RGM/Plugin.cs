@@ -368,6 +368,12 @@ namespace RGM
 
                     UsersManager.SaveUsers();
                 }
+
+                if (userValues[5] != "0")
+                    ev.Player.DisplayNickname = userValues[5];
+
+                if (userValues[6] != "0")
+                    ev.Player.UniqueRole = userValues[5];
             }
 
             OnGround.Add(ev.Player, 5);

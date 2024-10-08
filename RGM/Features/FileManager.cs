@@ -34,7 +34,15 @@ namespace RGM.Features
 
     public static class UsersManager
     {
-        // Exp;RP;Cash;보유한 킬 이펙트;장착한 킬 이펙트;
+        /*
+        Exp - 0
+        RP - 1
+        Cash - 2
+        보유한 킬 이펙트 - 3
+        장착한 킬 이펙트 - 4
+        커스텀 닉네임 - 5
+        커스텀 설명 - 6
+        */
 
         public static string UsersFileName = Path.Combine(Paths.Configs, "RGM/Users.txt");
         public static Dictionary<string, List<string>> UsersCache = new Dictionary<string, List<string>>();

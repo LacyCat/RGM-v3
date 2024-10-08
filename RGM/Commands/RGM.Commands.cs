@@ -478,6 +478,118 @@ RP: {uc[1]}
         public bool SanitizeResponse { get; } = true;
     }
 
+    [CommandHandler(typeof(ClientCommandHandler))]
+    public class ApplyChangeDisplayNickname : ICommand
+    {
+        public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
+        {
+            Player player = Player.Get(sender);
+            string args = string.Join(" ", arguments).Trim();
+
+            if (args == "")
+            {
+                response = "변경할 닉네임을 입력해주세요.\n-";
+                return false;
+            }
+            else
+            {
+                if (UsersManager.UsersCache.ContainsKey(player.UserId))
+                {
+                    List<string> uc = UsersManager.UsersCache[player.UserId];
+
+                    if (int.Parse(uc[2]) >= 50000)
+                    {
+                        uc[5] = args;
+                        UsersManager.UsersCache[player.UserId] = uc;
+                        player.DisplayNickname = args;
+
+                        response = args == "0"  ? "닉네임 초기화 완료!\n-" : "닉네임 변경 완료!\n-";
+
+                        if (args == "0")
+                            player.DisplayNickname = player.Nickname;
+
+                        UsersManager.SaveUsers();
+                        return true;
+                    }
+                    else
+                    {
+                        response = "해당 기능은 50,000원 후원 혜택입니다.\n-";
+                        return false;
+                    }
+                }
+                else
+                {
+                    response = "플레이어 정보를 찾을 수 없습니다.\n-";
+                    return false;
+                }
+            }
+        }
+
+        public string Command { get; } = "applychangedisplaynickname";
+
+        public string[] Aliases { get; } = { "acdn", "닉네임" };
+
+        public string Description { get; } = "[RGM] 다른 유저에게 보여지는 이름을 수정합니다. (0 = 변경 해제)";
+
+        public bool SanitizeResponse { get; } = true;
+    }
+
+    [CommandHandler(typeof(ClientCommandHandler))]
+    public class ApplyChangeRoleDescription : ICommand
+    {
+        public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
+        {
+            Player player = Player.Get(sender);
+            string args = string.Join(" ", arguments).Trim();
+
+            if (args == "")
+            {
+                response = "변경할 역할 설명을 입력해주세요.\n-";
+                return false;
+            }
+            else
+            {
+                if (UsersManager.UsersCache.ContainsKey(player.UserId))
+                {
+                    List<string> uc = UsersManager.UsersCache[player.UserId];
+
+                    if (int.Parse(uc[2]) >= 100000)
+                    {
+                        uc[6] = args;
+                        UsersManager.UsersCache[player.UserId] = uc;
+                        player.UniqueRole = args;
+
+                        response = args == "0" ? "역할 설명 초기화 완료!\n-" : "역할 설명 변경 완료!\n-";
+
+                        if (args == "0")
+                            player.UniqueRole = player.Role.Name;
+
+                        UsersManager.SaveUsers();
+                        return true;
+                    }
+                    else
+                    {
+                        response = "해당 기능은 100,000원 후원 혜택입니다.\n-";
+                        return false;
+                    }
+                }
+                else
+                {
+                    response = "플레이어 정보를 찾을 수 없습니다.\n-";
+                    return false;
+                }
+            }
+        }
+
+        public string Command { get; } = "applychangedescription";
+
+        public string[] Aliases { get; } = { "acrd", "역할설명" };
+
+        public string Description { get; } = "[RGM] 다른 유저에게 보여지는 역할 설명을 수정합니다. (0 = 변경 해제)";
+
+        public bool SanitizeResponse { get; } = true;
+    }
+
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     public class AddKillEffect : ICommand
     {
