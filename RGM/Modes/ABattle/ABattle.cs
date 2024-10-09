@@ -318,7 +318,7 @@ namespace RGM.Modes
 
         public string PickAbilityGrade(Player player, string force = null)
         {
-            int grade = UnityEngine.Random.Range(1, 1001);
+            int grade = UnityEngine.Random.Range(1, 10001);
             string abilityGrade;
             if (force != null)
                 abilityGrade = "[" + force.Substring(force.IndexOf('[') + 1, force.IndexOf(']') - force.IndexOf('[') - 1) + "]".Trim();
@@ -328,22 +328,22 @@ namespace RGM.Modes
 
             else
             {
-                if (grade < 2)
+                if (grade <= 5) // 0.05%
                     abilityGrade = "[신화]";
 
-                else if (grade < 7)
+                else if (grade <= 40) // 0.35%
                     abilityGrade = "[전설]";
 
-                else if (grade < 57)
+                else if (grade <= 250) // 2.1%
                     abilityGrade = "[영웅]";
 
-                else if (grade < 257)
+                else if (grade <= 1500) // 12.5%
                     abilityGrade = "[희귀]";
 
-                else if (grade < 317)
+                else if (grade <= 2000) // 5%
                     abilityGrade = "[전용]";
 
-                else
+                else // 80%
                     abilityGrade = "[일반]";
             }
 
@@ -1522,44 +1522,39 @@ namespace RGM.Modes
                 {
                     PlayerWorkstation[ev.Player].Add(WorkStation.position);
 
-                    if (UnityEngine.Random.Range(1, 4) == 1)
+                    List<string> AbilitesVote = new List<string>();
+                    List<string> DisplayVote = new List<string>();
+                    int SelectedAbilityNumber = 0;
+
+                    for (int i = 1; i < 4; i++)
                     {
-                        List<string> AbilitesVote = new List<string>();
-                        List<string> DisplayVote = new List<string>();
-                        int SelectedAbilityNumber = 0;
+                        List<string> abilityList = AbilityList(ev.Player, PickAbilityGrade(ev.Player), false).Keys.ToList();
 
-                        for (int i = 1; i < 4; i++)
-                        {
-                            List<string> abilityList = AbilityList(ev.Player, PickAbilityGrade(ev.Player), false).Keys.ToList();
-
-                            AbilitesVote.Add(Tools.GetRandomValue(abilityList));
-                        }
-
-                        for (int i = 1; i < 4; i++)
-                            DisplayVote.Add($"[{i}] {ColorFormat(AbilitesVote[i - 1])}");
-
-                        for (int i = 1; i < 21; i++)
-                        {
-                            if (ev.Player.IsDead)
-                                return;
-
-                            ev.Player.ShowHint($"<align=left><size=30>{string.Join("\n", DisplayVote)}</size>\n\n<size=25><b>{21 - i}초 안에 [.(번호)] 명령어로 원하는 능력을 선택하세요. (ex .1)</b></size></align>\n\n", 1.2f);
-
-                            if (PlayerVotes.ContainsKey(ev.Player))
-                            {
-                                SelectedAbilityNumber = int.Parse(PlayerVotes[ev.Player]);
-                                break;
-                            }
-
-                            await Task.Delay(1000);
-                        }
-
-                        if (SelectedAbilityNumber == 0) SelectedAbilityNumber = UnityEngine.Random.Range(1, 4);
-
-                        AddAbility(ev.Player, AbilitesVote[SelectedAbilityNumber - 1]);
+                        AbilitesVote.Add(Tools.GetRandomValue(abilityList));
                     }
-                    else
-                        AddAbility(ev.Player);
+
+                    for (int i = 1; i < 4; i++)
+                        DisplayVote.Add($"[{i}] {ColorFormat(AbilitesVote[i - 1])}");
+
+                    for (int i = 1; i < 21; i++)
+                    {
+                        if (ev.Player.IsDead)
+                            return;
+
+                        ev.Player.ShowHint($"<align=left><size=30>{string.Join("\n", DisplayVote)}</size>\n\n<size=25><b>{21 - i}초 안에 [.(번호)] 명령어로 원하는 능력을 선택하세요. (ex .1)</b></size></align>\n\n", 1.2f);
+
+                        if (PlayerVotes.ContainsKey(ev.Player))
+                        {
+                            SelectedAbilityNumber = int.Parse(PlayerVotes[ev.Player]);
+                            break;
+                        }
+
+                        await Task.Delay(1000);
+                    }
+
+                    if (SelectedAbilityNumber == 0) SelectedAbilityNumber = UnityEngine.Random.Range(1, 4);
+
+                    AddAbility(ev.Player, AbilitesVote[SelectedAbilityNumber - 1]);
                 }
             }
 
