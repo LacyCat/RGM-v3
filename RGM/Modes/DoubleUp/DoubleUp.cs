@@ -68,14 +68,14 @@ namespace RGM.Modes
             foreach (var player in Player.List.Where(x => !x.IsNPC))
             {
                 player.AddBroadcast(10, Description);
-                player.SendConsoleMessage(Description, "white");
+                player.SendConsoleMessage($"\n{Description}", "white");
             }
         }
 
         public void OnVerified(Exiled.Events.EventArgs.Player.VerifiedEventArgs ev)
         {
             ev.Player.AddBroadcast(10, Description);
-            ev.Player.SendConsoleMessage(Description, "white");
+            ev.Player.SendConsoleMessage($"\n{Description}", "white");
         }
     }
 }

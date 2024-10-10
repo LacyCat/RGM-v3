@@ -31,7 +31,7 @@ namespace RGM.Modes
             Exiled.Events.Handlers.Scp939.Lunging += OnLunging;
 
             Harmony harmony = new Harmony($"FriendlyFire - {DateTime.Now.Ticks}");
-            harmony.Patch(AccessTools.Method(typeof(HitboxIdentity), nameof(HitboxIdentity.IsEnemy)), 
+            harmony.Patch(AccessTools.Method(typeof(HitboxIdentity), nameof(HitboxIdentity.IsEnemy), [typeof(Team), typeof(Team)]), 
                 postfix: new HarmonyMethod(AccessTools.Method(typeof(HitboxPatchPostfix), nameof(HitboxPatchPostfix.Postfix))));
         }
 
@@ -165,7 +165,7 @@ namespace RGM.Modes
                     {
                         Hitmarker.SendHitmarkerDirectly(ev.Player.ReferenceHub, 1.5f);
                         Server.ExecuteCommand($"/cassie {ev.Player.Role.Name}이(가) {player.Role.Name}의 뒷통수를 쳤습니다.");
-                        player.Hurt(-1, Exiled.API.Enums.DamageType.Scp939);
+                        player.Hurt(125, Exiled.API.Enums.DamageType.Scp939);
                     }
                 }
 
@@ -173,7 +173,6 @@ namespace RGM.Modes
             }
         }
 
-        [HarmonyPatch(typeof(HitboxIdentity), nameof(HitboxIdentity.IsEnemy), typeof(Team), typeof(Team))]
         public class HitboxPatchPostfix
         {
             public static void Postfix(ref bool __result)
