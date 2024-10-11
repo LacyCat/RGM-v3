@@ -106,6 +106,7 @@ namespace RGM
             Exiled.Events.Handlers.Player.InteractingDoor += OnInteractingDoor;
             Exiled.Events.Handlers.Player.Hurting += OnHurting;
             Exiled.Events.Handlers.Player.Dying += OnDying;
+            Exiled.Events.Handlers.Player.Died += OnDied;
 
             Exiled.Events.Handlers.Warhead.Stopping += OnStopping;
             Exiled.Events.Handlers.Warhead.Detonating += OnDetonating;
@@ -131,6 +132,7 @@ namespace RGM
             Exiled.Events.Handlers.Player.InteractingDoor -= OnInteractingDoor;
             Exiled.Events.Handlers.Player.Hurting -= OnHurting;
             Exiled.Events.Handlers.Player.Dying -= OnDying;
+            Exiled.Events.Handlers.Player.Died -= OnDied;
 
             Exiled.Events.Handlers.Warhead.Stopping -= OnStopping;
             Exiled.Events.Handlers.Warhead.Detonating -= OnDetonating;
@@ -715,6 +717,21 @@ GoldenPig1205(@GoldenPig1205) - 메인 개발자
                         ev.IsAllowed = false;
                 }
             }
+        }
+
+        public void OnDied(Exiled.Events.EventArgs.Player.DiedEventArgs ev)
+        {
+            string MessageFormat()
+            {
+                if (ev.Attacker == null)
+                    return $"{ev.Player.Nickname}(<color={ev.Player.Role.Color.ToHex()}>{ev.Player.Role.Name}</color>)ㅣ💀 <color=#A4A4A4>자살</color>";
+
+                else
+                    return $"{ev.Attacker.Nickname}(<color={ev.Attacker.Role.Color.ToHex()}>{ev.Attacker.Role.Name}</color>) -> {ev.Player.Nickname}(<color={ev.Player.Role.Color.ToHex()}>{ev.Player.Role.Name}</color>)ㅣ⚔️ <color=#ffd700>사살</color>";
+            }
+
+            foreach (var player in Player.List.Where(x => x.IsDead))
+                player.AddBroadcast(10, $"<size=20>{MessageFormat()}</size>");
         }
 
         public void OnStopping(Exiled.Events.EventArgs.Warhead.StoppingEventArgs ev)
