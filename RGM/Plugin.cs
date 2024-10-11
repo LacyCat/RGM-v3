@@ -724,8 +724,8 @@ GoldenPig1205(@GoldenPig1205) - 메인 개발자
         {
             string BadgeFormat(Player player)
             {
-                if (player.Group != null)
-                    return $"<color={player.Group.BadgeColor}>{player.Group.BadgeText}</color>";
+                if (player.Group != null && !player.Group.HiddenByDefault)
+                    return $"<b>[<color={player.Group.BadgeColor}>{player.Group.BadgeText}</color>]</b> ";
 
                 else
                     return "";
@@ -734,10 +734,10 @@ GoldenPig1205(@GoldenPig1205) - 메인 개발자
             string MessageFormat()
             {
                 if (ev.Attacker == null)
-                    return $"💀 <color=#A4A4A4>자살</color>ㅣ{BadgeFormat(ev.Player)} <color=#F2F5A9>{ev.Player.Nickname}</color>(<color={ev.TargetOldRole.GetColor().ToHex()}>{ev.TargetOldRole.GetFullName()}</color>) - {ev.DamageHandler.Type}";
+                    return $"💀 <color=#A4A4A4>자살</color>ㅣ{BadgeFormat(ev.Player)}<color=#F2F5A9>{ev.Player.Nickname}</color>(<color={ev.TargetOldRole.GetColor().ToHex()}>{ev.TargetOldRole.GetFullName()}</color>) - {ev.DamageHandler.Type}";
 
                 else
-                    return $"⚔️ <color=#ff0000>사살</color>ㅣ{BadgeFormat(ev.Attacker)} <color=#F2F5A9>{ev.Attacker.Nickname}</color>(<color={ev.Attacker.Role.Color.ToHex()}>{ev.Attacker.Role.Name}</color>) -> {BadgeFormat(ev.Player)} <color=#F2F5A9>{ev.Player.Nickname}</color>(<color={ev.TargetOldRole.GetColor().ToHex()}>{ev.TargetOldRole.GetFullName()}</color>) - {ev.DamageHandler.Type}";
+                    return $"⚔️ <color=#ff0000>사살</color>ㅣ{BadgeFormat(ev.Attacker)}<color=#F2F5A9>{ev.Attacker.Nickname}</color>(<color={ev.Attacker.Role.Color.ToHex()}>{ev.Attacker.Role.Name}</color>) -> {BadgeFormat(ev.Player)}<color=#F2F5A9>{ev.Player.Nickname}</color>(<color={ev.TargetOldRole.GetColor().ToHex()}>{ev.TargetOldRole.GetFullName()}</color>) - {ev.DamageHandler.Type}";
             }
 
             foreach (var player in Player.List.Where(x => x.IsDead))
