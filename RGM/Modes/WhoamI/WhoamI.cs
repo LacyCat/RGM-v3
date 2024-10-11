@@ -48,6 +48,7 @@ namespace RGM.Modes
                         player.Health,
                         player.ActiveEffects,
                         player.Items,
+                        player.CurrentItem,
                         player.Position,
                         player.Rotation
                     });
@@ -55,22 +56,32 @@ namespace RGM.Modes
 
                 foreach (var player in Player.List.Where(PlayersInfo.ContainsKey))
                 {
-                    Player p = Tools.GetRandomValue(PlayersInfo.Keys.ToList());
+                    try
+                    {
+                        Player p = Tools.GetRandomValue(PlayersInfo.Keys.ToList());
 
-                    player.Role.Set((RoleTypeId)PlayersInfo[p][0]);
-                    player.MaxHealth = (int)PlayersInfo[p][1];
-                    player.Health = (int)PlayersInfo[p][2];
+                        player.Role.Set((RoleTypeId)PlayersInfo[p][0]);
+                        player.MaxHealth = (int)PlayersInfo[p][1];
+                        player.Health = (int)PlayersInfo[p][2];
 
-                    foreach (var effect in (List<StatusEffectBase>)PlayersInfo[p][3])
-                        player.EnableEffect(effect);
-                    
-                    foreach (var item in (List<Item>)PlayersInfo[p][4])
-                        player.AddItem(item);
+                        foreach (var effect in (List<StatusEffectBase>)PlayersInfo[p][3])
+                            player.EnableEffect(effect);
 
-                    player.Position = (Vector3)PlayersInfo[p][5];
-                    SLPlayerRotation.Extensions.SetHubRotation(player, (Quaternion)PlayersInfo[p][6]);
+                        player.ClearInventory();
 
-                    PlayersInfo.Remove(p);
+                        foreach (var item in (List<Item>)PlayersInfo[p][4])
+                            player.AddItem(item.Type);
+
+                        player.CurrentItem = player.Items.ToList().Find(x => x.Type == (ItemType)PlayersInfo[p][5]);
+                        player.Position = (Vector3)PlayersInfo[p][5];
+                        SLPlayerRotation.Extensions.SetHubRotation(player, (Quaternion)PlayersInfo[p][6]);
+
+                        PlayersInfo.Remove(p);
+                    }
+                    catch (Exception e)
+                    {
+                        Log.Error($"{e}");
+                    }
                 }
             }
         }

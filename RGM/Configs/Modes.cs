@@ -107,7 +107,7 @@ namespace RGM
             { "트릭 오어 트릿", new List<string>() { "5F04B4", "사탕 4개를 가지고 시작합니다. 다른 이를 사살하면 사탕 1개를 더 받습니다.", "TrickorTreat", "public", "", "" } },
             { "무제한", new List<string>() { "3F13AB", "무제한을 악용하지 않는 것을 추천합니다.", "Unlimited", "public", "", "" } },
             { "여긴 어디?", new List<string>() { "B40486", "랜덤한 곳에서 스폰됩니다.", "WhereamI", "public", "", "" } },
-            { "나는 누구?", new List<string>() { "886A08", "1분마다 진영이 변경됩니다.", "WhoamI", "public", "", "" } },
+            { "나는 누구?", new List<string>() { "886A08", "1분마다 진영이 변경됩니다.", "WhoamI", "public", "몬키키", "" } },
         };
     }
 }
