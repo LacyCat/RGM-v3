@@ -17,6 +17,7 @@ using RGM.API;
 using Discord;
 using HarmonyLib;
 using PlayerRoles.Visibility;
+using Exiled.API.Extensions;
 
 namespace RGM
 {
@@ -724,10 +725,10 @@ GoldenPig1205(@GoldenPig1205) - 메인 개발자
             string MessageFormat()
             {
                 if (ev.Attacker == null)
-                    return $"{ev.Player.Nickname}(<color={ev.Player.Role.Color.ToHex()}>{ev.Player.Role.Name}</color>)ㅣ💀 <color=#A4A4A4>자살</color>";
+                    return $"{ev.Player.Nickname}(<color={ev.TargetOldRole.GetColor().ToHex()}>{ev.TargetOldRole.GetFullName()}</color>)ㅣ💀 <color=#A4A4A4>자살</color>";
 
                 else
-                    return $"{ev.Attacker.Nickname}(<color={ev.Attacker.Role.Color.ToHex()}>{ev.Attacker.Role.Name}</color>) -> {ev.Player.Nickname}(<color={ev.Player.Role.Color.ToHex()}>{ev.Player.Role.Name}</color>)ㅣ⚔️ <color=#ffd700>사살</color>";
+                    return $"{ev.Attacker.Nickname}(<color={ev.Attacker.Role.Color.ToHex()}>{ev.Attacker.Role.Name}</color>) -> {ev.Player.Nickname}(<color={ev.TargetOldRole.GetColor().ToHex()}>{ev.TargetOldRole.GetFullName()}</color>)ㅣ⚔️ <color=#ffd700>사살</color>";
             }
 
             foreach (var player in Player.List.Where(x => x.IsDead))
