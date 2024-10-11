@@ -27,10 +27,10 @@ namespace RGM.Modes
 
         public IEnumerator<float> OnModeStarted()
         {
+            yield return Timing.WaitForSeconds(1f);
+
             while (true)
             {
-                Player.List.ToList().ForEach(x => x.AddBroadcast(1, "1구간 통과"));
-
                 List<RoleTypeId> BlackList = new List<RoleTypeId>()
                 {
                     RoleTypeId.Filmmaker,
@@ -40,8 +40,6 @@ namespace RGM.Modes
                 };
 
                 Dictionary<Player, List<object>> PlayersInfo = new Dictionary<Player, List<object>>();
-
-                Player.List.ToList().ForEach(x => x.AddBroadcast(1, "2구간 통과"));
 
                 foreach (var player in Player.List.Where(x => !BlackList.Contains(x.Role.Type)))
                 {
@@ -57,8 +55,6 @@ namespace RGM.Modes
                         player.Rotation
                     });
                 }
-
-                Player.List.ToList().ForEach(x => x.AddBroadcast(1, "3구간 통과"));
 
                 foreach (var player in Player.List.Where(PlayersInfo.ContainsKey))
                 {
@@ -82,8 +78,6 @@ namespace RGM.Modes
 
                     PlayersInfo.Remove(p);
                 }
-
-                Player.List.ToList().ForEach(x => x.AddBroadcast(1, "4구간 통과"));
 
                 yield return Timing.WaitForSeconds(60f);
             }
