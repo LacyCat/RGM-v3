@@ -182,6 +182,7 @@ namespace RGM
             Timing.RunCoroutine(IsFallDown());
             Timing.RunCoroutine(ChattingCooldown());
             Timing.RunCoroutine(Ball());
+            Timing.RunCoroutine(RenewalPlayersInfo());
 
             int rn = UnityEngine.Random.Range(1, 11);
 
@@ -607,36 +608,34 @@ GoldenPig1205(@GoldenPig1205) - 메인 개발자
             {
                 string UserId = ev.Player.UserId;
 
-                Log.Info(UserId);
-
                 await Task.Delay(1000);
 
-                for (int i=1; i<121; i++)
+                for (int i=1; i<181; i++)
                 {
-                    foreach (var player in Player.List.Where(x => x.IsHuman))
+                    foreach (var player in Player.List.Where(x => !x.IsNPC))
                     {
                         if (UserId == player.UserId)
                         {
-                            Player p = ev.Player;
+                            player.Role.Set(PlayersInfo[UserId].RoleType);
+                            player.MaxHealth = PlayersInfo[UserId].MaxHealth;
+                            player.Health = PlayersInfo[UserId].Health;
 
-                            player.Role.Set(PlayersInfo[p.UserId].RoleType);
-                            player.MaxHealth = PlayersInfo[p.UserId].MaxHealth;
-                            player.Health = PlayersInfo[p.UserId].Health;
-
-                            foreach (var effect in PlayersInfo[p.UserId].ActiveEffects)
+                            foreach (var effect in PlayersInfo[UserId].ActiveEffects)
                                 player.EnableEffect(effect, effect.Intensity, effect.Duration);
 
                             player.ClearItems();
 
-                            foreach (var item in PlayersInfo[p.UserId].Items)
+                            foreach (var item in PlayersInfo[UserId].Items)
                                 player.AddItem(item.Type);
 
-                            player.CurrentItem = player.Items.ToList().Find(x => x.Type == PlayersInfo[p.UserId].CurrentItem.Type);
+                            player.CurrentItem = player.Items.ToList().Find(x => x.Type == PlayersInfo[UserId].CurrentItem.Type);
 
-                            player.Position = new Vector3(PlayersInfo[p.UserId].Position.x, PlayersInfo[p.UserId].Position.y, PlayersInfo[p.UserId].Position.z);
+                            player.Position = new Vector3(PlayersInfo[UserId].Position.x, PlayersInfo[UserId].Position.y, PlayersInfo[UserId].Position.z);
 
-                            if (PlayersInfo.ContainsKey(p.UserId))
-                                PlayersInfo.Remove(p.UserId);
+                            if (PlayersInfo.ContainsKey(UserId))
+                                PlayersInfo.Remove(UserId);
+
+                            Player.List.Where(x => x.IsDead).ToList().ForEach(x => x.AddBroadcast(10, $"<size=20>❤️ SCP 재접속 -> {player.DisplayNickname}(<color={player.Role.Color.ToHex()}>{player.Role.Name}</color>)</size>"));
 
                             PlayersInfo.Remove(player.UserId);
                             return;
@@ -664,20 +663,6 @@ GoldenPig1205(@GoldenPig1205) - 메인 개발자
 
             if (ev.Reason == SpawnReason.RoundStart)
             {
-                if (!Tools.GetMiniGamesList().Contains(CurrentMode))
-                {
-                    PlayersInfo.Add(ev.Player.UserId, new PlayerInfo
-                    {
-                        RoleType = ev.Player.Role.Type,
-                        MaxHealth = ev.Player.MaxHealth,
-                        Health = ev.Player.Health,
-                        ActiveEffects = ev.Player.ActiveEffects.ToList(),
-                        Items = ev.Player.Items.ToList(),
-                        CurrentItem = ev.Player.CurrentItem,
-                        Position = new Vector3(ev.Player.Position.x, ev.Player.Position.y, ev.Player.Position.z)
-                    });
-                }
-
                 if (ev.Player.IsScp)
                 {
                     if (UnityEngine.Random.Range(1, 21) == 1 && !IsScp3114Enabled)
@@ -686,6 +671,20 @@ GoldenPig1205(@GoldenPig1205) - 메인 개발자
 
                         ev.Player.AddBroadcast(10, $"<color={ev.Player.Role.Color.ToHex()}>SCP-3114(5%, 정규)</color> 기믹이 적용되었습니다.");
                         IsScp3114Enabled = true;
+                    }
+
+                    if (!Tools.GetMiniGamesList().Contains(CurrentMode))
+                    {
+                        PlayersInfo.Add(ev.Player.UserId, new PlayerInfo
+                        {
+                            RoleType = ev.Player.Role.Type,
+                            MaxHealth = ev.Player.MaxHealth,
+                            Health = ev.Player.Health,
+                            ActiveEffects = ev.Player.ActiveEffects.ToList(),
+                            Items = ev.Player.Items.ToList(),
+                            CurrentItem = ev.Player.CurrentItem,
+                            Position = new Vector3(ev.Player.Position.x, ev.Player.Position.y, ev.Player.Position.z)
+                        });
                     }
                 }
                 else if (ev.Player.IsHuman)
@@ -811,10 +810,10 @@ GoldenPig1205(@GoldenPig1205) - 메인 개발자
             string MessageFormat()
             {
                 if (ev.Attacker == null)
-                    return $"💀 <color=#A4A4A4>자살</color>ㅣ{BadgeFormat(ev.Player)}<color=#F2F5A9>{ev.Player.Nickname}</color>(<color={ev.TargetOldRole.GetColor().ToHex()}>{ev.TargetOldRole.GetFullName()}</color>) - {ev.DamageHandler.Type}";
+                    return $"{(PlayersInfo.ContainsKey(ev.Player.UserId) ? "⏳ <color=#FF0000><b>SCP 탈주</b></color>(3분 내로 재접속 가능)" : "💀 <color=#A4A4A4>자살</color>")}ㅣ{BadgeFormat(ev.Player)}<color=#F2F5A9>{ev.Player.Nickname}</color>(<color={ev.TargetOldRole.GetColor().ToHex()}>{ev.TargetOldRole.GetFullName()}</color>) - {ev.DamageHandler.Type}";
 
                 else
-                    return $"💔 <color=#FAAC58>{(ev.Player.IsCuffed ? "<b>체포킬</b>" : "사살")}</color>ㅣ{BadgeFormat(ev.Attacker)}<color=#F2F5A9>{ev.Attacker.Nickname}</color>(<color={ev.Attacker.Role.Color.ToHex()}>{ev.Attacker.Role.Name}</color>) -> {BadgeFormat(ev.Player)}<color=#F2F5A9>{ev.Player.Nickname}</color>(<color={ev.TargetOldRole.GetColor().ToHex()}>{ev.TargetOldRole.GetFullName()}</color>) - {ev.DamageHandler.Type}";
+                    return $"💔 <color=#FAAC58>{(ev.Player.IsCuffed ? "<b>체포킬</b>(신고 가능 여부는 규칙 확인)" : "사살")}</color>ㅣ{BadgeFormat(ev.Attacker)}<color=#F2F5A9>{ev.Attacker.Nickname}</color>(<color={ev.Attacker.Role.Color.ToHex()}>{ev.Attacker.Role.Name}</color>) -> {BadgeFormat(ev.Player)}<color=#F2F5A9>{ev.Player.Nickname}</color>(<color={ev.TargetOldRole.GetColor().ToHex()}>{ev.TargetOldRole.GetFullName()}</color>) - {ev.DamageHandler.Type}";
             }
 
             foreach (var player in Player.List.Where(x => x.IsDead))
@@ -1045,6 +1044,28 @@ GoldenPig1205(@GoldenPig1205) - 메인 개발자
                 }
 
                 yield return Timing.WaitForOneFrame;
+            }
+        }
+
+        public IEnumerator<float> RenewalPlayersInfo()
+        {
+            while (true)
+            {
+                foreach (var player in Player.List.Where(x => PlayersInfo.ContainsKey(x.UserId) && x.IsAlive))
+                {
+                    PlayersInfo[player.UserId] = new PlayerInfo
+                    {
+                        RoleType = player.Role.Type,
+                        MaxHealth = player.MaxHealth,
+                        Health = player.Health,
+                        ActiveEffects = player.ActiveEffects.ToList(),
+                        Items = player.Items.ToList(),
+                        CurrentItem = player.CurrentItem,
+                        Position = new Vector3(player.Position.x, player.Position.y, player.Position.z)
+                    };
+                }
+
+                yield return Timing.WaitForSeconds(1f);
             }
         }
     }
