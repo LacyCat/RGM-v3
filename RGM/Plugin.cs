@@ -699,7 +699,11 @@ GoldenPig1205(@GoldenPig1205) - 메인 개발자
                 ev.Player.Scale = new Vector3(1, 1, 1);
                 ev.Player.EnableEffect(EffectType.FogControl, 1);
 
-                if (!(!Round.IsStarted || ev.Reason != SpawnReason.RoundStart))
+                if (Round.IsLobby || ev.Reason == SpawnReason.RoundStart)
+                {
+
+                }
+                else
                     PlayersReport[ev.Player.UserId].Revive += 1;
             }
 
