@@ -53,6 +53,11 @@ namespace RGM
             {"은제 말뚝", "비수를 꽂는 것처럼 소름끼칩니다!"},
             {"KO 사인", "넉 다운! 상대를 쓰러트리세요!"}
         };
+        public Dictionary<string, string> Customizations = new Dictionary<string, string>()
+        {
+            {"커스텀 닉네임", "표시되는 플레이어 이름을 수정합니다."},
+            {"커스텀 인포", "플레이어 인포를 추가합니다."}
+        };
 
         public List<Player> GodModePlayers = new List<Player>();
         public List<Player> ChatCooldown = new List<Player>();
