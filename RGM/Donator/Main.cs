@@ -15,11 +15,14 @@ using MEC;
 using UnityEngine;
 using Exiled.API.Features.Toys;
 using MapEditorReborn.Commands.ModifyingCommands.Rotation;
+using RGM.API;
 
 namespace RGM.Donator
 {
     public class Main
     {
+        public static Main Instance;
+
         public async void KillEffect(List<string> PlayerData, Player Attacker, Player Player)
         {
             Quaternion Rotation = new Quaternion(0, Attacker.CameraTransform.rotation.y + 180, 0, 0);
@@ -79,6 +82,8 @@ namespace RGM.Donator
         public void OnEnabled()
         {
             Exiled.Events.Handlers.Player.Dying += OnDying;
+
+            Timing.RunCoroutine(CustomermizingRotation());
         }
 
         public void OnDying(Exiled.Events.EventArgs.Player.DyingEventArgs ev)
@@ -90,6 +95,56 @@ namespace RGM.Donator
 
                 if (Attacker[4] != "0")
                     KillEffect(Attacker, ev.Attacker, ev.Player);
+            }
+        }
+
+        public IEnumerator<float> CustomermizingRotation()
+        {
+            while (true)
+            {
+                try
+                {
+                    foreach (var player in Player.List.Where(x => !x.IsNPC))
+                    {
+                        if (UsersManager.UsersCache.ContainsKey(player.UserId))
+                        {
+                            Dictionary<string, Interfaces.PlayerReport> pr = RGM.Instance.PlayersReport;
+
+                            List<string> userValues = UsersManager.UsersCache[player.UserId];
+
+                            string Formatter(string str)
+                            {
+                                return str
+                                    .Replace("\\n", "\n")
+                                    .Replace("{name}", player.Nickname)
+                                    .Replace("{kill}", $"{pr[player.UserId].Kill}")
+                                    .Replace("{death}", $"{pr[player.UserId].Death}")
+                                    .Replace("{revive}", $"{pr[player.UserId].Revive}")
+                                    .Replace("{kill_scp}", $"{pr[player.UserId].KillScp}")
+                                    .Replace("{kill_human}", $"{pr[player.UserId].KillHuman}")
+                                    ;
+                            }
+
+                            if (userValues[5] != "0")
+                                player.DisplayNickname = Formatter(userValues[5]);
+
+                            else
+                                player.DisplayNickname = "";
+
+                            if (userValues[6] != "0")
+                                player.CustomInfo = Formatter(userValues[6]);
+
+                            else
+                                player.CustomInfo = "";
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    Log.Error(e);
+                }
+
+                yield return Timing.WaitForSeconds(1f);
             }
         }
     }

@@ -40,6 +40,8 @@ namespace RGM.Commands.ClientCommands
                         response = "페인트 장착 해제 완료!\n-";
 
                         UsersManager.SaveUsers();
+
+                        Tools.RemovePaint(player);
                         return true;
                     }
                     else if (RGM.Instance.Paints.ContainsKey(args) && uc[8].Split('/').Contains(args))
@@ -49,6 +51,9 @@ namespace RGM.Commands.ClientCommands
                         response = "페인트 장착 완료!\n-";
 
                         UsersManager.SaveUsers();
+
+                        Tools.RemovePaint(player);
+                        Tools.ChangePaint(player, uc[9]);
                         return true;
                     }
                     else

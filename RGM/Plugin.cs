@@ -62,7 +62,7 @@ namespace RGM
         {
             {"블랙골드", "검은색과 금색의 달콤한 콜라보!"},
             {"핫핑크", "두근두근거리는 핑크들의 콜라보!"},
-            {"무지개", "𝐑𝐀𝐈𝐍𝐁𝐎𝐖"}
+            {"레인보우", "R.A.I.N.B.O.W."}
         };
 
         public List<Player> GodModePlayers = new List<Player>();
@@ -196,7 +196,6 @@ namespace RGM
             Timing.RunCoroutine(ChattingCooldown());
             Timing.RunCoroutine(Ball());
             Timing.RunCoroutine(RenewalPlayersInfo());
-            Timing.RunCoroutine(CustomermizingRotation());
 
             int rn = UnityEngine.Random.Range(1, 11);
 
@@ -394,23 +393,25 @@ namespace RGM
             }
             else
             {
-                List<string> userValues = UsersManager.UsersCache[ev.Player.UserId];
+                List<string> uc = UsersManager.UsersCache[ev.Player.UserId];
 
-                if (userValues.Count < DefaultValues.Count)
+                Tools.ChangePaint(ev.Player, uc[9]);
+
+                if (uc.Count < DefaultValues.Count)
                 {
-                    int diff = DefaultValues.Count - userValues.Count;
+                    int diff = DefaultValues.Count - uc.Count;
 
                     for (int i = 0; i < diff; i++)
-                        userValues.Add("0");
+                        uc.Add("0");
 
                     UsersManager.SaveUsers();
                 }
 
-                if (userValues[5] != "0")
-                    ev.Player.DisplayNickname = userValues[5];
+                if (uc[5] != "0")
+                    ev.Player.DisplayNickname = uc[5];
 
-                if (userValues[6] != "0")
-                    ev.Player.CustomInfo = userValues[6];
+                if (uc[6] != "0")
+                    ev.Player.CustomInfo = uc[6];
             }
 
             OnGround.Add(ev.Player, 5);
@@ -1109,54 +1110,6 @@ GoldenPig1205(@GoldenPig1205) - 메인 개발자
                         CurrentItem = player.CurrentItem,
                         Position = new Vector3(player.Position.x, player.Position.y, player.Position.z)
                     };
-                }
-
-                yield return Timing.WaitForSeconds(1f);
-            }
-        }
-
-        public IEnumerator<float> CustomermizingRotation()
-        {
-            while (true)
-            {
-                try
-                {
-                    foreach (var player in Player.List.Where(x => !x.IsNPC))
-                    {
-                        if (UsersManager.UsersCache.ContainsKey(player.UserId))
-                        {
-                            List<string> userValues = UsersManager.UsersCache[player.UserId];
-
-                            string Formatter(string str)
-                            {
-                                return str
-                                    .Replace("\\n", "\n")
-                                    .Replace("{name}", player.Nickname)
-                                    .Replace("{kill}", $"{PlayersReport[player.UserId].Kill}")
-                                    .Replace("{death}", $"{PlayersReport[player.UserId].Death}")
-                                    .Replace("{revive}", $"{PlayersReport[player.UserId].Revive}")
-                                    .Replace("{kill_scp}", $"{PlayersReport[player.UserId].KillScp}")
-                                    .Replace("{kill_human}", $"{PlayersReport[player.UserId].KillHuman}")
-                                    ;
-                            }
-
-                            if (userValues[5] != "0")
-                                player.DisplayNickname = Formatter(userValues[5]);
-
-                            else
-                                player.DisplayNickname = "";
-
-                            if (userValues[6] != "0")
-                                player.CustomInfo = Formatter(userValues[6]);
-
-                            else
-                                player.CustomInfo = "";
-                        }
-                    }
-                }
-                catch (Exception e)
-                {
-                    Log.Error(e);
                 }
 
                 yield return Timing.WaitForSeconds(1f);
