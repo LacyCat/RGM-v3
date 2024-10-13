@@ -395,7 +395,15 @@ namespace RGM
             {
                 List<string> uc = UsersManager.UsersCache[ev.Player.UserId];
 
-                Tools.ChangePaint(ev.Player, uc[9]);
+                try
+                {
+                    Tools.RemovePaint(ev.Player);
+                    Tools.ChangePaint(ev.Player, uc[9]);
+                }
+                catch (Exception e)
+                {
+                    Log.Error(e);
+                }
 
                 if (uc.Count < DefaultValues.Count)
                 {
@@ -691,7 +699,8 @@ GoldenPig1205(@GoldenPig1205) - 메인 개발자
                 ev.Player.Scale = new Vector3(1, 1, 1);
                 ev.Player.EnableEffect(EffectType.FogControl, 1);
 
-                PlayersReport[ev.Player.UserId].Revive += 1;
+                if (!(!Round.IsStarted || ev.Reason != SpawnReason.RoundStart))
+                    PlayersReport[ev.Player.UserId].Revive += 1;
             }
 
             if (ev.Reason == SpawnReason.RoundStart)

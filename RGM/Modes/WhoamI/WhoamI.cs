@@ -34,9 +34,9 @@ namespace RGM.Modes
 
             while (true)
             {
-                try
+                foreach (var player in Player.List.Where(x => x.IsAlive))
                 {
-                    foreach (var player in Player.List.Where(x => x.IsAlive))
+                    try
                     {
                         PlayerInfo pi = new PlayerInfo
                         {
@@ -44,7 +44,7 @@ namespace RGM.Modes
                             MaxHealth = player.MaxHealth,
                             Health = player.Health,
                             ActiveEffects = player.ActiveEffects.ToList(),
-                            Items = player.Items.ToList(),
+                            Items = player.Items == null ? new List<Item>() : player.Items.ToList(),
                             CurrentItem = player.CurrentItem,
                             Position = new Vector3(player.Position.x, player.Position.y, player.Position.z)
                         };
@@ -55,8 +55,15 @@ namespace RGM.Modes
                         else
                             PlayersInfo.Add(player, pi);
                     }
+                    catch (Exception e)
+                    {
+                        Log.Error(e);
+                    }
+                }
 
-                    foreach (var player in PlayersInfo.Keys.ToList())
+                foreach (var player in PlayersInfo.Keys.ToList())
+                {
+                    try
                     {
                         Player p = Tools.GetRandomValue(PlayersInfo.Keys.Where(x => x != player).ToList());
 
@@ -79,10 +86,10 @@ namespace RGM.Modes
                         if (PlayersInfo.ContainsKey(p))
                             PlayersInfo.Remove(p);
                     }
-                }
-                catch (Exception e)
-                {
-                    Log.Error(e);
+                    catch (Exception e)
+                    {
+                        Log.Error(e);
+                    }
                 }
 
                 yield return Timing.WaitForSeconds(60f);
