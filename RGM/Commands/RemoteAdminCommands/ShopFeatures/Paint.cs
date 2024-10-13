@@ -106,7 +106,7 @@ namespace RGM.Commands.RemoteAdminCommands
 
                         uc[8] = string.Join("/", Paints);
                         if (uc[8] == "") uc[8] = "0";
-                        if (uc[4] == args) uc[9] = "0";
+                        if (uc[9] == args) uc[9] = "0";
                         UsersManager.UsersCache[player.UserId] = uc;
                         response = "페인트 제거 완료!\n-";
 

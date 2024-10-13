@@ -38,7 +38,7 @@ namespace RGM.Modes
                 {
                     foreach (var player in Player.List.Where(x => x.IsAlive))
                     {
-                        PlayersInfo.Add(player, new PlayerInfo
+                        PlayerInfo pi = new PlayerInfo
                         {
                             RoleType = player.Role.Type,
                             MaxHealth = player.MaxHealth,
@@ -47,7 +47,13 @@ namespace RGM.Modes
                             Items = player.Items.ToList(),
                             CurrentItem = player.CurrentItem,
                             Position = new Vector3(player.Position.x, player.Position.y, player.Position.z)
-                        });
+                        };
+
+                        if (PlayersInfo.ContainsKey(player))
+                            PlayersInfo[player] = pi;
+
+                        else
+                            PlayersInfo.Add(player, pi);
                     }
 
                     foreach (var player in PlayersInfo.Keys.ToList())

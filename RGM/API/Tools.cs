@@ -69,10 +69,11 @@ namespace RGM.API
         {
             var colors = new Dictionary<string, string>
             {
-                {"gold", "#EFC01A"},
-                {"blue", "#005EBC"},
-                {"purple", "#8137CE"},
-                {"light_red", "#FD8272"},
+                // {"gold", "#EFC01A"},
+                // {"teal", "#008080"},
+                // {"blue", "#005EBC"},
+                // {"purple", "#8137CE"},
+                // {"light_red", "#FD8272"},
                 {"pink", "#FF96DE"},
                 {"red", "#C50000"},
                 {"default", "#FFFFFF"},
@@ -87,9 +88,9 @@ namespace RGM.API
                 {"yellow", "#FAFF86"},
                 {"magenta", "#FF0090"},
                 {"blue_green", "#4DFFB8"},
-                {"silver_blue", "#666699"},
+                // {"silver_blue", "#666699"},
                 {"orange", "#FF9966"},
-                {"police_blue", "#002DB3"},
+                // {"police_blue", "#002DB3"},
                 {"lime", "#BFFF00"},
                 {"green", "#228B22"},
                 {"emerald", "#50C878"},
@@ -141,6 +142,26 @@ RP: {uc[1]}
 장착한 페인트: {(uc[9] == "0" ? "-" : uc[9])}
 <size=15>{(uc[9] == "0" ? "'.페인트 <페인트 이름>' 명령어를 사용하여 페인트를 장착할 수 있습니다." : RGM.Instance.Paints[uc[9]])}</size>
 """;
+        }
+
+        public static void ChangePaint(Player player, string Color)
+        {
+            Dictionary<string, string[]> ColorDictionary = new Dictionary<string, string[]>()
+            {
+                {"블랙골드", new string[] { "brown", "yellow" } },
+                {"핫핑크", new string[] { "magenta", "pink" } },
+                {"레인보우", Tools.GetColorsDictionary().Keys.ToArray() }
+            };
+
+            TagController rtController = player.GameObject.AddComponent<TagController>();
+            rtController.Colors = ColorDictionary[Color];
+            rtController.Interval = 1;
+        }
+
+        public static void RemovePaint(Player player)
+        {
+            if (player.GameObject.TryGetComponent<TagController>(out TagController rtc))
+                UnityEngine.Object.Destroy(rtc);
         }
     }
 }
