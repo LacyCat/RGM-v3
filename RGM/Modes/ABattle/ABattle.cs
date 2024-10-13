@@ -2185,7 +2185,7 @@ namespace RGM.Modes
         public void OnPinging(Exiled.Events.EventArgs.Scp079.PingingEventArgs ev)
         {
             if (PlayerAbilities[ev.Player].Contains("[전용] 핑 리모컨"))
-                ev.Room.TurnOffLights(0.5f);
+                ev.Room.TurnOffLights(0.5f * DuplicateCount(ev.Player, "[전용] 핑 리모컨"));
         }
 
         public void OnZoneBlackout(Exiled.Events.EventArgs.Scp079.ZoneBlackoutEventArgs ev)

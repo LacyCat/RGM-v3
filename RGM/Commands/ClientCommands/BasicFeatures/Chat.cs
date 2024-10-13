@@ -30,6 +30,32 @@ namespace RGM.Commands.ClientCommands
             {
                 RGM.Instance.ChatCooldown.Add(player);
 
+                string ColorFormat(string cn)
+                {
+                    if (ColorUtility.TryParseHtmlString(cn, out Color color))
+                        return color.ToHex();
+
+                    else
+                    {
+                        var cd = Tools.GetColorsDictionary();
+
+                        if (cd.ContainsKey(cn))
+                            return cd[cn];
+
+                        else
+                            return "#FFFFFF";
+                    }
+                }
+
+                string BadgeFormat(Player player)
+                {
+                    if (player.Group != null)
+                        return $"[<color={ColorFormat(player.Group.BadgeColor)}>{player.Group.BadgeText}</color>] ";
+
+                    else
+                        return "";
+                }
+
                 if (player.IsScp)
                 {
                     if (arguments.Count == 0)
@@ -41,7 +67,7 @@ namespace RGM.Commands.ClientCommands
                     string text = player.Role.Name;
                     string text2 = string.Concat(new string[]
                     {
-                        $"<size=25><color={player.Role.Color.ToHex()}>",
+                        $"<size=25>{BadgeFormat(player)}<color={player.Role.Color.ToHex()}>",
                         text,
                         $"</color> ({player.Nickname}) <b> | </b>",
                         string.Join(" ", arguments),
@@ -59,7 +85,7 @@ namespace RGM.Commands.ClientCommands
                     string text = player.Role.Name;
                     string text2 = string.Concat(new string[]
                     {
-                        $"<size=25><color={player.Role.Color.ToHex()}>",
+                        $"<size=25>{BadgeFormat(player)}<color={player.Role.Color.ToHex()}>",
                         text,
                         $"</color> ({player.Nickname}) <b> | </b>",
                         string.Join(" ", arguments),
@@ -77,7 +103,7 @@ namespace RGM.Commands.ClientCommands
                     string text = player.Role.Name;
                     string text2 = string.Concat(new string[]
                     {
-                        $"<size=25><color={player.Role.Color.ToHex()}>",
+                        $"<size=25>{BadgeFormat(player)}<color={player.Role.Color.ToHex()}>",
                         text,
                         $"</color> ({player.Nickname}) <b> | </b>",
                         string.Join(" ", arguments),

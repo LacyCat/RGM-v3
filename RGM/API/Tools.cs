@@ -50,7 +50,8 @@ namespace RGM.API
                 "무덤",
                 "데드 라인",
                 "폭탄 돌리기",
-                "꼬리 잡기"
+                "꼬리 잡기",
+                "데스런"
             };
 
             return Mods;
@@ -146,16 +147,19 @@ RP: {uc[1]}
 
         public static void ChangePaint(Player player, string Color)
         {
-            Dictionary<string, string[]> ColorDictionary = new Dictionary<string, string[]>()
+            if (player.Group != null && UsersManager.UsersCache[player.UserId][9] != "0")
             {
-                {"블랙골드", new string[] { "brown", "yellow" } },
-                {"핫핑크", new string[] { "magenta", "pink" } },
-                {"레인보우", Tools.GetColorsDictionary().Keys.ToArray() }
-            };
+                Dictionary<string, string[]> ColorDictionary = new Dictionary<string, string[]>()
+                {
+                    {"블랙골드", new string[] { "brown", "yellow" } },
+                    {"핫핑크", new string[] { "magenta", "pink" } },
+                    {"레인보우", Tools.GetColorsDictionary().Keys.ToArray() }
+                };
 
-            TagController rtController = player.GameObject.AddComponent<TagController>();
-            rtController.Colors = ColorDictionary[Color];
-            rtController.Interval = 1;
+                TagController rtController = player.GameObject.AddComponent<TagController>();
+                rtController.Colors = ColorDictionary[Color];
+                rtController.Interval = 1;
+            }
         }
 
         public static void RemovePaint(Player player)
