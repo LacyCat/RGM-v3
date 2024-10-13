@@ -118,7 +118,7 @@ namespace RGM.Modes
                 Player closestPlayer = null;
                 float closestDistance = float.MaxValue;
 
-                foreach (var player in Player.List.Where(x => x != juggernaut))
+                foreach (var player in Player.List.Where(x => x != juggernaut && x.IsAlive))
                 {
                     float distance = Vector3.Distance(juggernaut.Position, player.Position);
 
@@ -226,9 +226,6 @@ namespace RGM.Modes
         public void OnReceivingEffect(Exiled.Events.EventArgs.Player.ReceivingEffectEventArgs ev)
         {
             if (ev.Player == juggernaut && ev.Effect.GetEffectType() != EffectType.SinkHole)
-                ev.IsAllowed = false;
-
-            else if (ev.Player != juggernaut && ev.Effect.GetEffectType() != EffectType.SeveredHands)
                 ev.IsAllowed = false;
         }
 

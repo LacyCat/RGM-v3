@@ -20,6 +20,7 @@ using PlayerRoles.Visibility;
 using Exiled.API.Extensions;
 using System.CodeDom;
 using RGM.Interfaces;
+using RGM.Modes;
 
 namespace RGM
 {
@@ -33,7 +34,7 @@ namespace RGM
         public string CurrentMode = null;
         public string SelectMode = null;
         public string Tip = Tools.GetRandomValue(Tips.LobbyTips);
-        public int StartupRandom = UnityEngine.Random.Range(1, 21);
+        public int StartupRandom = UnityEngine.Random.Range(1, 31);
         public bool FreezeGameStart = false;
         public bool AutoNuke = false;
         public bool IsScp3114Enabled = false;
@@ -216,6 +217,9 @@ namespace RGM
             
             foreach (var player in Player.List)
                 Server.ExecuteCommand($"/speak {player.Id} disable");
+
+            if (StartupRandom == 3)
+                ABattle.Instance.CallSnakeHand(null, Player.List.Where(x => x.Role == RoleTypeId.FacilityGuard).ToList());
             
             if (CurrentMode == null)
             {
@@ -361,6 +365,7 @@ namespace RGM
                 {
                     Kill = 0,
                     Death = 0,
+                    Revive = 0,
                     KillScp = 0,
                     KillHuman = 0
                 });
@@ -674,6 +679,8 @@ GoldenPig1205(@GoldenPig1205) - 메인 개발자
             {
                 ev.Player.Scale = new Vector3(1, 1, 1);
                 ev.Player.EnableEffect(EffectType.FogControl, 1);
+
+                PlayersReport[ev.Player.UserId].Revive += 1;
             }
 
             if (ev.Reason == SpawnReason.RoundStart)
@@ -1117,6 +1124,7 @@ GoldenPig1205(@GoldenPig1205) - 메인 개발자
                                     .Replace("{name}", player.Nickname)
                                     .Replace("{kill}", $"{PlayersReport[player.UserId].Kill}")
                                     .Replace("{death}", $"{PlayersReport[player.UserId].Death}")
+                                    .Replace("{revive}", $"{PlayersReport[player.UserId].Revive}")
                                     .Replace("{kill_scp}", $"{PlayersReport[player.UserId].KillScp}")
                                     .Replace("{kill_human}", $"{PlayersReport[player.UserId].KillHuman}")
                                     ;

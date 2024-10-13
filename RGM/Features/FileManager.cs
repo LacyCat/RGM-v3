@@ -38,10 +38,11 @@ namespace RGM.Features
         Exp - 0
         RP - 1
         Cash - 2
-        보유한 킬 이펙트 - 3
-        장착한 킬 이펙트 - 4
-        커스텀 닉네임 - 5
-        커스텀 인포 - 6
+            보유한 킬 이펙트 - 3
+            장착한 킬 이펙트 - 4
+            커스텀 닉네임 - 5
+            커스텀 인포 - 6
+            보유한 커스터마이징 - 7
         */
 
         public static string UsersFileName = Path.Combine(Paths.Configs, "RGM/Users.txt");
