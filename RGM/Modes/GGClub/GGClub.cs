@@ -159,7 +159,7 @@ namespace RGM.Modes
             Round.IsLocked = false;
 
             if (pl.Count > 1)
-                Player.List.ToList().ForEach(x => x.AddBroadcast(3, "게임이 종료되었습니다. 그런데 어떻게 살았?"));
+                Player.List.ToList().ForEach(x => x.AddBroadcast(3, "게임이 종료되었습니다. 그나저나 어떻게 사셨"));
         }
 
         public IEnumerator<float> gingerbreadHint()
