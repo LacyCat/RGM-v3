@@ -38,15 +38,23 @@ namespace RGM.Modes
                 {
                     try
                     {
+                        RoleTypeId RoleType = player.Role.Type;
+                        float MaxHealth = player.MaxHealth;
+                        float Health = player.Health;
+                        IEnumerable<StatusEffectBase> ActiveEffects = player.ActiveEffects.ToList();
+                        IReadOnlyCollection<Item> Items = player.Items == null ? new List<Item>() : player.Items.ToList();
+                        Item CurrentItem = player.CurrentItem;
+                        Vector3 Position = player.Position;
+
                         PlayerInfo pi = new PlayerInfo
                         {
-                            RoleType = player.Role.Type,
-                            MaxHealth = player.MaxHealth,
-                            Health = player.Health,
-                            ActiveEffects = player.ActiveEffects.ToList(),
-                            Items = player.Items == null ? new List<Item>() : player.Items.ToList(),
-                            CurrentItem = player.CurrentItem,
-                            Position = new Vector3(player.Position.x, player.Position.y, player.Position.z)
+                            RoleType = RoleType,
+                            MaxHealth = MaxHealth,
+                            Health = Health,
+                            ActiveEffects = ActiveEffects,
+                            Items = Items,
+                            CurrentItem = CurrentItem,
+                            Position = Position
                         };
 
                         if (PlayersInfo.ContainsKey(player))
@@ -81,7 +89,7 @@ namespace RGM.Modes
 
                         player.CurrentItem = player.Items.ToList().Find(x => x.Type == PlayersInfo[p].CurrentItem.Type);
 
-                        player.Position = new Vector3(PlayersInfo[p].Position.x, PlayersInfo[p].Position.y, PlayersInfo[p].Position.z);
+                        player.Position = PlayersInfo[p].Position;
 
                         if (PlayersInfo.ContainsKey(p))
                             PlayersInfo.Remove(p);
