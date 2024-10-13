@@ -313,7 +313,8 @@ namespace RGM.Modes
                 }
             }
 
-            Convener.ShowHint($"<i>{SnakeHands.Count()}명의 <color=#FE2EF7>동료</color>들이 당신과 함께합니다..</i>", 5f);
+            if (Convener != null)
+                Convener.ShowHint($"<i>{SnakeHands.Count()}명의 <color=#FE2EF7>동료</color>들이 당신과 함께합니다..</i>", 5f);
         }
 
         public string PickAbilityGrade(Player player, string force = null)
@@ -1171,6 +1172,7 @@ namespace RGM.Modes
                     break;
                 case "스테로이드":
                     player.GetEffect(EffectType.MovementBoost).Intensity += 50;
+
                     Timing.CallDelayed(25, () => 
                     { 
                         if (player.GetEffect(EffectType.MovementBoost).Intensity >= 50)

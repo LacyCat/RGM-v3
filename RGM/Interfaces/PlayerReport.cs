@@ -14,6 +14,7 @@ namespace RGM.Interfaces
     {
         public int Kill { get; set; }
         public int Death { get; set; }
+        public int Revive { get; set; }
         public int KillScp { get; set; }
         public int KillHuman { get; set; }
     }

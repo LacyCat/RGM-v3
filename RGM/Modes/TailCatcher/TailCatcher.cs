@@ -152,8 +152,9 @@ namespace RGM.Modes
 
             if (ev.Player != target)
             {
+                ev.Attacker.Hurt(ev.DamageHandler.Damage);
+
                 ev.IsAllowed = false;
-                ev.Attacker.Hurt(ev.Amount);
             }
         }
 
