@@ -26,7 +26,7 @@ namespace RGM.Commands.ClientCommands
             {
                 List<string> uc = UsersManager.UsersCache[player.UserId];
 
-                if (int.Parse(uc[2]) >= 50000)
+                if (uc[7].Split('/').Contains("커스텀 닉네임"))
                 {
                     uc[5] = args == "" ? "0" : args;
                     UsersManager.UsersCache[player.UserId] = uc;
@@ -54,6 +54,50 @@ namespace RGM.Commands.ClientCommands
         public string[] Aliases { get; } = { "acdn", "닉네임" };
 
         public string Description { get; } = "[RGM] 다른 유저에게 보여지는 이름을 수정합니다.";
+
+        public bool SanitizeResponse { get; } = true;
+    }
+
+    [CommandHandler(typeof(ClientCommandHandler))]
+    public class ApplyChangeCustomInfo : ICommand
+    {
+        public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
+        {
+            Player player = Player.Get(sender);
+            string args = string.Join(" ", arguments).Trim();
+
+            if (UsersManager.UsersCache.ContainsKey(player.UserId))
+            {
+                List<string> uc = UsersManager.UsersCache[player.UserId];
+
+                if (uc[7].Split('/').Contains("커스텀 인포"))
+                {
+                    uc[6] = args == "" ? "0" : args;
+                    UsersManager.UsersCache[player.UserId] = uc;
+
+                    response = "인포 변경 완료!\n-";
+
+                    UsersManager.SaveUsers();
+                    return true;
+                }
+                else
+                {
+                    response = "해당 기능은 상점에서 구매할 수 있습니다.\n-";
+                    return false;
+                }
+            }
+            else
+            {
+                response = "플레이어 정보를 찾을 수 없습니다.\n-";
+                return false;
+            }
+        }
+
+        public string Command { get; } = "applychangecustominfo";
+
+        public string[] Aliases { get; } = { "acci", "인포" };
+
+        public string Description { get; } = "[RGM] 다른 유저에게 보여지는 역할 설명을 수정합니다.";
 
         public bool SanitizeResponse { get; } = true;
     }

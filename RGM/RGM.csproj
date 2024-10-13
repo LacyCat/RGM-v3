@@ -166,8 +166,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="API\Tools.cs" />
-    <Compile Include="Commands\ClientCommands\ShopFeatures\ApplyChangeCustomInfo.cs" />
-    <Compile Include="Commands\ClientCommands\ShopFeatures\ApplyChangeDisplayNickname.cs" />
+    <Compile Include="Commands\ClientCommands\ShopFeatures\ApplyCustom.cs" />
     <Compile Include="Commands\ClientCommands\ShopFeatures\ApplyKillEffect.cs" />
     <Compile Include="Commands\ClientCommands\BasicFeatures\Chat.cs" />
     <Compile Include="Commands\ClientCommands\BasicFeatures\CurrentMode.cs" />
@@ -177,11 +176,11 @@
     <Compile Include="Commands\ClientCommands\BasicFeatures\Suicide.cs" />
     <Compile Include="Commands\ClientCommands\ForABattle\Votes.cs" />
     <Compile Include="Commands\RemoteAdminCommands\ShopFeatures\AddAbility.cs" />
-    <Compile Include="Commands\RemoteAdminCommands\ShopFeatures\AddKillEffect.cs" />
+    <Compile Include="Commands\RemoteAdminCommands\ShopFeatures\Custom.cs" />
+    <Compile Include="Commands\RemoteAdminCommands\ShopFeatures\KillEffect.cs" />
     <Compile Include="Commands\RemoteAdminCommands\AdminFeatures\Develop.cs" />
     <Compile Include="Commands\RemoteAdminCommands\ShopFeatures\GetPlayerInfo.cs" />
     <Compile Include="Commands\RemoteAdminCommands\AdminFeatures\ManageModes.cs" />
-    <Compile Include="Commands\RemoteAdminCommands\ShopFeatures\RemoveKillEffect.cs" />
     <Compile Include="Commands\RemoteAdminCommands\ShopFeatures\SetPlayerCash.cs" />
     <Compile Include="Configs\Config.cs" />
     <Compile Include="Configs\Modes.cs" />
