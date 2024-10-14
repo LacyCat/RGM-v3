@@ -283,12 +283,7 @@ namespace RGM
             }
 
             var modeType = Type.GetType($"RGM.Modes.{ModeFileName}");
-            if (modeType != null)
-            {
-                var modeInstance = Activator.CreateInstance(modeType);
-                var onEnabledMethod = modeType.GetMethod("OnEnabled");
-                onEnabledMethod?.Invoke(modeInstance, null);
-            }
+            Tools.TryInstallMode(ModeFileName);
 
             await Task.Delay(20 * 60 * 1000);
 
@@ -347,20 +342,7 @@ namespace RGM
                 ServerConsole.AddLog(ex.ToString());
             }
 
-            try
-            {
-                var modeType = Type.GetType($"RGM.Modes.FriendlyFire");
-                if (modeType != null)
-                {
-                    var modeInstance = Activator.CreateInstance(modeType);
-                    var onEnabledMethod = modeType.GetMethod("OnEnabled");
-                    onEnabledMethod?.Invoke(modeInstance, null);
-                }
-            }
-            catch (Exception e)
-            {
-                Log.Error(e);
-            }
+            Tools.TryInstallMode("FriendlyFire");
 
             await Task.Delay(19000);
 
@@ -674,7 +656,7 @@ GoldenPig1205(@GoldenPig1205) - 메인 개발자
                             if (PlayersInfo.ContainsKey(UserId))
                                 PlayersInfo.Remove(UserId);
 
-                            Player.List.Where(x => x.IsDead).ToList().ForEach(x => x.AddBroadcast(10, $"<size=20>❤️ SCP 재접속 -> {player.DisplayNickname}(<color={player.Role.Color.ToHex()}>{player.Role.Name}</color>)</size>"));
+                            Player.List.Where(x => x.IsDead).ToList().ForEach(x => x.AddBroadcast(10, $"<size=20>❤️ SCP 재접속 -> {player.DisplayNickname}(<color={player.Role.Color.ToHex()}>{Translations.RoleTranslation[player.Role.Type]}</color>)</size>"));
 
                             PlayersInfo.Remove(player.UserId);
                             return;

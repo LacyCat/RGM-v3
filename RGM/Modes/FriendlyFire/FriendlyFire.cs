@@ -8,6 +8,7 @@ using UnityEngine;
 using MEC;
 using HarmonyLib;
 using PlayerRoles;
+using RGM.API;
 
 namespace RGM.Modes
 {
@@ -63,11 +64,8 @@ namespace RGM.Modes
         {
             if (ev.Player.IsHuman && !ev.Player.IsCuffed)
             {
-                if (Physics.Raycast(ev.Player.ReferenceHub.PlayerCameraReference.position + ev.Player.ReferenceHub.PlayerCameraReference.forward * 0.2f, ev.Player.ReferenceHub.PlayerCameraReference.forward, out RaycastHit hit, 2f, InventorySystem.Items.Firearms.Modules.StandardHitregBase.HitregMask) &&
-                    hit.collider.TryGetComponent<IDestructible>(out IDestructible destructible))
+                if (Tools.TryGetLookPlayer(ev.Player, 2f, out Player player))
                 {
-                    var player = Player.Get(hit.collider.GetComponentInParent<ReferenceHub>());
-
                     if (ev.Player != player && !HumanMeleeCooldown.Contains(ev.Player))
                     {
                         Hitmarker.SendHitmarkerDirectly(ev.Player.ReferenceHub, 0.7f);
@@ -82,19 +80,16 @@ namespace RGM.Modes
 
             else if (ev.Player.Role.Type == RoleTypeId.Scp173)
             {
-                if (Physics.Raycast(ev.Player.ReferenceHub.PlayerCameraReference.position + ev.Player.ReferenceHub.PlayerCameraReference.forward * 0.2f, ev.Player.ReferenceHub.PlayerCameraReference.forward, out RaycastHit hit, 2f, InventorySystem.Items.Firearms.Modules.StandardHitregBase.HitregMask) &&
-                    hit.collider.TryGetComponent<IDestructible>(out IDestructible destructible))
+                if (Tools.TryGetLookPlayer(ev.Player, 2f, out Player player))
                 {
                     if (ev.Player.Role is Exiled.API.Features.Roles.Scp173Role scp173)
                     {
                         if (scp173.BlinkCooldown == 0f)
                         {
-                            var player = Player.Get(hit.collider.GetComponentInParent<ReferenceHub>());
-
                             if (ev.Player != player && player.IsScp)
                             {
                                 Hitmarker.SendHitmarkerDirectly(ev.Player.ReferenceHub, 1.2f);
-                                Server.ExecuteCommand($"/cassie <color=#ff0000>{ev.Player.Role.Name}</color>이(가) <color=#ff0000>{player.Role.Name}</color>의 뒷통수를 쳤습니다.");
+                                Server.ExecuteCommand($"/cassie <color=#ff0000>{Translations.RoleTranslation[ev.Player.Role.Type]}</color>이(가) <color=#ff0000>{Translations.RoleTranslation[player.Role.Type]}</color>의 뒷통수를 쳤습니다.");
                                 player.Hurt(-1, Exiled.API.Enums.DamageType.Scp173);
                             }
                         }
@@ -104,11 +99,8 @@ namespace RGM.Modes
 
             else if (ev.Player.Role.Type == RoleTypeId.Scp106)
             {
-                if (Physics.Raycast(ev.Player.ReferenceHub.PlayerCameraReference.position + ev.Player.ReferenceHub.PlayerCameraReference.forward * 0.2f, ev.Player.ReferenceHub.PlayerCameraReference.forward, out RaycastHit hit, 2f, InventorySystem.Items.Firearms.Modules.StandardHitregBase.HitregMask) &&
-                    hit.collider.TryGetComponent<IDestructible>(out IDestructible destructible))
+                if (Tools.TryGetLookPlayer(ev.Player, 2f, out Player player))
                 {
-                    var player = Player.Get(hit.collider.GetComponentInParent<ReferenceHub>());
-
                     if (ev.Player != player && player.IsScp && Scp106AttackTeamCoolDown <= 0)
                     {
                         Hitmarker.SendHitmarkerDirectly(ev.Player.ReferenceHub, 0.9f);
@@ -138,15 +130,12 @@ namespace RGM.Modes
         {
             await Task.Delay(20);
 
-            if (Physics.Raycast(ev.Player.ReferenceHub.PlayerCameraReference.position + ev.Player.ReferenceHub.PlayerCameraReference.forward * 0.2f, ev.Player.ReferenceHub.PlayerCameraReference.forward, out RaycastHit hit, 2f, InventorySystem.Items.Firearms.Modules.StandardHitregBase.HitregMask) &&
-            hit.collider.TryGetComponent<IDestructible>(out IDestructible destructible))
+            if (Tools.TryGetLookPlayer(ev.Player, 2f, out Player player))
             {
-                var player = Player.Get(hit.collider.GetComponentInParent<ReferenceHub>());
-
                 if (ev.Player != player && player.IsScp)
                 {
                     Hitmarker.SendHitmarkerDirectly(ev.Player.ReferenceHub, 1.5f);
-                    Server.ExecuteCommand($"/cassie {ev.Player.Role.Name}이(가) {player.Role.Name}의 뒷통수를 쳤습니다.");
+                    Server.ExecuteCommand($"/cassie  <color=#ff0000>{Translations.RoleTranslation[ev.Player.Role.Type]}</color>이(가)  <color=#ff0000>{Translations.RoleTranslation[player.Role.Type]}</color>의 뒷통수를 쳤습니다.");
                     player.Hurt(-1, Exiled.API.Enums.DamageType.Scp173);
                 }
             }
@@ -156,18 +145,15 @@ namespace RGM.Modes
         {
             for (float i = 0; i < 0.7f; i += 0.01f)
             {
-                if (Physics.Raycast(ev.Player.ReferenceHub.PlayerCameraReference.position + ev.Player.ReferenceHub.PlayerCameraReference.forward * 0.2f, ev.Player.ReferenceHub.PlayerCameraReference.forward, out RaycastHit hit, 2f, InventorySystem.Items.Firearms.Modules.StandardHitregBase.HitregMask) &&
-                hit.collider.TryGetComponent<IDestructible>(out IDestructible destructible))
+                if (Tools.TryGetLookPlayer(ev.Player, 2f, out Player player))
                 {
-                    var player = Player.Get(hit.collider.GetComponentInParent<ReferenceHub>());
-
                     if (ev.Player != player && player.IsScp)
                     {
                         Hitmarker.SendHitmarkerDirectly(ev.Player.ReferenceHub, 1.5f);
                         player.Hurt(125, Exiled.API.Enums.DamageType.Scp939);
 
                         if (ev.Player.IsDead)
-                            Server.ExecuteCommand($"/cassie {ev.Player.Role.Name}이(가) {player.Role.Name}의 뒷통수를 쳤습니다.");
+                            Server.ExecuteCommand($"/cassie  <color=#ff0000>{Translations.RoleTranslation[ev.Player.Role.Type]}</color>이(가)  <color=#ff0000>{Translations.RoleTranslation[player.Role.Type]}</color>의 뒷통수를 쳤습니다.");
                     }
                 }
 

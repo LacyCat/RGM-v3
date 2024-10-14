@@ -9,6 +9,7 @@ using Exiled.API.Features;
 using MEC;
 using Mirror;
 using PlayerRoles.FirstPersonControl;
+using RGM.API;
 using UnityEngine;
 
 namespace RGM.Modes
@@ -38,13 +39,7 @@ namespace RGM.Modes
         {
             yield return Timing.WaitForSeconds(10f);
 
-            var modeType = Type.GetType($"RGM.Modes.FriendlyFire");
-            if (modeType != null)
-            {
-                var modeInstance = Activator.CreateInstance(modeType);
-                var onEnabledMethod = modeType.GetMethod("OnEnabled");
-                onEnabledMethod?.Invoke(modeInstance, null);
-            }
+            Tools.TryInstallMode("FriendlyFire");
 
             for (int i = 0; i < 300; i++)
             {

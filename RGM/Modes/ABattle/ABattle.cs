@@ -36,6 +36,7 @@ namespace RGM.Modes
         public Dictionary<Player, string> PlayerVotes = new Dictionary<Player, string>();
 
         public List<Player> MeleeCooldown = new List<Player>();
+        public List<Player> RoaringSoundCooldown = new List<Player>();
         public List<Player> TeleportCooldown = new List<Player>();
         public List<Player> PickPocketCooldown = new List<Player>();
 
@@ -73,7 +74,10 @@ namespace RGM.Modes
             {"[일반] 잠행", "발걸음 소리가 줄어듭니다."},
             {"[일반] 위기 탈출", "넘버원! 지급된 동전을 튕기면 대상을 잠시 동안 멈추게 만듭니다."},
             {"[일반] 저체중", "점프 속도가 20% 증가합니다."},
-            {"[일반] 지진", "지급된 동전을 튕기면 시설 내 모두에게 화면 흔들림 효과를 일시적으로 부여합니다."}
+            {"[일반] 지진", "지급된 동전을 튕기면 시설 내 모두에게 화면 흔들림 효과를 일시적으로 부여합니다."},
+            {"[일반] 우애", "자신이 가진 아이템 중 하나를 복사하여 근처에 있는 플레이어에게 지급합니다."},
+            {"[일반] 무지개", "무지개 사탕을 받습니다."},
+            {"[일반] 바디백", "몸통 데미지 경감 효과가 3% 추가됩니다."}
         };
         public Dictionary<string, string> RareAbilities = new Dictionary<string, string>()
         {
@@ -107,7 +111,8 @@ namespace RGM.Modes
             {"[영웅] 초재생", "핑크 콜라를 지급받습니다."},
             {"[영웅] 고스트룰", "문을 통과할 수 있습니다. (중첩 불가)"},
             {"[영웅] 잠수부", "시야가 개선되고 스테미나가 줄어들지 않습니다. (중첩 불가)"},
-            {"[영웅] 점멸", "점프할 때마다 근처 문으로 텔레포트합니다. (쿨타임 15초)"}
+            {"[영웅] 점멸", "점프할 때마다 근처 문으로 텔레포트합니다. (쿨타임 15초)"},
+            {"[영웅] 괴성", "다른 팀을 보고 있을 때 마이크를 키면 시설 내 모두를 일시적으로 둔해지게 만듭니다. (쿨타임 100초)"}
         };
         public Dictionary<string, string> LegendAbilities = new Dictionary<string, string>()
         {
@@ -167,9 +172,9 @@ namespace RGM.Modes
         };
         public Dictionary<string, string> Scp173Abilities = new Dictionary<string, string>()
         {
-            {"[전용] 공포", "인간을 죽이면 근처에 있는 인간들이 1초 동안 움직일 수 없게 됩니다. (중첩 불가)"},
-            {"[전용] 괴이", "순간이동한 방이 정전됩니다. (중첩 불가)"},
-            {"[전용] 신기루", "데미지를 입을 때 5% 확률로 일시적으로 투명화가 됩니다. (중첩 불가)"}
+            {"[전용] 공포", "인간을 죽이면 근처에 있는 인간들이 10.75초 동안 움직일 수 없게 됩니다."},
+            {"[전용] 괴이", "순간이동한 방이 0.5초 동안 정전됩니다."},
+            {"[전용] 신기루", "데미지를 입을 때 5% 확률로 1.25초 동안 투명화가 됩니다."}
         };
         public Dictionary<string, string> Scp049Abilities = new Dictionary<string, string>()
         {
@@ -213,9 +218,9 @@ namespace RGM.Modes
             {"[전용] 핑 리모컨", "핑을 찍은 장소에 0.5초 간 정전이 됩니다."},
             {"[전용] 간이 충전기", "즉시 20 경험치를 받습니다."},
             {"[전용] 과전류", "20초 간 전력이 무제한이 됩니다."},
-            {"[전용] 랜덤 함수", "정전하면 랜덤한 방 5개를 더 정전합니다. (중첩 불가)"},
-            {"[전용] RTX4090", "격리당하면 튜토리얼(능력 5~10개)로 부활합니다. (중첩 불가)"},
-            {"[전용] 고대의 존재 압도", "V키를 연타하면 해당 방에 있는 인간의 속도가 감소합니다. (중첩 불가)"}
+            {"[전용] 랜덤 함수", "정전하면 랜덤한 방 5개를 더 정전합니다."},
+            {"[전용] RTX4090", "격리당하면 튜토리얼(능력 5~10개)로 부활합니다."},
+            {"[전용] 고대의 존재 압도", "V키를 연타하면 해당 방에 있는 인간의 속도가 감소합니다."}
         };
 
         public Dictionary<string, List<string>> Synergies = new Dictionary<string, List<string>>()
@@ -248,6 +253,18 @@ namespace RGM.Modes
                 {
                     "<랜덤박스, 랜덤상자, 랜덤택배> 3+1! 셋 중 하나를 더 받으세요!",
                     "[일반] 랜덤박스", "[영웅] 랜덤상자", "[전설] 랜덤택배"
+                }
+            },
+            {"[시너지] 4대 운동", new List<string>()
+                {
+                    "<운동, 진화, 경공, 단련> 4대 운동을 모두 마쳤습니다! 능력을 하나 더 획득할 시간입니다.",
+                    "[일반] 운동", "[일반] 진화", "[일반] 경공", "[일반] 단련"
+                }
+            },
+            {"[시너지] 중복 기연", new List<string>()
+                {
+                    "<능력 선택지가 모두 중복일 경우> 당신은 해당 능력과 인연을 맺은 것 같습니다. 3개 전부 다 드릴게요!",
+                    "[개발자] GoldenPig1205"
                 }
             }
         };
@@ -462,6 +479,51 @@ namespace RGM.Modes
             string Message = $"<size=15><b>다음 능력이 추가되었습니다.</b></size>\n<size=25>{styleName}</size>\n<size=20>{AbilityList(player, abilityGrade)[abilityName]}</size>";
             player.AddBroadcast(8, Message);
             player.SendConsoleMessage($"\n{Message}", "white");
+        }
+
+        public async void AddAbilityVote(Player player)
+        {
+            List<string> AbilitesVote = new List<string>();
+            List<string> DisplayVote = new List<string>();
+            int SelectedAbilityNumber = 0;
+
+            for (int i = 1; i < 4; i++)
+            {
+                List<string> abilityList = AbilityList(player, PickAbilityGrade(player), false).Keys.ToList();
+
+                AbilitesVote.Add(Tools.GetRandomValue(abilityList));
+            }
+
+            for (int i = 1; i < 4; i++)
+                DisplayVote.Add($"[{i}] {ColorFormat(AbilitesVote[i - 1])}");
+
+            for (int i = 1; i < 21; i++)
+            {
+                if (player.IsDead)
+                    return;
+
+                player.ShowHint($"<align=left><size=30>{string.Join("\n", DisplayVote)}</size>\n\n<size=25><b>{21 - i}초 안에 [.(번호)] 명령어로 원하는 능력을 선택하세요. (ex .1)</b></size></align>\n\n", 1.2f);
+
+                if (PlayerVotes.ContainsKey(player))
+                {
+                    SelectedAbilityNumber = int.Parse(PlayerVotes[player]);
+                    break;
+                }
+
+                await Task.Delay(1000);
+            }
+
+            if (SelectedAbilityNumber == 0) SelectedAbilityNumber = UnityEngine.Random.Range(1, 4);
+
+            AddAbility(player, AbilitesVote[SelectedAbilityNumber - 1]);
+
+            if (AbilitesVote.All(x => x == AbilitesVote[0]))
+            {
+                AddAbility(player, "[시너지] 중복 기연");
+
+                for (int i = 1; i < 3; i++)
+                    AddAbility(player, AbilitesVote[0]);
+            }
         }
 
         public void OnEnabled()
@@ -865,11 +927,8 @@ namespace RGM.Modes
                                 }
                             }
 
-                            if (Physics.Raycast(player.ReferenceHub.PlayerCameraReference.position + player.ReferenceHub.PlayerCameraReference.forward * 0.2f, player.ReferenceHub.PlayerCameraReference.forward, out RaycastHit hit, 100f, InventorySystem.Items.Firearms.Modules.StandardHitregBase.HitregMask) &&
-                                hit.collider.TryGetComponent<IDestructible>(out IDestructible destructible))
+                            if (Tools.TryGetLookPlayer(player, 100f, out Player target))
                             {
-                                var target = Player.Get(hit.collider.GetComponentInParent<ReferenceHub>());
-
                                 if (player != target && player.LeadingTeam != target.LeadingTeam)
                                 {
                                     target.EnableEffect(EffectType.SinkHole, 1, 0.2f);
@@ -930,22 +989,11 @@ namespace RGM.Modes
                     {
                         if (player.CurrentItem != null && RadarSerials.Contains(player.CurrentItem.Serial))
                         {
-                            Player nearestPlayer = null;
-                            float radius = 99999;
-
-                            foreach (var near in Player.List.Where(x => x.IsAlive && x != player))
+                            if (Tools.TryGetNearestPlayer(player, out Player nearestPlayer, out float radius))
                             {
-                                float Distance = Vector3.Distance(near.Position, player.Position);
-
-                                if (Distance < radius)
-                                {
-                                    nearestPlayer = near;
-                                    radius = Distance;
-                                }
+                                if (nearestPlayer != null && radius < 99999)
+                                    player.ShowHint($"<color={nearestPlayer.Role.Color.ToHex()}>{Translations.RoleTranslation[nearestPlayer.Role.Type]}</color> - {radius}m", 1.2f);
                             }
-
-                            if (nearestPlayer != null && radius < 99999)
-                                player.ShowHint($"<color={nearestPlayer.Role.Color.ToHex()}>{nearestPlayer.Role.Name}</color> - {radius}m", 1.2f);
                         }
                     }
                 }
@@ -969,22 +1017,18 @@ namespace RGM.Modes
                 {
                     foreach (Player player in Player.List.Where(x => x.IsAlive))
                     {
-                        if (Physics.Raycast(player.ReferenceHub.PlayerCameraReference.position + player.ReferenceHub.PlayerCameraReference.forward * 0.2f, player.ReferenceHub.PlayerCameraReference.forward, out RaycastHit hit, 45f, InventorySystem.Items.Firearms.Modules.StandardHitregBase.HitregMask) &&
-                            hit.collider.TryGetComponent<IDestructible>(out IDestructible destructible))
+                        if (Tools.TryGetLookPlayer(player, 45f, out Player target))
                         {
-                            if (Player.TryGet(hit.collider.GetComponentInParent<ReferenceHub>(), out Player target))
+                            if (PlayerAbilities.ContainsKey(target))
                             {
-                                if (PlayerAbilities.ContainsKey(target))
+                                if (PlayerAbilities[target].Contains("[시너지] 광휘"))
                                 {
-                                    if (PlayerAbilities[target].Contains("[시너지] 광휘"))
+                                    if (player != target && player.LeadingTeam != target.LeadingTeam)
                                     {
-                                        if (player != target && player.LeadingTeam != target.LeadingTeam)
-                                        {
-                                            Light.Position = target.Position;
+                                        Light.Position = target.Position;
 
-                                            Hitmarker.SendHitmarkerDirectly(target.ReferenceHub, 0.8f);
-                                            player.EnableEffect(EffectType.Flashed, 1, 1f);
-                                        }
+                                        Hitmarker.SendHitmarkerDirectly(target.ReferenceHub, 0.8f);
+                                        player.EnableEffect(EffectType.Flashed, 1, 1f);
                                     }
                                 }
                             }
@@ -1142,6 +1186,24 @@ namespace RGM.Modes
                     if (player.IsScp)
                         player.CurrentItem = ec_1;
                     break;
+                case "우애":
+                    if (Tools.TryGetNearestPlayer(player, out Player nearestPlayer, out float radius))
+                    {
+                        Item Own = Tools.GetRandomValue(player.Items.ToList());
+
+                        nearestPlayer.AddItem(Own.Type);
+
+                        if (nearestPlayer.IsScp)
+                            nearestPlayer.CurrentItem = Own;
+                    }
+                    break;
+                case "무지개":
+                    player.TryAddCandy(CandyKindID.Rainbow);
+
+                    if (player.IsScp)
+                        Server.ExecuteCommand($"/forceeq {player.Id} 42");
+                    break;
+                case "바디백": player.GetEffect(EffectType.BodyshotReduction).Intensity += 6; break;
                 case "강철 껍질": player.GetEffect(EffectType.DamageReduction).Intensity += 10; break;
                 case "투명 망토": player.EnableEffect(EffectType.Invisible, 1, 25); break;
                 case "순간이동":
@@ -1451,6 +1513,9 @@ namespace RGM.Modes
 
                     AddAbility(player, Tools.GetRandomValue(Randoms));
                     break;
+                case "4대 운동":
+                    AddAbilityVote(player);
+                    break;
             }
         }
 
@@ -1460,11 +1525,8 @@ namespace RGM.Modes
             {
                 if (PlayerAbilities.ContainsKey(ev.Player) && PlayerAbilities[ev.Player].Contains("[일반] 회축"))
                 {
-                    if (Physics.Raycast(ev.Player.ReferenceHub.PlayerCameraReference.position + ev.Player.ReferenceHub.PlayerCameraReference.forward * 0.2f, ev.Player.ReferenceHub.PlayerCameraReference.forward, out RaycastHit hit, 4f, InventorySystem.Items.Firearms.Modules.StandardHitregBase.HitregMask) &&
-                    hit.collider.TryGetComponent<IDestructible>(out IDestructible destructible))
+                    if (Tools.TryGetLookPlayer(ev.Player, 4f, out Player player))
                     {
-                        var player = Player.Get(hit.collider.GetComponentInParent<ReferenceHub>());
-
                         if (ev.Player != player && !MeleeCooldown.Contains(ev.Player) && ev.Player.LeadingTeam != player.LeadingTeam)
                         {
                             Hitmarker.SendHitmarkerDirectly(ev.Player.ReferenceHub, 0.7f);
@@ -1481,11 +1543,8 @@ namespace RGM.Modes
                 {
                     if (!PickPocketCooldown.Contains(ev.Player))
                     {
-                        if (Physics.Raycast(ev.Player.ReferenceHub.PlayerCameraReference.position + ev.Player.ReferenceHub.PlayerCameraReference.forward * 0.2f, ev.Player.ReferenceHub.PlayerCameraReference.forward, out RaycastHit hit, 2f, InventorySystem.Items.Firearms.Modules.StandardHitregBase.HitregMask) &&
-                            hit.collider.TryGetComponent<IDestructible>(out IDestructible destructible))
+                        if (Tools.TryGetLookPlayer(ev.Player, 2f, out Player player))
                         {
-                            var player = Player.Get(hit.collider.GetComponentInParent<ReferenceHub>());
-
                             if (ev.Player != player && !MeleeCooldown.Contains(ev.Player))
                             {
                                 if (!player.IsInventoryEmpty)
@@ -1518,7 +1577,7 @@ namespace RGM.Modes
             }
         }
 
-        public async void OnJumping(Exiled.Events.EventArgs.Player.JumpingEventArgs ev)
+        public void OnJumping(Exiled.Events.EventArgs.Player.JumpingEventArgs ev)
         {
             if (Physics.Raycast(ev.Player.Position, Vector3.down, out RaycastHit hit, 5, (LayerMask)1))
             {
@@ -1528,39 +1587,7 @@ namespace RGM.Modes
                 {
                     PlayerWorkstation[ev.Player].Add(WorkStation.position);
 
-                    List<string> AbilitesVote = new List<string>();
-                    List<string> DisplayVote = new List<string>();
-                    int SelectedAbilityNumber = 0;
-
-                    for (int i = 1; i < 4; i++)
-                    {
-                        List<string> abilityList = AbilityList(ev.Player, PickAbilityGrade(ev.Player), false).Keys.ToList();
-
-                        AbilitesVote.Add(Tools.GetRandomValue(abilityList));
-                    }
-
-                    for (int i = 1; i < 4; i++)
-                        DisplayVote.Add($"[{i}] {ColorFormat(AbilitesVote[i - 1])}");
-
-                    for (int i = 1; i < 21; i++)
-                    {
-                        if (ev.Player.IsDead)
-                            return;
-
-                        ev.Player.ShowHint($"<align=left><size=30>{string.Join("\n", DisplayVote)}</size>\n\n<size=25><b>{21 - i}초 안에 [.(번호)] 명령어로 원하는 능력을 선택하세요. (ex .1)</b></size></align>\n\n", 1.2f);
-
-                        if (PlayerVotes.ContainsKey(ev.Player))
-                        {
-                            SelectedAbilityNumber = int.Parse(PlayerVotes[ev.Player]);
-                            break;
-                        }
-
-                        await Task.Delay(1000);
-                    }
-
-                    if (SelectedAbilityNumber == 0) SelectedAbilityNumber = UnityEngine.Random.Range(1, 4);
-
-                    AddAbility(ev.Player, AbilitesVote[SelectedAbilityNumber - 1]);
+                    AddAbilityVote(ev.Player);
                 }
             }
 
@@ -1646,10 +1673,9 @@ namespace RGM.Modes
             }
             else if (EscapeCoinSerials.Contains(ev.Item.Serial))
             {
-                if (Physics.Raycast(ev.Player.ReferenceHub.PlayerCameraReference.position + ev.Player.ReferenceHub.PlayerCameraReference.forward * 0.2f, ev.Player.ReferenceHub.PlayerCameraReference.forward, out RaycastHit hit, 10f, InventorySystem.Items.Firearms.Modules.StandardHitregBase.HitregMask) &&
-                    hit.collider.TryGetComponent<IDestructible>(out IDestructible destructible))
+                if (Tools.TryGetLookPlayer(ev.Player, 10f, out Player player))
                 {
-                    if (Player.TryGet(hit.collider.GetComponentInParent<ReferenceHub>(), out Player player) && player != ev.Player && player.LeadingTeam != ev.Player.LeadingTeam)
+                    if (player.LeadingTeam != ev.Player.LeadingTeam)
                     {
                         ev.Item.Destroy();
 
@@ -1749,7 +1775,7 @@ namespace RGM.Modes
                     Vector3 Pos = Door.Get(DoorType.Scp079First).Position;
                     ev.Player.Position = new Vector3(Pos.x, Pos.y + 2, Pos.z);
 
-                    for (int i = 1; i < UnityEngine.Random.Range(7, 12); i++)
+                    for (int i = 1; i < UnityEngine.Random.Range(7, 12) * DuplicateCount(ev.Player, "[전용] RTX4090"); i++)
                         AddAbility(ev.Player);
                 });
             }
@@ -1864,8 +1890,8 @@ namespace RGM.Modes
                 if (PlayerAbilities[ev.Player].Contains("[영웅] 슈퍼 스타"))
                 {
                     foreach (var player in Player.List)
-                        player.AddBroadcast(10, $"<size=20><color={RatingColor["영웅"]}>슈퍼 스타</color>였던 {ev.Player.Nickname}(<color={ev.Player.Role.Color.ToHex()}>{ev.Player.Role.Name}</color>)(은)는 " +
-                            $"{ev.Attacker.Nickname}(<color={ev.Attacker.Role.Color.ToHex()}>{ev.Attacker.Role.Name}</color>)에 의해 <b>{ev.Player.CurrentRoom.Name}</b>에서 사망하였습니다.</size>");
+                        player.AddBroadcast(10, $"<size=20><color={RatingColor["영웅"]}>슈퍼 스타</color>였던 {ev.Player.Nickname}(<color={ev.Player.Role.Color.ToHex()}>{Translations.RoleTranslation[ev.Player.Role.Type]}</color>)(은)는 " +
+                            $"{ev.Attacker.Nickname}(<color={ev.Attacker.Role.Color.ToHex()}>{Translations.RoleTranslation[ev.Attacker.Role.Type]}</color>)에 의해 <b>{ev.Player.CurrentRoom.Name}</b>에서 사망하였습니다.</size>");
                 }
 
                 if (PlayerAbilities[ev.Player].Contains("[영웅] 극독"))
@@ -1895,14 +1921,20 @@ namespace RGM.Modes
                 if (ev.Attacker != null && PlayerAbilities.ContainsKey(ev.Attacker) && PlayerAbilities.ContainsKey(ev.Player))
                 {
                     if (PlayerAbilities[ev.Attacker].Contains("[전설] 킬스트릭"))
-                        AddAbility(ev.Attacker);
+                    {
+                        if (UnityEngine.Random.Range(1, 3) == 1)
+                            AddAbilityVote(ev.Attacker);
+
+                        else
+                            AddAbility(ev.Attacker);
+                    }
 
                     if (PlayerAbilities[ev.Attacker].Contains("[전용] 공포"))
                     {
-                        foreach (var player in Player.List.Where(x => x.IsHuman))
+                        foreach (var player in Player.List.Where(x => !x.IsScp))
                         {
                             if (Vector3.Distance(player.Position, ev.Attacker.Position) <= 10)
-                                player.EnableEffect(EffectType.Ensnared, 1, 1 * DuplicateCount(ev.Attacker, "[전용] 공포"));
+                                player.EnableEffect(EffectType.Ensnared, 1, 0.75f * DuplicateCount(ev.Attacker, "[전용] 공포"));
                         }
                     }
                 }
@@ -2021,7 +2053,7 @@ namespace RGM.Modes
                 if (PlayerAbilities[ev.Player].Contains("[전용] 신기루"))
                 {
                     if (UnityEngine.Random.Range(1, 21) == 1)
-                        ev.Player.EnableEffect(EffectType.Invisible, 1, 1.5f);
+                        ev.Player.EnableEffect(EffectType.Invisible, 1, 1.25f * DuplicateCount(ev.Player, "[전용] 신기루"));
                 }
 
                 if (PlayerAbilities[ev.Player].Contains("[전용] 격노"))
@@ -2090,10 +2122,45 @@ namespace RGM.Modes
             }
         }
 
+        public async void OnVoiceChatting(Exiled.Events.EventArgs.Player.VoiceChattingEventArgs ev)
+        {
+            if (PlayerAbilities[ev.Player].Contains("[영웅] 괴성"))
+            {
+                if (!RoaringSoundCooldown.Contains(ev.Player))
+                {
+                    if (Tools.TryGetLookPlayer(ev.Player, 10f, out Player target) && target.LeadingTeam != ev.Player.LeadingTeam)
+                    {
+                        RoaringSoundCooldown.Add(ev.Player);
+
+                        foreach (var player in Player.List.Where(x => x.LeadingTeam != ev.Player.LeadingTeam && x.IsAlive))
+                        {
+                            player.EnableEffect(EffectType.Blinded, 1, 5f * DuplicateCount(ev.Player, "[영웅] 괴성"));
+                            player.EnableEffect(EffectType.SinkHole, 1, 5f * DuplicateCount(ev.Player, "[영웅] 괴성"));
+                        }
+
+                        for (int i = 1; i < 51; i++)
+                        {
+                            Warhead.Shake();
+
+                            await Task.Delay(100);
+                        }
+
+                        await Task.Delay(100 * 1000);
+
+                        if (RoaringSoundCooldown.Contains(ev.Player))
+                            RoaringSoundCooldown.Remove(ev.Player);
+                    }
+                }
+            }
+        }
+
         public void OnBlinking(Exiled.Events.EventArgs.Scp173.BlinkingEventArgs ev)
         {
             if (PlayerAbilities[ev.Player].Contains("[전용] 괴이"))
-                ev.Player.CurrentRoom.TurnOffLights(0.5f);
+            {
+                if (!ev.Player.CurrentRoom.AreLightsOff)
+                    ev.Player.CurrentRoom.TurnOffLights(0.5f * DuplicateCount(ev.Player, "[전용] 괴이"));
+            }
         }
 
         public void OnScp049Attacking(Exiled.Events.EventArgs.Scp049.AttackingEventArgs ev)
@@ -2185,14 +2252,17 @@ namespace RGM.Modes
         public void OnPinging(Exiled.Events.EventArgs.Scp079.PingingEventArgs ev)
         {
             if (PlayerAbilities[ev.Player].Contains("[전용] 핑 리모컨"))
-                ev.Room.TurnOffLights(0.5f * DuplicateCount(ev.Player, "[전용] 핑 리모컨"));
+            {
+                if (!ev.Room.AreLightsOff)
+                    ev.Room.TurnOffLights(0.5f * DuplicateCount(ev.Player, "[전용] 핑 리모컨"));
+            }
         }
 
         public void OnZoneBlackout(Exiled.Events.EventArgs.Scp079.ZoneBlackoutEventArgs ev)
         {
             if (PlayerAbilities[ev.Player].Contains("[전용] 랜덤 함수"))
             {
-                for (int i = 1; i < 6; i++)
+                for (int i = 1; i < 6 * DuplicateCount(ev.Player, "[전용] 랜덤 함수"); i++)
                 {
                     Room SelectedRoom = Tools.GetRandomValue(Room.List.ToList());
 
@@ -2205,10 +2275,10 @@ namespace RGM.Modes
         {
             if (PlayerAbilities[ev.Player].Contains("[전용] 고대의 존재 압도"))
             {
-                foreach (var player in Player.List.Where(x => x.IsHuman))
+                foreach (var player in Player.List.Where(x => !x.IsScp && x.IsAlive))
                 {
                     if (player.CurrentRoom == ev.Room)
-                        player.EnableEffect(EffectType.SinkHole, 1, 1.2f);
+                        player.EnableEffect(EffectType.SinkHole, 1, 1 * DuplicateCount(ev.Player, "[전용] 고대의 존재 압도"));
                 }
             }
         }

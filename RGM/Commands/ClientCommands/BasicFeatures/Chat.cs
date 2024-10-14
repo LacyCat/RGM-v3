@@ -64,7 +64,7 @@ namespace RGM.Commands.ClientCommands
                         return false;
                     }
 
-                    string text = player.Role.Name;
+                    string text = Translations.RoleTranslation[player.Role.Type];
                     string text2 = string.Concat(new string[]
                     {
                         $"<size=25>{BadgeFormat(player)}<color={player.Role.Color.ToHex()}>",
@@ -82,7 +82,7 @@ namespace RGM.Commands.ClientCommands
                 }
                 else if (player.IsDead)
                 {
-                    string text = player.Role.Name;
+                    string text = Translations.RoleTranslation[player.Role.Type];
                     string text2 = string.Concat(new string[]
                     {
                         $"<size=25>{BadgeFormat(player)}<color={player.Role.Color.ToHex()}>",
@@ -100,7 +100,7 @@ namespace RGM.Commands.ClientCommands
                 }
                 else
                 {
-                    string text = player.Role.Name;
+                    string text = Translations.RoleTranslation[player.Role.Type];
                     string text2 = string.Concat(new string[]
                     {
                         $"<size=25>{BadgeFormat(player)}<color={player.Role.Color.ToHex()}>",
