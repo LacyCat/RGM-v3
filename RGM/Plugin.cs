@@ -656,7 +656,7 @@ GoldenPig1205(@GoldenPig1205) - 메인 개발자
                             if (PlayersInfo.ContainsKey(UserId))
                                 PlayersInfo.Remove(UserId);
 
-                            Player.List.Where(x => x.IsDead).ToList().ForEach(x => x.AddBroadcast(10, $"<size=20>❤️ SCP 재접속 -> {player.DisplayNickname}(<color={player.Role.Color.ToHex()}>{Translations.RoleTranslation[player.Role.Type]}</color>)</size>"));
+                            Player.List.Where(x => x.IsDead).ToList().ForEach(x => x.AddBroadcast(10, $"<size=20>❤️ SCP 재접속 -> {player.DisplayNickname}(<color={player.Role.Color.ToHex()}>{Translations.Role[player.Role.Type]}</color>)</size>"));
 
                             PlayersInfo.Remove(player.UserId);
                             return;
@@ -838,10 +838,10 @@ GoldenPig1205(@GoldenPig1205) - 메인 개발자
             string MessageFormat()
             {
                 if (ev.Attacker == null)
-                    return $"{(PlayersInfo.ContainsKey(ev.Player.UserId) && ev.DamageHandler.Type == DamageType.Unknown ? "⏳ <color=#FF0000><b>SCP 탈주</b></color>(3분 내로 재접속 가능)" : "💀 <color=#A4A4A4>자살</color>")}ㅣ{BadgeFormat(ev.Player)}<color=#F2F5A9>{ev.Player.Nickname}</color>(<color={ev.TargetOldRole.GetColor().ToHex()}>{ev.TargetOldRole.GetFullName()}</color>) - {ev.DamageHandler.Type}";
+                    return $"{(PlayersInfo.ContainsKey(ev.Player.UserId) && ev.DamageHandler.Type == DamageType.Unknown ? "⏳ <color=#FF0000><b>SCP 탈주</b></color>(3분 내로 재접속 가능)" : "💀 <color=#A4A4A4>자살</color>")}ㅣ{BadgeFormat(ev.Player)}<color=#F2F5A9>{ev.Player.Nickname}</color>(<color={ev.TargetOldRole.GetColor().ToHex()}>{Translations.Role[ev.TargetOldRole]}</color>) - {ev.DamageHandler.Type}";
 
                 else
-                    return $"💔 <color=#FAAC58>{(ev.Player.IsCuffed ? "<b>체포킬</b>(신고 가능 여부는 규칙 확인)" : "사살")}</color>ㅣ{BadgeFormat(ev.Attacker)}<color=#F2F5A9>{ev.Attacker.Nickname}</color>(<color={ev.Attacker.Role.Color.ToHex()}>{ev.Attacker.Role.Name}</color>) -> {BadgeFormat(ev.Player)}<color=#F2F5A9>{ev.Player.Nickname}</color>(<color={ev.TargetOldRole.GetColor().ToHex()}>{ev.TargetOldRole.GetFullName()}</color>) - {ev.DamageHandler.Type}";
+                    return $"💔 <color=#FAAC58>{(ev.Player.IsCuffed ? "<b>체포킬</b>(신고 가능 여부는 규칙 확인)" : "사살")}</color>ㅣ{BadgeFormat(ev.Attacker)}<color=#F2F5A9>{ev.Attacker.Nickname}</color>(<color={ev.Attacker.Role.Color.ToHex()}>{Translations.Role[ev.Attacker.Role.Type]}</color>) -> {BadgeFormat(ev.Player)}<color=#F2F5A9>{ev.Player.Nickname}</color>(<color={ev.TargetOldRole.GetColor().ToHex()}>{Translations.Role[ev.TargetOldRole]}</color>) - {ev.DamageHandler.Type}";
             }
 
             foreach (var player in Player.List.Where(x => x.IsDead))
