@@ -542,6 +542,7 @@ namespace RGM.Modes
             Exiled.Events.Handlers.Player.Hurt += OnHurt;
             Exiled.Events.Handlers.Player.TriggeringTesla += OnTriggeringTesla;
             Exiled.Events.Handlers.Player.ChangingMicroHIDState += OnChangingMicroHIDState;
+            Exiled.Events.Handlers.Player.VoiceChatting += OnVoiceChatting;
 
             Exiled.Events.Handlers.Scp173.Blinking += OnBlinking;
 
@@ -992,7 +993,7 @@ namespace RGM.Modes
                             if (Tools.TryGetNearestPlayer(player, out Player nearestPlayer, out float radius))
                             {
                                 if (nearestPlayer != null && radius < 99999)
-                                    player.ShowHint($"<color={nearestPlayer.Role.Color.ToHex()}>{Translations.RoleTranslation[nearestPlayer.Role.Type]}</color> - {radius}m", 1.2f);
+                                    player.ShowHint($"<color={nearestPlayer.Role.Color.ToHex()}>{Translations.Role[nearestPlayer.Role.Type]}</color> - {radius}m", 1.2f);
                             }
                         }
                     }
@@ -1890,8 +1891,8 @@ namespace RGM.Modes
                 if (PlayerAbilities[ev.Player].Contains("[영웅] 슈퍼 스타"))
                 {
                     foreach (var player in Player.List)
-                        player.AddBroadcast(10, $"<size=20><color={RatingColor["영웅"]}>슈퍼 스타</color>였던 {ev.Player.Nickname}(<color={ev.Player.Role.Color.ToHex()}>{Translations.RoleTranslation[ev.Player.Role.Type]}</color>)(은)는 " +
-                            $"{ev.Attacker.Nickname}(<color={ev.Attacker.Role.Color.ToHex()}>{Translations.RoleTranslation[ev.Attacker.Role.Type]}</color>)에 의해 <b>{ev.Player.CurrentRoom.Name}</b>에서 사망하였습니다.</size>");
+                        player.AddBroadcast(10, $"<size=20><color={RatingColor["영웅"]}>슈퍼 스타</color>였던 {ev.Player.Nickname}(<color={ev.Player.Role.Color.ToHex()}>{Translations.Role[ev.Player.Role.Type]}</color>)(은)는 " +
+                            $"{ev.Attacker.Nickname}(<color={ev.Attacker.Role.Color.ToHex()}>{Translations.Role[ev.Attacker.Role.Type]}</color>)에 의해 <b>{ev.Player.CurrentRoom.Name}</b>에서 사망하였습니다.</size>");
                 }
 
                 if (PlayerAbilities[ev.Player].Contains("[영웅] 극독"))

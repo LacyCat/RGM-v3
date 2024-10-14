@@ -39,6 +39,8 @@ namespace RGM.Modes
                 {
                     Item Item = player.AddItem(Tools.GetRandomValue(ItemTypes));
 
+                    player.ShowHint($"<color=#F3F781>{Translations.Item[Item.Type]}</color>(을)를 지급받았습니다.", 5);
+
                     if (player.IsScp)
                         player.CurrentItem = Item;
                 }
