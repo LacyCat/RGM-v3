@@ -94,16 +94,8 @@ namespace RGM.Commands.RemoteAdminCommands
                 response = $"<b><size=30>[ 모드 리스트 ]</b></size>\n{string.Join(", ", ModeList)}\nSending Command Error..";
                 return false;
             }
-            else if (RGM.Instance.ModeList.Keys.Contains(args))
+            else if (Tools.TryInstallMode(args))
             {
-                var modeType = Type.GetType($"RGM.Modes.{RGM.Instance.ModeList[args][2]}");
-                if (modeType != null)
-                {
-                    var modeInstance = Activator.CreateInstance(modeType);
-                    var onEnabledMethod = modeType.GetMethod("OnEnabled");
-                    onEnabledMethod?.Invoke(modeInstance, null);
-                }
-
                 response = $"모드 <b>{args}</b>(을)를 강제로 시작했습니다.\nSending Command Complete!";
                 return true;
             }

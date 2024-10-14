@@ -5,6 +5,7 @@ using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
 using Exiled.API.Features;
+using Exiled.Events.Commands.Reload;
 using RGM.Features;
 using UnityEngine;
 
@@ -166,6 +167,69 @@ RP: {uc[1]}
         {
             if (player.GameObject.TryGetComponent<TagController>(out TagController rtc))
                 UnityEngine.Object.Destroy(rtc);
+        }
+
+        public static bool TryGetNearestPlayer(Player player, out Player nearestPlayer, out float radius)
+        {
+            nearestPlayer = null;
+            radius = 99999;
+
+            foreach (var near in Player.List.Where(x => x.IsAlive && x != player))
+            {
+                float Distance = Vector3.Distance(near.Position, player.Position);
+
+                if (Distance < radius)
+                {
+                    nearestPlayer = near;
+                    radius = Distance;
+                }
+            }
+
+            if (nearestPlayer != null)
+                return true;
+
+            else
+                return false;
+        }
+
+        public static bool TryGetLookPlayer(Player player, float Distance, out Player target)
+        {
+            target = null;
+
+            if (Physics.Raycast(player.ReferenceHub.PlayerCameraReference.position + player.ReferenceHub.PlayerCameraReference.forward * 0.2f, player.ReferenceHub.PlayerCameraReference.forward, out RaycastHit hit, Distance, InventorySystem.Items.Firearms.Modules.StandardHitregBase.HitregMask) &&
+                    hit.collider.TryGetComponent<IDestructible>(out IDestructible destructible))
+            {
+                if (Player.TryGet(hit.collider.GetComponentInParent<ReferenceHub>(), out Player t) && player != t)
+                {
+                    target = t;
+
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public static bool TryInstallMode(string ModeName)
+        {
+            var modeType = Type.GetType($"RGM.Modes.{ModeName}");
+
+            if (modeType == null)
+            {
+                if (ModeManager.Modes.ContainsKey(ModeName))
+                    modeType = Type.GetType($"RGM.Modes.{ModeManager.Modes[ModeName][2]}");
+            }
+
+            if (modeType != null)
+            {
+                var modeInstance = Activator.CreateInstance(modeType);
+                var onEnabledMethod = modeType.GetMethod("OnEnabled");
+                onEnabledMethod?.Invoke(modeInstance, null);
+
+                return true;
+            }
+            else
+                return false;
         }
     }
 }

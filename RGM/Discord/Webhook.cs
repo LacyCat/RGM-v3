@@ -73,17 +73,17 @@ namespace RGM.Discord
 
             if (ev.Attacker == null || ev.Player == ev.Attacker)
             {
-                Send($"[{_time}] :skull: **자살**: `{ev.Player.Nickname}` ({ev.Player.Role.Name}) | {ev.DamageHandler.Type}");
+                Send($"[{_time}] :skull: **자살**: `{ev.Player.Nickname}` ({Translations.RoleTranslation[ev.Player.Role.Type]}) | {ev.DamageHandler.Type}");
             }
             else
             {
                 if (ev.Player.IsCuffed && !ev.Player.IsScp)
                 {
-                    Send($"[{_time}] :exclamation: **체포킬**: `{ev.Attacker.Nickname}` ({ev.Attacker.Role.Name}) -> `{ev.Player.Nickname}` ({ev.Player.Role.Name}) | {ev.DamageHandler.Type}\n체포자: `{ev.Player.Cuffer.Nickname}`");
+                    Send($"[{_time}] :exclamation: **체포킬**: `{ev.Attacker.Nickname}` ({Translations.RoleTranslation[ev.Attacker.Role.Type]}) -> `{ev.Player.Nickname}` ({Translations.RoleTranslation[ev.Player.Role.Type]}) | {ev.DamageHandler.Type}\n체포자: `{ev.Player.Cuffer.Nickname}`");
                 }
                 else
                 {
-                    Send($"[{_time}] :skull: **사살**: `{ev.Attacker.Nickname}` ({ev.Attacker.Role.Name}) -> `{ev.Player.Nickname}` ({ev.Player.Role.Name}) | {ev.DamageHandler.Type}");
+                    Send($"[{_time}] :skull: **사살**: `{ev.Attacker.Nickname}` ({Translations.RoleTranslation[ev.Attacker.Role.Type]}) -> `{ev.Player.Nickname}` ({Translations.RoleTranslation[ev.Player.Role.Type]}) | {ev.DamageHandler.Type}");
                 }
             }
         }
@@ -92,7 +92,7 @@ namespace RGM.Discord
         {
             if (ev.Target.ReferenceHub.isLocalPlayer) return;
 
-            Send($"[{_time}] :lock: **체포**: `{ev.Player.Nickname}` ({ev.Player.Role.Name}) -> `{ev.Target.Nickname}` ({ev.Target.Role.Name})");
+            Send($"[{_time}] :lock: **체포**: `{ev.Player.Nickname}` ({Translations.RoleTranslation[ev.Player.Role.Type]}) -> `{ev.Target.Nickname}` ({Translations.RoleTranslation[ev.Target.Role.Type]})");
         }
 
         public void OnLeft(Exiled.Events.EventArgs.Player.LeftEventArgs ev)
@@ -107,7 +107,7 @@ namespace RGM.Discord
         {
             if (ev.Target.ReferenceHub.isLocalPlayer) return;
 
-            Send($"[{_time}] :unlock: **체포**: `{ev.Player.Nickname}` ({ev.Player.Role.Name}) -> `{ev.Target.Nickname}` ({ev.Target.Role.Name})");
+            Send($"[{_time}] :unlock: **체포**: `{ev.Player.Nickname}` ({Translations.RoleTranslation[ev.Player.Role.Type]}) -> `{ev.Target.Nickname}` ({Translations.RoleTranslation[ev.Target.Role.Type]})");
         }
 
         public void OnVerified(Exiled.Events.EventArgs.Player.VerifiedEventArgs ev)

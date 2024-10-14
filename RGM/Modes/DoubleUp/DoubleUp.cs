@@ -40,15 +40,7 @@ namespace RGM.Modes
             yield return Timing.WaitForSeconds(1f);
 
             for (int i=0; i<2; i++)
-            {
-                var modeType = Type.GetType($"RGM.Modes.{Mods[Modes[i]][2]}");
-                if (modeType != null)
-                {
-                    var modeInstance = Activator.CreateInstance(modeType);
-                    var onEnabledMethod = modeType.GetMethod("OnEnabled");
-                    onEnabledMethod?.Invoke(modeInstance, null);
-                }
-            }
+                Tools.TryInstallMode(Mods[Modes[i]][2]);
 
             foreach (var player in Player.List.Where(x => !x.IsNPC))
             {

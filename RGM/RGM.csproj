@@ -166,6 +166,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="API\Tools.cs" />
+    <Compile Include="API\Translations.cs" />
     <Compile Include="Commands\ClientCommands\ShopFeatures\ApplyCustom.cs" />
     <Compile Include="Commands\ClientCommands\ShopFeatures\ApplyKillEffect.cs" />
     <Compile Include="Commands\ClientCommands\BasicFeatures\Chat.cs" />

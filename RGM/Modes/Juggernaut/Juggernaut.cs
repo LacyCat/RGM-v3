@@ -115,22 +115,8 @@ namespace RGM.Modes
         {
             while (true)
             {
-                Player closestPlayer = null;
-                float closestDistance = float.MaxValue;
-
-                foreach (var player in Player.List.Where(x => x != juggernaut && x.IsAlive))
-                {
-                    float distance = Vector3.Distance(juggernaut.Position, player.Position);
-
-                    if (distance < closestDistance)
-                    {
-                        closestPlayer = player;
-                        closestDistance = distance;
-                    }
-                }
-
-                if (closestPlayer != null)
-                    juggernaut.ShowHint($"<mark=#DF01D7FF><color=black><b>[ <color={closestPlayer.Role.Color.ToHex()}>{closestPlayer.Role.Name}</color>, 거리: {closestDistance} ]</b></color></mark>", 1.2f);
+                if (Tools.TryGetNearestPlayer(juggernaut, out Player nearestPlayer, out float radius))
+                    juggernaut.ShowHint($"<mark=#DF01D7FF><color=black><b>[ <color={nearestPlayer.Role.Color.ToHex()}>{Translations.RoleTranslation[nearestPlayer.Role.Type]}</color>, 거리: {radius} ]</b></color></mark>", 1.2f);
 
                 else
                     juggernaut.ShowHint("당신은 임무를 완수하였습니다.", 1.2f);
