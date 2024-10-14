@@ -1218,8 +1218,8 @@ namespace RGM.Modes
 
                         nearestPlayer.AddItem(Own.Type);
 
-                        player.ShowHint($"{nearestPlayer}(에)게 {Translations.Item[Own.Type]}(을)를 나누어 주었습니다.");
-                        nearestPlayer.ShowHint($"{nearestPlayer}(으)로부터 {Translations.Item[Own.Type]}(을)를 나누어 받았습니다.");
+                        player.ShowHint($"{nearestPlayer.Nickname}(에)게 {Translations.Item[Own.Type]}(을)를 나누어 주었습니다.");
+                        nearestPlayer.ShowHint($"{nearestPlayer.Nickname}(으)로부터 {Translations.Item[Own.Type]}(을)를 나누어 받았습니다.");
 
                         if (nearestPlayer.IsScp)
                             nearestPlayer.CurrentItem = Own;
@@ -1808,7 +1808,7 @@ namespace RGM.Modes
                 });
             }
 
-            if (PlayerAbilities.ContainsKey(ev.Attacker) && PlayerAbilities.ContainsKey(ev.Player) && ev.Attacker != null)
+            if (PlayerAbilities.ContainsKey(ev.Attacker) && PlayerAbilities.ContainsKey(ev.Player) && ev.Attacker != null && ev.DamageHandler.Type != DamageType.Warhead)
             {
                 if (PlayerAbilities[ev.Player].Contains("[일반] 보험"))
                 {
@@ -2160,21 +2160,18 @@ namespace RGM.Modes
                     {
                         RoaringSoundCooldown.Add(ev.Player);
 
+                        GGUtils.Gtool.PlayerGet("dj").DisplayNickname = $"{ev.Player.Nickname}의 괴성";
+                        GGUtils.Gtool.PlaySound("dj", "GmanRoaringSound", VoiceChat.VoiceChatChannel.Intercom);
+
                         foreach (var player in Player.List.Where(x => x.LeadingTeam != ev.Player.LeadingTeam && x.IsAlive))
                         {
-                            GGUtils.Gtool.PlayerGet("dj").DisplayNickname = $"{ev.Player.Nickname}의 괴성";
-
-                            await Task.Delay(10);
-
-                            GGUtils.Gtool.PlaySound("dj", "GmanRoaringSound", VoiceChat.VoiceChatChannel.Intercom);
-
-                            await Task.Delay(550);
-
                             player.EnableEffect(EffectType.Blinded, 1, 7.5f);
                             player.EnableEffect(EffectType.SinkHole, 1, 12f);
                         }
 
-                        Player.List.ToList().ForEach(x => x.ShowHint("<b><i><color=#B08A03>저</color><color=#9C7A02>?</color><color=#886B02>!</color><color=#755C01>주</color><color=#614C01>받</color><color=#4E3D01>은</color> <color=#271E00>과</color><color=#130F00>성</color></i></b>", 5));
+                        await Task.Delay(650);
+
+                        Player.List.ToList().ForEach(x => x.ShowHint("<b><i><color=#B08A03>저</color><color=#9C7A02>?</color><color=#886B02>!</color><color=#755C01>주</color><color=#614C01>받</color><color=#4E3D01>은</color> <color=#271E00>괴</color><color=#130F00>성</color></i></b>", 5));
 
                         for (int i = 1; i < 71; i++)
                         {
@@ -2183,10 +2180,11 @@ namespace RGM.Modes
                             await Task.Delay(100);
                         }
 
-                        await Task.Delay(98 * 1000 * (1 / 2 * (DuplicateCount(ev.Player, "[전설] 괴성") - 1)));
-
-                        if (RoaringSoundCooldown.Contains(ev.Player))
-                            RoaringSoundCooldown.Remove(ev.Player);
+                        Timing.CallDelayed(100 * (1 / DuplicateCount(ev.Player, "[전설] 괴성")), () =>
+                        {
+                            if (RoaringSoundCooldown.Contains(ev.Player))
+                                RoaringSoundCooldown.Remove(ev.Player);
+                        });
                     }
                 }
             }
