@@ -947,7 +947,7 @@ namespace RGM.Modes
                                 {
                                     near.EnableEffect(EffectType.SinkHole, 1, 0.2f);
                                     near.EnableEffect(EffectType.Blinded, 1, 0.2f);
-                                    near.Hurt(0.1f, "눈빛의 힘에 압도당했습니다.");
+                                    near.Hurt(player.MaxHealth / 100, "눈빛의 힘에 압도당했습니다.");
                                     Hitmarker.SendHitmarkerDirectly(player.ReferenceHub, 1f);
                                 }
                             }
@@ -958,7 +958,7 @@ namespace RGM.Modes
                                 {
                                     target.EnableEffect(EffectType.SinkHole, 1, 0.2f);
                                     target.EnableEffect(EffectType.Blinded, 1, 0.2f);
-                                    target.Hurt(0.1f, "눈빛의 힘에 압도당했습니다.");
+                                    target.Hurt(player.MaxHealth / 100, "눈빛의 힘에 압도당했습니다.");
                                     Hitmarker.SendHitmarkerDirectly(player.ReferenceHub, 0.5f);
                                 }
                             }
@@ -2162,21 +2162,21 @@ namespace RGM.Modes
 
                         foreach (var player in Player.List.Where(x => x.LeadingTeam != ev.Player.LeadingTeam && x.IsAlive))
                         {
-                            GGUtils.Gtool.PlayerGet("dj").DisplayNickname = $"{player.Nickname}의 괴성";
+                            GGUtils.Gtool.PlayerGet("dj").DisplayNickname = $"{ev.Player.Nickname}의 괴성";
 
                             await Task.Delay(10);
 
                             GGUtils.Gtool.PlaySound("dj", "GmanRoaringSound", VoiceChat.VoiceChatChannel.Intercom);
 
-                            await Task.Delay(2500);
+                            await Task.Delay(550);
 
-                            player.EnableEffect(EffectType.Blinded, 1, 5f);
-                            player.EnableEffect(EffectType.SinkHole, 1, 10f);
+                            player.EnableEffect(EffectType.Blinded, 1, 7.5f);
+                            player.EnableEffect(EffectType.SinkHole, 1, 12f);
                         }
 
                         Player.List.ToList().ForEach(x => x.ShowHint("<b><i><color=#B08A03>저</color><color=#9C7A02>?</color><color=#886B02>!</color><color=#755C01>주</color><color=#614C01>받</color><color=#4E3D01>은</color> <color=#271E00>과</color><color=#130F00>성</color></i></b>", 5));
 
-                        for (int i = 1; i < 51; i++)
+                        for (int i = 1; i < 71; i++)
                         {
                             Warhead.Shake();
 
