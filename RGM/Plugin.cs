@@ -488,8 +488,8 @@ namespace RGM
 <align=left><size=30>
 <b><size=35><color=#F7FE2E>관리진</color></size></b>
 Arloramäki(@alvar_noah) - 서버 소유자
-Serendipity(@mercedes83) - 총괄 관리자
-Normalperson(@normal._.person) - 관리자
+Serendipity(@mercedes83) - 총괄 관리자 (베테랑)
+Normalperson(@normal._.person) - 정규 관리자 (베테랑)
 bluefox2322(@bluefox2322) - 수습 관리자
 pey paid for it(@0735_) - 수습 관리자
 leejihyuk(@leejihyuk) - 수습 관리자
@@ -501,7 +501,7 @@ GoldenPig1205(@GoldenPig1205) - 메인 개발자
 <size=20>[D.I.]Dotory001(@dotory001), 류세(@milkyway_0119), Lu(@1__neeko__1), 뇨호호(@yeeeee222), ㅠㅅㅠ(@tampast)</size>
 
 <b><size=35><color=#F8E0F7>도움 주신 분들</color></size><b>
-<size=20>Cocoa(@cocoa_1.19)</size>
+<size=20>Cocoa(@cocoa_1.19), leejihyuk(@leejihyuk), MujishungPlay(@mujishungplay)</size>
 </size></align>
 \n\n\n\n\n\n\n\n
 """, 1.2f);

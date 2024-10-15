@@ -57,7 +57,7 @@ namespace RGM.Modes
                 yield return Timing.WaitForSeconds(1f);
             }
 
-            int Remaining = Player.List.Count() * 5;
+            int Remaining = 130;
 
             foreach (var Finder in Finders)
             {
