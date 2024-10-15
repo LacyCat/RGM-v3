@@ -702,9 +702,11 @@ namespace RGM.Modes
                     {
                         Log.Error(e);
                     }
+                    finally
+                    {
+                        RGM.Instance.Requests.Remove(Request);
+                    }
                 }
-
-                RGM.Instance.Requests.Clear();
 
                 yield return Timing.WaitForSeconds(1f);
             }
