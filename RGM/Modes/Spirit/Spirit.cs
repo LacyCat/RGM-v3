@@ -68,6 +68,10 @@ namespace RGM.Modes
                     ev.Player.ShowHint($"{6 - i}초 뒤 영혼 상태에 돌입합니다.", 1.2f);
                     await Task.Delay(1000);
                 }
+
+                ev.Player.MaxHealth = 1;
+                ev.Player.Health = ev.Player.MaxHealth;
+
                 spirits.Add(ev.Player);
 
                 Server.ExecuteCommand($"/fc {ev.Player.Id} Tutorial 1");
