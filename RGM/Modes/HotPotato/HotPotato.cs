@@ -77,16 +77,26 @@ namespace RGM.Modes
 
                 foreach (var bomber in BomberMans)
                 {
-                    if (pl.Contains(bomber))
+                    try
                     {
-                        pl.Remove(bomber);
+                        if (pl.Contains(bomber))
+                        {
+                            pl.Remove(bomber);
 
-                        var g = (ExplosiveGrenade)Item.Create(ItemType.GrenadeHE, Server.Host);
-                        g.FuseTime = 0.1f;
-                        g.SpawnActive(bomber.Position, Server.Host);
+                            if (bomber != null)
+                            {
+                                var g = (ExplosiveGrenade)Item.Create(ItemType.GrenadeHE, Server.Host);
+                                g.FuseTime = 0.1f;
+                                g.SpawnActive(bomber.Position, Server.Host);
 
-                        bomber.Role.Set(RoleTypeId.ClassD);
-                        bomber.Position = new Vector3(83.82303f, 1026.691f, -37.06291f);
+                                bomber.Role.Set(RoleTypeId.ClassD);
+                                bomber.Position = new Vector3(83.82303f, 1026.691f, -37.06291f);
+                            }
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Log.Error(e);
                     }
                 }
 
