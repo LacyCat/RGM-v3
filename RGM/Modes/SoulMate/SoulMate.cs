@@ -113,8 +113,16 @@ namespace RGM.Modes
                     soulMates.Add(first, second);
                     soulMates.Add(second, first);
 
-                    second.MaxHealth = first.MaxHealth;
-                    second.Health = first.Health;
+                    if (first.MaxHealth > second.MaxHealth)
+                    {
+                        second.MaxHealth = first.MaxHealth;
+                        second.Health = first.Health;
+                    }
+                    else
+                    {
+                        first.MaxHealth = second.MaxHealth;
+                        first.Health = second.Health;
+                    }
 
                     second.ClearInventory();
                     foreach (var Item in first.Items)
