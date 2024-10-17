@@ -176,8 +176,6 @@
     <Compile Include="Commands\ClientCommands\BasicFeatures\Report.cs" />
     <Compile Include="Commands\ClientCommands\BasicFeatures\ScpList.cs" />
     <Compile Include="Commands\ClientCommands\BasicFeatures\Suicide.cs" />
-    <Compile Include="Commands\ClientCommands\ForABattle\Votes.cs" />
-    <Compile Include="Commands\RemoteAdminCommands\ShopFeatures\AddAbility.cs" />
     <Compile Include="Commands\RemoteAdminCommands\ShopFeatures\Custom.cs" />
     <Compile Include="Commands\RemoteAdminCommands\ShopFeatures\KillEffect.cs" />
     <Compile Include="Commands\RemoteAdminCommands\AdminFeatures\Develop.cs" />

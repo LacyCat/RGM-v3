@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -26,10 +27,11 @@ using Mirror;
 using HarmonyLib;
 using InventorySystem;
 using System.Reflection.Emit;
+using System.Text;
+using CommandSystem;
 using Exiled.API.Features.Pools;
-
+using InventorySystem.Items;
 using static HarmonyLib.AccessTools;
-using static RGM.Modes.FriendlyFire;
 
 namespace RGM.Modes
 {
@@ -533,6 +535,8 @@ namespace RGM.Modes
             }
         }
 
+        private Harmony harmony;
+
         public void OnEnabled()
         {
             Exiled.Events.Handlers.Player.Verified += OnVerified;
@@ -587,9 +591,10 @@ namespace RGM.Modes
             Timing.RunCoroutine(Radiation());
             Timing.RunCoroutine(StickySwamp());
 
-            Harmony harmony = new Harmony($"ABattle - {DateTime.Now.Ticks}");
-            harmony.Patch(AccessTools.Method(typeof(Inventory), nameof(Inventory.Update)),
-                transpiler: new HarmonyMethod(AccessTools.Method(typeof(InventoryUpdatePatch), nameof(InventoryUpdatePatch.Transpiler))));
+            harmony = new Harmony("abattle-" + DateTime.Now.Ticks);
+
+            harmony.Patch(Method(typeof(Inventory), "Update"), transpiler: new HarmonyMethod(typeof(InventoryUpdatePatch), "Transpiler"));
+            harmony.Patch(Method(typeof(Player), "AddItem", new []{ typeof(ItemBase), typeof(Item) }), transpiler: new HarmonyMethod(typeof(ExiledAddItemPatch), "Transpiler"));
         }
 
         public void ShowStatus(Player player)
@@ -2328,7 +2333,6 @@ namespace RGM.Modes
             }
         }
 
-
         public void OnGainingLevel(Exiled.Events.EventArgs.Scp079.GainingLevelEventArgs ev)
         {
             AddAbility(ev.Player);
@@ -2377,7 +2381,6 @@ namespace RGM.Modes
                 var jumpIndex = index + 5;
 
                 var label = generator.DefineLabel();
-                newInstructions[jumpIndex].WithLabels(label);
 
                 newInstructions.InsertRange(index, [
                     new CodeInstruction(OpCodes.Ldloc_1),
@@ -2386,11 +2389,251 @@ namespace RGM.Modes
                     new CodeInstruction(OpCodes.Brtrue_S, label),
                 ]);
 
+                newInstructions.InsertRange(jumpIndex, [
+                    new CodeInstruction(OpCodes.Ldarg_0).WithLabels(label),
+                    new CodeInstruction(OpCodes.Ldfld, Field(typeof(Inventory), nameof(Inventory._hub))),
+                    new CodeInstruction(OpCodes.Ldfld, Field(typeof(ReferenceHub), nameof(ReferenceHub.nicknameSync))),
+                    new CodeInstruction(OpCodes.Callvirt, PropertyGetter(typeof(NicknameSync), nameof(NicknameSync.MyNick))),
+                    new CodeInstruction(OpCodes.Call, Method(typeof(Log), nameof(Log.Info), new Type[] { typeof(string) })),
+                ]);
+
                 for (var i = 0; i < newInstructions.Count; i++)
                     yield return newInstructions[i];
 
                 ListPool<CodeInstruction>.Pool.Return(newInstructions);
             }
         }
+
+        public class ExiledAddItemPatch
+        {
+            public static Dictionary<ushort, StackTrace> ItemTraces = new Dictionary<ushort, StackTrace>();
+
+            public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+            {
+                var newInstructions = ListPool<CodeInstruction>.Pool.Get(instructions);
+
+                var index = newInstructions.FindIndex(instruction => instruction.Calls(PropertyGetter(typeof(Item), nameof(Item.Owner))));
+
+                index += 3;
+
+                newInstructions.InsertRange(index, new[]
+                {
+                    new CodeInstruction(OpCodes.Ldarg_2),
+                    new CodeInstruction(OpCodes.Callvirt, PropertyGetter(typeof(Item), nameof(Item.Serial))),
+                    new CodeInstruction(OpCodes.Ldc_I4_1),
+                    new CodeInstruction(OpCodes.Newobj, typeof(StackTrace).GetConstructor(new Type[] { typeof(bool) })),
+                    new CodeInstruction(OpCodes.Call, typeof(ExiledAddItemPatch).GetMethod(nameof(AddItemTrace), [typeof(ushort), typeof(StackTrace)])),
+                });
+
+                for (var i = 0; i < newInstructions.Count; i++)
+                    yield return newInstructions[i];
+
+                ListPool<CodeInstruction>.Pool.Return(newInstructions);
+            }
+
+            public static void AddItemTrace(ushort serial, StackTrace trace)
+            {
+                ItemTraces[serial] = trace;
+            }
+        }
+    }
+
+    [CommandHandler(typeof(ClientCommandHandler))]
+    public class VoteFirst : ICommand
+    {
+        public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
+        {
+            if (Round.IsStarted)
+            {
+                Player player = Player.Get(sender);
+
+                RGM.Instance.Requests.Add($"ABattle/{player.Id}/Vote/1");
+
+                response = "1번 능력 선택 완료!";
+
+                return true;
+            }
+            else
+            {
+                response = "라운드 시작 전에는 사용할 수 없습니다.";
+
+                return false;
+            }
+        }
+
+        public string Command { get; } = "1";
+
+        public string[] Aliases { get; } = { };
+
+        public string Description { get; } = "워크스테이션 업그레이드ㅣ1번 능력 선택";
+
+        public bool SanitizeResponse { get; } = true;
+    }
+
+    [CommandHandler(typeof(ClientCommandHandler))]
+    public class VoteSecond : ICommand
+    {
+        public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
+        {
+            if (Round.IsStarted)
+            {
+                Player player = Player.Get(sender);
+
+                RGM.Instance.Requests.Add($"ABattle/{player.Id}/Vote/2");
+
+                response = "2번 능력 선택 완료!";
+
+                return true;
+            }
+            else
+            {
+                response = "라운드 시작 전에는 사용할 수 없습니다.";
+
+                return false;
+            }
+        }
+
+        public string Command { get; } = "2";
+
+        public string[] Aliases { get; } = { };
+
+        public string Description { get; } = "워크스테이션 업그레이드ㅣ2번 능력 선택";
+
+        public bool SanitizeResponse { get; } = true;
+    }
+
+    [CommandHandler(typeof(ClientCommandHandler))]
+    public class VoteThird : ICommand
+    {
+        public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
+        {
+            if (Round.IsStarted)
+            {
+                Player player = Player.Get(sender);
+
+                RGM.Instance.Requests.Add($"ABattle/{player.Id}/Vote/3");
+
+                response = "3번 능력 선택 완료!";
+
+                return true;
+            }
+            else
+            {
+                response = "라운드 시작 전에는 사용할 수 없습니다.";
+
+                return false;
+            }
+        }
+
+        public string Command { get; } = "3";
+
+        public string[] Aliases { get; } = { };
+
+        public string Description { get; } = "워크스테이션 업그레이드ㅣ3번 능력 선택";
+
+        public bool SanitizeResponse { get; } = true;
+    }
+
+
+
+    [CommandHandler(typeof(RemoteAdminCommandHandler))]
+    public class TestNullCommand : ICommand
+    {
+        public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
+        {
+            if (arguments.Count >= 1)
+            {
+                if (!ushort.TryParse(arguments.At(0), out ushort serial))
+                {
+                    response = "Input is not a valid serial.";
+                    return false;
+                }
+
+                if (!ABattle.ExiledAddItemPatch.ItemTraces.TryGetValue(serial, out var trace))
+                {
+                    response = "No trace found for the given serial.\n(Maybe the item was not added by EXILED.API?)";
+                    return false;
+                }
+
+                if (trace == null)
+                {
+                    response = "Trace is null.";
+                    return false;
+                }
+
+                var frames = trace.GetFrames();
+
+                if (frames == null)
+                {
+                    response = "Frames are null.";
+                    return false;
+                }
+
+                var sb = new StringBuilder();
+
+                foreach (var frame in frames)
+                {
+                    sb.Append(frame.GetMethod().DeclaringType?.AssemblyQualifiedName);
+                    sb.Append(" ");
+                    sb.AppendLine(frame.ToString());
+                }
+
+                response = $"Stack trace is:\n{sb}";
+                return true;
+            }
+
+            var items = Player.Get(sender).Inventory.UserInventory.Items;
+
+            var sb2 = new StringBuilder();
+
+            foreach (var serial in items)
+            {
+                sb2.Append($"{serial.Key.ToString()} - {serial.Value.ItemTypeId}");
+
+                if (serial.Value == null) sb2.Append(" (null)");
+
+                sb2.Append("\n");
+            }
+
+            response = $"Your Items:\n{sb2}";
+
+            return true;
+        }
+
+        public string Command { get; } = "testnull";
+
+        public string[] Aliases { get; } = new string[] { "tn" };
+
+        public string Description { get; } = "테스트용 널 참조 명령어입니다.";
+    }
+
+    [CommandHandler(typeof(RemoteAdminCommandHandler))]
+    public class TestInventoryCommand : ICommand
+    {
+        public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
+        {
+            var items = Player.Get(arguments.At(0)).Inventory.UserInventory.Items;
+
+            var sb2 = new StringBuilder();
+
+            foreach (var serial in items)
+            {
+                sb2.Append($"{serial.Key.ToString()} - {serial.Value.ItemTypeId}");
+
+                if (serial.Value == null) sb2.Append(" (null)");
+
+                sb2.Append("\n");
+            }
+
+            response = $"Your Items:\n{sb2}";
+
+            return true;
+        }
+
+        public string Command { get; } = "testinventory";
+
+        public string[] Aliases { get; } = new string[] { "ti" };
+
+        public string Description { get; } = "테스트용 인벤토리 명령어입니다.";
     }
 }
