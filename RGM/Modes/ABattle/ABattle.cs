@@ -227,7 +227,7 @@ namespace RGM.Modes
             {"[전용] 과전류", "20초 간 전력이 무제한이 됩니다."},
             {"[전용] 랜덤 함수", "정전하면 랜덤한 방 5개를 더 정전합니다."},
             {"[전용] RTX4090", "격리당하면 튜토리얼(능력 5~10개)로 부활합니다."},
-            {"[전용] 고대의 존재 압도", "V키를 연타하면 해당 방에 있는 인간의 속도가 감소합니다."}
+            {"[전용] 고대의 존재 압도", "Q키를 눌러 해당 방에 있는 인간의 속도가 감소시킬 수 있습니다."}
         };
 
         public Dictionary<string, List<string>> Synergies = new Dictionary<string, List<string>>()
@@ -586,10 +586,6 @@ namespace RGM.Modes
             Timing.RunCoroutine(Radar());
             Timing.RunCoroutine(Radiation());
             Timing.RunCoroutine(StickySwamp());
-
-            Harmony harmony = new Harmony($"ABattle - {DateTime.Now.Ticks}");
-            harmony.Patch(AccessTools.Method(typeof(Inventory), nameof(Inventory.Update)),
-                transpiler: new HarmonyMethod(AccessTools.Method(typeof(InventoryUpdatePatch), nameof(InventoryUpdatePatch.Transpiler))));
         }
 
         public void ShowStatus(Player player)
@@ -1137,10 +1133,17 @@ namespace RGM.Modes
                         player.CurrentItem = pc;
                     break;
                 case "보급":
-                    List<string> Ammos = new List<string> { "19", "22", "27", "28", "29" };
+                    List<ItemType> Ammos = new List<ItemType>
+                    {
+                        ItemType.Ammo12gauge,
+                        ItemType.Ammo44cal,
+                        ItemType.Ammo9x19,
+                        ItemType.Ammo556x45,
+                        ItemType.Ammo762x39
+                    };
 
                     for (int i = 1; i < 4; i++)
-                        Server.ExecuteCommand($"/give {player.Id} {Tools.GetRandomValue(Ammos)}");
+                        player.AddItem(Tools.GetRandomValue(Ammos));
                     break;
                 case "정화":
                     player.TryAddCandy(CandyKindID.Green);
@@ -1616,13 +1619,16 @@ namespace RGM.Modes
         {
             if (Physics.Raycast(ev.Player.Position, Vector3.down, out RaycastHit hit, 5, (LayerMask)1))
             {
-                Transform WorkStation = hit.transform.parent.parent;
-
-                if (WorkStation.name.Contains("Work Station") && !PlayerWorkstation[ev.Player].Contains(WorkStation.position))
+                if (hit.transform != null)
                 {
-                    PlayerWorkstation[ev.Player].Add(WorkStation.position);
+                    Transform WorkStation = hit.transform.parent.parent;
 
-                    AddAbilityVote(ev.Player);
+                    if (WorkStation.name.Contains("Work Station") && !PlayerWorkstation[ev.Player].Contains(WorkStation.position))
+                    {
+                        PlayerWorkstation[ev.Player].Add(WorkStation.position);
+
+                        AddAbilityVote(ev.Player);
+                    }
                 }
             }
 
@@ -2360,37 +2366,6 @@ namespace RGM.Modes
         {
             if (ev.NewMap.Name == "ABattle")
                 Player.List.ToList().ForEach(x => x.AddBroadcast(10, "<size=25><b><i><color=#FF00EA>피</color><color=#EF00EB>버</color> <color=#CF00ED>모</color><color=#BF00EF>드</color><color=#AF00F0>가</color> <color=#8F00F3>활</color><color=#7F00F4>성</color><color=#6F00F5>화</color><color=#5F00F7>되</color><color=#4F00F8>었</color><color=#3F00F9>습</color><color=#2F00FB>니</color><color=#1F00FC>다</color><color=#0F00FD>!</color></i></b></size>"));
-        }
-
-        public class InventoryUpdatePatch
-        {
-            public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator)
-            {
-                var newInstructions = ListPool<CodeInstruction>.Pool.Get(instructions);
-
-                var index = newInstructions.FindLastIndex(instruction => instruction.Calls(PropertyGetter(typeof(Behaviour), nameof(Behaviour.enabled))));
-
-                var inequalityOp = typeof(UnityEngine.Object).GetMethod("op_Inequality", new[] { typeof(UnityEngine.Object), typeof(UnityEngine.Object) });
-
-                index--;
-
-                var jumpIndex = index + 5;
-
-                var label = generator.DefineLabel();
-                newInstructions[jumpIndex].WithLabels(label);
-
-                newInstructions.InsertRange(index, [
-                    new CodeInstruction(OpCodes.Ldloc_1),
-                    new CodeInstruction(OpCodes.Ldnull),
-                    new CodeInstruction(OpCodes.Call, inequalityOp),
-                    new CodeInstruction(OpCodes.Brtrue_S, label),
-                ]);
-
-                for (var i = 0; i < newInstructions.Count; i++)
-                    yield return newInstructions[i];
-
-                ListPool<CodeInstruction>.Pool.Return(newInstructions);
-            }
         }
     }
 }
