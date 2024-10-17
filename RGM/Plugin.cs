@@ -21,6 +21,7 @@ using Exiled.API.Extensions;
 using System.CodeDom;
 using RGM.Interfaces;
 using RGM.Modes;
+using Exiled.Events.EventArgs.Scp096;
 
 namespace RGM
 {
@@ -233,26 +234,39 @@ namespace RGM
             
             if (CurrentMode == null)
             {
-                var maxLength = ModeVote.Values.Max(list => list.Count);
-                var longestKeys = ModeVote.Keys.Where(key => ModeVote[key].Count == maxLength).ToList();
-                var randomKey = longestKeys[UnityEngine.Random.Range(0, longestKeys.Count)];
-                CurrentMode = randomKey;
-
-                if (SelectMode == "SimpleSelect")
+                try
                 {
-                    List<Player> mergedPlayers = ModeVote.Values.SelectMany(x => x).ToList();
-                    List<Player> filiteredPlayers = mergedPlayers.Where(mergedPlayers.Contains).ToList();
+                    var maxLength = ModeVote.Values.Max(list => list.Count);
+                    var longestKeys = ModeVote.Keys.Where(key => ModeVote[key].Count == maxLength).ToList();
+                    var randomKey = longestKeys[UnityEngine.Random.Range(0, longestKeys.Count)];
+                    CurrentMode = randomKey;
 
-                    if (filiteredPlayers.Count > 0)
+                    if (SelectMode == "SimpleSelect")
                     {
-                        Player player = Tools.GetRandomValue(filiteredPlayers);
-                        CurrentMode = ModeVote.FirstOrDefault(x => x.Value.Contains(player)).Key;
+                        List<Player> mergedPlayers = ModeVote.Values.SelectMany(x => x).ToList();
+                        List<Player> filiteredPlayers = mergedPlayers.Where(mergedPlayers.Contains).ToList();
 
-                        Timing.CallDelayed(1f, () =>
+                        if (filiteredPlayers.Count > 0)
                         {
-                            foreach (var p in Player.List)
-                                p.AddBroadcast(10, $"<size=25><b>간이 셀렉트 당첨자({player.Nickname})</b>에 의해 모드가 {CurrentMode}(으)로 선택되었습니다.</size>");
-                        });
+                            Player player = Tools.GetRandomValue(filiteredPlayers);
+                            CurrentMode = ModeVote.FirstOrDefault(x => x.Value.Contains(player)).Key;
+
+                            Timing.CallDelayed(1f, () =>
+                            {
+                                foreach (var p in Player.List)
+                                    p.AddBroadcast(10, $"<size=25><b>간이 셀렉트 당첨자({player.Nickname})</b>에 의해 모드가 {CurrentMode}(으)로 선택되었습니다.</size>");
+                            });
+                        }
+                    }
+                }
+                finally
+                {
+                    if (!ModeList.ContainsKey(CurrentMode))
+                    {
+                        CurrentMode = Tools.GetRandomValue(ModeList.Keys.Where(x => ModeList[x][3] != "private").ToList());
+
+                        foreach (var p in Player.List)
+                            p.AddBroadcast(10, $"<size=25><b>알 수 없는 이유로 모드가 선택되지 않았으므로, 모드가 랜덤으로 선택되었습니다.</size>");
                     }
                 }
             }
@@ -324,7 +338,7 @@ namespace RGM
             }
         }
 
-        public async void OnRoundEnded(Exiled.Events.EventArgs.Server.RoundEndedEventArgs ev)
+        public void OnRoundEnded(Exiled.Events.EventArgs.Server.RoundEndedEventArgs ev)
         {
             try
             {
@@ -335,17 +349,18 @@ namespace RGM
                 }
 
                 UsersManager.SaveUsers();
+
+                Tools.TryInstallMode("어제의 동지는 오늘의 적");
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                ServerConsole.AddLog(ex.ToString());
+                Log.Error(e);
             }
 
-            Tools.TryInstallMode("어제의 동지는 오늘의 적");
-
-            await Task.Delay(19000);
-
-            Server.ExecuteCommand("sr");
+            Timing.CallDelayed(19f, () => 
+            {
+                Server.ExecuteCommand("sr");
+            });
         }
 
         public async void OnVerified(Exiled.Events.EventArgs.Player.VerifiedEventArgs ev)
