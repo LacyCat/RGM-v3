@@ -23,22 +23,17 @@ namespace RGM.Modes
             Round.IsLocked = true;
             Respawn.TimeUntilNextPhase = 10000;
 
-            Timing.CallDelayed(1f, () =>
-            {
-                Timing.RunCoroutine(OnModeStarted());
+            Timing.RunCoroutine(OnModeStarted());
 
-                site02.OnEnabled();
-                site02.OnRoundStarted();
+            site02.OnEnabled();
+            site02.OnRoundStarted();
 
-                foreach (var player in Player.List)
-                    site02.Verified(player);
-            });
+            foreach (var player in Player.List)
+                site02.Verified(player);
         }
 
         public IEnumerator<float> OnModeStarted()
         {
-            yield return Timing.WaitForSeconds(10f);
-
             Tools.TryInstallMode("FriendlyFire");
 
             for (int i = 0; i < 300; i++)

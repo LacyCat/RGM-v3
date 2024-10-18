@@ -31,8 +31,6 @@ namespace RGM.Modes
 
         public IEnumerator<float> OnModeStarted()
         {
-            yield return Timing.WaitForSeconds(1f);
-
             Server.ExecuteCommand($"/mp load HideAndSeek");
 
             for (float i = 1; i < Player.List.Count / 10 + 2; i++)

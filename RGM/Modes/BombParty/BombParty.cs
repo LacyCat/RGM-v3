@@ -27,15 +27,13 @@ namespace RGM.Modes
             Round.IsLocked = true;
             Respawn.TimeUntilNextPhase = 10000;
 
-            Timing.RunCoroutine(OnModeStarted());
-
             Exiled.Events.Handlers.Player.Died += OnDied;
+
+            Timing.RunCoroutine(OnModeStarted());
         }
 
         public IEnumerator<float> OnModeStarted()
         {
-            yield return Timing.WaitForSeconds(10f);
-
             Server.ExecuteCommand($"/mp load bp");
 
             Player.List.ToList().CopyTo(pl);

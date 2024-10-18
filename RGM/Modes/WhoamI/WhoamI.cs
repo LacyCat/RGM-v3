@@ -31,8 +31,6 @@ namespace RGM.Modes
 
         public IEnumerator<float> OnModeStarted()
         {
-            yield return Timing.WaitForSeconds(1f);
-
             while (true)
             {
                 foreach (var player in Player.List.Where(x => x.IsAlive))

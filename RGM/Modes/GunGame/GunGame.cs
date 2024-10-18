@@ -67,8 +67,6 @@ namespace RGM.Modes
                     Door.IsOpen = true;
             }
 
-            yield return Timing.WaitForSeconds(1f);
-
             Server.ExecuteCommand("/atkill all");
 
             while (!IsEnd)

@@ -37,9 +37,9 @@ namespace RGM.Modes
 
         public IEnumerator<float> OnModeStarted()
         {
-            yield return Timing.WaitForSeconds(2f);
             var scp = Player.List.ToList()[UnityEngine.Random.Range(0, Player.List.Count())];
             var bomb = Player.List.Where(x => x != scp).ToList()[UnityEngine.Random.Range(0, Player.List.Count() - 1)];
+
             foreach (var p in Player.List)
             {
                 if (p == scp)

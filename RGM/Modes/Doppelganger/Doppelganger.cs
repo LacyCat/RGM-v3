@@ -39,20 +39,20 @@ namespace RGM.Modes
         {
             Server.FriendlyFire = true;
 
-            Timing.RunCoroutine(OnModeStarted());
-
             Exiled.Events.Handlers.Player.Verified += OnVerified;
             Exiled.Events.Handlers.Player.Died += OnDied;
+
+            Timing.RunCoroutine(OnModeStarted());
         }
 
         public IEnumerator<float> OnModeStarted()
         {
-            yield return Timing.WaitForSeconds(1f);
-
             target = Tools.GetRandomValue(Player.List.Where(x => !x.IsScp).ToList());
 
             foreach (var player in Player.List.Where(x => x != target))
                 ApplyInfo(target);
+
+            yield break;
         }
 
         public void OnVerified(Exiled.Events.EventArgs.Player.VerifiedEventArgs ev)

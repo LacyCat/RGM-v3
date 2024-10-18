@@ -34,31 +34,13 @@ namespace RGM.Modes
             Server.ExecuteCommand($"/close **");
             Server.ExecuteCommand($"/lock **");
 
-            Task.WhenAll(
-                Timer()
-                );
-
-            Timing.RunCoroutine(OnModeStarted());
-            Timing.RunCoroutine(Invisible());
-
             Exiled.Events.Handlers.Player.Hurting += OnHurting;
             Exiled.Events.Handlers.Player.Hurt += OnHurt;
             Exiled.Events.Handlers.Player.Jumping += OnJumping;
-        }
 
-        public async Task Timer()
-        {
-            for (int i = 1; i < 180; i++)
-            {
-                Player.List.ToList().ForEach(x => x.Broadcast(2, $"<size=25><color=#2ECCFA>NTF 승리</color>까지</color> {180 - i}초</size>", shouldClearPrevious: true));
-                await Task.Delay(1000);
-            }
-
-            foreach (var player in Player.List)
-            {
-                if (player.IsScp)
-                    player.Kill("제한시간이 초과하였습니다.");
-            }
+            Timing.RunCoroutine(OnModeStarted());
+            Timing.RunCoroutine(Timer());
+            Timing.RunCoroutine(Invisible());
         }
 
         public IEnumerator<float> OnModeStarted()
@@ -109,6 +91,21 @@ namespace RGM.Modes
                         obj.Position = monster.Position;
                 }
                 yield return Timing.WaitForSeconds(0.01f);
+            }
+        }
+
+        public IEnumerator<float> Timer()
+        {
+            for (int i = 1; i < 180; i++)
+            {
+                Player.List.ToList().ForEach(x => x.Broadcast(2, $"<size=25><color=#2ECCFA>NTF 승리</color>까지</color> {180 - i}초</size>", shouldClearPrevious: true));
+                yield return Timing.WaitForSeconds(1f);
+            }
+
+            foreach (var player in Player.List)
+            {
+                if (player.IsScp)
+                    player.Kill("제한시간이 초과하였습니다.");
             }
         }
 

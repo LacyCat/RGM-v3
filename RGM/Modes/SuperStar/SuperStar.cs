@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Discord;
 using Exiled.API.Features;
 using HarmonyLib;
+using MEC;
 using PlayerRoles;
 using UnityEngine;
 using VoiceChat;
@@ -22,14 +23,10 @@ namespace RGM.Modes
 
         public void OnEnabled()
         {
-            Task.WhenAll(
-                 OnModeStarted()
-                 );
-
             Exiled.Events.Handlers.Player.Left += OnLeft;
         }
 
-        public async Task OnModeStarted()
+        public IEnumerator<float> OnModeStarted()
         {
             while (true)
             {
@@ -40,7 +37,7 @@ namespace RGM.Modes
                         pl.Add(player.UserId);
                     }
 
-                await Task.Delay(1000);
+                yield return Timing.WaitForSeconds(1f);
             }
         }
 

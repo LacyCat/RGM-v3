@@ -21,8 +21,6 @@ namespace RGM.Modes
 
         public IEnumerator<float> OnModeStarted()
         {
-            yield return Timing.WaitForSeconds(0.5f);
-
             List<ItemType> itemList = Tools.EnumToList<ItemType>();
 
             while (true)
