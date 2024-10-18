@@ -36,7 +36,7 @@ namespace RGM.API.Features
             return itemList;
         }
 
-        public static List<string> GetMiniGamesList()
+        public static List<string> GetGameSetsList()
         {
             List<string> Mods = new List<string>()
             {

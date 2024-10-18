@@ -711,7 +711,7 @@ GoldenPig1205(@GoldenPig1205) - 메인 개발자
                         IsScp3114Enabled = true;
                     }
 
-                    if (!Tools.GetMiniGamesList().Contains(CurrentMode))
+                    if (!Tools.GetGameSetsList().Contains(CurrentMode))
                     {
                         PlayersInfo.Add(ev.Player.UserId, new PlayerInfo
                         {
