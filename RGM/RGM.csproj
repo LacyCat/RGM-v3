@@ -165,8 +165,8 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="API\Tools.cs" />
-    <Compile Include="API\Translations.cs" />
+    <Compile Include="API\Features\Tools.cs" />
+    <Compile Include="API\Databases\Translations.cs" />
     <Compile Include="Commands\ClientCommands\ShopFeatures\ApplyCustom.cs" />
     <Compile Include="Commands\ClientCommands\ShopFeatures\ApplyKillEffect.cs" />
     <Compile Include="Commands\ClientCommands\BasicFeatures\Chat.cs" />
@@ -192,11 +192,11 @@
     <Compile Include="Discord\Command.cs" />
     <Compile Include="Discord\Webhook.cs" />
     <Compile Include="Donator\Main.cs" />
-    <Compile Include="Features\BallComponent.cs" />
-    <Compile Include="Features\FileManager.cs" />
-    <Compile Include="Features\TagComponent.cs" />
-    <Compile Include="Interfaces\PlayerInfo.cs" />
-    <Compile Include="Interfaces\PlayerReport.cs" />
+    <Compile Include="API\Components\BallComponent.cs" />
+    <Compile Include="API\Features\FileManager.cs" />
+    <Compile Include="API\Components\TagComponent.cs" />
+    <Compile Include="API\Interfaces\PlayerInfo.cs" />
+    <Compile Include="API\Interfaces\PlayerReport.cs" />
     <Compile Include="Modes\ABattle\ABattle.cs" />
     <Compile Include="Modes\ABattle\EventArgs\Map.cs" />
     <Compile Include="Modes\ABattle\EventArgs\Player.cs" />
