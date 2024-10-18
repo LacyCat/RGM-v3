@@ -285,7 +285,15 @@ namespace RGM.Modes.ABattleFunctions
                         player.AddItem(Tools.GetRandomValue(Ammos));
                     break;
                 case "정화":
-                    player.TryAddCandy(CandyKindID.Green);
+                    if (player.HasItem(ItemType.SCP330))
+                        player.TryAddCandy(CandyKindID.Green);
+
+                    else
+                    {
+                        Scp330 Candy = (Scp330)player.AddItem(ItemType.SCP330);
+
+                        Candy.AddCandy(CandyKindID.Green);
+                    }
 
                     if (player.IsScp)
                         Server.ExecuteCommand($"/forceeq {player.Id} 42");
@@ -320,11 +328,9 @@ namespace RGM.Modes.ABattleFunctions
 
                     else
                     {
-                        Scp330Bag yc = new Scp330Bag 
-                        {
-                            Candies = new List<CandyKindID> { CandyKindID.Yellow }
-                        };
-                        player.AddItem(yc);
+                        Scp330 Candy = (Scp330)player.AddItem(ItemType.SCP330);
+
+                        Candy.AddCandy(CandyKindID.Yellow);
                     }
 
                     if (player.IsScp)
@@ -365,11 +371,9 @@ namespace RGM.Modes.ABattleFunctions
 
                     else
                     {
-                        Scp330Bag rc = new Scp330Bag
-                        {
-                            Candies = new List<CandyKindID> { CandyKindID.Rainbow }
-                        };
-                        player.AddItem(rc);
+                        Scp330 Candy = (Scp330)player.AddItem(ItemType.SCP330);
+
+                        Candy.AddCandy(CandyKindID.Rainbow);
                     }
 
                     if (player.IsScp)
@@ -473,11 +477,9 @@ namespace RGM.Modes.ABattleFunctions
 
                     else
                     {
-                        Scp330Bag _pc = new Scp330Bag
-                        {
-                            Candies = new List<CandyKindID> { CandyKindID.Pink }
-                        };
-                        player.AddItem(_pc);
+                        Scp330 Candy = (Scp330)player.AddItem(ItemType.SCP330);
+
+                        Candy.AddCandy(CandyKindID.Pink);
                     }
 
                     if (player.IsScp)
