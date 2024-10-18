@@ -15,7 +15,7 @@ namespace RGM.Modes
     {
         public static DoubleUp Instance;
 
-        public static List<string> BlackListMods = Tools.GetMiniGamesList();
+        public static List<string> BlackListMods = Tools.GetGameSetsList();
         public static Dictionary<string, List<string>> Mods = RGM.Instance.ModeList;
 
         public static List<string> ModeKeys = RGM.Instance.ModeList.Keys.Where(x => Mods[x][3] != "private" && !BlackListMods.Contains(x)).ToList();

@@ -67,8 +67,11 @@ namespace RGM.Modes
                     await Task.Delay(1000);
                 }
 
-                ev.Player.MaxHealth = 1;
-                ev.Player.Health = ev.Player.MaxHealth;
+                Timing.CallDelayed(1f, () =>
+                {
+                    ev.Player.MaxHealth = 1;
+                    ev.Player.Health = ev.Player.MaxHealth;
+                });
 
                 spirits.Add(ev.Player);
 
