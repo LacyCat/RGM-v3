@@ -34,9 +34,6 @@ namespace RGM.Modes
             Server.FriendlyFire = true;
             Round.IsLocked = true;
 
-            Timing.RunCoroutine(OnModeStarted());
-            Timing.RunCoroutine(AutoWarhead());
-
             Exiled.Events.Handlers.Player.Spawned += OnSpawned;
             Exiled.Events.Handlers.Player.SearchingPickup += OnSearchingPickup;
             Exiled.Events.Handlers.Player.DroppingItem += OnDroppingItem;
@@ -47,12 +44,13 @@ namespace RGM.Modes
             Exiled.Events.Handlers.Player.Handcuffing += OnHandcuffing;
 
             Exiled.Events.Handlers.Item.ChargingJailbird += OnChargingJailbird;
+
+            Timing.RunCoroutine(OnModeStarted());
+            Timing.RunCoroutine(AutoWarhead());
         }
 
         public IEnumerator<float> OnModeStarted()
         {
-            yield return Timing.WaitForSeconds(10);
-
             foreach (var player in Player.List)
             {
                 Spawned(player);
@@ -135,11 +133,14 @@ namespace RGM.Modes
         {
             if (player.IsAlive)
             {
-                if (player.Role.Type == RoleTypeId.Scp3114)
-                    player.Role.Set(RoleTypeId.Scp939);
+                List<RoleTypeId> ScpsList = new List<RoleTypeId>()
+                {
+                    RoleTypeId.Scp3114,
+                    RoleTypeId.Scp079
+                };
 
-                if (player.Role is Scp079Role scp079)
-                    scp079.AddExperience(1205);
+                if (ScpsList.Contains(player.Role))
+                    player.Role.Set(Tools.GetRandomValue(Tools.EnumToList<RoleTypeId>().Where(x => !ScpsList.Contains(x)).ToList()));
             }
         }
 

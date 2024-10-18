@@ -22,12 +22,12 @@ namespace RGM.Modes
 
         public IEnumerator<float> OnModeStarted()
         {
-            yield return Timing.WaitForSeconds(0.5f);
-
             foreach (var player in Player.List)
             {
                 Spawned(player);
             }
+
+            yield break;
         }
 
         public void OnSpawned(Exiled.Events.EventArgs.Player.SpawnedEventArgs ev)

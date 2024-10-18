@@ -27,8 +27,6 @@ namespace RGM.Modes
 
         public IEnumerator<float> OnModeStarted()
         {
-            yield return Timing.WaitForSeconds(10f);
-
             Timing.RunCoroutine(RecordPlayerInfo());
             Timing.RunCoroutine(CheckRedLight());
 

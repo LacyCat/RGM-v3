@@ -22,9 +22,10 @@ namespace RGM.Modes
         public void OnEnabled()
         {
             Round.IsLocked = true;
-            Timing.RunCoroutine(OnModeStarted());
 
             Exiled.Events.Handlers.Player.Died += OnDied;
+
+            Timing.RunCoroutine(OnModeStarted());
         }
 
         public IEnumerator<float> OnModeStarted()
@@ -32,8 +33,6 @@ namespace RGM.Modes
             Server.ExecuteCommand("/mp load cell");
             Player BadLucky = Tools.GetRandomValue(Player.List.ToList());
             Player.List.ToList().CopyTo(pl);
-
-            yield return Timing.WaitForSeconds(1f);
 
             foreach (var player in Player.List)
             {
@@ -43,6 +42,8 @@ namespace RGM.Modes
                 if (player == BadLucky)
                     Server.ExecuteCommand($"/drop {player.Id} 31 1");
             }
+
+            yield break;
         }
 
         public void OnDied(Exiled.Events.EventArgs.Player.DiedEventArgs ev)

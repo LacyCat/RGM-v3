@@ -46,8 +46,6 @@ namespace RGM.Modes
 
         public IEnumerator<float> OnModeStarted()
         {
-            yield return Timing.WaitForSeconds(1f);
-
             Server.ExecuteCommand($"/mp load Spleef");
 
             Player.List.ToList().CopyTo(pl);

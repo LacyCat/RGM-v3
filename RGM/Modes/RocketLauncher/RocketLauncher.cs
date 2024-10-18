@@ -15,9 +15,14 @@ namespace RGM.Modes
 
         public void OnEnabled()
         {
-            Timing.RunCoroutine(OnModeStarted());
-
             Exiled.Events.Handlers.Player.Hurt += OnHurt;
+
+            Timing.RunCoroutine(OnModeStarted());
+        }
+
+        public IEnumerator<float> OnModeStarted()
+        {
+            yield return 0f;
         }
 
         public void OnHurt(Exiled.Events.EventArgs.Player.HurtEventArgs ev)
@@ -30,11 +35,6 @@ namespace RGM.Modes
                     Server.ExecuteCommand($"/rocket {ev.Player.Id} 1");
                 }
             }
-        }
-
-        public IEnumerator<float> OnModeStarted()
-        {
-            yield return 0f;
         }
     }
 }

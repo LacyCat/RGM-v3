@@ -23,14 +23,14 @@ namespace RGM.Modes
 
         public void OnEnabled()
         {
-            Timing.RunCoroutine(OnModeStarted());
-
             Exiled.Events.Handlers.Player.Spawned += OnSpawned;
             Exiled.Events.Handlers.Player.TogglingNoClip += OnTogglingNoClip;
 
             Exiled.Events.Handlers.Scp173.Blinking += OnBlinking;
 
             Exiled.Events.Handlers.Scp939.Lunging += OnLunging;
+
+            Timing.RunCoroutine(OnModeStarted());
 
             Harmony harmony = new Harmony($"FriendlyFire - {DateTime.Now.Ticks}");
             harmony.Patch(AccessTools.Method(typeof(HitboxIdentity), nameof(HitboxIdentity.IsEnemy), [typeof(Team), typeof(Team)]), 
@@ -39,12 +39,12 @@ namespace RGM.Modes
 
         public IEnumerator<float> OnModeStarted()
         {
-            yield return Timing.WaitForSeconds(0.5f);
-
             foreach (var player in Player.List)
             {
                 Spawned(player);
             }
+
+            yield break;
         }
 
         public void OnSpawned(Exiled.Events.EventArgs.Player.SpawnedEventArgs ev)

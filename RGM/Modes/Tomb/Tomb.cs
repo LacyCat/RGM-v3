@@ -21,20 +21,20 @@ namespace RGM.Modes
 
         public List<Player> pl = new List<Player>();
 
+        public Vector3 RandomPosition()
+        {
+            return new Vector3(UnityEngine.Random.Range(-27.92969f, 44.88281f), 1043f, UnityEngine.Random.Range(-75.78906f, -2.71875f));
+        }
+
         public void OnEnabled()
         {
             Server.FriendlyFire = true;
             Round.IsLocked = true;
             Respawn.TimeUntilNextPhase = 10000;
 
-            Timing.RunCoroutine(OnModeStarted());
-
             Exiled.Events.Handlers.Player.Died += OnDied;
-        }
 
-        public Vector3 RandomPosition()
-        {
-            return new Vector3(UnityEngine.Random.Range(-27.92969f, 44.88281f), 1043f, UnityEngine.Random.Range(-75.78906f, -2.71875f));
+            Timing.RunCoroutine(OnModeStarted());
         }
 
         public IEnumerator<float> OnModeStarted()

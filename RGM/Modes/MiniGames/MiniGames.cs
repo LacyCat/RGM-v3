@@ -56,8 +56,6 @@ namespace RGM.Modes
 
         public IEnumerator<float> OnModeStarted()
         {
-            yield return Timing.WaitForSeconds(1f);
-
             foreach (var player in Player.List)
             {
                 player.Role.Set(PlayerRoles.RoleTypeId.ClassD);

@@ -32,11 +32,11 @@ namespace RGM.Modes
             Respawn.TimeUntilNextPhase = 10000;
             Door.List.ToList().ForEach(x => x.Lock(1205, Exiled.API.Enums.DoorLockType.Lockdown079));
 
-            Timing.RunCoroutine(OnModeStarted());
-            Timing.RunCoroutine(CleanAll());
-
             Exiled.Events.Handlers.Player.Dying += OnDying;
             Exiled.Events.Handlers.Player.Spawned += OnSpawned;
+
+            Timing.RunCoroutine(OnModeStarted());
+            Timing.RunCoroutine(CleanAll());
         }
 
         public List<ItemType> Items()
@@ -69,7 +69,7 @@ namespace RGM.Modes
             StartupItems = Items();
 
             Player.List.ToList().CopyTo(pl);
-            Player.List.ToList().ForEach(x => Spawned(x));
+            Player.List.ToList().ForEach(Spawned);
 
             yield return Timing.WaitForSeconds(180f);
 

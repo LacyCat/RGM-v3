@@ -37,8 +37,6 @@ namespace RGM.Modes
 
         public IEnumerator<float> OnModeStarted()
         {
-            yield return Timing.WaitForSeconds(1f);
-
             for (int i=0; i<2; i++)
                 Tools.TryInstallMode(Mods[Modes[i]][2]);
 
@@ -47,6 +45,8 @@ namespace RGM.Modes
                 player.AddBroadcast(10, Description);
                 player.SendConsoleMessage($"\n{Description}", "white");
             }
+
+            yield break;
         }
 
         public void OnVerified(Exiled.Events.EventArgs.Player.VerifiedEventArgs ev)
