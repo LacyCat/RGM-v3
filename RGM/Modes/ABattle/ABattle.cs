@@ -99,9 +99,12 @@ namespace RGM.Modes
             RemoteAdminCommandHandler rach = new RemoteAdminCommandHandler();
             rach.RegisterCommand(new AddAbility());
 
+            cch.LoadGeneratedCommands();
+            rach.LoadGeneratedCommands();
+
             Harmony harmony = new Harmony($"ABattle - {DateTime.Now.Ticks}");
             harmony.Patch(Method(typeof(Inventory), nameof(Inventory.Update)),
-                postfix: new HarmonyMethod(Method(typeof(InventoryUpdatePatch), nameof(InventoryUpdatePatch.Transpiler))));
+                transpiler: new HarmonyMethod(Method(typeof(InventoryUpdatePatch), nameof(InventoryUpdatePatch.Transpiler))));
         }
     }
 }
