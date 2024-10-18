@@ -167,6 +167,7 @@ namespace RGM
             UsersManager.LoadUsers();
 
             Round.IsLobbyLocked = true;
+            GameObject.Find("StartRound").transform.localScale = Vector3.zero;
             Server.ExecuteCommand($"/mp load RGMLobby");
 
             var webhook = new Discord.Webhook();
