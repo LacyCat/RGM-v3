@@ -279,6 +279,9 @@ namespace RGM.Modes.ABattleEventArgs
 
         public static void OnDying(Exiled.Events.EventArgs.Player.DyingEventArgs ev)
         {
+            if (ev.DamageHandler.Type == DamageType.Unknown)
+                return;
+
             if (PlayerAbilities[ev.Player].Contains("[전용] RTX4090"))
             {
                 ev.IsAllowed = false;
@@ -445,6 +448,9 @@ namespace RGM.Modes.ABattleEventArgs
 
         public static void OnDied(Exiled.Events.EventArgs.Player.DiedEventArgs ev)
         {
+            if (ev.DamageHandler.Type == DamageType.Unknown)
+                return;
+
             try
             {
                 if (ev.Attacker != null)
@@ -640,6 +646,15 @@ namespace RGM.Modes.ABattleEventArgs
                         else
                             ev.Player.GetEffect(EffectType.MovementBoost).Intensity = 0;
                     });
+                }
+
+                if (PlayerAbilities[ev.Player].Contains("[시너지] 드루이드"))
+                {
+                    if (UnityEngine.Random.Range(1, 3) == 1)
+                    {
+                        ev.IsAllowed = false;
+                        ev.Attacker.Hurt(ev.DamageHandler.Damage, $"{ev.Player.Nickname}의 정령의 가호에 의해 사망하였습니다.");
+                    }
                 }
             }
         }
