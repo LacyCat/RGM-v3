@@ -20,6 +20,7 @@ namespace RGM.Modes
         public static SpeedRun Instance;
 
         public List<Player> pl = new List<Player>();
+        public bool IsEnd = false;
 
         public void OnEnabled()
         {
@@ -90,7 +91,11 @@ namespace RGM.Modes
             {
                 Round.IsLocked = false;
 
-                Player.List.ToList().ForEach(x => x.AddBroadcast(15, $"<b><size=30><탈출자 : {ev.Player.DisplayNickname}></size></b>"));
+                if (!IsEnd)
+                {
+                    Player.List.ToList().ForEach(x => x.AddBroadcast(20, $"<b><size=30><최초 탈출자 : {ev.Player.DisplayNickname}></size></b>"));
+                    IsEnd = true;
+                }
             }
         }
 
