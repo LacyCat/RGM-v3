@@ -269,7 +269,7 @@ namespace RGM
                 {
                     if (!ModeList.ContainsKey(CurrentMode))
                     {
-                        CurrentMode = Tools.GetRandomValue(ModeList.Keys.Where(x => ModeList[x][3] != "private").ToList());
+                        CurrentMode = Tools.GetRandomValue(ModeList.Keys.Where(x => ModeList[x][3] == "public").ToList());
 
                         foreach (var p in Player.List)
                             p.AddBroadcast(10, $"<size=25><b>알 수 없는 이유로 모드가 선택되지 않았으므로, 모드가 랜덤으로 선택되었습니다.</size>");
@@ -1160,7 +1160,7 @@ GoldenPig1205(@GoldenPig1205) - 메인 개발자
 
         public override string Name => "RGM";
         public override string Author => "GoldenPig1205";
-        public override Version Version { get; } = new(3, 5, 3);
+        public override Version Version { get; } = new(3, 5, 4);
         public override Version RequiredExiledVersion { get; } = new(1, 2, 0, 5);
     }
 }
