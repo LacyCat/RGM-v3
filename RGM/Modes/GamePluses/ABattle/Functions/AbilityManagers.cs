@@ -285,15 +285,7 @@ namespace RGM.Modes.ABattleFunctions
                         player.AddItem(Tools.GetRandomValue(Ammos));
                     break;
                 case "정화":
-                    if (player.HasItem(ItemType.SCP330))
-                        player.TryAddCandy(CandyKindID.Green);
-
-                    else
-                    {
-                        Scp330 Candy = (Scp330)player.AddItem(ItemType.SCP330);
-
-                        Candy.AddCandy(CandyKindID.Green);
-                    }
+                    player.TryAddCandy(CandyKindID.Green);
 
                     if (player.IsScp)
                         Server.ExecuteCommand($"/forceeq {player.Id} 42");
@@ -322,16 +314,7 @@ namespace RGM.Modes.ABattleFunctions
                     break;
                 case "횃불":
                     player.AddItem(ItemType.Lantern);
-
-                    if (player.HasItem(ItemType.SCP330))
-                        player.TryAddCandy(CandyKindID.Yellow);
-
-                    else
-                    {
-                        Scp330 Candy = (Scp330)player.AddItem(ItemType.SCP330);
-
-                        Candy.AddCandy(CandyKindID.Yellow);
-                    }
+                    player.TryAddCandy(CandyKindID.Yellow);
 
                     if (player.IsScp)
                         Server.ExecuteCommand($"/forceeq {player.Id} 42");
@@ -366,15 +349,7 @@ namespace RGM.Modes.ABattleFunctions
                     }
                     break;
                 case "무지개":
-                    if (player.HasItem(ItemType.SCP330))
-                        player.TryAddCandy(CandyKindID.Rainbow);
-
-                    else
-                    {
-                        Scp330 Candy = (Scp330)player.AddItem(ItemType.SCP330);
-
-                        Candy.AddCandy(CandyKindID.Rainbow);
-                    }
+                    player.TryAddCandy(CandyKindID.Rainbow);
 
                     if (player.IsScp)
                         Server.ExecuteCommand($"/forceeq {player.Id} 42");
@@ -472,15 +447,7 @@ namespace RGM.Modes.ABattleFunctions
                         player.CurrentItem = scp500;
                     break;
                 case "테러리스트의 유품":
-                    if (player.HasItem(ItemType.SCP330))
-                        player.TryAddCandy(CandyKindID.Pink);
-
-                    else
-                    {
-                        Scp330 Candy = (Scp330)player.AddItem(ItemType.SCP330);
-
-                        Candy.AddCandy(CandyKindID.Pink);
-                    }
+                    player.TryAddCandy(CandyKindID.Pink);
 
                     if (player.IsScp)
                         Server.ExecuteCommand($"/forceeq {player.Id} 42");
