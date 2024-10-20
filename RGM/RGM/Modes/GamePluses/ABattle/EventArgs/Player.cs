@@ -741,7 +741,7 @@ namespace RGM.Modes.ABattleEventArgs
                 foreach (var player in Player.List.Where(x => !x.IsNPC && !x.IsScp && x.IsAlive))
                 {
                     if (player.CurrentRoom == ev.Player.CurrentRoom)
-                        player.EnableEffect(EffectType.SinkHole, 1, 0.1f * DuplicateCount(ev.Player, "[전용] 고대의 존재 압도"));
+                        player.EnableEffect(EffectType.Slowness, (byte)(25 * DuplicateCount(ev.Player, "[전용] 고대의 존재 압도")), 0.1f);
                 }
             }
         }
