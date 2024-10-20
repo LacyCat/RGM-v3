@@ -69,7 +69,7 @@ namespace RGM.Modes
                                 if (pl.Count < 2)
                                     Round.IsLocked = false;
 
-                                player.Position = new Vector3(78.9921f, 1022.955f, -51.56821f);
+                                player.Kill("선을 넘어버렸다네~");
                             }
                         }
                     }
