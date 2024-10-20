@@ -11,6 +11,7 @@ using Exiled.API.Features;
 using System.Linq;
 
 using static RGM.Variables.Protocol;
+using MultiBroadcast.API;
 
 namespace RGM.Discord
 {
@@ -66,6 +67,16 @@ namespace RGM.Discord
             {
                 if (Value[1] == "players")
                     result = $"{Server.PlayerCount} / {Server.MaxPlayerCount}";
+            }
+            else if (Content.StartsWith("update"))
+            {
+                result = Value[1];
+
+                foreach (var player in Player.List)
+                {
+                    player.AddBroadcast(10, $"<b><size=25>랜덤게임모드(RGM)의 새 릴리즈가 업데이트되었습니다!</size></b>\n<size=20>콘솔(` 또는 ~)을 열어 상세 내용을 확인하세요.</size>");
+                    player.SendConsoleMessage(result, "white");
+                }
             }
 
             response.ContentLength64 = result.Length;
