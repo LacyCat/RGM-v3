@@ -450,7 +450,7 @@ namespace RGM.Modes.ABattleEventArgs
             try
             {
 
-                if (ev.Attacker != null)
+                if (ev.Attacker != null && !ev.Attacker.IsNPC)
                 {
                     if (PlayerAbilities[ev.Player].Contains("[일반] 대물림"))
                     {
