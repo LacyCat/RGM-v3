@@ -298,6 +298,7 @@ namespace RGM.Modes.ABattleEventArgs
                 ev.IsAllowed = false;
 
                 PlayerAbilities[ev.Player].Remove("[일반] 보험");
+                AddAbility(ev.Player, "[일반] 만료된 보험");
                 return;
             }
 
@@ -324,6 +325,7 @@ namespace RGM.Modes.ABattleEventArgs
                         GodModePlayers.Remove(ev.Player);
                 });
 
+                AddAbility(ev.Player, "[영웅] 구사일생자");
                 return;
             }
 
@@ -345,6 +347,7 @@ namespace RGM.Modes.ABattleEventArgs
 
                 ev.Attacker.Kill($"몸이 교체되는 마술에 당했네요!");
 
+                AddAbility(ev.Player, "[전설] 마술사 트릭 성공");
                 return;
             }
 
@@ -376,24 +379,8 @@ namespace RGM.Modes.ABattleEventArgs
                         GodModePlayers.Remove(ev.Player);
                 });
 
+                AddAbility(ev.Player, "[신화] 광기를 잃은 조커");
                 return;
-            }
-            if (PlayerAbilities[ev.Player].Contains("[전용] RTX4090"))
-            {
-                ev.IsAllowed = false;
-
-                PlayerAbilities[ev.Player].Clear();
-
-                Timing.CallDelayed(0.1f, () =>
-                {
-                    ev.Player.Role.Set(RoleTypeId.Tutorial);
-
-                    Vector3 Pos = Door.Get(DoorType.Scp079First).Position;
-                    ev.Player.Position = new Vector3(Pos.x, Pos.y + 2, Pos.z);
-
-                    for (int i = 1; i < UnityEngine.Random.Range(7, 12) * DuplicateCount(ev.Player, "[전용] RTX4090"); i++)
-                        AddAbility(ev.Player);
-                });
             }
 
             // 죽음이 확정된 상황
@@ -403,6 +390,8 @@ namespace RGM.Modes.ABattleEventArgs
                 ev.IsAllowed = false;
 
                 PlayerAbilities[ev.Player].Remove("[영웅] 최후의 발악");
+
+                AddAbility(ev.Player, "[영웅] 최후의 발악이다!!!!!!!!!!");
 
                 ev.Player.GetEffect(EffectType.MovementBoost).Intensity += 30;
                 ev.Player.Health = 12050;
