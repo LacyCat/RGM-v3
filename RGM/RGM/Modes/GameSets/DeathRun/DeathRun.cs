@@ -43,7 +43,7 @@ namespace RGM.Modes
             {
                 player.Role.Set(RoleTypeId.ClassD);
                 player.Position = new Vector3(48.86719f, 1002.6483f, 86.34375f);
-                player.EnableEffect(EffectType.Slowness, 99, 10);
+                Timing.CallDelayed(1f, () => player.EnableEffect(EffectType.Ensnared));
             }
 
             for (int i=1; i<11; i++)
