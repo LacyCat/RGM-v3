@@ -86,17 +86,6 @@ namespace RGM.Modes
                                 player.IsNoclipPermitted = false;
                         }
                     }
-                    else
-                    {
-                        if (player.Role is SpectatorRole spectator)
-                        {
-                            if (spectator.SpectatedPlayer != null)
-                            {
-                                int s = spectator.SpectatedPlayer.CurrentSpectatingPlayers.Count();
-                                player.ShowHint($"현재 {s}명이 이 플레이어를 관전하고 있습니다.", 1.2f);
-                            }
-                        }
-                    }
                 }
 
                 yield return Timing.WaitForSeconds(1f);
