@@ -83,6 +83,7 @@ namespace RGM
             { "미니 게임", new List<string>() { "6E6E6E", "미니 게임 중 하나가 랜덤으로 선택됩니다. 총 3개의 라운드로 진행됩니다.", "MiniGames", "private", "", "" } },
             { "무법자", new List<string>() { "9F81F7", "모두가 총기 하나를 가지고 시작합니다.", "Outlaw", "public", "", "" } },
             { "해적 룰렛", new List<string>() { "FFBF00", "폭탄을 잘 추려내야 합니다.", "PirateRoulette", "private", "", "" } },
+            { "랜덤효과", new List<string>() { "BFFF00", "60초마다 랜덤한 효과를 얻을 수 있습니다!", "RandomEffect", "onlysub", "몬키키", "" } },
             { "랜덤박스", new List<string>() { "BFFF00", "60초마다 랜덤한 아이템을 얻을 수 있습니다!", "RandomItem", "public", "", "" } },
             { "빨간 불, 초록 불", new List<string>() { "F7D358", "빨간 불에는 움직이지 마세요.", "RedLightGreenLight", "public", "", "" } },
             { "로켓 런처", new List<string>() { "FA8258", "무슨 이유로든 피격당하면 5% 확률로 승천합니다.", "RocketLauncher", "public", "", "" } },
