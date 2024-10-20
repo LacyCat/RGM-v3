@@ -291,7 +291,7 @@ namespace RGM.Modes.ABattleIEnumerators
                             if (Tools.TryGetNearestPlayer(player, out Player nearestPlayer, out float radius))
                             {
                                 if (nearestPlayer != null && radius < 99999)
-                                    player.ShowHint($"<color={nearestPlayer.Role.Color.ToHex()}>{Trans.Role[nearestPlayer.Role.Type]}</color> - {radius}m", 1.2f);
+                                    player.ShowHint($"<color={nearestPlayer.Role.Color.ToHex()}>{Trans.Role[nearestPlayer.Role.Type]}</color> - {radius.ToString("F1")}m", 1.2f);
                             }
                         }
                     }
