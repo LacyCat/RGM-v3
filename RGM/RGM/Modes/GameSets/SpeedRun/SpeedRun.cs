@@ -20,6 +20,22 @@ namespace RGM.Modes
         public static SpeedRun Instance;
 
         public List<Player> pl = new List<Player>();
+        List<ItemType> Standards = new List<ItemType>()
+        {
+            ItemType.Flashlight,
+        };
+        List<ItemType> Extensions = new List<ItemType>()
+        {
+            ItemType.KeycardO5,
+            ItemType.Adrenaline,
+            ItemType.Coin,
+            ItemType.Lantern,
+            ItemType.Medkit,
+            ItemType.Painkillers,
+            ItemType.SCP330
+        };
+        List<ItemType> ItemsList = new List<ItemType>();
+
         public bool IsEnd = false;
 
         public void OnEnabled()
@@ -41,6 +57,15 @@ namespace RGM.Modes
             Warhead.Start();
 
             Player.List.ToList().ForEach(Spawned);
+
+            foreach (var Item in Standards)
+                ItemsList.Add(Item);
+
+            foreach (var Item in Extensions)
+            {
+                if (UnityEngine.Random.Range(1, 3) == 1)
+                    ItemsList.Add(Item);
+            }
 
             foreach (var locker in Recontainer.LockedDoors.ToList())
                 locker.IsOpen = true;
@@ -64,18 +89,8 @@ namespace RGM.Modes
                     if (player.Role.Type != RoleTypeId.ClassD)
                         player.Role.Set(RoleTypeId.ClassD);
 
-                    List<ItemType> ItemsList = new List<ItemType>()
-                    {
-                        ItemType.KeycardO5,
-                        ItemType.Flashlight,
-                        ItemType.Adrenaline,
-                        ItemType.GrenadeFlash,
-                        ItemType.Coin,
-                        ItemType.SCP330
-                    };
-
-                    foreach (var item in ItemsList)
-                        player.AddItem(item);
+                    foreach (var Item in ItemsList)
+                        player.AddItem(Item);
                 }
             }
         }
