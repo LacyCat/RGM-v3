@@ -301,7 +301,7 @@ namespace RGM.Modes.ABattleEventArgs
                     });
                 }
 
-                if (ev.Attacker != null && !ev.Attacker.IsNPC && ev.DamageHandler.Type != DamageType.Scp018 && ev.DamageHandler.Type != DamageType.Warhead)
+                if (ev.Attacker != null && !ev.Attacker.IsNPC && !ev.DamageHandler.IsSuicide && ev.DamageHandler.Type != DamageType.Warhead)
                 {
                     if (PlayerAbilities[ev.Player].Contains("[일반] 보험"))
                     {
@@ -398,16 +398,10 @@ namespace RGM.Modes.ABattleEventArgs
                         PlayerAbilities[ev.Player].Remove("[영웅] 최후의 발악");
 
                         ev.Player.GetEffect(EffectType.MovementBoost).Intensity += 30;
-                        GodModePlayers.Add(ev.Player);
+                        ev.Player.Health = 12050;
 
-                        Timing.CallDelayed(5f, () =>
-                        {
-                            if (GodModePlayers.Contains(ev.Player))
-                                GodModePlayers.Remove(ev.Player);
-
-                            if (ev.Player.IsAlive)
-                                ev.Player.Kill("최후의 발악의 효과로 사망하였습니다.");
-                        });
+                        if (ev.Player.IsAlive)
+                            ev.Player.Kill("최후의 발악의 효과로 사망하였습니다.");
                     }
 
                     if (PlayerAbilities[ev.Player].Contains("[희귀] 순교"))
@@ -456,8 +450,7 @@ namespace RGM.Modes.ABattleEventArgs
         {
             try
             {
-
-                if (ev.Attacker != null && !ev.Attacker.IsNPC && ev.DamageHandler.Type != DamageType.Scp018)
+                if (ev.Attacker != null && !ev.Attacker.IsNPC && !ev.DamageHandler.IsSuicide)
                 {
                     if (PlayerAbilities[ev.Player].Contains("[일반] 대물림"))
                     {
