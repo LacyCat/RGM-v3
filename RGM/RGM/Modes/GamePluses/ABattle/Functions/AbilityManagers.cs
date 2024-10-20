@@ -441,10 +441,10 @@ namespace RGM.Modes.ABattleFunctions
                     if (player.IsScp)
                         player.CurrentItem = scp500;
                     break;
-                case "불의 정령": player.CurrentRoom.Color = new Color(1, 0, 0); Timing.CallDelayed(10f, () => { player.CurrentRoom.Color = new Color(0, 0, 0); }); break;
-                case "물의 정령": player.CurrentRoom.Color = new Color(0, 0, 1); Timing.CallDelayed(10f, () => { player.CurrentRoom.Color = new Color(0, 0, 0); }); break;
-                case "흙의 정령": player.CurrentRoom.Color = new Color(0.5f, 0.25f, 0); Timing.CallDelayed(10f, () => { player.CurrentRoom.Color = new Color(0, 0, 0); }); break;
-                case "바람의 정령": player.CurrentRoom.Color = new Color(0, 1, 0); Timing.CallDelayed(10f, () => { player.CurrentRoom.Color = new Color(0, 0, 0); }); break;
+                case "불의 정령": player.CurrentRoom.Color = new Color(1, 0, 0); Timing.CallDelayed(10f, () => { player.CurrentRoom.Color = new Color(1, 1, 1); }); break;
+                case "물의 정령": player.CurrentRoom.Color = new Color(0, 0, 1); Timing.CallDelayed(10f, () => { player.CurrentRoom.Color = new Color(1, 1, 1); }); break;
+                case "흙의 정령": player.CurrentRoom.Color = new Color(0.5f, 0.25f, 0); Timing.CallDelayed(10f, () => { player.CurrentRoom.Color = new Color(1, 1, 1); }); break;
+                case "바람의 정령": player.CurrentRoom.Color = new Color(0, 1, 0); Timing.CallDelayed(10f, () => { player.CurrentRoom.Color = new Color(1, 1, 1); }); break;
                 case "계약":
                     Item cc_1 = player.AddItem(ItemType.Coin);
                     ContractCoinSerials.Add(cc_1.Serial);
