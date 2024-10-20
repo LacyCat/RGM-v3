@@ -281,167 +281,174 @@ namespace RGM.Modes.ABattleEventArgs
 
         public static void OnDying(Exiled.Events.EventArgs.Player.DyingEventArgs ev)
         {
-            if (PlayerAbilities[ev.Player].Contains("[전용] RTX4090"))
+            try
             {
-                ev.IsAllowed = false;
-
-                PlayerAbilities[ev.Player].Clear();
-
-                Timing.CallDelayed(0.1f, () =>
-                {
-                    ev.Player.Role.Set(RoleTypeId.Tutorial);
-
-                    Vector3 Pos = Door.Get(DoorType.Scp079First).Position;
-                    ev.Player.Position = new Vector3(Pos.x, Pos.y + 2, Pos.z);
-
-                    for (int i = 1; i < UnityEngine.Random.Range(7, 12) * DuplicateCount(ev.Player, "[전용] RTX4090"); i++)
-                        AddAbility(ev.Player);
-                });
-            }
-
-            if (ev.Attacker != null && !ev.Attacker.IsNPC && ev.DamageHandler.Type != DamageType.Warhead)
-            {
-                if (PlayerAbilities[ev.Player].Contains("[일반] 보험"))
+                if (PlayerAbilities[ev.Player].Contains("[전용] RTX4090"))
                 {
                     ev.IsAllowed = false;
-
-                    PlayerAbilities[ev.Player].Remove("[일반] 보험");
-                    return;
-                }
-
-                if (PlayerAbilities[ev.Player].Contains("[영웅] 구사일생"))
-                {
-                    ev.IsAllowed = false;
-
-                    PlayerAbilities[ev.Player].Remove("[영웅] 구사일생");
-
-                    ev.Player.EnableEffect(EffectType.Blinded, 1, 3);
-                    ev.Player.EnableEffect(EffectType.Invisible, 1, 3);
-                    ev.Player.GetEffect(EffectType.MovementBoost).Intensity += 20;
-                    GodModePlayers.Add(ev.Player);
-
-                    Timing.CallDelayed(3f, () =>
-                    {
-                        if (ev.Player.GetEffect(EffectType.MovementBoost).Intensity >= 20)
-                            ev.Player.GetEffect(EffectType.MovementBoost).Intensity -= 20;
-
-                        else
-                            ev.Player.GetEffect(EffectType.MovementBoost).Intensity = 0;
-
-                        if (GodModePlayers.Contains(ev.Player))
-                            GodModePlayers.Remove(ev.Player);
-                    });
-
-                    return;
-                }
-
-                if (PlayerAbilities[ev.Player].Contains("[전설] 마술사"))
-                {
-                    ev.IsAllowed = false;
-
-                    PlayerAbilities[ev.Player].Remove("[전설] 마술사");
-
-                    ev.Player.Role.Set(ev.Attacker.Role, SpawnReason.ForceClass, RoleSpawnFlags.None);
-                    ev.Player.Health = ev.Attacker.Health;
-                    foreach (Item Item in ev.Attacker.Items)
-                        ev.Player.AddItem(Item.Type);
 
                     PlayerAbilities[ev.Player].Clear();
 
-                    foreach (string ability in PlayerAbilities[ev.Attacker])
-                        AddAbility(ev.Player, ability);
-
-                    ev.Attacker.Kill($"몸이 교체되는 마술에 당했네요!");
-
-                    return;
-                }
-
-                if (PlayerAbilities[ev.Player].Contains("[신화] 조커"))
-                {
-                    ev.IsAllowed = false;
-
-                    PlayerAbilities[ev.Player].Remove("[신화] 조커");
-
-                    Player.List.ToList().ForEach(x => x.ShowHint("<b><i><color=#FF0000>조</color><color=#E70717>커</color><color=#D00F2E>를</color> <color=#A21E5C>건</color><color=#8B2673>들</color><color=#732E8B>인</color> <color=#453DB9>죄</color><color=#2E45D0>다</color><color=#174DE7>!</color></i></b>", 3));
-
-                    ev.Player.MaxHealth *= UnityEngine.Random.Range(1, 4);
-                    ev.Player.Health = ev.Player.MaxHealth;
-
-                    GodModePlayers.Add(ev.Player);
-
-                    if (PlayerAbilities.ContainsKey(ev.Attacker))
+                    Timing.CallDelayed(0.1f, () =>
                     {
-                        if (PlayerAbilities[ev.Attacker].Count > 0)
-                            PlayerAbilities[ev.Attacker].Remove(Tools.GetRandomValue(PlayerAbilities[ev.Attacker].ToList()));
-                    }
+                        ev.Player.Role.Set(RoleTypeId.Tutorial);
 
-                    for (int i = 1; i < 3; i++)
-                        AddAbility(ev.Player, Tools.GetRandomValue(LegendAbilities.Keys.ToList()));
+                        Vector3 Pos = Door.Get(DoorType.Scp079First).Position;
+                        ev.Player.Position = new Vector3(Pos.x, Pos.y + 2, Pos.z);
 
-                    Timing.CallDelayed(3, () =>
-                    {
-                        if (GodModePlayers.Contains(ev.Player))
-                            GodModePlayers.Remove(ev.Player);
-                    });
-
-                    return;
-                }
-
-                // 죽음이 확정된 상황
-
-                if (PlayerAbilities[ev.Player].Contains("[영웅] 최후의 발악"))
-                {
-                    ev.IsAllowed = false;
-
-                    PlayerAbilities[ev.Player].Remove("[영웅] 최후의 발악");
-
-                    ev.Player.GetEffect(EffectType.MovementBoost).Intensity += 30;
-                    GodModePlayers.Add(ev.Player);
-
-                    Timing.CallDelayed(5f, () =>
-                    {
-                        if (GodModePlayers.Contains(ev.Player))
-                            GodModePlayers.Remove(ev.Player);
-
-                        if (ev.Player.IsAlive)
-                            ev.Player.Kill("최후의 발악의 효과로 사망하였습니다.");
+                        for (int i = 1; i < UnityEngine.Random.Range(7, 12) * DuplicateCount(ev.Player, "[전용] RTX4090"); i++)
+                            AddAbility(ev.Player);
                     });
                 }
 
-                if (PlayerAbilities[ev.Player].Contains("[희귀] 순교"))
+                if (ev.Attacker != null && !ev.Attacker.IsNPC && ev.DamageHandler.Type != DamageType.Scp018 && ev.DamageHandler.Type != DamageType.Warhead)
                 {
-                    for (int i = 1; i < DuplicateCount(ev.Player, "[희귀] 순교") + 1; i++)
+                    if (PlayerAbilities[ev.Player].Contains("[일반] 보험"))
                     {
-                        var g = (ExplosiveGrenade)Item.Create(ItemType.GrenadeHE, ev.Player);
-                        g.FuseTime = 3f;
-                        g.SpawnActive(ev.Player.Position, ev.Player);
+                        ev.IsAllowed = false;
+
+                        PlayerAbilities[ev.Player].Remove("[일반] 보험");
+                        return;
+                    }
+
+                    if (PlayerAbilities[ev.Player].Contains("[영웅] 구사일생"))
+                    {
+                        ev.IsAllowed = false;
+
+                        PlayerAbilities[ev.Player].Remove("[영웅] 구사일생");
+
+                        ev.Player.EnableEffect(EffectType.Blinded, 1, 3);
+                        ev.Player.EnableEffect(EffectType.Invisible, 1, 3);
+                        ev.Player.GetEffect(EffectType.MovementBoost).Intensity += 20;
+                        GodModePlayers.Add(ev.Player);
+
+                        Timing.CallDelayed(3f, () =>
+                        {
+                            if (ev.Player.GetEffect(EffectType.MovementBoost).Intensity >= 20)
+                                ev.Player.GetEffect(EffectType.MovementBoost).Intensity -= 20;
+
+                            else
+                                ev.Player.GetEffect(EffectType.MovementBoost).Intensity = 0;
+
+                            if (GodModePlayers.Contains(ev.Player))
+                                GodModePlayers.Remove(ev.Player);
+                        });
+
+                        return;
+                    }
+
+                    if (PlayerAbilities[ev.Player].Contains("[전설] 마술사"))
+                    {
+                        ev.IsAllowed = false;
+
+                        PlayerAbilities[ev.Player].Remove("[전설] 마술사");
+
+                        ev.Player.Role.Set(ev.Attacker.Role, SpawnReason.ForceClass, RoleSpawnFlags.None);
+                        ev.Player.Health = ev.Attacker.Health;
+                        foreach (Item Item in ev.Attacker.Items)
+                            ev.Player.AddItem(Item.Type);
+
+                        PlayerAbilities[ev.Player].Clear();
+
+                        foreach (string ability in PlayerAbilities[ev.Attacker])
+                            AddAbility(ev.Player, ability);
+
+                        ev.Attacker.Kill($"몸이 교체되는 마술에 당했네요!");
+
+                        return;
+                    }
+
+                    if (PlayerAbilities[ev.Player].Contains("[신화] 조커"))
+                    {
+                        ev.IsAllowed = false;
+
+                        PlayerAbilities[ev.Player].Remove("[신화] 조커");
+
+                        Player.List.ToList().ForEach(x => x.ShowHint("<b><i><color=#FF0000>조</color><color=#E70717>커</color><color=#D00F2E>를</color> <color=#A21E5C>건</color><color=#8B2673>들</color><color=#732E8B>인</color> <color=#453DB9>죄</color><color=#2E45D0>다</color><color=#174DE7>!</color></i></b>", 3));
+
+                        ev.Player.MaxHealth *= UnityEngine.Random.Range(1, 4);
+                        ev.Player.Health = ev.Player.MaxHealth;
+
+                        GodModePlayers.Add(ev.Player);
+
+                        if (PlayerAbilities.ContainsKey(ev.Attacker))
+                        {
+                            if (PlayerAbilities[ev.Attacker].Count > 0)
+                                PlayerAbilities[ev.Attacker].Remove(Tools.GetRandomValue(PlayerAbilities[ev.Attacker].ToList()));
+                        }
+
+                        for (int i = 1; i < 3; i++)
+                            AddAbility(ev.Player, Tools.GetRandomValue(LegendAbilities.Keys.ToList()));
+
+                        Timing.CallDelayed(3, () =>
+                        {
+                            if (GodModePlayers.Contains(ev.Player))
+                                GodModePlayers.Remove(ev.Player);
+                        });
+
+                        return;
+                    }
+
+                    // 죽음이 확정된 상황
+
+                    if (PlayerAbilities[ev.Player].Contains("[영웅] 최후의 발악"))
+                    {
+                        ev.IsAllowed = false;
+
+                        PlayerAbilities[ev.Player].Remove("[영웅] 최후의 발악");
+
+                        ev.Player.GetEffect(EffectType.MovementBoost).Intensity += 30;
+                        GodModePlayers.Add(ev.Player);
+
+                        Timing.CallDelayed(5f, () =>
+                        {
+                            if (GodModePlayers.Contains(ev.Player))
+                                GodModePlayers.Remove(ev.Player);
+
+                            if (ev.Player.IsAlive)
+                                ev.Player.Kill("최후의 발악의 효과로 사망하였습니다.");
+                        });
+                    }
+
+                    if (PlayerAbilities[ev.Player].Contains("[희귀] 순교"))
+                    {
+                        for (int i = 1; i < DuplicateCount(ev.Player, "[희귀] 순교") + 1; i++)
+                        {
+                            var g = (ExplosiveGrenade)Item.Create(ItemType.GrenadeHE, ev.Player);
+                            g.FuseTime = 3f;
+                            g.SpawnActive(ev.Player.Position, ev.Player);
+                        }
+                    }
+
+                    if (PlayerAbilities[ev.Player].Contains("[영웅] 슈퍼 스타"))
+                    {
+                        foreach (var player in Player.List.Where(x => !x.IsNPC))
+                            player.AddBroadcast(10, $"<size=20><color={RatingColor["영웅"]}>슈퍼 스타</color>였던 {ev.Player.Nickname}(<color={ev.Player.Role.Color.ToHex()}>{Trans.Role[ev.Player.Role.Type]}</color>)(은)는 " +
+                                $"{ev.Attacker.Nickname}(<color={ev.Attacker.Role.Color.ToHex()}>{Trans.Role[ev.Attacker.Role.Type]}</color>)에 의해 <b>{ev.Player.CurrentRoom.Name}</b>에서 사망하였습니다.</size>");
+                    }
+
+                    if (PlayerAbilities[ev.Player].Contains("[영웅] 극독"))
+                    {
+                        ev.Attacker.EnableEffect(EffectType.CardiacArrest, 1, 12 * DuplicateCount(ev.Player, "[영웅] 극독"));
+
+                        ev.Attacker.ShowHint("극독에 당했습니다!");
+                    }
+
+                    if (ev.Attacker != null)
+                    {
+                        if (PlayerAbilities[ev.Attacker].Contains("[신화] 차원 강탈자"))
+                        {
+                            foreach (var Ability in PlayerAbilities[ev.Player])
+                                PlayerAbilities[ev.Attacker].Add(Ability);
+
+                            ev.Player.ShowHint("능력을 강탈당했습니다!");
+                        }
                     }
                 }
-
-                if (PlayerAbilities[ev.Player].Contains("[영웅] 슈퍼 스타"))
-                {
-                    foreach (var player in Player.List.Where(x => !x.IsNPC))
-                        player.AddBroadcast(10, $"<size=20><color={RatingColor["영웅"]}>슈퍼 스타</color>였던 {ev.Player.Nickname}(<color={ev.Player.Role.Color.ToHex()}>{Trans.Role[ev.Player.Role.Type]}</color>)(은)는 " +
-                            $"{ev.Attacker.Nickname}(<color={ev.Attacker.Role.Color.ToHex()}>{Trans.Role[ev.Attacker.Role.Type]}</color>)에 의해 <b>{ev.Player.CurrentRoom.Name}</b>에서 사망하였습니다.</size>");
-                }
-
-                if (PlayerAbilities[ev.Player].Contains("[영웅] 극독"))
-                {
-                    ev.Attacker.EnableEffect(EffectType.CardiacArrest, 1, 12 * DuplicateCount(ev.Player, "[영웅] 극독"));
-
-                    ev.Attacker.ShowHint("극독에 당했습니다!");
-                }
-
-                if (ev.Attacker != null)
-                {
-                    if (PlayerAbilities[ev.Attacker].Contains("[신화] 차원 강탈자"))
-                    {
-                        foreach (var Ability in PlayerAbilities[ev.Player])
-                            PlayerAbilities[ev.Attacker].Add(Ability);
-
-                        ev.Player.ShowHint("능력을 강탈당했습니다!");
-                    }
-                }
+            }
+            catch (Exception e)
+            {
+                Log.Error(e);
             }
         }
 
@@ -450,7 +457,7 @@ namespace RGM.Modes.ABattleEventArgs
             try
             {
 
-                if (ev.Attacker != null && !ev.Attacker.IsNPC)
+                if (ev.Attacker != null && !ev.Attacker.IsNPC && ev.DamageHandler.Type != DamageType.Scp018)
                 {
                     if (PlayerAbilities[ev.Player].Contains("[일반] 대물림"))
                     {
