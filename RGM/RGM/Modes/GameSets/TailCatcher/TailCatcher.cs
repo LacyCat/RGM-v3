@@ -148,11 +148,6 @@ namespace RGM.Modes
             {
                 pl.Remove(ev.Player);
 
-                ev.IsAllowed = false;
-
-                ev.Player.Role.Set(RoleTypeId.ClassD);
-                ev.Player.Position = new Vector3(83.82303f, 1026.691f, -37.06291f);
-
                 if (pl.Count < 2)
                 {
                     Round.IsLocked = false;

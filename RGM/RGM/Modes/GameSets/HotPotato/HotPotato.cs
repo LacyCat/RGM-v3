@@ -92,8 +92,7 @@ namespace RGM.Modes
                             g.FuseTime = 0.1f;
                             g.SpawnActive(bomber.Position, Server.Host);
 
-                            bomber.Role.Set(RoleTypeId.ClassD);
-                            bomber.Position = new Vector3(83.82303f, 1026.691f, -37.06291f);
+                            bomber.Kill("폭탄을 넘기지 못해서 죽어버렸다네~");
                         }
                     }
                     catch (Exception e)
