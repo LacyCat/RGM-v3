@@ -42,7 +42,7 @@ namespace RGM.Modes
             foreach (var player in Player.List.Where(x => x != Tagger))
             {
                 player.Role.Set(RoleTypeId.ClassD);
-                player.Position = new Vector3(48.86719f, 999.6483f, 86.34375f);
+                player.Position = new Vector3(48.86719f, 1002.6483f, 86.34375f);
                 player.EnableEffect(EffectType.Ensnared);
             }
 
