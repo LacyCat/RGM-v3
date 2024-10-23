@@ -41,7 +41,6 @@ namespace RGM.Modes.ABattleEventArgs.Scps
             if (PlayerAbilities[ev.Player].Contains("[전용] 당혹감"))
             {
                 ev.Target.EnableEffect(EffectType.Blinded, 1, 0.5f);
-                Hitmarker.SendHitmarkerDirectly(ev.Player.ReferenceHub, 0.2f);
             }
         }
     }
