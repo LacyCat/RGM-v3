@@ -80,7 +80,7 @@ namespace RGM.Discord
 
                 result = string.Join("\n", matches);
 
-                Server.ExecuteCommand($"{Value[1]}\n{result}");
+                Log.Info($"{Value[1]}\n{result}");
 
                 /*
                 foreach (var player in Player.List)
