@@ -9,6 +9,7 @@ using MultiBroadcast.API;
 using PlayerRoles;
 using RGM.API;
 using RGM.API.Components;
+using RGM.API.Features;
 using RGM.Modes;
 using UnityEngine;
 
@@ -32,25 +33,16 @@ namespace RGM.Commands.ClientCommands
                 }
                 else
                 {
-                    string ModeColor = ModeList[CurrentMode][0];
-                    string ModeDescription = ModeList[CurrentMode][1];
-                    string ModeFileName = ModeList[CurrentMode][2];
-                    string ModeDescriptionDetail = ModeList[CurrentMode][5];
+                    List<string> ModeDesc = Tools.GetModeDesc(CurrentMode, CurrentSubMode);
 
-                    string Message = Notions.StartModeDescription
-                        .Replace("{ModeColor}", ModeColor)
-                        .Replace("{CurrentMode}", CurrentMode)
-                        .Replace("{CurrentSubMode}", CurrentSubMode != null ? $"<size=20>추가된 서브 모드 : <color=#{ModeList[CurrentSubMode][0]}>{CurrentSubMode}</color></size>\n" : "")
-                        .Replace("{ModeDescription}", ModeDescription);
+                    response = ModeDesc[0];
 
-                    response = $"성공적으로 모드 설명을 불러왔습니다.";
-
-                    player.SendConsoleMessage($"\n{Message}", "white");
-                    if (ModeDescriptionDetail == "")
-                        player.SendConsoleMessage($"\n해당 모드에 대한 자세한 설명이 없습니다.", "white");
+                    player.SendConsoleMessage(ModeDesc[1], "white");
+                    if (ModeDesc[2] == "")
+                        player.SendConsoleMessage($"\n{ModeDesc[1]}", "white");
 
                     else
-                        player.SendConsoleMessage($"\n{ModeDescriptionDetail}", "white");
+                        player.SendConsoleMessage($"\n{ModeDesc[2]}", "white");
 
                     return true;
                 }
@@ -61,25 +53,16 @@ namespace RGM.Commands.ClientCommands
 
                 if (ModeList.Keys.Contains(args))
                 {
-                    string ModeColor = ModeList[args][0];
-                    string ModeDescription = ModeList[args][1];
-                    string ModeFileName = ModeList[args][2];
-                    string ModeDescriptionDetail = ModeList[args][5];
+                    List<string> ModeDesc = Tools.GetModeDesc(args);
 
-                    string Message = Notions.StartModeDescription
-                        .Replace("{ModeColor}", ModeColor)
-                        .Replace("{CurrentMode}", args)
-                        .Replace("{CurrentSubMode}", CurrentSubMode != null ? $"<size=20>추가된 서브 모드 : <color=#{ModeList[CurrentSubMode][0]}>{CurrentSubMode}</color></size>\n" : "")
-                        .Replace("{ModeDescription}", ModeDescription);
+                    response = ModeDesc[0];
 
-                    response = $"성공적으로 모드 설명을 불러왔습니다.";
-
-                    player.SendConsoleMessage($"\n{Message}", "white");
-                    if (ModeDescriptionDetail == "")
-                        player.SendConsoleMessage($"\n해당 모드에 대한 자세한 설명이 없습니다.", "white");
+                    player.SendConsoleMessage(ModeDesc[1], "white");
+                    if (ModeDesc[2] == "")
+                        player.SendConsoleMessage($"\n{ModeDesc[1]}", "white");
 
                     else
-                        player.SendConsoleMessage($"\n{ModeDescriptionDetail}", "white");
+                        player.SendConsoleMessage($"\n{ModeDesc[2]}", "white");
 
                     return true;
                 }
