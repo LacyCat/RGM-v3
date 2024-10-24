@@ -283,8 +283,8 @@
     <Compile Include="RGM\Modes\GameSets\Tomb\Tomb.cs" />
     <Compile Include="RGM\Modes\GamePluses\TrickorTreat\TrickorTreat.cs" />
     <Compile Include="RGM\Modes\GamePluses\Unlimited\Unlimited.cs" />
-    <Compile Include="RGM\Modes\GamePluses\WhereamI\WhereamI.cs" />
-    <Compile Include="RGM\Modes\GamePluses\WhoamI\WhoamI.cs" />
+    <Compile Include="RGM\Modes\GameSets\WhereamI\WhereamI.cs" />
+    <Compile Include="RGM\Modes\GameSets\WhoamI\WhoamI.cs" />
     <Compile Include="Plugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RGM\EventArgs\PlayerEvents.cs" />

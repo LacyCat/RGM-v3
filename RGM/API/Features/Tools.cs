@@ -88,7 +88,9 @@ namespace RGM.API.Features
                 "고문",
                 "숨바꼭질",
                 "점프맵 라운지",
-                "스피드런"
+                "스피드런",
+                "여긴 어디?",
+                "나는 누구?"
             };
 
             return Mods;
