@@ -124,6 +124,9 @@ namespace RGM.Donator
                                     .Replace("{revive}", $"{pr[player.UserId].Revive}")
                                     .Replace("{kill_scp}", $"{pr[player.UserId].KillScp}")
                                     .Replace("{kill_human}", $"{pr[player.UserId].KillHuman}")
+                                    .Replace("{max_health}", $"{player.MaxHealth}")
+                                    .Replace("{health}", $"{player.Health}")
+                                    .Replace("{items_count}", $"{player.Items.Count}")
                                     ;
                             }
 
