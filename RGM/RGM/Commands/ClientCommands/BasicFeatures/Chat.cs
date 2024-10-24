@@ -51,7 +51,7 @@ namespace RGM.Commands.ClientCommands
 
                 string BadgeFormat(Player player)
                 {
-                    if (player.Group != null)
+                    if (player.Group != null && !player.BadgeHidden)
                         return $"[<color={ColorFormat(player.Group.BadgeColor)}>{player.Group.BadgeText}</color>] ";
 
                     else
