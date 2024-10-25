@@ -45,7 +45,7 @@ namespace RGM.Modes
 
                 foreach (var player in DamagePlayers.Where(x => x.Role.Type != RoleTypeId.Scp079))
                 {
-                    player.Health -= player.MaxHealth / 50;
+                    player.Hurt(player.MaxHealth / 50);
 
                     if (player.IsAlive)
                     {
