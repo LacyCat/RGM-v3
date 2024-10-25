@@ -199,9 +199,26 @@ namespace RGM.EventArgs
         {
             try
             {
+                List<EffectType> FunnyEffects = new List<EffectType>()
+                    {
+                        EffectType.SugarRush,
+                        EffectType.SugarHigh,
+                        EffectType.SugarCrave,
+                        EffectType.Spicy,
+                        EffectType.OrangeCandy,
+                        EffectType.OrangeWitness,
+                        EffectType.Metal,
+                        EffectType.Marshmallow,
+                        EffectType.InsufficientLighting,
+                        EffectType.Ghostly,
+                        EffectType.TemporaryBypass
+                    };
+
+                EffectType FunnyEffect = Tools.GetRandomValue(FunnyEffects);
+
                 foreach (var player in Player.List.Where(x => !x.IsNPC))
                 {
-                    player.EnableEffect(EffectType.SugarRush);
+                    player.EnableEffect(FunnyEffect);
 
                     UsersManager.UsersCache[player.UserId][0] = (int.Parse(UsersManager.UsersCache[player.UserId][0]) + 1).ToString();
                     UsersManager.UsersCache[player.UserId][1] = (int.Parse(UsersManager.UsersCache[player.UserId][1]) + 1).ToString();
