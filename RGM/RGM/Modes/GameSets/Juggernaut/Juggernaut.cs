@@ -227,7 +227,7 @@ namespace RGM.Modes
         public void OnChargingJailbird(Exiled.Events.EventArgs.Item.ChargingJailbirdEventArgs ev)
         {
             if (ev.Player == juggernaut)
-                ev.Item.As<Exiled.API.Features.Items.Jailbird>().TotalCharges = 0;
+                ev.Item.As<Jailbird>().TotalCharges = 0;
         }
     }
 }
