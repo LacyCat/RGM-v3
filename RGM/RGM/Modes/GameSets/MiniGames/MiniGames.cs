@@ -48,6 +48,7 @@ namespace RGM.Modes
         public void OnEnabled()
         {
             Round.IsLocked = true;
+            Map.IsDecontaminationEnabled = false;
 
             Timing.RunCoroutine(OnModeStarted());
 

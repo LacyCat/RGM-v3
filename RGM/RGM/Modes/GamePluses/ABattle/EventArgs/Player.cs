@@ -347,8 +347,8 @@ namespace RGM.Modes.ABattleEventArgs
                         {
                             if (ev.Player.IsAlive)
                             {
-                                CustomDamageHandler cdh = new CustomDamageHandler(ev.Player, ev.Attacker, -1, DamageType.Bleeding, "최후까지 저항하다 사망에 이르고 말았습니다.");
-                                ev.Player.Kill(cdh);
+                                ev.Player.Health = ev.Player.MaxHealth;
+                                ev.Player.EnableEffect(EffectType.PocketCorroding);
                             }
                         });
 
@@ -542,7 +542,7 @@ namespace RGM.Modes.ABattleEventArgs
         {
             if (ev.Attacker != null && !ev.Attacker.IsNPC && ev.DamageHandler.Type != DamageType.Warhead)
             {
-                if (PlayerAbilities[ev.Player].Contains("[일반] 도파민"))
+                if (PlayerAbilities[ev.Player].Contains("[일반] 도파민") && ev.Attacker.LeadingTeam != ev.Player.LeadingTeam)
                 {
                     PlayerAbilities[ev.Player].Remove("[일반] 도파민");
 
@@ -603,7 +603,7 @@ namespace RGM.Modes.ABattleEventArgs
                         Server.ExecuteCommand($"/rocket {ev.Player.Id} 1");
                 }
 
-                if (PlayerAbilities[ev.Attacker].Contains("[신화] 광전사"))
+                if (PlayerAbilities[ev.Attacker].Contains("[신화] 광전사") && !LightWarrierCooldown.Contains(ev.Attacker))
                 {
                     if (ev.Attacker.CurrentItem != null && LightWarriorSerials.Contains(ev.Attacker.CurrentItem.Serial))
                     {
@@ -621,6 +621,14 @@ namespace RGM.Modes.ABattleEventArgs
                             g.FuseTime = 0.1f;
                             g.SpawnActive(ev.Attacker.Position, ev.Attacker);
                         }
+
+                        LightWarrierCooldown.Add(ev.Attacker);
+
+                        Timing.CallDelayed(3f, () =>
+                        {
+                            if (LightWarrierCooldown.Contains(ev.Attacker))
+                                LightWarrierCooldown.Remove(ev.Attacker);
+                        });
                     }
                 }
 
