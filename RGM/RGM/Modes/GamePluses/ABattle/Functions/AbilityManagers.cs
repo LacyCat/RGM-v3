@@ -651,6 +651,16 @@ namespace RGM.Modes.ABattleFunctions
                     if (player.IsScp)
                         player.CurrentItem = ft;
                     break;
+                case "광전사":
+                    Item jb = player.AddItem(ItemType.Jailbird);
+                    LightWarriorSerials.Add(jb.Serial);
+
+                    if (jb is Jailbird jailbird)
+                        jailbird.TotalCharges = 5;
+
+                    if (player.IsScp)
+                        player.CurrentItem = jb;
+                    break;
                 case "주거칩입죄": player.AddItem(ItemType.SCP268); break;
                 case "반란의 씨앗": Respawn.ChaosTickets += (int)(Player.List.Count() * 0.2); break;
                 case "05 평의회": player.AddItem(ItemType.KeycardO5); break;

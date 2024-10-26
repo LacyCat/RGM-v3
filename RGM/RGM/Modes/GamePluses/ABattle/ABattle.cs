@@ -19,6 +19,7 @@ using static RGM.Modes.ABattleIEnumerators.MainManagers;
 using static RGM.Modes.ABattleIEnumerators.SpecificAbilities;
 
 using static RGM.Modes.ABattleEventArgs.PlayerEvents;
+using static RGM.Modes.ABattleEventArgs.ItemEvents;
 using static RGM.Modes.ABattleEventArgs.Scps.Scp0492Events;
 using static RGM.Modes.ABattleEventArgs.Scps.Scp079Events;
 using static RGM.Modes.ABattleEventArgs.Scps.Scp106Events;
@@ -55,6 +56,8 @@ namespace RGM.Modes
             Exiled.Events.Handlers.Player.TriggeringTesla += OnTriggeringTesla;
             Exiled.Events.Handlers.Player.ChangingMicroHIDState += OnChangingMicroHIDState;
             Exiled.Events.Handlers.Player.VoiceChatting += OnVoiceChatting;
+
+            Exiled.Events.Handlers.Item.Swinging += OnSwinging;
 
             Exiled.Events.Handlers.Scp173.Blinking += OnBlinking;
 
