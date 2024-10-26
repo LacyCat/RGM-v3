@@ -63,10 +63,12 @@
     <Reference Include="0Harmony">
       <HintPath>C:\Users\GoldenPig1205\AppData\Roaming\EXILED\Plugins\dependencies\0Harmony.dll</HintPath>
     </Reference>
-    <Reference Include="Assembly-CSharp-firstpass">
+    <Reference Include="Assembly-CSharp-firstpass, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\SCPSL\SCPSL_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
     </Reference>
-    <Reference Include="Assembly-CSharp-Publicized">
+    <Reference Include="Assembly-CSharp-Publicized, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\SCPSL\SCPSL_Data\Managed\Assembly-CSharp-Publicized.dll</HintPath>
     </Reference>
     <Reference Include="CommandSystem.Core">
@@ -189,6 +191,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="API\Databases\Datas.cs" />
     <Compile Include="API\Features\Tools.cs" />
     <Compile Include="API\Databases\Translations.cs" />
     <Compile Include="RGM\Commands\ClientCommands\ShopFeatures\ApplyCustom.cs" />
@@ -224,7 +227,6 @@
     <Compile Include="API\Interfaces\PlayerInfo.cs" />
     <Compile Include="API\Interfaces\PlayerReport.cs" />
     <Compile Include="RGM\Modes\GamePluses\ABattle\ABattle.cs" />
-    <Compile Include="RGM\Modes\GamePluses\ABattle\EventArgs\Item.cs" />
     <Compile Include="RGM\Modes\GamePluses\ABattle\EventArgs\Map.cs" />
     <Compile Include="RGM\Modes\GamePluses\ABattle\EventArgs\Player.cs" />
     <Compile Include="RGM\Modes\GamePluses\ABattle\EventArgs\Scps\Scp049.cs" />
@@ -250,6 +252,7 @@
     <Compile Include="RGM\Modes\GamePluses\Blessing\Blessing.cs" />
     <Compile Include="RGM\Modes\GamePluses\RandomEffect\RandomEffect.cs" />
     <Compile Include="RGM\Modes\GamePluses\RandomSize\RandomSize.cs" />
+    <Compile Include="RGM\Modes\GamePluses\Spooky\Spooky.cs" />
     <Compile Include="RGM\Modes\GameSets\BombParty\BombParty.cs" />
     <Compile Include="RGM\Modes\GameSets\Cell\Cell.cs" />
     <Compile Include="RGM\Modes\GamePluses\Collector\Collector.cs" />
@@ -303,6 +306,5 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
