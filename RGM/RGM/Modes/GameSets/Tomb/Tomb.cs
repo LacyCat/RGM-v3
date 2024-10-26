@@ -8,10 +8,10 @@ using Exiled.API.Features;
 using MEC;
 using Mirror;
 using UnityEngine;
-using Exiled.API.Enums;
 using Exiled.API.Features.Items;
 using RGM.API.Features;
 using MultiBroadcast.API;
+using PlayerRoles;
 
 namespace RGM.Modes
 {
@@ -41,21 +41,20 @@ namespace RGM.Modes
         {
             Server.ExecuteCommand($"/mp load plane");
 
-            Player Dummy = Player.List.ToList()[0];
             Player.List.CopyTo(pl);
 
             List<ItemType> ItemTypes = Tools.EnumToList<ItemType>();
 
-            for (int i = 1; i < 500; i++)
+            for (int i = 1; i <= 1205; i++)
             {
-                Item Item = Item.Create(Tools.GetRandomValue(ItemTypes));
+                Item Item = Item.Create(Tools.GetRandomValue(ItemTypes.Where(x => x != ItemType.Marshmallow).ToList()));
 
                 Item.CreatePickup(RandomPosition());
             }
 
             foreach (var player in Player.List)
             {
-                player.Role.Set(PlayerRoles.RoleTypeId.Tutorial);
+                player.Role.Set(RoleTypeId.Tutorial);
                 player.Position = RandomPosition();
             }
 
