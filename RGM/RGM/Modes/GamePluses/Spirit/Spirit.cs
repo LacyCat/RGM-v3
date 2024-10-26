@@ -44,7 +44,7 @@ namespace RGM.Modes
                     if (spirits.Contains(player))
                     {
                         player.EnableEffect(EffectType.Invisible);
-                        player.EnableEffect(EffectType.Ghostly);
+                        // player.EnableEffect(EffectType.Ghostly);
                     }
                 }
 
