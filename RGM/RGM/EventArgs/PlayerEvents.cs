@@ -473,7 +473,7 @@ GoldenPig1205(@GoldenPig1205) - 메인 개발자
                 if (ev.Door.IsPartOfCheckpoint)
                     ev.Door.IsOpen = true;
 
-                if (!ev.Door.IsOpen && !ev.Door.Type.ToString().Contains("Scp079"))
+                if (ev.Player.Role.Type != RoleTypeId.Scp079 && !ev.Door.IsOpen && !ev.Door.Type.ToString().Contains("Scp079"))
                 {
                     Timing.CallDelayed(0.1f, () =>
                     {
