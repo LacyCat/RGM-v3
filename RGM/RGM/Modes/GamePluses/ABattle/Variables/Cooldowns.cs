@@ -13,6 +13,7 @@ namespace RGM.Modes.ABattleVariables
         public static List<Player> MeleeCooldown = new List<Player>();
         public static List<Player> RoaringSoundCooldown = new List<Player>();
         public static List<Player> TeleportCooldown = new List<Player>();
+        public static List<Player> LightWarrierCooldown = new List<Player>();
         public static List<Player> PickPocketCooldown = new List<Player>();
     }
 }
