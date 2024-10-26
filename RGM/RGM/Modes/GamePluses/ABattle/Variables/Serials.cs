@@ -20,6 +20,7 @@ namespace RGM.Modes.ABattleVariables
         public static List<ushort> CallSnakeHandsSerials = new List<ushort>();
         public static List<ushort> FlashLightSerials = new List<ushort>();
         public static List<ushort> FlamethrowerSerials = new List<ushort>();
+        public static List<ushort> LightWarriorSerials = new List<ushort>();
         public static List<ushort> RadarSerials = new List<ushort>();
         public static List<ushort> ChaosCoinSerials = new List<ushort>();
     }
