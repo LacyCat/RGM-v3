@@ -9,6 +9,7 @@ using UnityEngine;
 using Exiled.API.Features;
 
 using static RGM.Variables.ServerManagers;
+using RGM.API.DataBases;
 
 namespace RGM.Functions
 {
@@ -26,7 +27,7 @@ namespace RGM.Functions
                 ModeVote.Add(mode, new List<Player>());
 
                 if (UnityEngine.Random.Range(1, 11) == 1)
-                    SubModeVote.Add(Tools.GetRandomValue(ModeList.Keys.Where(x => ModeList[x][3] != "private" && !Tools.GetGameSetsList().Contains(x) && !ModeVote.ContainsKey(x) && !Tools.GetGameSetsList().Contains(x)).ToList()));
+                    SubModeVote.Add(Tools.GetRandomValue(ModeList.Keys.Where(x => ModeList[x][3] != "private" && !Datas.ModeSets.Contains(x) && !ModeVote.ContainsKey(x) && !Datas.ModeSets.Contains(x)).ToList()));
 
                 else
                     SubModeVote.Add(null);

@@ -7,6 +7,7 @@ using Exiled.API.Features;
 using MEC;
 using MultiBroadcast;
 using MultiBroadcast.API;
+using RGM.API.DataBases;
 using RGM.API.Features;
 
 using static RGM.Variables.ServerManagers;
@@ -17,7 +18,7 @@ namespace RGM.Modes
     {
         public static DoubleUp Instance;
 
-        public static List<string> BlackListMods = Tools.GetGameSetsList();
+        public static List<string> BlackListMods = Datas.ModeSets;
         public static Dictionary<string, List<string>> Mods = ModeList;
 
         public static List<string> ModeKeys = ModeList.Keys.Where(x => Mods[x][3] == "public").ToList();
