@@ -396,7 +396,7 @@ GoldenPig1205(@GoldenPig1205) - 메인 개발자
                         IsScp3114Enabled = true;
                     }
 
-                    if (!Tools.GetGameSetsList().Contains(CurrentMode))
+                    if (!Datas.ModeSets.Contains(CurrentMode))
                     {
                         PlayersInfo.Add(ev.Player.UserId, new PlayerInfo
                         {
@@ -473,19 +473,28 @@ GoldenPig1205(@GoldenPig1205) - 메인 개발자
                 if (ev.Door.IsPartOfCheckpoint)
                     ev.Door.IsOpen = true;
 
-                if (!InteractedDoors.ContainsKey(ev.Door))
-                    InteractedDoors.Add(ev.Door, 0);
-
-                InteractedDoors[ev.Door] += 1;
-
-                if (InteractedDoors[ev.Door] >= 500)
+                if (!ev.Door.IsOpen && !ev.Door.Type.ToString().Contains("Scp079"))
                 {
-                    ev.Door.IsOpen = true;
-                    
-                    InteractedDoors.Remove(ev.Door);
+                    Timing.CallDelayed(0.1f, () =>
+                    {
+                        if (!ev.Door.IsOpen)
+                        {
+                            if (!InteractedDoors.ContainsKey(ev.Door))
+                                InteractedDoors.Add(ev.Door, 0);
+
+                            InteractedDoors[ev.Door] += 1;
+
+                            if (InteractedDoors[ev.Door] >= 500)
+                            {
+                                ev.Door.IsOpen = true;
+
+                                InteractedDoors.Remove(ev.Door);
+                            }
+                            else
+                                ev.Player.ShowHint($"앞으로 {500 - InteractedDoors[ev.Door]}번 상호작용하면 문이 강제로 열립니다.");
+                        }
+                    });
                 }
-                else
-                    ev.Player.ShowHint($"앞으로 {500 - InteractedDoors[ev.Door]}번 상호작용하면 문이 강제로 열립니다.");
             }
         }
 
@@ -502,7 +511,8 @@ GoldenPig1205(@GoldenPig1205) - 메인 개발자
                         ev.IsAllowed = false;
                 }
 
-                if (ev.Player.LeadingTeam == ev.Attacker.LeadingTeam && ev.DamageHandler.Type == DamageType.Marshmallow)
+                if (ev.Player.LeadingTeam == ev.Attacker.LeadingTeam && 
+                    (ev.DamageHandler.Type == DamageType.Marshmallow || ev.DamageHandler.Type == DamageType.SpicyFlame))
                     ev.IsAllowed = false;
             }
         }
@@ -531,7 +541,7 @@ GoldenPig1205(@GoldenPig1205) - 메인 개발자
 
                 else
                 {
-                    var cd = Tools.GetColorsDictionary();
+                    var cd = Datas.Colors;
 
                     if (cd.ContainsKey(cn))
                         return cd[cn];

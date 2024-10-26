@@ -40,7 +40,7 @@ namespace RGM.Commands.ClientCommands
 
                     else
                     {
-                        var cd = Tools.GetColorsDictionary();
+                        var cd = Datas.Colors;
 
                         if (cd.ContainsKey(cn))
                             return cd[cn];
