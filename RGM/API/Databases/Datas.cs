@@ -73,15 +73,13 @@ namespace RGM.API.DataBases
         {
             EffectType.SugarRush,
             EffectType.SugarHigh,
-            EffectType.SugarCrave,
             EffectType.Spicy,
             EffectType.OrangeCandy,
-            EffectType.OrangeWitness,
             EffectType.Metal,
             EffectType.Marshmallow,
-            EffectType.InsufficientLighting,
             EffectType.Ghostly,
-            EffectType.TemporaryBypass
+            EffectType.Prismatic,
+            EffectType.OrangeWitness
         };
     }
 }
