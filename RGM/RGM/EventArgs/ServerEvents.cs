@@ -93,6 +93,9 @@ namespace RGM.EventArgs
 
             Server.ExecuteCommand($"/speak {string.Join(".", Player.List.Select(x => x.Id))}. 0");
 
+            if (UnityEngine.Random.Range(1, 21) == 1)
+                Tools.TryInstallMode("트릭 오어 트릿");
+
             if (CurrentMode == null)
             {
                 try
@@ -112,6 +115,7 @@ namespace RGM.EventArgs
                         {
                             Player player = Tools.GetRandomValue(filiteredPlayers);
                             CurrentMode = ModeVote.FirstOrDefault(x => x.Value.Contains(player)).Key;
+                            CurrentSubMode = SubModeVote[ModeVote.Keys.ToList().IndexOf(CurrentMode)];
 
                             Timing.CallDelayed(1f, () =>
                             {
