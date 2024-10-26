@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using Exiled.API.Features;
+using Exiled.API.Features.Doors;
 
 namespace RGM.Variables
 {
@@ -28,6 +29,7 @@ namespace RGM.Variables
         public static Dictionary<Player, Room> CurrentRoom = new Dictionary<Player, Room>();
         public static Dictionary<string, PlayerInfo> PlayersInfo = new Dictionary<string, PlayerInfo>();
         public static Dictionary<string, PlayerReport> PlayersReport = new Dictionary<string, PlayerReport>();
+        public static Dictionary<Door, int> InteractedDoors = new Dictionary<Door, int>();
         public static Dictionary<string, string> KillEffects = new Dictionary<string, string>()
         {
             {"영혼 가출", "죽은 상대에게서 혼을 추출해냅니다!"},

@@ -468,8 +468,25 @@ GoldenPig1205(@GoldenPig1205) - 메인 개발자
 
         public static void OnInteractingDoor(Exiled.Events.EventArgs.Player.InteractingDoorEventArgs ev)
         {
-            if (ev.Player.IsScp && ev.Player.CurrentItem != null && ev.Door.Name.Contains("CHECKPOINT"))
-                ev.Door.IsOpen = true;
+            if (ev.Player.IsScp)
+            {
+                if (ev.Door.IsPartOfCheckpoint)
+                    ev.Door.IsOpen = true;
+
+                if (!InteractedDoors.ContainsKey(ev.Door))
+                    InteractedDoors.Add(ev.Door, 0);
+
+                InteractedDoors[ev.Door] += 1;
+
+                if (InteractedDoors[ev.Door] >= 500)
+                {
+                    ev.Door.IsOpen = true;
+                    
+                    InteractedDoors.Remove(ev.Door);
+                }
+                else
+                    ev.Player.ShowHint($"앞으로 {500 - InteractedDoors[ev.Door]}번 상호작용하면 문이 강제로 열립니다.");
+            }
         }
 
         public static void OnHurting(Exiled.Events.EventArgs.Player.HurtingEventArgs ev)
