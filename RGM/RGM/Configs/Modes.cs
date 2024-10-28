@@ -10,7 +10,7 @@ namespace RGM
     {
         public static Dictionary<string, List<string>> Modes { get; set; } = new Dictionary<string, List<string>>()
         {
-            { "워크스테이션 업그레이드", new List<string>() { "00FFFF", "워크스테이션에서 업그레이드하세요!", "ABattle", "public", "",
+            { "워크스테이션 업그레이드", new List<string>() { "00FFFF", "워크스테이션에서 업그레이드하세요!", "ABattle", "private", "",
 """
 <color=#F5DA81>인간 진영</color>일 경우, 워크스테이션에서 점프하면 능력을 1개 얻습니다.
 <color=red>SCP-079</color>일 경우, 레벨이 올라갈 때마다 능력을 1개 얻습니다.

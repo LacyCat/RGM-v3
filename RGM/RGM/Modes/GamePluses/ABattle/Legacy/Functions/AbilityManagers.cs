@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Exiled.API.Features;
 using UnityEngine;
 using MultiBroadcast.API;
@@ -21,13 +18,9 @@ using static RGM.Variables.ServerManagers;
 using static RGM.Modes.ABattleVariables.Abilities;
 using static RGM.Modes.ABattleVariables.AbiltiyManagers;
 using static RGM.Modes.ABattleVariables.MainManagers;
-using static RGM.Modes.ABattleVariables.Cooldowns;
 using static RGM.Modes.ABattleVariables.Serials;
-
-using static RGM.Modes.ABattleFunctions.AbilityManagers;
 using static RGM.Modes.ABattleFunctions.MainManagers;
 using static RGM.Modes.ABattleFunctions.SpecificAbilities;
-using RGM.Discord;
 
 namespace RGM.Modes.ABattleFunctions
 {
@@ -178,9 +171,16 @@ namespace RGM.Modes.ABattleFunctions
             string Message = $"<size=20>{styleName}</size>\n<size=15>{AbilityList(player, abilityGrade)[abilityName]}</size>";
             player.AddBroadcast(10, Message);
             player.SendConsoleMessage($"\n{Message}", "white");
+
+            List<string> Queue = new List<string>();
+
+            foreach (var p in Player.List)
+                Queue.Add($"{p.Nickname}({p.Health}/{p.MaxHealth})ㅣ[{string.Join(", ", PlayerAbilities[p])}]");
+
+            Log.Info($"**{player.Nickname}**(이)가 `{abilityName}` 능력을 획득하였습니다.\n{string.Join("\n", Queue)}");
         }
 
-        public static async void AddAbilityVote(Player player)
+        public static IEnumerator<float> AddAbilityVote(Player player)
         {
             List<string> AbilitesVote = new List<string>();
             List<string> DisplayVote = new List<string>();
@@ -201,10 +201,10 @@ namespace RGM.Modes.ABattleFunctions
                 {
                     AbilitesVote[UnityEngine.Random.Range(0, 3)] = Tools.GetRandomValue(EpicAbilities.Keys.ToList());
 
-                    AddAbility(player, "[희귀] 하급 변이 성공");
+                     Timing.RunCoroutine(AddAbility(player, "[희귀] 하급 변이 성공"));
                 }
                 else
-                    AddAbility(player, "[희귀] 하급 변이 실패");
+                     Timing.RunCoroutine(AddAbility(player, "[희귀] 하급 변이 실패"));
             }
             if (PlayerAbilities[player].Contains("[영웅] 변이"))
             {
@@ -214,10 +214,10 @@ namespace RGM.Modes.ABattleFunctions
                 {
                     AbilitesVote[UnityEngine.Random.Range(0, 3)] = Tools.GetRandomValue(LegendAbilities.Keys.ToList());
 
-                    AddAbility(player, "[영웅] 변이 성공");
+                     Timing.RunCoroutine(AddAbility(player, "[영웅] 변이 성공"));
                 }
                 else
-                    AddAbility(player, "[영웅] 변이 실패");
+                     Timing.RunCoroutine(AddAbility(player, "[영웅] 변이 실패"));
             }
             if (PlayerAbilities[player].Contains("[전설] 상급 변이"))
             {
@@ -227,21 +227,24 @@ namespace RGM.Modes.ABattleFunctions
                 {
                     AbilitesVote[UnityEngine.Random.Range(0, 3)] = Tools.GetRandomValue(MythicAbilities.Keys.ToList());
 
-                    AddAbility(player, "[전설] 상급 변이 성공");
+                     Timing.RunCoroutine(AddAbility(player, "[전설] 상급 변이 성공"));
                 }
                 else
-                    AddAbility(player, "[전설] 상급 변이 실패");
+                     Timing.RunCoroutine(AddAbility(player, "[전설] 상급 변이 실패"));
             }
 
             for (int i = 1; i < 4; i++)
                 DisplayVote.Add($"[{i}] {ColorFormat(AbilitesVote[i - 1])}");
 
+
             for (int i = 1; i < 21; i++)
             {
                 if (player.IsDead)
-                    return;
+                    yield break;
 
-                player.ShowHint($"<align=left><size=30>{string.Join("\n", DisplayVote)}</size>\n\n<size=25><b>{21 - i}초 안에 [.(번호)] 명령어로 원하는 능력을 선택하세요. (ex .1)</b></size></align>\n\n", 1.2f);
+                player.ShowHint(
+                    $"<align=left><size=30>{string.Join("\n", DisplayVote)}</size>\n\n<size=25><b>{21 - i}초 안에 [.(번호)] 명령어로 원하는 능력을 선택하세요. (ex .1)</b></size></align>\n\n",
+                    1.2f);
 
                 if (PlayerVotes.ContainsKey(player))
                 {
@@ -249,7 +252,7 @@ namespace RGM.Modes.ABattleFunctions
                     break;
                 }
 
-                await Task.Delay(1000);
+                yield return Timing.WaitForSeconds(1f);
             }
 
             if (SelectedAbilityNumber == 0) SelectedAbilityNumber = UnityEngine.Random.Range(1, 4);
@@ -258,14 +261,14 @@ namespace RGM.Modes.ABattleFunctions
 
             if (AbilitesVote.All(x => x == AbilitesVote[0]))
             {
-                AddAbility(player, "[시너지] 중복 기연");
+                 Timing.RunCoroutine(AddAbility(player, "[시너지] 중복 기연"));
 
                 for (int i = 1; i < 3; i++)
                     AddAbility(player, AbilitesVote[0]);
             }
         }
 
-        public static async void AddAbility(Player player, string force = null)
+        public static IEnumerator<float> AddAbility(Player player, string force = null)
         {
             string abilityGrade = PickAbilityGrade(player, force);
             string abilityName = force == null ? Tools.GetRandomValue(AbilityList(player, abilityGrade).Keys.ToList()) : force;
@@ -304,7 +307,7 @@ namespace RGM.Modes.ABattleFunctions
                     for (int i = 1; i < 11; i++)
                     {
                         player.ShowHint($"소속이 <color={target1.Role.Color.ToHex()}>{target1.Role.Name}</color>인 ???은(는) <b>{target1.CurrentRoom.Name}</b>에 있습니다.", 1.2f);
-                        await Task.Delay(1000);
+                        yield return Timing.WaitForSeconds(1f);
                     }
                     break;
                 case "뽑기":
@@ -341,7 +344,7 @@ namespace RGM.Modes.ABattleFunctions
 
                     for (int i = 1; i < 61; i++)
                     {
-                        if (player.CurrentSpectatingPlayers.Count() > 0)
+                        if (player.CurrentSpectatingPlayers.Any())
                         {
                             Timing.CallDelayed(1f, () => { player.AddBroadcast(5, $"<size=25>당신은 {player.CurrentSpectatingPlayers.ToList()[0].Nickname}로부터 신내림을 받았습니다.</size>"); });
                             player.CurrentSpectatingPlayers.ToList()[0].AddBroadcast(5, $"<size=25>당신은 {player.Nickname}(에)게 신내림을 내려주었습니다.</size>");
@@ -349,7 +352,8 @@ namespace RGM.Modes.ABattleFunctions
                             break;
                         }
 
-                        await Task.Delay(100);
+                        // await Task.Delay(100);
+                        yield return Timing.WaitForSeconds(.1f);
                     }
 
                     PlayerAbilities[player].Remove("[일반] 신내림");
@@ -357,12 +361,12 @@ namespace RGM.Modes.ABattleFunctions
                     if (Pass)
                     {
                         for (int i = 1; i < UnityEngine.Random.Range(3, 5); i++)
-                            AddAbility(player);
+                            Timing.RunCoroutine(AddAbility(player));
 
-                        AddAbility(player, "[일반] 신내림 성공");
+                         Timing.RunCoroutine(AddAbility(player, "[일반] 신내림 성공"));
                     }
                     else
-                        AddAbility(player, "[일반] 신내림 실패");
+                         Timing.RunCoroutine(AddAbility(player, "[일반] 신내림 실패"));
 
                     break;
                 case "횃불":
@@ -430,7 +434,7 @@ namespace RGM.Modes.ABattleFunctions
                         if (Pass1)
                             break;
 
-                        await Task.Delay(100);
+                        yield return Timing.WaitForSeconds(.1f);
                     }
 
                     PlayerAbilities[player].Remove("[일반] 기도");
@@ -438,12 +442,12 @@ namespace RGM.Modes.ABattleFunctions
                     if (Pass1)
                     {
                         for (int i = 1; i < UnityEngine.Random.Range(3, 5); i++)
-                            AddAbility(player);
+                            Timing.RunCoroutine(AddAbility(player));
 
-                        AddAbility(player, "[일반] 기도 성공");
+                         Timing.RunCoroutine(AddAbility(player, "[일반] 기도 성공"));
                     }
                     else
-                        AddAbility(player, "[일반] 기도 실패");
+                         Timing.RunCoroutine(AddAbility(player, "[일반] 기도 실패"));
                     break;
                 case "강철 껍질": player.GetEffect(EffectType.DamageReduction).Intensity += 10; break;
                 case "투명 망토": player.EnableEffect(EffectType.Invisible, 1, 25); break;
@@ -514,8 +518,9 @@ namespace RGM.Modes.ABattleFunctions
                         if (player.IsScp)
                             player.CurrentItem = pen;
 
-                        await Task.Delay(60 * 1000);
+                        yield return Timing.WaitForSeconds(60f);
                     }
+                    
                     break;
                 case "무기 전문가":
                     Item scp1853 = player.AddItem(ItemType.SCP1853);
@@ -691,7 +696,7 @@ namespace RGM.Modes.ABattleFunctions
                     break;
                 case "산업재해보험":
                     for (int i = 1; i < 4; i++)
-                        AddAbility(player, "[일반] 보험");
+                         Timing.RunCoroutine(AddAbility(player, "[일반] 보험"));
 
                     break;
                 case "격리 의무자":
@@ -798,7 +803,8 @@ namespace RGM.Modes.ABattleFunctions
                         if (player.Role is Scp079Role scp0791)
                             scp0791.Energy = scp0791.MaxEnergy;
 
-                        await Task.Delay(1000);
+                        // await Task.Delay(1000);
+                        yield return Timing.WaitForSeconds(1f);
                     }
                     break;
                 case "생존 전문가":
@@ -818,7 +824,7 @@ namespace RGM.Modes.ABattleFunctions
                     AddAbility(player, Tools.GetRandomValue(Randoms));
                     break;
                 case "4대 운동":
-                    AddAbilityVote(player);
+                    Timing.RunCoroutine(AddAbilityVote(player));
                     break;
             }
         }

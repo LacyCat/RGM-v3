@@ -125,11 +125,8 @@ namespace RGM.Modes
 
         public void OnHurting(Exiled.Events.EventArgs.Player.HurtingEventArgs ev)
         {
-            if (ev.Player == monster || ev.Attacker == monster)
-                monster.HumeShield = 0;
-
             if (ev.Attacker.IsScp && ev.DamageHandler.Type != DamageType.Strangled)
-                ev.DamageHandler.Damage += 15;
+                ev.DamageHandler.Damage += 35;
         }
 
         public void OnHurt(Exiled.Events.EventArgs.Player.HurtEventArgs ev)

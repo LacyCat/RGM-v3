@@ -98,7 +98,7 @@ namespace RGM.Modes.ABattleVariables
             {"[신화] 눈빛맨", "상대는 눈에 띄거나 근처에 있는 것만으로도 압도당할 것입니다! (중첩 불가)"},
             {"[신화] 차원 강탈자", "죽인 누군가의 능력을 모조리 흡수합니다! (중첩 불가)"},
             {"[신화] 조커", "사망할 경우 3초간 무적이 되고, 최대 체력이 1~3배로 조정되고, 상대방의 능력 1개를 삭제시키고, 전설 능력 2개를 얻습니다."},
-            {"[신화] 광전사", "공격에 성공했을 때 누적된 차징이 초기화되고 아군은 영향을 받지 않는 폭발 효과를 가진 제일버드를 받습니다."}
+            {"[신화] 광전사", "공격에 성공했을 때 누적된 차징이 초기화되는 제일버드를 받고, 폭발 데미지에 면역이 됩니다."}
         };
         public static Dictionary<string, string> ClassDAbilities = new Dictionary<string, string>()
         {
@@ -134,7 +134,7 @@ namespace RGM.Modes.ABattleVariables
         public static Dictionary<string, string> SnakeAbilities = new Dictionary<string, string>()
         {
             {"[전용] 세치 혀", "SCP-1576을 지급받습니다."},
-            {"[전용] 제3세력", "뱀의 손 지원을 2명 더 부릅니다."},
+            {"[전용] 제3세력", "뱀의 손 지원을 2명 Health Center Staff더 부릅니다."},
             {"[전용] SCP 연구자", "SCP 아이템 중 하나를 지급받습니다."}
         };
         public static Dictionary<string, string> Scp173Abilities = new Dictionary<string, string>()
@@ -240,5 +240,28 @@ namespace RGM.Modes.ABattleVariables
                 }
             }
         };
+
+        public static Dictionary<string, string> AllAbilities = 
+            CommonAbilities
+            .Concat(RareAbilities)
+            .Concat(EpicAbilities)
+            .Concat(LegendAbilities)
+            .Concat(MythicAbilities)
+            .Concat(ClassDAbilities)
+            .Concat(ScientistAbilities)
+            .Concat(GuardAbilities)
+            .Concat(NtfAbilities)
+            .Concat(ChaosAbilities)
+            .Concat(SnakeAbilities)
+            .Concat(Scp173Abilities)
+            .Concat(Scp049Abilities)
+            .Concat(Scp0492Abilities)
+            .Concat(Scp096Abilities)
+            .Concat(Scp106Abilities)
+            .Concat(Scp939Abilities)
+            .Concat(Scp3114Abilities)
+            .Concat(Scp079Abilities)
+            .Concat(Synergies.Select(x => new KeyValuePair<string, string>(x.Key, x.Value[0])))
+            .ToDictionary(pair => pair.Key, pair => pair.Value);
     }
 }

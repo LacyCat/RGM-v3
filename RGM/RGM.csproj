@@ -205,8 +205,6 @@
     <Compile Include="RGM\Commands\ClientCommands\BasicFeatures\Suicide.cs" />
     <Compile Include="RGM\IEnumerators\LobbyManagers.cs" />
     <Compile Include="RGM\IEnumerators\ServerManagers.cs" />
-    <Compile Include="RGM\Modes\GamePluses\ABattle\Commands\ClientCommands\Votes.cs" />
-    <Compile Include="RGM\Modes\GamePluses\ABattle\Commands\RemoteAdminCommands\AddAbility.cs" />
     <Compile Include="RGM\Commands\RemoteAdminCommands\ShopFeatures\Custom.cs" />
     <Compile Include="RGM\Commands\RemoteAdminCommands\ShopFeatures\KillEffect.cs" />
     <Compile Include="RGM\Commands\RemoteAdminCommands\AdminFeatures\Develop.cs" />
@@ -227,26 +225,34 @@
     <Compile Include="API\Interfaces\PlayerInfo.cs" />
     <Compile Include="API\Interfaces\PlayerReport.cs" />
     <Compile Include="RGM\Modes\GamePluses\ABattle\ABattle.cs" />
-    <Compile Include="RGM\Modes\GamePluses\ABattle\EventArgs\Map.cs" />
-    <Compile Include="RGM\Modes\GamePluses\ABattle\EventArgs\Player.cs" />
-    <Compile Include="RGM\Modes\GamePluses\ABattle\EventArgs\Scps\Scp049.cs" />
-    <Compile Include="RGM\Modes\GamePluses\ABattle\EventArgs\Scps\Scp0492.cs" />
-    <Compile Include="RGM\Modes\GamePluses\ABattle\EventArgs\Scps\Scp079.cs" />
-    <Compile Include="RGM\Modes\GamePluses\ABattle\EventArgs\Scps\Scp096.cs" />
-    <Compile Include="RGM\Modes\GamePluses\ABattle\EventArgs\Scps\Scp106.cs" />
-    <Compile Include="RGM\Modes\GamePluses\ABattle\EventArgs\Scps\Scp173.cs" />
-    <Compile Include="RGM\Modes\GamePluses\ABattle\EventArgs\Scps\Scp3114.cs" />
-    <Compile Include="RGM\Modes\GamePluses\ABattle\Functions\AbilityManagers.cs" />
-    <Compile Include="RGM\Modes\GamePluses\ABattle\Functions\MainManagers.cs" />
-    <Compile Include="RGM\Modes\GamePluses\ABattle\Functions\SpecificAbilities.cs" />
-    <Compile Include="RGM\Modes\GamePluses\ABattle\IEnumerators\MainManagers.cs" />
-    <Compile Include="RGM\Modes\GamePluses\ABattle\IEnumerators\SpecificAbilities.cs" />
-    <Compile Include="RGM\Modes\GamePluses\ABattle\Patches\InventoryUpdate.cs" />
-    <Compile Include="RGM\Modes\GamePluses\ABattle\Variables\Abilities.cs" />
-    <Compile Include="RGM\Modes\GamePluses\ABattle\Variables\AbilityManagers.cs" />
-    <Compile Include="RGM\Modes\GamePluses\ABattle\Variables\Cooldowns.cs" />
-    <Compile Include="RGM\Modes\GamePluses\ABattle\Variables\MainManagers.cs" />
-    <Compile Include="RGM\Modes\GamePluses\ABattle\Variables\Serials.cs" />
+    <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\Mythic\Joker.cs" />
+    <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\Normal\Evolution.cs" />
+    <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\Normal\Swift.cs" />
+    <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\Normal\Workout.cs" />
+    <Compile Include="RGM\Modes\GamePluses\ABattle\IAbility.cs" />
+    <Compile Include="RGM\Modes\GamePluses\ABattle\Legacy\ABattle.cs" />
+    <Compile Include="RGM\Modes\GamePluses\ABattle\Legacy\Commands\ClientCommands\Votes.cs" />
+    <Compile Include="RGM\Modes\GamePluses\ABattle\Legacy\Commands\RemoteAdminCommands\AddAbility.cs" />
+    <Compile Include="RGM\Modes\GamePluses\ABattle\Legacy\EventArgs\Map.cs" />
+    <Compile Include="RGM\Modes\GamePluses\ABattle\Legacy\EventArgs\Player.cs" />
+    <Compile Include="RGM\Modes\GamePluses\ABattle\Legacy\EventArgs\Scps\Scp049.cs" />
+    <Compile Include="RGM\Modes\GamePluses\ABattle\Legacy\EventArgs\Scps\Scp0492.cs" />
+    <Compile Include="RGM\Modes\GamePluses\ABattle\Legacy\EventArgs\Scps\Scp079.cs" />
+    <Compile Include="RGM\Modes\GamePluses\ABattle\Legacy\EventArgs\Scps\Scp096.cs" />
+    <Compile Include="RGM\Modes\GamePluses\ABattle\Legacy\EventArgs\Scps\Scp106.cs" />
+    <Compile Include="RGM\Modes\GamePluses\ABattle\Legacy\EventArgs\Scps\Scp173.cs" />
+    <Compile Include="RGM\Modes\GamePluses\ABattle\Legacy\EventArgs\Scps\Scp3114.cs" />
+    <Compile Include="RGM\Modes\GamePluses\ABattle\Legacy\Functions\AbilityManagers.cs" />
+    <Compile Include="RGM\Modes\GamePluses\ABattle\Legacy\Functions\MainManagers.cs" />
+    <Compile Include="RGM\Modes\GamePluses\ABattle\Legacy\Functions\SpecificAbilities.cs" />
+    <Compile Include="RGM\Modes\GamePluses\ABattle\Legacy\IEnumerators\MainManagers.cs" />
+    <Compile Include="RGM\Modes\GamePluses\ABattle\Legacy\IEnumerators\SpecificAbilities.cs" />
+    <Compile Include="RGM\Modes\GamePluses\ABattle\Legacy\Patches\InventoryUpdate.cs" />
+    <Compile Include="RGM\Modes\GamePluses\ABattle\Legacy\Variables\Abilities.cs" />
+    <Compile Include="RGM\Modes\GamePluses\ABattle\Legacy\Variables\AbilityManagers.cs" />
+    <Compile Include="RGM\Modes\GamePluses\ABattle\Legacy\Variables\Cooldowns.cs" />
+    <Compile Include="RGM\Modes\GamePluses\ABattle\Legacy\Variables\MainManagers.cs" />
+    <Compile Include="RGM\Modes\GamePluses\ABattle\Legacy\Variables\Serials.cs" />
     <Compile Include="RGM\Modes\GamePluses\AdditionalWave\AdditionalWave.cs" />
     <Compile Include="RGM\Modes\GamePluses\Blackout\Blackout.cs" />
     <Compile Include="RGM\Modes\GamePluses\Blessing\Blessing.cs" />
@@ -306,6 +312,13 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="RGM\Modes\GamePluses\ABattle\Abilities\Epic\" />
+    <Folder Include="RGM\Modes\GamePluses\ABattle\Abilities\Legend\" />
+    <Folder Include="RGM\Modes\GamePluses\ABattle\Abilities\Rare\" />
+    <Folder Include="RGM\Modes\GamePluses\ABattle\Abilities\Synergy\" />
+    <Folder Include="RGM\Modes\GamePluses\ABattle\Abilities\Unique\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
