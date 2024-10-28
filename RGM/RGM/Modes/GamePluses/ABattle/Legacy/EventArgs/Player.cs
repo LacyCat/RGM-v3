@@ -118,7 +118,7 @@ namespace RGM.Modes.ABattleEventArgs
                     {
                         PlayerWorkstation[ev.Player].Add(WorkStation.position);
 
-                        AddAbilityVote(ev.Player);
+                        Timing.RunCoroutine(AddAbilityVote(ev.Player));
                     }
                 }
             }
@@ -424,7 +424,7 @@ namespace RGM.Modes.ABattleEventArgs
                         if (GetList.Count > 0)
                         {
                             Get = Tools.GetRandomValue(GetList);
-                            Ability = Tools.GetRandomValue(PlayerAbilities[ev.Player]);
+                            Ability = Tools.GetRandomValue(PlayerAbilities[ev.Player].Where(AllAbilities.ContainsKey).ToList());
 
                             if (PlayerAbilities.ContainsKey(Get))
                                 PlayerAbilities[Get].Add(Ability);
@@ -464,7 +464,7 @@ namespace RGM.Modes.ABattleEventArgs
                 if (PlayerAbilities[ev.Attacker].Contains("[전설] 킬스트릭"))
                 {
                     if (UnityEngine.Random.Range(1, 3) == 1)
-                        AddAbilityVote(ev.Attacker);
+                        Timing.RunCoroutine(AddAbilityVote(ev.Player));
 
                     else
                         AddAbility(ev.Attacker);
@@ -473,7 +473,7 @@ namespace RGM.Modes.ABattleEventArgs
                 if (PlayerAbilities[ev.Attacker].Contains("[신화] 차원 강탈자"))
                 {
                     foreach (var Ability in PlayerAbilities[ev.Player])
-                        PlayerAbilities[ev.Attacker].Add(Ability);
+                        AddAbility(ev.Player, Ability);
 
                     ev.Player.ShowHint("능력을 강탈당했습니다!");
                 }

@@ -76,7 +76,7 @@ namespace RGM.Commands.ClientCommands
                         string.Join(" ", arguments),
                         "</size>"
                     });
-                    foreach (Player ply in Player.List.Where(x => x.IsScp))
+                    foreach (Player ply in Player.List.Where(x => x.IsScp || x.IsDead))
                     {
                         ply.AddBroadcast(6, text2);
                     }
