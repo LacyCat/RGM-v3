@@ -14,6 +14,8 @@ using UnityEngine;
 
 using static RGM.Variables.ServerManagers;
 using RGM.Discord;
+using CustomPlayerEffects;
+using Exiled.API.Features.Items;
 
 namespace RGM.Commands.ClientCommands
 {
@@ -59,70 +61,69 @@ namespace RGM.Commands.ClientCommands
                         return "";
                 }
 
-                if (player.IsScp)
+                string ChatFormat(string chatType)
                 {
-                    if (arguments.Count == 0)
-                    {
-                        response = "보낼 메세지를 입력해주세요.";
-                        return false;
-                    }
-
                     string text = Trans.Role[player.Role.Type];
                     string text2 = string.Concat(new string[]
                     {
                         $"<size=25>{BadgeFormat(player)}<color={player.Role.Color.ToHex()}>",
                         text,
                         $"</color> ({player.DisplayNickname}) <b> | </b>",
-                        string.Join(" ", arguments),
+                        string.Join(" ", arguments).Replace("=", "❤️"),
                         "</size>"
                     });
-                    foreach (Player ply in Player.List.Where(x => x.IsScp || x.IsDead))
+
+                    bool Check(Player p)
                     {
-                        ply.AddBroadcast(6, text2);
+                        if (player.VoiceChannel == VoiceChat.VoiceChatChannel.Intercom)
+                            return true;
+
+                        if (p.CurrentItem is Scp1576 scp1576)
+                        {
+                            if (scp1576.IsUsing)
+                                return true;
+                        }
+
+                        if (chatType == "SCP 채팅")
+                            return p.IsScp || p.IsDead;
+
+                        else if (chatType == "관전자 채팅")
+                            return p.IsDead;
+
+                        else
+                            return Vector3.Distance(p.Position, p.Position) <= 10 || p.IsDead;
                     }
-                    response = $"'{text2}'";
-                    Webhook.Send($"**SCP 채팅**ㅣ`{player.DisplayNickname}`[{player.IPAddress}, {player.UserId}]({Trans.Role[player.Role.Type]}) - {string.Join(" ", arguments)}");
+
+                    foreach (Player ply in Player.List)
+                    {
+                        if (Check(ply))
+                            ply.AddBroadcast(6, text2);
+                    }
+
+                    Webhook.Send($"**{chatType}**ㅣ`{player.DisplayNickname}`[{player.IPAddress}, {player.UserId}]({Trans.Role[player.Role.Type]}) - {string.Join(" ", arguments)}");
+
+                    return $"'{text2}'";
+                }
+
+                if (arguments.Count == 0)
+                {
+                    response = "보낼 메세지를 입력해주세요.";
+                    return false;
+                }
+
+                if (player.IsScp)
+                {
+                    response = ChatFormat("SCP 채팅");
                     return true;
                 }
                 else if (player.IsDead)
                 {
-                    string text = Trans.Role[player.Role.Type];
-                    string text2 = string.Concat(new string[]
-                    {
-                        $"<size=25>{BadgeFormat(player)}<color={player.Role.Color.ToHex()}>",
-                        text,
-                        $"</color> ({player.DisplayNickname}) <b> | </b>",
-                        string.Join(" ", arguments),
-                        "</size>"
-                    });
-
-                    foreach (Player ply in Player.List.Where(x => x.IsDead))
-                        ply.AddBroadcast(6, text2);
-
-                    response = $"'{text2}'";
-                    Webhook.Send($"**관전자 채팅**ㅣ`{player.DisplayNickname}`[{player.IPAddress}, {player.UserId}]({Trans.Role[player.Role.Type]}) - {string.Join(" ", arguments)}");
+                    response = ChatFormat("관전자 채팅");
                     return true;
                 }
                 else
                 {
-                    string text = Trans.Role[player.Role.Type];
-                    string text2 = string.Concat(new string[]
-                    {
-                        $"<size=25>{BadgeFormat(player)}<color={player.Role.Color.ToHex()}>",
-                        text,
-                        $"</color> ({player.DisplayNickname}) <b> | </b>",
-                        string.Join(" ", arguments),
-                        "</size>"
-                    });
-
-                    foreach (Player ply in Player.List)
-                    {
-                        if (Vector3.Distance(ply.Position, player.Position) <= 10 || ply.IsDead)
-                            ply.AddBroadcast(6, text2);
-                    }
-
-                    response = $"'{text2}'";
-                    Webhook.Send($"**근거리 채팅**ㅣ`{player.DisplayNickname}`[{player.IPAddress}, {player.UserId}]({Trans.Role[player.Role.Type]}) - {string.Join(" ", arguments)}");
+                    response = ChatFormat("근거리 채팅");
                     return true;
                 }
             }
