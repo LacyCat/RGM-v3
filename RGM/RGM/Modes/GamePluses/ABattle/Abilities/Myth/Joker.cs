@@ -23,6 +23,9 @@ public class Joker : Ability
         if (ev.Player != Owner)
             return;
 
+        if (ev.Attacker == null)
+            return;
+
         ev.IsAllowed = false;
 
         ev.Player.IsGodModeEnabled = true;
