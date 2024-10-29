@@ -396,13 +396,6 @@ namespace RGM.Modes.ABattleFunctions
                     if (player.IsScp)
                         player.CurrentItem = ec;
                     break;
-                case "지진":
-                    Item ec_1 = player.AddItem(ItemType.Coin);
-                    EarthquakeCoinSerials.Add(ec_1.Serial);
-
-                    if (player.IsScp)
-                        player.CurrentItem = ec_1;
-                    break;
                 case "우애":
                     if (Tools.TryGetNearestPlayer(player, out Player nearestPlayer, out float radius))
                     {

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Exiled.API.Features;
 using Exiled.Events.EventArgs.Player;
 using InventorySystem.Items.Firearms.Attachments;
 using MEC;
@@ -10,20 +11,10 @@ public class ABattleEventHandler(ABattle aBattle)
 {
     internal void RegisterEvents()
     {
-        Exiled.Events.Handlers.Player.Verified += OnVerified;
         Exiled.Events.Handlers.Player.Jumping += OnJumping;
     }
 
-    public void OnVerified(VerifiedEventArgs ev)
-    {
-        if (aBattle.PlayerWorkstations.ContainsKey(ev.Player))
-            return;
-
-        aBattle.PlayerWorkstations.Add(ev.Player, new List<WorkstationController>());
-        aBattle.PlayerAbilities.Add(ev.Player, new List<Ability>());
-    }
-
-    public void OnJumping(JumpingEventArgs ev)
+    private void OnJumping(JumpingEventArgs ev)
     {
         if (Physics.Raycast(ev.Player.Position, Vector3.down, out var hit, 5, (LayerMask)1))
         {
@@ -35,21 +26,43 @@ public class ABattleEventHandler(ABattle aBattle)
                 {
                     if (!aBattle.PlayerWorkstations.TryGetValue(ev.Player, out var workstations))
                     {
+                        Log.Info("No key");
+
                         aBattle.PlayerWorkstations.Add(ev.Player, [controller]);
 
                         aBattle.StartSelect(ev.Player);
                     }
                     else
                     {
+                        Log.Info("Key");
+
                         if (!workstations.Contains(controller))
                         {
+                            Log.Info("No workstation");
+
                             workstations.Add(controller);
 
                             aBattle.StartSelect(ev.Player);
                         }
+                        else
+                        {
+                            Log.Info("Workstation");
+                        }
                     }
                 }
+                else
+                {
+                    Log.Info("No workstationcon hit");
+                }
             }
+            else
+            {
+                Log.Info("No workstation hit");
+            }
+        }
+        else
+        {
+            Log.Info("No raycast hit");
         }
     }
 }

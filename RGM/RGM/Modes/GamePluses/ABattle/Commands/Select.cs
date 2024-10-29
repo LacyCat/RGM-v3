@@ -17,7 +17,15 @@ public class SelectFirst : ICommand
             return false;
         }
 
-        return ABattle.Instance.Select(player, 1, out response);
+        if (ABattle.Instance == null)
+        {
+            response = "ABattle 인스턴스를 찾을 수 없습니다.";
+            return false;
+        }
+
+        var result = ABattle.Instance.Select(player, 1, out response);
+
+        return result;
     }
 
     public string Command { get; } = "1";
@@ -37,7 +45,9 @@ public class SelectSecond : ICommand
             return false;
         }
 
-        return ABattle.Instance.Select(player, 2, out response);
+        var result = ABattle.Instance.Select(player, 2, out response);
+
+        return result;
     }
 
     public string Command { get; } = "2";
@@ -57,7 +67,9 @@ public class SelectThird : ICommand
             return false;
         }
 
-        return ABattle.Instance.Select(player, 3, out response);
+        var result = ABattle.Instance.Select(player, 3, out response);
+
+        return result;
     }
 
     public string Command { get; } = "3";
