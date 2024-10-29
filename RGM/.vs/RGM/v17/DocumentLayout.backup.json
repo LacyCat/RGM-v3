@@ -3,24 +3,8 @@
   "WorkspaceRootPath": "D:\\GoldenPig1205\\Visual Studio 2022\\RGM\\RGM\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{DE4A6CC5-C16A-4E1D-9512-9CB02625B72B}|RGM.csproj|d:\\goldenpig1205\\visual studio 2022\\rgm\\rgm\\rgm\\modes\\gamepluses\\abattle\\commands\\addability.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DE4A6CC5-C16A-4E1D-9512-9CB02625B72B}|RGM.csproj|solutionrelative:rgm\\modes\\gamepluses\\abattle\\commands\\addability.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DE4A6CC5-C16A-4E1D-9512-9CB02625B72B}|RGM.csproj|d:\\goldenpig1205\\visual studio 2022\\rgm\\rgm\\rgm\\modes\\gamepluses\\abattle\\abattle.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DE4A6CC5-C16A-4E1D-9512-9CB02625B72B}|RGM.csproj|solutionrelative:rgm\\modes\\gamepluses\\abattle\\abattle.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DE4A6CC5-C16A-4E1D-9512-9CB02625B72B}|RGM.csproj|D:\\GoldenPig1205\\Visual Studio 2022\\RGM\\RGM\\rgm\\modes\\gamepluses\\abattle\\ability.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DE4A6CC5-C16A-4E1D-9512-9CB02625B72B}|RGM.csproj|solutionrelative:rgm\\modes\\gamepluses\\abattle\\ability.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DE4A6CC5-C16A-4E1D-9512-9CB02625B72B}|RGM.csproj|d:\\goldenpig1205\\visual studio 2022\\rgm\\rgm\\rgm\\modes\\gamepluses\\abattle\\commands\\select.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DE4A6CC5-C16A-4E1D-9512-9CB02625B72B}|RGM.csproj|solutionrelative:rgm\\modes\\gamepluses\\abattle\\commands\\select.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DE4A6CC5-C16A-4E1D-9512-9CB02625B72B}|RGM.csproj|D:\\GoldenPig1205\\Visual Studio 2022\\RGM\\RGM\\rgm\\modes\\gamepluses\\abattle\\abattleeventhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DE4A6CC5-C16A-4E1D-9512-9CB02625B72B}|RGM.csproj|solutionrelative:rgm\\modes\\gamepluses\\abattle\\abattleeventhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{DE4A6CC5-C16A-4E1D-9512-9CB02625B72B}|RGM.csproj|d:\\goldenpig1205\\visual studio 2022\\rgm\\rgm\\rgm\\eventargs\\serverevents.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DE4A6CC5-C16A-4E1D-9512-9CB02625B72B}|RGM.csproj|solutionrelative:rgm\\eventargs\\serverevents.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -39,66 +23,14 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "AddAbility.cs",
-              "DocumentMoniker": "D:\\GoldenPig1205\\Visual Studio 2022\\RGM\\RGM\\RGM\\Modes\\GamePluses\\ABattle\\Commands\\AddAbility.cs",
-              "RelativeDocumentMoniker": "RGM\\Modes\\GamePluses\\ABattle\\Commands\\AddAbility.cs",
-              "ToolTip": "D:\\GoldenPig1205\\Visual Studio 2022\\RGM\\RGM\\RGM\\Modes\\GamePluses\\ABattle\\Commands\\AddAbility.cs",
-              "RelativeToolTip": "RGM\\Modes\\GamePluses\\ABattle\\Commands\\AddAbility.cs",
-              "ViewState": "AgIAABwAAAAAAAAAAAAAwBIAAAAlAAAAAAAAAA==",
+              "Title": "ServerEvents.cs",
+              "DocumentMoniker": "D:\\GoldenPig1205\\Visual Studio 2022\\RGM\\RGM\\RGM\\EventArgs\\ServerEvents.cs",
+              "RelativeDocumentMoniker": "RGM\\EventArgs\\ServerEvents.cs",
+              "ToolTip": "D:\\GoldenPig1205\\Visual Studio 2022\\RGM\\RGM\\RGM\\EventArgs\\ServerEvents.cs*",
+              "RelativeToolTip": "RGM\\EventArgs\\ServerEvents.cs*",
+              "ViewState": "AgIAABYAAAAAAAAAAAAAACEAAAA5AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-29T12:36:21.163Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Select.cs",
-              "DocumentMoniker": "D:\\GoldenPig1205\\Visual Studio 2022\\RGM\\RGM\\RGM\\Modes\\GamePluses\\ABattle\\Commands\\Select.cs",
-              "RelativeDocumentMoniker": "RGM\\Modes\\GamePluses\\ABattle\\Commands\\Select.cs",
-              "ToolTip": "D:\\GoldenPig1205\\Visual Studio 2022\\RGM\\RGM\\RGM\\Modes\\GamePluses\\ABattle\\Commands\\Select.cs",
-              "RelativeToolTip": "RGM\\Modes\\GamePluses\\ABattle\\Commands\\Select.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACUAAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-29T12:34:20.154Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "ABattle.cs",
-              "DocumentMoniker": "D:\\GoldenPig1205\\Visual Studio 2022\\RGM\\RGM\\RGM\\Modes\\GamePluses\\ABattle\\ABattle.cs",
-              "RelativeDocumentMoniker": "RGM\\Modes\\GamePluses\\ABattle\\ABattle.cs",
-              "ToolTip": "D:\\GoldenPig1205\\Visual Studio 2022\\RGM\\RGM\\RGM\\Modes\\GamePluses\\ABattle\\ABattle.cs",
-              "RelativeToolTip": "RGM\\Modes\\GamePluses\\ABattle\\ABattle.cs",
-              "ViewState": "AgIAAKkAAAAAAAAAAAAIwF4AAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-29T10:05:42.894Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Ability.cs",
-              "DocumentMoniker": "D:\\GoldenPig1205\\Visual Studio 2022\\RGM\\RGM\\RGM\\Modes\\GamePluses\\ABattle\\Ability.cs",
-              "RelativeDocumentMoniker": "RGM\\Modes\\GamePluses\\ABattle\\Ability.cs",
-              "ToolTip": "D:\\GoldenPig1205\\Visual Studio 2022\\RGM\\RGM\\RGM\\Modes\\GamePluses\\ABattle\\Ability.cs",
-              "RelativeToolTip": "RGM\\Modes\\GamePluses\\ABattle\\Ability.cs",
-              "ViewState": "AgIAAGwAAAAAAAAAAADwv7kAAAAUAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-29T10:05:42.253Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "ABattleEventHandler.cs",
-              "DocumentMoniker": "D:\\GoldenPig1205\\Visual Studio 2022\\RGM\\RGM\\RGM\\Modes\\GamePluses\\ABattle\\ABattleEventHandler.cs",
-              "RelativeDocumentMoniker": "RGM\\Modes\\GamePluses\\ABattle\\ABattleEventHandler.cs",
-              "ToolTip": "D:\\GoldenPig1205\\Visual Studio 2022\\RGM\\RGM\\RGM\\Modes\\GamePluses\\ABattle\\ABattleEventHandler.cs",
-              "RelativeToolTip": "RGM\\Modes\\GamePluses\\ABattle\\ABattleEventHandler.cs",
-              "ViewState": "AgIAAA4AAAAAAAAAAAAAwCsAAAAiAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-29T10:05:43.237Z",
+              "WhenOpened": "2024-10-29T13:48:09.453Z",
               "EditorCaption": ""
             }
           ]
