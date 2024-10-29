@@ -67,7 +67,7 @@ namespace RGM.Modes
                     Door.IsOpen = true;
             }
 
-            Server.ExecuteCommand("/atkill all");
+            Player.List.ToList().ForEach(x => x.Kill("곧 게임이 시작됩니다, 준비하세요!"));
 
             while (!IsEnd)
             {
@@ -136,9 +136,17 @@ namespace RGM.Modes
             player.AddItem(GunsList[Stage[player]]);
             player.Position = new Vector3(SelectedDoor.Position.x, SelectedDoor.Position.y + 2, SelectedDoor.Position.z);
 
-            List<string> AmmosList = new List<string>() { "19", "22", "27", "28", "29" };
+            List<ItemType> AmmosList = new List<ItemType>() 
+            {  
+                ItemType.Ammo12gauge,
+                ItemType.Ammo762x39,
+                ItemType.Ammo556x45,
+                ItemType.Ammo9x19,
+                ItemType.Ammo44cal
+            };
 
-            Server.ExecuteCommand($"/give {player.Id} {string.Join(".", AmmosList)}.");
+            foreach (var ammo in AmmosList)
+                player.AddItem(ammo, 1000);
         }
 
         public void OnDying(Exiled.Events.EventArgs.Player.DyingEventArgs ev)
