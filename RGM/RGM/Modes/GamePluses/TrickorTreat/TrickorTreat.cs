@@ -54,6 +54,9 @@ namespace RGM.Modes
 
         public void OnDying(Exiled.Events.EventArgs.Player.DyingEventArgs ev)
         {
+            if (ev.Attacker == null)
+                return;
+
             List<CandyKindID> CandyList = Tools.EnumToList<CandyKindID>();
             {
                 var toGive = Tools.GetRandomValue(CandyList);
