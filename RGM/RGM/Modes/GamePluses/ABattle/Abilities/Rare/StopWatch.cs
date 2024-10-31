@@ -41,6 +41,9 @@ public class StopWatch : Ability
 
     public void OnChangedItem(ChangedItemEventArgs ev)
     {
+        if (ev.Player != Owner)
+            return;
+
         if (ev.Item != null)
         {
             if (ClockCoinSerial == ev.Item.Serial)
@@ -50,6 +53,9 @@ public class StopWatch : Ability
 
     public void OnFlippingCoin(FlippingCoinEventArgs ev)
     {
+        if (ev.Player != Owner)
+            return;
+
         ushort Serial = ev.Item.Serial;
 
         if (ClockCoinSerial == Serial)

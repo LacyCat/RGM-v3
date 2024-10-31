@@ -16,7 +16,7 @@ namespace RGM.Modes.Abilities.Epic;
 [Ability("점멸", "Alt + Spaceㅣ근처 문으로 텔레포트합니다. (쿨타임 15초)", AbilityCategory.Epic, AbilityType.EPIC_BLINK)]
 public class Blink : Ability
 {
-    int TeleportCooldown = 15;
+    int TeleportCooldown = 0;
 
     public override void OnEnabled()
     {

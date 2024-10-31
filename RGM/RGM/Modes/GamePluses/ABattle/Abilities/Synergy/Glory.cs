@@ -15,7 +15,7 @@ using UnityEngine;
 
 namespace RGM.Modes.Abilities.Synergy;
 
-[RequiresAbility([AbilityType.LEGEND_FLASHLIGHT, AbilityType.NORMAL_TORCH])]
+[RequiresAbility(AbilityType.LEGEND_FLASHLIGHT, AbilityType.NORMAL_TORCH)]
 [Ability("광휘", "<플래시라이트, 횃불> 당신을 쳐다보는 눈은 멀어버릴 것입니다.", AbilityCategory.Synergy, AbilityType.SYNERGY_GLORY)]
 public class Glory : Ability
 {

@@ -76,6 +76,8 @@ public class ABattleEventHandler(ABattle aBattle)
         ev.Player.RemoveAllAbilities();
 
         aBattle.PlayerWorkstations[ev.Player].Clear();
+        aBattle.IsSelecting[ev.Player] = false;
+        aBattle.IsLifeUsed[ev.Player] = false;
     }
 
     private void OnLoadingMap(LoadingMapEventArgs ev)

@@ -477,11 +477,7 @@ public class ABattle
         for (var i = 0; i < 20; i++)
         {
             if (player.IsDead || !Selections.ContainsKey(player))
-            {
-                IsSelecting[player] = false;
-
                 yield break;
-            }
 
             player.ShowHint(
             $"<align=left><size=40><b>능력 선택창ㅣ{SelectFormat[CheckAbilityGrade()]}</b></size>\n\n<size=30>{text}</size>\n\n<size=25><b>{20 - i}초 안에 [.(번호)] 명령어로 원하는 능력을 선택하세요. (ex .1)</b></size></align>\n\n\n\n\n",
@@ -490,27 +486,33 @@ public class ABattle
             yield return Timing.WaitForSeconds(1f);
         }
 
-        IsSelecting[player] = false;
-
-        if (!Selections.ContainsKey(player)) yield break;
-
-        if (abilities.All(x => x == abilities.First()))
+        try
         {
-            player.AddAbility(AbilityType.SYNERGY_DUPLICATEFATE);
+            if (!Selections.ContainsKey(player))
+                yield break;
 
-            for (var i = 0; i < 3; i++)
-                player.AddAbility(abilities[i]);
+            if (abilities.All(x => x == abilities.First()))
+            {
+                player.AddAbility(AbilityType.SYNERGY_DUPLICATEFATE);
+
+                for (var i = 0; i < 3; i++)
+                    player.AddAbility(abilities[i]);
+
+                Selections.Remove(player);
+
+                yield break;
+            }
+
+            var random = Random.Range(0, 3);
+
+            player.AddAbility(abilities[random]);
 
             Selections.Remove(player);
-
-            yield break;
         }
-
-        var random = Random.Range(0, 3);
-
-        player.AddAbility(abilities[random]);
-
-        Selections.Remove(player);
+        finally
+        {
+            IsSelecting[player] = false;
+        }
     }
 
     private AbilityCategory GetCategory(Player player)
