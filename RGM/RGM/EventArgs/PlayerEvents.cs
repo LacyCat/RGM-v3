@@ -510,10 +510,6 @@ GoldenPig1205(@GoldenPig1205) - 메인 개발자
                     if (ev.DamageHandler.Type != DamageType.Warhead && ev.DamageHandler.Type != DamageType.Falldown)
                         ev.IsAllowed = false;
                 }
-
-                if (ev.Player.LeadingTeam == ev.Attacker.LeadingTeam && 
-                    (ev.DamageHandler.Type == DamageType.Marshmallow || ev.DamageHandler.Type == DamageType.SpicyFlame))
-                    ev.IsAllowed = false;
             }
         }
 
@@ -606,6 +602,18 @@ GoldenPig1205(@GoldenPig1205) - 메인 개발자
                         ammo.Destroy();
                 }
             });
+        }
+
+        public static void OnKicking(Exiled.Events.EventArgs.Player.KickingEventArgs ev)
+        {
+            foreach (var player in Player.List)
+                player.AddBroadcast(10, $"<size=20>{ev.Target.Nickname}(이)가 서버에서 <color=red>추방</color>되었습니다. (사유: {ev.Reason})</size>");
+        }
+
+        public static void OnBanning(Exiled.Events.EventArgs.Player.BanningEventArgs ev)
+        {
+            foreach (var player in Player.List)
+                player.AddBroadcast(10, $"<size=20>{ev.Target.Nickname}(이)가 서버에서 <color=red>차단</color>되었습니다. (사유: {ev.Reason})</size>");
         }
     }
 }

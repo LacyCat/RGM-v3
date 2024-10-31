@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using Exiled.API.Enums;
+using Exiled.API.Features;
+using MEC;
 using UnityEngine;
 
 namespace RGM.Modes.Abilities.Normal;
@@ -27,6 +29,14 @@ public class Lucky : Ability
             ev.Player.ShowHint("이 헤비도어는 능력으로 개폐가 불가능합니다.", 1.2f);
             return;
         }
+
+        if (Warhead.IsInProgress)
+        {
+            ev.Player.ShowHint("알파 핵탄투가 작동 중일때는 문을 개폐할 수 없습니다.", 1.2f);
+            return;
+        }
+
+        ev.IsAllowed = false;
 
         if (ev.Door.IsOpen)
             ev.Door.IsOpen = false;

@@ -17,29 +17,21 @@ namespace RGM.Modes.Abilities.Epic;
 [Ability("고스트룰", "유령이 되어 문을 통과할 수 있게 됩니다.", AbilityCategory.Epic, AbilityType.EPIC_GHOSTRULE)]
 public class GhostRule : Ability
 {
-    CoroutineHandle _ghost;
-
     public override void OnEnabled()
     {
-        _ghost = Timing.RunCoroutine(Ghost());
+        Exiled.Events.Handlers.Player.InteractingDoor += OnInteractingDoor;
     }
 
     public override void OnDisabled()
     {
-        Timing.KillCoroutines(_ghost);
+        Exiled.Events.Handlers.Player.InteractingDoor -= OnInteractingDoor;
     }
 
-    public IEnumerator<float> Ghost()
+    public void OnInteractingDoor(InteractingDoorEventArgs ev)
     {
-        while (true)
-        {
-            if (Physics.Raycast(Owner.Position, Owner.CameraTransform.forward, out RaycastHit hit, 1f, (LayerMask)1))
-            {
-                if (hit.transform.TryGetComponentInParent<DoorObject>(out DoorObject comp))
-                    Owner.EnableEffect(EffectType.Ghostly, 0.5f);
-            }
+        if (ev.Player != Owner)
+            return;
 
-            yield return Timing.WaitForSeconds(0.1f);
-        }
+        ev.Player.EnableEffect(EffectType.Ghostly, 0.5f);
     }
 }
