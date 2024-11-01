@@ -11,6 +11,7 @@ using MEC;
 using MultiBroadcast.API;
 using PlayerRoles;
 using RemoteAdmin;
+using RGM.Modes.ABattleVariables;
 using RGM.Modes.Commands;
 using Random = UnityEngine.Random;
 
@@ -229,7 +230,7 @@ public class ABattle
         ability.OnEnabled();
 
         PlayerAbilities[player].Add(ability);
-        EnableSynergyAbility(PlayerAbilities[player]);
+        EnableSynergyAbility(player);
 
         string styleName = ColorFormat(abilityData.GetFormattedName());
 
@@ -239,8 +240,10 @@ public class ABattle
     }
 
     // 플레이어에게 시너지 능력 부여
-    private void EnableSynergyAbility(List<Ability> abilities)
+    private void EnableSynergyAbility(Player player)
     {
+        List<Ability> abilities = PlayerAbilities[player];
+
         foreach (var synergy in SynergyAbilities.Where(synergy =>
                      synergy.Value.All(req => abilities.Any(a => a.Data.AbilityType == req))))
         {
@@ -250,22 +253,7 @@ public class ABattle
             if (abilities.Any(a => a.Data.AbilityType == synergy.Key))
                 continue;
 
-            Ability synergyAbility;
-            try
-            {
-                synergyAbility = Activator.CreateInstance(synergyAbilityType.Type) as Ability;
-            }
-            catch (Exception e)
-            {
-                Log.Error($"An error occurred while trying to create an instance of {synergyAbilityType.Name}: {e}");
-                continue;
-            }
-
-            if (synergyAbility == null)
-                continue;
-
-            synergyAbility.OnEnabled();
-            abilities.Add(synergyAbility);
+            player.AddAbility(synergyAbilityType.AbilityType);
         }
     }
 
@@ -383,6 +371,22 @@ public class ABattle
         if (abilities.Count == 0)
             return;
 
+        if (Random.Range(1, 21) == 1) // 전용 능력
+        {
+            int index;
+
+            do
+            {
+                index = Random.Range(0, 3);
+            } while (ignoredIndexes.Contains(index));
+
+            ignoredIndexes.Add(index);
+
+            var ability = GetRandomAbilities(player.GetAbilityCategory(), 1).First();
+
+            abilities[index] = ability;
+        }
+
         if (player.HasAbility(AbilityType.RARE_TRANSITION))
         {
             player.RemoveAbility(AbilityType.RARE_TRANSITION);
@@ -403,7 +407,11 @@ public class ABattle
                 var ability = GetRandomAbilities(AbilityCategory.Epic, 1).First();
 
                 abilities[index] = ability;
+
+                player.AddAbility(AbilityType.NONE_RARETRANSITIONSUCCESS);
             }
+            else
+                player.AddAbility(AbilityType.NONE_RARETRANSITIONFAILURE);
         }
 
         if (player.HasAbility(AbilityType.EPIC_TRANSITION))
@@ -426,7 +434,11 @@ public class ABattle
                 var ability = GetRandomAbilities(AbilityCategory.Legend, 1).First();
 
                 abilities[index] = ability;
+
+                player.AddAbility(AbilityType.NONE_EPICTRANSITIONSUCCESS);
             }
+            else
+                player.AddAbility(AbilityType.NONE_EPICTRANSITIONFAILURE);
         }
 
         if (player.HasAbility(AbilityType.LEGEND_TRANSITION))
@@ -449,7 +461,11 @@ public class ABattle
                 var ability = GetRandomAbilities(AbilityCategory.Mythic, 1).First();
 
                 abilities[index] = ability;
+
+                player.AddAbility(AbilityType.NONE_LEGENDTRANSITIONSUCCESS);
             }
+            else
+                player.AddAbility(AbilityType.NONE_LEGENDTRANSITIONFAILURE);
         }
 
         Selections[player] = abilities;
@@ -486,33 +502,28 @@ public class ABattle
             yield return Timing.WaitForSeconds(1f);
         }
 
-        try
+        IsSelecting[player] = false;
+
+        if (!Selections.ContainsKey(player))
+                yield break;
+
+        if (abilities.All(x => x == abilities.First()))
         {
-            if (!Selections.ContainsKey(player))
-                yield break;
+            player.AddAbility(AbilityType.SYNERGY_DUPLICATEFATE);
 
-            if (abilities.All(x => x == abilities.First()))
-            {
-                player.AddAbility(AbilityType.SYNERGY_DUPLICATEFATE);
-
-                for (var i = 0; i < 3; i++)
-                    player.AddAbility(abilities[i]);
-
-                Selections.Remove(player);
-
-                yield break;
-            }
-
-            var random = Random.Range(0, 3);
-
-            player.AddAbility(abilities[random]);
+            for (var i = 0; i < 3; i++)
+                player.AddAbility(abilities[i]);
 
             Selections.Remove(player);
+
+            yield break;
         }
-        finally
-        {
-            IsSelecting[player] = false;
-        }
+
+        var random = Random.Range(0, 3);
+
+        player.AddAbility(abilities[random]);
+
+        Selections.Remove(player);
     }
 
     private AbilityCategory GetCategory(Player player)
