@@ -206,6 +206,14 @@ public static class AbilityCategoryExtensions
     }
 }
 
+public static class PlayerExtensions 
+{
+    public static int AbilityCount(this Player player, AbilityType abilityType)
+    {
+        return ABattle.Instance.PlayerAbilities[player].Count(x => x.Data.AbilityType == abilityType);
+    }
+}
+
 public enum AbilityType
 {
     // 더미 & 알 수 없음
@@ -341,22 +349,22 @@ public enum AbilityType
 
     // SCP-0492
     SCP0492_HUNGER, // [전용] 허기
-    SCP0492_MESSHALL, // [전용] 급식
+    SCP0492_MEALS, // [전용] 급식
     SCP0492_CONFUSION, // [전용] 당혹감
 
     // SCP-096
     SCP096_RAGE, // [전용] 격노
     SCP096_STARTEARING, // [전용] 별자리 찢기
-    SCP096_CLEANSING, // [전용] 천리안
+    SCP096_SEER, // [전용] 천리안
     SCP096_ENEMY, // [전용] 원수
 
     // SCP-106
-    SCP106_REJUVENATION, // [전용] 회춘
+    SCP106_RECOVERY, // [전용] 회춘
     SCP106_STICKYSWAMP, // [전용] 끈적한 늪
     SCP106_HUNTINGPREY, // [전용] 사냥감 모색
 
     // SCP-939
-    SCP939_IMPERSONATOR, // [전용] 흉내쟁이
+    SCP939_MINIC, // [전용] 흉내쟁이
     SCP939_HUGME, // [전용] 안아줘요
     SCP939_AGILEHUNTINGTOOL, // [전용] 민첩한 사냥 도구
 
@@ -370,7 +378,7 @@ public enum AbilityType
     SCP079_PORTABLECHARGER, // [전용] 간이 충전기
     SCP079_OVERCURRENT, // [전용] 과전류
     SCP079_RANDOMFUNCTION, // [전용] 랜덤 함수
-    SCP079_ANCIENTBEINGOVERWHELM, // [전용] 고대의 존재 압도
+    SCP079_OVERWHELMING, // [전용] 고대의 존재 압도
 
     // 시너지 //
     SYNERGY_SURVIVALEXPERT, // [시너지] 생존 전문가

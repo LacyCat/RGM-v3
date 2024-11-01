@@ -324,13 +324,33 @@
     <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\Unique\Scientist\05.cs" />
     <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\Unique\Scientist\EngineeringMajor.cs" />
     <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\Unique\Scientist\SeedsOfMTF.cs" />
+    <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\Unique\Scp0492\Confusion.cs" />
     <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\Unique\Scp0492\Hurger.cs" />
+    <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\Unique\Scp0492\Meals.cs" />
     <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\Unique\Scp049\CompetentDoctor.cs" />
     <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\Unique\Scp049\Death.cs" />
     <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\Unique\Scp049\Proficiency.cs" />
+    <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\Unique\Scp079\OverCurrent.cs" />
+    <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\Unique\Scp079\Overwhelming.cs" />
+    <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\Unique\Scp079\PingRemote.cs" />
+    <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\Unique\Scp079\PortableCharger.cs" />
+    <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\Unique\Scp079\RandomFunction.cs" />
+    <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\Unique\Scp096\Enemy.cs" />
+    <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\Unique\Scp096\Rage.cs" />
+    <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\Unique\Scp096\Seer.cs" />
+    <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\Unique\Scp096\StarTearing.cs" />
+    <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\Unique\Scp106\HurtingPrey.cs" />
+    <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\Unique\Scp106\Recovery.cs" />
+    <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\Unique\Scp106\StickySwamp.cs" />
     <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\Unique\Scp173\Aberration.cs" />
     <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\Unique\Scp173\Fear.cs" />
     <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\Unique\Scp173\Mirage.cs" />
+    <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\Unique\Scp3114\DoraemonPocket.cs" />
+    <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\Unique\Scp3114\HalfBlock.cs" />
+    <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\Unique\Scp3114\SkilledAssassin.cs" />
+    <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\Unique\Scp939\AgileHuntingTool.cs" />
+    <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\Unique\Scp939\HugMe.cs" />
+    <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\Unique\Scp939\Minic.cs" />
     <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\Unique\Tutorial\Researcher.cs" />
     <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\Unique\Tutorial\ThirdForce.cs" />
     <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\Unique\Tutorial\Tongue.cs" />
@@ -420,12 +440,6 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="RGM\Modes\GamePluses\ABattle\Abilities\Unique\Scp079\" />
-    <Folder Include="RGM\Modes\GamePluses\ABattle\Abilities\Unique\Scp096\" />
-    <Folder Include="RGM\Modes\GamePluses\ABattle\Abilities\Unique\Scp106\" />
-    <Folder Include="RGM\Modes\GamePluses\ABattle\Abilities\Unique\Scp3114\" />
-    <Folder Include="RGM\Modes\GamePluses\ABattle\Abilities\Unique\Scp939\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

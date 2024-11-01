@@ -7,6 +7,7 @@ using InventorySystem.Items.Firearms.Attachments;
 using MEC;
 using UnityEngine;
 using MultiBroadcast.API;
+using Exiled.Events.EventArgs.Scp079;
 
 namespace RGM.Modes;
 
@@ -17,6 +18,8 @@ public class ABattleEventHandler(ABattle aBattle)
         Exiled.Events.Handlers.Player.Verified += OnVerified;
         Exiled.Events.Handlers.Player.Jumping += OnJumping;
         Exiled.Events.Handlers.Player.Died += OnDied;
+
+        Exiled.Events.Handlers.Scp079.GainingLevel += OnGainingLevel;
 
         MapEditorReborn.Events.Handlers.Map.LoadingMap += OnLoadingMap;
     }
@@ -78,6 +81,11 @@ public class ABattleEventHandler(ABattle aBattle)
         aBattle.PlayerWorkstations[ev.Player].Clear();
         aBattle.IsSelecting[ev.Player] = false;
         aBattle.IsLifeUsed[ev.Player] = false;
+    }
+
+    private void OnGainingLevel(GainingLevelEventArgs ev)
+    {
+        ev.Player.AddAbility(ABattle.Instance.GetRandomAbilities(AbilityCategory.Scp079, 1).First());
     }
 
     private void OnLoadingMap(LoadingMapEventArgs ev)
