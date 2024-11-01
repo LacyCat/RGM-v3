@@ -30,6 +30,7 @@ public class Insurance : Ability
         ev.IsAllowed = false;
         ev.Player.RemoveAbility(this);
 
+        Owner.AddAbility(AbilityType.NONE_EXPIREDINSURANCE);
         Owner.ShowHint($"사망 판정을 받았지만 <color={ABattle.RatingColor["일반"]}>보험</color>으로 인해 1번 버텨냅니다.");
 
         ABattle.Instance.IsLifeUsed[Owner] = true;

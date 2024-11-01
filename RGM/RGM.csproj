@@ -254,6 +254,14 @@
     <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\Mythic\RocketLauncher.cs" />
     <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\Mythic\Spirit.cs" />
     <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\Mythic\WarGod.cs" />
+    <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\None\DopamineReleased.cs" />
+    <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\None\ExpiredInsurance.cs" />
+    <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\None\EpicTransitionSuccess.cs" />
+    <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\None\LegendTransitionSuccess.cs" />
+    <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\None\EpicTransitionFailure.cs" />
+    <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\None\LegendTransitionFailure.cs" />
+    <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\None\RareTransitionFailure.cs" />
+    <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\None\RareTransitionSuccess.cs" />
     <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\Normal\Bodyback.cs" />
     <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\Normal\Dopamine.cs" />
     <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\Normal\Escape.cs" />
@@ -300,6 +308,32 @@
     <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\Synergy\Glory.cs" />
     <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\Synergy\RandomCollection.cs" />
     <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\Synergy\SurvivalExpert.cs" />
+    <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\Unique\CHI\BagOfChaos.cs" />
+    <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\Unique\CHI\ChaosOfChaos.cs" />
+    <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\Unique\CHI\TouchOfChaos.cs" />
+    <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\Unique\ClassD\Larceny.cs" />
+    <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\Unique\ClassD\SeedsOfCHI.cs" />
+    <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\Unique\ClassD\Trespassing.cs" />
+    <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\Unique\NTF\HealthCenterStaff.cs" />
+    <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\Unique\NTF\IndustrialAccidentInsurance.cs" />
+    <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\Unique\NTF\ManagerialObligationPerson.cs" />
+    <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\Unique\NTF\CollectiveIntelligence.cs" />
+    <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\Unique\NTF\MedicalOfficer.cs" />
+    <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\Unique\NTF\QuarantineObligation.cs" />
+    <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\Unique\NTF\Radar.cs" />
+    <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\Unique\Scientist\05.cs" />
+    <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\Unique\Scientist\EngineeringMajor.cs" />
+    <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\Unique\Scientist\SeedsOfMTF.cs" />
+    <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\Unique\Scp0492\Hurger.cs" />
+    <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\Unique\Scp049\CompetentDoctor.cs" />
+    <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\Unique\Scp049\Death.cs" />
+    <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\Unique\Scp049\Proficiency.cs" />
+    <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\Unique\Scp173\Aberration.cs" />
+    <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\Unique\Scp173\Fear.cs" />
+    <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\Unique\Scp173\Mirage.cs" />
+    <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\Unique\Tutorial\Researcher.cs" />
+    <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\Unique\Tutorial\ThirdForce.cs" />
+    <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\Unique\Tutorial\Tongue.cs" />
     <Compile Include="RGM\Modes\GamePluses\ABattle\Ability.cs" />
     <Compile Include="RGM\Modes\GamePluses\ABattle\Commands\AddAbility.cs" />
     <Compile Include="RGM\Modes\GamePluses\ABattle\Commands\Select.cs" />
@@ -387,7 +421,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="RGM\Modes\GamePluses\ABattle\Abilities\Unique\" />
+    <Folder Include="RGM\Modes\GamePluses\ABattle\Abilities\Unique\Scp079\" />
+    <Folder Include="RGM\Modes\GamePluses\ABattle\Abilities\Unique\Scp096\" />
+    <Folder Include="RGM\Modes\GamePluses\ABattle\Abilities\Unique\Scp106\" />
+    <Folder Include="RGM\Modes\GamePluses\ABattle\Abilities\Unique\Scp3114\" />
+    <Folder Include="RGM\Modes\GamePluses\ABattle\Abilities\Unique\Scp939\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

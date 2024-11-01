@@ -1,34 +1,38 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "D:\\GoldenPig1205\\Visual Studio 2022\\RGM\\RGM\\",
+  "WorkspaceRootPath": "C:\\GoldenPig1205\\Visual Studio 2022\\RGM\\RGM\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{DE4A6CC5-C16A-4E1D-9512-9CB02625B72B}|RGM.csproj|d:\\goldenpig1205\\visual studio 2022\\rgm\\rgm\\rgm\\modes\\gamepluses\\abattle\\ability.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{DE4A6CC5-C16A-4E1D-9512-9CB02625B72B}|RGM.csproj|c:\\goldenpig1205\\visual studio 2022\\rgm\\rgm\\rgm\\modes\\gamepluses\\abattle\\abilities\\unique\\scp0492\\hurger.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DE4A6CC5-C16A-4E1D-9512-9CB02625B72B}|RGM.csproj|solutionrelative:rgm\\modes\\gamepluses\\abattle\\abilities\\unique\\scp0492\\hurger.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DE4A6CC5-C16A-4E1D-9512-9CB02625B72B}|RGM.csproj|c:\\goldenpig1205\\visual studio 2022\\rgm\\rgm\\rgm\\modes\\gamepluses\\abattle\\ability.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{DE4A6CC5-C16A-4E1D-9512-9CB02625B72B}|RGM.csproj|solutionrelative:rgm\\modes\\gamepluses\\abattle\\ability.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DE4A6CC5-C16A-4E1D-9512-9CB02625B72B}|RGM.csproj|D:\\GoldenPig1205\\Visual Studio 2022\\RGM\\RGM\\rgm\\modes\\gamepluses\\abattle\\abattle.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DE4A6CC5-C16A-4E1D-9512-9CB02625B72B}|RGM.csproj|solutionrelative:rgm\\modes\\gamepluses\\abattle\\abattle.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DE4A6CC5-C16A-4E1D-9512-9CB02625B72B}|RGM.csproj|D:\\GoldenPig1205\\Visual Studio 2022\\RGM\\RGM\\rgm\\modes\\gamepluses\\abattle\\legacy\\variables\\abilities.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{DE4A6CC5-C16A-4E1D-9512-9CB02625B72B}|RGM.csproj|C:\\GoldenPig1205\\Visual Studio 2022\\RGM\\RGM\\rgm\\modes\\gamepluses\\abattle\\legacy\\variables\\abilities.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{DE4A6CC5-C16A-4E1D-9512-9CB02625B72B}|RGM.csproj|solutionrelative:rgm\\modes\\gamepluses\\abattle\\legacy\\variables\\abilities.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DE4A6CC5-C16A-4E1D-9512-9CB02625B72B}|RGM.csproj|d:\\goldenpig1205\\visual studio 2022\\rgm\\rgm\\rgm\\modes\\gamepluses\\abattle\\legacy\\functions\\abilitymanagers.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{DE4A6CC5-C16A-4E1D-9512-9CB02625B72B}|RGM.csproj|c:\\goldenpig1205\\visual studio 2022\\rgm\\rgm\\rgm\\modes\\gamepluses\\abattle\\legacy\\functions\\abilitymanagers.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{DE4A6CC5-C16A-4E1D-9512-9CB02625B72B}|RGM.csproj|solutionrelative:rgm\\modes\\gamepluses\\abattle\\legacy\\functions\\abilitymanagers.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DE4A6CC5-C16A-4E1D-9512-9CB02625B72B}|RGM.csproj|D:\\GoldenPig1205\\Visual Studio 2022\\RGM\\RGM\\rgm\\modes\\gamepluses\\abattle\\abattleeventhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DE4A6CC5-C16A-4E1D-9512-9CB02625B72B}|RGM.csproj|solutionrelative:rgm\\modes\\gamepluses\\abattle\\abattleeventhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{DE4A6CC5-C16A-4E1D-9512-9CB02625B72B}|RGM.csproj|C:\\GoldenPig1205\\Visual Studio 2022\\RGM\\RGM\\rgm\\modes\\gamepluses\\abattle\\abattle.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DE4A6CC5-C16A-4E1D-9512-9CB02625B72B}|RGM.csproj|solutionrelative:rgm\\modes\\gamepluses\\abattle\\abattle.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DE4A6CC5-C16A-4E1D-9512-9CB02625B72B}|RGM.csproj|D:\\GoldenPig1205\\Visual Studio 2022\\RGM\\RGM\\rgm\\modes\\gamepluses\\abattle\\legacy\\ienumerators\\specificabilities.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{DE4A6CC5-C16A-4E1D-9512-9CB02625B72B}|RGM.csproj|c:\\goldenpig1205\\visual studio 2022\\rgm\\rgm\\rgm\\modes\\gamepluses\\abattle\\legacy\\eventargs\\player.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DE4A6CC5-C16A-4E1D-9512-9CB02625B72B}|RGM.csproj|solutionrelative:rgm\\modes\\gamepluses\\abattle\\legacy\\eventargs\\player.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DE4A6CC5-C16A-4E1D-9512-9CB02625B72B}|RGM.csproj|C:\\GoldenPig1205\\Visual Studio 2022\\RGM\\RGM\\rgm\\modes\\gamepluses\\abattle\\legacy\\ienumerators\\specificabilities.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{DE4A6CC5-C16A-4E1D-9512-9CB02625B72B}|RGM.csproj|solutionrelative:rgm\\modes\\gamepluses\\abattle\\legacy\\ienumerators\\specificabilities.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DE4A6CC5-C16A-4E1D-9512-9CB02625B72B}|RGM.csproj|D:\\GoldenPig1205\\Visual Studio 2022\\RGM\\RGM\\rgm\\modes\\gamepluses\\abattle\\legacy\\eventargs\\player.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DE4A6CC5-C16A-4E1D-9512-9CB02625B72B}|RGM.csproj|solutionrelative:rgm\\modes\\gamepluses\\abattle\\legacy\\eventargs\\player.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{DE4A6CC5-C16A-4E1D-9512-9CB02625B72B}|RGM.csproj|C:\\GoldenPig1205\\Visual Studio 2022\\RGM\\RGM\\rgm\\modes\\gamepluses\\abattle\\abattleeventhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DE4A6CC5-C16A-4E1D-9512-9CB02625B72B}|RGM.csproj|solutionrelative:rgm\\modes\\gamepluses\\abattle\\abattleeventhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -37,8 +41,8 @@
       "VerticalTabListWidth": 256,
       "DocumentGroups": [
         {
-          "DockedWidth": 195,
-          "SelectedChildIndex": 1,
+          "DockedWidth": 200,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Bookmark",
@@ -46,58 +50,71 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Ability.cs",
-              "DocumentMoniker": "D:\\GoldenPig1205\\Visual Studio 2022\\RGM\\RGM\\RGM\\Modes\\GamePluses\\ABattle\\Ability.cs",
-              "RelativeDocumentMoniker": "RGM\\Modes\\GamePluses\\ABattle\\Ability.cs",
-              "ToolTip": "D:\\GoldenPig1205\\Visual Studio 2022\\RGM\\RGM\\RGM\\Modes\\GamePluses\\ABattle\\Ability.cs",
-              "RelativeToolTip": "RGM\\Modes\\GamePluses\\ABattle\\Ability.cs",
-              "ViewState": "AgIAAOUAAAAAAAAAAADwv+kAAAAhAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-31T13:36:56.618Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "ABattle.cs",
-              "DocumentMoniker": "D:\\GoldenPig1205\\Visual Studio 2022\\RGM\\RGM\\RGM\\Modes\\GamePluses\\ABattle\\ABattle.cs",
-              "RelativeDocumentMoniker": "RGM\\Modes\\GamePluses\\ABattle\\ABattle.cs",
-              "ToolTip": "D:\\GoldenPig1205\\Visual Studio 2022\\RGM\\RGM\\RGM\\Modes\\GamePluses\\ABattle\\ABattle.cs",
-              "RelativeToolTip": "RGM\\Modes\\GamePluses\\ABattle\\ABattle.cs",
-              "ViewState": "AgIAANgBAAAAAAAAAAAAAOkBAAAJAAAAAAAAAA==",
+              "Title": "Ability.cs",
+              "DocumentMoniker": "C:\\GoldenPig1205\\Visual Studio 2022\\RGM\\RGM\\RGM\\Modes\\GamePluses\\ABattle\\Ability.cs",
+              "RelativeDocumentMoniker": "RGM\\Modes\\GamePluses\\ABattle\\Ability.cs",
+              "ToolTip": "C:\\GoldenPig1205\\Visual Studio 2022\\RGM\\RGM\\RGM\\Modes\\GamePluses\\ABattle\\Ability.cs",
+              "RelativeToolTip": "RGM\\Modes\\GamePluses\\ABattle\\Ability.cs",
+              "ViewState": "AgIAAEIBAAAAAAAAAAAYwFcBAAAgAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-30T06:47:17.673Z",
+              "WhenOpened": "2024-11-01T06:38:27.334Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
+              "Title": "ABattle.cs",
+              "DocumentMoniker": "C:\\GoldenPig1205\\Visual Studio 2022\\RGM\\RGM\\RGM\\Modes\\GamePluses\\ABattle\\ABattle.cs",
+              "RelativeDocumentMoniker": "RGM\\Modes\\GamePluses\\ABattle\\ABattle.cs",
+              "ToolTip": "C:\\GoldenPig1205\\Visual Studio 2022\\RGM\\RGM\\RGM\\Modes\\GamePluses\\ABattle\\ABattle.cs",
+              "RelativeToolTip": "RGM\\Modes\\GamePluses\\ABattle\\ABattle.cs",
+              "ViewState": "AgIAAGcBAAAAAAAAAAAAwHUBAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-01T03:32:46.308Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
               "Title": "ABattleEventHandler.cs",
-              "DocumentMoniker": "D:\\GoldenPig1205\\Visual Studio 2022\\RGM\\RGM\\RGM\\Modes\\GamePluses\\ABattle\\ABattleEventHandler.cs",
+              "DocumentMoniker": "C:\\GoldenPig1205\\Visual Studio 2022\\RGM\\RGM\\RGM\\Modes\\GamePluses\\ABattle\\ABattleEventHandler.cs",
               "RelativeDocumentMoniker": "RGM\\Modes\\GamePluses\\ABattle\\ABattleEventHandler.cs",
-              "ToolTip": "D:\\GoldenPig1205\\Visual Studio 2022\\RGM\\RGM\\RGM\\Modes\\GamePluses\\ABattle\\ABattleEventHandler.cs",
+              "ToolTip": "C:\\GoldenPig1205\\Visual Studio 2022\\RGM\\RGM\\RGM\\Modes\\GamePluses\\ABattle\\ABattleEventHandler.cs",
               "RelativeToolTip": "RGM\\Modes\\GamePluses\\ABattle\\ABattleEventHandler.cs",
-              "ViewState": "AgIAABAAAAAAAAAAAAAAwEoAAAAFAAAAAAAAAA==",
+              "ViewState": "AgIAAA0AAAAAAAAAAAAAAB0AAAA2AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-30T06:22:38.708Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Hurger.cs",
+              "DocumentMoniker": "C:\\GoldenPig1205\\Visual Studio 2022\\RGM\\RGM\\RGM\\Modes\\GamePluses\\ABattle\\Abilities\\Unique\\Scp0492\\Hurger.cs",
+              "RelativeDocumentMoniker": "RGM\\Modes\\GamePluses\\ABattle\\Abilities\\Unique\\Scp0492\\Hurger.cs",
+              "ToolTip": "C:\\GoldenPig1205\\Visual Studio 2022\\RGM\\RGM\\RGM\\Modes\\GamePluses\\ABattle\\Abilities\\Unique\\Scp0492\\Hurger.cs",
+              "RelativeToolTip": "RGM\\Modes\\GamePluses\\ABattle\\Abilities\\Unique\\Scp0492\\Hurger.cs",
+              "ViewState": "AgIAAA0AAAAAAAAAAAAAACQAAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-01T07:17:11.854Z",
               "EditorCaption": ""
             }
           ]
         },
         {
-          "DockedWidth": 205,
+          "DockedWidth": 200,
           "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
               "DocumentIndex": 2,
               "Title": "Abilities.cs",
-              "DocumentMoniker": "D:\\GoldenPig1205\\Visual Studio 2022\\RGM\\RGM\\RGM\\Modes\\GamePluses\\ABattle\\Legacy\\Variables\\Abilities.cs",
+              "DocumentMoniker": "C:\\GoldenPig1205\\Visual Studio 2022\\RGM\\RGM\\RGM\\Modes\\GamePluses\\ABattle\\Legacy\\Variables\\Abilities.cs",
               "RelativeDocumentMoniker": "RGM\\Modes\\GamePluses\\ABattle\\Legacy\\Variables\\Abilities.cs",
-              "ToolTip": "D:\\GoldenPig1205\\Visual Studio 2022\\RGM\\RGM\\RGM\\Modes\\GamePluses\\ABattle\\Legacy\\Variables\\Abilities.cs",
+              "ToolTip": "C:\\GoldenPig1205\\Visual Studio 2022\\RGM\\RGM\\RGM\\Modes\\GamePluses\\ABattle\\Legacy\\Variables\\Abilities.cs",
               "RelativeToolTip": "RGM\\Modes\\GamePluses\\ABattle\\Legacy\\Variables\\Abilities.cs",
-              "ViewState": "AgIAAOwAAAAAAAAAAADwv+EAAAAVAAAAAAAAAA==",
+              "ViewState": "AgIAAIQAAAAAAAAAAADgv5kAAAAzAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-29T14:37:29.258Z",
               "EditorCaption": ""
@@ -106,11 +123,11 @@
               "$type": "Document",
               "DocumentIndex": 3,
               "Title": "AbilityManagers.cs",
-              "DocumentMoniker": "D:\\GoldenPig1205\\Visual Studio 2022\\RGM\\RGM\\RGM\\Modes\\GamePluses\\ABattle\\Legacy\\Functions\\AbilityManagers.cs",
+              "DocumentMoniker": "C:\\GoldenPig1205\\Visual Studio 2022\\RGM\\RGM\\RGM\\Modes\\GamePluses\\ABattle\\Legacy\\Functions\\AbilityManagers.cs",
               "RelativeDocumentMoniker": "RGM\\Modes\\GamePluses\\ABattle\\Legacy\\Functions\\AbilityManagers.cs",
-              "ToolTip": "D:\\GoldenPig1205\\Visual Studio 2022\\RGM\\RGM\\RGM\\Modes\\GamePluses\\ABattle\\Legacy\\Functions\\AbilityManagers.cs",
+              "ToolTip": "C:\\GoldenPig1205\\Visual Studio 2022\\RGM\\RGM\\RGM\\Modes\\GamePluses\\ABattle\\Legacy\\Functions\\AbilityManagers.cs",
               "RelativeToolTip": "RGM\\Modes\\GamePluses\\ABattle\\Legacy\\Functions\\AbilityManagers.cs",
-              "ViewState": "AgIAAN0AAAAAAAAAAAAAABIBAAAcAAAAAAAAAA==",
+              "ViewState": "AgIAAPcCAAAAAAAAAAAAAAoDAAAUAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-29T14:21:02.227Z",
               "EditorCaption": ""
@@ -118,26 +135,28 @@
             {
               "$type": "Document",
               "DocumentIndex": 6,
-              "Title": "Player.cs",
-              "DocumentMoniker": "D:\\GoldenPig1205\\Visual Studio 2022\\RGM\\RGM\\RGM\\Modes\\GamePluses\\ABattle\\Legacy\\EventArgs\\Player.cs",
-              "RelativeDocumentMoniker": "RGM\\Modes\\GamePluses\\ABattle\\Legacy\\EventArgs\\Player.cs",
-              "ToolTip": "D:\\GoldenPig1205\\Visual Studio 2022\\RGM\\RGM\\RGM\\Modes\\GamePluses\\ABattle\\Legacy\\EventArgs\\Player.cs",
-              "RelativeToolTip": "RGM\\Modes\\GamePluses\\ABattle\\Legacy\\EventArgs\\Player.cs",
-              "ViewState": "AgIAAA4BAAAAAAAAAAAAwM4AAAAAAAAAAAAAAA==",
+              "Title": "SpecificAbilities.cs",
+              "DocumentMoniker": "C:\\GoldenPig1205\\Visual Studio 2022\\RGM\\RGM\\RGM\\Modes\\GamePluses\\ABattle\\Legacy\\IEnumerators\\SpecificAbilities.cs",
+              "RelativeDocumentMoniker": "RGM\\Modes\\GamePluses\\ABattle\\Legacy\\IEnumerators\\SpecificAbilities.cs",
+              "ToolTip": "C:\\GoldenPig1205\\Visual Studio 2022\\RGM\\RGM\\RGM\\Modes\\GamePluses\\ABattle\\Legacy\\IEnumerators\\SpecificAbilities.cs",
+              "RelativeToolTip": "RGM\\Modes\\GamePluses\\ABattle\\Legacy\\IEnumerators\\SpecificAbilities.cs",
+              "ViewState": "AgIAAEMBAAAAAAAAAAAIwA4BAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-29T14:32:11.184Z"
+              "WhenOpened": "2024-10-30T14:11:13.729Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 5,
-              "Title": "SpecificAbilities.cs",
-              "DocumentMoniker": "D:\\GoldenPig1205\\Visual Studio 2022\\RGM\\RGM\\RGM\\Modes\\GamePluses\\ABattle\\Legacy\\IEnumerators\\SpecificAbilities.cs",
-              "RelativeDocumentMoniker": "RGM\\Modes\\GamePluses\\ABattle\\Legacy\\IEnumerators\\SpecificAbilities.cs",
-              "ToolTip": "D:\\GoldenPig1205\\Visual Studio 2022\\RGM\\RGM\\RGM\\Modes\\GamePluses\\ABattle\\Legacy\\IEnumerators\\SpecificAbilities.cs",
-              "RelativeToolTip": "RGM\\Modes\\GamePluses\\ABattle\\Legacy\\IEnumerators\\SpecificAbilities.cs",
-              "ViewState": "AgIAACYBAAAAAAAAAAAkwE0BAAAJAAAAAAAAAA==",
+              "Title": "Player.cs",
+              "DocumentMoniker": "C:\\GoldenPig1205\\Visual Studio 2022\\RGM\\RGM\\RGM\\Modes\\GamePluses\\ABattle\\Legacy\\EventArgs\\Player.cs",
+              "RelativeDocumentMoniker": "RGM\\Modes\\GamePluses\\ABattle\\Legacy\\EventArgs\\Player.cs",
+              "ToolTip": "C:\\GoldenPig1205\\Visual Studio 2022\\RGM\\RGM\\RGM\\Modes\\GamePluses\\ABattle\\Legacy\\EventArgs\\Player.cs",
+              "RelativeToolTip": "RGM\\Modes\\GamePluses\\ABattle\\Legacy\\EventArgs\\Player.cs",
+              "ViewState": "AgIAAJICAAAAAAAAAADgvzkCAAB3AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-30T14:11:13.729Z"
+              "WhenOpened": "2024-11-01T07:03:51.663Z",
+              "EditorCaption": ""
             }
           ]
         }

@@ -26,21 +26,15 @@ public class Dopamine : Ability
 
     public void OnHurting(HurtingEventArgs ev)
     {
-        if (ev.Player != Owner || ABattle.Instance.IsLifeUsed[Owner])
+        if (ev.Player != Owner || ev.Player.LeadingTeam == ev.Attacker.LeadingTeam)
             return;
 
         ev.IsAllowed = false;
-        ev.Player.RemoveAbility(this);
+        Owner.RemoveAbility(this);
 
-        ev.Player.Health += ev.DamageHandler.Damage;
+        Owner.Health += ev.DamageHandler.Damage;
 
-        ev.Attacker.ShowHint($"<color={ABattle.RatingColor["일반"]}>도파민</color> 효과로 인해 데미지를 무시하고 체력으로 흡수했습니다.");
-
-        ABattle.Instance.IsLifeUsed[Owner] = true;
-
-        Timing.CallDelayed(Timing.WaitForOneFrame, () =>
-        {
-            ABattle.Instance.IsLifeUsed[Owner] = false;
-        });
+        Owner.AddAbility(AbilityType.NONE_DOPAMINERELEASED);
+        Owner.ShowHint($"<color={ABattle.RatingColor["일반"]}>도파민</color> 효과로 인해 데미지를 무시하고 체력으로 흡수했습니다.");
     }
 }

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Exiled.API.Enums;
 using Exiled.API.Features;
+using Exiled.API.Features.Roles;
+using PlayerRoles;
 
 namespace RGM.Modes;
 
@@ -103,10 +105,9 @@ public enum AbilityCategory
     Mythic,
     ClassD,
     Scientist,
-    Guard,
-    Ntf,
-    Chaos,
-    Snake,
+    NTF,
+    CHI,
+    Tutorial,
     Scp173,
     Scp049,
     Scp0492,
@@ -120,6 +121,36 @@ public enum AbilityCategory
 
 public static class AbilityCategoryExtensions
 {
+    public static AbilityCategory GetAbilityCategory(this Player player)
+    {
+        RoleTypeId role = player.Role.Type;
+
+        return role switch
+        {
+            RoleTypeId.ClassD => AbilityCategory.ClassD,
+            RoleTypeId.Scientist => AbilityCategory.Scientist,
+            RoleTypeId.FacilityGuard => AbilityCategory.NTF,
+            RoleTypeId.NtfPrivate => AbilityCategory.NTF,
+            RoleTypeId.NtfSergeant => AbilityCategory.NTF,
+            RoleTypeId.NtfCaptain => AbilityCategory.NTF,
+            RoleTypeId.NtfSpecialist => AbilityCategory.NTF,
+            RoleTypeId.ChaosRifleman => AbilityCategory.CHI,
+            RoleTypeId.ChaosMarauder => AbilityCategory.CHI,
+            RoleTypeId.ChaosRepressor => AbilityCategory.CHI,
+            RoleTypeId.ChaosConscript => AbilityCategory.CHI,
+            RoleTypeId.Scp173 => AbilityCategory.Scp173,
+            RoleTypeId.Scp049 => AbilityCategory.Scp049,
+            RoleTypeId.Scp0492 => AbilityCategory.Scp0492,
+            RoleTypeId.Scp096 => AbilityCategory.Scp096,
+            RoleTypeId.Scp106 => AbilityCategory.Scp106,
+            RoleTypeId.Scp939 => AbilityCategory.Scp939,
+            RoleTypeId.Scp3114 => AbilityCategory.Scp3114,
+            RoleTypeId.Scp079 => AbilityCategory.Scp079,
+            RoleTypeId.Tutorial => AbilityCategory.Tutorial,
+            _ => AbilityCategory.None
+        };
+    }
+
     public static string GetTranslation(this AbilityCategory category)
     {
         return category switch
@@ -131,10 +162,9 @@ public static class AbilityCategoryExtensions
             AbilityCategory.Mythic => "신화",
             AbilityCategory.ClassD => "전용",
             AbilityCategory.Scientist => "전용",
-            AbilityCategory.Guard => "전용",
-            AbilityCategory.Ntf => "전용",
-            AbilityCategory.Chaos => "전용",
-            AbilityCategory.Snake => "전용",
+            AbilityCategory.NTF => "전용",
+            AbilityCategory.CHI => "전용",
+            AbilityCategory.Tutorial => "전용",
             AbilityCategory.Scp173 => "전용",
             AbilityCategory.Scp049 => "전용",
             AbilityCategory.Scp0492 => "전용",
@@ -159,10 +189,9 @@ public static class AbilityCategoryExtensions
             AbilityCategory.Mythic => "#DF0101",
             AbilityCategory.ClassD => "#F7819F",
             AbilityCategory.Scientist => "#F7819F",
-            AbilityCategory.Guard => "#F7819F",
-            AbilityCategory.Ntf => "#F7819F",
-            AbilityCategory.Chaos => "#F7819F",
-            AbilityCategory.Snake => "#F7819F",
+            AbilityCategory.NTF => "#F7819F",
+            AbilityCategory.CHI => "#F7819F",
+            AbilityCategory.Tutorial => "#F7819F",
             AbilityCategory.Scp173 => "#F7819F",
             AbilityCategory.Scp049 => "#F7819F",
             AbilityCategory.Scp0492 => "#F7819F",
@@ -179,7 +208,16 @@ public static class AbilityCategoryExtensions
 
 public enum AbilityType
 {
+    // 더미 & 알 수 없음
     NONE,
+    NONE_EXPIREDINSURANCE, // [더미] 만료된 보험
+    NONE_DOPAMINERELEASED, // [더미] 방출된 도파민
+    NONE_RARETRANSITIONSUCCESS, // [더미] 하급 변이 성공
+    NONE_RARETRANSITIONFAILURE, // [더미] 하급 변이 실패
+    NONE_EPICTRANSITIONSUCCESS, // [더미] 변이 성공
+    NONE_EPICTRANSITIONFAILURE, // [더미] 변이 실패
+    NONE_LEGENDTRANSITIONSUCCESS, // [더미] 상급 변이 성공
+    NONE_LEGENDTRANSITIONFAILURE, // [더미] 상급 변이 실패
 
     // 일반 //
     NORMAL_WORKOUT, // [일반] 운동
@@ -265,23 +303,21 @@ public enum AbilityType
     // D계급
     CLASSD_LARCENY, // [전용] 절도죄
     CLASSD_TRESPASSING, // [전용] 주거침입죄
-    CLASSD_SEEDSOFREBELLION, // [전용] 반란의 씨앗
+    CLASSD_SEEDSOFCHI, // [전용] 반란의 씨앗
 
     // 과학자
     SCIENTIST_05, // [전용] 05 평의회
     SCIENTIST_ENGINEERINGMAJOR, // [전용] 공학 전공
-    SCIENTIST_SEEDSOFSPECIALFORCES, // [전용] 특무부대의 씨앗
+    SCIENTIST_SEEDSOFMTF, // [전용] 특무부대의 씨앗
 
-    // 시설 경비
-    FACILITYGUARD_MANAGERIALOBLIGATIONPERSON, // [전용] 관리 의무자
-    FACILITYGUARD_HEALTHCENTERSTAFF, // [전용] 보건소 직원
-    FACILITYGUARD_INDUSTRIALACCIDENTINSURANCE, // [전용] 산업재해보험
-
-    // 구미호
-    MTF_QUARANTINEOBLIGATION, // [전용] 격리 의무자
-    MTF_MEDICALOFFICER, // [전용] 의무병
-    MTF_COLLECTIVEINTELLIGENCE, // [전용] 집단 지성
-    MTF_RADAR, // [전용] 레이더
+    // NTF
+    NTF_MANAGERIALOBLIGATIONPERSON, // [전용] 관리 의무자
+    NTF_HEALTHCENTERSTAFF, // [전용] 보건소 직원
+    NTF_INDUSTRIALACCIDENTINSURANCE, // [전용] 산업재해보험
+    NTF_QUARANTINEOBLIGATION, // [전용] 격리 의무자
+    NTF_MEDICALOFFICER, // [전용] 의무병
+    NTF_COLLECTIVEINTELLIGENCE, // [전용] 집단 지성
+    NTF_RADAR, // [전용] 레이더
 
     // 혼돈의 반란
     CHI_CHAOSOFCHAOS, // [전용] 혼돈의 카오스
@@ -299,7 +335,7 @@ public enum AbilityType
     SCP173_MIRAGE, // [전용] 신기루
 
     // SCP-049
-    SCP049_LION, // [전용] 사자
+    SCP049_DEATH, // [전용] 사자
     SCP049_COMPETENTDOCTOR, // [전용] 유능한 의사
     SCP049_PROFICIENCY, // [전용] 능수능란
 
