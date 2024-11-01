@@ -47,7 +47,7 @@ namespace RGM.Modes
 
             List<ItemType> Level05Items = new List<ItemType>() 
             {
-                ItemType.KeycardO5,
+                ItemType.KeycardScientist,
                 ItemType.GrenadeFlash,
                 ItemType.Flashlight,
                 ItemType.Coin,
@@ -64,7 +64,8 @@ namespace RGM.Modes
 
             List<ItemType> AssanssinItems = new List<ItemType>()
             {
-                ItemType.GunCOM15
+                ItemType.GunCOM15,
+                ItemType.Ammo9x19
             };
 
             Assassin.Role.Set(RoleTypeId.ClassD);
