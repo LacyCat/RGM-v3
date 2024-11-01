@@ -33,6 +33,6 @@ public class Aberration : Ability
             return;
 
         if (!ev.Player.CurrentRoom.AreLightsOff)
-            ev.Player.CurrentRoom.TurnOffLights(1);
+            ev.Player.CurrentRoom.TurnOffLights(1 * ev.Player.AbilityCount(AbilityType.SCP173_ABERRATION));
     }
 }
