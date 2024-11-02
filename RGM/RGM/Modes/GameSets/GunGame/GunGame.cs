@@ -17,6 +17,8 @@ using PlayerRoles;
 using MultiBroadcast.API;
 using RGM.API.Features;
 
+using static RGM.Variables.ServerManagers;
+
 namespace RGM.Modes
 {
     class GunGame
@@ -69,7 +71,13 @@ namespace RGM.Modes
                     Door.IsOpen = true;
             }
 
-            Server.ExecuteCommand("/atkill all");
+            foreach (var player in Player.List)
+            {
+                if (GodModePlayers.Contains(player))
+                    GodModePlayers.Remove(player);
+
+                player.Kill("전장에 뛰어들 준비가 되셨나요?");
+            }
 
             while (!IsEnd)
             {
