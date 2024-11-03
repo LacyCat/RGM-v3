@@ -249,14 +249,13 @@ RP: {uc[1]}
         public static List<Vector3> GetCirclePoints(Vector3 center, float radius, int pointCount)
         {
             List<Vector3> points = new List<Vector3>();
-            float angleStep = 360f / pointCount;
+            float angleStep = 2 * Mathf.PI / pointCount;
 
             for (int i = 0; i < pointCount; i++)
             {
                 float angle = i * angleStep;
-                float radian = angle * Mathf.Deg2Rad;
-                float x = center.x + radius * Mathf.Cos(radian);
-                float z = center.z + radius * Mathf.Sin(radian);
+                float x = center.x + radius * Mathf.Cos(angle);
+                float z = center.z + radius * Mathf.Sin(angle);
                 points.Add(new Vector3(x, center.y, z));
             }
 

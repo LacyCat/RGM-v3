@@ -190,7 +190,7 @@ GoldenPig1205(@GoldenPig1205) - 메인 개발자
                                         Modes.Add($"<s><color=#{color}>{modeName}</color></s>");
 
                                     else if (flag == "onlysub")
-                                        Modes.Add($"<mark=#FFFF0080><color=#{color}>{modeName}</color></s></mark>");
+                                        Modes.Add($"<mark=#FFFF0000><color=#{color}>{modeName}</color></s></mark>");
 
                                     else
                                         Modes.Add($"<color=#{color}>{modeName}</color>");
@@ -384,7 +384,7 @@ GoldenPig1205(@GoldenPig1205) - 메인 개발자
                     PlayersReport[ev.Player.UserId].Revive += 1;
             }
 
-            if (ev.Reason == SpawnReason.RoundStart)
+            if (ev.Reason == SpawnReason.RoundStart && ev.SpawnFlags == RoleSpawnFlags.All)
             {
                 if (ev.Player.IsScp)
                 {
@@ -509,6 +509,12 @@ GoldenPig1205(@GoldenPig1205) - 메인 개발자
                 {
                     if (!Datas.BlockDamageTypes.Contains(ev.DamageHandler.Type))
                         ev.IsAllowed = false;
+
+                    else
+                    {
+                        GodModePlayers.Remove(ev.Player);
+                        ev.Player.Kill(ev.DamageHandler);
+                    }
                 }
             }
         }
@@ -524,6 +530,12 @@ GoldenPig1205(@GoldenPig1205) - 메인 개발자
                 {
                     if (!Datas.BlockDamageTypes.Contains(ev.DamageHandler.Type))
                         ev.IsAllowed = false;
+
+                    else
+                    {
+                        GodModePlayers.Remove(ev.Player);
+                        ev.Player.Kill(ev.DamageHandler);
+                    }
                 }
             }
         }

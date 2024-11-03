@@ -274,7 +274,7 @@ zㅣ1
 
 <i>* 게임 시작 10분 뒤 <color=red>자동핵</color>이 작동됩니다.</i>
 """ } },
-            { "러시안 룰렛", new List<string>() { "F5ECCE", "", "RussianRoulette", "private", "",
+            { "러시안 룰렛", new List<string>() { "F5ECCE", "정치질이 난무하는 운과 심리전의 싸움입니다.", "RussianRoulette", "public", "",
 """
 최대 7개의 그룹으로 나뉘어 각 5명씩 예선전을 치릅니다.
 
@@ -394,6 +394,12 @@ OrangeWitness
             { "나는 누구?", new List<string>() { "886A08", "1분마다 진영이 변경됩니다.", "WhoamI", "public", "몬키키", 
 """
 [] 나는 누구?
+""" } },
+            { "눈치게임", new List<string>() { "CEECF5", "눈치가 가장 좋은 자만 살아남습니다.", "WitGame", "public", "",
+"""
+<size=40><b>탈락의 조건</b></size>
+2명 이상이 동시에 점프하거나(오차 간격: 0.5초),
+마지막까지 점프하지 않으면 승천합니다.
 """ } },
         };
     }

@@ -49,6 +49,10 @@ namespace RGM.Modes
 
         public void OnEnabled()
         {
+            Server.FriendlyFire = true;
+            Round.IsLocked = true;
+            Respawn.TimeUntilNextPhase = 10000;
+
             Exiled.Events.Handlers.Player.Dying += OnDying;
             Exiled.Events.Handlers.Player.Left += OnLeft;
 
@@ -58,10 +62,6 @@ namespace RGM.Modes
 
         public IEnumerator<float> OnModeStarted()
         {
-            Server.FriendlyFire = true;
-            Round.IsLocked = true;
-            Respawn.TimeUntilNextPhase = 10000;
-
             foreach (var Door in Door.List.Where(x => x.Zone == ZoneType.HeavyContainment))
             {
                 if (Door.IsCheckpoint || Door.IsElevator)
