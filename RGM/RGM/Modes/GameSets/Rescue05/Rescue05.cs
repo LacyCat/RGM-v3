@@ -30,12 +30,14 @@ namespace RGM.Modes
         public Player Level05;
         public Player Assassin;
         public bool IsMTFEnabled = false;
+        public bool IsCHIEnabled = false;
 
         public void OnEnabled()
         {
             Exiled.Events.Handlers.Player.Escaping += OnEscaping;
             Exiled.Events.Handlers.Player.Spawned += OnSpawned;
             Exiled.Events.Handlers.Player.Dying += OnDying;
+            Exiled.Events.Handlers.Server.RespawningTeam += OnRespawningTeam;
 
             Timing.RunCoroutine(OnModeStarted());
             Timing.RunCoroutine(AutoWarhead());
@@ -135,8 +137,14 @@ namespace RGM.Modes
                 foreach (var player in Player.List)
                     player.AddBroadcast(10, $"<size=30><b><color=#000000>05 평의회</color>({Level05.DisplayNickname})</b>가 <color=red>사살당하였습니다.</color></size>\n<size=25><b>이후로 <color=#04B404>혼돈의 반란</color>만 시설에 지원하게 됩니다.</b><size>");
 
-                Respawn.ChaosTickets += 99999;
+                IsCHIEnabled = true;
             }
+        }
+
+        public void OnRespawningTeam(Exiled.Events.EventArgs.Server.RespawningTeamEventArgs ev)
+        {
+            if (IsCHIEnabled)
+                ev.NextKnownTeam = SpawnableTeamType.ChaosInsurgency;
         }
     }
 }
