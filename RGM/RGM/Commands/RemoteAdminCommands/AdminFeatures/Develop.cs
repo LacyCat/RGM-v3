@@ -55,7 +55,7 @@ namespace RGM.Commands.RemoteAdminCommands
             {
                 PrimitiveSerializable primitiveSerializable = new PrimitiveSerializable 
                 { 
-                    PrimitiveType = PrimitiveType.Cube
+                    PrimitiveType = PrimitiveType.Sphere
                 };
                 ObjectSpawner.SpawnPrimitive(primitiveSerializable, point);
             }    

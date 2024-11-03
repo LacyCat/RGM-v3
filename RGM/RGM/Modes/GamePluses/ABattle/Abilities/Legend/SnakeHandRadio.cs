@@ -39,6 +39,9 @@ public class SnakeHandRadio : Ability
 
     public void OnTogglingRadio(TogglingRadioEventArgs ev)
     {
+        if (ev.Player != Owner)
+            return;
+
         if (CallSnakeHandsSerial == ev.Item.Serial)
         {
             ev.Item.Destroy();

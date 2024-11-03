@@ -34,6 +34,9 @@ public class WarGod : Ability
 
     public void OnChangedItem(ChangedItemEventArgs ev)
     {
+        if (ev.Player != Owner)
+            return;
+
         if (ev.Item != null)
         {
             if (LightWarriorSerial == ev.Item.Serial)

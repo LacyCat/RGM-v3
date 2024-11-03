@@ -28,10 +28,7 @@ public class Magician : Ability
 
     public void OnDying(DyingEventArgs ev)
     {
-        if (ev.Player != Owner || ABattle.Instance.IsLifeUsed[Owner])
-            return;
-
-        if (ev.Attacker != null)
+        if (ev.Player != Owner || ABattle.Instance.IsLifeUsed[Owner] || ev.Attacker == null)
             return;
 
         ev.IsAllowed = false;

@@ -22,6 +22,7 @@ namespace RGM.API.DataBases
             "미니게임",
             "해적 룰렛",
             "05 평의회 구출 작전",
+            "러시안 룰렛",
             "스플리프",
             "무덤",
             "데드 라인",
@@ -33,7 +34,8 @@ namespace RGM.API.DataBases
             "점프맵 라운지",
             "스피드런",
             "여긴 어디?",
-            "나는 누구?"
+            "나는 누구?",
+            "눈치게임"
         };
 
         public static Dictionary<string, string> Colors = new Dictionary<string, string>
@@ -86,7 +88,8 @@ namespace RGM.API.DataBases
         public static List<DamageType> BlockDamageTypes = new List<DamageType>()
         {
             DamageType.Warhead,
-            DamageType.Crushed
+            DamageType.Crushed,
+            DamageType.PocketDimension
         };
     }
 }

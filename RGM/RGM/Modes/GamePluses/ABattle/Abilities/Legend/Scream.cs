@@ -32,6 +32,9 @@ public class Scream : Ability
 
     public IEnumerator<float> OnVoiceChatting(VoiceChattingEventArgs ev)
     {
+        if (ev.Player != Owner)
+            yield break;
+
         if (RoaringSoundCooldown <= 0)
         {
             if (Tools.TryGetLookPlayer(ev.Player, 10f, out Player target) && target.LeadingTeam != ev.Player.LeadingTeam)
