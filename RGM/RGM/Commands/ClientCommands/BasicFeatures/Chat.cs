@@ -31,6 +31,11 @@ namespace RGM.Commands.ClientCommands
                 response = "너무 빠른 간격으로 입력을 보내고 있습니다!";
                 return false;
             }
+            else if (player.IsMuted)
+            {
+                response = "뮤트된 상태입니다.";
+                return false;
+            }
             else
             {
                 ChatCooldown.Add(player);
