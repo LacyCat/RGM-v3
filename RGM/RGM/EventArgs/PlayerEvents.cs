@@ -190,7 +190,7 @@ GoldenPig1205(@GoldenPig1205) - 메인 개발자
                                         Modes.Add($"<s><color=#{color}>{modeName}</color></s>");
 
                                     else if (flag == "onlysub")
-                                        Modes.Add($"<mark=#FFFF0000><color=#{color}>{modeName}</color></s></mark>");
+                                        Modes.Add($"<mark=#FFFF000D><color=#{color}>{modeName}</color></s></mark>");
 
                                     else
                                         Modes.Add($"<color=#{color}>{modeName}</color>");
