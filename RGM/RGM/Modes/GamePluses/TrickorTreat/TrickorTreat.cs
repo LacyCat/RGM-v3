@@ -40,16 +40,22 @@ namespace RGM.Modes
 
         public void Spawned(Player player)
         {
-            var Scp330 = player.AddItem(ItemType.SCP330);
-
-            for (int i=1; i<4; i++)
+            if (player.IsAlive)
             {
-                var Candy = Tools.GetRandomValue(Tools.EnumToList<CandyKindID>());
-                player.TryAddCandy(Candy);
-            }
+                Timing.CallDelayed(1f, () =>
+                {
+                    var Scp330 = player.AddItem(ItemType.SCP330);
 
-            if (player.IsScp)
-                player.CurrentItem = Scp330;
+                    for (int i = 1; i < 4; i++)
+                    {
+                        var Candy = Tools.GetRandomValue(Tools.EnumToList<CandyKindID>());
+                        player.TryAddCandy(Candy);
+                    }
+
+                    if (player.IsScp)
+                        player.CurrentItem = Scp330;
+                });
+            }
         }
 
         public void OnDying(Exiled.Events.EventArgs.Player.DyingEventArgs ev)
