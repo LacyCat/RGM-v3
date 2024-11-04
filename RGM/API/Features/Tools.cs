@@ -13,6 +13,7 @@ using MultiBroadcast.API;
 using PlayerRoles;
 using RGM.API.Components;
 using RGM.API.DataBases;
+using RGM.Discord;
 using UnityEngine;
 
 using static RGM.Variables.Protocol;
@@ -269,6 +270,8 @@ RP: {uc[1]}
             int RequiredCount = Player.List.Count / 2;
             bool IsSuccess = false;
 
+            Webhook.Send($"🗳️ **버그 투표**ㅣ{host.Nickname}에 의해 시작됨");
+
             for (int i = 1; i<21; i++)
             {
                 if (BugVotePlayers.Count >= RequiredCount)
@@ -288,6 +291,7 @@ RP: {uc[1]}
                 foreach (var player in Player.List)
                     player.AddBroadcast(5, $"버그 투표가 <b><color=#9AFE2E>가결</color></b>되었습니다. 곧 서버가 재시작됩니다.");
 
+                Webhook.Send($"🗳️ **버그 투표**ㅣ✅ 가결됨 (투표자: {string.Join(", ", BugVotePlayers.Select(x => x.Nickname))})");
                 yield return Timing.WaitForSeconds(5);
 
                 Server.ExecuteCommand($"sr");
@@ -296,6 +300,8 @@ RP: {uc[1]}
             {
                 foreach (var player in Player.List)
                     player.AddBroadcast(5, $"버그 투표가 <b><color=#FE2E2E>부결</color></b>되었습니다.");
+
+                Webhook.Send($"🗳️ **버그 투표**ㅣ❌ 부결됨 (투표자: {string.Join(", ", BugVotePlayers.Select(x => x.Nickname))})");
             }
 
             IsBugVoteProcessing = false;
