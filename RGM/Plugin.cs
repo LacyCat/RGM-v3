@@ -25,7 +25,6 @@ using static RGM.EventArgs.WarheadEvents;
 using static RGM.EventArgs.Scp330Events;
 using static RGM.EventArgs.Scp244Events;
 using static RGM.EventArgs.Scp079Events;
-using RGM.Modes.ABattleVariables;
 using RGM.Modes;
 using System.Reflection;
 
@@ -37,7 +36,7 @@ namespace RGM
 
         public override string Name => "RGM";
         public override string Author => "GoldenPig1205";
-        public override Version Version { get; } = new(3, 7, 11);
+        public override Version Version { get; } = new(3, 7, 12);
         public override Version RequiredExiledVersion { get; } = new(1, 2, 0, 5);
 
         public override void OnEnabled()
@@ -56,21 +55,30 @@ namespace RGM
                 if (modeAttribute == null)
                     continue;
 
-                if (!typeof(Ability).IsAssignableFrom(type))
+                if (!typeof(Mode).IsAssignableFrom(type))
                     continue;
 
-                ModeList.Add(modeAttribute.Type, new ModeData
+                try
                 {
-                    Category = modeAttribute.Category,
-                    Info = modeAttribute.Info,
-                    Type = modeAttribute.Type,
-                    Author = modeAttribute.Author,
-                    Name = modeAttribute.Name,
-                    Description = modeAttribute.Description,
-                    Detail = modeAttribute.Detail,
-                    Color = modeAttribute.Color,
-                    Suggester = modeAttribute.Suggester
-                });
+                    var mode = (Mode)Activator.CreateInstance(type);
+
+                    ModeList.Add(modeAttribute.Type, new ModeData
+                    {
+                        Category = modeAttribute.Category,
+                        Info = modeAttribute.Info,
+                        Type = modeAttribute.Type,
+                        Author = mode.Author,
+                        Name = mode.Name,
+                        Description = mode.Description,
+                        Detail = mode.Detail,
+                        Color = mode.Color,
+                        Suggester = mode.Suggester
+                    });
+                }
+                catch (Exception ex)
+                {
+                    Log.Error($"Failed to create an instance of mode {type.Name}: {ex}");
+                }
             }
 
             Exiled.Events.Handlers.Server.WaitingForPlayers += OnWaitingForPlayers;
