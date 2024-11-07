@@ -15,8 +15,19 @@ using PlayerRoles;
 
 namespace RGM.Modes
 {
-    class Tomb
+    [Mode(ModeCategory.Public, ModeInfo.Set, ModeType.Tomb)]
+    class Tomb : Mode
     {
+        public override string Name => "무덤";
+        public override string Description => "살아남으려면 뭐라도 해야 합니다.";
+        public override string Detail =>
+"""
+널리 펼쳐진 평지에는 <b>수많은 아이템</b>이 널려 있습니다.
+
+<i>배틀그라운드와 흡사하죠.</b>
+""";
+        public override string Color => "000000";
+
         public static Tomb Instance;
 
         public List<Player> pl = new List<Player>();
@@ -26,7 +37,7 @@ namespace RGM.Modes
             return new Vector3(UnityEngine.Random.Range(-27.92969f, 44.88281f), 1043f, UnityEngine.Random.Range(-75.78906f, -2.71875f));
         }
 
-        public void OnEnabled()
+        public override void OnEnabled()
         {
             Server.FriendlyFire = true;
             Round.IsLocked = true;

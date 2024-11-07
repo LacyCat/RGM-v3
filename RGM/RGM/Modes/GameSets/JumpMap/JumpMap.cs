@@ -14,11 +14,25 @@ using UnityEngine;
 
 namespace RGM.Modes
 {
-    class JumpMap
+    [Mode(ModeCategory.Public, ModeInfo.Set, ModeType.JumpMap)]
+    class JumpMap : Mode
     {
+        public override string Name => "점프맵 라운지";
+        public override string Description => "5분 안에 최대한 멀리 가세요!";
+        public override string Detail =>
+"""
+스테이지가 총 11라운드로 이루어져 있습니다.
+
+7 스테이지의 경우에는 고수만 해법을 찾을 수 있습니다.
+되도록이면 중앙으로 가거나, 넉백되어도 괜찮을 만큼 여유를 두십시오.
+""";
+        public override string Color => "A9D0F5";
+
+        public static JumpMap Instance;
+
         site02.site02 site02 = new site02.site02();
 
-        public void OnEnabled()
+        public override void OnEnabled()
         {
             Round.IsLocked = true;
             Respawn.TimeUntilNextPhase = 10000;
@@ -34,7 +48,7 @@ namespace RGM.Modes
 
         public IEnumerator<float> OnModeStarted()
         {
-            Tools.TryInstallMode("FriendlyFire");
+            Tools.TryInstallMode(ModeType.FriendlyFire);
 
             for (int i = 0; i < 300; i++)
             {

@@ -14,13 +14,24 @@ using Exiled.API.Features.Items;
 
 namespace RGM.Modes
 {
-    class RandomItem
+    [Mode(ModeCategory.Public, ModeInfo.Plus, ModeType.RandomItem)]
+    class RandomItem : Mode
     {
+        public override string Name => "랜덤박스";
+        public override string Description => "60초마다 랜덤한 아이템을 얻을 수 있습니다!";
+        public override string Detail =>
+"""
+무작위 아이템들이 동일한 확률로 지급됩니다.
+
+이후, 60초마다 무작위 아이템들을 하나 더 받습니다.
+""";
+        public override string Color => "BFFF00";
+
         public static RandomItem Instance;
 
         List<ItemType> ItemTypes = Tools.EnumToList<ItemType>();
 
-        public void OnEnabled()
+        public override void OnEnabled()
         {
             Timing.RunCoroutine(OnModeStarted());
 

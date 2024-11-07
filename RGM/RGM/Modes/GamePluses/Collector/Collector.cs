@@ -9,11 +9,22 @@ using MEC;
 
 namespace RGM.Modes
 {
-    public class Collector
+    [Mode(ModeCategory.Public, ModeInfo.Plus, ModeType.Collector)]
+    public class Collector : Mode
     {
+        public override string Name => "수집가";
+        public override string Description => "SCP 아이템 3개를 가지고 시작합니다.";
+        public override string Detail =>
+"""
+이름에 <color=#FE2E2E>SCP</color>가 들어가는 모든 아이템 중에서 랜덤으로 3개를 지급받고 시작합니다.
+
+<color=#FE2E2E>SCP</color>의 경우에는 하나의 <b><color=#FE2E2E>SCP</color> 아이템</b>만 지급받습니다.
+""";
+        public override string Color => "FFBF00";
+
         public static Collector Instance;
 
-        public void OnEnabled()
+        public override void OnEnabled()
         {
             Exiled.Events.Handlers.Player.Spawned += OnSpawned;
 

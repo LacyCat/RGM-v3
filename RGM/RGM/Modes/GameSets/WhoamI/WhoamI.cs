@@ -18,13 +18,22 @@ using RGM.API.Features;
 
 namespace RGM.Modes
 {
-    public class WhoamI
+    [Mode(ModeCategory.Public, ModeInfo.Set, ModeType.WhoamI)]
+    public class WhoamI : Mode
     {
+        public override string Name => "나는 누구?";
+        public override string Description => "1분마다 진영이 변경됩니다.";
+        public override string Detail =>
+"""
+[] 나는 누구?
+""";
+        public override string Color => "886A08";
+
         public static WhoamI Instance;
 
         public Dictionary<Player, PlayerInfo> PlayersInfo = new Dictionary<Player, PlayerInfo>();
 
-        public void OnEnabled()
+        public override void OnEnabled()
         {
             Timing.RunCoroutine(OnModeStarted());
         }

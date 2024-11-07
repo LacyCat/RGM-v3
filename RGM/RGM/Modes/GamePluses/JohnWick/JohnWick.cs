@@ -9,11 +9,23 @@ using MEC;
 
 namespace RGM.Modes
 {
-    public class JohnWick
+    [Mode(ModeCategory.OnlySub, ModeInfo.Plus, ModeType.JohnWick)]
+    public class JohnWick : Mode
     {
+        public override string Name => "존 윅";
+        public override string Description => "권총류 무기의 데미지가 400% 상승합니다.";
+        public override string Detail =>
+"""
+COM-15
+COM-18
+COM-45
+.44 리볼버
+""";
+        public override string Color => "2EFEF7";
+
         public static JohnWick Instance;
 
-        public void OnEnabled()
+        public override void OnEnabled()
         {
             Exiled.Events.Handlers.Player.Hurting += OnHurting;
 

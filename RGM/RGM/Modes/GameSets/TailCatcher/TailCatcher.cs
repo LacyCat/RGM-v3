@@ -16,8 +16,19 @@ using Mirror;
 
 namespace RGM.Modes
 {
-    public class TailCatcher
+    [Mode(ModeCategory.Public, ModeInfo.Set, ModeType.TailCatcher)]
+    public class TailCatcher : Mode
     {
+        public override string Name => "꼬리 잡기";
+        public override string Description => "절대로 타깃이 아닌 유저를 쏘지 마세요! 꼬리가 잡히지 않도록 하십시오.";
+        public override string Detail =>
+"""
+<color=red>꼬리가 아닌 유저를 공격하면 데미지가 반사됩니다.</color>
+
+눈치 게임과 비슷하군요!
+""";
+        public override string Color => "A9F5BC";
+
         public static TailCatcher Instance;
 
         public List<Player> pl = new List<Player>();
@@ -32,7 +43,7 @@ namespace RGM.Modes
             return pl[targetIndex];
         }
 
-        public void OnEnabled()
+        public override void OnEnabled()
         {
             Server.FriendlyFire = true;
             Round.IsLocked = true;

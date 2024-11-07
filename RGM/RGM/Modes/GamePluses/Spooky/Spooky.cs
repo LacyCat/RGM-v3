@@ -15,11 +15,32 @@ using Exiled.API.Enums;
 
 namespace RGM.Modes
 {
-    class Spooky
+    [Mode(ModeCategory.OnlySub, ModeInfo.Plus, ModeType.Spooky)]
+    class Spooky : Mode
     {
+        public override string Name => "Spooky!";
+        public override string Description => "시작 시 영구적인, 랜덤한 할로윈 효과를 받으세요!";
+        public override string Detail =>
+"""
+댜음 효과 중 하나의 효과가 영구적으로 적용됩니다.
+
+SugarRush
+SugarHigh
+SugarCrave
+Spicy
+OrangeCandy
+OrangeWitness
+Metal
+Marshmallow
+Ghostly
+Prismatic
+OrangeWitness
+""";
+        public override string Color => "3104B4";
+
         public static Spooky Instance;
 
-        public void OnEnabled()
+        public override void OnEnabled()
         {
             Exiled.Events.Handlers.Player.Spawned += OnSpawned;
 

@@ -13,11 +13,20 @@ using RGM.API.Features;
 
 namespace RGM.Modes
 {
-    public class WhereamI
+    [Mode(ModeCategory.Public, ModeInfo.Set, ModeType.WhereamI)]
+    public class WhereamI : Mode
     {
+        public override string Name => "여긴 어디?";
+        public override string Description => "랜덤한 곳에서 스폰됩니다.";
+        public override string Detail =>
+"""
+여긴 어디? []
+""";
+        public override string Color => "B40486";
+
         public static WhereamI Instance;
 
-        public void OnEnabled()
+        public override void OnEnabled()
         {
             Exiled.Events.Handlers.Player.Spawned += OnSpawned;
 

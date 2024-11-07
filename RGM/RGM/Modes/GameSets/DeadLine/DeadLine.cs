@@ -16,15 +16,26 @@ using Mirror;
 
 namespace RGM.Modes
 {
-    public class DeadLine
+    [Mode(ModeCategory.Public, ModeInfo.Set, ModeType.DeadLine)]
+    public class DeadLine : Mode
     {
+        public override string Name => "데드 라인";
+        public override string Description => "빨간색을 밟지 마세요!";
+        public override string Detail =>
+"""
+<color=red>빨간색</color>을 밟으면 죽습니다.
+
+<i>발 아래를 조심하세요!</i>
+""";
+        public override string Color => "FA8258";
+
         public static DeadLine Instance;
 
         public List<Player> pl = new List<Player>();
 
         Player dj;
 
-        public void OnEnabled()
+        public override void OnEnabled()
         {
             Round.IsLocked = true;
             Respawn.TimeUntilNextPhase = 10000;

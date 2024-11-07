@@ -15,8 +15,20 @@ using UnityEngine;
 
 namespace RGM.Modes
 {
-    class SpeedRun
+    [Mode(ModeCategory.Public, ModeInfo.Set, ModeType.SpeedRun)]
+    class SpeedRun : Mode
     {
+        public override string Name => "스피드런";
+        public override string Description => "누구보다 빠르게 시설에서 탈출하세요. 아, 그리고 핵을 중지하려 시도하지 마세요!";
+        public override string Detail =>
+"""
+아이템이 <color=#C8FE2E>랜덤</color>하게 지급됩니다.
+
+모든 방법을 총동원하여 1등으로 시설에서 탈출하세요.
+그것 뿐입니다.
+""";
+        public override string Color => "58FAAC";
+
         public static SpeedRun Instance;
 
         public List<Player> pl = new List<Player>();
@@ -38,7 +50,7 @@ namespace RGM.Modes
 
         public bool IsEnd = false;
 
-        public void OnEnabled()
+        public override void OnEnabled()
         {
             Round.IsLocked = true;
 
@@ -65,7 +77,7 @@ namespace RGM.Modes
                     ItemsList.Add(Item);
             }
 
-            Tools.TryInstallMode("FriendlyFire");
+            Tools.TryInstallMode(ModeType.FriendlyFire);
 
             foreach (var player in Player.List)
                 Spawned(player);

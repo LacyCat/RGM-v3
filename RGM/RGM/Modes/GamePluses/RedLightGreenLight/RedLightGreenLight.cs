@@ -12,15 +12,27 @@ using UnityEngine;
 
 namespace RGM.Modes
 {
-    class RedLightGreenLight
+    class RedLightGreenLight : Mode
     {
+        public override string Name => "빨간 불, 초록 불";
+        public override string Description => "빨간 불에는 움직이지 마세요.";
+        public override string Detail =>
+"""
+<i>순발력이 좋아야 살아남습니다.</i>
+
+엘레베이터와 같은 움직이는 물체를 주의하세요!
+
+아, 그리고 설마 죽을까봐 움직이지 않거나 조금씩만 이동하는 쫄보는 없겠죠?
+""";
+        public override string Color => "F7D358";
+
         public static RedLightGreenLight Instance;
 
         public string Light = "Green";
         public Dictionary<Player, Vector3> PlayerPosition = new Dictionary<Player, Vector3>();
         public Dictionary<Player, Quaternion> PlayerRotation = new Dictionary<Player, Quaternion>();
 
-        public void OnEnabled()
+        public override void OnEnabled()
         {
             Timing.RunCoroutine(OnModeStarted());
         }

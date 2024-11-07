@@ -20,19 +20,31 @@ using PlayerRoles.FirstPersonControl;
 using PlayerRoles;
 using RGM.API.Features;
 using MultiBroadcast.API;
+using MapEditorReborn.API.Features;
 
 namespace RGM.Modes
 {
-    class Spleef
+    [Mode(ModeCategory.Public, ModeInfo.Set, ModeType.Spleef)]
+    class Spleef : Mode
     {
+        public override string Name => "스플리프";
+        public override string Description => "떨어지지 않으려면 계속 움직이세요!";
+        public override string Detail =>
+"""
+총 10개의 층으로 이루어져 있는 것 같습니다.
+
+최대한 오래 살아남기 위한 전략을 고안해 보세요!
+""";
+        public override string Color => "BEF781";
+
         public static Spleef Instance;
 
         public List<Player> pl = new List<Player>();
-        public List<ItemType> StartupItems = null;
+        public List<ItemType> StartupItems = new List<ItemType>();
         public Door door = Tools.GetRandomValue(Door.List.ToList());
         public Dictionary<Player, float> OnGround = new Dictionary<Player, float>();
 
-        public void OnEnabled()
+        public override void OnEnabled()
         {
             Round.IsLocked = true;
             Respawn.TimeUntilNextPhase = 10000;
@@ -46,7 +58,7 @@ namespace RGM.Modes
 
         public IEnumerator<float> OnModeStarted()
         {
-            Server.ExecuteCommand($"/mp load Spleef");
+            MapUtils.LoadMap("Spleef");
 
             Player.List.ToList().CopyTo(pl);
 
@@ -65,15 +77,15 @@ namespace RGM.Modes
 
             IEnumerator<float> RemovingPlatform(Primitive Platform)
             {
-                Platform.Color = Color.green;
+                Platform.Color = UnityEngine.Color.green;
 
                 yield return Timing.WaitForSeconds(0.3f);
 
-                Platform.Color = Color.yellow;
+                Platform.Color = UnityEngine.Color.yellow;
 
                 yield return Timing.WaitForSeconds(0.3f);
 
-                Platform.Color = Color.red;
+                Platform.Color = UnityEngine.Color.red;
 
                 yield return Timing.WaitForSeconds(0.3f);
 

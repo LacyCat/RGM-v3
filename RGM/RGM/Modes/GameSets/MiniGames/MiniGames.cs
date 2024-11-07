@@ -13,8 +13,41 @@ using UnityEngine;
 
 namespace RGM.Modes
 {
-    class MiniGames
+    [Mode(ModeCategory.Public, ModeInfo.Set, ModeType.MiniGames)]
+    class MiniGames : Mode
     {
+        public override string Name => "미니게임";
+        public override string Description => "간단한 게임들을 즐겨보세요! 총 3개의 라운드로 구성되어 있습니다.";
+        public override string Detail =>
+"""
+등장하는 미니게임들의 목록입니다.
+
+airstrike
+dm
+escape
+battle
+versus
+cs
+glass
+deathrun
+line
+dodge
+fall
+football
+gungame
+knives
+puzzle
+race
+light
+spleef
+tag
+tdm
+lava
+zombie
+zombie2
+""";
+        public override string Color => "A4A4A4";
+
         public static MiniGames Instance;
 
         public int RoundCount = 0;
@@ -45,7 +78,7 @@ namespace RGM.Modes
             "zombie2"
         };
 
-        public void OnEnabled()
+        public override void OnEnabled()
         {
             Round.IsLocked = true;
             Map.IsDecontaminationEnabled = false;

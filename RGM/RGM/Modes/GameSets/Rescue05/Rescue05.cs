@@ -23,8 +23,23 @@ using Respawning;
 
 namespace RGM.Modes
 {
-    class Rescue05
+    [Mode(ModeCategory.Public, ModeInfo.Set, ModeType.Rescue05)]
+    class Rescue05 : Mode
     {
+        public override string Name => "05 평의회 구출 작전";
+        public override string Description => "05 평의회를 구출하려는 자들과 사살하려는 자들의 싸움입니다.";
+        public override string Detail =>
+"""
+<color=#000000><b>05 평의회</b></color>가 탈출에 성공할 경우,
+<color=#2E9AFE>MTF</color> 진영은 <b>강화제 제작 방법</b>을 입수하게 됩니다.
+
+<color=#000000><b>05 평의회</b></color>가 사망할 경우,
+<color=#088A08>혼돈의 반란</color> 진영만 시설에 지원하게 됩니다.
+
+<i>* 게임 시작 10분 뒤 <color=red>자동핵</color>이 작동됩니다.</i>
+""";
+        public override string Color => "0040FF";
+
         public static Rescue05 Instance;
 
         public Player Level05;
@@ -32,7 +47,7 @@ namespace RGM.Modes
         public bool IsMTFEnabled = false;
         public bool IsCHIEnabled = false;
 
-        public void OnEnabled()
+        public override void OnEnabled()
         {
             Exiled.Events.Handlers.Player.Escaping += OnEscaping;
             Exiled.Events.Handlers.Player.Spawned += OnSpawned;

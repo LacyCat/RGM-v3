@@ -16,8 +16,19 @@ using Mirror;
 
 namespace RGM.Modes
 {
-    public class HotPotato
+    [Mode(ModeCategory.Public, ModeInfo.Set, ModeType.HotPotato)]
+    public class HotPotato : Mode
     {
+        public override string Name => "폭탄 돌리기";
+        public override string Description => "폭탄이 터지기 전에 다른 유저에게 넘기세요!";
+        public override string Detail =>
+"""
+유저에 비례하여 <b>폭탄 플레이어의 수가 조정</b>됩니다. (10명 당 1마리 + 1마리)
+
+어떤 수단을 사용하더라도 최후까지 살아남으세요!
+""";
+        public override string Color => "FA58D0";
+
         public static HotPotato Instance;
 
         public List<Player> pl = new List<Player>();
@@ -25,7 +36,7 @@ namespace RGM.Modes
 
         Player dj;
 
-        public void OnEnabled()
+        public override void OnEnabled()
         {
             Server.FriendlyFire = true;
             Round.IsLocked = true;

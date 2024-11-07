@@ -14,11 +14,22 @@ using Exiled.API.Features.Items;
 
 namespace RGM.Modes
 {
-    class RandomSize
+    [Mode(ModeCategory.OnlySub, ModeInfo.Plus, ModeType.RandomSize)]
+    class RandomSize : Mode
     {
+        public override string Name => "랜덤사이즈";
+        public override string Description => "스폰 시 랜덤한 크기로 조정됩니다.";
+        public override string Detail =>
+"""
+x: 0.1 ~ 1.2
+y: 0.3 ~ 1.2
+z: 0.1 ~ 1.2
+""";
+        public override string Color => "BFFF00";
+
         public static RandomSize Instance;
 
-        public void OnEnabled()
+        public override void OnEnabled()
         {
             Exiled.Events.Handlers.Player.Spawned += OnSpawned;
 

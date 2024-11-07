@@ -13,13 +13,24 @@ using UnityEngine;
 
 namespace RGM.Modes
 {
-    class Cell
+    [Mode(ModeCategory.Public, ModeInfo.Set, ModeType.Cell)]
+    class Cell : Mode
     {
+        public override string Name => "고문";
+        public override string Description => "고문을 최대한 오래 버티는 플레이어가 승리합니다.";
+        public override string Detail =>
+"""
+좁은 방에서 <color=#FE2E2E>SCP-018</color>이 던져집니다!
+
+최대한 잘 피해 보세요!
+""";
+        public override string Color => "D7DF01";
+
         public static Cell Instance;
 
         public List<Player> pl = new List<Player>();
 
-        public void OnEnabled()
+        public override void OnEnabled()
         {
             Round.IsLocked = true;
 

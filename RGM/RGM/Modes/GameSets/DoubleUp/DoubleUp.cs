@@ -14,24 +14,45 @@ using static RGM.Variables.ServerManagers;
 
 namespace RGM.Modes
 {
-    class DoubleUp
+    [Mode(ModeCategory.Public, ModeInfo.Set, ModeType.DoubleUp)]
+    class DoubleUp : Mode
     {
+        public override string Name => "더블업";
+        public override string Description => "모드 2개가 동시에 적용됩니다. <size=20>(모드셋은 최대 하나까지만 적용됩니다.)</size>";
+        public override string Detail =>
+"""
+<b>모드셋은 모드에이드와 상반되는 모드 종류입니다.</b>
+
+모드셋 - 기존 SCP:SL의 게임 방식의 궤가 크게 달라짐. (ex. 나는 누구?, 스플리프)
+모드에이드 - 기존 SCP:SL의 게임 방식에 새로운 요소를 더함. (ex. 도박, 존 윅)
+서브모드 - 서브로만 등장하는 모드입니다. (ex. 한국인이 좋아하는 속도, 시베리아)
+
+<i>* 서브 모드는 하나만 적용될 경우 게임의 재미가 떨어질 수도 있는 모드 집합입니다.</i>
+
+모드 조합은 다음과 같이 등장할 수 있습니다.
+- [모드셋, 모드에이드]
+- [모드에이드, 모드에이드]
+- [모드셋, 서브모드]
+- [모드에이드, 서브모드]
+- [서브모드, 서브모드]
+""";
+        public override string Color => "5882FA";
+
         public static DoubleUp Instance;
 
-        public static List<string> BlackListMods = Datas.ModeSets;
-        public static Dictionary<string, List<string>> Mods = ModeList;
+        public static Dictionary<ModeType, ModeData> Mods = ModeList;
 
-        public static List<string> ModeKeys = ModeList.Keys.Where(x => Mods[x][3] == "public").ToList();
-        public static string mod1 = Tools.GetRandomValue(ModeKeys);
-        public static string mod2 = Tools.GetRandomValue(ModeKeys.Where(x => x != mod1 && !BlackListMods.Contains(x)).ToList());
+        public static List<ModeType> ModeKeys = ModeList.Keys.Where(x => Mods[x].Category == ModeCategory.Public).ToList();
+        public static ModeType mod1 = Tools.GetRandomValue(ModeKeys);
+        public static ModeType mod2 = Tools.GetRandomValue(ModeKeys.Where(x => x != mod1 && ModeList.Keys.Where(x => x.GetModeData().Info != ModeInfo.Set).Contains(x)).ToList());
 
-        public List<string> Modes = new List<string>() { mod1, mod2 };
+        public List<ModeType> Modes = new List<ModeType>() { mod1, mod2 };
 
         public List<string> pl = new List<string>();
 
-        public static string Description = $"<size=25><b>[<color=#{Mods[mod1][0]}>{mod1}</color> + <color=#{Mods[mod2][0]}>{mod2}</color>]</b></size>";
+        public static string Desc = $"<size=25><b>[<color=#{Mods[mod1].Color}>{mod1}</color> + <color=#{Mods[mod2].Color}>{mod2}</color>]</b></size>";
 
-        public void OnEnabled()
+        public override void OnEnabled()
         {
             Exiled.Events.Handlers.Player.Verified += OnVerified;
 
@@ -41,12 +62,12 @@ namespace RGM.Modes
         public IEnumerator<float> OnModeStarted()
         {
             for (int i=0; i<2; i++)
-                Tools.TryInstallMode(Mods[Modes[i]][2]);
+                Tools.TryInstallMode(Mods[Modes[i]].Type);
 
             foreach (var player in Player.List.Where(x => !x.IsNPC))
             {
-                player.AddBroadcast(10, Description);
-                player.SendConsoleMessage($"\n{Description}", "white");
+                player.AddBroadcast(10, Desc);
+                player.SendConsoleMessage($"\n{Desc}", "white");
             }
 
             yield break;
@@ -54,8 +75,8 @@ namespace RGM.Modes
 
         public void OnVerified(Exiled.Events.EventArgs.Player.VerifiedEventArgs ev)
         {
-            ev.Player.AddBroadcast(10, Description);
-            ev.Player.SendConsoleMessage($"\n{Description}", "white");
+            ev.Player.AddBroadcast(10, Desc);
+            ev.Player.SendConsoleMessage($"\n{Desc}", "white");
         }
     }
 }

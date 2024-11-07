@@ -25,8 +25,19 @@ using static RGM.Variables.ServerManagers;
 
 namespace RGM.Modes
 {
-    class RussianRoulette
+    [Mode(ModeCategory.Public, ModeInfo.Set, ModeType.RussianRoulette)]
+    class RussianRoulette : Mode
     {
+        public override string Name => "러시안 룰렛";
+        public override string Description => "정치질이 난무하는 운과 심리전의 싸움입니다.";
+        public override string Detail =>
+"""
+최대 7개의 그룹으로 나뉘어 각 5명씩 예선전을 치릅니다.
+
+각 그룹의 우승자는 최대 7명으로 결승전을 치르게 됩니다.
+""";
+        public override string Color => "F5ECCE";
+
         public static RussianRoulette Instance;
 
         public int RequiredFinals;
@@ -36,7 +47,7 @@ namespace RGM.Modes
         public Dictionary<Vector3, List<Player>> TablePositions = new Dictionary<Vector3, List<Player>>();
         public Dictionary<Player, Player> ShotChecks = new Dictionary<Player, Player>();
 
-        public void OnEnabled()
+        public override void OnEnabled()
         {
             Round.IsLocked = true;
             Respawn.TimeUntilNextPhase = 10000;
@@ -224,7 +235,7 @@ namespace RGM.Modes
                 Round.IsLocked = false;
 
                 foreach (var player in Player.List)
-                    player.AddBroadcast(20, $"<size=25>🎉 축하합니다, <b><color=yellow>{Finals[0].DisplayNickname}</color></b>(이)가 <b><color=#{ModeManager.Modes["러시안 룰렛"][0]}>러시안 룰렛</color></b>에서 우승하였습니다! 🎉</size>");
+                    player.AddBroadcast(20, $"<size=25>🎉 축하합니다, <b><color=yellow>{Finals[0].DisplayNickname}</color></b>(이)가 <b><color=#{ModeType.RussianRoulette.GetModeData().Color}>러시안 룰렛</color></b>에서 우승하였습니다! 🎉</size>");
                 
                 Finals[0].DisableEffect(EffectType.Ensnared);
             }

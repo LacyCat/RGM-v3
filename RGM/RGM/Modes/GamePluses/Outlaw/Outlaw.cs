@@ -12,11 +12,21 @@ using Exiled.API.Enums;
 
 namespace RGM.Modes
 {
-    public class Outlaw
+    [Mode(ModeCategory.Public, ModeInfo.Plus, ModeType.Outlaw)]
+    public class Outlaw : Mode
     {
+        public override string Name => "무법자";
+        public override string Description => "모두가 총기 하나를 가지고 시작합니다.";
+        public override string Detail =>
+"""
+남에게 지속적으로 데미지를 입힐 수 있는,
+투사체가 아닌 아이템 중에서 랜덤으로 지급받습니다.
+""";
+        public override string Color => "9F81F7";
+
         public static Outlaw Instance;
 
-        public void OnEnabled()
+        public override void OnEnabled()
         {
             Exiled.Events.Handlers.Player.Spawned += OnSpawned;
 

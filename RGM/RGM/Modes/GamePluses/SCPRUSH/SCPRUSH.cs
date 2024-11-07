@@ -11,11 +11,20 @@ using Exiled.API.Features.Roles;
 
 namespace RGM.Modes
 {
-    public class SCPRUSH
+    [Mode(ModeCategory.Public, ModeInfo.Plus, ModeType.SCPRUSH)]
+    public class SCPRUSH : Mode
     {
+        public override string Name => "SCP 러쉬";
+        public override string Description => "모든 SCP가 한 개체로 통일됩니다.";
+        public override string Detail =>
+"""
+SCP-3114도 동일한 확률로 러쉬에 참여할 수 있습니다.
+""";
+        public override string Color => "FE2E2E";
+
         public static SCPRUSH Instance;
 
-        public void OnEnabled()
+        public override void OnEnabled()
         {
             Timing.RunCoroutine(OnModeStarted());
         }

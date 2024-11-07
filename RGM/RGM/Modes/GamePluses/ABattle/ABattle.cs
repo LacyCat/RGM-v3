@@ -11,14 +11,36 @@ using MEC;
 using MultiBroadcast.API;
 using PlayerRoles;
 using RemoteAdmin;
-using RGM.Modes.ABattleVariables;
 using RGM.Modes.Commands;
+
 using Random = UnityEngine.Random;
 
 namespace RGM.Modes;
 
-public class ABattle
+[Mode(ModeCategory.Public, ModeInfo.Plus, ModeType.ABattle)]  
+public class ABattle : Mode
 {
+    public override string Name => "워크스테이션 업그레이드";
+    public override string Description => "워크스테이션에서 업그레이드하세요!";
+    public override string Detail =>
+"""
+<color=#F5DA81>인간 진영</color>일 경우, 워크스테이션에서 점프하면 능력을 1개 얻습니다.
+<color=red>SCP-079</color>일 경우, 레벨이 올라갈 때마다 능력을 1개 얻습니다.
+
+각 능력 등급들의 확률을 확인하려면 아래를 참고하십시오.
+• <color=#A4A4A4>일반</color> - 70%
+• <color=#2ECCFA>희귀</color> - 24.5%
+• <color=#FF00FF>영웅</color> - 5%
+• <color=#ffd700>전설</color> - 0.4%
+• <color=#DF0101>신화</color> - 0.1%
+• <color=#F7819F>전용</color> - 5% (능력 선택 옵션 독립)
+• <color=##DEEFED>시너지</color> - ???
+
+20% 확률로 피버 모드가 활성화됩니다.
+<b><i><color=#FF00EA>피</color><color=#EF00EB>버</color> <color=#CF00ED>모</color><color=#BF00EF>드</color></i></b> 활성화 시, 재단에 등장하는 워크스테이션의 수가 증가합니다.
+""";
+    public override string Color => "00FFFF";
+
     public static ABattle Instance { get; set; }
 
     public Dictionary<Player, List<WorkstationController>> PlayerWorkstations { get; set; }
@@ -65,7 +87,7 @@ public class ABattle
     }
 
     // 플러그인에 있는 모든 능력 검색
-    public void OnEnabled()
+    public override void OnEnabled()
     {
         Instance = this;
 
