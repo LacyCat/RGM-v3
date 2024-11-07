@@ -21,8 +21,19 @@ using MultiBroadcast.API;
 
 namespace RGM.Modes
 {
-    class GGClub
+    [Mode(ModeCategory.Public, ModeInfo.Set, ModeType.GGClub)]
+    class GGClub : Mode
     {
+        public override string Name => "GG 클럽";
+        public override string Description => "빠르게 황금색 플랫폼을 사수하세요!";
+        public override string Detail =>
+"""
+<b><color=#F00000>페</color><color=#F54900>이</color><color=#FA9300>즈</color></b>가 총 10개로 이루어져 있습니다!
+
+순발력을 마음껏 뽐내 보세요!
+""";
+        public override string Color => "C8FE2E";
+
         public static GGClub Instance;
 
         public List<Player> pl = new List<Player>();
@@ -35,7 +46,7 @@ namespace RGM.Modes
 
         Player dj;
 
-        public void OnEnabled()
+        public override void OnEnabled()
         {
             Round.IsLocked = true;
             Respawn.TimeUntilNextPhase = 10000;
@@ -103,7 +114,7 @@ namespace RGM.Modes
                     {
                         try
                         {
-                            if (hit.transform.GetComponent<PrimitiveObject>().Primitive.Color != Color.yellow)
+                            if (hit.transform.GetComponent<PrimitiveObject>().Primitive.Color != UnityEngine.Color.yellow)
                             {
                                 if (player.IsAlive && !player.IsNPC)
                                     player.Kill("황금색 발판을 밟지 못한 자여.");
@@ -124,8 +135,8 @@ namespace RGM.Modes
 
                 foreach (var Pad in Pads)
                 {
-                    if (Pad.GetComponent<PrimitiveObject>().Primitive.Color == Color.white)
-                        Pad.GetComponent<PrimitiveObject>().Primitive.Color = Color.red;
+                    if (Pad.GetComponent<PrimitiveObject>().Primitive.Color == UnityEngine.Color.white)
+                        Pad.GetComponent<PrimitiveObject>().Primitive.Color = UnityEngine.Color.red;
                 }
 
                 yield return Timing.WaitForSeconds(1.25f);
@@ -203,17 +214,17 @@ namespace RGM.Modes
                 {
                     foreach (var Pad in Pads)
                     {
-                        Pad.GetComponent<PrimitiveObject>().Primitive.Color = Color.white;
+                        Pad.GetComponent<PrimitiveObject>().Primitive.Color = UnityEngine.Color.white;
                     }
 
                     foreach (var Pad in goldPads)
                     {
-                        Pad.GetComponent<PrimitiveObject>().Primitive.Color = Color.yellow;
+                        Pad.GetComponent<PrimitiveObject>().Primitive.Color = UnityEngine.Color.yellow;
                     }
 
                     foreach (var ClubLight in ClubLights)
                     {
-                        ClubLight.GetComponent<Light>().color = Color.white;
+                        ClubLight.GetComponent<Light>().color = UnityEngine.Color.white;
                     }
                 }
 

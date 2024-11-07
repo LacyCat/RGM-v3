@@ -14,11 +14,23 @@ using PlayerRoles;
 
 namespace RGM.Modes
 {
-    public class Siberia
+    [Mode(ModeCategory.OnlySub, ModeInfo.Plus, ModeType.Siberia)]
+    public class Siberia : Mode
     {
+        public override string Name => "시베리아";
+        public override string Description => "최대한 다른 자들과 붙어 온기를 나눠 가지세요!";
+        public override string Detail =>
+"""
+SCP-079가 시설 내 냉각 장치와 에어컨을 풀로 틀어버렸습니다.
+
+3m 이상 떨어지지 마세요!
+대상이 누구든 절대로 떨어지지 마십시오.
+""";
+        public override string Color => "FAFAFA";
+
         public static Siberia Instance;
 
-        public void OnEnabled()
+        public override void OnEnabled()
         {
             Exiled.Events.Handlers.Player.Spawned += OnSpawned;
 

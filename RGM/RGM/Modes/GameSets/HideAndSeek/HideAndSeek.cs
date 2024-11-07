@@ -16,13 +16,24 @@ using UnityEngine;
 
 namespace RGM.Modes
 {
-    class HideAndSeek
+    [Mode(ModeCategory.Public, ModeInfo.Set, ModeType.HideAndSeek)]
+    class HideAndSeek : Mode
     {
+        public override string Name => "숨바꼭질";
+        public override string Description => "꼭꼭 숨으세요! 사냥개가 당신을 찾을 것입니다. 제한 시간동안 버티세요!";
+        public override string Detail =>
+"""
+고도의 심리전 싸움입니다.
+
+최후의 승자는 과연 누가 될 것인가..
+""";
+        public override string Color => "F5A9E1";
+
         public static HideAndSeek Instance;
 
         List<Player> Finders = new List<Player>();
 
-        public void OnEnabled()
+        public override void OnEnabled()
         {
             Round.IsLocked = true;
             Respawn.TimeUntilNextPhase = 10000;

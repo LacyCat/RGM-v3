@@ -11,9 +11,6 @@ using PlayerRoles;
 using RGM.API.Features;
 using UnityEngine;
 
-
-using static RGM.Modes.ABattleFunctions.SpecificAbilities;
-
 namespace RGM.Modes.Abilities.Legend;
 
 [Ability("뱀의 손 무전기", "무전기를 든 상태로 우클릭하면 뱀의 손 지원을 부르며, 자신도 뱀의 손 소속이 됩니다.", AbilityCategory.Legend, AbilityType.LEGEND_SNAKEHANDRADIO)]
@@ -48,7 +45,7 @@ public class SnakeHandRadio : Ability
 
             ev.Player.Role.Set(RoleTypeId.Tutorial, SpawnReason.ForceClass, RoleSpawnFlags.None);
 
-            CallSnakeHand(ev.Player, Player.List.Where(x => x.IsDead).ToList());
+            Tools.CallSnakeHand(ev.Player, Player.List.Where(x => x.IsDead).ToList());
         }
     }
 }

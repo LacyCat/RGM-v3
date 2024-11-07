@@ -20,13 +20,23 @@ using Utils;
 
 namespace RGM.Modes
 {
-    class Spirit
+    [Mode(ModeCategory.Public, ModeInfo.Plus, ModeType.Spirit)]
+    class Spirit : Mode
     {
+        public override string Name => "스피릿";
+        public override string Description => "죽으면 영혼 상태에 돌입합니다!";
+        public override string Detail =>
+"""
+죽으면 영혼 상태로 부활합니다. 이 상태에서 사망하면 성불됩니다.
+또한, 자살로 사망한 경우 곧바로 성불됩니다.
+""";
+        public override string Color => "CED8F6";
+
         public static Spirit Instance;
 
         List<Player> spirits = new List<Player>();
 
-        public void OnEnabled()
+        public override void OnEnabled()
         {
             Exiled.Events.Handlers.Player.Died += OnDied;
             Exiled.Events.Handlers.Player.Shot += OnShot;

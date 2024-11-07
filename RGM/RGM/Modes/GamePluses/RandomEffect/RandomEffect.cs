@@ -15,11 +15,21 @@ using Exiled.API.Enums;
 
 namespace RGM.Modes
 {
-    class RandomEffect
+    [Mode(ModeCategory.OnlySub, ModeInfo.Plus, ModeType.RandomEffect)]
+    class RandomEffect : Mode
     {
+        public override string Name => "랜덤효과";
+        public override string Description => "60초마다 랜덤한 효과를 얻을 수 있습니다!";
+        public override string Detail =>
+"""
+1분마다 랜덤한 효과를 지급받을 수 있습니다.
+최대 60만큼, 60초 동안 받습니다.
+""";
+        public override string Color => "BFFF00";
+
         public static RandomEffect Instance;
 
-        public void OnEnabled()
+        public override void OnEnabled()
         {
             Timing.RunCoroutine(OnModeStarted());
         }

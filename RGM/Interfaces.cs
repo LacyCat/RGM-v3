@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using static RGM.Variables.ServerManagers;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 
 namespace RGM;
 
@@ -13,7 +14,12 @@ public abstract class Mode
 {
     public abstract void OnEnabled();
 
-    public abstract void OnDisabled();
+    public abstract string Name { get; }
+    public abstract string Description { get; }
+    public abstract string Detail { get; }
+    public abstract string Color { get; }
+    public virtual string Author { get; set; } = "GoldenPig1205";
+    public virtual string Suggester { get; set; } = "";
 
     public ModeData Data { get; set; }
 }
@@ -32,17 +38,11 @@ public class ModeData
 }
 
 [AttributeUsage(AttributeTargets.Class)]
-public class ModeAttribute(ModeCategory category, ModeInfo info, ModeType type, string name, string description, string detail, string color, string author, string suggester) : Attribute
+public class ModeAttribute(ModeCategory category, ModeInfo info, ModeType type) : Attribute
 {
     public ModeCategory Category { get; } = category;
     public ModeInfo Info { get; } = info;
     public ModeType Type { get; } = type;
-    public string Name { get; } = name;
-    public string Description { get; } = description;
-    public string Detail { get; } = detail;
-    public string Color { get; } = color;
-    public string Author { get; } = author;
-    public string Suggester { get; } = suggester;
 }
 
 public static class ModeExtensions 

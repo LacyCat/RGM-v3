@@ -24,14 +24,28 @@ using static RGM.Variables.ServerManagers;
 
 namespace RGM.Modes
 {
-    class Juggernaut
+    [Mode(ModeCategory.Public, ModeInfo.Set, ModeType.Juggernaut)]
+    class Juggernaut : Mode
     {
+        public override string Name => "저거너트";
+        public override string Description => "모두 힘을 합쳐 외부의 적에 대항하세요.";
+        public override string Detail =>
+"""
+지금은 우리(SCP, 반란, MTF)끼리 싸울 때가 아닙니다.
+군대를 홀로 섬멸할 수 있는 전력인 저거너트가 재단을 점령하기 위해 왔습니다.
+
+<i>이제 친구가 될 시간이야.</i>
+
+<i>* 게임 시작 10분 뒤 <color=red>자동핵</color>이 작동됩니다.</i>
+""";
+        public override string Color => "088A08";
+
         public static Juggernaut Instance;
 
         public Player juggernaut;
         public List<Player> ScpAttackCooldown = new List<Player>();
 
-        public void OnEnabled()
+        public override void OnEnabled()
         {
             Server.FriendlyFire = true;
             Round.IsLocked = true;

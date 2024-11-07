@@ -19,15 +19,25 @@ using RGM.API.Features;
 
 namespace RGM.Modes
 {
-    class HIDE
+    [Mode(ModeCategory.Public, ModeInfo.Set, ModeType.HIDE)]
+    class HIDE : Mode
     {
+        public override string Name => "HIDE";
+        public override string Description => "숨 죽이는 그를 사살하십시오.";
+        public override string Detail =>
+"""
+<color=red>SCP-3114</color>는 피격당하거나 공격하면 투명이 해제됩니다.
+또한, 평상시에도 반투명 상태로 존재합니다. 이 점을 잘 이용해보세요!
+""";
+        public override string Color => "0489B1";
+
         public static HIDE Instance;
 
         public List<Player> pl = new List<Player>();
         public Player monster = null;
 
 
-        public void OnEnabled()
+        public override void OnEnabled()
         {
             Respawn.TimeUntilNextPhase = 10000;
             Server.ExecuteCommand($"/el l all");

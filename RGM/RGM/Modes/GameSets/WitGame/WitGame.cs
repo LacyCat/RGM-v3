@@ -22,8 +22,19 @@ using static RGM.Variables.ServerManagers;
 
 namespace RGM.Modes
 {
-    class WitGame
+    [Mode(ModeCategory.Public, ModeInfo.Set, ModeType.WitGame)]
+    class WitGame : Mode
     {
+        public override string Name => "눈치게임";
+        public override string Description => "눈치가 가장 좋은 자만 살아남습니다.";
+        public override string Detail =>
+"""
+<size=40><b>탈락의 조건</b></size>
+2명 이상이 동시에 점프하거나(오차 간격: 0.5초),
+마지막까지 점프하지 않으면 승천합니다.
+""";
+        public override string Color => "CEECF5";
+
         public static WitGame Instance;
 
         public int Stack = 0;
@@ -31,7 +42,7 @@ namespace RGM.Modes
         public List<Player> JumpingPlayers = new List<Player>();
         public List<Player> PassPlayers = new List<Player>();
 
-        public void OnEnabled()
+        public override void OnEnabled()
         {
             Round.IsLocked = true;
             Respawn.TimeUntilNextPhase = 10000;

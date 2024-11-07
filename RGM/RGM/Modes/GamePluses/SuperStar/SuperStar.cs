@@ -15,11 +15,20 @@ using static RGM.Modes.FriendlyFire;
 
 namespace RGM.Modes
 {
-    class SuperStar
+    [Mode(ModeCategory.Public, ModeInfo.Plus, ModeType.SuperStar)]
+    class SuperStar : Mode
     {
+        public override string Name => "슈퍼 스타";
+        public override string Description => "모두의 마이크가 공유됩니다.";
+        public override string Detail =>
+"""
+말 그대로입니다. 마이크가 공유됩니다.
+""";
+        public override string Color => "FE2EF7";
+
         public static SuperStar Instance;
 
-        public void OnEnabled()
+        public override void OnEnabled()
         {
             Timing.RunCoroutine(OnModeStarted());
         }

@@ -16,14 +16,23 @@ using Exiled.API.Extensions;
 
 namespace RGM.Modes
 {
-    class SoulMate
+    class SoulMate : Mode
     {
+        public override string Name => "소울메이트";
+        public override string Description => "단짝 친구와 모든 것을 함께하세요!";
+        public override string Detail =>
+"""
+<b><i><color=#FF00DD>소</color><color=#EB01CD>울</color><color=#D702BD>메</color><color=#C404AD>이</color><color=#B0059D>트</color> <color=#89077D>메</color><color=#76096D>이</color><color=#620A5D>킹</color></i></b>을 시도할 때,
+체력이 높은 쪽으로 지정됩니다.
+""";
+        public override string Color => "FF00FF";
+
         public static SoulMate Instance;
 
         private Dictionary<Player, Player> soulMates = new Dictionary<Player, Player>();
         private List<Player> waitingPlayers = new List<Player>();
 
-        public void OnEnabled()
+        public override void OnEnabled()
         {
             Exiled.Events.Handlers.Player.Died += OnDied;
             Exiled.Events.Handlers.Player.Hurt += OnHurt;

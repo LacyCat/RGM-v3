@@ -14,11 +14,23 @@ using Exiled.API.Features.Items;
 
 namespace RGM.Modes
 {
-    class PaperMan
+    [Mode(ModeCategory.OnlySub, ModeInfo.Plus, ModeType.PaperMan)]
+    class PaperMan : Mode
     {
+        public override string Name => "종이 인간";
+        public override string Description => "종이처럼 펄럭펄럭";
+        public override string Detail =>
+"""
+xㅣ0.01
+yㅣ1
+zㅣ1
+의 몸을 가졌습니다!
+""";
+        public override string Color => "F5A9BC";
+
         public static PaperMan Instance;
 
-        public void OnEnabled()
+        public override void OnEnabled()
         {
             Exiled.Events.Handlers.Player.Spawned += OnSpawned;
 

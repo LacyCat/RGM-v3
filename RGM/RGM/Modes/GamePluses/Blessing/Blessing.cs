@@ -14,11 +14,34 @@ using MultiBroadcast.API;
 
 namespace RGM.Modes
 {
-    public class Blessing
+    [Mode(ModeCategory.Public, ModeInfo.Plus, ModeType.Blessing)]
+    public class Blessing : Mode
     {
+        public override string Name => "축복";
+        public override string Description => "관전자의 수에 비례해 능력치가 상승합니다.";
+        public override string Detail =>
+"""
+플레이어는 자신을 바라보는 <b>관전자</b>의 수를 확인할 수 있습니다.
+<b>관전자</b>의 수에 비례해 다음 능력치가 상승합니다.
+• 이동 속도
+• 피해량 증가
+• 데미지 감소
+• 초당 체력 회복
+• (SCP-079) 전력 회복
+
+<b>관전자</b>의 수가 5명씩 넘어갈 때마다 특수한 효과가 적용됩니다.
+6명 이상 - 스테미나 무제한
+11명 이상 - 바이패스 활성화
+16명 이상 - 유령화 효과
+21명 이상 - <i><color=#A400F0>투</color><color=#B600EE>명</color> <color=#DA00EC>효</color><color=#EC00EB>과</color></i>
+26명 이상 - <b><color=#57F104>아</color><color=#5DEE03>이</color><color=#63EB03>템</color><color=#6AE803>이</color> <color=#76E202>지</color><color=#7DDF02>급</color><color=#83DD01>될</color> <color=#90D701>수</color> <color=#9DD100>있</color><color=#A3CE00>음</color></b>
+31명 이상 - <b><i><color=#2718F7>노</color><color=#222DEF>클</color><color=#1E42E7>립</color> <color=#156CD8>사</color><color=#1181D1>용</color> <color=#08ABC2>가</color><color=#04C0BA>능</color></i></b>
+""";
+        public override string Color => "F6D8CE";
+
         public static Blessing Instance;
 
-        public void OnEnabled()
+        public override void OnEnabled()
         {
             Exiled.Events.Handlers.Player.Hurting += OnHurting;
 

@@ -15,13 +15,33 @@ using UnityEngine;
 
 namespace RGM.Modes
 {
-    class BombParty
+    [Mode(ModeCategory.Public, ModeInfo.Set, ModeType.BombParty)]
+    class BombParty : Mode
     {
+        public override string Name => "폭탄 파티";
+        public override string Description => "버티면 버틸수록 난이도가 올라갑니다.";
+        public override string Detail =>
+"""
+투사체 또는 SCP 아이템이 랜덤한 곳에 떨어집니다.
+
+3초마다 <color=#F7BE81>이벤트</color>가 일어납니다.
+
+라운드 경과
+0초 후ㅣ<b>고폭 수류탄</b>이 떨어집니다.
+30초 후ㅣ<b>섬광탄</b>이 1/3 확률로 떨어집니다.
+60초 후ㅣ<b>고폭 수류탄</b>이 1/3 확률로 떨어집니다.
+90초 후ㅣ<b>SCP-244</b>가 1/3 확률로 떨어집니다.
+120초 후ㅣ<b>SCP-018</b>이 1/3 확률로 떨어집니다.
+
+3분 이상 버틴다면 스스로를 칭찬해주세요.
+""";
+        public override string Color => "FAAC58";
+
         public static BombParty Instance;
 
         public List<Player> pl = new List<Player>();
 
-        public void OnEnabled()
+        public override void OnEnabled()
         {
             Server.FriendlyFire = true;
             Round.IsLocked = true;

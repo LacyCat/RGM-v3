@@ -15,11 +15,25 @@ using PlayerRoles;
 
 namespace RGM.Modes
 {
-    class AdditionalWave
+    [Mode(ModeCategory.OnlySub, ModeInfo.Plus, ModeType.AdditionalWave)]
+    class AdditionalWave : Mode
     {
+        public override string Name => "추가 지원";
+        public override string Description => "지원의 형태가 추가되고, 추가 아이템이 지급됩니다.";
+        public override string Detail =>
+"""
+[지원 형태]
+<color=#F781F3>뱀의 손</color>
+<color=red>SCP-049-2</color>
+
+[지원 아이템 목록]
+최대 3개까지 모든 아이템 중 랜덤으로 선택됨
+""";
+        public override string Color => "F5D0A9";
+
         public static AdditionalWave Instance;
 
-        public void OnEnabled()
+        public override void OnEnabled()
         {
             Exiled.Events.Handlers.Server.RespawningTeam += OnRespawningTeam;
         }
@@ -35,7 +49,7 @@ namespace RGM.Modes
                         break;
 
                     case 2:
-                        ABattleFunctions.SpecificAbilities.CallSnakeHand(null, Player.List.Where(x => x.IsDead && x.Role.Type != RoleTypeId.Overwatch).ToList());
+                        Tools.CallSnakeHand(null, Player.List.Where(x => x.IsDead && x.Role.Type != RoleTypeId.Overwatch).ToList());
                         break;
 
                     case 3:

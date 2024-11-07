@@ -139,9 +139,9 @@ namespace RGM.EventArgs
                 ev.Player.Position = GameObject.Find("LobbyStartPoint").transform.position;
                 ev.Player.AddBroadcast(10, Notions.WelcomeMessage);
 
-                string iv(int num)
+                ModeType iv(int num)
                 {
-                    return $"{ModeVote.Keys.ToList()[num - 1]}";
+                    return ModeVote.Keys.ToList()[num - 1];
                 }
 
                 while (!Round.IsStarted)
@@ -187,25 +187,25 @@ GoldenPig1205(@GoldenPig1205) - 메인 개발자
 
                                     string Name = modeData.Name;
                                     string Color = modeData.Color;
-                                    ModeInfo flag = modeData.Info;
+                                    ModeCategory flag = modeData.Category;
 
-                                    if (flag == )
-                                        Modes.Add($"<s><color=#{color}>{modeName}</color></s>");
+                                    if (flag == ModeCategory.Private)
+                                        Modes.Add($"<s><color=#{Color}>{Name}</color></s>");
 
-                                    else if (flag == "onlysub")
-                                        Modes.Add($"<mark=#FFFF000D><color=#{color}>{modeName}</color></s></mark>");
+                                    else if (flag == ModeCategory.OnlySub)
+                                        Modes.Add($"<mark=#FFFF000D><color=#{Color}>{Name}</color></s></mark>");
 
                                     else
-                                        Modes.Add($"<color=#{color}>{modeName}</color>");
+                                        Modes.Add($"<color=#{Color}>{Name}</color>");
                                 }
 
                                 ev.Player.ShowHint($"\n\n\n\n\n\n<size=40><b>[ ⭐ 랜덤게임모드(RGM) 모드 목록 ⭐ ]</b></size>\n\n<size=25>{string.Join(", ", Modes)}</size>");
                             }
                             else
                             {
-                                string SelectedMode;
-                                string ModeColor;
-                                string ModeDescription;
+                                ModeType SelectedMode = ModeType.None;
+                                string Color;
+                                string Description;
 
                                 for (int i = 0; i < 3; i++)
                                 {
@@ -231,8 +231,8 @@ GoldenPig1205(@GoldenPig1205) - 메인 개발자
                                         ModeVote[SelectedMode].Add(ev.Player);
                                     }
 
-                                    ModeColor = ModeList[SelectedMode][0];
-                                    ModeDescription = ModeList[SelectedMode][1];
+                                    Color = ModeList[SelectedMode].Color;
+                                    Description = ModeList[SelectedMode].Description;
                                 }
                                 else
                                 {
@@ -251,17 +251,16 @@ GoldenPig1205(@GoldenPig1205) - 메인 개발자
                                             return "<b>[버그로 추정됨 : 문의 요망]</b> 어떤 선택 모드도 선택되지 않았습니다. 뭔가 이상합니다.";
                                     }
 
-                                    SelectedMode = "<i>참고</i>";
-                                    ModeColor = "ffffff";
-                                    ModeDescription = $"{FirstDesc()}\n<size=25>콘솔(` 또는 ~)을 열고 .help를 입력하여 사용 가능한 [RGM] 명령어 리스트를 확인할 수 있습니다.</size>";
+                                    Color = "ffffff";
+                                    Description = $"{FirstDesc()}\n<size=25>콘솔(` 또는 ~)을 열고 .help를 입력하여 사용 가능한 [RGM] 명령어 리스트를 확인할 수 있습니다.</size>";
                                 }
 
                                 string IdeaBy()
                                 {
-                                    if (!ModeList.ContainsKey(SelectedMode) || ModeList[SelectedMode][4] == "")
+                                    if (!ModeList.ContainsKey(SelectedMode) || ModeList[SelectedMode].Suggester == "")
                                         return "";
                                     else
-                                        return $" <size=20><color=white>Idea by {ModeList[SelectedMode][4]}</color></size>";
+                                        return $" <size=20><color=white>Idea by {ModeList[SelectedMode].Suggester}</color></size>";
                                 }
 
                                 List<string> uc = UsersManager.UsersCache[ev.Player.UserId];
@@ -270,15 +269,15 @@ GoldenPig1205(@GoldenPig1205) - 메인 개발자
                                     .Replace("{FirstMark}", ModeVote[iv(1)].Contains(ev.Player) ? "■" : "□")
                                     .Replace("{SecondMark}", ModeVote[iv(2)].Contains(ev.Player) ? "■" : "□")
                                     .Replace("{ThirdMark}", ModeVote[iv(3)].Contains(ev.Player) ? "■" : "□")
-                                    .Replace("{First}", CurrentMode != null ? CurrentMode : $"<color=#{ModeList[iv(1)][0]}>{iv(1)}</color>" + (SubModeVote[0] != null ? $" + <b><i> <size=20><color=#{ModeList[SubModeVote[0]][0]}>{SubModeVote[0]}</color></size></i></b>" : ""))
+                                    .Replace("{First}", (CurrentMode != ModeType.None ? CurrentMode.GetModeData().Name : $"<color=#{ModeList[iv(1)].Color}>{iv(1).GetModeData().Name}</color>") + (SubModeVote[0] != ModeType.None ? $" + <b><i> <size=20><color=#{ModeList[SubModeVote[0]].Color}>{SubModeVote[0].GetModeData().Name}</color></size></i></b>" : ""))
                                     .Replace("{FirstVote}", ModeVote[iv(1)].Contains(ev.Player) ? $"<color=yellow>{ModeVote[iv(1)].Count()}</color>" : ModeVote[iv(1)].Count().ToString())
-                                    .Replace("{Second}", CurrentMode != null ? CurrentMode : $"<color=#{ModeList[iv(2)][0]}>{iv(2)}</color>" + (SubModeVote[1] != null ? $" + <b><i><size=20><color=#{ModeList[SubModeVote[1]][0]}>{SubModeVote[1]}</color></size></i></b>" : ""))
+                                    .Replace("{Second}", (CurrentMode != ModeType.None ? CurrentMode.GetModeData().Name : $"<color=#{ModeList[iv(2)].Color}>{iv(2).GetModeData().Name}</color>") + (SubModeVote[1] != ModeType.None ? $" + <b><i><size=20><color=#{ModeList[SubModeVote[1]].Color}>{SubModeVote[1].GetModeData().Name}</color></size></i></b>" : ""))
                                     .Replace("{SecondVote}", ModeVote[iv(2)].Contains(ev.Player) ? $"<color=yellow>{ModeVote[iv(2)].Count()}</color>" : ModeVote[iv(2)].Count().ToString())
-                                    .Replace("{Third}", CurrentMode != null ? CurrentMode : $"<color=#{ModeList[iv(3)][0]}>{iv(3)}</color>" + (SubModeVote[2] != null ? $" + <b><i> <size=20><color=#{ModeList[SubModeVote[2]][0]}>{SubModeVote[2]}</color></size></i></b>" : ""))
+                                    .Replace("{Third}", (CurrentMode != ModeType.None ? CurrentMode.GetModeData().Name : $"<color=#{ModeList[iv(3)].Color}>{iv(3).GetModeData().Name}</color>") + (SubModeVote[2] != ModeType.None ? $" + <b><i> <size=20><color=#{ModeList[SubModeVote[2]].Color}>{SubModeVote[2].GetModeData().Name}</color></size></i></b>" : ""))
                                     .Replace("{ThirdVote}", ModeVote[iv(3)].Contains(ev.Player) ? $"<color=yellow>{ModeVote[iv(3)].Count()}</color>" : ModeVote[iv(3)].Count().ToString())
-                                    .Replace("{ModeName}", $"{SelectedMode}{IdeaBy()}")
-                                    .Replace("{ModeColor}", $"{ModeColor}").Replace("{ModeDescription}", $"{ModeDescription}")
-                                    .Replace("{Lines}", $"{(ModeDescription.Contains("\n") ? "\n" : "\n\n")}")
+                                    .Replace("{ModeName}", $"{(SelectedMode == ModeType.None ? "<i>참고</i>" : SelectedMode.GetModeData().Name)}{IdeaBy()}")
+                                    .Replace("{ModeColor}", $"{Color}").Replace("{ModeDescription}", $"{Description}")
+                                    .Replace("{Lines}", $"{(Description.Contains("\n") ? "\n" : "\n\n")}")
                                     .Replace("{Exp}", $"{uc[0]}")
                                     .Replace("{RP}", $"{uc[1]}")
                                     .Replace("{Cash}", $"{int.Parse(uc[2]).ToString("N0")}")
@@ -399,7 +398,7 @@ GoldenPig1205(@GoldenPig1205) - 메인 개발자
                         IsScp3114Enabled = true;
                     }
 
-                    if (!Datas.ModeSets.Contains(CurrentMode))
+                    if (CurrentMode.GetModeData().Info == ModeInfo.Set)
                     {
                         PlayersInfo.Add(ev.Player.UserId, new PlayerInfo
                         {

@@ -21,8 +21,30 @@ using static RGM.Variables.ServerManagers;
 
 namespace RGM.Modes
 {
-    class GunGame
+    [Mode(ModeCategory.Public, ModeInfo.Set, ModeType.GunGame)]
+    class GunGame : Mode
     {
+        public override string Name => "Gun Game";
+        public override string Description => "대인전에 자신 있으신가요? 실력을 증명하기 위해 우승을 차지하세요!";
+        public override string Detail =>
+"""
+제일버드
+입자 분열기
+FR-MG-0
+Logicer
+MTF-E11-SR
+AK
+Crossvec
+A7
+FSP-9
+COM-45
+.44 리볼버
+COM-18
+COM-15
+마이크로 H.I.D
+""";
+        public override string Color => "088A08";
+
         public static GunGame Instance;
 
         public Dictionary<Player, int> Stage = new Dictionary<Player, int>(); 
@@ -47,7 +69,7 @@ namespace RGM.Modes
             ItemType.Lantern
         };
 
-        public void OnEnabled()
+        public override void OnEnabled()
         {
             Server.FriendlyFire = true;
             Round.IsLocked = true;

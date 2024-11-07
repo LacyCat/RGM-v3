@@ -19,7 +19,6 @@ using static RGM.Functions.ModeManagers;
 using static RGM.IEnumerators.LobbyManagers;
 using static RGM.IEnumerators.ServerManagers;
 
-using static RGM.Modes.ABattleFunctions.SpecificAbilities;
 using Exiled.API.Enums;
 using RGM.API.DataBases;
 
@@ -97,15 +96,15 @@ namespace RGM.EventArgs
             switch (UnityEngine.Random.Range(1, 41)) 
             {
                 case 1:
-                    Tools.TryInstallMode("트릭 오어 트릿");
+                    Tools.TryInstallMode(ModeType.TrickorTreat);
                     break;
 
                 case 2:
-                    Tools.TryInstallMode("Spooky!");
+                    Tools.TryInstallMode(ModeType.Spooky);
                     break;
             }
 
-            if (CurrentMode == null)
+            if (CurrentMode == ModeType.None)
             {
                 try
                 {
@@ -138,7 +137,7 @@ namespace RGM.EventArgs
                 {
                     if (!ModeList.ContainsKey(CurrentMode))
                     {
-                        CurrentMode = Tools.GetRandomValue(ModeList.Keys.Where(x => ModeList[x][3] == "public").ToList());
+                        CurrentMode = Tools.GetRandomValue(ModeList.Keys.Where(x => ModeList[x].Category == ModeCategory.Public).ToList());
 
                         foreach (var p in Player.List)
                             p.AddBroadcast(10, $"<size=25><b>알 수 없는 이유로 모드가 선택되지 않았으므로, 모드가 랜덤으로 선택되었습니다.</size>");
@@ -163,11 +162,11 @@ namespace RGM.EventArgs
 
             Tools.TryInstallMode(CurrentMode);
 
-            if (CurrentSubMode != null)
+            if (CurrentSubMode != ModeType.None)
                 Tools.TryInstallMode(CurrentSubMode);
 
             if (StartupRandom == 3)
-                CallSnakeHand(null, Player.List.Where(x => x.Role == RoleTypeId.FacilityGuard).ToList());
+                Tools.CallSnakeHand(null, Player.List.Where(x => x.Role == RoleTypeId.FacilityGuard).ToList());
 
             await Task.Delay(20 * 60 * 1000);
 
@@ -224,7 +223,7 @@ namespace RGM.EventArgs
 
                 UsersManager.SaveUsers();
 
-                Tools.TryInstallMode("어제의 동지는 오늘의 적");
+                Tools.TryInstallMode(ModeType.FriendlyFire);
             }
             catch (Exception e)
             {

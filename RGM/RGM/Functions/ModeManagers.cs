@@ -22,15 +22,15 @@ namespace RGM.Functions
 
             for (int i = 1; i < 4; i++)
             {
-                var StaticModeList = ModeList.Keys.Where(x => ModeList[x][3] == "public" && !ModeVote.ContainsKey(x)).ToList();
+                var StaticModeList = ModeList.Keys.Where(x => ModeList[x].Category == ModeCategory.Public && !ModeVote.ContainsKey(x)).ToList();
                 var mode = StaticModeList[UnityEngine.Random.Range(0, StaticModeList.Count())];
                 ModeVote.Add(mode, new List<Player>());
 
                 if (UnityEngine.Random.Range(1, 11) == 1)
-                    SubModeVote.Add(Tools.GetRandomValue(ModeList.Keys.Where(x => ModeList[x][3] != "private" && !Datas.ModeSets.Contains(x) && !ModeVote.ContainsKey(x) && !Datas.ModeSets.Contains(x)).ToList()));
+                    SubModeVote.Add(Tools.GetRandomValue(ModeList.Keys.Where(x => ModeList[x].Category != ModeCategory.Private && !ModeVote.ContainsKey(x) && ModeList.Keys.Where(x => x.GetModeData().Info != ModeInfo.Set).Contains(x)).ToList()));
 
                 else
-                    SubModeVote.Add(null);
+                    SubModeVote.Add(ModeType.None);
             }
 
             List<List<Transform>> Pads = new List<List<Transform>>() { First, Second, Third };
@@ -38,7 +38,7 @@ namespace RGM.Functions
             for (int i = 0; i < 3; i++)
             {
                 foreach (var Pad in Pads[i])
-                    Pad.GetComponent<PrimitiveObject>().Primitive.Color = ColorUtility.TryParseHtmlString("#" + ModeList[ModeVote.Keys.ToList()[i]][0], out Color color) ? color : Color.white;
+                    Pad.GetComponent<PrimitiveObject>().Primitive.Color = ColorUtility.TryParseHtmlString("#" + ModeList[ModeVote.Keys.ToList()[i]].Color, out Color color) ? color : Color.white;
             }
 
             Color randomColor = Tools.GetRandomColor(true);

@@ -10,11 +10,21 @@ using RGM.API.Features;
 
 namespace RGM.Modes
 {
-    public class Gamble
+    [Mode(ModeCategory.Public, ModeInfo.Plus, ModeType.Gamble)]
+    public class Gamble : Mode
     {
+        public override string Name => "도박";
+        public override string Description => "아이템을 떨구면 새로운 아이템을 획득합니다. 단, 2% 확률로 손이 잘립니다.";
+        public override string Detail =>
+"""
+생각 없이 도박을 하다 보면 2%는 금방이랍니다.
+""";
+        public override string Color => "8A4B08";
+
+
         public static Gamble Instance;
 
-        public void OnEnabled()
+        public override void OnEnabled()
         {
             Exiled.Events.Handlers.Player.DroppingItem += OnDroppingItem;
 

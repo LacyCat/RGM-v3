@@ -17,15 +17,26 @@ using UnityEngine;
 
 namespace RGM.Modes
 {
-    class FreeForAll
+    [Mode(ModeCategory.Public, ModeInfo.Set, ModeType.FreeForAll)]
+    class FreeForAll : Mode
     {
+        public override string Name => "개인전";
+        public override string Description => "최후의 1인이 되세요!";
+        public override string Detail =>
+"""
+랜덤한 문으로 순간이동한 후 랜덤하게 지급되는 아이템으로 싸움을 시작합니다.
+
+<i>모든 문은 잠겨 있습니다.</i>
+""";
+        public override string Color => "FA58F4";
+
         public static FreeForAll Instance;
 
         public List<Player> pl = new List<Player>();
-        public List<ItemType> StartupItems = null;
+        public List<ItemType> StartupItems = new List<ItemType>();
         public Door door = Tools.GetRandomValue(Door.List.ToList());
 
-        public void OnEnabled()
+        public override void OnEnabled()
         {
             Server.FriendlyFire = true;
             Round.IsLocked = true;

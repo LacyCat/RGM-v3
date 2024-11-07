@@ -22,13 +22,22 @@ using static RGM.Variables.ServerManagers;
 
 namespace RGM.Modes
 {
-    public class PirateRoulette
+    [Mode(ModeCategory.Public, ModeInfo.Set, ModeType.PirateRoulette)]
+    public class PirateRoulette : Mode
     {
+        public override string Name => "해적 룰렛";
+        public override string Description => "폭탄을 잘 추려내야 합니다.";
+        public override string Detail =>
+"""
+운빨 싸움
+""";
+        public override string Color => "FFBF00";
+
         public static PirateRoulette Instance;
 
         Player Bomb = null;
 
-        public void OnEnabled()
+        public override void OnEnabled()
         {
             Exiled.Events.Handlers.Player.ReceivingEffect += OnReceivingEffect;
             Exiled.Events.Handlers.Scp049.StartingRecall += OnStartingRecall;

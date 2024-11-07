@@ -13,11 +13,22 @@ using PlayerRoles;
 
 namespace RGM.Modes
 {
-    public class Distancing
+    [Mode(ModeCategory.OnlySub, ModeInfo.Plus, ModeType.Distancing)]
+    public class Distancing : Mode
     {
+        public override string Name => "사회적 거리두기";
+        public override string Description => "최대한 다른 사람과 멀어지세요! 감염 예방이 최우선입니다!";
+        public override string Detail =>
+"""
+<i>다른 사람과 가까이 붙지 마세요.</i>
+
+7.5m 초과의 거리를 유지하지 못한다면 체력의 일정 비율만큼 데미지를 입습니다.
+""";
+        public override string Color => "38610B";
+
         public static Distancing Instance;
 
-        public void OnEnabled()
+        public override void OnEnabled()
         {
             Timing.RunCoroutine(OnModeStarted());
         }
