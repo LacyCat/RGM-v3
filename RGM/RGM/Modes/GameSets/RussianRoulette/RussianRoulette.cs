@@ -35,6 +35,11 @@ namespace RGM.Modes
 최대 7개의 그룹으로 나뉘어 각 5명씩 예선전을 치릅니다.
 
 각 그룹의 우승자는 최대 7명으로 결승전을 치르게 됩니다.
+
+<size=25>
+* 자신을 쏘는 경우(허공에 발사하거나 10초를 버틴 경우) 격발 기회를 한번 더 얻습니다.
+* 다른 플레이어를 사망에 이르게 할 경우 격발 기회를 한번 더 얻습니다.
+</size>
 """;
         public override string Color => "F5ECCE";
 
@@ -187,8 +192,12 @@ namespace RGM.Modes
                         yield return Timing.WaitForSeconds(1f);
                     }
 
+
                     Count++;
                     Gunner.RemoveItem(Revolver);
+
+                    bool IsSelfShot = false;
+                    bool IsRoundEnd = false;
 
                     bool ShotEvent(Player Attacker, Player Player)
                     {
@@ -208,11 +217,15 @@ namespace RGM.Modes
                         {
                             foreach (var player in Players) player.AddBroadcast(1, $"아무 일도 일어나지 않았습니다. ({6 - Count}/6)");
 
+                            if (Player == null)
+                            {
+                                foreach (var player in Players) player.AddBroadcast(1, $"<size=25>자신을 쏘고 살아남았으므로 격발 기회를 한번 더 얻습니다.</size>");
+                                IsSelfShot = true;
+                            }
+
                             return false;
                         }
                     }
-
-                    bool IsRoundEnd = false;
 
                     if (Target != null)
                         IsRoundEnd = ShotEvent(Gunner, Target);
@@ -223,10 +236,13 @@ namespace RGM.Modes
                     if (IsRoundEnd)
                         break;
 
-                    int currentIndex = Players.IndexOf(Gunner);
-                    int nextIndex = (currentIndex + 1) % Players.Count;
+                    if (!IsSelfShot)
+                    {
+                        int currentIndex = Players.IndexOf(Gunner);
+                        int nextIndex = (currentIndex + 1) % Players.Count;
 
-                    Gunner = Players[nextIndex];
+                        Gunner = Players[nextIndex];
+                    }
                 }
             }
 
