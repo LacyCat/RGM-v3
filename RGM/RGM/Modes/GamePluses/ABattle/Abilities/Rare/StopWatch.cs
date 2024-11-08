@@ -26,9 +26,6 @@ public class StopWatch : Ability
         Item cc = Owner.AddItem(ItemType.Coin);
         ClockCoinSerial = cc.Serial;
 
-        if (Owner.IsScp)
-            Owner.CurrentItem = cc;
-
         Exiled.Events.Handlers.Player.ChangedItem += OnChangedItem;
         Exiled.Events.Handlers.Player.FlippingCoin += OnFlippingCoin;
     }

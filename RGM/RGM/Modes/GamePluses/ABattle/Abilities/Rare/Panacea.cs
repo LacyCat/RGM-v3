@@ -18,9 +18,6 @@ public class Panacea : Ability
     public override void OnEnabled()
     {
         Item scp500 = Owner.AddItem(ItemType.SCP500);
-
-        if (Owner.IsScp)
-            Owner.CurrentItem = scp500;
     }
 
     public override void OnDisabled()

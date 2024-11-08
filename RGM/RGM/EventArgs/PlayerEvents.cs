@@ -618,6 +618,15 @@ GoldenPig1205(@GoldenPig1205) - 메인 개발자
             });
         }
 
+        public static void OnItemAdded(Exiled.Events.EventArgs.Player.ItemAddedEventArgs ev)
+        {
+            foreach (var item in ev.Player.Items)
+            {
+                if (item != ev.Item)
+                    ev.Player.DropItem(item);
+            }
+        }
+
         public static void OnKicking(Exiled.Events.EventArgs.Player.KickingEventArgs ev)
         {
             foreach (var player in Player.List)

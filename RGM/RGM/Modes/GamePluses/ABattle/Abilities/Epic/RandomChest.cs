@@ -35,9 +35,6 @@ public class RandomChest : Ability
         for (int i = 1; i < 3; i++)
         {
             Item RandomChestItem = Owner.AddItem(Tools.GetRandomValue(RandomChest));
-
-            if (Owner.IsScp)
-                Owner.CurrentItem = RandomChestItem;
         }
     }
 

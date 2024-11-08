@@ -24,9 +24,6 @@ public class Escape : Ability
         Item ec = Owner.AddItem(ItemType.Coin);
         EscapeCoinSerial = ec.Serial;
 
-        if (Owner.IsScp)
-            Owner.CurrentItem = ec;
-
         Exiled.Events.Handlers.Player.ChangedItem += OnChangedItem;
         Exiled.Events.Handlers.Player.FlippingCoin += OnFlippingCoin;
     }

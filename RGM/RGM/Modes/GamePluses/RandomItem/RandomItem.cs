@@ -55,9 +55,6 @@ namespace RGM.Modes
                     Item Item = player.AddItem(Tools.GetRandomValue(ItemTypes));
 
                     player.ShowHint($"<color=#F3F781>{Trans.Item[Item.Type]}</color>(을)를 지급받았습니다.", 5);
-
-                    if (player.IsScp)
-                        player.CurrentItem = Item;
                 }
 
                 yield return Timing.WaitForSeconds(60f);
@@ -76,9 +73,6 @@ namespace RGM.Modes
             for (int i = 1; i < 9; i++)
             {
                 Item Item = player.AddItem(Tools.GetRandomValue(ItemTypes));
-
-                if (player.IsScp)
-                    player.CurrentItem = Item;
             }
         }
     }

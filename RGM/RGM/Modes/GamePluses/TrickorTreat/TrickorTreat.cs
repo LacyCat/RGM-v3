@@ -61,9 +61,6 @@ namespace RGM.Modes
                         var Candy = Tools.GetRandomValue(Tools.EnumToList<CandyKindID>());
                         player.TryAddCandy(Candy);
                     }
-
-                    if (player.IsScp)
-                        player.CurrentItem = Scp330;
                 });
             }
         }

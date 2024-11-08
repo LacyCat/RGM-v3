@@ -23,9 +23,6 @@ public class FlashLight : Ability
         Item fl = Owner.AddItem(ItemType.Flashlight);
         FlashLightSerial = fl.Serial;
 
-        if (Owner.IsScp)
-            Owner.CurrentItem = fl;
-
         Exiled.Events.Handlers.Player.ChangedItem += OnChangedItem;
 
         _onStarted = Timing.RunCoroutine(OnStarted());

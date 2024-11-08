@@ -26,9 +26,6 @@ public class Contract : Ability
         Item cc = Owner.AddItem(ItemType.Coin);
         ContractCoinSerial = cc.Serial;
 
-        if (Owner.IsScp)
-            Owner.CurrentItem = cc;
-
         Exiled.Events.Handlers.Player.ChangedItem += OnChangedItem;
         Exiled.Events.Handlers.Player.FlippingCoin += OnFlippingCoin;
     }

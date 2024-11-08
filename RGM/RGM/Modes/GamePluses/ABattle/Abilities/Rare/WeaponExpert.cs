@@ -18,9 +18,6 @@ public class WeaponExpert : Ability
     public override void OnEnabled()
     {
         Item scp1853 = Owner.AddItem(ItemType.SCP1853);
-
-        if (Owner.IsScp)
-            Owner.CurrentItem = scp1853;
     }
 
     public override void OnDisabled()

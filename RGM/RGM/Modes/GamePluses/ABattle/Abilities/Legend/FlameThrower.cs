@@ -24,9 +24,6 @@ public class FlameThrower : Ability
         Item ft = Owner.AddItem(ItemType.MicroHID);
         FlamethrowerSerial = ft.Serial;
 
-        if (Owner.IsScp)
-            Owner.CurrentItem = ft;
-
         Exiled.Events.Handlers.Player.ChangedItem += OnChangedItem;
         Exiled.Events.Handlers.Player.ChangingMicroHIDState += OnChangingMicroHIDState;
         Exiled.Events.Handlers.Player.Hurting += OnHurting;

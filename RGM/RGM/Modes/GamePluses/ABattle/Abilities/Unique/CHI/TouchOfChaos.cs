@@ -23,9 +23,6 @@ public class TouchOfChaos : Ability
         Item Ch = Owner.AddItem(ItemType.Coin);
         ChaosCoinSerial = Ch.Serial;
 
-        if (Owner.IsScp)
-            Owner.CurrentItem = Ch;
-
         Exiled.Events.Handlers.Player.FlippingCoin += OnFlippingCoin;
     }
 

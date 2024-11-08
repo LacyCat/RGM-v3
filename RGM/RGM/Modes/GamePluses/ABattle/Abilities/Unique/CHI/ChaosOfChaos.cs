@@ -19,9 +19,6 @@ public class ChaosOfChaos : Ability
     public override void OnEnabled()
     {
         Item c = Owner.AddItem(ItemType.SCP018);
-
-        if (Owner.IsScp)
-            Owner.CurrentItem = c;
     }
 
     public override void OnDisabled()

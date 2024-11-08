@@ -82,9 +82,6 @@ namespace RGM.Modes
                             player.AddAmmo(firearm.AmmoType, firearm.MaxAmmo);
                     }
                 }
-
-                if (player.IsScp)
-                    player.CurrentItem = CurrentItem;
             }
         }
     }

@@ -24,9 +24,6 @@ public class Radar : Ability
         Item rd = Owner.AddItem(ItemType.Radio);
         RadarSerial = rd.Serial;
 
-        if (Owner.IsScp)
-            Owner.CurrentItem = rd;
-
         _radar1 = Timing.RunCoroutine(Radar1());
     }
 

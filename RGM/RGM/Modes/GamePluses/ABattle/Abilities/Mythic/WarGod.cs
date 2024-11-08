@@ -19,9 +19,6 @@ public class WarGod : Ability
         Item jb = Owner.AddItem(ItemType.Jailbird);
         LightWarriorSerial = jb.Serial;
 
-        if (Owner.IsScp)
-            Owner.CurrentItem = jb;
-
         Exiled.Events.Handlers.Player.ChangedItem += OnChangedItem;
         Exiled.Events.Handlers.Player.Hurting += OnHurting;
     }
