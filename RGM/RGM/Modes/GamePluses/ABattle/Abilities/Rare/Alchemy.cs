@@ -35,9 +35,6 @@ public class Alchemy : Ability
 
             Item pen = Owner.AddItem(Tools.GetRandomValue(Pension));
 
-            if (Owner.IsScp)
-                Owner.CurrentItem = pen;
-
             yield return Timing.WaitForSeconds(60f);
         }
     }

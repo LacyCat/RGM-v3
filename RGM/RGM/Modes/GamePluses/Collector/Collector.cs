@@ -67,11 +67,6 @@ namespace RGM.Modes
             for (int i=1; i<4; i++)
             {
                 Item CurrentItem = player.AddItem(ScpItemList[UnityEngine.Random.Range(0, ScpItemList.Count())]);
-
-                if (player.IsScp)
-                {
-                    player.CurrentItem = CurrentItem;
-                }
             }
         }
     }

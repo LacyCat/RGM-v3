@@ -23,9 +23,6 @@ public class SnakeHandRadio : Ability
         Item SH = Owner.AddItem(ItemType.Radio);
         CallSnakeHandsSerial = SH.Serial;
 
-        if (Owner.IsScp)
-            Owner.CurrentItem = SH;
-
         Exiled.Events.Handlers.Player.TogglingRadio += OnTogglingRadio;
     }
 

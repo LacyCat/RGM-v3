@@ -64,9 +64,6 @@ public class Psychics : Ability
                 if (UnityEngine.Random.Range(1, 51) == 1)
                 {
                     Item Item = Owner.AddItem(Tools.GetRandomValue(Tools.EnumToList<ItemType>()));
-
-                    if (Owner.IsScp)
-                        Owner.CurrentItem = Item;
                 }
             }
 

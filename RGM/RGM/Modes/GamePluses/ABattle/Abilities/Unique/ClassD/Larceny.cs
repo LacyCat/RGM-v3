@@ -45,9 +45,6 @@ public class Larceny : Ability
                 Item I = ev.Player.AddItem(Item.Type);
                 ev.Player.ShowHint("소매치기에 성공했습니다.", 1.2f);
 
-                if (ev.Player.IsScp)
-                    ev.Player.CurrentItem = I;
-
                 Hitmarker.SendHitmarkerDirectly(ev.Player.ReferenceHub, 0.7f);
             }
             else

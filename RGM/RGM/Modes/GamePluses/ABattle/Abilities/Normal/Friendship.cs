@@ -25,9 +25,6 @@ public class Friendship : Ability
 
             Owner.ShowHint($"{nearestPlayer.Nickname}(에)게 {Trans.Item[Own.Type]}(을)를 나누어 주었습니다.");
             nearestPlayer.ShowHint($"{Owner.Nickname}(으)로부터 {Trans.Item[Own.Type]}(을)를 나누어 받았습니다.");
-
-            if (nearestPlayer.IsScp)
-                nearestPlayer.CurrentItem = Own;
         }
     }
 

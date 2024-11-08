@@ -19,9 +19,6 @@ public class Tongue : Ability
     public override void OnEnabled()
     {
         Item Scp1576 = Owner.AddItem(ItemType.SCP1576);
-
-        if (Owner.IsScp)
-            Owner.CurrentItem = Scp1576;
     }
 
     public override void OnDisabled()

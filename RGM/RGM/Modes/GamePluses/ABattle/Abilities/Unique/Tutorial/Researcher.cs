@@ -34,9 +34,6 @@ public class Researcher : Ability
         };
 
         Item SCPItem = Owner.AddItem(Tools.GetRandomValue(SCPItems));
-
-        if (Owner.IsScp)
-            Owner.CurrentItem = SCPItem;
     }
 
     public override void OnDisabled()

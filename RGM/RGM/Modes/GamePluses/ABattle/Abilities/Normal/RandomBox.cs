@@ -15,9 +15,6 @@ public class RandomBox : Ability
         List<ItemType> RandomBox = Tools.EnumToList<ItemType>();
 
         Item RandomBoxItem = Owner.AddItem(Tools.GetRandomValue(RandomBox));
-
-        if (Owner.IsScp)
-            Owner.CurrentItem = RandomBoxItem;
     }
 
     public override void OnDisabled()

@@ -36,7 +36,7 @@ namespace RGM
 
         public override string Name => "RGM";
         public override string Author => "GoldenPig1205";
-        public override Version Version { get; } = new(3, 7, 14);
+        public override Version Version { get; } = new(3, 7, 15);
         public override Version RequiredExiledVersion { get; } = new(1, 2, 0, 5);
 
         public override void OnEnabled()
@@ -96,6 +96,7 @@ namespace RGM
             Exiled.Events.Handlers.Player.Died += OnDied;
             Exiled.Events.Handlers.Player.DroppedItem += OnDroppedItem;
             Exiled.Events.Handlers.Player.DroppedAmmo += OnDroppedAmmo;
+            Exiled.Events.Handlers.Player.ItemAdded += OnItemAdded;
             Exiled.Events.Handlers.Player.Kicking += OnKicking;
             Exiled.Events.Handlers.Player.Banning += OnBanning;
 
@@ -127,6 +128,7 @@ namespace RGM
             Exiled.Events.Handlers.Player.Died -= OnDied;
             Exiled.Events.Handlers.Player.DroppedItem -= OnDroppedItem;
             Exiled.Events.Handlers.Player.DroppedAmmo -= OnDroppedAmmo;
+            Exiled.Events.Handlers.Player.ItemAdded -= OnItemAdded;
             Exiled.Events.Handlers.Player.Kicking -= OnKicking;
             Exiled.Events.Handlers.Player.Banning -= OnBanning;
 
