@@ -72,19 +72,6 @@ namespace RGM.API.DataBases
             {"pumpkin", "#EE7600"}
         };
 
-        public static List<EffectType> FunnyEffects = new List<EffectType>()
-        {
-            EffectType.SugarRush,
-            EffectType.SugarHigh,
-            EffectType.Spicy,
-            EffectType.OrangeCandy,
-            EffectType.Metal,
-            EffectType.Marshmallow,
-            EffectType.Ghostly,
-            EffectType.Prismatic,
-            EffectType.OrangeWitness
-        };
-
         public static List<DamageType> BlockDamageTypes = new List<DamageType>()
         {
             DamageType.Warhead,
