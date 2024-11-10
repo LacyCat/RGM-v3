@@ -211,12 +211,8 @@ namespace RGM.EventArgs
         {
             try
             {
-                EffectType FunnyEffect = Tools.GetRandomValue(Datas.FunnyEffects);
-
                 foreach (var player in Player.List.Where(x => !x.IsNPC))
                 {
-                    player.EnableEffect(FunnyEffect);
-
                     UsersManager.UsersCache[player.UserId][0] = (int.Parse(UsersManager.UsersCache[player.UserId][0]) + 1).ToString();
                     UsersManager.UsersCache[player.UserId][1] = (int.Parse(UsersManager.UsersCache[player.UserId][1]) + 1).ToString();
                 }
