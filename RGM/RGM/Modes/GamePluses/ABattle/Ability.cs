@@ -380,6 +380,7 @@ public enum AbilityType
     SCP079_OVERCURRENT, // [전용] 과전류
     SCP079_RANDOMFUNCTION, // [전용] 랜덤 함수
     SCP079_OVERWHELMING, // [전용] 고대의 존재 압도
+    SCP079_CALLSCP, // [전용] SCP 지원 호출기
 
     // 시너지 //
     SYNERGY_SURVIVALEXPERT, // [시너지] 생존 전문가

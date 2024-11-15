@@ -333,6 +333,7 @@
     <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\Unique\Scp049\CompetentDoctor.cs" />
     <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\Unique\Scp049\Death.cs" />
     <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\Unique\Scp049\Proficiency.cs" />
+    <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\Unique\Scp079\CallScp.cs" />
     <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\Unique\Scp079\OverCurrent.cs" />
     <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\Unique\Scp079\Overwhelming.cs" />
     <Compile Include="RGM\Modes\GamePluses\ABattle\Abilities\Unique\Scp079\PingRemote.cs" />

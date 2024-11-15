@@ -13,6 +13,8 @@ namespace RGM.Modes;
 
 public class ABattleEventHandler(ABattle aBattle)
 {
+    public static ABattleEventHandler Instance;
+
     internal void RegisterEvents()
     {
         Exiled.Events.Handlers.Player.Verified += OnVerified;
@@ -26,12 +28,17 @@ public class ABattleEventHandler(ABattle aBattle)
 
     private void OnVerified(VerifiedEventArgs ev)
     {
-        if (!aBattle.PlayerWorkstations.ContainsKey(ev.Player))
+        Verified(ev.Player);
+    }
+
+    public void Verified(Player player)
+    {
+        if (!aBattle.PlayerWorkstations.ContainsKey(player))
         {
-            aBattle.PlayerWorkstations.Add(ev.Player, new List<WorkstationController>());
-            aBattle.PlayerAbilities.Add(ev.Player, new List<Ability>());
-            aBattle.IsSelecting.Add(ev.Player, false);
-            aBattle.IsLifeUsed.Add(ev.Player, false);
+            aBattle.PlayerWorkstations.Add(player, new List<WorkstationController>());
+            aBattle.PlayerAbilities.Add(player, new List<Ability>());
+            aBattle.IsSelecting.Add(player, false);
+            aBattle.IsLifeUsed.Add(player, false);
         }
     }
 
