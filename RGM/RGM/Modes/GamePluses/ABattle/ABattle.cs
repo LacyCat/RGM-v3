@@ -138,7 +138,7 @@ public class ABattle : Mode
         QueryProcessor.DotCommandHandler.RegisterCommand(new SelectSecond());
         QueryProcessor.DotCommandHandler.RegisterCommand(new SelectThird());
 
-        CommandProcessor.RemoteAdminCommandHandler.RegisterCommand(new Commands.AddAbility());
+        CommandProcessor.RemoteAdminCommandHandler.RegisterCommand(new AddAbility());
 
         Timing.RunCoroutine(OnModeStarted());
         Timing.RunCoroutine(HintCoroutine());

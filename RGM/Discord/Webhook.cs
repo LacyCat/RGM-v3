@@ -62,7 +62,7 @@ namespace RGM.Discord
 
         public void OnRoundStarted()
         {
-            Timing.CallDelayed(0.5f, () => Send($"[{_time}] :play_pause: **라운드**: 라운드 시작 - {CurrentMode}"));
+            Timing.CallDelayed(0.5f, () => Send($"[{_time}] :play_pause: **라운드**: 라운드 시작 - {CurrentMode.GetModeData().Name}"));
         }
 
         public void OnRoundEnded(Exiled.Events.EventArgs.Server.RoundEndedEventArgs ev)

@@ -144,7 +144,7 @@ namespace RGM.EventArgs
                     return ModeVote.Keys.ToList()[num - 1];
                 }
 
-                while (!Round.IsStarted)
+                while (!Round.IsStarted && ev.Player != null)
                 {
                     try
                     {
