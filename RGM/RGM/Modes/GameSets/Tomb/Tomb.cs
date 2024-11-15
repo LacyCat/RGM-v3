@@ -58,7 +58,7 @@ namespace RGM.Modes
 
             for (int i = 1; i <= 1205; i++)
             {
-                Item Item = Item.Create(Tools.GetRandomValue(ItemTypes.Where(x => x != ItemType.Marshmallow).ToList()));
+                Item Item = Item.Create(Tools.GetRandomValue(ItemTypes.ToList()));
 
                 Item.CreatePickup(RandomPosition());
             }
