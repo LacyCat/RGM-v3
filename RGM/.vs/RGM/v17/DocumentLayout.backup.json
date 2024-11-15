@@ -1,9 +1,21 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\GoldenPig1205\\Visual Studio 2022\\RGM\\RGM\\",
+  "WorkspaceRootPath": "D:\\GoldenPig1205\\Visual Studio 2022\\RGM\\RGM\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{DE4A6CC5-C16A-4E1D-9512-9CB02625B72B}|RGM.csproj|C:\\GoldenPig1205\\Visual Studio 2022\\RGM\\RGM\\plugin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\GoldenPig1205\\Visual Studio 2022\\RGM\\RGM\\RGM\\Modes\\GamePluses\\ABattle\\Abilities\\Synergy\\SuicideSquad.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:RGM\\Modes\\GamePluses\\ABattle\\Abilities\\Synergy\\SuicideSquad.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DE4A6CC5-C16A-4E1D-9512-9CB02625B72B}|RGM.csproj|d:\\goldenpig1205\\visual studio 2022\\rgm\\rgm\\rgm\\modes\\gamepluses\\abattle\\abilities\\epic\\suicidebomber.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DE4A6CC5-C16A-4E1D-9512-9CB02625B72B}|RGM.csproj|solutionrelative:rgm\\modes\\gamepluses\\abattle\\abilities\\epic\\suicidebomber.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DE4A6CC5-C16A-4E1D-9512-9CB02625B72B}|RGM.csproj|D:\\GoldenPig1205\\Visual Studio 2022\\RGM\\RGM\\rgm\\modes\\gamepluses\\abattle\\ability.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DE4A6CC5-C16A-4E1D-9512-9CB02625B72B}|RGM.csproj|solutionrelative:rgm\\modes\\gamepluses\\abattle\\ability.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DE4A6CC5-C16A-4E1D-9512-9CB02625B72B}|RGM.csproj|D:\\GoldenPig1205\\Visual Studio 2022\\RGM\\RGM\\plugin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{DE4A6CC5-C16A-4E1D-9512-9CB02625B72B}|RGM.csproj|solutionrelative:plugin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
@@ -14,7 +26,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 184,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Bookmark",
@@ -22,16 +34,54 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Plugin.cs",
-              "DocumentMoniker": "C:\\GoldenPig1205\\Visual Studio 2022\\RGM\\RGM\\Plugin.cs",
-              "RelativeDocumentMoniker": "Plugin.cs",
-              "ToolTip": "C:\\GoldenPig1205\\Visual Studio 2022\\RGM\\RGM\\Plugin.cs",
-              "RelativeToolTip": "Plugin.cs",
-              "ViewState": "AgIAAGAAAAAAAAAAAAAYwCYAAAA/AAAAAAAAAA==",
+              "DocumentIndex": 1,
+              "Title": "SuicideBomber.cs",
+              "DocumentMoniker": "D:\\GoldenPig1205\\Visual Studio 2022\\RGM\\RGM\\RGM\\Modes\\GamePluses\\ABattle\\Abilities\\Epic\\SuicideBomber.cs",
+              "RelativeDocumentMoniker": "RGM\\Modes\\GamePluses\\ABattle\\Abilities\\Epic\\SuicideBomber.cs",
+              "ToolTip": "D:\\GoldenPig1205\\Visual Studio 2022\\RGM\\RGM\\RGM\\Modes\\GamePluses\\ABattle\\Abilities\\Epic\\SuicideBomber.cs",
+              "RelativeToolTip": "RGM\\Modes\\GamePluses\\ABattle\\Abilities\\Epic\\SuicideBomber.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAADwvw8AAAAPAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-08T09:58:13.652Z",
+              "WhenOpened": "2024-11-15T09:36:28.622Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "SuicideSquad.cs",
+              "DocumentMoniker": "D:\\GoldenPig1205\\Visual Studio 2022\\RGM\\RGM\\RGM\\Modes\\GamePluses\\ABattle\\Abilities\\Synergy\\SuicideSquad.cs",
+              "RelativeDocumentMoniker": "RGM\\Modes\\GamePluses\\ABattle\\Abilities\\Synergy\\SuicideSquad.cs",
+              "ToolTip": "D:\\GoldenPig1205\\Visual Studio 2022\\RGM\\RGM\\RGM\\Modes\\GamePluses\\ABattle\\Abilities\\Synergy\\SuicideSquad.cs",
+              "RelativeToolTip": "RGM\\Modes\\GamePluses\\ABattle\\Abilities\\Synergy\\SuicideSquad.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAACcAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-15T05:27:27.831Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Ability.cs",
+              "DocumentMoniker": "D:\\GoldenPig1205\\Visual Studio 2022\\RGM\\RGM\\RGM\\Modes\\GamePluses\\ABattle\\Ability.cs",
+              "RelativeDocumentMoniker": "RGM\\Modes\\GamePluses\\ABattle\\Ability.cs",
+              "ToolTip": "D:\\GoldenPig1205\\Visual Studio 2022\\RGM\\RGM\\RGM\\Modes\\GamePluses\\ABattle\\Ability.cs",
+              "RelativeToolTip": "RGM\\Modes\\GamePluses\\ABattle\\Ability.cs",
+              "ViewState": "AgIAAAoBAAAAAAAAAAAMwCABAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-15T05:15:27.053Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Plugin.cs",
+              "DocumentMoniker": "D:\\GoldenPig1205\\Visual Studio 2022\\RGM\\RGM\\Plugin.cs",
+              "RelativeDocumentMoniker": "Plugin.cs",
+              "ToolTip": "D:\\GoldenPig1205\\Visual Studio 2022\\RGM\\RGM\\Plugin.cs",
+              "RelativeToolTip": "Plugin.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACYAAAA/AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-08T09:58:13.652Z"
             }
           ]
         }
