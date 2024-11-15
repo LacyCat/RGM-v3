@@ -11,6 +11,8 @@ using PlayerRoles;
 using RGM.API.Features;
 using UnityEngine;
 
+using static RGM.Variables.ServerManagers;
+
 namespace RGM.Modes.Abilities.Legend;
 
 [Ability("마술사", "누군가에게 죽으면, 공격자의 모든 능력을 무시하고 영혼이 교체됩니다.", AbilityCategory.Legend, AbilityType.LEGEND_MAGICIAN)]
@@ -42,8 +44,10 @@ public class Magician : Ability
         foreach (Ability ability in ABattle.Instance.PlayerAbilities[ev.Attacker])
             ev.Player.AddAbility(ability.Data.AbilityType);
 
-        while (ev.Attacker.IsAlive)
-            ev.Attacker.Kill($"영혼이 교체되는 마술에 당했네요!");
+        if (GodModePlayers.Contains(ev.Attacker))
+            GodModePlayers.Remove(ev.Attacker);
+
+        ev.Attacker.Kill($"영혼이 교체되는 마술에 당했네요!");
 
         ABattle.Instance.IsLifeUsed[Owner] = true;
 
