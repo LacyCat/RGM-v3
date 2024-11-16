@@ -74,6 +74,9 @@
     <Reference Include="CommandSystem.Core">
       <HintPath>..\..\..\SCPSL\SCPSL_Data\Managed\CommandSystem.Core.dll</HintPath>
     </Reference>
+    <Reference Include="DiscordInteraction">
+      <HintPath>C:\Users\GoldenPig1205\AppData\Roaming\EXILED\Plugins\DiscordInteraction.dll</HintPath>
+    </Reference>
     <Reference Include="Exiled.API">
       <HintPath>C:\Users\GoldenPig1205\AppData\Roaming\EXILED\Plugins\dependencies\Exiled.API.dll</HintPath>
     </Reference>
@@ -216,8 +219,6 @@
     <Compile Include="RGM\Configs\Config.cs" />
     <Compile Include="RGM\Configs\Notions.cs" />
     <Compile Include="RGM\Configs\Tips.cs" />
-    <Compile Include="Discord\Command.cs" />
-    <Compile Include="Discord\Webhook.cs" />
     <Compile Include="Donator\Main.cs" />
     <Compile Include="API\Components\BallComponent.cs" />
     <Compile Include="API\Features\FileManager.cs" />
@@ -417,7 +418,6 @@
     <Compile Include="RGM\EventArgs\WarheadEvents.cs" />
     <Compile Include="RGM\Functions\ModeManagers.cs" />
     <Compile Include="RGM\Modes\GameSets\WitGame\WitGame.cs" />
-    <Compile Include="RGM\Variables\Protocol.cs" />
     <Compile Include="RGM\Variables\ServerManagers.cs" />
   </ItemGroup>
   <ItemGroup>

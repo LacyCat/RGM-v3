@@ -14,10 +14,9 @@ using MultiBroadcast.API;
 using PlayerRoles;
 using RGM.API.Components;
 using RGM.API.DataBases;
-using RGM.Discord;
 using UnityEngine;
+using DiscordInteraction.Discord;
 
-using static RGM.Variables.Protocol;
 using static RGM.Variables.ServerManagers;
 
 namespace RGM.API.Features
