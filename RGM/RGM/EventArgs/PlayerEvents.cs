@@ -13,7 +13,6 @@ using System.Threading.Tasks;
 using UnityEngine;
 using Exiled.API.Features;
 
-using static RGM.Variables.Protocol;
 using static RGM.Variables.ServerManagers;
 using MEC;
 
@@ -633,10 +632,13 @@ GoldenPig1205(@GoldenPig1205) - 메인 개발자
         {
             if (ev.Player.IsScp)
             {
-                ev.Player.CurrentItem = ev.Item;
+                if (!ev.Item.IsAmmo)
+                {
+                    ev.Player.CurrentItem = ev.Item;
 
-                foreach (var item in ev.Player.Items.Where(x => x != ev.Item))
-                    ev.Player.DropItem(item);
+                    foreach (var item in ev.Player.Items.Where(x => x != ev.Item))
+                        ev.Player.DropItem(item);
+                }
             }
         }
 

@@ -10,7 +10,6 @@ using UnityEngine;
 using Exiled.API.Features;
 using RGM.API.Interfaces;
 
-using static RGM.Variables.Protocol;
 using static RGM.Variables.ServerManagers;
 using Exiled.API.Features.Roles;
 using MultiBroadcast.API;
