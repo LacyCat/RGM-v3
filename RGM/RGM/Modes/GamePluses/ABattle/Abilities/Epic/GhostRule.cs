@@ -19,19 +19,11 @@ public class GhostRule : Ability
 {
     public override void OnEnabled()
     {
-        Exiled.Events.Handlers.Player.InteractingDoor += OnInteractingDoor;
+        Owner.EnableEffect(EffectType.Ghostly);
     }
 
     public override void OnDisabled()
     {
-        Exiled.Events.Handlers.Player.InteractingDoor -= OnInteractingDoor;
-    }
-
-    public void OnInteractingDoor(InteractingDoorEventArgs ev)
-    {
-        if (ev.Player != Owner)
-            return;
-
-        ev.Player.EnableEffect(EffectType.Ghostly, 0.5f);
+        Owner.DisableEffect(EffectType.Ghostly);
     }
 }
