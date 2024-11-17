@@ -78,5 +78,13 @@ namespace RGM.API.DataBases
             DamageType.Crushed,
             DamageType.PocketDimension
         };
+
+        public static List<RoleTypeId> AIRoles = new List<RoleTypeId>()
+        {
+            RoleTypeId.Scp049,
+            RoleTypeId.Scp096,
+            RoleTypeId.Scp106,
+            RoleTypeId.Scp173
+        };
     }
 }

@@ -68,6 +68,7 @@ public enum ModeInfo
 public enum ModeType
 {
     None,
+    AI,
     ABattle,
     AdditionalWave,
     Blackout,
