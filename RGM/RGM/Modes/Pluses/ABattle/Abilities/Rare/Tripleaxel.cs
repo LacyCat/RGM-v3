@@ -21,7 +21,7 @@ public class TripleAxel : Ability
         COM45.As<Firearm>().MaxAmmo /= 2;
         COM45.As<Firearm>().Ammo = COM45.As<Firearm>().MaxAmmo;
 
-        Owner.AddItem(ItemType.Ammo9x19, 50);
+        Owner.AddItem(ItemType.Ammo9x19, 3);
     }
 
     public override void OnDisabled()
