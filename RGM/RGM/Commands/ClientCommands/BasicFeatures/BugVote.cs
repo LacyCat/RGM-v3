@@ -28,13 +28,18 @@ namespace RGM.Commands.ClientCommands
                 response = "이미 버그 투표가 진행중입니다.";
                 return false;
             }
+            else if (arguments.Count < 1)
+            {
+                response = "이유를 기입해주세요.";
+                return false;
+            }
             else
             {
                 IsBugVoteProcessing = true;
 
                 Player player = Player.Get(sender);
 
-                Timing.RunCoroutine(Tools.BugVote(player));
+                Timing.RunCoroutine(Tools.BugVote(player, string.Join(" ", arguments)));
 
                 BugVotePlayers.Add(player);
 

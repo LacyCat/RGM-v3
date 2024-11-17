@@ -265,7 +265,7 @@ RP: {uc[1]}
             return points;
         }
 
-        public static IEnumerator<float> BugVote(Player host)
+        public static IEnumerator<float> BugVote(Player host, string reason)
         {
             int RequiredCount = Player.List.Count / 2;
             bool IsSuccess = false;
@@ -281,7 +281,7 @@ RP: {uc[1]}
                 }
 
                 foreach (var player in Player.List)
-                    player.ShowHint($"<size=25>{host.DisplayNickname}(이)가 <b><color=#FFBF00>버그 투표</color></b>를 개설하였습니다.\n라운드를 강제로 종료해야 한다면 <b>.찬성</b> 명령어를 입력하세요.</size>\n<size=20>투표 종료까지 {21 - i}초 남음 ({BugVotePlayers.Count}/{RequiredCount})</size>", 1.2f);
+                    player.ShowHint($"<size=25>{host.DisplayNickname}(이)가 <b><color=#FFBF00>버그 투표</color></b>를 개설하였습니다.\n라운드를 강제로 종료해야 한다면 <b>.찬성</b> 명령어를 입력하세요.</size>\n이유 : {reason}\n<size=20>투표 종료까지 {21 - i}초 남음 ({BugVotePlayers.Count}/{RequiredCount})</size>", 1.2f);
 
                 yield return Timing.WaitForSeconds(1);
             }
