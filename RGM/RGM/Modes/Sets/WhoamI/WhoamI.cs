@@ -18,7 +18,7 @@ using RGM.API.Features;
 
 namespace RGM.Modes
 {
-    [Mode(ModeCategory.Public, ModeInfo.Set, ModeType.WhoamI)]
+    [Mode(ModeCategory.Private, ModeInfo.Set, ModeType.WhoamI)]
     public class WhoamI : Mode
     {
         public override string Name => "나는 누구?";

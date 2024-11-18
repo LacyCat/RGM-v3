@@ -205,6 +205,9 @@ namespace RGM.EventArgs
                 UsersManager.SaveUsers();
 
                 Tools.TryInstallMode(ModeType.FriendlyFire);
+
+                foreach (var player in Player.List)
+                    Server.ExecuteCommand($"/speak {player.Id} 1");
             }
             catch (Exception e)
             {
