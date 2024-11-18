@@ -369,13 +369,12 @@ GoldenPig1205(@GoldenPig1205) - 메인 개발자
             });
         }
 
-        public static async void OnSpawned(Exiled.Events.EventArgs.Player.SpawnedEventArgs ev)
+        public static IEnumerator<float> OnSpawned(Exiled.Events.EventArgs.Player.SpawnedEventArgs ev)
         {
             if (ev.Player.IsAlive)
             {
                 ev.Player.Scale = new Vector3(1, 1, 1);
                 ev.Player.EnableEffect(EffectType.FogControl);
-                ev.Player.DisableEffect(EffectType.Ghostly);
 
                 if (Round.IsLobby || ev.Reason == SpawnReason.RoundStart)
                 {
@@ -456,15 +455,17 @@ GoldenPig1205(@GoldenPig1205) - 메인 개발자
                 ev.Player.Health = ev.Player.MaxHealth;
             }
 
+            /*
             if (ev.Player.IsAlive && Round.IsStarted && (ev.Reason == SpawnReason.RoundStart || ev.Reason == SpawnReason.Respawn))
             {
                 GodModePlayers.Add(ev.Player);
 
-                await Task.Delay(5000);
+                yield return Timing.WaitForSeconds(5);
 
                 if (GodModePlayers.Contains(ev.Player))
                     GodModePlayers.Remove(ev.Player);
             }
+            */
         }
 
         public static void OnInteractingDoor(Exiled.Events.EventArgs.Player.InteractingDoorEventArgs ev)
