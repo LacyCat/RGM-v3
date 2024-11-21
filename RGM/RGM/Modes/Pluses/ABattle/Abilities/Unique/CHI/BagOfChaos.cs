@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Exiled.API.Enums;
+using Exiled.API.Extensions;
 using Exiled.API.Features;
 using Exiled.API.Features.Items;
 using Exiled.Events.EventArgs.Player;
@@ -23,7 +24,7 @@ public class BagOfChaos : Ability
         Owner.ClearInventory();
 
         for (int i = 1; i < Count + 1; i++)
-            Owner.AddItem(Tools.GetRandomValue(Tools.EnumToList<ItemType>()));
+            Owner.AddItem(Tools.GetRandomValue(Tools.EnumToList<ItemType>().Where(x => !x.IsAmmo()).ToList()));
     }
 
     public override void OnDisabled()
