@@ -369,7 +369,7 @@ namespace RGM.EventArgs
             });
         }
 
-        public static void OnSpawned(Exiled.Events.EventArgs.Player.SpawnedEventArgs ev)
+        public static IEnumerator<float> OnSpawned(Exiled.Events.EventArgs.Player.SpawnedEventArgs ev)
         {
             if (ev.Player.IsAlive)
             {
@@ -455,8 +455,9 @@ namespace RGM.EventArgs
                 ev.Player.Health = ev.Player.MaxHealth;
             }
 
-            /*
-            if (ev.Player.IsAlive && Round.IsStarted && (ev.Reason == SpawnReason.RoundStart || ev.Reason == SpawnReason.Respawn))
+            if (ev.Player.IsAlive && Round.IsStarted && 
+                (ev.Reason == SpawnReason.RoundStart || ev.Reason == SpawnReason.Respawn) && 
+                CurrentMode.GetModeData().Info == ModeInfo.Plus)
             {
                 GodModePlayers.Add(ev.Player);
 
@@ -465,7 +466,6 @@ namespace RGM.EventArgs
                 if (GodModePlayers.Contains(ev.Player))
                     GodModePlayers.Remove(ev.Player);
             }
-            */
         }
 
         public static void OnInteractingDoor(Exiled.Events.EventArgs.Player.InteractingDoorEventArgs ev)
