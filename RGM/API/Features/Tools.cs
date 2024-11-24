@@ -60,7 +60,8 @@ namespace RGM.API.Features
                 .Replace("{ModeColor}", Color)
                 .Replace("{CurrentMode}", Name)
                 .Replace("{CurrentSubMode}", SubModeType != ModeType.None ? $"<size=20>추가된 서브 모드 : <color=#{ModeList[SubModeType].Color}>{ModeList[SubModeType].Name}</color></size>\n" : "")
-                .Replace("{ModeDescription}", Description);
+                .Replace("{ModeDescription}", Description)
+                .Replace("{ModeInfo}", ModeType.GetModeData().Info.ToString());
 
             return new List<string>() 
             { 
