@@ -18,6 +18,7 @@ using SCPSLAudioApi.AudioCore;
 using MultiBroadcast;
 using RGM.API.Features;
 using MultiBroadcast.API;
+using AudioPlayer.Commands.SubCommands;
 
 namespace RGM.Modes
 {

@@ -1,4 +1,6 @@
-﻿using MultiBroadcast.API;
+﻿using Exiled.API.Features.Items;
+using InventorySystem.Items.Usables.Scp330;
+using MultiBroadcast.API;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +16,9 @@ namespace RGM.EventArgs
             if (UnityEngine.Random.Range(1, 21) == 1)
             {
                 ev.IsAllowed = false;
-                ev.Player.TryAddCandy(InventorySystem.Items.Usables.Scp330.CandyKindID.Pink);
+                Scp330 candyBag = (Scp330)ev.Player.AddItem(ItemType.SCP330);
+                candyBag.RemoveAllCandy();
+                candyBag.AddCandy(CandyKindID.Pink);
 
                 ev.Player.AddBroadcast(10, $"<color=#FF00FF>핑크 캔디(5%, 정규)</color> 기믹이 적용되었습니다.");
             }
