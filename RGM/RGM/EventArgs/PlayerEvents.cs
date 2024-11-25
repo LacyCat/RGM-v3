@@ -645,12 +645,18 @@ namespace RGM.EventArgs
 
         public static void OnKicking(Exiled.Events.EventArgs.Player.KickingEventArgs ev)
         {
+            if (ev.Player.IsNPC)
+                return;
+
             foreach (var player in Player.List)
                 player.AddBroadcast(10, $"<size=20>{ev.Target.Nickname}(이)가 서버에서 <color=red>추방</color>되었습니다. (사유: {ev.Reason})</size>");
         }
 
         public static void OnBanning(Exiled.Events.EventArgs.Player.BanningEventArgs ev)
         {
+            if (ev.Player.IsNPC)
+                return;
+
             foreach (var player in Player.List)
                 player.AddBroadcast(10, $"<size=20>{ev.Target.Nickname}(이)가 서버에서 <color=red>차단</color>되었습니다. (사유: {ev.Reason})</size>");
         }

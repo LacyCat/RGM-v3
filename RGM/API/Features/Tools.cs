@@ -144,12 +144,15 @@ RP: {uc[1]}
                 UnityEngine.Object.Destroy(rtc);
         }
 
-        public static bool TryGetNearestPlayer(Player player, out Player nearestPlayer, out float radius)
+        public static bool TryGetNearestPlayer(Player player, out Player nearestPlayer, out float radius, List<Player> exceptPlayers = null)
         {
             nearestPlayer = null;
             radius = 99999;
 
-            foreach (var near in Player.List.Where(x => x.IsAlive && x != player))
+            if (exceptPlayers == null)
+                exceptPlayers = new List<Player>();
+
+            foreach (var near in Player.List.Where(x => x.IsAlive && x != player && !exceptPlayers.Contains(x)))
             {
                 float Distance = Vector3.Distance(near.Position, player.Position);
 
