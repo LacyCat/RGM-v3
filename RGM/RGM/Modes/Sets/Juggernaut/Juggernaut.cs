@@ -21,6 +21,7 @@ using RGM.API.Features;
 using RGM.API.DataBases;
 
 using static RGM.Variables.ServerManagers;
+using Exiled.Events.EventArgs.Server;
 
 namespace RGM.Modes
 {
@@ -44,6 +45,7 @@ namespace RGM.Modes
 
         public Player juggernaut;
         public List<Player> ScpAttackCooldown = new List<Player>();
+        public Dictionary<Player, float> PlayerDamages = new Dictionary<Player, float>();
 
         public override void OnEnabled()
         {
@@ -145,6 +147,25 @@ namespace RGM.Modes
             }
         }
 
+        public void OnRoundEnded(RoundEndedEventArgs ev)
+        {
+            var topDamages = PlayerDamages.OrderByDescending(x => x.Value).Take(5);
+            List<string> damageList = new List<string>();
+
+            foreach (var playerDamage in topDamages)
+            {
+                string playerName = playerDamage.Key.Nickname;
+                float damage = playerDamage.Value;
+                string damageInfo = $"{playerName} - {damage}";
+                damageList.Add(damageInfo);
+            }
+
+            foreach (var player in Player.List)
+            {
+                player.ShowHint($"<b>[ 저거너트 사살 기여도 순위 ]</b>\n{string.Join("\n", damageList)}", 20);
+            }
+        }
+
         public void OnSpawned(Exiled.Events.EventArgs.Player.SpawnedEventArgs ev)
         {
             Spawned(ev.Player);
@@ -195,6 +216,11 @@ namespace RGM.Modes
                     }
                     else if (ev.Attacker != juggernaut && ev.Player == juggernaut)
                     {
+                        if (!PlayerDamages.ContainsKey(ev.Attacker))
+                            PlayerDamages.Add(ev.Attacker, 0);
+
+                        PlayerDamages[ev.Attacker] += ev.DamageHandler.Damage;
+
                         List<RoleTypeId> Scps = new List<RoleTypeId>() 
                         { 
                             RoleTypeId.Scp173,
