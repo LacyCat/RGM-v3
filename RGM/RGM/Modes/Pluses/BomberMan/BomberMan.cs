@@ -49,7 +49,7 @@ namespace RGM.Modes
                         player.AddItem(ItemType.GrenadeHE);
                 }
 
-                yield return Timing.WaitForSeconds(1f);
+                yield return Timing.WaitForSeconds(5f);
             }
         }
 
