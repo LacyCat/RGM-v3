@@ -77,6 +77,8 @@ namespace RGM.EventArgs
 
             OnGround.Add(ev.Player, 5);
 
+            ev.Player.AddBroadcast(10, Notions.WelcomeMessage);
+
             if (Round.IsStarted)
             {
                 string Name = ModeList[CurrentMode].Name;
@@ -137,7 +139,6 @@ namespace RGM.EventArgs
                 ev.Player.Role.Set(Tools.GetRandomValue(SelectedRole()));
                 ev.Player.ClearInventory();
                 ev.Player.Position = GameObject.Find("LobbyStartPoint").transform.position;
-                ev.Player.AddBroadcast(10, Notions.WelcomeMessage);
 
                 ModeType iv(int num)
                 {

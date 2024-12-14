@@ -21,7 +21,7 @@ namespace RGM
 <size=25>{ModeDescription}</size> <size=20>({ModeInfo})</size>
 {CurrentSubMode}<size=15>콘솔(~ 또는 `)을 열고 자세한 설명을 확인해보세요.</size>
 """;
-        public static string WelcomeMessage { get; set; } = "<size=25><b>랜덤게임모드</b>에 오신 것을 환영합니다!</size>";
+        public static string WelcomeMessage { get; set; } = "<size=25><b>랜덤게임모드 (RGM)</b>에 오신 것을 환영합니다!</size>";
         public static string LobbyMessage { get; set; } =
 """
 <size=120><b>💾 ({Logo}) ⚔️</b></size>
