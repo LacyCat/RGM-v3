@@ -426,9 +426,10 @@ public class ABattle : Mode
 
                 ignoredIndexes.Add(index);
 
-                var ability = GetRandomAbilities(AbilityCategory.Epic, 1).First();
-
-                abilities[index] = ability;
+                for (int i = 0; i < 3; i++)
+                {
+                    abilities[i] = GetRandomAbilities(AbilityCategory.Epic, 1).First();
+                }
 
                 player.AddAbility(AbilityType.NONE_RARETRANSITIONSUCCESS);
             }
@@ -453,9 +454,10 @@ public class ABattle : Mode
 
                 ignoredIndexes.Add(index);
 
-                var ability = GetRandomAbilities(AbilityCategory.Legend, 1).First();
-
-                abilities[index] = ability;
+                for (int i = 0; i < 3; i++)
+                {
+                    abilities[i] = GetRandomAbilities(AbilityCategory.Legend, 1).First();
+                }
 
                 player.AddAbility(AbilityType.NONE_EPICTRANSITIONSUCCESS);
             }
@@ -480,9 +482,10 @@ public class ABattle : Mode
 
                 ignoredIndexes.Add(index);
 
-                var ability = GetRandomAbilities(AbilityCategory.Mythic, 1).First();
-
-                abilities[index] = ability;
+                for (int i = 0; i < 3; i++)
+                {
+                    abilities[i] = GetRandomAbilities(AbilityCategory.Mythic, 1).First();
+                }
 
                 player.AddAbility(AbilityType.NONE_LEGENDTRANSITIONSUCCESS);
             }
