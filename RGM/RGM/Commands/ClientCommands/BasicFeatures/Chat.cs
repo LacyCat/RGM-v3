@@ -93,14 +93,13 @@ namespace RGM.Commands.ClientCommands
                         if (chatType == "SCP 채팅")
                             return p.IsDead || p.IsScp;
 
-                        else if (chatType == "관전자 채팅")
+                        if (chatType == "관전자 채팅")
                             return p.IsDead;
 
-                        else if (chatType == "근거리 채팅")
+                        if (chatType == "근거리 채팅")
                             return p.IsDead || Vector3.Distance(p.Position, player.Position) <= 10;
 
-                        else
-                            return false;
+                        return false;
                     }
 
                     foreach (Player ply in Player.List)
