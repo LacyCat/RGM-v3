@@ -89,7 +89,8 @@ namespace RGM.EventArgs
                 .Replace("{ModeColor}", Color)
                 .Replace("{CurrentMode}", Name)
                 .Replace("{CurrentSubMode}", CurrentSubMode != ModeType.None ? $"<size=20>추가된 서브 모드 : <color=#{ModeList[CurrentSubMode].Color}>{CurrentSubMode.GetModeData().Name}</color></size>\n" : "")
-                .Replace("{ModeDescription}", Description);
+                .Replace("{ModeDescription}", Description)
+                .Replace("{ModeInfo}", CurrentMode.GetModeData().Info.ToString());
 
                 ev.Player.AddBroadcast(10, Message);
 
