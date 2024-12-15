@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Exiled.API.Features;
 using MEC;
+using RGM.API.Features;
 
 namespace RGM.Modes
 {
@@ -48,25 +49,9 @@ namespace RGM.Modes
 
         public void Spawned(Player player)
         {
-            List<ItemType> ScpItemList = new List<ItemType>()
-            {
-                ItemType.SCP018,
-                ItemType.SCP268,
-                ItemType.SCP207,
-                ItemType.SCP500,
-                ItemType.SCP1576,
-                ItemType.SCP1853,
-                ItemType.SCP2176,
-                ItemType.SCP244a,
-                ItemType.SCP244b,
-                ItemType.SCP330,
-                ItemType.AntiSCP207
-            };
-
-
             for (int i=1; i<4; i++)
             {
-                Item CurrentItem = player.AddItem(ScpItemList[UnityEngine.Random.Range(0, ScpItemList.Count())]);
+                Item CurrentItem = player.AddItem(Tools.GetRandomValue(Tools.EnumToList<ItemType>().Where(x => x.ToString().Contains("SCP")).ToList()));
             }
         }
     }
