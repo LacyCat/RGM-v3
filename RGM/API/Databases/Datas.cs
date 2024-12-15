@@ -85,7 +85,8 @@ namespace RGM.API.DataBases
         {
             DamageType.Warhead,
             DamageType.Crushed,
-            DamageType.PocketDimension
+            DamageType.PocketDimension,
+            DamageType.Falldown
         };
 
         public static List<RoleTypeId> AIRoles = new List<RoleTypeId>()
