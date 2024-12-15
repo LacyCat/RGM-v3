@@ -613,14 +613,17 @@ namespace RGM.EventArgs
 
         public static void OnItemAdded(Exiled.Events.EventArgs.Player.ItemAddedEventArgs ev)
         {
-            if (ev.Player.IsScp && CurrentMode != ModeType.SoulMate)
+            if (ev.Player.IsScp)
             {
                 if (!ev.Item.IsAmmo)
                 {
                     ev.Player.CurrentItem = ev.Item;
 
-                    foreach (var item in ev.Player.Items.Where(x => x != ev.Item))
-                        ev.Player.DropItem(item);
+                    if (IsDropScpItemAllowed)
+                    {
+                        foreach (var item in ev.Player.Items.Where(x => x != ev.Item))
+                            ev.Player.DropItem(item);
+                    }
                 }
             }
         }
