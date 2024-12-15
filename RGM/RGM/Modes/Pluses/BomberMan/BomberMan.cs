@@ -25,8 +25,8 @@ namespace RGM.Modes
 """
 <b>수류탄 지급 규칙</b>
 
-1초마다 수류탄이 없다면 지급됩니다.
-<color=red>SCP-079</color>의 경우에는 2초마다 핑을 통해 폭탄을 투하할 수 있습니다.
+7초마다 수류탄이 없다면 지급됩니다.
+<color=red>SCP-079</color>의 경우에는 핑을 통해 폭탄을 투하할 수 있습니다. (쿨타임 5초)
 """;
         public override string Color => "FF8000";
 
@@ -55,7 +55,7 @@ namespace RGM.Modes
                         player.AddItem(ItemType.GrenadeHE);
                 }
 
-                yield return Timing.WaitForSeconds(5f);
+                yield return Timing.WaitForSeconds(7f);
             }
         }
 
@@ -95,7 +95,7 @@ namespace RGM.Modes
 
                     _isScp079Cooldown = true;
 
-                    Timing.CallDelayed(2, () =>
+                    Timing.CallDelayed(5, () =>
                     {
                         _isScp079Cooldown = false;
                     });
