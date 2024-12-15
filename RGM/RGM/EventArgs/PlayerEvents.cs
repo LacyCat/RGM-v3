@@ -390,6 +390,12 @@ namespace RGM.EventArgs
             {
                 if (ev.Player.IsScp)
                 {
+                    if (ev.Player.Role.Type == RoleTypeId.Scp079)
+                    {
+                        ev.Player.MaxHealth = 12050;
+                        ev.Player.Health = ev.Player.MaxHealth;
+                    }
+
                     if (UnityEngine.Random.Range(1, 21) == 1 && !IsScp3114Enabled)
                     {
                         ev.Player.Role.Set(RoleTypeId.Scp3114);
@@ -449,12 +455,6 @@ namespace RGM.EventArgs
                         ev.Player.AddBroadcast(10, $"<color={ev.Player.Role.Color.ToHex()}>뒤집기(1%, 이스터에그)</color> 기믹이 적용되었습니다.");
                     }
                 }
-            }
-
-            if (ev.Player.Role.Type == RoleTypeId.Scp079)
-            {
-                ev.Player.MaxHealth = 12050;
-                ev.Player.Health = ev.Player.MaxHealth;
             }
 
             if (ev.Player.IsAlive && Round.IsStarted && 

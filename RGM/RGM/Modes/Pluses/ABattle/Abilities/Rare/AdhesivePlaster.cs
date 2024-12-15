@@ -35,9 +35,9 @@ public class AdhesivePlaster : Ability
             ev.Player.Health = ev.Player.MaxHealth;
 
             ev.Player.RemoveAbility(AbilityType.RARE_ADHESIVEPLASTER);
-        }
 
-        Owner.AddAbility(AbilityType.NONE_USEDADHESIVEPLASTER);
-        Owner.ShowHint($"<color={ABattle.RatingColor["희귀"]}>반창고</color> 효과 덕에 체력을 모두 회복했습니다.");
+            Owner.AddAbility(AbilityType.NONE_USEDADHESIVEPLASTER);
+            Owner.ShowHint($"<color={ABattle.RatingColor["희귀"]}>반창고</color> 효과 덕에 체력을 모두 회복했습니다.");
+        }
     }
 }
