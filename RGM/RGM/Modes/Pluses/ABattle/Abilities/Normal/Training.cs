@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Exiled.API.Enums;
 using Exiled.Events.EventArgs.Player;
+using PlayerRoles;
 using UnityEngine;
 
 namespace RGM.Modes.Abilities.Normal;
@@ -20,7 +21,7 @@ public class Training : Ability
 
     public void OnHurting(HurtingEventArgs ev)
     {
-        if (ev.Player != Owner)
+        if (ev.Attacker != Owner || ev.Attacker.Role.Type == RoleTypeId.Scp173)
             return;
 
         ev.DamageHandler.Damage += ev.DamageHandler.Damage * 0.2f;
