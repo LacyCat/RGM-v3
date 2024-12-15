@@ -72,6 +72,15 @@ namespace RGM.API.DataBases
             {"pumpkin", "#EE7600"}
         };
 
+        public static Dictionary<string, List<string>> KillEffectData = new Dictionary<string, List<string>>()
+        {
+            {"영혼 가출", new List<string>() {"<b><color=#B47474>영</color><color=#915E5F>혼</color> <color=#4D3335>가</color><color=#2B1E20>출</color></b>", "영혼 추출"}},
+            {"솔라 테라", new List<string>() {"<b><color=#FD2626>솔</color><color=#FD411E>라</color> <color=#FE770F>테</color><color=#FE9207>라</color></b>", "멜트다운"}},
+            {"Kerfus", new List<string>() {"<b><color=#6D8F97>K</color><color=#608294>e</color><color=#547592>r</color><color=#48698F>f</color><color=#3C5C8D>u</color><color=#304F8B>s</color></b>", "찌부"}},
+            {"은제 말뚝", new List<string>() {"<b><color=#1A996E>은</color><color=#2B916F>제</color> <color=#4F8271>말</color><color=#617A72>뚝</color></b>", "관.통"}},
+            {"KO 사인", new List<string>() {"<b><color=#D6A624>K</color><color=#DBB729>O</color> <color=#E6DB33>사</color><color=#ECED38>인</color></b>", "<b>넉 다 운</b>"}}
+        };
+
         public static List<DamageType> BlockDamageTypes = new List<DamageType>()
         {
             DamageType.Warhead,

@@ -349,5 +349,31 @@ RP: {uc[1]}
             if (Convener != null)
                 Convener.ShowHint($"<i>{SnakeHands.Count()}명의 <color=#FE2EF7>동료</color>들이 당신과 함께합니다..</i>", 5f);
         }
+
+        public static string ColorFormat(string cn)
+        {
+            if (ColorUtility.TryParseHtmlString(cn, out Color color))
+                return color.ToHex();
+
+            else
+            {
+                var cd = Datas.Colors;
+
+                if (cd.ContainsKey(cn))
+                    return cd[cn];
+
+                else
+                    return "#FFFFFF";
+            }
+        }
+
+        public static string BadgeFormat(Player player)
+        {
+            if (player.Group != null && !player.BadgeHidden)
+                return $"[<color={ColorFormat(player.Group.BadgeColor)}>{player.Group.BadgeText}</color>] ";
+
+            else
+                return "";
+        }
     }
 }
