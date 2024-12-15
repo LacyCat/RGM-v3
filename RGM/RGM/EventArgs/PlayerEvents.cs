@@ -30,7 +30,8 @@ namespace RGM.EventArgs
                     Death = 0,
                     Revive = 0,
                     KillScp = 0,
-                    KillHuman = 0
+                    KillHuman = 0,
+                    Damage = 0
                 });
             }
 
@@ -530,6 +531,11 @@ namespace RGM.EventArgs
                         GodModePlayers.Remove(ev.Player);
                         ev.Player.Kill(ev.DamageHandler);
                     }
+                }
+                else
+                {
+                    if (ev.IsAllowed)
+                        PlayersReport[ev.Attacker.UserId].Damage += ev.DamageHandler.Damage;
                 }
             }
         }
