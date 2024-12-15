@@ -41,38 +41,12 @@ namespace RGM.Commands.ClientCommands
             {
                 ChatCooldown.Add(player);
 
-                string ColorFormat(string cn)
-                {
-                    if (ColorUtility.TryParseHtmlString(cn, out Color color))
-                        return color.ToHex();
-
-                    else
-                    {
-                        var cd = Datas.Colors;
-
-                        if (cd.ContainsKey(cn))
-                            return cd[cn];
-
-                        else
-                            return "#FFFFFF";
-                    }
-                }
-
-                string BadgeFormat(Player player)
-                {
-                    if (player.Group != null && !player.BadgeHidden)
-                        return $"[<color={ColorFormat(player.Group.BadgeColor)}>{player.Group.BadgeText}</color>] ";
-
-                    else
-                        return "";
-                }
-
                 string ChatFormat(string chatType)
                 {
                     string text = Trans.Role[player.Role.Type];
                     string text2 = string.Concat(new string[]
                     {
-                        $"<size=25>{BadgeFormat(player)}<color={player.Role.Color.ToHex()}>",
+                        $"<size=25>{Tools.BadgeFormat(player)}<color={player.Role.Color.ToHex()}>",
                         text,
                         $"</color> ({player.DisplayNickname}) <b> | </b>",
                         string.Join(" ", arguments).Replace("=", "❤️"),
