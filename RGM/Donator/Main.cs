@@ -18,12 +18,21 @@ using MapEditorReborn.Commands.ModifyingCommands.Rotation;
 using RGM.API.Interfaces;
 
 using static RGM.Variables.ServerManagers;
+using MultiBroadcast.API;
+using RGM.API.DataBases;
 
 namespace RGM.Donator
 {
     public class Main
     {
         public static Main Instance;
+
+        public void OnEnabled()
+        {
+            Exiled.Events.Handlers.Player.Dying += OnDying;
+
+            Timing.RunCoroutine(CustomermizingRotation());
+        }
 
         public IEnumerator<float> KillEffect(List<string> PlayerData, Player Attacker, Player Player)
         {
@@ -81,23 +90,24 @@ namespace RGM.Donator
             }
         }
 
-        public void OnEnabled()
-        {
-            Exiled.Events.Handlers.Player.Dying += OnDying;
-
-            Timing.RunCoroutine(CustomermizingRotation());
-        }
-
-        public void OnDying(Exiled.Events.EventArgs.Player.DyingEventArgs ev)
+        public IEnumerator<float> OnDying(Exiled.Events.EventArgs.Player.DyingEventArgs ev)
         {
             if (ev.Attacker != null && UsersManager.UsersCache.ContainsKey(ev.Attacker.UserId))
             {
-                List<string> Attacker = UsersManager.UsersCache[ev.Attacker.UserId];
-                List<string> Player = UsersManager.UsersCache[ev.Attacker.UserId];
+                List<string> AttackerData = UsersManager.UsersCache[ev.Attacker.UserId];
 
-                if (Attacker[4] != "0")
-                    KillEffect(Attacker, ev.Attacker, ev.Player);
+                if (AttackerData[4] != "0")
+                {
+                    Timing.RunCoroutine(KillEffect(AttackerData, ev.Attacker, ev.Player));
+
+                    foreach (var _player in Player.List.Where(x => x.IsDead || x == ev.Attacker || x == ev.Player))
+                    {
+                        _player.AddBroadcast(6, $"<size=25>{Tools.BadgeFormat(ev.Attacker)}<color=#CEF6F5>{ev.Attacker.DisplayNickname}</color>(이)가 {Datas.KillEffectData[AttackerData[4]][0]}(으)로 {Tools.BadgeFormat(ev.Player)}<color=#CEF6F5>{ev.Player.DisplayNickname}</color>(을)를 {Datas.KillEffectData[AttackerData[4]][1]}시켰습니다!</size>");
+                    }
+                }
             }
+
+            yield break;
         }
 
         public IEnumerator<float> CustomermizingRotation()
