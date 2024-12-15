@@ -14,6 +14,8 @@ using Exiled.API.Enums;
 using RGM.API.Features;
 using Exiled.API.Extensions;
 
+using static RGM.Variables.ServerManagers;
+
 namespace RGM.Modes
 {
     [Mode(ModeCategory.Public, ModeInfo.Plus, ModeType.SoulMate)]
@@ -50,6 +52,8 @@ namespace RGM.Modes
 
         public IEnumerator<float> OnModeStarted()
         {
+            IsDropScpItemAllowed = false;
+
             while (true)
             {
                 foreach (var player in Player.List)
