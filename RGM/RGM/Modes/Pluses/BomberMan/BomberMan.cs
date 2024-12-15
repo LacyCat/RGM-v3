@@ -36,7 +36,7 @@ namespace RGM.Modes
 
         public override void OnEnabled()
         {
-            Exiled.Events.Handlers.Player.Spawned += OnSpawned;
+            Exiled.Events.Handlers.Player.ItemAdded += OnItemAdded;
             Exiled.Events.Handlers.Player.PickingUpItem += OnPickingUpItem;
             Exiled.Events.Handlers.Player.DroppingItem += OnDroppingItem;
 
@@ -59,16 +59,10 @@ namespace RGM.Modes
             }
         }
 
-        public void OnSpawned(SpawnedEventArgs ev)
+        public void OnItemAdded(ItemAddedEventArgs ev)
         {
-            Timing.CallDelayed(0.1f, () =>
-            {
-                foreach (var _item in ev.Player.Items)
-                {
-                    if (_item.IsWeapon)
-                        ev.Player.RemoveItem(_item);
-                }
-            });
+            if (ev.Item.IsWeapon)
+                ev.Player.RemoveItem(ev.Item);
         }
 
         public void OnPickingUpItem(PickingUpItemEventArgs ev)
