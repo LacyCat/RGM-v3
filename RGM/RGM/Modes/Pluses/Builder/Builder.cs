@@ -53,7 +53,6 @@ namespace RGM.Modes
         {
             Exiled.Events.Handlers.Player.Spawned += OnSpawned;
             Exiled.Events.Handlers.Player.Dying += OnDying;
-            Exiled.Events.Handlers.Player.Hurting += OnHurting;
             Exiled.Events.Handlers.Player.DroppingItem += OnDroppingItem;
             Exiled.Events.Handlers.Player.FlippingCoin += OnFlippingCoin;
             Exiled.Events.Handlers.Player.TogglingNoClip += OnTogglingNoClip;
@@ -120,17 +119,6 @@ namespace RGM.Modes
                     _tools.Remove(_item);
                     ev.Player.RemoveItem(_item);
                 }
-            }
-        }
-
-        public void OnHurting(HurtingEventArgs ev)
-        {
-            if (ev.Attacker == null || ev.Player == null || ev.Attacker.CurrentItem == null)
-                return;
-
-            if (_tools.Contains(ev.Attacker.CurrentItem))
-            {
-                ev.IsAllowed = false;
             }
         }
 
