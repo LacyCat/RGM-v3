@@ -73,7 +73,10 @@ SCP-079
 
         public void Spawned(Player player)
         {
-            player.ChangeAppearance(Tools.GetRandomValue(_roleList));
+            Timing.CallDelayed(0.1f, () =>
+            {
+                player.ChangeAppearance(Tools.GetRandomValue(_roleList));
+            });
         }
     }
 }
