@@ -17,11 +17,11 @@ public class Diver : Ability
 {
     public override void OnEnabled()
     {
-        Owner.GetEffect(EffectType.Invigorated).Intensity += 1;
+        Owner.EnableEffect(EffectType.Invigorated);
     }
 
     public override void OnDisabled()
     {
-        Owner.GetEffect(EffectType.Invigorated).Intensity -= 1;
+        Owner.DisableEffect(EffectType.Invigorated);
     }
 }
