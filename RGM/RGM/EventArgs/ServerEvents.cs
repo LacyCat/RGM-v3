@@ -175,13 +175,13 @@ namespace RGM.EventArgs
             yield return Timing.WaitForSeconds(300);
 
             AutoNuke = true;
-            Server.ExecuteCommand("/cassie_sl 시간이 너무 오래 걸립니다! 모두의 체력이 초당 1%씩 줄어듭니다!");
+            Server.ExecuteCommand("/cassie_sl 시간이 너무 오래 걸립니다! 모두의 체력이 초당 5%씩 줄어듭니다!");
 
             while (true)
             {
                 foreach (var player in Player.List)
                 {
-                    player.Health -= player.MaxHealth / 100;
+                    player.Health -= player.MaxHealth / 20;
 
                     if (player.Health <= 0 && player.IsAlive)
                         player.Kill("게임을 질질 끌어서 죽었습니다.");
