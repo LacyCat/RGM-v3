@@ -74,8 +74,6 @@ namespace RGM.Modes
 
         public IEnumerator<float> OnModeStarted()
         {
-            Server.ExecuteCommand($"/mp load bm");
-
             foreach (var player in Player.List)
             {
                 Verified(player);
@@ -131,14 +129,19 @@ namespace RGM.Modes
             });
         }
 
-        public void OnDying(DyingEventArgs ev)
+        public IEnumerator<float> OnDying(DyingEventArgs ev)
         {
-            foreach (var _item in ev.Player.Items)
+            yield return Timing.WaitForOneFrame;
+
+            if (ev.Player.IsDead)
             {
-                if (_tools.Contains(_item))
+                foreach (var _item in ev.Player.Items)
                 {
-                    _tools.Remove(_item);
-                    ev.Player.RemoveItem(_item);
+                    if (_tools.Contains(_item))
+                    {
+                        _tools.Remove(_item);
+                        ev.Player.RemoveItem(_item);
+                    }
                 }
             }
         }
@@ -162,14 +165,20 @@ namespace RGM.Modes
                 int objectIndex = stackValue >= _objects.Count ? _objects.Count - 1 : stackValue;
                 string selectedObject = _objects.ElementAt(objectIndex).Key;
 
-                SchematicObject _object = ObjectSpawner.SpawnSchematic(selectedObject, pos, ev.Player.Rotation, isStatic: true);
-
-                Timing.CallDelayed(180, () =>
-                {
-                    UnityEngine.Object.Destroy(_object.gameObject);
-                });
-
                 ev.Player.Hurt((int)_objects[selectedObject][1], "고된 노동이 목숨을 앗아갔습니다.");
+
+                Timing.CallDelayed(Timing.WaitForOneFrame, () =>
+                {
+                    if (!ev.Player.IsDead)
+                    {
+                        SchematicObject _object = ObjectSpawner.SpawnSchematic(selectedObject, pos, ev.Player.Rotation, isStatic: true);
+
+                        Timing.CallDelayed(180, () =>
+                        {
+                            UnityEngine.Object.Destroy(_object.gameObject);
+                        });
+                    }
+                });
 
                 _stacks[ev.Player] = 0;
             }
