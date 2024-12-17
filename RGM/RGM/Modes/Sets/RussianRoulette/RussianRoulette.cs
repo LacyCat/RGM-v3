@@ -157,6 +157,8 @@ namespace RGM.Modes
         {
             List<Player> Players = roundName == "예선전" ? TablePositions[key] : Finals;
 
+            int currentPlayerIndex = 0;
+
             while (Players.Count > 1)
             {
                 int trueIndex = UnityEngine.Random.Range(0, 6);
@@ -165,7 +167,6 @@ namespace RGM.Modes
                 Bullets[trueIndex] = true;
 
                 int Count = 0;
-                int currentPlayerIndex = 0;
                 Player Target = null;
 
                 foreach (var bullet in Bullets)
