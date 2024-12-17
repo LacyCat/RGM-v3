@@ -62,8 +62,12 @@ namespace RGM.Modes
 
         public void OnItemAdded(ItemAddedEventArgs ev)
         {
-            if (ev.Item.IsWeapon)
+            if (ev.Item is Firearm firearm)
+            {
                 ev.Player.RemoveItem(ev.Item);
+
+                firearm.Destroy();
+            }
         }
 
         public void OnPickingUpItem(PickingUpItemEventArgs ev)
