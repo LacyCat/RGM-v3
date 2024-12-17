@@ -163,15 +163,14 @@ namespace RGM.EventArgs
 @alvar_noah - 서버 소유자
 @mercedes83 - 총괄 관리자 (베테랑)
 @normal._.person - 정규 관리자 (베테랑)
-@bluefox2322 - 수습 관리자
-@0735_ - 수습 관리자
-@leejihyuk - 수습 관리자
+@bluefox2322 - 관리자 신입
+@0735_ - 관리자 신입
 
 <b><size=35><color=#C8FE2E>개발진</color></size></b>
 @GoldenPig1205 - 메인 개발자
 
 <b><size=35><color=#F79F81>후원자</color></size></b>
-<size=20>@dotory001, @milkyway_0119, @1__neeko__1, @yeeeee222, @tampast, @decoding_, @hs_bini</size>
+<size=20>@dotory001, @milkyway_0119, @1__neeko__1, @yeeeee222, @tampast, @decoding_, @hs_bini, @suabwy_1059</size>
 
 <b><size=35><color=#F8E0F7>도움 주신 분들</color></size><b>
 <size=20>@cocoa_1.19, @leejihyuk, @mujishungplay</size>
