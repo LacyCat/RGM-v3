@@ -165,34 +165,33 @@ namespace RGM.Modes
                 Bullets[trueIndex] = true;
 
                 int Count = 0;
-                Player Gunner = Players[0];
+                int currentPlayerIndex = 0;
                 Player Target = null;
 
                 foreach (var bullet in Bullets)
                 {
-                    Firearm Revolver = (Firearm)Gunner.AddItem(ItemType.GunRevolver);
+                    Firearm Revolver = (Firearm)Players[currentPlayerIndex].AddItem(ItemType.GunRevolver);
                     Revolver.Ammo = 1;
 
-                    Gunner.CurrentItem = Revolver;
-                    Gunner.ShowHint($"<size=25>당신의 차례입니다.\n다른 유저를 공격하거나, 자신을 공격함으로써 공격 기회를 한번 더 얻을 수 있습니다.</size>");
+                    Players[currentPlayerIndex].CurrentItem = Revolver;
+                    Players[currentPlayerIndex].ShowHint($"<size=25>당신의 차례입니다.\n다른 유저를 공격하거나, 자신을 공격함으로써 공격 기회를 한번 더 얻을 수 있습니다.</size>");
 
                     for (int i = 1; i < 11; i++)
                     {
                         foreach (var player in Players) player.AddBroadcast(1, $"{11 - i}");
 
-                        if (ShotChecks.ContainsKey(Gunner))
+                        if (ShotChecks.ContainsKey(Players[currentPlayerIndex]))
                         {
-                            Target = ShotChecks[Gunner];
-                            ShotChecks.Remove(Gunner);
+                            Target = ShotChecks[Players[currentPlayerIndex]];
+                            ShotChecks.Remove(Players[currentPlayerIndex]);
                             break;
                         }
 
                         yield return Timing.WaitForSeconds(1f);
                     }
 
-
                     Count++;
-                    Gunner.RemoveItem(Revolver);
+                    Players[currentPlayerIndex].RemoveItem(Revolver);
 
                     bool IsSelfShot = false;
                     bool IsRoundEnd = false;
@@ -226,17 +225,14 @@ namespace RGM.Modes
                         }
                     }
 
-                    IsRoundEnd = ShotEvent(Gunner, Target);
+                    IsRoundEnd = ShotEvent(Players[currentPlayerIndex], Target);
 
                     if (IsRoundEnd)
                         break;
 
                     if (!IsSelfShot)
                     {
-                        int currentIndex = Players.IndexOf(Gunner);
-                        int nextIndex = (currentIndex + 1) % Players.Count;
-
-                        Gunner = Players[nextIndex];
+                        currentPlayerIndex = (currentPlayerIndex + 1) % Players.Count;
                     }
                 }
             }
@@ -247,7 +243,7 @@ namespace RGM.Modes
 
                 foreach (var player in Player.List)
                     player.AddBroadcast(20, $"<size=25>🎉 축하합니다, <b><color=yellow>{Finals[0].DisplayNickname}</color></b>(이)가 <b><color=#{ModeType.RussianRoulette.GetModeData().Color}>러시안 룰렛</color></b>에서 우승하였습니다! 🎉</size>");
-                
+
                 Finals[0].DisableEffect(EffectType.Ensnared);
             }
             else
@@ -258,6 +254,7 @@ namespace RGM.Modes
 
             yield break;
         }
+
 
         public void OnShot(Exiled.Events.EventArgs.Player.ShotEventArgs ev)
         {
