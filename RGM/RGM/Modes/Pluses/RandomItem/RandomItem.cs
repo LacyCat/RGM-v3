@@ -11,6 +11,7 @@ using RGM.API.Features;
 using RGM.API.DataBases;
 using UnityEngine;
 using Exiled.API.Features.Items;
+using PlayerRoles;
 
 namespace RGM.Modes
 {
@@ -47,7 +48,7 @@ namespace RGM.Modes
 
             while (true)
             {
-                foreach (var player in Player.List.Where(x => x.IsAlive))
+                foreach (var player in Player.List.Where(x => x.IsAlive && x.Role.Type != RoleTypeId.Scp079))
                 {
                     Item Item = player.AddItem(Tools.GetRandomValue(ItemTypes));
 

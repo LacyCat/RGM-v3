@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Exiled.API.Features;
 using MEC;
 using RGM.API.Features;
+using PlayerRoles;
 
 namespace RGM.Modes
 {
@@ -34,7 +35,7 @@ namespace RGM.Modes
 
         public IEnumerator<float> OnModeStarted()
         {
-            foreach (var player in Player.List)
+            foreach (var player in Player.List.Where(x => x.IsAlive && x.Role.Type != RoleTypeId.Scp079))
             {
                 Spawned(player);
             }
@@ -49,10 +50,11 @@ namespace RGM.Modes
 
         public void Spawned(Player player)
         {
+            if (player.Role.Type == RoleTypeId.Scp079)
+                return;
+
             for (int i=1; i<4; i++)
-            {
-                Item CurrentItem = player.AddItem(Tools.GetRandomValue(Tools.EnumToList<ItemType>().Where(x => x.ToString().Contains("SCP")).ToList()));
-            }
+                player.AddItem(Tools.GetRandomValue(Tools.EnumToList<ItemType>().Where(x => x.ToString().Contains("SCP")).ToList()));
         }
     }
 }
