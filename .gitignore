@@ -402,6 +402,5 @@ FodyWeavers.xsd
 # RGM Project Files
 /RGM/bin
 /RGM/obj
-/RGM/Properties
 /RGM/packages
 /RGM/.vs
