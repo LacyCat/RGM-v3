@@ -197,6 +197,20 @@ namespace RGM.Modes
                     bool IsSelfShot = false;
                     bool IsRoundEnd = false;
 
+                    void SendAlert(string Message)
+                    {
+                        if (roundName == "결승전")
+                        {
+                            foreach (var player in Player.List)
+                                player.AddBroadcast(1, Message);
+                        }
+                        else
+                        {
+                            foreach (var player in Players) 
+                                player.AddBroadcast(1, Message);
+                        }
+                    }
+
                     bool ShotEvent(Player Attacker, Player Player)
                     {
                         if (bullet)
@@ -208,18 +222,17 @@ namespace RGM.Modes
                             if (Players.Contains(Player))
                                 Players.Remove(Player);
 
-                            foreach (var player in Players) player.AddBroadcast(1, $"<size=25>사살하는데 성공하였으므로 격발 기회를 한번 더 얻습니다.</size>");
-                            foreach (var player in Players) player.AddBroadcast(1, $"누군가가 사망하였습니다. ({6 - Count}/6)");
+                            SendAlert($"누군가가 사망하였습니다. ({6 - Count}/6)");
 
                             return true;
                         }
                         else
                         {
-                            foreach (var player in Players) player.AddBroadcast(1, $"아무 일도 일어나지 않았습니다. ({6 - Count}/6)");
+                            SendAlert("아무 일도 일어나지 않았습니다. ({6 - Count}/6)");
 
                             if (Player == null || Attacker == Player)
                             {
-                                foreach (var player in Players) player.AddBroadcast(1, $"<size=25>자신을 쏘고 살아남았으므로 격발 기회를 한번 더 얻습니다.</size>");
+                                SendAlert("<size=25>자신을 쏘고 살아남았으므로 격발 기회를 한번 더 얻습니다.</size>");
                                 IsSelfShot = true;
                             }
 
