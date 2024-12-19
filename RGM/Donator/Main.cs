@@ -57,7 +57,25 @@ namespace RGM.Donator
             {
                 SchematicObject Kerfus = ObjectSpawner.SpawnSchematic("Kerfusa", _pos + new Vector3(0, 19, 0), rot, isStatic: false);
 
-                Kerfus.GetComponent<PrimitiveObject>().Base.PrimitiveFlags = PrimitiveFlags.Visible;
+                List<PrimitiveObject> primitiveObjects = new List<PrimitiveObject>();
+
+                void applyPrimitiveFlags(Transform parentTransform)
+                {
+                    foreach (Transform childTransform in parentTransform)
+                    {
+                        PrimitiveObject primitiveObject = childTransform.GetComponent<PrimitiveObject>();
+
+                        if (primitiveObject != null)
+                        {
+                            primitiveObject.Base.PrimitiveFlags = PrimitiveFlags.Visible;
+                            primitiveObject.UpdateObject();
+                        }
+
+                        applyPrimitiveFlags(childTransform);
+                    }
+                }
+
+                applyPrimitiveFlags(Kerfus.transform);
 
                 for (int i = 1; i < 11; i++)
                 {
@@ -90,6 +108,13 @@ namespace RGM.Donator
                 SchematicObject KO = ObjectSpawner.SpawnSchematic("KO", _pos, rot, isStatic: false);
 
                 Timing.CallDelayed(1.5f, KO.Destroy);
+            }
+
+            if (PlayerData[4] == "크리스마스 트리")
+            {
+                SchematicObject XmasTree = ObjectSpawner.SpawnSchematic("XmasTree", new Vector3(_pos.x, _pos.y - 0.9f, _pos.z), rot, isStatic: false);
+
+                Timing.CallDelayed(1.9f, XmasTree.Destroy);
             }
         }
 
