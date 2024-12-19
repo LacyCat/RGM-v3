@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Exiled.API.Features;
 
 using static RGM.Variables.ServerManagers;
+using UnityEngine;
 
 namespace RGM.EventArgs
 {
@@ -20,7 +21,9 @@ namespace RGM.EventArgs
 
         public static void OnDetonating(Exiled.Events.EventArgs.Warhead.DetonatingEventArgs ev)
         {
-            foreach (var player in Player.List.Where(x => x.Zone != ZoneType.Surface || x.CurrentRoom.Type.ToString().Contains("Elevator")))
+            foreach (var player in Player.List.Where(x => x.Zone != ZoneType.Surface || 
+            Physics.RaycastAll(x.Position, Vector3.down, 5, (LayerMask)1).Any(hit => hit.transform.parent != null && hit.transform.parent.name == "ElevatorChamber Gates(Clone)")
+            ))
             {
                 if (GodModePlayers.Contains(player))
                     GodModePlayers.Remove(player);
