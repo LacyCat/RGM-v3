@@ -85,6 +85,8 @@ namespace RGM.EventArgs
 
             Server.ExecuteCommand($"/speak {string.Join(".", Player.List.Select(x => x.Id))}. 0");
 
+            MapEditorReborn.API.Features.ObjectSpawner.SpawnSchematic("glass", new Vector3(-39.88f, 990.92f, -36.14f), isStatic: false);
+
             if (CurrentMode == ModeType.None)
             {
                 try
