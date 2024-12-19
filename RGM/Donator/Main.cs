@@ -14,13 +14,13 @@ using MapEditorReborn.API.Features.Objects;
 using MEC;
 using UnityEngine;
 using Exiled.API.Features.Toys;
-using MapEditorReborn.Commands.ModifyingCommands.Rotation;
 using RGM.API.Interfaces;
 
 using static RGM.Variables.ServerManagers;
 using MultiBroadcast.API;
 using RGM.API.DataBases;
 using Exiled.API.Features.Roles;
+using AdminToys;
 
 namespace RGM.Donator
 {
@@ -37,25 +37,27 @@ namespace RGM.Donator
 
         public IEnumerator<float> KillEffect(List<string> PlayerData, Player Attacker, Player Player, Role _role, Vector3 _pos)
         {
-            Quaternion Rotation = new Quaternion(0, Attacker.CameraTransform.rotation.y + 180, 0, 0);
+            Quaternion rot = Attacker.Rotation;
 
             if (PlayerData[4] == "영혼 가출")
             {
                 DamageHandlerBase DisruptorDamage = new DisruptorDamageHandler(Attacker.Footprint, -1);
 
-                Ragdoll.CreateAndSpawn(_role.Type, PlayerData[4], DisruptorDamage, _pos, Rotation);
+                Ragdoll.CreateAndSpawn(_role.Type, PlayerData[4], DisruptorDamage, _pos, rot);
             }
 
             if (PlayerData[4] == "솔라 테라")
             {
-                SchematicObject SolarTerra = ObjectSpawner.SpawnSchematic("SolarTerra", _pos, Rotation, isStatic: false);
+                SchematicObject SolarTerra = ObjectSpawner.SpawnSchematic("SolarTerra", _pos, rot, isStatic: false);
 
                 Timing.CallDelayed(1.5f, SolarTerra.Destroy);
             }
 
             if (PlayerData[4] == "Kerfus")
             {
-                SchematicObject Kerfus = ObjectSpawner.SpawnSchematic("Kerfusa", _pos + new Vector3(0, 19, 0), Rotation, isStatic: false);
+                SchematicObject Kerfus = ObjectSpawner.SpawnSchematic("Kerfusa", _pos + new Vector3(0, 19, 0), rot, isStatic: false);
+
+                Kerfus.GetComponent<PrimitiveObject>().Base.PrimitiveFlags = PrimitiveFlags.Visible;
 
                 for (int i = 1; i < 11; i++)
                 {
@@ -78,14 +80,14 @@ namespace RGM.Donator
 
             if (PlayerData[4] == "은제 말뚝")
             {
-                SchematicObject SilverStake = ObjectSpawner.SpawnSchematic("SilverStake", _pos, Rotation, isStatic: false);
+                SchematicObject SilverStake = ObjectSpawner.SpawnSchematic("SilverStake", _pos, rot, isStatic: false);
 
                 Timing.CallDelayed(1.5f, SilverStake.Destroy);
             }
 
             if (PlayerData[4] == "KO 사인")
             {
-                SchematicObject KO = ObjectSpawner.SpawnSchematic("KO", _pos, Rotation, isStatic: false);
+                SchematicObject KO = ObjectSpawner.SpawnSchematic("KO", _pos, rot, isStatic: false);
 
                 Timing.CallDelayed(1.5f, KO.Destroy);
             }
