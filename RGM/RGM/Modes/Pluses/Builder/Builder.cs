@@ -116,6 +116,9 @@ namespace RGM.Modes
 
         public void Spawned(Player player)
         {
+            if (player.IsDead)
+                return;
+
             Timing.CallDelayed(1f, () =>
             {
                 if (!player.Items.Select(x => x.Type).Contains(ItemType.Coin))
@@ -159,22 +162,26 @@ namespace RGM.Modes
         
         public void OnFlippingCoin(FlippingCoinEventArgs ev)
         {
-            if (Tools.TryGetRaycastPoint(ev.Player, 3, out Vector3 pos))
+            if (_tools.Contains(ev.Player.CurrentItem) && Tools.TryGetRaycastPoint(ev.Player, 3, out Vector3 pos))
             {
                 int stackValue = _stacks.ContainsKey(ev.Player) ? _stacks[ev.Player] : 0;
                 int objectIndex = stackValue >= _objects.Count ? _objects.Count - 1 : stackValue;
                 string selectedObject = _objects.ElementAt(objectIndex).Key;
-
-                ev.Player.Hurt((int)_objects[selectedObject][1], "고된 노동이 목숨을 앗아갔습니다.");
+                bool _isinElevator = Physics.RaycastAll(ev.Player.Position, Vector3.down, 5, (LayerMask)1)
+                    .Any(hit => hit.transform.parent != null && hit.transform.parent.name == "ElevatorChamber Gates(Clone)")
+                    || Physics.RaycastAll(new Vector3(pos.x, pos.y + 0.1f, pos.z), Vector3.down, 5, (LayerMask)1)
+                        .Any(hit => hit.transform.parent != null && hit.transform.parent.name == "ElevatorChamber Gates(Clone)");
+                
+                if (!_isinElevator)
+                    ev.Player.Hurt((int)_objects[selectedObject][1], "고된 노동이 목숨을 앗아갔습니다.");
 
                 Timing.CallDelayed(Timing.WaitForOneFrame, () =>
                 {
                     if (!ev.Player.IsDead)
                     {
-                        if (ev.Player.CurrentRoom.Type.ToString().Contains("Elevator") || Room.Get(pos).Type.ToString().Contains("Elevator"))
-                        {
+                        if (_isinElevator)
                             ev.Player.ShowHint($"엘레베이터에는 엄폐물을 설치할 수 없습니다.", 1);
-                        }
+
                         else
                         {
                             SchematicObject _object = ObjectSpawner.SpawnSchematic(selectedObject, pos, ev.Player.Rotation, isStatic: true);
