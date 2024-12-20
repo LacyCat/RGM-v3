@@ -116,6 +116,13 @@ namespace RGM.Donator
 
                 Timing.CallDelayed(1.9f, XmasTree.Destroy);
             }
+
+            if (PlayerData[4] == "크리스마스 볼")
+            {
+                SchematicObject XmasTree = ObjectSpawner.SpawnSchematic("XmasBall", new Vector3(_pos.x, _pos.y - 0.9f, _pos.z), rot, isStatic: false);
+
+                Timing.CallDelayed(1.9f, XmasTree.Destroy);
+            }
         }
 
         public IEnumerator<float> OnDying(Exiled.Events.EventArgs.Player.DyingEventArgs ev)
