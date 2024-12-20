@@ -87,8 +87,7 @@ public class ABattle : Mode
         {"잔칫상", $"<color={RatingColor["희귀"]}>희귀</color> 이상 등급의 능력이 등장할 확률이 높아집니다."},
         {"1 + 1", "능력 선택창이 열리면 동일한 등급의 능력을 하나 지급받습니다."},
         {"스펙업", "능력을 획득하면 추가 최대 체력이 지급됩니다. (5%)"},
-        {"캐시 청소", "7분마다 모든 유저의 워크스테이션 획득 기록이 초기화됩니다."},
-        {"난장판", "7분마다 추가 모드가 교체됩니다. (난장판 제외)"}
+        {"캐시 청소", "7분마다 모든 유저의 워크스테이션 획득 기록이 초기화됩니다."}
     };
 
     public static string ColorFormat(string text)
@@ -189,9 +188,6 @@ public class ABattle : Mode
 
         if (CurrentExtraMode == "캐시 청소")
             Timing.RunCoroutine(ClearCache());
-
-        if (CurrentExtraMode == "난장판")
-            Timing.RunCoroutine(Mess());
     }
 
     private IEnumerator<float> OnModeStarted()
@@ -244,16 +240,6 @@ public class ABattle : Mode
         }
     }
 
-    private IEnumerator<float> Mess()
-    {
-        while (true)
-        {
-            CurrentExtraMode = PickExtraMode(new List<string>() { "난장판" });
-
-            yield return Timing.WaitForSeconds(420);
-        }
-    }
-
     private string FormatHint(Player player)
     {
         if (!PlayerAbilities.TryGetValue(player, out var ability))
@@ -281,12 +267,14 @@ public class ABattle : Mode
         return $"<align=left><b><size=25>보유 업그레이드</size></b>\n<size=20>{abilitiesText}</size></align>";
     }
 
-    public void ExtraModeNotion(Player player)
+    public void ExtraModeNotion(Player player, bool enableBroadcast = true)
     {
-        string extraMode = $"\n<size=25><b><color=#fecdcd>{CurrentExtraMode}</color></b></size>\n<size=20>{ExtraModes[CurrentExtraMode]}</size>";
+        string extraMode = $"<size=25><b><color=#fecdcd>{CurrentExtraMode}</color></b></size>\n<size=20>{ExtraModes[CurrentExtraMode]}</size>";
 
-        player.AddBroadcast(10, extraMode);
-        player.SendConsoleMessage(extraMode, "white");
+        if (enableBroadcast)
+            player.AddBroadcast(10, extraMode);
+
+        player.SendConsoleMessage("\n" + extraMode, "white");
     }
 
     // 플레이어에게 특정 능력을 부여
@@ -695,12 +683,6 @@ public class ABattle : Mode
         if (!Selections.ContainsKey(player))
         {
             response = "선택할 수 있는 능력이 없습니다.";
-            return false;
-        }
-
-        if (index is < 1 or > 3)
-        {
-            response = "1 ~ 3 사이의 숫자를 입력해주세요.";
             return false;
         }
 
