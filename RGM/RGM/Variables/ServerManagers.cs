@@ -40,7 +40,8 @@ namespace RGM.Variables
             {"Kerfus", "귀여운 로봇으로 도장을 찍어보세요."},
             {"은제 말뚝", "비수를 꽂는 것처럼 소름끼칩니다!"},
             {"KO 사인", "넉 다운! 상대를 쓰러트리세요!"},
-            {"크리스마스 트리", "축제를 돋보이게 하는 아담한 트리입니다."}
+            {"크리스마스 트리", "축제를 돋보이게 하는 아담한 트리입니다."},
+            {"크리스마스 볼", "축제의 연출을 돕는 스노우볼입니다."}
         };
         public static Dictionary<string, string> Customizations = new Dictionary<string, string>()
         {
