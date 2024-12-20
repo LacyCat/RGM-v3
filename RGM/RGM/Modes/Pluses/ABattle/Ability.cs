@@ -217,17 +217,18 @@ public static class PlayerExtensions
 
 public enum AbilityType
 {
-    // 더미 & 알 수 없음
     NONE,
-    NONE_EXPIREDINSURANCE, // [더미] 만료된 보험
-    NONE_DOPAMINERELEASED, // [더미] 방출된 도파민
-    NONE_USEDADHESIVEPLASTER, // [더미] 해진 반창고
-    NONE_RARETRANSITIONSUCCESS, // [더미] 하급 변이 성공
-    NONE_RARETRANSITIONFAILURE, // [더미] 하급 변이 실패
-    NONE_EPICTRANSITIONSUCCESS, // [더미] 변이 성공
-    NONE_EPICTRANSITIONFAILURE, // [더미] 변이 실패
-    NONE_LEGENDTRANSITIONSUCCESS, // [더미] 상급 변이 성공
-    NONE_LEGENDTRANSITIONFAILURE, // [더미] 상급 변이 실패
+
+    // 더미 //
+    DUMMY_EXPIREDINSURANCE, // [더미] 만료된 보험
+    DUMMY_DOPAMINERELEASED, // [더미] 방출된 도파민
+    DUMMY_USEDADHESIVEPLASTER, // [더미] 해진 반창고
+    DUMMY_RARETRANSITIONSUCCESS, // [더미] 하급 변이 성공
+    DUMMY_RARETRANSITIONFAILURE, // [더미] 하급 변이 실패
+    DUMMY_EPICTRANSITIONSUCCESS, // [더미] 변이 성공
+    DUMMY_EPICTRANSITIONFAILURE, // [더미] 변이 실패
+    DUMMY_LEGENDTRANSITIONSUCCESS, // [더미] 상급 변이 성공
+    DUMMY_LEGENDTRANSITIONFAILURE, // [더미] 상급 변이 실패
 
     // 일반 //
     NORMAL_WORKOUT, // [일반] 운동
@@ -393,6 +394,8 @@ public enum AbilityType
     SYNERGY_DRUID, // [시너지] 드루이드
     SYNERGY_SUICIDESQUAD, // [시너지] 수어사이드 스쿼드
     SYNERGY_ASSASSIN, // [시너지] 암살자
+    SYNERGY_LOSER, // [시너지] 패배자
+    SYNERGY_WINNER, // [시너지] 승리자
 }
 
 public static class AbilityTypeExtensions

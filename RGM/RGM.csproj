@@ -313,9 +313,11 @@
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Synergy\DuplicateFate.cs" />
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Synergy\FourMajorExercises.cs" />
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Synergy\Glory.cs" />
+    <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Synergy\Loser.cs" />
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Synergy\RandomCollection.cs" />
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Synergy\SuicideSquad.cs" />
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Synergy\SurvivalExpert.cs" />
+    <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Synergy\Winner.cs" />
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Unique\CHI\BagOfChaos.cs" />
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Unique\CHI\ChaosOfChaos.cs" />
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Unique\CHI\TouchOfChaos.cs" />
