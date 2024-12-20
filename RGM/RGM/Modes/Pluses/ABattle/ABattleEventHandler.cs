@@ -43,6 +43,8 @@ public class ABattleEventHandler(ABattle aBattle)
             aBattle.PlayerAbilities.Add(player, new List<Ability>());
             aBattle.IsSelecting.Add(player, false);
             aBattle.IsLifeUsed.Add(player, false);
+
+            aBattle.ExtraModeNotion(player);
         }
     }
 

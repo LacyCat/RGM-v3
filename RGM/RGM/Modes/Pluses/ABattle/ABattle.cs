@@ -37,8 +37,7 @@ public class ABattle : Mode
 • <color=#F7819F>전용</color> - 5% (능력 선택 옵션 독립)
 • <color=##DEEFED>시너지</color> - ???
 
-20% 확률로 피버 모드가 활성화됩니다.
-<b><i><color=#FF00EA>피</color><color=#EF00EB>버</color> <color=#CF00ED>모</color><color=#BF00EF>드</color></i></b> 활성화 시, 재단에 등장하는 워크스테이션의 수가 증가합니다.
+50% 확률로 추가 모드가 활성화됩니다.
 """;
     public override string Color => "00FFFF";
 
@@ -81,10 +80,11 @@ public class ABattle : Mode
         {"수저", "능력 선택창에서 등장하는 능력의 수가 최대 5개까지 늘어날 수 있습니다."},
         {"골드 전주곡", $"스폰 즉시 <color={RatingColor["영웅"]}>영웅</color> 등급의 능력을 얻습니다."},
         {"프리즘 전주곡", $"스폰 즉시 <color={RatingColor["영웅"]}>영웅</color> 등급의 능력을 얻습니다. 낮은 확률로 <color={RatingColor["전설"]}>전설</color>, <color={RatingColor["신화"]}>신화</color> 등급의 능력이 지급될 수 있습니다."},
-        {"잔칫상", $"<color={RatingColor["일반"]}>일반</color> 등급의 능력이 등장하지 않습니다. <color={RatingColor["영웅"]}>영웅</color> 이상 등급의 능력이 등장할 확률이 높아집니다."},
+        {"잔칫상", $"<color={RatingColor["희귀"]}>희귀</color> 이상 등급의 능력이 등장할 확률이 높아집니다."},
         {"1 + 1", "능력 선택창이 열리면 동일한 등급의 능력을 하나 지급받습니다."},
         {"스펙업", "능력을 획득하면 추가 최대 체력이 지급됩니다. (5%)"},
-        {"캐시 청소", "7분마다 모든 유저의 워크스테이션 획득 기록이 초기화됩니다."}
+        {"캐시 청소", "7분마다 모든 유저의 워크스테이션 획득 기록이 초기화됩니다."},
+        {"난장판", "7분마다 추가 모드가 교체됩니다. (난장판 제외)"}
     };
 
     public static string ColorFormat(string text)
@@ -98,11 +98,21 @@ public class ABattle : Mode
                     .Replace("[일반]", $"<color={RatingColor["일반"]}>[일반]</color>");
     }
     
-    public static string PickExtraMode()
+    public static string PickExtraMode(List<string> exceptModes = null)
     {
-        if (Random.Range(1, 4) == 1)
+        if (exceptModes == null)
         {
-            return Tools.GetRandomValue(ExtraModes.Keys.ToList());
+            exceptModes = new List<string>();
+        }    
+
+        if (Random.Range(1, 3) == 1)
+        {
+            string extraMode = Tools.GetRandomValue(ExtraModes.Keys.Where(x => !exceptModes.Contains(x)).ToList());
+
+            if (extraMode == "피버")
+                Server.ExecuteCommand("/mp load ABattle");
+
+            return extraMode;
         }   
         else
         {
@@ -110,7 +120,7 @@ public class ABattle : Mode
         }
     }
 
-    public string CurrentExtraMode;
+    public string CurrentExtraMode = PickExtraMode();
 
     // 플러그인에 있는 모든 능력 검색
     public override void OnEnabled()
@@ -163,29 +173,32 @@ public class ABattle : Mode
         QueryProcessor.DotCommandHandler.RegisterCommand(new SelectFirst());
         QueryProcessor.DotCommandHandler.RegisterCommand(new SelectSecond());
         QueryProcessor.DotCommandHandler.RegisterCommand(new SelectThird());
+        QueryProcessor.DotCommandHandler.RegisterCommand(new SelectFourth());
+        QueryProcessor.DotCommandHandler.RegisterCommand(new SelectFifth());
 
         CommandProcessor.RemoteAdminCommandHandler.RegisterCommand(new AddAbility());
+        CommandProcessor.RemoteAdminCommandHandler.RegisterCommand(new SetExtraMode());
 
         Timing.RunCoroutine(OnModeStarted());
         Timing.RunCoroutine(HintCoroutine());
 
         if (CurrentExtraMode == "캐시 청소")
             Timing.RunCoroutine(ClearCache());
+
+        if (CurrentExtraMode == "난장판")
+            Timing.RunCoroutine(Mess());
     }
 
     private IEnumerator<float> OnModeStarted()
     {
-        PickExtraMode();
-
-        if (CurrentExtraMode == "피버")
-            Server.ExecuteCommand("/mp load ABattle");
-
         foreach (var player in Player.List)
         {
             PlayerWorkstations.Add(player, new List<WorkstationController>());
             PlayerAbilities.Add(player, new List<Ability>());
             IsSelecting.Add(player, false);
             IsLifeUsed.Add(player, false);
+
+            ExtraModeNotion(player);
         }
 
         yield break;
@@ -216,12 +229,26 @@ public class ABattle : Mode
         while (true)
         {
             foreach (var player in PlayerWorkstations.Keys)
+            {
                 PlayerWorkstations[player].Clear();
+
+                player.AddBroadcast(10, $"<size=20><b>캐시 청소</size>가 완료되었습니다. 이전에 방문한 워크스테이션에서 능력을 다시 얻을 수 있습니다.</size>");
+            }
 
             yield return Timing.WaitForSeconds(420);
         }
     }
- 
+
+    private IEnumerator<float> Mess()
+    {
+        while (true)
+        {
+            CurrentExtraMode = PickExtraMode(new List<string>() { "난장판" });
+
+            yield return Timing.WaitForSeconds(420);
+        }
+    }
+
     private string FormatHint(Player player)
     {
         if (!PlayerAbilities.TryGetValue(player, out var ability))
@@ -247,6 +274,14 @@ public class ABattle : Mode
                 .ToList());
 
         return $"<align=left><b><size=25>보유 업그레이드</size></b>\n<size=20>{abilitiesText}</size></align>";
+    }
+
+    public void ExtraModeNotion(Player player)
+    {
+        string extraMode = $"\n<size=25><b><color=#fecdcd>{CurrentExtraMode}</color></b></size>\n<size=20>{ExtraModes[CurrentExtraMode]}</size>";
+
+        player.AddBroadcast(10, extraMode);
+        player.SendConsoleMessage(extraMode, "white");
     }
 
     // 플레이어에게 특정 능력을 부여
@@ -602,18 +637,6 @@ public class ABattle : Mode
         if (!Selections.ContainsKey(player))
             yield break;
 
-        if (abilities.All(x => x == abilities.First()))
-        {
-            player.AddAbility(AbilityType.SYNERGY_DUPLICATEFATE);
-
-            for (var i = 0; i < 3; i++)
-                player.AddAbility(abilities[i]);
-
-            Selections.Remove(player);
-
-            yield break;
-        }
-
         var random = Random.Range(0, 3);
 
         player.AddAbility(abilities[random]);
@@ -634,14 +657,16 @@ public class ABattle : Mode
         {
             switch (random)
             {
-                case <= 3:
+                case <= 2:
                     return AbilityCategory.Mythic;
-                case <= 15:
+                case <= 10:
                     return AbilityCategory.Legend;
-                case <= 165:
+                case <= 110:
                     return AbilityCategory.Epic;
-                default:
+                case <= 355:
                     return AbilityCategory.Rare;
+                default:
+                    return AbilityCategory.Common;
             }
         }
         
@@ -677,24 +702,6 @@ public class ABattle : Mode
         Log.Info("Select called with " + player.Nickname + " and " + index);
 
         AbilityType ability;
-        if (Selections[player].All(x => x == Selections[player].First()))
-        {
-            Log.Info("All abilities are the same");
-
-            ability = Selections[player].First();
-
-            for (var i = 0; i < 3; i++)
-            {
-                player.AddAbility(ability);
-            }
-
-            Selections.Remove(player);
-
-            player.ShowHint("", 0.1f);
-
-            response = $"{index}번 능력 선택 완료!";
-            return true;
-        }
 
         Log.Info("All abilities are not the same");
 
