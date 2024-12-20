@@ -12,15 +12,15 @@ using UnityEngine;
 
 namespace RGM.Modes.Abilities.Synergy;
 
-[RequiresAbility(AbilityType.NORMAL_WORKOUT, AbilityType.NORMAL_TRAINING, AbilityType.NORMAL_SWIFT, AbilityType.NORMAL_EVOLUTION)]
-[Ability("4대 운동", "<운동, 진화, 경공, 단련> 4대 운동을 모두 마쳤습니다! 능력을 하나 더 획득할 시간입니다.", AbilityCategory.Synergy, AbilityType.SYNERGY_FOURMAJOREXERCISES)]
-public class FourMajorExercises : Ability
+[RequiresAbility(AbilityType.DUMMY_LEGENDTRANSITIONFAILURE, AbilityType.DUMMY_EPICTRANSITIONFAILURE, AbilityType.DUMMY_RARETRANSITIONFAILURE)]
+[Ability("패배자", "<하급 변이 실패, 변이 실패, 상급 변이 실패> 음.. 이건 좀 안타깝네요.", AbilityCategory.Synergy, AbilityType.SYNERGY_LOSER)]
+public class Loser : Ability
 {
     public override void OnEnabled()
     {
         Timing.CallDelayed(Timing.WaitForOneFrame, () =>
         {
-            ABattle.Instance.StartSelect(Owner);
+            ABattle.Instance.StartSelect(Owner, ABattle.Instance.GetRandomAbilities(AbilityCategory.Legend, 1));
         });
     }
 

@@ -20,6 +20,7 @@ public class ABattleEventHandler(ABattle aBattle)
     internal void RegisterEvents()
     {
         Exiled.Events.Handlers.Player.Verified += OnVerified;
+        Exiled.Events.Handlers.Player.Spawned += OnSpawned;
         Exiled.Events.Handlers.Player.Jumping += OnJumping;
         Exiled.Events.Handlers.Player.Died += OnDied;
         Exiled.Events.Handlers.Player.Escaping += OnEscaping;
@@ -42,6 +43,47 @@ public class ABattleEventHandler(ABattle aBattle)
             aBattle.PlayerAbilities.Add(player, new List<Ability>());
             aBattle.IsSelecting.Add(player, false);
             aBattle.IsLifeUsed.Add(player, false);
+        }
+    }
+
+    public IEnumerator<float> OnSpawned(SpawnedEventArgs ev)
+    {
+        if (ev.Player.IsDead)
+            yield break;
+
+        yield return Timing.WaitForOneFrame;
+
+        if (aBattle.CurrentExtraMode == "골드 전주곡")
+        {
+            if (ev.Player.Role.Type == RoleTypeId.Scp079)
+                ev.Player.AddAbility(ABattle.Instance.GetRandomAbilities(AbilityCategory.Scp079, 1).First());
+
+            else
+                ev.Player.AddAbility(ABattle.Instance.GetRandomAbilities(AbilityCategory.Epic, 1).First());
+        }
+        else if (aBattle.CurrentExtraMode == "프리즘 전주곡")
+        {
+            if (ev.Player.Role.Type == RoleTypeId.Scp079)
+            {
+                for (int i = 0; i < Random.Range(1, 3); i++)
+                    ev.Player.AddAbility(ABattle.Instance.GetRandomAbilities(AbilityCategory.Scp079, 1).First());
+            }
+
+            else
+            {
+                AbilityCategory getRandom()
+                {
+                    if (Random.Range(1, 11) == 1)
+                        return AbilityCategory.Mythic;
+
+                    if (Random.Range(1, 11) == 1)
+                        return AbilityCategory.Legend;
+
+                    return AbilityCategory.Epic;
+                }
+
+                ev.Player.AddAbility(ABattle.Instance.GetRandomAbilities(getRandom(), 1).First());
+            }
         }
     }
 
