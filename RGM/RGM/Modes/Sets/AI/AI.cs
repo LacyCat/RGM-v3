@@ -29,7 +29,7 @@ namespace RGM.Modes
     class AI : Mode
     {
         public override string Name => "섬뜩한 힘";
-        public override string Description => "SCP들이 전부 A.I.로 대체되고 데미지를 5%만 받습니다. (최대 4개체)";
+        public override string Description => "SCP들이 전부 A.I.로 대체되고 데미지를 20%만 받습니다. (4개체)";
         public override string Detail =>
 """
 <b>[A.I. 리스트]</b>
