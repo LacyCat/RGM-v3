@@ -39,7 +39,7 @@ namespace RGM.Modes
 
         public void OnHurt(Exiled.Events.EventArgs.Player.HurtEventArgs ev)
         {
-            if (ev.Attacker != null && !ev.DamageHandler.IsFriendlyFire && ev.Player != ev.Attacker)
+            if (ev.Attacker != null && HitboxIdentity.IsEnemy(ev.Attacker.ReferenceHub, ev.Player.ReferenceHub) && ev.Player != ev.Attacker)
             {
                 int GetPercent()
                 {
