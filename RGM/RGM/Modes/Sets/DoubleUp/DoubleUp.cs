@@ -18,23 +18,23 @@ namespace RGM.Modes
     class DoubleUp : Mode
     {
         public override string Name => "더블업";
-        public override string Description => "모드 2개가 동시에 적용됩니다. <size=20>(모드셋은 최대 하나까지만 적용됩니다.)</size>";
+        public override string Description => "모드 2개가 동시에 적용됩니다. <size=20>(Set은 최대 하나까지만 적용됩니다.)</size>";
         public override string Detail =>
 """
-<b>모드셋은 모드에이드와 상반되는 모드 종류입니다.</b>
+<b>Set은 Plus와 상반되는 모드 종류입니다.</b>
 
-모드셋 - 기존 SCP:SL의 게임 방식의 궤가 크게 달라짐. (ex. 나는 누구?, 스플리프)
-모드에이드 - 기존 SCP:SL의 게임 방식에 새로운 요소를 더함. (ex. 도박, 존 윅)
-서브모드 - 서브로만 등장하는 모드입니다. (ex. 한국인이 좋아하는 속도, 시베리아)
+Set - 기존 SCP:SL의 게임 방식의 궤가 크게 달라짐. (ex. 나는 누구?, 스플리프)
+Plus - 기존 SCP:SL의 게임 방식에 새로운 요소를 더함. (ex. 도박, 존 윅)
+Plus(Sub) - 서브로만 등장하는 모드입니다. (ex. 한국인이 좋아하는 속도, 시베리아)
 
 <i>* 서브 모드는 하나만 적용될 경우 게임의 재미가 떨어질 수도 있는 모드 집합입니다.</i>
 
 모드 조합은 다음과 같이 등장할 수 있습니다.
-- [모드셋, 모드에이드]
-- [모드에이드, 모드에이드]
-- [모드셋, 서브모드]
-- [모드에이드, 서브모드]
-- [서브모드, 서브모드]
+- [Set, Plus]
+- [Plus, Plus]
+- [Set, Plus(Sub)]
+- [Plus, Plus(Sub)]
+- [Plus(Sub), Plus(Sub)]
 """;
         public override string Color => "5882FA";
 
