@@ -52,7 +52,7 @@ public class WarGod : Ability
             {
                 LightWarrierCooldown = 3;
 
-                if (ev.Attacker.LeadingTeam != ev.Player.LeadingTeam)
+                if (HitboxIdentity.IsEnemy(ev.Attacker.ReferenceHub, ev.Player.ReferenceHub) && ev.Attacker != ev.Player)
                 {
                     if (ev.Attacker.CurrentItem is Jailbird jailbird)
                         jailbird.TotalCharges = 0;
