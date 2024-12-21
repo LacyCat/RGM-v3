@@ -152,6 +152,7 @@ namespace RGM.EventArgs
                 Tools.CallSnakeHand(null, Player.List.Where(x => x.Role == RoleTypeId.FacilityGuard).ToList());
 
             DiscordInteraction.Discord.Webhook.Send($"시작된 모드 : {CurrentMode.GetModeData().Name}");
+            Log.Info($"시작된 모드 : {CurrentMode.GetModeData().Name}");
 
             yield return Timing.WaitForSeconds(20 * 60);
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
+using DiscordInteraction.Discord;
 using Exiled.API.Enums;
 using Exiled.API.Extensions;
 using Exiled.API.Features;
@@ -45,15 +46,15 @@ public class ABattle : Mode
 """;
     public override string Color => "00FFFF";
 
-    public static ABattle Instance { get; set; }
+    public static ABattle Instance;
 
-    public Dictionary<Player, List<WorkstationController>> PlayerWorkstations { get; set; }
-    public Dictionary<AbilityType, AbilityData> Abilities { get; set; }
-    public Dictionary<AbilityType, List<AbilityType>> SynergyAbilities;
-    public Dictionary<Player, List<Ability>> PlayerAbilities;
-    public Dictionary<Player, List<AbilityType>> Selections;
-    public Dictionary<Player, bool> IsSelecting;
-    public Dictionary<Player, bool> IsLifeUsed;
+    public Dictionary<Player, List<WorkstationController>> PlayerWorkstations = new Dictionary<Player, List<WorkstationController>>();
+    public Dictionary<AbilityType, AbilityData> Abilities = new Dictionary<AbilityType, AbilityData>();
+    public Dictionary<AbilityType, List<AbilityType>> SynergyAbilities = new Dictionary<AbilityType, List<AbilityType>>();
+    public Dictionary<Player, List<Ability>> PlayerAbilities = new Dictionary<Player, List<Ability>>();
+    public Dictionary<Player, List<AbilityType>> Selections = new Dictionary<Player, List<AbilityType>>();
+    public Dictionary<Player, bool> IsSelecting = new Dictionary<Player, bool>();
+    public Dictionary<Player, bool> IsLifeUsed = new Dictionary<Player, bool>();
 
     private ABattleEventHandler _eventHandler;
 
@@ -101,22 +102,24 @@ public class ABattle : Mode
                     .Replace("[일반]", $"<color={RatingColor["일반"]}>[일반]</color>");
     }
     
-    public static string PickExtraMode(List<string> exceptModes = null)
+    public string PickExtraMode(List<string> exceptModes = null)
     {
         if (exceptModes == null)
         {
             exceptModes = new List<string>();
-        }    
+        }
 
         if (Random.Range(1, 3) == 1)
         {
             string extraMode = Tools.GetRandomValue(ExtraModes.Keys.Where(x => !exceptModes.Contains(x)).ToList());
+            Webhook.Send($"추가 모드: {extraMode}");
+            Log.Info($"추가 모드: {extraMode}");
 
             if (extraMode == "피버")
                 Server.ExecuteCommand("/mp load ABattle");
 
             if (extraMode == "캐시 청소")
-                Timing.RunCoroutine(ABattle.Instance.ClearCache());
+                Timing.RunCoroutine(Instance.ClearCache());
 
             return extraMode;
         }   
@@ -126,24 +129,17 @@ public class ABattle : Mode
         }
     }
 
-    public string CurrentExtraMode = PickExtraMode();
+    public string CurrentExtraMode;
 
     // 플러그인에 있는 모든 능력 검색
     public override void OnEnabled()
     {
         Instance = this;
 
+        CurrentExtraMode = PickExtraMode();
+
         _eventHandler = new ABattleEventHandler(this);
         _eventHandler.RegisterEvents();
-
-        PlayerAbilities = new Dictionary<Player, List<Ability>>();
-        SynergyAbilities = new Dictionary<AbilityType, List<AbilityType>>();
-        Selections = new Dictionary<Player, List<AbilityType>>();
-        IsSelecting = new Dictionary<Player, bool>();
-        IsLifeUsed = new Dictionary<Player, bool>();
-
-        Abilities = new Dictionary<AbilityType, AbilityData>();
-        PlayerWorkstations = new Dictionary<Player, List<WorkstationController>>();
 
         foreach (var type in Assembly.GetExecutingAssembly().GetTypes())
         {
@@ -192,14 +188,24 @@ public class ABattle : Mode
 
     private IEnumerator<float> OnModeStarted()
     {
+        yield return Timing.WaitForOneFrame;
+
         foreach (var player in Player.List)
         {
-            PlayerWorkstations.Add(player, new List<WorkstationController>());
-            PlayerAbilities.Add(player, new List<Ability>());
-            IsSelecting.Add(player, false);
-            IsLifeUsed.Add(player, false);
+            try
+            {
+                PlayerWorkstations.Add(player, new List<WorkstationController>());
+                PlayerAbilities.Add(player, new List<Ability>());
+                IsSelecting.Add(player, false);
+                IsLifeUsed.Add(player, false);
 
-            ExtraModeNotion(player);
+                ExtraModeNotion(player);
+                ABattleEventHandler.Instance.Spawned(player);
+            }
+            catch (Exception e)
+            {
+                Log.Error($"An error occurred while trying to add {player.Nickname} to the dictionary: {e}");
+            }
         }
 
         yield break;
