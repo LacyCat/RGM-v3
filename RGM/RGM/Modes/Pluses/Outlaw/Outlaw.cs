@@ -13,7 +13,7 @@ using Exiled.API.Extensions;
 
 namespace RGM.Modes
 {
-    [Mode(ModeCategory.Public, ModeInfo.Plus, ModeType.Outlaw)]
+    [Mode(ModeCategory.Private, ModeInfo.Plus, ModeType.Outlaw)]
     public class Outlaw : Mode
     {
         public override string Name => "무법자";
