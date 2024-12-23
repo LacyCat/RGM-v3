@@ -21,6 +21,9 @@ using MultiBroadcast.API;
 using RGM.API.DataBases;
 using Exiled.API.Features.Roles;
 using AdminToys;
+using InventorySystem.Items.Firearms.ShotEvents;
+using InventorySystem.Items.Firearms;
+using InventorySystem.Items;
 
 namespace RGM.Donator
 {
@@ -41,7 +44,7 @@ namespace RGM.Donator
 
             if (PlayerData[4] == "영혼 가출")
             {
-                DamageHandlerBase DisruptorDamage = new DisruptorDamageHandler(Attacker.Footprint, -1);
+                DamageHandlerBase DisruptorDamage = new DisruptorDamageHandler(new DisruptorShotEvent(ItemIdentifier.None, Attacker.Footprint, InventorySystem.Items.Firearms.Modules.DisruptorActionModule.FiringState.FiringSingle), Player.Position, -1);
 
                 Ragdoll.CreateAndSpawn(_role.Type, PlayerData[4], DisruptorDamage, _pos, rot);
             }
