@@ -25,6 +25,7 @@ namespace RGM.Variables
         public static bool IsBugVoteProcessing = false;
         public static bool IsUsersFileLoaded = false;
         public static bool IsDropScpItemAllowed = true;
+        public static bool IsWinnerSelected = false;
 
         public static Dictionary<ModeType, ModeData> ModeList = new Dictionary<ModeType, ModeData>();
         public static Dictionary<ModeType, List<Player>> ModeVote = new Dictionary<ModeType, List<Player>>();
