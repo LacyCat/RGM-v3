@@ -71,7 +71,7 @@ namespace RGM.Modes
 
             foreach (var player in Player.List.Where(x => !x.IsNPC).ToList())
             {
-                player.Role.Set(RoleTypeId.Scp3114);
+                player.Role.Set(RoleTypeId.ClassD);
                 player.Position = new Vector3(74.99881f, 1012.823f, -43.1801f);
 
                 Server.ExecuteCommand($"/speak {player.Id} 1");
@@ -86,7 +86,7 @@ namespace RGM.Modes
                 yield return Timing.WaitForSeconds(1f);
             }
 
-            Timing.RunCoroutine(gingerbreadHint());
+            // Timing.RunCoroutine(gingerbreadHint());
             Timing.RunCoroutine(DJHeadBanging());
             Timing.RunCoroutine(DJ());
             Timing.RunCoroutine(ShowPhase());
