@@ -34,7 +34,7 @@ using VoiceChat;
 
 namespace RGM.Modes
 {
-    [Mode(ModeCategory.Public, ModeInfo.Set, ModeType.Juggernaut)]
+    [Mode(ModeCategory.Private, ModeInfo.Set, ModeType.Juggernaut)]
     class Juggernaut : Mode
     {
         public override string Name => "저거너트";
@@ -167,7 +167,7 @@ namespace RGM.Modes
 
         public IEnumerator<float> ArmorAsync()
         {
-            SchematicObject Armor = ObjectSpawner.SpawnSchematic("JuggernautArmor", Vector3.zero, juggernaut.Rotation, new Vector3(1.2f, 1.1f, 1.2f), isStatic: false);
+            SchematicObject Armor = ObjectSpawner.SpawnSchematic("JuggernautArmor", Vector3.zero, juggernaut.Rotation, new Vector3(1.2f, 1.1f, 1.2f), null);
 
             while (juggernaut.IsAlive)
             {
