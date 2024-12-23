@@ -12,6 +12,7 @@ using UnityEngine;
 
 namespace RGM.Modes
 {
+    [Mode(ModeCategory.Public, ModeInfo.Plus, ModeType.RedLightGreenLight)]
     class RedLightGreenLight : Mode
     {
         public override string Name => "빨간 불, 초록 불";
