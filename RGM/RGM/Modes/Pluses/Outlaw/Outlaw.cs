@@ -9,6 +9,7 @@ using MEC;
 using RGM.API.Features;
 using PlayerRoles;
 using Exiled.API.Enums;
+using Exiled.API.Extensions;
 
 namespace RGM.Modes
 {
@@ -70,7 +71,7 @@ namespace RGM.Modes
                     ItemType.MicroHID
                 };
 
-                Item CurrentItem = player.AddItem(Tools.GetRandomValue(FirearmList));
+                Item CurrentItem = player.AddItem(Tools.GetRandomValue(Tools.EnumToList<ItemType>().Where(x => x.GetCategory() == ItemCategory.Firearm || x.GetCategory() == ItemCategory.SpecialWeapon).ToList()));
 
                 if (CurrentItem is Firearm firearm)
                 {
