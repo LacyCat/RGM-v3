@@ -51,14 +51,14 @@ namespace RGM.Donator
 
             if (PlayerData[4] == "솔라 테라")
             {
-                SchematicObject SolarTerra = ObjectSpawner.SpawnSchematic("SolarTerra", _pos, rot, isStatic: false);
+                SchematicObject SolarTerra = ObjectSpawner.SpawnSchematic("SolarTerra", _pos, rot, null, null);
 
                 Timing.CallDelayed(1.5f, SolarTerra.Destroy);
             }
 
             if (PlayerData[4] == "Kerfus")
             {
-                SchematicObject Kerfus = ObjectSpawner.SpawnSchematic("Kerfusa", _pos + new Vector3(0, 19, 0), rot, isStatic: false);
+                SchematicObject Kerfus = ObjectSpawner.SpawnSchematic("Kerfusa", _pos + new Vector3(0, 19, 0), rot, null, null);
 
                 List<PrimitiveObject> primitiveObjects = new List<PrimitiveObject>();
 
@@ -101,28 +101,28 @@ namespace RGM.Donator
 
             if (PlayerData[4] == "은제 말뚝")
             {
-                SchematicObject SilverStake = ObjectSpawner.SpawnSchematic("SilverStake", _pos, rot, isStatic: false);
+                SchematicObject SilverStake = ObjectSpawner.SpawnSchematic("SilverStake", _pos, rot, null, null);
 
                 Timing.CallDelayed(1.5f, SilverStake.Destroy);
             }
 
             if (PlayerData[4] == "KO 사인")
             {
-                SchematicObject KO = ObjectSpawner.SpawnSchematic("KO", _pos, rot, isStatic: false);
+                SchematicObject KO = ObjectSpawner.SpawnSchematic("KO", _pos, rot, null, null);
 
                 Timing.CallDelayed(1.5f, KO.Destroy);
             }
 
             if (PlayerData[4] == "크리스마스 트리")
             {
-                SchematicObject XmasTree = ObjectSpawner.SpawnSchematic("XmasTree", new Vector3(_pos.x, _pos.y - 0.9f, _pos.z), rot, isStatic: false);
+                SchematicObject XmasTree = ObjectSpawner.SpawnSchematic("XmasTree", new Vector3(_pos.x, _pos.y - 0.9f, _pos.z), rot, null, null);
 
                 Timing.CallDelayed(1.9f, XmasTree.Destroy);
             }
 
             if (PlayerData[4] == "크리스마스 볼")
             {
-                SchematicObject XmasTree = ObjectSpawner.SpawnSchematic("XmasBall", new Vector3(_pos.x, _pos.y - 0.9f, _pos.z), rot, isStatic: false);
+                SchematicObject XmasTree = ObjectSpawner.SpawnSchematic("XmasBall", new Vector3(_pos.x, _pos.y - 0.9f, _pos.z), rot, null, null);
 
                 Timing.CallDelayed(1.9f, XmasTree.Destroy);
             }
