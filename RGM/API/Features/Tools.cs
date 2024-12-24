@@ -101,26 +101,30 @@ namespace RGM.API.Features
 $"""
 
 
-<size=30><b>{player.Nickname}</b>님의 정보</size>
+<size=20><b>{player.Nickname}</b>님의 정보</size>
 
-SteamID: {player.UserId}
-Exp: {uc[0]}
-RP: {uc[1]}
-<i>Cash</i>: ₩{int.Parse(uc[2]).ToString("N0")}
+<size=15>SteamID: {player.UserId}</size>
+<size=15>Exp: {uc[0]}</size>
+<size=15>RP: {uc[1]}</size>
+<size=15><i>Cash</i>: ₩{int.Parse(uc[2]).ToString("N0")}</size>
 
-보유한 킬 이펙트: {GetJoinedInfo(3)}
-장착한 킬 이펙트: {(uc[4] == "0" ? "-" : uc[4])}
-<size=15>{(uc[4] == "0" ? "'.킬이펙트 <킬이펙트 이름>' 명령어를 사용하여 킬 이펙트를 장착할 수 있습니다." : KillEffects[uc[4]])}</size>
+<size=15>보유한 킬 이펙트: {GetJoinedInfo(3)}</size>
+<size=15>장착한 킬 이펙트: {(uc[4] == "0" ? "-" : uc[4])}</size>
+<size=10>{(uc[4] == "0" ? "'.킬이펙트 <킬이펙트 이름>' 명령어를 사용하여 킬 이펙트를 장착할 수 있습니다." : KillEffects[uc[4]])}</size>
 
-보유한 커스텀: {GetJoinedInfo(7)}
-커스텀 닉네임: {(uc[5] == "0" ? "-" : uc[5])}
-<size=15>{(uc[5] == "0" ? "'.닉네임 <텍스트>' 명령어를 사용하여 커스텀 닉네임을 설정할 수 있습니다." : $"미리 보기: {Tools.CustomFormatter(player, uc[5]).Replace("\n", "\\n")}")}</size>
-커스텀 인포: {(uc[6] == "0" ? "-" : uc[6])}
-<size=15>{(uc[6] == "0" ? "'.인포 <텍스트>' 명령어를 사용하여 커스텀 인포를 설정할 수 있습니다." : $"미리 보기: {Tools.CustomFormatter(player, uc[6]).Replace("\n", "\\n")}")}</size>
+<size=15>보유한 커스텀: {GetJoinedInfo(7)}</size>
+<size=15>커스텀 닉네임: {(uc[5] == "0" ? "-" : uc[5])}</size>
+<size=10>{(uc[5] == "0" ? "'.닉네임 <텍스트>' 명령어를 사용하여 커스텀 닉네임을 설정할 수 있습니다." : $"미리 보기: {Tools.CustomFormatter(player, uc[5]).Replace("\n", "\\n")}")}</size>
+<size=15>커스텀 인포: {(uc[6] == "0" ? "-" : uc[6])}</size>
+<size=10>{(uc[6] == "0" ? "'.인포 <텍스트>' 명령어를 사용하여 커스텀 인포를 설정할 수 있습니다." : $"미리 보기: {Tools.CustomFormatter(player, uc[6]).Replace("\n", "\\n")}")}</size>
 
-보유한 페인트: {GetJoinedInfo(8)}
-장착한 페인트: {(uc[9] == "0" ? "-" : uc[9])}
-<size=15>{(uc[9] == "0" ? "'.페인트 <페인트 이름>' 명령어를 사용하여 페인트를 장착할 수 있습니다." : Paints[uc[9]])}</size>
+<size=15>보유한 페인트: {GetJoinedInfo(8)}</size>
+<size=15>장착한 페인트: {(uc[9] == "0" ? "-" : uc[9])}</size>
+<size=10>{(uc[9] == "0" ? "'.페인트 <페인트 이름>' 명령어를 사용하여 페인트를 장착할 수 있습니다." : Paints[uc[9]])}</size>
+
+<size=15>보유한 칭호: {GetJoinedInfo(10)}</size>
+<size=15>장착한 칭호: {(uc[11] == "0" ? "-" : uc[11])}</size>
+<size=10>{(uc[11] == "0" ? "'.칭호 <칭호 이름>' 명령어를 사용하여 칭호를 장착할 수 있습니다." : Badges[uc[11]])}</size>
 """;
         }
 
@@ -132,7 +136,30 @@ RP: {uc[1]}
                 {
                     {"블랙골드", new string[] { "brown", "yellow" } },
                     {"핫핑크", new string[] { "magenta", "pink" } },
-                    {"레인보우", Datas.Colors.Keys.ToArray() }
+                    {"레인보우", Datas.Colors.Keys.ToArray() },
+                    {"분홍색", new string[] { "pink" } },
+                    {"빨간색", new string[] { "red" } },
+                    {"흰색", new string[] { "default" } },
+                    {"갈색", new string[] { "brown" } },
+                    {"은색", new string[] { "silver" } },
+                    {"밝은 녹색", new string[] { "light_green" } },
+                    {"진홍색", new string[] { "crimson" } },
+                    {"청록색", new string[] { "cyan" } },
+                    {"옥색", new string[] { "aqua" } },
+                    {"진한 분홍색", new string[] { "deep_pink" } },
+                    {"토마토색", new string[] { "tomato" } },
+                    {"노란색", new string[] { "yellow" } },
+                    {"짙은 홍색", new string[] { "magenta" } },
+                    {"푸른 녹색", new string[] { "blue_green" } },
+                    {"주황색", new string[] { "orange" } },
+                    {"라임색", new string[] { "lime" } },
+                    {"초록색", new string[] { "green" } },
+                    {"에메랄드색", new string[] { "emerald" } },
+                    {"카민색", new string[] { "carmine" } },
+                    {"니켈색", new string[] { "nickel" } },
+                    {"박하색", new string[] { "mint" } },
+                    {"군대 녹색", new string[] { "army_green" } },
+                    {"호박색", new string[] { "pumpkin" } }
                 };
 
                 TagController rtController = player.GameObject.AddComponent<TagController>();
@@ -145,6 +172,8 @@ RP: {uc[1]}
         {
             if (player.GameObject.TryGetComponent<TagController>(out TagController rtc))
                 UnityEngine.Object.Destroy(rtc);
+
+            player.RankColor = null;
         }
 
         public static IEnumerator<float> SetWinner(List<Player> playerList, int amount)

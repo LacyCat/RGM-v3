@@ -51,6 +51,7 @@ namespace RGM.EventArgs
 
                 try
                 {
+                    ev.Player.RankName = $"{(BadgeIcons.ContainsKey(uc[11]) ? $"{BadgeIcons[uc[11]]} " : "")}{(uc[11] != "0" ? uc[11] : "")}";
                     Tools.RemovePaint(ev.Player);
                     Tools.ChangePaint(ev.Player, uc[9]);
                 }
@@ -651,9 +652,11 @@ namespace RGM.EventArgs
 
         public static void OnChangingGroup(Exiled.Events.EventArgs.Player.ChangingGroupEventArgs ev)
         {
-            Timing.CallDelayed(0.1f, () =>
+            ulong permission = ev.Player.Group.Permissions;
+
+            Timing.CallDelayed(1, () =>
             {
-                ev.Player.Group.Permissions = ev.Player.Group.Permissions;
+                ev.Player.Group.Permissions = permission;
             });
         }
     }
