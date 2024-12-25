@@ -26,7 +26,7 @@ namespace RGM.Commands.RemoteAdminCommands
 
             if (arguments.Count < 2)
             {
-                response = "ake <player> <kill effect name>";
+                response = "킬이펙트추가 <player> <kill effect name>";
                 return false;
             }
             else if (KillEffects.ContainsKey(args))
@@ -69,7 +69,7 @@ namespace RGM.Commands.RemoteAdminCommands
 
         public string Command { get; } = "addkilleffect";
 
-        public string[] Aliases { get; } = { "ake", "킬이펙트" };
+        public string[] Aliases { get; } = { "킬이펙트추가" };
 
         public string Description { get; } = "특정 유저에게 킬 이펙트를 지급합니다.";
 
@@ -126,7 +126,7 @@ namespace RGM.Commands.RemoteAdminCommands
 
         public string Command { get; } = "removekilleffect";
 
-        public string[] Aliases { get; } = { "rke" };
+        public string[] Aliases { get; } = { "킬이펙트제거" };
 
         public string Description { get; } = "특정 유저가 보유한 킬 이펙트를 제거합니다.";
 

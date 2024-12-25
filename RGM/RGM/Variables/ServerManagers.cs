@@ -80,7 +80,8 @@ namespace RGM.Variables
         };
         public static Dictionary<string, string> Badges = new Dictionary<string, string>()
         {
-            {"호기심 많은 자", "상점에 칭호가 있어서 사봤어요!"}
+            {"호기심 많은 자", "상점에 칭호가 있어서 사봤어요!"},
+            {"Merry Christmas", "즐거운 크리스마스 보내세요."}
         };
         public static Dictionary<string, string> BadgeIcons = new Dictionary<string, string>()
         {

@@ -26,7 +26,7 @@ namespace RGM.Commands.RemoteAdminCommands
 
             if (arguments.Count < 2)
             {
-                response = "ap <player> <paint name>";
+                response = "페인트추가 <player> <paint name>";
                 return false;
             }
             else if (Paints.ContainsKey(args))
@@ -69,7 +69,7 @@ namespace RGM.Commands.RemoteAdminCommands
 
         public string Command { get; } = "addpaint";
 
-        public string[] Aliases { get; } = { "ap", "페인트" };
+        public string[] Aliases { get; } = { "페인트추가" };
 
         public string Description { get; } = "특정 유저에게 페인트를 지급합니다.";
 
@@ -126,7 +126,7 @@ namespace RGM.Commands.RemoteAdminCommands
 
         public string Command { get; } = "removepaint";
 
-        public string[] Aliases { get; } = { "rp" };
+        public string[] Aliases { get; } = { "페인트제거" };
 
         public string Description { get; } = "특정 유저가 보유한 페인트를 제거합니다.";
 
