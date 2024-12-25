@@ -26,7 +26,7 @@ namespace RGM.Commands.RemoteAdminCommands
 
             if (arguments.Count < 2)
             {
-                response = "acf <player> <custom feature name>";
+                response = "커스텀추가 <player> <custom feature name>";
                 return false;
             }
             else if (Customizations.ContainsKey(args))
@@ -69,7 +69,7 @@ namespace RGM.Commands.RemoteAdminCommands
 
         public string Command { get; } = "addcustomfeature";
 
-        public string[] Aliases { get; } = { "acf", "커스텀" };
+        public string[] Aliases { get; } = { "커스텀추가" };
 
         public string Description { get; } = "특정 유저에게 커스텀 기능을 지급합니다.";
 
@@ -125,7 +125,7 @@ namespace RGM.Commands.RemoteAdminCommands
 
         public string Command { get; } = "removecustomfeature";
 
-        public string[] Aliases { get; } = { "rcf" };
+        public string[] Aliases { get; } = { "커스텀제거" };
 
         public string Description { get; } = "특정 유저가 보유한 커스텀 기능을 제거합니다.";
 

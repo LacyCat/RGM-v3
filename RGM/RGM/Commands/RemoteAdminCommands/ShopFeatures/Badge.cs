@@ -26,7 +26,7 @@ namespace RGM.Commands.RemoteAdminCommands
 
             if (arguments.Count < 2)
             {
-                response = "ab <player> <badge name>";
+                response = "칭호추가 <player> <badge name>";
                 return false;
             }
             else if (Badges.ContainsKey(args))
@@ -69,7 +69,7 @@ namespace RGM.Commands.RemoteAdminCommands
 
         public string Command { get; } = "addbadge";
 
-        public string[] Aliases { get; } = { "ab", "칭호", "뱃지" };
+        public string[] Aliases { get; } = { "칭호추가" };
 
         public string Description { get; } = "특정 유저에게 칭호를 지급합니다.";
 
@@ -126,7 +126,7 @@ namespace RGM.Commands.RemoteAdminCommands
 
         public string Command { get; } = "removebadge";
 
-        public string[] Aliases { get; } = { "rb" };
+        public string[] Aliases { get; } = { "칭호제거" };
 
         public string Description { get; } = "특정 유저가 보유한 칭호를 제거합니다.";
 
