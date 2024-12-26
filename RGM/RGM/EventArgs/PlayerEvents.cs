@@ -55,6 +55,7 @@ namespace RGM.EventArgs
                     {
                         ev.Player.BadgeHidden = false;
                         ev.Player.RankName = null;
+                        ev.Player.GroupName = null;
                     }
 
                     ev.Player.RankName = $"{(BadgeIcons.ContainsKey(uc[11]) ? $"{BadgeIcons[uc[11]]} " : "")}{(uc[11] != "0" ? uc[11] : "")}";
