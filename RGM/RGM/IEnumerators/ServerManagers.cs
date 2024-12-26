@@ -40,7 +40,7 @@ namespace RGM.IEnumerators
         {
             while (true)
             {
-                yield return Timing.WaitForSeconds(UnityEngine.Random.Range(60 * 10, 60 * 20 + 1));
+                yield return Timing.WaitForSeconds(UnityEngine.Random.Range(60 * 5, 60 * 15 + 1));
 
                 TapeGift._canSpawn = true;
 
