@@ -53,24 +53,6 @@ namespace RGM.Modes
         {
             if (player.IsAlive && player.Role.Type != RoleTypeId.Scp079)
             {
-                List<ItemType> FirearmList = new List<ItemType>()
-                {
-                    ItemType.GunCOM15,
-                    ItemType.GunCOM18,
-                    ItemType.GunCom45,
-                    ItemType.GunFSP9,
-                    ItemType.GunE11SR,
-                    ItemType.GunFRMG0,
-                    ItemType.GunAK,
-                    ItemType.GunShotgun,
-                    ItemType.GunRevolver,
-                    ItemType.GunLogicer,
-                    ItemType.GunA7,
-                    ItemType.Jailbird,
-                    ItemType.ParticleDisruptor,
-                    ItemType.MicroHID
-                };
-
                 Item CurrentItem = player.AddItem(Tools.GetRandomValue(Tools.EnumToList<ItemType>().Where(x => x.GetCategory() == ItemCategory.Firearm || x.GetCategory() == ItemCategory.SpecialWeapon).ToList()));
 
                 if (CurrentItem is Firearm firearm)
