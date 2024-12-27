@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using Exiled.API.Enums;
 using Exiled.API.Features;
+using Exiled.API.Features.Core.StateMachine;
 using Exiled.API.Features.Items;
 using Exiled.Events.EventArgs.Player;
 using InventorySystem.Items.MicroHID;
+using InventorySystem.Items.MicroHID.Modules;
 using InventorySystem.Items.Usables.Scp330;
 using MEC;
 using RGM.API.Features;
@@ -13,7 +15,7 @@ using UnityEngine;
 
 namespace RGM.Modes.Abilities.Legend;
 
-// [Ability("화염 방사기", "위력은 33%로 낮아지지만, 상대를 불태우고 자동으로 충전되는 화염 방사기를 받습니다.", AbilityCategory.Legend, AbilityType.LEGEND_FLAMETHROWER)]
+[Ability("화염 방사기", "위력은 33%로 낮아지지만, 상대를 불태우고 자동으로 충전되는 화염 방사기를 받습니다.", AbilityCategory.Legend, AbilityType.LEGEND_FLAMETHROWER)]
 public class FlameThrower : Ability
 {
     ushort FlamethrowerSerial = 0;
@@ -76,15 +78,18 @@ public class FlameThrower : Ability
         if (ev.Player != Owner)
             return;
 
-        if (FlamethrowerSerial == ev.Player.CurrentItem.Serial)
-        {
-            MicroHid microHid = (MicroHid)ev.Player.CurrentItem;
+        MicroHidPhase oldPhase = ev.MicroHID.State;
 
-            /*
-            if (ev.OldState && ev.NewState == HidState.PoweringUp)
-                ev.NewState = HidState.Firing;
-            */
-        }
+        Timing.CallDelayed(Timing.WaitForOneFrame, () =>
+        {
+            if (FlamethrowerSerial == ev.Player.CurrentItem.Serial)
+            {
+                MicroHid microHid = (MicroHid)ev.Player.CurrentItem;
+
+                if (oldPhase == MicroHidPhase.Standby && ev.MicroHID.State == MicroHidPhase.WoundUpSustain)
+                    ev.MicroHID.State = MicroHidPhase.Firing;
+            }
+        });
     }
 
     public void OnHurting(HurtingEventArgs ev)

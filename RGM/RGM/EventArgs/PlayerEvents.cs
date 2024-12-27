@@ -15,6 +15,7 @@ using Exiled.API.Features;
 
 using static RGM.Variables.ServerManagers;
 using MEC;
+using Exiled.API.Features.Toys;
 
 namespace RGM.EventArgs
 {
