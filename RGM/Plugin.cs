@@ -35,7 +35,7 @@ namespace RGM
 
         public override string Name => "RGM";
         public override string Author => "GoldenPig1205";
-        public override Version Version { get; } = new(3, 9, 22);
+        public override Version Version { get; } = new(3, 9, 23);
         public override Version RequiredExiledVersion { get; } = new(1, 2, 0, 5);
 
         public override void OnEnabled()
@@ -77,6 +77,12 @@ namespace RGM
                     Log.Error($"Failed to create an instance of mode {type.Name}: {ex}");
                 }
             }
+
+            AudioClipStorage.LoadClip(GGUtils.Gtool.ConventToAudioPath("ChristmasRock"), "LobbyTheme");
+            AudioClipStorage.LoadClip(GGUtils.Gtool.ConventToAudioPath("LineLite"), "DeadLine");
+            AudioClipStorage.LoadClip(GGUtils.Gtool.ConventToAudioPath("tothemoon"), "GGClub");
+            AudioClipStorage.LoadClip(GGUtils.Gtool.ConventToAudioPath("Skeleton"), "HotPotato");
+            AudioClipStorage.LoadClip(GGUtils.Gtool.ConventToAudioPath("Initial_D_Dancing"), "TailCatcher");
 
             Exiled.Events.Handlers.Server.WaitingForPlayers += OnWaitingForPlayers;
             Exiled.Events.Handlers.Server.RoundStarted += OnRoundStarted;
