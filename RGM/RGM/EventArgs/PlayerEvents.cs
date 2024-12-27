@@ -673,17 +673,14 @@ namespace RGM.EventArgs
 
         public static void OnChangedEmotion(Exiled.Events.EventArgs.Player.ChangedEmotionEventArgs ev)
         {
-            if (ev.Player.IsDead || Round.IsLobby)
+            EmotionPresetType type = ev.EmotionPresetType;
+
+            if (type == EmotionPresetType.Neutral)
                 return;
 
             string emotion()
             {
-                EmotionPresetType type = ev.EmotionPresetType;
-
-                if (type == EmotionPresetType.Neutral)
-                    return "편안한 표정을 짓고 있습니다";
-
-                else if (type == EmotionPresetType.Happy)
+                if (type == EmotionPresetType.Happy)
                     return "행복한 표정을 짓고 있습니다";
 
                 else if (type == EmotionPresetType.AwkwardSmile)
