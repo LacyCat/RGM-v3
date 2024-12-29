@@ -34,6 +34,15 @@ namespace RGM.Variables
         public static Dictionary<string, PlayerInfo> PlayersInfo = new Dictionary<string, PlayerInfo>();
         public static Dictionary<string, PlayerReport> PlayersReport = new Dictionary<string, PlayerReport>();
         public static Dictionary<Door, int> InteractedDoors = new Dictionary<Door, int>();
+        public static Dictionary<string, string> AudioClips = new Dictionary<string, string>()
+        {
+            {"ChristmasRock", "LobbyTheme"},
+            {"LineLite", "DeadLine"},
+            {"tothemoon", "GGClub"},
+            {"Skeleton", "HotPotato"},
+            {"Initial_D_Dancing", "TailCatcher"},
+            {"JuggernautTheme", "Juggernaut"}
+        };
         public static Dictionary<string, string> KillEffects = new Dictionary<string, string>()
         {
             {"영혼 가출", "죽은 상대에게서 혼을 추출해냅니다!"},
@@ -102,6 +111,7 @@ namespace RGM.Variables
         public static List<Player> GodModePlayers = new List<Player>();
         public static List<Player> ChatCooldown = new List<Player>();
         public static List<Player> BugVotePlayers = new List<Player>();
+        public static List<Player> BugVoteUsers = new List<Player>();
 
         public static List<Transform> First;
         public static List<Transform> Second;
