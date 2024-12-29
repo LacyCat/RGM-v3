@@ -55,6 +55,7 @@ namespace RGM.Modes
         public Player dj;
         public List<Player> ScpAttackCooldown = new List<Player>();
         public Dictionary<Player, float> PlayerDamages = new Dictionary<Player, float>();
+        public Speaker speaker;
 
         public override void OnEnabled()
         {
@@ -101,7 +102,7 @@ namespace RGM.Modes
                 juggernaut.AddItem(Item);
 
             Timing.RunCoroutine(FindLocate());
-            Timing.RunCoroutine(ArmorAsync());
+            // Timing.RunCoroutine(ArmorAsync());
             Timing.RunCoroutine(MusicAsync());
 
             bool IsEnd = false;
@@ -181,51 +182,19 @@ namespace RGM.Modes
 
         public IEnumerator<float> MusicAsync()
         {
-            ReferenceHub hub = GGUtils.Gtool.Spawn(RoleTypeId.Tutorial, Vector3.zero);
-
-            Timing.CallDelayed(0.35f, delegate ()
+            AudioPlayer audioPlayer = AudioPlayer.CreateOrGet($"Global AudioPlayer", onIntialCreation: (p) =>
             {
-                hub.authManager.UserId = "ID_Dedicated";
-                try
-                {
-                    hub.authManager.NetworkSyncedUserId = "ID_Dedicated";
-                }
-                catch { }
-                hub.nicknameSync.DisplayName = "dj";
-                hub.characterClassManager.GodMode = true;
-                hub.transform.localScale = Vector3.one * -0.01f;
-                foreach (Player player in Player.List)
-                {
-                    Server.SendSpawnMessage.Invoke(null, new object[]
-                    {
-                    hub.netIdentity,
-                    player.Connection
-                    });
-                }
-                FirstPersonMovementModule fpcModule = (hub.roleManager.CurrentRole as FpcStandardRoleBase).FpcModule;
-                fpcModule.Position = hub.transform.position - Vector3.up * 0.1f;
-                fpcModule.Motor.ReceivedPosition = new RelativePosition(hub.transform.position - Vector3.up * 0.1f);
-                fpcModule.Noclip.IsActive = true;
+                speaker = p.AddSpeaker("Main", maxDistance: 10f);
             });
 
-            AudioPlayerBase audioPlayer = AudioPlayerBase.Get(hub);
+            audioPlayer.AddClip("Juggernaut");
 
-            audioPlayer.BroadcastChannel = VoiceChatChannel.Proximity;
-            audioPlayer.CurrentPlay = GGUtils.Gtool.ConventToAudioPath("JuggernautTheme");
-            audioPlayer.Volume = 10;
-            audioPlayer.Loop = true;
-            audioPlayer.Play(-1);
-
-            dj = Player.Get(hub);
-
-            while (juggernaut.IsAlive)
+            while (true)
             {
-                dj.Position = juggernaut.Position;
+                speaker.Position = juggernaut.Position;
 
                 yield return Timing.WaitForOneFrame;
             }
-
-            NetworkServer.Destroy(dj.ReferenceHub.gameObject);
         }
 
         public void OnRoundEnded(RoundEndedEventArgs ev)
