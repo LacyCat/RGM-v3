@@ -11,6 +11,7 @@ namespace RGM.API.DataBases
     {
         public static Dictionary<RoleTypeId, string> Role = new Dictionary<RoleTypeId, string>
         {
+            {RoleTypeId.None, "알 수 없음"},
             {RoleTypeId.Scp049, "SCP-049"},
             {RoleTypeId.Scp0492, "SCP-049-2"},
             {RoleTypeId.Scp079, "SCP-079"},
@@ -31,14 +32,17 @@ namespace RGM.API.DataBases
             {RoleTypeId.NtfSergeant, "구미호 병장"},
             {RoleTypeId.NtfSpecialist, "구미호 상등병"},
             {RoleTypeId.Spectator, "관전자"},
-            {RoleTypeId.None, "알 수 없음"},
             {RoleTypeId.Tutorial, "튜토리얼"},
             {RoleTypeId.Overwatch, "오버워치"},
             {RoleTypeId.Filmmaker, "필름메이커"},
+            {RoleTypeId.Flamingo, "플라밍고"},
+            {RoleTypeId.AlphaFlamingo, "알파 플라밍고"},
+            {RoleTypeId.ZombieFlamingo, "좀비 플라밍고"}
         };
 
         public static Dictionary<ItemType, string> Item { get; set; } = new Dictionary<ItemType, string>
         {
+            {ItemType.None, "알 수 없음"},
             {ItemType.GunA7, "A7"},
             {ItemType.GunAK, "AK"},
             {ItemType.GunCOM18, "COM-18"},
@@ -77,7 +81,7 @@ namespace RGM.API.DataBases
             {ItemType.KeycardResearchCoordinator, "연구 감독관 키카드"},
             {ItemType.KeycardScientist, "과학자 키카드"},
             {ItemType.KeycardZoneManager, "구역 관리자 키카드"},
-            {ItemType.Lantern, "고전 오일 랜턴"},
+            {ItemType.Lantern, "랜턴"},
             {ItemType.Medkit, "구급 상자"},
             {ItemType.MicroHID, "마이크로 H.I.D"},
             {ItemType.Painkillers, "진통제"},
@@ -94,7 +98,11 @@ namespace RGM.API.DataBases
             {ItemType.SCP330, "SCP-330"},
             {ItemType.SCP500, "SCP-500"},
             {ItemType.AntiSCP207, "SCP-207?"},
-            {ItemType.None, "알 수 없음"}
+            {ItemType.SCP1344, "SCP-1344"},
+            {ItemType.Snowball, "눈덩이"},
+            {ItemType.Coal, "석탄"},
+            {ItemType.SpecialCoal, "석탄?"},
+            {ItemType.SCP1507Tape, "카세트 플레이어?"}
         };
     }
 }
