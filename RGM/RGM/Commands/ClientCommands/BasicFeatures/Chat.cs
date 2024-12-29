@@ -65,7 +65,10 @@ namespace RGM.Commands.ClientCommands
                         }
 
                         if (chatType == "SCP 채팅")
-                            return p.IsDead || p.IsScp;
+                            return p.IsDead || p.IsScp || p.Role.Type == RoleTypeId.ZombieFlamingo;
+
+                        if (chatType == "플라밍고 채팅")
+                            return p.IsDead || new List<RoleTypeId>() { RoleTypeId.Flamingo, RoleTypeId.AlphaFlamingo }.Contains(p.Role.Type);
 
                         if (chatType == "관전자 채팅")
                             return p.IsDead;
@@ -93,9 +96,14 @@ namespace RGM.Commands.ClientCommands
                     return false;
                 }
 
-                if (player.IsScp)
+                if (player.IsScp || player.Role.Type == RoleTypeId.ZombieFlamingo)
                 {
                     response = ChatFormat("SCP 채팅");
+                    return true;
+                }
+                else if (new List<RoleTypeId>() { RoleTypeId.Flamingo, RoleTypeId.AlphaFlamingo }.Contains(player.Role.Type))
+                {
+                    response = ChatFormat("플라밍고 채팅");
                     return true;
                 }
                 else if (player.IsDead)
