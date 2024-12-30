@@ -21,9 +21,6 @@ public class TerroristRemains : Ability
         PinkCandy.RemoveAllCandy();
         PinkCandy.AddCandy(CandyKindID.Pink);
         Owner.AddItem(PinkCandy);
-
-        if (Owner.IsScp)
-            Server.ExecuteCommand($"/forceeq {Owner.Id} 42");
     }
 
     public override void OnDisabled()

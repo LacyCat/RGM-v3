@@ -22,9 +22,6 @@ public class Torch : Ability
         YellowCandy.RemoveAllCandy();
         YellowCandy.AddCandy(CandyKindID.Yellow);
         Owner.AddItem(YellowCandy);
-
-        if (Owner.IsScp)
-            Server.ExecuteCommand($"/forceeq {Owner.Id} 42");
     }
 
     public override void OnDisabled()

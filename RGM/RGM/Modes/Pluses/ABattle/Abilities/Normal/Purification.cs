@@ -20,9 +20,6 @@ public class Purification : Ability
         GreenCandy.RemoveAllCandy();
         GreenCandy.AddCandy(CandyKindID.Green);
         Owner.AddItem(GreenCandy);
-
-        if (Owner.IsScp)
-            Server.ExecuteCommand($"/forceeq {Owner.Id} 42");
     }
 
     public override void OnDisabled()
