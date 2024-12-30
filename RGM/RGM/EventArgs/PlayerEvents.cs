@@ -642,7 +642,7 @@ namespace RGM.EventArgs
 
                     if (IsDropScpItemAllowed)
                     {
-                        foreach (var item in ev.Player.Items.Where(x => x != ev.Item))
+                        foreach (var item in ev.Player.Items.Where(x => x != ev.Item).ToList())
                             ev.Player.DropItem(item);
                     }
                 }
