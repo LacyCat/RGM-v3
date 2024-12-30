@@ -182,19 +182,20 @@ namespace RGM.Modes
 
         public IEnumerator<float> MusicAsync()
         {
-            AudioPlayer audioPlayer = AudioPlayer.CreateOrGet($"Global AudioPlayer", onIntialCreation: (p) =>
+            AudioPlayer audioPlayer = AudioPlayer.CreateOrGet($"Player {juggernaut.DisplayNickname}", onIntialCreation: (p) =>
             {
-                speaker = p.AddSpeaker("Main", maxDistance: 10f);
+                p.transform.parent = juggernaut.GameObject.transform;
+
+                Speaker speaker = p.AddSpeaker("Main", isSpatial: true, minDistance: 5f, maxDistance: 15f);
+
+                speaker.transform.parent = juggernaut.GameObject.transform;
+
+                speaker.transform.localPosition = Vector3.zero;
             });
 
-            audioPlayer.AddClip("Juggernaut");
+            audioPlayer.AddClip("Juggernaut", loop: true);
 
-            while (true)
-            {
-                speaker.Position = juggernaut.Position;
-
-                yield return Timing.WaitForOneFrame;
-            }
+            yield return 0;
         }
 
         public void OnRoundEnded(RoundEndedEventArgs ev)
