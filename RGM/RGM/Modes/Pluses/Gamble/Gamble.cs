@@ -53,6 +53,9 @@ namespace RGM.Modes
 
         public void OnDroppingItem(DroppingItemEventArgs ev)
         {
+            if (ev.Player.IsScp || ev.Player.Role.Type.ToString().Contains("Flamingo"))
+                return;
+
             List<ItemType> ItemList = Tools.EnumToList<ItemType>();
             ItemType Item = Tools.GetRandomValue(ItemList);
 
