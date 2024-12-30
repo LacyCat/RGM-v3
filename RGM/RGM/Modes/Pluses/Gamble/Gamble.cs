@@ -45,11 +45,12 @@ namespace RGM.Modes
         
         public void OnSpawned(SpawnedEventArgs ev)
         {
-            if (ev.Player.IsHuman)
+            if (!(ev.Player.IsScp || ev.Player.Role.Type.ToString().Contains("Flamingo")))
                 return;
 
             ev.Player.ShowHint($"<size=20>[Space + ALT]ㅣ도박을 진행할 수 있습니다.</size>", 10);
         }
+
         public void OnDroppingItem(DroppingItemEventArgs ev)
         {
             List<ItemType> ItemList = Tools.EnumToList<ItemType>();
@@ -70,7 +71,7 @@ namespace RGM.Modes
 
         public void OnTogglingNoClip(TogglingNoClipEventArgs ev)
         {
-            if (ev.Player.IsHuman || !ev.Player.IsJumping)
+            if (!(ev.Player.IsScp || ev.Player.Role.Type.ToString().Contains("Flamingo")) || !ev.Player.IsJumping || ev.Player.GetEffect(EffectType.SeveredHands).IsEnabled)
                 return;
 
             int rand = UnityEngine.Random.Range(1, 101);
