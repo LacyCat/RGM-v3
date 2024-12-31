@@ -41,10 +41,12 @@ public class Scream : Ability
             {
                 RoaringSoundCooldown = 180;
 
-                string sn = $"{UnityEngine.Random.Range(-9999999.9f, 9999999.9f)}";
-                Player dj = Tools.SpawnDJ($"{ev.Player.Nickname}의 괴성", RoleTypeId.Spectator, Vector3.zero, sn);
+                AudioPlayer audioPlayer = AudioPlayer.CreateOrGet($"Global AudioPlayer", onIntialCreation: (p) =>
+                {
+                    Speaker speaker = p.AddSpeaker("Main", isSpatial: false, maxDistance: 5000f);
+                });
 
-                GGUtils.Gtool.PlaySound(sn, "GmanRoaringSound", VoiceChat.VoiceChatChannel.Intercom);
+                audioPlayer.AddClip("Scream");
 
                 foreach (var player in Player.List.Where(x => !x.IsNPC && x.LeadingTeam != ev.Player.LeadingTeam && x.IsAlive))
                 {
@@ -64,11 +66,6 @@ public class Scream : Ability
 
                     yield return Timing.WaitForSeconds(0.1f);
                 }
-
-                Timing.CallDelayed(5f, () =>
-                {
-                    NetworkServer.Destroy(dj.ReferenceHub.gameObject);
-                });
 
                 Timing.CallDelayed(100, () =>
                 {
