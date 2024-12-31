@@ -53,7 +53,7 @@ namespace RGM.Commands.RemoteAdminCommands
                     {
                         uc[10] += $"/{args}";
                         UsersManager.UsersCache[UserId] = uc;
-                        response = "Successfully add paint.";
+                        response = "Successfully add badge.";
 
                         UsersManager.SaveUsers();
                         return true;
