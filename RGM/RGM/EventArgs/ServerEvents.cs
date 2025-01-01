@@ -64,7 +64,7 @@ namespace RGM.EventArgs
             Timing.RunCoroutine(Ball());
             Timing.RunCoroutine(RenewalPlayersInfo());
 
-            int rn = UnityEngine.Random.Range(1, 11);
+            int rn = UnityEngine.Random.Range(1, 6);
 
             if (rn == 1)
             {
