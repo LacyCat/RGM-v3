@@ -63,6 +63,9 @@
     <Reference Include="0Harmony">
       <HintPath>C:\Users\GoldenPig1205\AppData\Roaming\EXILED\Plugins\dependencies\0Harmony.dll</HintPath>
     </Reference>
+    <Reference Include="AMERTAudioModule">
+      <HintPath>C:\Users\GoldenPig1205\AppData\Roaming\EXILED\Plugins\dependencies\AMERTAudioModule.dll</HintPath>
+    </Reference>
     <Reference Include="Assembly-CSharp-firstpass">
       <HintPath>..\..\..\SCPSL\SCPSL_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
     </Reference>
@@ -80,7 +83,7 @@
     <Reference Include="DiscordInteraction">
       <HintPath>..\..\DiscordInteraction\bin\Debug\DiscordInteraction.dll</HintPath>
     </Reference>
-    <Reference Include="Exiled.API, Version=8.14.0.0, Culture=neutral, processorArchitecture=AMD64">
+    <Reference Include="Exiled.API, Version=9.1.0.0, Culture=neutral, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Users\GoldenPig1205\AppData\Roaming\EXILED\Plugins\dependencies\Exiled.API.dll</HintPath>
     </Reference>
@@ -414,11 +417,12 @@
     <Compile Include="RGM\Modes\Pluses\RandomItem\RandomItem.cs" />
     <Compile Include="RGM\Modes\Pluses\RedLightGreenLight\RedLightGreenLight.cs" />
     <Compile Include="RGM\Modes\Pluses\RocketLauncher\RocketLauncher.cs" />
-    <Compile Include="RGM\Modes\Pluses\SCPRUSH\SCPRUSH.cs" />
+    <Compile Include="RGM\Modes\Sets\SCPRUSH\SCPRUSH.cs" />
     <Compile Include="RGM\Modes\Pluses\Siberia\Siberia.cs" />
     <Compile Include="RGM\Modes\Pluses\SoulMate\SoulMate.cs" />
     <Compile Include="RGM\Modes\Sets\Rescue05\Rescue05.cs" />
     <Compile Include="RGM\Modes\Sets\RussianRoulette\RussianRoulette.cs" />
+    <Compile Include="RGM\Modes\Sets\SnowBallFight\SnowBallFight.cs" />
     <Compile Include="RGM\Modes\Sets\SpeedRun\SpeedRun.cs" />
     <Compile Include="RGM\Modes\Pluses\Spirit\Spirit.cs" />
     <Compile Include="RGM\Modes\Sets\Spleef\Spleef.cs" />
@@ -448,5 +452,6 @@
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
