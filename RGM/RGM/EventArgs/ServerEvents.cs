@@ -60,7 +60,7 @@ namespace RGM.EventArgs
             Timing.RunCoroutine(GameStartButton());
             Timing.RunCoroutine(ModeResetButton());
             Timing.RunCoroutine(IsFallDown());
-            Timing.RunCoroutine(ChattingCooldown());
+            Timing.RunCoroutine(InputCooldown());
             Timing.RunCoroutine(Ball());
             Timing.RunCoroutine(RenewalPlayersInfo());
 
@@ -82,6 +82,8 @@ namespace RGM.EventArgs
             else if (rn == 4)
             {
                 SelectMode = "FightVote";
+
+                Server.FriendlyFire = true;
             }
             else
             {
@@ -98,6 +100,8 @@ namespace RGM.EventArgs
 
         public static IEnumerator<float> OnRoundStarted()
         {
+            Server.FriendlyFire = false;
+
             Server.ExecuteCommand("/mp unload RGMLobby");
             Server.ExecuteCommand($"/speak {string.Join(".", Player.List.Select(x => x.Id))}. 0");
 

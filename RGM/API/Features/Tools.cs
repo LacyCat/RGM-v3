@@ -21,6 +21,7 @@ using static RGM.Variables.ServerManagers;
 using RGM.API.Interfaces;
 using AdminToys;
 using MapEditorReborn.API.Features.Objects;
+using Exiled.API.Enums;
 
 namespace RGM.API.Features
 {
@@ -77,7 +78,10 @@ namespace RGM.API.Features
             player.Position = GameObject.Find("LobbyStartPoint").transform.position;
 
             if (SelectMode == "FightVote")
+            {
                 player.AddItem(ItemType.GunRevolver);
+                player.AddAmmo(AmmoType.Ammo44Cal, 1205);
+            }
         }
 
         public static List<Transform> GetObjectList(string Name)
