@@ -226,19 +226,19 @@ namespace RGM.EventArgs
                                     string FirstDesc()
                                     {
                                         if (SelectMode == "RandomSelect")
-                                            return "<b>[선택 모드 : 무작위]</b> <color=#F8E0E0>랜덤한 모드가 선택됩니다. 과연 어떤 모드가 걸릴까요?</color>";
+                                            return "<b>[선택 모드 : 무작위]</b> <color=#F6CECE>랜덤한 모드가 선택됩니다. 과연 어떤 모드가 걸릴까요?</color>";
 
                                         else if (SelectMode == "SimpleSelect")
-                                            return "<b>[선택 모드 : 롤토체스]</b> <color=#F5F6CE>투표한 유저 중에서 모드가 자동으로 결정됩니다.</color>";
+                                            return "<b>[선택 모드 : 롤토체스]</b> <color=#F5D0A9>투표한 유저 중에서 모드가 자동으로 결정됩니다.</color>";
 
                                         else if (SelectMode == "MostVote")
-                                            return "<b>[선택 모드 : 다수결]</b> <color=#E0F2F7>원하는 모드의 번호가 할당된 플랫폼을 밟아 투표하세요.</color>";
+                                            return "<b>[선택 모드 : 다수결]</b> <color=#E6E0F8>원하는 모드의 번호가 할당된 플랫폼을 밟아 투표하세요.</color>";
 
                                         else if (SelectMode == "SecretVote")
-                                            return "<b>[선택 모드 : 비밀 선거]</b> <color=#E1F5A9>누가 어떤 모드를 투표했는지 알 수 없습니다.</color>";
+                                            return "<b>[선택 모드 : 비밀 선거]</b> <color=#E6F8E0>누가 어떤 모드를 투표했는지 알 수 없습니다.</color>";
 
                                         else if (SelectMode == "FightVote")
-                                            return "<b>[선택 모드 : 공포 정치]</b> <color=#E1F5A9>누가 어떤 모드를 투표했는지 알 수 없습니다.</color>";
+                                            return "<b>[선택 모드 : 공포 정치]</b> <color=#FA5858>마음에 들지 않는 선택을 한 자를 쏴버리세요.</color>";
 
                                         else
                                             return "<b>[버그로 추정됨 : 문의 요망]</b> 어떤 선택 모드도 선택되지 않았습니다. 뭔가 이상합니다.";
@@ -539,21 +539,15 @@ namespace RGM.EventArgs
 
         public static void OnDying(DyingEventArgs ev)
         {
-            if (Round.IsLobby)
-                ev.Player.ClearInventory();
-
-            else
+            if (GodModePlayers.Contains(ev.Player))
             {
-                if (GodModePlayers.Contains(ev.Player))
-                {
-                    if (!Datas.BlockDamageTypes.Contains(ev.DamageHandler.Type))
-                        ev.IsAllowed = false;
+                if (!Datas.BlockDamageTypes.Contains(ev.DamageHandler.Type))
+                    ev.IsAllowed = false;
 
-                    else
-                    {
-                        GodModePlayers.Remove(ev.Player);
-                        ev.Player.Kill(ev.DamageHandler);
-                    }
+                else
+                {
+                    GodModePlayers.Remove(ev.Player);
+                    ev.Player.Kill(ev.DamageHandler);
                 }
             }
         }

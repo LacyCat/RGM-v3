@@ -64,7 +64,12 @@ namespace RGM.IEnumerators
                 yield return Timing.WaitForSeconds(0.1f);
             }
 
-            Player.List.ToList().ForEach(x => x.Role.Set(RoleTypeId.Spectator));
+            foreach (var player in Player.List)
+            {
+                player.ClearInventory();
+                player.Role.Set(RoleTypeId.Spectator);
+            }
+
             Round.Start();
 
             yield break;
