@@ -18,12 +18,13 @@ using MEC;
 using Exiled.API.Features.Toys;
 using PlayerRoles.FirstPersonControl.Thirdperson.Subcontrollers;
 using System.Runtime.Remoting.Messaging;
+using Exiled.Events.EventArgs.Player;
 
 namespace RGM.EventArgs
 {
     public static class PlayerEvents
     {
-        public static IEnumerator<float> OnVerified(Exiled.Events.EventArgs.Player.VerifiedEventArgs ev)
+        public static IEnumerator<float> OnVerified(VerifiedEventArgs ev)
         {
             if (!PlayersReport.ContainsKey(ev.Player.UserId))
             {
@@ -299,7 +300,7 @@ namespace RGM.EventArgs
             }
         }
 
-        public static IEnumerator<float> OnLeft(Exiled.Events.EventArgs.Player.LeftEventArgs ev)
+        public static IEnumerator<float> OnLeft(LeftEventArgs ev)
         {
             if (OnGround.ContainsKey(ev.Player))
                 OnGround.Remove(ev.Player);
@@ -358,13 +359,13 @@ namespace RGM.EventArgs
             }
         }
 
-        public static void OnSpawningRagdoll(Exiled.Events.EventArgs.Player.SpawningRagdollEventArgs ev)
+        public static void OnSpawningRagdoll(SpawningRagdollEventArgs ev)
         {
             if (!Round.IsStarted)
                 ev.IsAllowed = false;
         }
 
-        public static void OnSpawnedRagdoll(Exiled.Events.EventArgs.Player.SpawnedRagdollEventArgs ev)
+        public static void OnSpawnedRagdoll(SpawnedRagdollEventArgs ev)
         {
             Timing.CallDelayed(5 * 60, () =>
             {
@@ -373,7 +374,7 @@ namespace RGM.EventArgs
             });
         }
 
-        public static IEnumerator<float> OnSpawned(Exiled.Events.EventArgs.Player.SpawnedEventArgs ev)
+        public static IEnumerator<float> OnSpawned(SpawnedEventArgs ev)
         {
             if (ev.Player.IsAlive)
             {
@@ -470,7 +471,7 @@ namespace RGM.EventArgs
             }
         }
 
-        public static void OnInteractingDoor(Exiled.Events.EventArgs.Player.InteractingDoorEventArgs ev)
+        public static void OnInteractingDoor(InteractingDoorEventArgs ev)
         {
             if (ev.Player.IsScp)
             {
@@ -513,7 +514,7 @@ namespace RGM.EventArgs
             }
         }
 
-        public static void OnHurting(Exiled.Events.EventArgs.Player.HurtingEventArgs ev)
+        public static void OnHurting(HurtingEventArgs ev)
         {
             if (Round.IsLobby)
                 return;
@@ -536,25 +537,28 @@ namespace RGM.EventArgs
             }
         }
 
-        public static void OnDying(Exiled.Events.EventArgs.Player.DyingEventArgs ev)
+        public static void OnDying(DyingEventArgs ev)
         {
             if (Round.IsLobby)
-                return;
+                ev.Player.ClearInventory();
 
-            if (GodModePlayers.Contains(ev.Player))
+            else
             {
-                if (!Datas.BlockDamageTypes.Contains(ev.DamageHandler.Type))
-                    ev.IsAllowed = false;
-
-                else
+                if (GodModePlayers.Contains(ev.Player))
                 {
-                    GodModePlayers.Remove(ev.Player);
-                    ev.Player.Kill(ev.DamageHandler);
+                    if (!Datas.BlockDamageTypes.Contains(ev.DamageHandler.Type))
+                        ev.IsAllowed = false;
+
+                    else
+                    {
+                        GodModePlayers.Remove(ev.Player);
+                        ev.Player.Kill(ev.DamageHandler);
+                    }
                 }
             }
         }
 
-        public static void OnDied(Exiled.Events.EventArgs.Player.DiedEventArgs ev)
+        public static void OnDied(DiedEventArgs ev)
         {
             if (Round.IsLobby)
             {
@@ -590,7 +594,19 @@ namespace RGM.EventArgs
             }
         }
 
-        public static void OnDroppedItem(Exiled.Events.EventArgs.Player.DroppedItemEventArgs ev)
+        public static void OnDroppingItem(DroppingItemEventArgs ev)
+        {
+            if (Round.IsLobby)
+                ev.IsAllowed = false;
+        }
+
+        public static void OnDroppingAmmo(DroppingAmmoEventArgs ev)
+        {
+            if (Round.IsLobby)
+                ev.IsAllowed = false;
+        }
+
+        public static void OnDroppedItem(DroppedItemEventArgs ev)
         {
             Timing.CallDelayed(5 * 60, () =>
             {
@@ -599,7 +615,7 @@ namespace RGM.EventArgs
             });
         }
 
-        public static void OnDroppedAmmo(Exiled.Events.EventArgs.Player.DroppedAmmoEventArgs ev)
+        public static void OnDroppedAmmo(DroppedAmmoEventArgs ev)
         {
             Timing.CallDelayed(5 * 60, () =>
             {
@@ -611,7 +627,7 @@ namespace RGM.EventArgs
             });
         }
 
-        public static void OnItemAdded(Exiled.Events.EventArgs.Player.ItemAddedEventArgs ev)
+        public static void OnItemAdded(ItemAddedEventArgs ev)
         {
             if (ev.Player.IsScp || ev.Player.Role.Type.ToString().Contains("Flamingo"))
             {
@@ -628,7 +644,7 @@ namespace RGM.EventArgs
             }
         }
 
-        public static void OnKicking(Exiled.Events.EventArgs.Player.KickingEventArgs ev)
+        public static void OnKicking(KickingEventArgs ev)
         {
             if (ev.Player.IsNPC)
                 return;
@@ -637,7 +653,7 @@ namespace RGM.EventArgs
                 player.AddBroadcast(10, $"<size=20>{ev.Target.Nickname}(이)가 서버에서 <color=red>추방</color>되었습니다. (사유: {ev.Reason})</size>");
         }
 
-        public static void OnBanning(Exiled.Events.EventArgs.Player.BanningEventArgs ev)
+        public static void OnBanning(BanningEventArgs ev)
         {
             if (ev.Player.IsNPC)
                 return;
@@ -646,7 +662,7 @@ namespace RGM.EventArgs
                 player.AddBroadcast(10, $"<size=20>{ev.Target.Nickname}(이)가 서버에서 <color=red>차단</color>되었습니다. (사유: {ev.Reason})</size>");
         }
 
-        public static void OnChangingGroup(Exiled.Events.EventArgs.Player.ChangingGroupEventArgs ev)
+        public static void OnChangingGroup(ChangingGroupEventArgs ev)
         {
             ulong permission = ev.Player.Group.Permissions;
 
@@ -656,7 +672,7 @@ namespace RGM.EventArgs
             });
         }
 
-        public static void OnChangedEmotion(Exiled.Events.EventArgs.Player.ChangedEmotionEventArgs ev)
+        public static void OnChangedEmotion(ChangedEmotionEventArgs ev)
         {
             EmotionPresetType type = ev.EmotionPresetType;
 
