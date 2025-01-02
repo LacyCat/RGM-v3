@@ -1,0 +1,139 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using CustomPlayerEffects;
+using CustomRendering;
+using Exiled.API.Extensions;
+using Exiled.API.Features;
+using Exiled.API.Features.Roles;
+using MapEditorReborn.API.Features.Objects;
+using MEC;
+using Mirror;
+using MultiBroadcast.API;
+using PlayerRoles;
+using UnityEngine;
+using Exiled.API.Enums;
+using RGM.API.Features;
+
+using static RGM.Variables.ServerManagers;
+using RGM.API.DataBases;
+using Respawning;
+using Exiled.Events.EventArgs.Server;
+using Respawning.Waves;
+using Exiled.Events.EventArgs.Player;
+
+namespace RGM.Modes
+{
+    [Mode(ModeCategory.Public, ModeInfo.Set, ModeType.Infection)]
+    class Infection : Mode
+    {
+        public override string Name => "감염";
+        public override string Description => "모두를 감염시키려는 숙주와 살아남으려는 인류의 대립";
+        public override string Detail =>
+"""
+<b>인류</b>는 무슨 수를 써서라도 10분을 버텨야 합니다.
+<b><color=red>숙주</color></b>는 무슨 수를 써서라도 모든 인류를 감염시켜야 합니다.
+""";
+        public override string Color => "FF0000";
+
+        public static Infection Instance;
+
+        public override void OnEnabled()
+        {
+            foreach (var spawn in WaveManager.Waves) spawn.Destroy();
+            Round.IsLocked = true;
+
+            Exiled.Events.Handlers.Player.Verified += OnVerified;
+            Exiled.Events.Handlers.Player.Spawned += OnSpawned;
+            Exiled.Events.Handlers.Player.Died += OnDied;
+
+            Timing.RunCoroutine(OnModeStarted());
+            Timing.RunCoroutine(CheckEnd());
+        }
+
+        public IEnumerator<float> OnModeStarted()
+        {
+            Player hostZombie = Tools.GetRandomValue(Player.List.Where(x => x.IsAlive).ToList());
+
+            hostZombie.Role.Set(RoleTypeId.Scp0492, RoleSpawnFlags.None);
+
+            foreach (var player in Player.List)
+            {
+                if (player != hostZombie)
+                    player.Role.Set(RoleTypeId.NtfCaptain, RoleSpawnFlags.None);
+            }
+
+            for (int i = 0; i < 600; i++)
+            {
+                foreach (var player in Player.List)
+                {
+                    player.AddBroadcast(1, "");
+                }
+                yield return Timing.WaitForSeconds(1);
+            }
+        }
+
+        public IEnumerator<float> CheckEnd()
+        {
+            while (!Round.IsEnded)
+            {
+                if (Player.List.Where(x => x.IsHuman).Count() < 1)
+                {
+                    Round.IsLocked = false;
+                    Timing.RunCoroutine(Tools.SetWinner(Player.List.Where(x => x.Role.Type == RoleTypeId.Scp0492).ToList(), 1));
+
+                    foreach (var player in Player.List)
+                    {
+                        player.AddBroadcast(20, $"<size=30><b>숙주의 승리입니다. <color=red>남겨진 인류는 안타까운 결말을 맞이할 것입니다.</color></b></size>");
+                    }
+
+                    yield break;
+                }
+                else if (Round.ElapsedTime.TotalSeconds > 600)
+                {
+                    Round.IsLocked = false;
+                    Timing.RunCoroutine(Tools.SetWinner(Player.List.Where(x => x.IsHuman).ToList(), 1));
+
+                    foreach (var player in Player.List)
+                    {
+                        player.AddBroadcast(20, $"<size=30><b>인류의 승리입니다. <color=#9AFE2E>좀비들은 해독제를 맞고 치료되었습니다.</color></b></size>");
+
+                        if (player.Role.Type == RoleTypeId.Scp0492)
+                            player.Role.Set(RoleTypeId.Tutorial, RoleSpawnFlags.None);
+                    }
+
+                    yield break;
+                }
+
+                yield return Timing.WaitForSeconds(1);
+            }
+        }
+
+        public void OnVerified(VerifiedEventArgs ev)
+        {
+            ev.Player.Kill("동료들과 함께 인간을 섬멸하십시오.");
+        }
+
+        public void OnSpawned(SpawnedEventArgs ev)
+        {
+            Timing.CallDelayed(Timing.WaitForOneFrame, () =>
+            {
+                ev.Player.EnableEffect(EffectType.FogControl, 7);
+            });
+        }
+
+        public IEnumerator<float> OnDied(DiedEventArgs ev)
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                ev.Player.ShowHint($"<size=25>{5 - i}초 뒤 <color=red>동료</color> 근처에서 부활합니다.</size>", 1.2f);
+                yield return Timing.WaitForSeconds(1f);
+            }
+
+            ev.Player.Role.Set(RoleTypeId.Scp0492);
+            ev.Player.Position = Tools.GetRandomValue(Player.List.Where(x => x.Role.Type == RoleTypeId.Scp0492).Select(x => x.Position).ToList());
+        }
+    }
+}

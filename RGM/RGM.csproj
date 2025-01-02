@@ -407,6 +407,7 @@
     <Compile Include="RGM\Modes\Sets\HIDE\HIDE.cs" />
     <Compile Include="RGM\Modes\Sets\HotPotato\HotPotato.cs" />
     <Compile Include="RGM\Modes\Pluses\JohnWick\JohnWick.cs" />
+    <Compile Include="RGM\Modes\Sets\Infection\Infection.cs" />
     <Compile Include="RGM\Modes\Sets\Juggernaut\Juggernaut.cs" />
     <Compile Include="RGM\Modes\Sets\JumpMap\JumpMap.cs" />
     <Compile Include="RGM\Modes\Pluses\KoreanSpeed\KoreanSpeed.cs" />
