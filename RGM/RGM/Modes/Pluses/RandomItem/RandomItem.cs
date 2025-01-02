@@ -33,7 +33,8 @@ namespace RGM.Modes
         List<ItemType> ItemTypes = Tools.EnumToList<ItemType>();
         List<ItemType> ignoreItemTypes = new List<ItemType>() 
         { 
-            ItemType.SCP330
+            ItemType.SCP330,
+            ItemType.SCP1507Tape
         };
 
         public override void OnEnabled()
