@@ -18,7 +18,7 @@ using Respawning;
 
 namespace RGM.Modes
 {
-    [Mode(ModeCategory.Private, ModeInfo.Set, ModeType.DeathRun)]
+    [Mode(ModeCategory.Public, ModeInfo.Set, ModeType.DeathRun)]
     public class DeathRun : Mode
     {
         public override string Name => "데스런";
@@ -68,10 +68,8 @@ namespace RGM.Modes
             for (int i=1; i<11; i++)
             {
                 foreach (var player in Player.List)
-                {
-                    player.ClearPlayerBroadcasts();
                     player.AddBroadcast(1, $"<size=30><b><color=red>{11 - i}</color>초 후 게임이 시작됩니다. 준비하세요!</b></size>");
-                }
+
                 yield return Timing.WaitForSeconds(1f);
             }
 
@@ -86,10 +84,8 @@ namespace RGM.Modes
             for (int i=1; i<201; i++)
             {
                 foreach (var player in Player.List)
-                {
-                    player.ClearPlayerBroadcasts();
                     player.AddBroadcast(1, $"<size=25><b><color=yellow>과학자</color>가 총기를 입수하기까지 <color=red>{201 - i}</color>초 남았습니다.</b></size>");
-                }
+
                 yield return Timing.WaitForSeconds(1f);
             }
 
