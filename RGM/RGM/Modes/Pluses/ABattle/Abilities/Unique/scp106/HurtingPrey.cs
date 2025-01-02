@@ -34,12 +34,12 @@ public class HurtingPrey : Ability
         if (ev.Attacker == null || ev.Attacker != Owner)
             return;
 
-        ev.Attacker.GetEffect(EffectType.MovementBoost).Intensity += 15;
+        ev.Attacker.GetEffect(EffectType.MovementBoost).Intensity += 10;
 
-        Timing.CallDelayed(3f, () =>
+        Timing.CallDelayed(2f, () =>
         {
-            if (ev.Attacker.GetEffect(EffectType.MovementBoost).Intensity >= 15)
-                ev.Attacker.GetEffect(EffectType.MovementBoost).Intensity -= 15;
+            if (ev.Attacker.GetEffect(EffectType.MovementBoost).Intensity >= 10)
+                ev.Attacker.GetEffect(EffectType.MovementBoost).Intensity -= 10;
 
             else
                 ev.Attacker.GetEffect(EffectType.MovementBoost).Intensity = 0;
