@@ -59,7 +59,7 @@ namespace RGM.Modes
 
             for (int i = 1; i <= 1205; i++)
             {
-                Item Item = Item.Create(Tools.GetRandomValue(ItemTypes.ToList()));
+                Item Item = Item.Create(Tools.GetRandomValue(ItemTypes.Where(x => x != ItemType.SCP1507Tape).ToList()));
 
                 Item.CreatePickup(RandomPosition());
             }
