@@ -112,6 +112,7 @@ public enum ModeType
     JumpMap,
     MiniGames,
     PirateRoulette,
+    Infection,
     Rescue05,
     RussianRoulette,
     SpeedRun,
