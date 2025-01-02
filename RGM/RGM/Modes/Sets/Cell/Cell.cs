@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Exiled.API.Features;
+using Exiled.API.Features.Items;
 using MEC;
 using Mirror;
 using MultiBroadcast;
@@ -51,7 +52,11 @@ namespace RGM.Modes
                 player.Position = new Vector3(118.7332f, 1000.379f, -41.59417f);
 
                 if (player == BadLucky)
-                    Server.ExecuteCommand($"/drop {player.Id} 31 1");
+                {
+                    Item Item = Item.Create(ItemType.SCP018);
+
+                    Item.CreatePickup(player.Position);
+                }
             }
 
             yield break;
