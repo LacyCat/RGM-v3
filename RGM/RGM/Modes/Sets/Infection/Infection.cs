@@ -23,6 +23,7 @@ using Respawning;
 using Exiled.Events.EventArgs.Server;
 using Respawning.Waves;
 using Exiled.Events.EventArgs.Player;
+using Exiled.API.Features.Doors;
 
 namespace RGM.Modes
 {
@@ -55,22 +56,31 @@ namespace RGM.Modes
 
         public IEnumerator<float> OnModeStarted()
         {
+            AudioPlayer audioPlayer = AudioPlayer.CreateOrGet($"Global AudioPlayer", onIntialCreation: (p) =>
+            {
+                Speaker speaker = p.AddSpeaker("Main", isSpatial: false, maxDistance: 5000f);
+            });
+
+            audioPlayer.AddClip("Infection", 0.3f, true);
+
             Player hostZombie = Tools.GetRandomValue(Player.List.Where(x => x.IsAlive).ToList());
 
-            hostZombie.Role.Set(RoleTypeId.Scp0492, RoleSpawnFlags.None);
+            hostZombie.Role.Set(RoleTypeId.Scp0492);
 
             foreach (var player in Player.List)
             {
                 if (player != hostZombie)
-                    player.Role.Set(RoleTypeId.NtfCaptain, RoleSpawnFlags.None);
+                {
+                    player.Role.Set(RoleTypeId.NtfCaptain, RoleSpawnFlags.AssignInventory);
+                    player.AddItem(ItemType.Ammo556x45, 5);
+                }
             }
 
             for (int i = 0; i < 600; i++)
             {
                 foreach (var player in Player.List)
-                {
-                    player.AddBroadcast(1, "");
-                }
+                    player.AddBroadcast(1, $"<b><size=25>{600 - i}초 뒤 인류가 승리합니다.</size></b>");
+
                 yield return Timing.WaitForSeconds(1);
             }
         }
@@ -126,13 +136,15 @@ namespace RGM.Modes
 
         public IEnumerator<float> OnDied(DiedEventArgs ev)
         {
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 11; i++)
             {
-                ev.Player.ShowHint($"<size=25>{5 - i}초 뒤 <color=red>동료</color> 근처에서 부활합니다.</size>", 1.2f);
+                ev.Player.ShowHint($"<size=25>{11 - i}초 뒤 <color=red>동료</color> 근처에서 부활합니다.</size>", 1.2f);
                 yield return Timing.WaitForSeconds(1f);
             }
 
             ev.Player.Role.Set(RoleTypeId.Scp0492);
+            ev.Player.MaxHealth = 500;
+            ev.Player.Health = ev.Player.MaxHealth;
             ev.Player.Position = Tools.GetRandomValue(Player.List.Where(x => x.Role.Type == RoleTypeId.Scp0492).Select(x => x.Position).ToList());
         }
     }

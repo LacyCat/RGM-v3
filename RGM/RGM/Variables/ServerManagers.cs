@@ -42,7 +42,8 @@ namespace RGM.Variables
             {"Skeleton", "HotPotato"},
             {"Initial_D_Dancing", "TailCatcher"},
             {"JuggernautTheme", "Juggernaut"},
-            {"GmanRoaringSound", "Scream"}
+            {"GmanRoaringSound", "Scream"},
+            {"Voices", "Infection"}
         };
         public static Dictionary<string, string> KillEffects = new Dictionary<string, string>()
         {
