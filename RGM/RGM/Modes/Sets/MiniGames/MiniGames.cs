@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CustomRendering;
 using Exiled.API.Features;
+using Exiled.Events.EventArgs.Server;
 using MEC;
 using Mirror;
 using MultiBroadcast;
@@ -14,7 +15,7 @@ using UnityEngine;
 
 namespace RGM.Modes
 {
-    [Mode(ModeCategory.Private, ModeInfo.Set, ModeType.MiniGames)]
+    [Mode(ModeCategory.Public, ModeInfo.Set, ModeType.MiniGames)]
     class MiniGames : Mode
     {
         public override string Name => "미니게임";
