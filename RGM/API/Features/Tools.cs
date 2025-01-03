@@ -234,7 +234,7 @@ $"""
             while (true)
             {
                 foreach (var player in Player.List)
-                    player.AddBroadcast(1, $"<size={(30 - Math.Round(playerList.Count() * 0.5f))}><color=yellow><b>✨</b></color> <b>{string.Join($", ", playerList.Select(x => $"<color={x.Role.Color.ToHex()}>{x.Nickname}</color>"))}</b>(이)가 <b>{amount}</b> EXP, RP를 획득하였습니다.</size>");
+                    player.AddBroadcast(1, $"<size={(30 - Math.Round(playerList.Count() * 0.5f))}><color=yellow><b>✨</b></color> <b>{string.Join($", ", playerList.Select(x => $"<color={x.Role.Color.ToHex()}>{x.DisplayNickname}</color>"))}</b>(이)가 <b>{amount}</b> EXP, RP를 획득하였습니다.</size>");
 
                 yield return Timing.WaitForSeconds(1);
             }
