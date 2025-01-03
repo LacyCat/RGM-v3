@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Exiled.API.Features;
+using Exiled.API.Features.Roles;
 using MEC;
 using Mirror;
 using PlayerRoles;
@@ -32,6 +33,18 @@ namespace RGM.Modes
         public string Light = "Green";
         public Dictionary<Player, Vector3> PlayerPosition = new Dictionary<Player, Vector3>();
         public Dictionary<Player, Quaternion> PlayerRotation = new Dictionary<Player, Quaternion>();
+
+        public Quaternion rot(Player player)
+        {
+            if (player.Role is Scp079Role scp079role)
+            {
+                return scp079role.Camera.Rotation;
+            }
+            else
+            {
+                return player.CameraTransform.rotation;
+            }
+        }
 
         public override void OnEnabled()
         {
@@ -68,12 +81,12 @@ namespace RGM.Modes
                     if (PlayerPosition.ContainsKey(player))
                     {
                         PlayerPosition[player] = player.Position;
-                        PlayerRotation[player] = player.Rotation;
+                        PlayerRotation[player] = rot(player);
                     }
                     else
                     {
                         PlayerPosition.Add(player, player.Position);
-                        PlayerRotation.Add(player, player.Rotation);
+                        PlayerRotation.Add(player, rot(player));
                     }
 
                     if (player.Role.Type == RoleTypeId.Scp079 && Player.List.Where(x => x.IsScp).Count() < 2)
@@ -103,9 +116,16 @@ namespace RGM.Modes
                     {
                         if (PlayerPosition.ContainsKey(player) && player.IsAlive)
                         {
-                            if (PlayerPosition[player] != player.Position || PlayerRotation[player] != player.Rotation)
+                            if (PlayerPosition[player] != player.Position || PlayerRotation[player] != rot(player))
                             {
-                                Server.ExecuteCommand($"/rocket {player.Id} 0.01");
+                                if (player.Role.Type == RoleTypeId.Scp079)
+                                {
+                                    player.Role.Set(RoleTypeId.Tutorial);
+                                    player.Position = Tools.GetRandomValue(Player.List.Where(x => x.IsHuman).ToList()).Position;
+                                    Server.ExecuteCommand($"/rocket {player.Id} 1");
+                                }
+                                else
+                                    Server.ExecuteCommand($"/rocket {player.Id} 0.01");
 
                                 Server.ExecuteCommand($"/clearcassie");
                                 Server.ExecuteCommand($"/cassie_sl 안타깝게도 {player.DisplayNickname}(이)가 <b><color=red>빨간 불</color></b>에 건넜습니다.");
