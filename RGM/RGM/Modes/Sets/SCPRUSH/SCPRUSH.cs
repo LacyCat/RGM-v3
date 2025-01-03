@@ -8,6 +8,8 @@ using Exiled.API.Features;
 using MEC;
 using PlayerRoles;
 using Exiled.API.Features.Roles;
+using Exiled.Events.EventArgs.Server;
+using RGM.API.Features;
 
 namespace RGM.Modes
 {
@@ -26,6 +28,8 @@ SCP-3114도 동일한 확률로 러쉬에 참여할 수 있습니다.
 
         public override void OnEnabled()
         {
+            Exiled.Events.Handlers.Server.RoundEnded += OnRoundEnded;
+
             Timing.RunCoroutine(OnModeStarted());
         }
 
@@ -55,6 +59,17 @@ SCP-3114도 동일한 확률로 러쉬에 참여할 수 있습니다.
             }
 
             yield break;
+        }
+
+        public void OnRoundEnded(RoundEndedEventArgs ev)
+        {
+            IEnumerable<Player> players = Player.List.Where(x => x.IsAlive && !x.IsNPC);
+
+            if (players.Count() == 1)
+                Timing.RunCoroutine(Tools.SetWinner(players.ToList(), 5));
+
+            else if (players.Count() > 1)
+                Timing.RunCoroutine(Tools.SetWinner(players.ToList(), 1));
         }
     }
 }
