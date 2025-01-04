@@ -65,7 +65,10 @@ namespace RGM.Modes
 
             Player hostZombie = Tools.GetRandomValue(Player.List.Where(x => x.IsAlive).ToList());
 
-            hostZombie.Role.Set(RoleTypeId.Scp0492);
+            Timing.CallDelayed(Timing.WaitForOneFrame, () =>
+            {
+                hostZombie.Role.Set(RoleTypeId.Scp0492, RoleSpawnFlags.None);
+            });
 
             foreach (var player in Player.List)
             {
