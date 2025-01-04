@@ -81,12 +81,11 @@ public class ABattle : Mode
     {
         {"기본", "워크스테이션 업그레이드를 즐기세요!"},
         {"피버", "재단에 등장하는 워크스테이션의 수가 증가합니다."},
-        {"짠돌이", "능력 선택창에서 등장하는 능력의 수가 1개로 제한됩니다."},
+        {"1 + 1", "능력 선택창에 등장하는 능력의 수가 1개인 대신, 동일한 등급의 능력을 1개를 더 받습니다."},
         {"수저", "능력 선택창에서 등장하는 능력의 수가 최대 5개까지 늘어날 수 있습니다."},
         {"골드 전주곡", $"스폰 즉시 <color={RatingColor["영웅"]}>영웅</color> 등급의 능력을 얻습니다."},
         {"프리즘 전주곡", $"스폰 즉시 <color={RatingColor["영웅"]}>영웅</color> 등급의 능력을 얻습니다. 낮은 확률로 <color={RatingColor["전설"]}>전설</color>, <color={RatingColor["신화"]}>신화</color> 등급의 능력이 지급될 수 있습니다."},
         {"잔칫상", $"<color={RatingColor["희귀"]}>희귀</color> 이상 등급의 능력이 등장할 확률이 높아집니다."},
-        {"1 + 1", "능력 선택창이 열리면 동일한 등급의 능력을 하나 지급받습니다."},
         {"스펙업", "능력을 획득하면 추가 최대 체력이 지급됩니다. (5%)"},
         {"캐시 청소", "7분마다 모든 유저의 워크스테이션 획득 기록이 초기화됩니다."}
     };
@@ -283,6 +282,25 @@ public class ABattle : Mode
         return $"<align=left><b><size=25>보유 업그레이드</size></b>\n<size=20>{abilitiesText}</size></align>";
     }
 
+    public IEnumerator<float> RestoreAbilities(List<Player> players)
+    {
+        foreach (var player in players)
+        {
+            List<AbilityType> _abilities = PlayerAbilities[player].Select(x => x.Data.AbilityType).ToList();
+
+            Reset(player);
+
+            yield return Timing.WaitForOneFrame;
+
+            foreach (var ability in _abilities)
+                player.AddAbility(ability);
+
+            yield return Timing.WaitForOneFrame;
+
+            player.AddBroadcast(10, $"<size=25><b>모든 능력을 제거한 후, 수복하였습니다.</b></size>");
+        }
+    }
+
     public void ExtraModeNotion(Player player, bool enableBroadcast = true)
     {
         string extraMode = $"<size=25><b><color=#fecdcd>{CurrentExtraMode}</color></b></size>\n<size=20>{ExtraModes[CurrentExtraMode]}</size>";
@@ -466,7 +484,7 @@ public class ABattle : Mode
 
     public void StartSelect(Player player, List<AbilityType> abilities = null, int count = 3)
     {
-        if (CurrentExtraMode == "짠돌이")
+        if (CurrentExtraMode == "1 + 1")
         {
             count = 1;
         }    
