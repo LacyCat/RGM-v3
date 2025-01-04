@@ -10,6 +10,8 @@ using MultiBroadcast.API;
 using Exiled.Events.EventArgs.Scp079;
 using RGM.API.DataBases;
 using PlayerRoles;
+using Exiled.API.Extensions;
+using Exiled.Events.EventArgs.Scp1507;
 
 namespace RGM.Modes;
 
@@ -22,10 +24,11 @@ public class ABattleEventHandler(ABattle aBattle)
         Exiled.Events.Handlers.Player.Verified += OnVerified;
         Exiled.Events.Handlers.Player.Spawned += OnSpawned;
         Exiled.Events.Handlers.Player.Jumping += OnJumping;
-        Exiled.Events.Handlers.Player.Died += OnDied;
-        Exiled.Events.Handlers.Player.Escaping += OnEscaping;
+        Exiled.Events.Handlers.Player.ChangingRole += OnChangingRole;
 
         Exiled.Events.Handlers.Scp079.GainingLevel += OnGainingLevel;
+
+        Exiled.Events.Handlers.Scp1507.SpawningFlamingos += OnSpawningFlamingos;
 
         MapEditorReborn.Events.Handlers.Map.LoadingMap += OnLoadingMap;
     }
@@ -101,10 +104,7 @@ public class ABattleEventHandler(ABattle aBattle)
                         return;
 
                     if (aBattle.Selections.ContainsKey(ev.Player))
-                    {
-                        ev.Player.ShowHint("<size=20>이미 능력 선택창이 열려 있습니다.\n버그에 걸린 경우 아무 능력이나 선택해보세요.</size>", 1.2f);
-                        return;
-                    }
+                        aBattle.Selections[ev.Player].Clear();
 
                     if (!aBattle.PlayerWorkstations.TryGetValue(ev.Player, out var workstations))
                     {
@@ -126,31 +126,29 @@ public class ABattleEventHandler(ABattle aBattle)
         }
     }
 
-    private void OnDied(DiedEventArgs ev)
+    private IEnumerator<float> OnChangingRole(ChangingRoleEventArgs ev)
     {
-        aBattle.Reset(ev.Player);
-    }
-
-    private IEnumerator<float> OnEscaping(EscapingEventArgs ev)
-    {
-        if (ev.Player.Role.Type == RoleTypeId.ClassD || ev.Player.Role.Type == RoleTypeId.Scientist)
+        if (ev.Player.IsDead || ev.NewRole.IsDead() || ev.Player.GetAbilities().Count() == 0)
         {
-            List<AbilityType> _abilities = aBattle.PlayerAbilities[ev.Player].Select(x => x.Data.AbilityType).ToList();
-
-            aBattle.Reset(ev.Player);
-
-            yield return Timing.WaitForOneFrame;
-
-            foreach (var ability in _abilities)
-                ev.Player.AddAbility(ability);
-
-            ev.Player.AddBroadcast(10, $"<size=25><b>탈출하였으므로 모든 능력을 제거한 후, 수복하였습니다.</b></size>");
+            Timing.CallDelayed(Timing.WaitForOneFrame, () => 
+            {
+                aBattle.Reset(ev.Player);
+            });
         }
+        else
+            Timing.RunCoroutine(aBattle.RestoreAbilities(new List<Player>() { ev.Player }));
+
+        yield break;
     }
 
     private void OnGainingLevel(GainingLevelEventArgs ev)
     {
         ev.Player.AddAbility(ABattle.Instance.GetRandomAbilities(AbilityCategory.Scp079, 1).First());
+    }
+
+    private void OnSpawningFlamingos(SpawningFlamingosEventArgs ev)
+    {
+        Timing.RunCoroutine(aBattle.RestoreAbilities(ev.SpawnablePlayers.ToList()));
     }
 
     private void OnLoadingMap(LoadingMapEventArgs ev)
