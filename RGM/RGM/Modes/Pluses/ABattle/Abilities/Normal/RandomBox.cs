@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Exiled.API.Enums;
 using Exiled.API.Features.Items;
 using Exiled.Events.EventArgs.Player;
@@ -12,7 +13,7 @@ public class RandomBox : Ability
 {
     public override void OnEnabled()
     {
-        List<ItemType> RandomBox = Tools.EnumToList<ItemType>();
+        List<ItemType> RandomBox = Tools.EnumToList<ItemType>().Where(x => x != ItemType.SCP1507Tape).ToList();
 
         Item RandomBoxItem = Owner.AddItem(Tools.GetRandomValue(RandomBox));
     }
