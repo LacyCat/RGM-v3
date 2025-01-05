@@ -35,7 +35,7 @@ namespace RGM
 
         public override string Name => "RGM";
         public override string Author => "GoldenPig1205";
-        public override Version Version { get; } = new(3, 10, 11);
+        public override Version Version { get; } = new(3, 10, 12);
         public override Version RequiredExiledVersion { get; } = new(1, 2, 0, 5);
 
         public override void OnEnabled()
@@ -78,8 +78,8 @@ namespace RGM
                 }
             }
 
-            foreach (var _audioClip in AudioClips)
-                AudioClipStorage.LoadClip(GGUtils.Gtool.ConventToAudioPath(_audioClip.Key), _audioClip.Value);
+            foreach (var _audioClip in System.IO.Directory.GetFiles(Paths.Plugins + "/audio/"))
+                AudioClipStorage.LoadClip(_audioClip, _audioClip.Replace(Paths.Plugins + "/audio/", "").Replace(".ogg", ""));
 
             Exiled.Events.Handlers.Server.WaitingForPlayers += OnWaitingForPlayers;
             Exiled.Events.Handlers.Server.RoundStarted += OnRoundStarted;
