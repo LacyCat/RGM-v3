@@ -472,18 +472,12 @@ namespace RGM.EventArgs
                     if (StartupRandom == 1) // 시작 카오스
                     {
                         if (ev.Player.Role.Type == RoleTypeId.FacilityGuard)
-                        {
                             ev.Player.Role.Set(RoleTypeId.ChaosConscript);
-
-                        }
                     }
                     if (StartupRandom == 2) // 시작 NTF
                     {
                         if (ev.Player.Role.Type == RoleTypeId.FacilityGuard)
-                        {
                             ev.Player.Role.Set(RoleTypeId.NtfPrivate);
-
-                        }
                     }
 
                     int rand = UnityEngine.Random.Range(1, 101); // 시작 좀?비
@@ -496,14 +490,12 @@ namespace RGM.EventArgs
 
                     }
                     else if (rand == 2)
-                    {
                         ev.Player.Scale = new Vector3(-1, -1, -1);
-                    }
                 }
             }
 
             if (ev.Player.IsAlive && Round.IsStarted && 
-                (ev.Reason == SpawnReason.RoundStart || ev.Reason == SpawnReason.Respawn) && 
+                (ev.Reason == SpawnReason.RoundStart || ev.Reason == SpawnReason.Respawn || ev.Reason == SpawnReason.ItemUsage) && 
                 CurrentMode.GetModeData().Info == ModeInfo.Plus)
             {
                 GodModePlayers.Add(ev.Player);
