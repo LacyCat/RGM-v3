@@ -28,7 +28,7 @@ using Exiled.API.Features.Doors;
 namespace RGM.Modes
 {
     [Mode(ModeCategory.Public, ModeInfo.Set, ModeType.Infection)]
-    class Voices : Mode
+    class Infection : Mode
     {
         public override string Name => "감염";
         public override string Description => "모두를 감염시키려는 숙주와 살아남으려는 인류의 대립";
@@ -39,7 +39,7 @@ namespace RGM.Modes
 """;
         public override string Color => "FF0000";
 
-        public static Voices Instance;
+        public static Infection Instance;
 
         public override void OnEnabled()
         {
