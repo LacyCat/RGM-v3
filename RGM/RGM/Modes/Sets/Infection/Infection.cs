@@ -41,6 +41,8 @@ namespace RGM.Modes
 
         public static Infection Instance;
 
+        public bool IsHumanEnd = false;
+
         public override void OnEnabled()
         {
             foreach (var spawn in WaveManager.Waves) spawn.Destroy();
@@ -77,6 +79,12 @@ namespace RGM.Modes
                 {
                     player.Role.Set(RoleTypeId.NtfCaptain, RoleSpawnFlags.AssignInventory);
                     player.AddItem(ItemType.Ammo556x45, 10);
+                    foreach (var item in player.Items)
+                    {
+                        if (item.Type == ItemType.KeycardMTFCaptain)
+                            player.RemoveItem(item);
+                    }
+                    player.AddItem(ItemType.KeycardScientist);
                 }
             }
 
@@ -91,6 +99,7 @@ namespace RGM.Modes
             if (!Round.IsEnded)
             {
                 Round.IsLocked = false;
+                IsHumanEnd = true;
                 Timing.RunCoroutine(Tools.SetWinner(Player.List.Where(x => x.IsHuman).ToList(), 1));
 
                 foreach (var player in Player.List)
@@ -145,10 +154,15 @@ namespace RGM.Modes
                 yield return Timing.WaitForSeconds(1f);
             }
 
-            ev.Player.Role.Set(RoleTypeId.Scp0492);
-            ev.Player.MaxHealth = 500;
-            ev.Player.Health = ev.Player.MaxHealth;
-            ev.Player.Position = Tools.GetRandomValue(Player.List.Where(x => x.Role.Type == RoleTypeId.Scp0492).Select(x => x.Position).ToList());
+            if (!IsHumanEnd)
+            {
+                ev.Player.Role.Set(RoleTypeId.Scp0492);
+                ev.Player.MaxHealth = 500;
+                ev.Player.Health = ev.Player.MaxHealth;
+                ev.Player.Position = Tools.GetRandomValue(Player.List.Where(x => x.Role.Type == RoleTypeId.Scp0492).Select(x => x.Position).ToList());
+            }
+            else
+                ev.Player.Role.Set(RoleTypeId.Tutorial, RoleSpawnFlags.None);
         }
     }
 }
