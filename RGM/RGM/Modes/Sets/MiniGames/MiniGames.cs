@@ -10,6 +10,7 @@ using MEC;
 using Mirror;
 using MultiBroadcast;
 using MultiBroadcast.API;
+using Respawning;
 using RGM.API.Features;
 using UnityEngine;
 
@@ -92,6 +93,8 @@ zombie2
 
         public IEnumerator<float> OnModeStarted()
         {
+            foreach (var spawn in WaveManager.Waves) spawn.Destroy();
+
             foreach (var player in Player.List)
             {
                 player.Role.Set(PlayerRoles.RoleTypeId.ClassD);
