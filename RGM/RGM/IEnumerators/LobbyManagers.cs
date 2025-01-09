@@ -112,15 +112,19 @@ namespace RGM.IEnumerators
 
                 if (Player.List.Count() > 1)
                 {
+                    float maxPlayers = 35;
+                    float pressMultiplier = Math.Max(1, maxPlayers / Server.PlayerCount);
+                    float pressAmount = 0.012f * pressMultiplier;
+
                     if (RemainingPress <= 0)
                         ButtonPressed = true;
-                }
 
-                if (pressing)
-                {
-                    RemainingPress -= 0.015f * stack;
+                    if (pressing)
+                    {
+                        RemainingPress -= pressAmount * stack;
 
-                    redObject.position = new Vector3(redObject.position.x, redObject.position.y - 0.00015f * stack, redObject.transform.position.z);
+                        redObject.position = new Vector3(redObject.position.x, redObject.position.y - (0.00012f * stack * pressMultiplier), redObject.transform.position.z);
+                    }
                 }
 
                 yield return Timing.WaitForSeconds(0.1f);
