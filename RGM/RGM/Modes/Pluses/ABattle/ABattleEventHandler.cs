@@ -56,6 +56,8 @@ public class ABattleEventHandler(ABattle aBattle)
         if (ev.Player.IsDead)
             yield break;
 
+        yield return Timing.WaitForSeconds(1);
+
         if (aBattle.CurrentExtraMode == "골드 전주곡")
         {
             if (ev.Player.Role.Type == RoleTypeId.Scp079)
