@@ -20,6 +20,7 @@ using PlayerRoles.FirstPersonControl.Thirdperson.Subcontrollers;
 using System.Runtime.Remoting.Messaging;
 using Exiled.Events.EventArgs.Player;
 using DiscordInteraction.Discord;
+using Exiled.API.Features.DamageHandlers;
 
 namespace RGM.EventArgs
 {
@@ -588,6 +589,13 @@ namespace RGM.EventArgs
 
                     else
                     {
+                        if (ev.DamageHandler.Type == DamageType.PocketDimension && ev.Attacker == null)
+                        {
+                            ev.IsAllowed = false;
+
+                            ev.Player.Kill(new CustomDamageHandler(ev.Player, Player.List.FirstOrDefault(x => x.Role.Type == RoleTypeId.Scp106), -1, DamageType.PocketDimension));
+                        }
+
                         GodModePlayers.Remove(ev.Player);
                         ev.Player.Kill(ev.DamageHandler);
                     }
@@ -711,36 +719,39 @@ namespace RGM.EventArgs
 
         public static void OnChangedEmotion(ChangedEmotionEventArgs ev)
         {
-            EmotionCooldown.Add(ev.Player);
-
-            EmotionPresetType type = ev.EmotionPresetType;
-
-            if (type == EmotionPresetType.Neutral)
-                return;
-
-            string emotion()
+            if (!EmotionCooldown.Contains(ev.Player))
             {
-                if (type == EmotionPresetType.Happy)
-                    return "행복한 표정을 짓고 있습니다";
+                EmotionCooldown.Add(ev.Player);
 
-                else if (type == EmotionPresetType.AwkwardSmile)
-                    return "뒤틀린 미소를 짓고 있습니다";
+                EmotionPresetType type = ev.EmotionPresetType;
 
-                else if (type == EmotionPresetType.Scared)
-                    return "두려운 표정을 짓고 있습니다";
+                if (type == EmotionPresetType.Neutral)
+                    return;
 
-                else if (type == EmotionPresetType.Angry)
-                    return "화가난 표정을 짓고 있습니다";
+                string emotion()
+                {
+                    if (type == EmotionPresetType.Happy)
+                        return "행복한 표정을 짓고 있습니다";
 
-                else if (type == EmotionPresetType.Chad)
-                    return "꼭 채드처럼 보이는군요";
+                    else if (type == EmotionPresetType.AwkwardSmile)
+                        return "뒤틀린 미소를 짓고 있습니다";
 
-                else
-                    return "꼭 오우거같이 보이는군요";
+                    else if (type == EmotionPresetType.Scared)
+                        return "두려운 표정을 짓고 있습니다";
+
+                    else if (type == EmotionPresetType.Angry)
+                        return "화가난 표정을 짓고 있습니다";
+
+                    else if (type == EmotionPresetType.Chad)
+                        return "꼭 채드처럼 보이는군요";
+
+                    else
+                        return "꼭 오우거같이 보이는군요";
+                }
+
+                foreach (var player in Player.List.Where(x => x.IsDead || Vector3.Distance(x.Position, ev.Player.Position) < 11))
+                    player.AddBroadcast(5, $"<size=20>{Tools.BadgeFormat(ev.Player)}<color={ev.Player.Role.Color.ToHex()}>{ev.Player.DisplayNickname}</color>(은)는 {emotion()}.</size>");
             }
-
-            foreach (var player in Player.List.Where(x => x.IsDead || Vector3.Distance(x.Position, ev.Player.Position) < 11))
-                player.AddBroadcast(5, $"<size=20>{Tools.BadgeFormat(ev.Player)}<color={ev.Player.Role.Color.ToHex()}>{ev.Player.DisplayNickname}</color>(은)는 {emotion()}.</size>");
         }
 
         public static void OnVoiceChatting(VoiceChattingEventArgs ev)
