@@ -118,9 +118,9 @@ namespace RGM.IEnumerators
 
                 if (pressing)
                 {
-                    RemainingPress -= 0.01f * stack;
+                    RemainingPress -= 0.015f * stack;
 
-                    redObject.position = new Vector3(redObject.position.x, redObject.position.y - 0.0001f * stack, redObject.transform.position.z);
+                    redObject.position = new Vector3(redObject.position.x, redObject.position.y - 0.00015f * stack, redObject.transform.position.z);
                 }
 
                 yield return Timing.WaitForSeconds(0.1f);
