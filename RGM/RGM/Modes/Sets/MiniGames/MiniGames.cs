@@ -73,7 +73,7 @@ zombie2
             // "puzzle",
             "race",
             "light",
-            "spleef",
+            // "spleef",
             "tag",
             "tdm",
             "lava",
