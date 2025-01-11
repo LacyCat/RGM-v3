@@ -210,7 +210,7 @@ namespace RGM.Modes
                     bool flag = WaveTimer.TryGetWaveTimers(wave.TargetFaction, out List<WaveTimer> waves);
 
                     foreach (var w in waves)
-                        w.AddTime(-2);
+                        w.SetTime((int)w.TimeLeft.TotalSeconds - 2);
                 }
 
                 yield return Timing.WaitForSeconds(1f);
