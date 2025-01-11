@@ -72,9 +72,9 @@ namespace RGM.Modes
 
             foreach (var player in Player.List)
             {
-                if (player != hostZombie)
+                try
                 {
-                    try
+                    if (player != hostZombie)
                     {
                         player.Role.Set(RoleTypeId.NtfCaptain, RoleSpawnFlags.AssignInventory);
                         player.AddItem(ItemType.Ammo556x45, 10);
@@ -89,10 +89,10 @@ namespace RGM.Modes
                         });
                         player.AddItem(ItemType.KeycardScientist);
                     }
-                    catch (Exception ex)
-                    {
-                        player.ShowHint($"Error: {ex}");
-                    }
+                }
+                catch (Exception ex)
+                {
+                    player.ShowHint($"Error: {ex}");
                 }
             }
 
@@ -159,6 +159,7 @@ namespace RGM.Modes
             for (int i = 0; i < 11; i++)
             {
                 ev.Player.ShowHint($"<size=25>{11 - i}초 뒤 <color=red>동료</color> 근처에서 부활합니다.</size>", 1.2f);
+
                 yield return Timing.WaitForSeconds(1f);
             }
 
