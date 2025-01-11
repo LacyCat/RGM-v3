@@ -210,7 +210,7 @@ namespace RGM.Modes
                     bool flag = WaveTimer.TryGetWaveTimers(wave.TargetFaction, out List<WaveTimer> waves);
 
                     foreach (var w in waves)
-                        w.SetTime((int)w.TimeLeft.TotalSeconds - 2);
+                        w.SetTime((int)w.TimeLeft.TotalSeconds - 3);
                 }
 
                 yield return Timing.WaitForSeconds(1f);
@@ -290,6 +290,14 @@ namespace RGM.Modes
                             PlayerDamages.Add(ev.Attacker, 0);
 
                         PlayerDamages[ev.Attacker] += ev.DamageHandler.Damage;
+
+                        foreach (var wave in WaveManager.Waves)
+                        {
+                            bool flag = WaveTimer.TryGetWaveTimers(wave.TargetFaction, out List<WaveTimer> waves);
+
+                            foreach (var w in waves)
+                                w.SetTime((int)w.TimeLeft.TotalSeconds - 2);
+                        }
 
                         List<RoleTypeId> Scps = new List<RoleTypeId>() 
                         { 
