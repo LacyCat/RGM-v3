@@ -109,7 +109,7 @@ public class ABattleEventHandler(ABattle aBattle)
 
                     if (aBattle.CurrentExtraMode == "대출")
                     {
-                        if (aBattle.PlayerWorkstations[ev.Player].Contains(controller) && Random.Range(1, 11) == 1)
+                        if (aBattle.PlayerWorkstations[ev.Player].Contains(controller) && Random.Range(1, 6) == 1)
                         {
                             if (GodModePlayers.Contains(ev.Player))
                                 GodModePlayers.Remove(ev.Player);
