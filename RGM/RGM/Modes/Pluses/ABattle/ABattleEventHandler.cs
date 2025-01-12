@@ -111,20 +111,11 @@ public class ABattleEventHandler(ABattle aBattle)
                     {
                         if (aBattle.PlayerWorkstations[ev.Player].Contains(controller) && Random.Range(1, 11) == 1)
                         {
-                            IEnumerator<float> die()
-                            {
-                                while (ev.Player.IsAlive)
-                                {
-                                    if (GodModePlayers.Contains(ev.Player))
-                                        GodModePlayers.Remove(ev.Player);
+                            if (GodModePlayers.Contains(ev.Player))
+                                GodModePlayers.Remove(ev.Player);
 
-                                    ev.Player.Hurt(ev.Player.MaxHealth / 10, "욕심을 부리다가 아사했습니다.");
-
-                                    yield return Timing.WaitForOneFrame;
-                                }
-                            }
-
-                            Timing.RunCoroutine(die());
+                            ev.Player.RemoveAllAbilities();
+                            ev.Player.Kill("욕심을 부리다가 아사했습니다.");
                             return;
                         }
                     }
