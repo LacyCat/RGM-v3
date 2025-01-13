@@ -145,5 +145,51 @@ namespace RGM.IEnumerators
                 yield return Timing.WaitForSeconds(1f);
             }
         }
+
+        public static IEnumerator<float> HumanLoop()
+        {
+            while (!Round.IsEnded)
+            {
+                foreach (var player in Player.List)
+                {
+                    if (player.IsHuman)
+                    {
+                        if (!JumpScareCooldown.Contains(player))
+                        {
+                            if (Physics.Raycast(player.ReferenceHub.PlayerCameraReference.position + player.ReferenceHub.PlayerCameraReference.forward * 0.2f, player.ReferenceHub.PlayerCameraReference.forward, out RaycastHit hit, 25) &&
+                                hit.collider.TryGetComponent<IDestructible>(out IDestructible destructible))
+                            {
+                                if (Player.TryGet(hit.collider.GetComponentInParent<ReferenceHub>(), out Player t) && player != t && t.IsScp)
+                                {
+                                    JumpScareCooldown.Add(player);
+
+                                    Timing.CallDelayed(60, () =>
+                                    {
+                                        JumpScareCooldown.Remove(player);
+                                    });
+
+                                    AudioPlayer audioPlayer = AudioPlayer.CreateOrGet($"Player {player.Nickname}", condition: (hub) =>
+                                    {
+                                        return hub == player.ReferenceHub;
+                                    }, onIntialCreation: (p) =>
+                                    {
+                                        Speaker speaker = p.AddSpeaker("Main", isSpatial: false, maxDistance: 12050);
+                                    });
+
+                                    audioPlayer.AddClip($"facingScp-{UnityEngine.Random.Range(1, 7)}", volume: 2);
+
+                                    Timing.CallDelayed(3, () =>
+                                    {
+                                        audioPlayer.AddClip("chase", volume: 2);
+                                    });
+                                }
+                            }
+                        }
+                    }
+                }
+
+                yield return Timing.WaitForOneFrame;
+            }
+        }
     }
 }
