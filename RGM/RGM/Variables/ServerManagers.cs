@@ -114,6 +114,7 @@ namespace RGM.Variables
         public static List<ModeType> EnabledModeList = new List<ModeType>();
         public static List<ModeType> SubModeVote = new List<ModeType>();
         public static List<string> Requests = new List<string>();
+        public static List<Player> JumpScareCooldown = new List<Player>();
         public static List<Player> GodModePlayers = new List<Player>();
         public static List<Player> ChatCooldown = new List<Player>();
         public static List<Player> EmotionCooldown = new List<Player>();
