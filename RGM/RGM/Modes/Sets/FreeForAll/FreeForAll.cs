@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using CustomRendering;
 using Exiled.API.Features;
 using Exiled.API.Features.Doors;
+using Exiled.Events.EventArgs.Player;
 using HarmonyLib;
 using MEC;
 using Mirror;
@@ -46,6 +47,8 @@ namespace RGM.Modes
 
             Exiled.Events.Handlers.Player.Dying += OnDying;
             Exiled.Events.Handlers.Player.Spawned += OnSpawned;
+            Exiled.Events.Handlers.Player.DroppingItem += OnDroppingItem;
+            Exiled.Events.Handlers.Player.DroppingAmmo += OnDroppingAmmo;
 
             Timing.RunCoroutine(OnModeStarted());
             Timing.RunCoroutine(CleanAll());
@@ -142,6 +145,16 @@ namespace RGM.Modes
                 foreach (var item in StartupItems)
                     player.AddItem(item);
             }
+        }
+
+        public void OnDroppingItem(DroppingItemEventArgs ev)
+        {
+            ev.IsAllowed = false;
+        }
+
+        public void OnDroppingAmmo(DroppingAmmoEventArgs ev)
+        {
+            ev.IsAllowed = false;
         }
     }
 }
