@@ -51,7 +51,7 @@ namespace RGM.Commands.ClientCommands
                     string text = Trans.Role[player.Role.Type];
                     string text2 = string.Concat(new string[]
                     {
-                        $"<size=25>{Tools.BadgeFormat(player)}<color={player.Role.Color.ToHex()}>",
+                        $"<size=25><b>{chatType}</b>ㅣ{Tools.BadgeFormat(player)}<color={player.Role.Color.ToHex()}>",
                         text,
                         $"</color> ({player.DisplayNickname}) <b> | </b>",
                         string.Join(" ", arguments).Replace("=", "❤️"),
@@ -77,6 +77,9 @@ namespace RGM.Commands.ClientCommands
 
                         if (chatType == "관전자 채팅")
                             return p.IsDead;
+
+                        if (chatType == "근거리 + 무전기 채팅")
+                            return p.IsDead || Vector3.Distance(p.Position, player.Position) <= 10 || p.HasItem(ItemType.Radio);
 
                         if (chatType == "근거리 채팅")
                             return p.IsDead || Vector3.Distance(p.Position, player.Position) <= 10;
@@ -114,6 +117,11 @@ namespace RGM.Commands.ClientCommands
                 else if (player.IsDead)
                 {
                     response = ChatFormat("관전자 채팅");
+                    return true;
+                }
+                else if (player.HasItem(ItemType.Radio))
+                {
+                    response = ChatFormat("근거리 + 무전기 채팅");
                     return true;
                 }
                 else
