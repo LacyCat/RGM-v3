@@ -40,7 +40,7 @@ namespace RGM.Modes
 
         public override void OnEnabled()
         {
-            Exiled.Events.Handlers.Player.Died += OnDied;
+            Exiled.Events.Handlers.Player.Dying += OnDying;
             Exiled.Events.Handlers.Player.Hurt += OnHurt;
             Exiled.Events.Handlers.Player.Healed += OnHealed;
             Exiled.Events.Handlers.Player.PickingUpItem += OnPickingUpItem;
@@ -220,25 +220,34 @@ namespace RGM.Modes
             }
         }
 
-        public void OnDied(Exiled.Events.EventArgs.Player.DiedEventArgs ev)
+        public void OnDying(Exiled.Events.EventArgs.Player.DyingEventArgs ev)
         {
-            if (soulMates.ContainsKey(ev.Player))
+            string playerColor = ev.Player.Role.Color.ToHex();
+            string soulMateColor = soulMates[ev.Player] == null ? null : soulMates[ev.Player].Role.Color.ToHex();
+
+            Timing.CallDelayed(Timing.WaitForOneFrame, () =>
             {
-                Player soulMate = soulMates[ev.Player];
-
-                if (soulMate != null && soulMate.IsAlive)
+                if (ev.Player.IsDead)
                 {
-                    Timing.CallDelayed(Timing.WaitForOneFrame, () =>
+                    if (soulMates.ContainsKey(ev.Player))
                     {
-                        foreach (var player in Player.List.Where(x => x.IsDead))
-                            player.AddBroadcast(10, $"<size=20>{ev.Player.DisplayNickname}(와)과 {soulMate.DisplayNickname}(은)는 <color=#FE2EF7>소울메이트</color>였습니다.</size>");
-                    });
+                        Player soulMate = soulMates[ev.Player];
 
-                    soulMate.Kill(ev.DamageHandler);
+                        if (soulMate != null && soulMate.IsAlive)
+                        {
+                            Timing.CallDelayed(Timing.WaitForOneFrame, () =>
+                            {
+                                foreach (var player in Player.List.Where(x => x.IsDead))
+                                    player.AddBroadcast(10, $"<size=20><color={playerColor}>{ev.Player.DisplayNickname}</color>(와)과 <color={soulMateColor}>{soulMate.DisplayNickname}</color>(은)는 <color=#FE2EF7>소울메이트</color>였습니다.</size>");
+                            });
 
-                    Server.ExecuteCommand($"/cassie_sl <color=red>{ev.Attacker.DisplayNickname}</color>(이)가 영혼의 단짝이였던 <color=#5858FA>{ev.Player.DisplayNickname}</color>와(과) <color=#FE2EF7>{soulMate.DisplayNickname}</color>을(를) 사이좋게 하늘로 보냈습니다.");
+                            soulMate.Kill(ev.DamageHandler);
+
+                            Server.ExecuteCommand($"/cassie_sl <color=red>{ev.Attacker.DisplayNickname}</color>(이)가 영혼의 단짝이였던 <color=#5858FA>{ev.Player.DisplayNickname}</color>와(과) <color=#FE2EF7>{soulMate.DisplayNickname}</color>을(를) 사이좋게 하늘로 보냈습니다.");
+                        }
+                    }
                 }
-            }
+            });
         }
 
         public void OnHurt(Exiled.Events.EventArgs.Player.HurtEventArgs ev)
