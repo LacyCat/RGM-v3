@@ -45,6 +45,7 @@ public class WarGod : Ability
     {
         if (ev.Attacker != null && 
             ev.Attacker == Owner &&
+            ev.Player != Owner &&
             ev.Attacker.CurrentItem != null && 
             LightWarriorSerial == ev.Attacker.CurrentItem.Serial)
         {
@@ -52,7 +53,7 @@ public class WarGod : Ability
             {
                 LightWarrierCooldown = 3;
 
-                if (HitboxIdentity.IsEnemy(ev.Attacker.ReferenceHub, ev.Player.ReferenceHub) && ev.Attacker != ev.Player)
+                if (HitboxIdentity.IsEnemy(ev.Attacker.ReferenceHub, ev.Player.ReferenceHub))
                 {
                     if (ev.Attacker.CurrentItem is Jailbird jailbird)
                         jailbird.TotalCharges = 0;
