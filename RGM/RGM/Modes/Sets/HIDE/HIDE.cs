@@ -74,7 +74,7 @@ namespace RGM.Modes
                     monster.Position = new Vector3(-15.84375f, 1001.957f, 49.89063f);
                     Server.ExecuteCommand($"/open ESCAPE_PRIMARY");
 
-                    float health = 50 * Player.List.Count + 10 * Player.List.Count;
+                    float health = 10 * Player.List.Count + 1 * Player.List.Count;
                     monster.MaxHealth = health;
                     monster.Health = health;
                     monster.IsUsingStamina = false;
@@ -106,6 +106,7 @@ namespace RGM.Modes
                     if (obj.name == "CustomSchematic-MonsterCapsule")
                         obj.Position = monster.Position;
                 }
+
                 yield return Timing.WaitForSeconds(0.01f);
             }
         }
@@ -115,6 +116,7 @@ namespace RGM.Modes
             for (int i = 1; i < 180; i++)
             {
                 Player.List.ToList().ForEach(x => x.AddBroadcast(1, $"<size=25><color=#2ECCFA>NTF 승리</color>까지</color> {180 - i}초</size>"));
+
                 yield return Timing.WaitForSeconds(1f);
             }
 
@@ -164,6 +166,7 @@ namespace RGM.Modes
                         break;
 
                     ev.Player.Position += new Vector3(0, 0.3f, 0);
+
                     yield return Timing.WaitForSeconds(0.01f);
                 }
             }
