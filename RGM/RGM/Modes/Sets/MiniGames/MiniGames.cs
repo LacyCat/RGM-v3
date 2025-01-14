@@ -20,34 +20,12 @@ namespace RGM.Modes
     class MiniGames : Mode
     {
         public override string Name => "미니게임";
-        public override string Description => "간단한 게임들을 즐겨보세요! 총 3개의 라운드로 구성되어 있습니다.";
+        public override string Description => "간단한 게임들을 즐겨보세요!";
         public override string Detail =>
 """
-등장하는 미니게임들의 목록입니다.
+10개 이상의 미니게임들이 준비되어 있습니다.
 
-airstrike
-dm
-escape
-battle
-versus
-cs
-glass
-deathrun
-line
-dodge
-fall
-football
-gungame
-knives
-puzzle
-race
-light
-spleef
-tag
-tdm
-lava
-zombie
-zombie2
+총 3개 라운드로 구성되어 있습니다. (이 모드에서는 EXP, RP 지급 안됨)
 """;
         public override string Color => "A4A4A4";
 
@@ -58,7 +36,7 @@ zombie2
         {
             "airstrike",
             "dm",
-            "escape",
+            // "escape",
             "battle",
             "versus",
             "cs",
