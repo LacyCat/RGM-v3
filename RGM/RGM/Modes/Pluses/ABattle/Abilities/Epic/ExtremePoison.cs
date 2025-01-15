@@ -17,19 +17,23 @@ public class ExtremePoison : Ability
 {
     public override void OnEnabled()
     {
-        Exiled.Events.Handlers.Player.Died += OnDied;
+        Exiled.Events.Handlers.Player.Dying += OnDying;
     }
 
     public override void OnDisabled()
     {
-        Exiled.Events.Handlers.Player.Died -= OnDied;
+        Exiled.Events.Handlers.Player.Dying -= OnDying;
     }
 
-    public void OnDied(DiedEventArgs ev)
+    public void OnDying(DyingEventArgs ev)
     {
         if (ev.Player != Owner || ev.Attacker == null)
             return;
 
-        ev.Attacker.EnableEffect(EffectType.CardiacArrest, 1, 15);
+        Timing.CallDelayed(Timing.WaitForOneFrame, () =>
+        {
+            if (Owner.IsDead)
+                ev.Attacker.EnableEffect(EffectType.CardiacArrest, 1, 25 * Owner.AbilityCount(AbilityType.EPIC_EXTREMEPOISON));
+        });
     }
 }
