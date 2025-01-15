@@ -29,10 +29,13 @@ public class Test : Ability
 
                     for (int i = 0; i < 3; i++)
                         Owner.AddAbility(ABattle.Instance.GetRandomAbilities(ABattle.Instance.GetCategory(Owner), 1)[0]);
+
+                    Owner.AddAbility(AbilityType.DUMMY_TESTSUCCESS);
                 }
                 else
                 {
                     Owner.ShowHint("다음 기회에..");
+                    Owner.AddAbility(AbilityType.DUMMY_TESTFAILURE);
                 };
             }
         });
