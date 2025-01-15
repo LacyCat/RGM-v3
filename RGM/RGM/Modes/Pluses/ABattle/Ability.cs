@@ -222,6 +222,8 @@ public enum AbilityType
     // 더미 //
     DUMMY_EXPIREDINSURANCE, // [더미] 만료된 보험
     DUMMY_DOPAMINERELEASED, // [더미] 방출된 도파민
+    DUMMY_TESTSUCCESS, // [더미] 시험 성공
+    DUMMY_TESTFAILURE, // [더미] 시험 실패
     DUMMY_USEDADHESIVEPLASTER, // [더미] 해진 반창고
     DUMMY_RARETRANSITIONSUCCESS, // [더미] 하급 변이 성공
     DUMMY_RARETRANSITIONFAILURE, // [더미] 하급 변이 실패
