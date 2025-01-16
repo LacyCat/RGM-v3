@@ -22,7 +22,9 @@ using Exiled.Events.EventArgs.Player;
 using DiscordInteraction.Discord;
 using Exiled.API.Features.DamageHandlers;
 using Achievements.Handlers;
+using System.Runtime.InteropServices;
 using PlayerStatsSystem;
+
 
 namespace RGM.EventArgs
 {
@@ -595,6 +597,19 @@ namespace RGM.EventArgs
                         GodModePlayers.Remove(ev.Player);
 
                         ev.Player.Kill(ev.DamageHandler);
+                    }
+                }
+                else
+                {
+                    if (ev.DamageHandler.Type == DamageType.PocketDimension)
+                    {
+                        var attacker = Player.Get(RoleTypeId.Scp106).GetRandomValue();
+
+                        if (attacker == null) return;
+
+                        ev.IsAllowed = false;
+
+                        ev.Player.Kill(new PlayerStatsSystem.ScpDamageHandler(attacker.ReferenceHub, DeathTranslations.PocketDecay));
                     }
                 }
             }
