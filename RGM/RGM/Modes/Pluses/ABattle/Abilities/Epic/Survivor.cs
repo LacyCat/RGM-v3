@@ -44,8 +44,8 @@ public class Survivor : Ability
 
         Timing.CallDelayed(3f, () =>
         {
-            ev.Player.GetEffect(EffectType.MovementBoost).Intensity += 20;
-            ev.Player.GetEffect(EffectType.MovementBoost).TimeLeft += 25;
+            if (ev.Player.GetEffect(EffectType.MovementBoost).Intensity >= 20)
+                ev.Player.GetEffect(EffectType.MovementBoost).Intensity -= 20;
 
             if (GodModePlayers.Contains(ev.Player))
                 GodModePlayers.Remove(ev.Player);
