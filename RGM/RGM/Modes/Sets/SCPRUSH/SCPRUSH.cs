@@ -43,10 +43,7 @@ SCP-3114도 동일한 확률로 러쉬에 참여할 수 있습니다.
                 RoleTypeId.Scp173,
                 RoleTypeId.Scp939,
                 RoleTypeId.Scp079,
-                // RoleTypeId.Scp3114,
-                RoleTypeId.Flamingo,
-                RoleTypeId.AlphaFlamingo,
-                RoleTypeId.ZombieFlamingo,
+                // RoleTypeId.Scp3114
             };
             RoleTypeId RandomScpRole = ScpRoles[UnityEngine.Random.Range(0, ScpRoles.Count)];
 
