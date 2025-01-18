@@ -157,7 +157,7 @@ namespace RGM.EventArgs
                 }
             }
 
-            Server.Name = Server.Name.Replace("%CurrentMode%", $"{CurrentMode.GetModeData().Name}");
+            Server.Name = Server.Name.Replace("[라운드 시작 전 로비]", $"[현재 모드: <color=#{CurrentMode.GetModeData().Color}>{CurrentMode.GetModeData().Name}</color>]");
 
             List<string> ModeDesc = Tools.GetModeDesc(CurrentMode, CurrentSubMode);
 
