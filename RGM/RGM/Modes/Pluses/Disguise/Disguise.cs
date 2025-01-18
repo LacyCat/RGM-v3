@@ -1,5 +1,4 @@
 ﻿using Exiled.API.Features.Items;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,7 +18,7 @@ namespace RGM.Modes
     public class Disguise : Mode
     {
         public override string Name => "변장";
-        public override string Description => "모든 유저의 모습이 랜덤하게 변경됩니다.";
+        public override string Description => "일부 유저의 모습이 랜덤하게 변경됩니다.";
         public override string Detail =>
 """
 * 근접하면 실제 역할군이 표시됩니다.
@@ -98,7 +97,7 @@ SCP-079
 
         public void Spawned(Player player)
         {
-            if (_blockedRoles.Contains(player.Role) || !_disguisedList.ContainsKey(player))
+            if (_blockedRoles.Contains(player.Role) || !_disguisedList.ContainsKey(player) && Random.Range(1, 11) != 1)
                 return;
 
             Timing.CallDelayed(1f, () =>
