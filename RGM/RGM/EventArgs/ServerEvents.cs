@@ -20,6 +20,7 @@ using static RGM.IEnumerators.ServerManagers;
 
 using Exiled.API.Enums;
 using RGM.API.DataBases;
+using InventorySystem.Configs;
 
 namespace RGM.EventArgs
 {
@@ -31,6 +32,10 @@ namespace RGM.EventArgs
 
             foreach (var _audioClip in System.IO.Directory.GetFiles(Paths.Plugins + "/audio/"))
                 AudioClipStorage.LoadClip(_audioClip, _audioClip.Replace(Paths.Plugins + "/audio/", "").Replace(".ogg", ""));
+
+            InventoryLimits.StandardCategoryLimits[ItemCategory.SpecialWeapon] = 8;
+            InventoryLimits.StandardCategoryLimits[ItemCategory.SCPItem] = 8;
+            InventoryLimits.Config.RefreshCategoryLimits();
 
             UsersManager.LoadUsers();
 
