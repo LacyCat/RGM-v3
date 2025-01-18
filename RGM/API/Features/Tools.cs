@@ -378,7 +378,7 @@ $"""
             int RequiredCount = Player.List.Count / 2;
             bool IsSuccess = false;
 
-            Webhook.Send($"🗳️ **버그 투표**ㅣ{host.Nickname}에 의해 시작됨");
+            Webhook.Send($"🗳️ **버그 투표**ㅣ{host.DisplayNickname}에 의해 시작됨 ({reason})");
 
             for (int i = 1; i<21; i++)
             {
@@ -400,6 +400,7 @@ $"""
                     player.AddBroadcast(5, $"버그 투표가 <b><color=#9AFE2E>가결</color></b>되었습니다. 곧 서버가 재시작됩니다.");
 
                 Webhook.Send($"🗳️ **버그 투표**ㅣ✅ 가결됨 (투표자: {string.Join(", ", BugVotePlayers.Select(x => x.Nickname))})");
+
                 yield return Timing.WaitForSeconds(5);
 
                 Server.ExecuteCommand($"sr");
