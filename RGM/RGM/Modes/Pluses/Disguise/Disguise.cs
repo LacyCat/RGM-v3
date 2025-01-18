@@ -71,6 +71,9 @@ SCP-079
                     if (Tools.TryGetLookPlayer(p, 3, out Player t, out RaycastHit? hit) && _disguisedList.ContainsKey(t))
                         p.ShowHint($"<size=25><b>진실의 눈은 그를 <color={t.Role.Color.ToHex()}>{Trans.Role[t.Role.Type]}</color>(으)로 판별했습니다.</b></size>", 1.2f);
 
+                    else if (p.Role.Type == _disguisedList[p])
+                        p.ShowHint($"<size=25><b>당신은 변장하지 않았습니다.</b></size>", 1.2f);
+
                     else
                         p.ShowHint($"<size=25><b>당신의 정체는 <color={p.Role.Color.ToHex()}>{Trans.Role[p.Role.Type]}</color>이고, <color={_disguisedList[p].GetRoleBase().RoleColor.ToHex()}>{Trans.Role[_disguisedList[p]]}</color>(으)로 변장했습니다.</b></size>", 1.2f);
                 }
@@ -97,16 +100,21 @@ SCP-079
 
         public void Spawned(Player player)
         {
-            if (_blockedRoles.Contains(player.Role) || !_disguisedList.ContainsKey(player) && Random.Range(1, 11) != 1)
+            if (_blockedRoles.Contains(player.Role) || !_disguisedList.ContainsKey(player))
                 return;
 
             Timing.CallDelayed(1f, () =>
             {
-                RoleTypeId _roleId = Tools.GetRandomValue(_roleList);
+                if (Random.Range(1, 11) == 1)
+                {
+                    RoleTypeId _roleId = Tools.GetRandomValue(_roleList);
 
-                _disguisedList[player] = _roleId;
+                    _disguisedList[player] = _roleId;
 
-                player.ChangeAppearance(_roleId);
+                    player.ChangeAppearance(_roleId);
+                }
+                else
+                    _disguisedList[player] = player.Role.Type;
             });
         }
     }
