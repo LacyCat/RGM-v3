@@ -58,8 +58,9 @@ namespace RGM.IEnumerators
                 {
                     if (OnGround.ContainsKey(player) && !player.IsNoclipPermitted && player.Role.Type != RoleTypeId.Scp079)
                     {
-                        if (FpcExtensionMethods.IsGrounded(player.ReferenceHub))
+                        if (player.ReferenceHub.IsGrounded())
                             OnGround[player] = 5;
+
                         else
                         {
                             OnGround[player] -= 0.1f;
