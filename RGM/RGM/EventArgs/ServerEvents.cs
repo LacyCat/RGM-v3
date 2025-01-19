@@ -71,8 +71,6 @@ namespace RGM.EventArgs
             Timing.RunCoroutine(InputCooldown());
             Timing.RunCoroutine(Ball());
             Timing.RunCoroutine(RenewalPlayersInfo());
-            Timing.RunCoroutine(HumanLoop());
-            Timing.RunCoroutine(Scp079Broadcast());
 
             int rn = UnityEngine.Random.Range(1, 6);
 
@@ -185,6 +183,12 @@ namespace RGM.EventArgs
 
             if (StartupRandom == 3)
                 Tools.CallSnakeHand(null, Player.List.Where(x => x.Role == RoleTypeId.FacilityGuard).ToList());
+
+            if (CurrentMode.GetModeData().Info == ModeInfo.Plus)
+            {
+                Timing.RunCoroutine(HumanLoop());
+                Timing.RunCoroutine(Scp079Broadcast());
+            }
 
             DiscordInteraction.Discord.Webhook.Send($"시작된 모드 : {CurrentMode.GetModeData().Name}");
             Log.Info($"시작된 모드 : {CurrentMode.GetModeData().Name}");
