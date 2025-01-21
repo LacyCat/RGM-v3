@@ -35,7 +35,7 @@ namespace RGM.Modes
         public List<string> Games = new List<string>()
         {
             "airstrike",
-            "dm",
+            // "dm",
             // "escape",
             "battle",
             "versus",
