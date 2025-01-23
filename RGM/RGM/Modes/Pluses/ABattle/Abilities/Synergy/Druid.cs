@@ -18,7 +18,7 @@ using Exiled.API.Features.DamageHandlers;
 namespace RGM.Modes.Abilities.Synergy;
 
 [RequiresAbility(AbilityType.RARE_SALAMANDRA, AbilityType.RARE_UNDINE, AbilityType.RARE_GNOME, AbilityType.RARE_SYLPH)]
-[Ability("드루이드", "<살라만드라, 운디네, 노움, 실프> 4대 정령의 가호가 당신과 함께합니다. 90% 확률로 상대방의 공격을 반사합니다.", AbilityCategory.Synergy, AbilityType.SYNERGY_DRUID)]
+[Ability("드루이드", "<살라만드라, 운디네, 노움, 실프> 4대 정령의 가호가 당신과 함께합니다. 80% 확률(<color=red>SCP</color>의 경우 50%)로 상대방의 공격을 반사합니다.", AbilityCategory.Synergy, AbilityType.SYNERGY_DRUID)]
 public class Druid : Ability
 {
     public override void OnEnabled()
@@ -36,7 +36,9 @@ public class Druid : Ability
         if (ev.Player != Owner || ev.Attacker == null || Datas.BlockDamageTypes.Contains(ev.DamageHandler.Type))
             return;
 
-        if (UnityEngine.Random.Range(1, 11) != 1)
+        float reflectChance = ev.Player.IsScp ? 0.5f : 0.8f;
+
+        if (UnityEngine.Random.Range(0f, 1f) <= reflectChance)
         {
             ev.IsAllowed = false;
 
