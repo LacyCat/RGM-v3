@@ -322,6 +322,12 @@ public class ABattle : Mode
             player.Health = player.MaxHealth;
         }
 
+        if (player.HasAbility(AbilityType.LEGEND_REFLECTOR))
+        {
+            if (Random.Range(1, 4) == 1)
+                player.AddAbility(type);
+        }
+
         Log.Info("AddAbility called with " + player.Nickname + " and " + type);
 
         if (!Abilities.ContainsKey(type))

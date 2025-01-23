@@ -253,6 +253,7 @@ public enum AbilityType
     NORMAL_BODYBACK, // [일반] 바디백
     NORMAL_DOPAMINE, // [일반] 도파민
     NORMAL_TEST, // [일반] 시험
+    NORMAL_AGILITY, // [일반] 민첩
 
     // 희귀 //
     RARE_PHYSICALSTRENGTHENING, // [희귀] 육체 강화
@@ -308,6 +309,7 @@ public enum AbilityType
     LEGEND_SCREAM, // [전설] 괴성
     LEGEND_TRANSITION, // [전설] 상급 변이
     LEGEND_CANDYADDICT, // [전설] 마약 중독자
+    LEGEND_REFLECTOR, // [전설] 반사경
 
     // 신화 //
     MYTHIC_ROCKETLAUNCHER, // [신화] 로켓 런처
@@ -403,6 +405,7 @@ public enum AbilityType
     SYNERGY_ASSASSIN, // [시너지] 암살자
     SYNERGY_LOSER, // [시너지] 패배자
     SYNERGY_WINNER, // [시너지] 승리자
+    SYNERGY_VAMPIRE, // [시너지] 뱀파이어
 }
 
 public static class AbilityTypeExtensions

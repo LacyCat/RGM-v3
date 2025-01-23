@@ -30,7 +30,7 @@ public class Blink : Ability
 
     public void OnTogglingNoClip(TogglingNoClipEventArgs ev)
     {
-        if (ev.Player != Owner || TeleportCooldown > 0 || !ev.Player.IsJumping)
+        if (ev.Player != Owner || TeleportCooldown > 0 || !ev.Player.IsJumping || ev.Player.CurrentRoom.Type == RoomType.Pocket)
             return;
 
         TeleportCooldown = 15;
