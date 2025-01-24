@@ -80,10 +80,10 @@ public class ABattleEventHandler(ABattle aBattle)
             {
                 AbilityCategory getRandom()
                 {
-                    if (Random.Range(1, 11) == 1)
+                    if (Random.Range(1, 31) == 1)
                         return AbilityCategory.Mythic;
 
-                    if (Random.Range(1, 11) == 1)
+                    if (Random.Range(1, 21) == 1)
                         return AbilityCategory.Legend;
 
                     return AbilityCategory.Epic;
