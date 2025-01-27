@@ -54,7 +54,8 @@ public class SnakeHandRadio : Ability
         {
             ev.Item.Destroy();
 
-            ev.Player.Role.Set(RoleTypeId.Tutorial, SpawnReason.ForceClass, RoleSpawnFlags.None);
+            if (ev.Player.Role.Type != RoleTypeId.Tutorial)
+                ev.Player.Role.Set(RoleTypeId.Tutorial, SpawnReason.ForceClass, RoleSpawnFlags.None);
 
             Tools.CallSnakeHand(ev.Player, Player.List.Where(x => x.IsDead).ToList());
         }

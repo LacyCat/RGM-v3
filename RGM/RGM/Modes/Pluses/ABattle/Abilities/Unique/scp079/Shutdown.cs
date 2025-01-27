@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks.Sources;
 using Exiled.API.Enums;
@@ -17,8 +16,8 @@ using UnityEngine;
 
 namespace RGM.Modes.Abilities.Unique.Scp079;
 
-[Ability("랜덤 함수", "정전 시, 랜덤한 방 5개를 추가로 정전합니다.", AbilityCategory.Scp079, AbilityType.SCP079_RANDOMFUNCTION)]
-public class RandomFunction : Ability
+[Ability("셧다운제", "정전 시, 해당 방의 문들은 각각 50% 확률로 닫히고 잠기게 됩니다.", AbilityCategory.Scp079, AbilityType.SCP079_SHUTDOWN)]
+public class Shutdown : Ability
 {
     public override void OnEnabled()
     {
@@ -35,11 +34,13 @@ public class RandomFunction : Ability
         if (ev.Player != Owner)
             return;
 
-        for (int i = 1; i < 6; i++)
+        foreach (var door in ev.Room.Doors)
         {
-            Room SelectedRoom = Tools.GetRandomValue(Room.List.ToList());
-
-            SelectedRoom.TurnOffLights(10);
+            if (Random.Range(1, 3) == 1)
+            {
+                door.IsOpen = false;
+                door.Lock(DoorLockType.Lockdown079);
+            }
         }
     }
 }

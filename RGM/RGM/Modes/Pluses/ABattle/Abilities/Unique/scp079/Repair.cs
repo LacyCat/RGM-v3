@@ -1,9 +1,11 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks.Sources;
 using Exiled.API.Enums;
+using Exiled.API.Extensions;
 using Exiled.API.Features;
+using Exiled.API.Features.Doors;
 using Exiled.API.Features.Items;
 using Exiled.API.Features.Roles;
 using Exiled.Events.EventArgs.Player;
@@ -17,25 +19,20 @@ using UnityEngine;
 
 namespace RGM.Modes.Abilities.Unique.Scp079;
 
-[Ability("핑 리모컨", "핑을 찍은 방이 1초 간 정전이 됩니다.", AbilityCategory.Scp079, AbilityType.SCP079_PINGREMOTE)]
-public class PingRemote : Ability
+[Ability("수리수리 마수리", "부서진 모든 문이 복구됩니다.", AbilityCategory.Scp079, AbilityType.SCP079_REPAIR)]
+public class Repair : Ability
 {
     public override void OnEnabled()
     {
-        Exiled.Events.Handlers.Scp079.Pinging += OnPinging;
+        foreach (var door in Door.List)
+        {
+            if (door is BreakableDoor breakableDoor)
+                breakableDoor.Repair();
+        }
     }
 
     public override void OnDisabled()
     {
-        Exiled.Events.Handlers.Scp079.Pinging -= OnPinging;
-    }
 
-    public void OnPinging(PingingEventArgs ev)
-    {
-        if (ev.Player != Owner)
-            return;
-
-        if (!ev.Room.AreLightsOff)
-            ev.Room.TurnOffLights(1f * ev.Player.AbilityCount(AbilityType.SCP079_PINGREMOTE));
     }
 }

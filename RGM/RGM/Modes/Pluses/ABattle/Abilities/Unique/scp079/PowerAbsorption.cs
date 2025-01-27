@@ -17,29 +17,28 @@ using UnityEngine;
 
 namespace RGM.Modes.Abilities.Unique.Scp079;
 
-[Ability("랜덤 함수", "정전 시, 랜덤한 방 5개를 추가로 정전합니다.", AbilityCategory.Scp079, AbilityType.SCP079_RANDOMFUNCTION)]
-public class RandomFunction : Ability
+[Ability("전력 흡수", "[핑 -> 레일건]ㅣ전력을 50 얻습니다.", AbilityCategory.Scp079, AbilityType.SCP079_POWERABSORPTION)]
+public class PowerAbsorption : Ability
 {
     public override void OnEnabled()
     {
-        Exiled.Events.Handlers.Scp079.RoomBlackout += OnRoomBlackout;
+        Exiled.Events.Handlers.Scp079.Pinging += OnPinging;
     }
 
     public override void OnDisabled()
     {
-        Exiled.Events.Handlers.Scp079.RoomBlackout -= OnRoomBlackout;
+        Exiled.Events.Handlers.Scp079.Pinging -= OnPinging;
     }
 
-    public void OnRoomBlackout(RoomBlackoutEventArgs ev)
+    public void OnPinging(PingingEventArgs ev)
     {
         if (ev.Player != Owner)
             return;
 
-        for (int i = 1; i < 6; i++)
+        if (ev.Type == PingType.MicroHid)
         {
-            Room SelectedRoom = Tools.GetRandomValue(Room.List.ToList());
-
-            SelectedRoom.TurnOffLights(10);
+            if (ev.Player.Role is Scp079Role scp079)
+                scp079.Energy += 50;
         }
     }
 }

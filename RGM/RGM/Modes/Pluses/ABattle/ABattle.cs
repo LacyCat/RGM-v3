@@ -262,14 +262,14 @@ public class ABattle : Mode
         if (!PlayerAbilities.TryGetValue(player, out var ability))
         {
             return player.Role.Type == RoleTypeId.Scp079
-                ? "<align=left><b><size=22>레벨이 오를 때마다 능력을 획득할 수 있습니다.</size></b></align>"
+                ? "<align=left><b><size=22>워크스테이션 상단을 핑으로 찍으면 능력을 획득할 수 있습니다.</size></b></align>"
                 : "<align=left><b><size=22>워크스테이션 위에서 점프하면 능력을 획득할 수 있습니다.</size></b></align>";
         }
 
         if (!ability.Any())
         {
             return player.Role.Type == RoleTypeId.Scp079
-                ? "<align=left><b><size=22>레벨이 오를 때마다 능력을 획득할 수 있습니다.</size></b></align>"
+                ? "<align=left><b><size=22>워크스테이션 상단을 핑으로 찍으면 능력을 획득할 수 있습니다.</size></b></align>"
                 : "<align=left><b><size=22>워크스테이션 위에서 점프하면 능력을 획득할 수 있습니다.</size></b></align>";
         }
 
