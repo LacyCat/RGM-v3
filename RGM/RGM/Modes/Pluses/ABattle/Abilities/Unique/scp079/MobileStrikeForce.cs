@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks.Sources;
 using Exiled.API.Enums;
+using Exiled.API.Extensions;
 using Exiled.API.Features;
+using Exiled.API.Features.Doors;
 using Exiled.API.Features.Items;
 using Exiled.API.Features.Roles;
 using Exiled.Events.EventArgs.Player;
@@ -17,29 +19,24 @@ using UnityEngine;
 
 namespace RGM.Modes.Abilities.Unique.Scp079;
 
-[Ability("랜덤 함수", "정전 시, 랜덤한 방 5개를 추가로 정전합니다.", AbilityCategory.Scp079, AbilityType.SCP079_RANDOMFUNCTION)]
-public class RandomFunction : Ability
+[Ability("기동타격대", "테슬라로 소모되는 에너지가 20 감소합니다.", AbilityCategory.Scp079, AbilityType.SCP079_MOBILESTRIKEFORCE)]
+public class MobileStrikeForce : Ability
 {
     public override void OnEnabled()
     {
-        Exiled.Events.Handlers.Scp079.RoomBlackout += OnRoomBlackout;
+        Exiled.Events.Handlers.Scp079.InteractingTesla += OnInteractingTesla;
     }
 
     public override void OnDisabled()
     {
-        Exiled.Events.Handlers.Scp079.RoomBlackout -= OnRoomBlackout;
+        Exiled.Events.Handlers.Scp079.InteractingTesla -= OnInteractingTesla;
     }
 
-    public void OnRoomBlackout(RoomBlackoutEventArgs ev)
+    public void OnInteractingTesla(InteractingTeslaEventArgs ev)
     {
-        if (ev.Player != Owner)
+        if (Owner != ev.Player)
             return;
 
-        for (int i = 1; i < 6; i++)
-        {
-            Room SelectedRoom = Tools.GetRandomValue(Room.List.ToList());
-
-            SelectedRoom.TurnOffLights(10);
-        }
+        ev.AuxiliaryPowerCost -= 20;
     }
 }

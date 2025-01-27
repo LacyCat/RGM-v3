@@ -1,8 +1,9 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks.Sources;
 using Exiled.API.Enums;
+using Exiled.API.Extensions;
 using Exiled.API.Features;
 using Exiled.API.Features.Items;
 using Exiled.API.Features.Roles;
@@ -17,9 +18,11 @@ using UnityEngine;
 
 namespace RGM.Modes.Abilities.Unique.Scp079;
 
-[Ability("핑 리모컨", "핑을 찍은 방이 1초 간 정전이 됩니다.", AbilityCategory.Scp079, AbilityType.SCP079_PINGREMOTE)]
-public class PingRemote : Ability
+[Ability("폭격", "핑이 찍힌 장소에 점화된 고폭 수류탄이 생성됩니다. (쿨타임 10초)", AbilityCategory.Scp079, AbilityType.SCP079_AIRSTRIKE)]
+public class AirStrike : Ability
 {
+    bool _isScp079Cooldown = false;
+
     public override void OnEnabled()
     {
         Exiled.Events.Handlers.Scp079.Pinging += OnPinging;
@@ -35,7 +38,21 @@ public class PingRemote : Ability
         if (ev.Player != Owner)
             return;
 
-        if (!ev.Room.AreLightsOff)
-            ev.Room.TurnOffLights(1f * ev.Player.AbilityCount(AbilityType.SCP079_PINGREMOTE));
+        if (!_isScp079Cooldown)
+        {
+            Timing.CallDelayed(0.1f, () =>
+            {
+                var g = (ExplosiveGrenade)Item.Create(ItemType.GrenadeHE, ev.Player);
+                g.FuseTime = 3f;
+                g.SpawnActive(ev.Position, ev.Player);
+
+                _isScp079Cooldown = true;
+
+                Timing.CallDelayed(10, () =>
+                {
+                    _isScp079Cooldown = false;
+                });
+            });
+        }
     }
 }

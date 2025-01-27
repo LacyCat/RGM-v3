@@ -231,6 +231,8 @@ public enum AbilityType
     DUMMY_EPICTRANSITIONFAILURE, // [더미] 변이 실패
     DUMMY_LEGENDTRANSITIONSUCCESS, // [더미] 상급 변이 성공
     DUMMY_LEGENDTRANSITIONFAILURE, // [더미] 상급 변이 실패
+    DUMMY_USEDPINGHOOK, // [더미] 핑 갈?고리
+    DUMMY_BACKEDUP, // [더미] 백업됨
 
     // 일반 //
     NORMAL_WORKOUT, // [일반] 운동
@@ -393,6 +395,18 @@ public enum AbilityType
     SCP079_RANDOMFUNCTION, // [전용] 랜덤 함수
     SCP079_OVERWHELMING, // [전용] 고대의 존재 압도
     SCP079_CALLSCP, // [전용] SCP 지원 호출기
+    SCP079_POWERABSORPTION, // [전용] 전력 흡수
+    SCP079_PINGHOOK, // [전용] 핑 갈고리
+    SCP079_LOCKDOWN, // [전용] 봉쇄
+    SCP079_REPAIR, // [전용] 수리수리 마수리
+    SCP079_RESTAREA, // [전용] 휴게소
+    SCP079_STARTWARHEAD, // [전용] 자폭 시퀸스
+    SCP079_SHUTDOWN, // [전용] 셧다운제
+    SCP079_OVERCLOCKING, // [전용] 오버클럭
+    SCP079_JUSTPRICE, // [전용] 응당한 대가
+    SCP079_FREEDOM, // [전용] 자유
+    SCP079_MOBILESTRIKEFORCE, // [전용] 기동타격대
+    SCP079_AIRSTRIKE, // [전용] 폭격
 
     // 시너지 //
     SYNERGY_SURVIVALEXPERT, // [시너지] 생존 전문가

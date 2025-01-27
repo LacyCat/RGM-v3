@@ -28,11 +28,9 @@ public class ABattleEventHandler(ABattle aBattle)
         Exiled.Events.Handlers.Player.Jumping += OnJumping;
         Exiled.Events.Handlers.Player.ChangingRole += OnChangingRole;
 
-        Exiled.Events.Handlers.Scp079.GainingLevel += OnGainingLevel;
+        Exiled.Events.Handlers.Scp079.Pinging += OnPinging;
 
         Exiled.Events.Handlers.Scp1507.SpawningFlamingos += OnSpawningFlamingos;
-
-        MapEditorReborn.Events.Handlers.Map.LoadingMap += OnLoadingMap;
     }
 
     private void OnVerified(VerifiedEventArgs ev)
@@ -161,19 +159,62 @@ public class ABattleEventHandler(ABattle aBattle)
         yield break;
     }
 
-    private void OnGainingLevel(GainingLevelEventArgs ev)
+    public void OnPinging(PingingEventArgs ev)
     {
-        ev.Player.AddAbility(ABattle.Instance.GetRandomAbilities(AbilityCategory.Scp079, 1).First());
+        Vector3 pos = ev.Position;
+
+        if (Physics.Raycast(new Vector3(pos.x, pos.y + 1, pos.z), Vector3.down, out var hit, 5, (LayerMask)1))
+        {
+            if (hit.transform != null)
+            {
+                var controller = hit.transform.GetComponentInParent<WorkstationController>();
+
+                if (controller != null)
+                {
+                    if (aBattle.CurrentExtraMode != "대출" && aBattle.PlayerWorkstations[ev.Player].Contains(controller))
+                        return;
+
+                    if (aBattle.CurrentExtraMode == "대출")
+                    {
+                        if (aBattle.PlayerWorkstations[ev.Player].Contains(controller) && Random.Range(1, 6) == 1)
+                        {
+                            if (GodModePlayers.Contains(ev.Player))
+                                GodModePlayers.Remove(ev.Player);
+
+                            ev.Player.RemoveAllAbilities();
+                            ev.Player.Kill("욕심을 부리다가 아사했습니다.");
+                            return;
+                        }
+                    }
+
+                    if (aBattle.Selections.ContainsKey(ev.Player))
+                        aBattle.Selections[ev.Player].Clear();
+
+                    if (aBattle.CurrentExtraMode == "대출")
+                        aBattle.StartSelect(ev.Player);
+
+                    if (!aBattle.PlayerWorkstations.TryGetValue(ev.Player, out var workstations))
+                    {
+                        aBattle.PlayerWorkstations.Add(ev.Player, [controller]);
+
+                        aBattle.StartSelect(ev.Player);
+                    }
+                    else
+                    {
+                        if (!workstations.Contains(controller))
+                        {
+                            workstations.Add(controller);
+
+                            aBattle.StartSelect(ev.Player);
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private void OnSpawningFlamingos(SpawningFlamingosEventArgs ev)
     {
         Timing.RunCoroutine(aBattle.RestoreAbilities(ev.SpawnablePlayers.ToList()));
-    }
-
-    private void OnLoadingMap(LoadingMapEventArgs ev)
-    {
-        if (ev.NewMap.Name == "ABattle")
-            Player.List.ToList().ForEach(x => x.AddBroadcast(10, "<size=25><b><i><color=#FF00EA>피</color><color=#EF00EB>버</color> <color=#CF00ED>모</color><color=#BF00EF>드</color><color=#AF00F0>가</color> <color=#8F00F3>활</color><color=#7F00F4>성</color><color=#6F00F5>화</color><color=#5F00F7>되</color><color=#4F00F8>었</color><color=#3F00F9>습</color><color=#2F00FB>니</color><color=#1F00FC>다</color><color=#0F00FD>!</color></i></b></size>"));
     }
 }

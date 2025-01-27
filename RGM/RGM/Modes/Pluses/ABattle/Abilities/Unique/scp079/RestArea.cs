@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks.Sources;
 using Exiled.API.Enums;
+using Exiled.API.Extensions;
 using Exiled.API.Features;
+using Exiled.API.Features.Doors;
 using Exiled.API.Features.Items;
 using Exiled.API.Features.Roles;
 using Exiled.Events.EventArgs.Player;
@@ -17,29 +19,25 @@ using UnityEngine;
 
 namespace RGM.Modes.Abilities.Unique.Scp079;
 
-[Ability("랜덤 함수", "정전 시, 랜덤한 방 5개를 추가로 정전합니다.", AbilityCategory.Scp079, AbilityType.SCP079_RANDOMFUNCTION)]
-public class RandomFunction : Ability
+[Ability("휴게소", "[경험치 획득]ㅣ생존한 SCP의 체력이 획득한 경험치만큼 회복됩니다.", AbilityCategory.Scp079, AbilityType.SCP079_RESTAREA)]
+public class RestArea : Ability
 {
     public override void OnEnabled()
     {
-        Exiled.Events.Handlers.Scp079.RoomBlackout += OnRoomBlackout;
+        Exiled.Events.Handlers.Scp079.GainingExperience += OnGainingExperience;
     }
 
     public override void OnDisabled()
     {
-        Exiled.Events.Handlers.Scp079.RoomBlackout -= OnRoomBlackout;
+        Exiled.Events.Handlers.Scp079.GainingExperience -= OnGainingExperience;
     }
 
-    public void OnRoomBlackout(RoomBlackoutEventArgs ev)
+    public void OnGainingExperience(GainingExperienceEventArgs ev)
     {
-        if (ev.Player != Owner)
+        if (Owner != ev.Player)
             return;
 
-        for (int i = 1; i < 6; i++)
-        {
-            Room SelectedRoom = Tools.GetRandomValue(Room.List.ToList());
-
-            SelectedRoom.TurnOffLights(10);
-        }
+        foreach (var scp in Player.List.Where(x => x.IsScp))
+            scp.Health += ev.Amount;
     }
 }
