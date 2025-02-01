@@ -18,6 +18,7 @@ using MapEditorReborn.API.Features;
 using MapEditorReborn.API.Features.Objects;
 using Mirror;
 using PlayerRoles;
+using MapEditorReborn.Commands.ToolgunCommands;
 
 namespace RGM.Modes
 {
@@ -37,6 +38,7 @@ namespace RGM.Modes
 
 <b>[참고]</b>
 • 인간은 동전을 버릴 수 없지만, <color=red>SCP</color>는 동전을 버릴 수 있습니다.
+• <color=red>SCP-079</color>의 경우에는 설치 쿨타임이 10초입니다.
 • 생성된 모든 엄폐물은 3분 뒤 자동으로 제거됩니다. (렉 방지)
 • 고레벨의 엄폐물일수록 노동의 대가(체력)도 높아집니다.
 • <color=red>벽을 뚫거나, 아군의 경로를 막거나, 탑 쌓고 올라가는 행위는 제재 대상입니다.</color>
@@ -48,6 +50,7 @@ namespace RGM.Modes
 
         List<Item> _tools = new List<Item>();
         List<Player> _cooldownPlayers = new List<Player>();
+        List<Player> _scp079Cooldown = new List<Player>();
 
         Dictionary<string, List<object>> _objects = new Dictionary<string, List<object>>()
         {
@@ -82,7 +85,7 @@ namespace RGM.Modes
 
             while (true)
             {
-                foreach (var p in Player.List.Where(x => x.IsAlive && x.Role.Type != RoleTypeId.Scp079))
+                foreach (var p in Player.List.Where(x => x.IsAlive))
                 {
                     if (_tools.Contains(p.CurrentItem))
                     {
@@ -211,10 +214,20 @@ namespace RGM.Modes
             if (_cooldownPlayers.Contains(ev.Player))
                 return;
 
-            Vector3 _forward = ev.Player.CameraTransform.forward;
+            if (ev.Player.Role.Type == RoleTypeId.Scp079)
+            {
+                _stacks[ev.Player]++;
 
-            if (Physics.Raycast(ev.Player.ReferenceHub.PlayerCameraReference.position + ev.Player.ReferenceHub.PlayerCameraReference.forward * 0.2f, _forward, out RaycastHit hit, 3, (LayerMask)1))
-                GGUtils.HealthObject.DamageObject(ev.Player, ev.Player.IsScp ? 100 : 40, hit);
+                if (_stacks[ev.Player] >= _objects.Count)
+                    _stacks[ev.Player] = 0;
+            }
+            else
+            {
+                Vector3 _forward = ev.Player.CameraTransform.forward;
+
+                if (Physics.Raycast(ev.Player.ReferenceHub.PlayerCameraReference.position + ev.Player.ReferenceHub.PlayerCameraReference.forward * 0.2f, _forward, out RaycastHit hit, 3, (LayerMask)1))
+                    GGUtils.HealthObject.DamageObject(ev.Player, ev.Player.IsScp ? 100 : 40, hit);
+            }
 
             _cooldownPlayers.Add(ev.Player);
 
@@ -222,6 +235,39 @@ namespace RGM.Modes
             {
                 _cooldownPlayers.Remove(ev.Player);
             });
+        }
+
+        public void OnPinging(PingingEventArgs ev)
+        {
+            int stackValue = _stacks.ContainsKey(ev.Player) ? _stacks[ev.Player] : 0;
+            int objectIndex = stackValue >= _objects.Count ? _objects.Count - 1 : stackValue;
+            string selectedObject = _objects.ElementAt(objectIndex).Key;
+
+            if (_scp079Cooldown.Contains(ev.Player) || ev.Scp079.Energy < (int)_objects[selectedObject][1])
+            {
+
+            }
+            else
+            {
+                _scp079Cooldown.Add(ev.Player);
+
+                ev.Scp079.Energy -= (int)_objects[selectedObject][1];
+
+                SchematicObject _object = ObjectSpawner.SpawnSchematic(selectedObject, ev.Position, ev.Player.Rotation, null, null);
+
+                Timing.CallDelayed(180, () =>
+                {
+                    _object.Destroy();
+                    UnityEngine.Object.Destroy(_object.gameObject);
+                });
+
+                _stacks[ev.Player] = 0;
+
+                Timing.CallDelayed(10, () =>
+                {
+                    _scp079Cooldown.Remove(ev.Player);
+                });
+            }
         }
     }
 }
