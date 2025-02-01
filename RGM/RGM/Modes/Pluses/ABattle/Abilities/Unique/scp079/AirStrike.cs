@@ -11,10 +11,13 @@ using Exiled.Events.EventArgs.Player;
 using Exiled.Events.EventArgs.Scp079;
 using Exiled.Events.EventArgs.Scp106;
 using InventorySystem.Items.Usables.Scp330;
+using MapEditorReborn.API.Features;
 using MEC;
 using RGM.API.DataBases;
 using RGM.API.Features;
 using UnityEngine;
+using MapEditorReborn.API.Features.Serializable;
+using MapEditorReborn.API.Features.Objects;
 
 namespace RGM.Modes.Abilities.Unique.Scp079;
 
@@ -43,8 +46,15 @@ public class AirStrike : Ability
             Timing.CallDelayed(0.1f, () =>
             {
                 var g = (ExplosiveGrenade)Item.Create(ItemType.GrenadeHE, ev.Player);
-                g.FuseTime = 3f;
+                g.FuseTime = 4f;
                 g.SpawnActive(ev.Position, ev.Player);
+
+                LightSourceObject light = ObjectSpawner.SpawnLightSource(new LightSourceSerializable("#9A2EFE", 10, 1, false), ev.Position);
+
+                Timing.CallDelayed(4, () =>
+                {
+                    light.Destroy();
+                });
 
                 _isScp079Cooldown = true;
 
