@@ -34,7 +34,7 @@ namespace RGM
             "<s>당신들은 귀엽게 생겼어.</s>",
             "모른다고 말하는 것은 죄가 아니다, 죄란 아는 척 하는 것이다.",
             "로비 화면의 로고를 자주 관찰하면 무언가 보일 수 있다.",
-            "버그가 일어났다면 [.버그투표] 명령어를 사용할 수 있다.",
+            "버그로 인해 게임이 더 이상 진행 불가능한 경우 [.게임진행불가투표] 명령어를 사용할 수 있다.",
             "1205",
             "\"Plus\"는 단순히 일반 게임에 요소를 추가하는 모드를 뜻한다.",
             "\"Set\"은 게임 자체의 규칙이나 맵이 뒤바뀌는 모드를 뜻한다.",
@@ -56,7 +56,7 @@ namespace RGM
             "로비의 [재추첨] 버튼의 강도는 서버 내의 인원수에 비례한다.",
             "서버 모드 중 가장 인기있는 모드는 <b>워크스테이션 업그레이드</b>이다.",
             "<color=#FF0000>이</color> <color=#DF1F1D>글</color><color=#CF2F2C>을</color> <color=#AF4F4A>읽</color><color=#9F5F59>은</color> <color=#7F7F77>당</color><color=#6F8F85>신</color><color=#5F9F94>은</color> <color=#3FBFB2>오</color><color=#2FCFC1>늘</color> <color=#0FEFDF>하</color><color=#00FFEE>루</color> <color=#1FFED0>행</color><color=#2FFDC1>운</color><color=#3FFDB2>을</color> <color=#5FFC94>맛</color><color=#6FFB85>보</color><color=#7FFB77>게</color> <color=#9FFA59>될</color> <color=#BFF93B>것</color><color=#CFF82C>입</color><color=#DFF81D>니</color><color=#EFF70E>다</color><color=#FFF700>!</color>",
-            "이 편지는 영국으로부터 시작되어.."
+            "이 팁은 영국으로부터 시작되어.."
         };
     }
 }
