@@ -29,7 +29,7 @@ namespace RGM.Modes
         public override string Description => "건축하세요. 재료는 오직 건축가의 체력 뿐입니다.";
         public override string Detail =>
 """
-엄폐물 짓기에 실패하면 스텍이 쌓입니다.
+엄폐물 짓기에 실패하면 스텍이 쌓입니다. (<color=red>SCP-079</color>의 경우 [ALT])
 스텍은 엄폐물을 짓거나, 가장 큰 엄폐물 스텍을 초과하면 초기화됩니다.
 
 * 발차기(ALT)로 엄폐물을 부술 수 있습니다.
@@ -71,6 +71,7 @@ namespace RGM.Modes
             Exiled.Events.Handlers.Player.FlippingCoin += OnFlippingCoin;
             Exiled.Events.Handlers.Player.TogglingNoClip += OnTogglingNoClip;
 
+            Exiled.Events.Handlers.Scp079.Pinging += OnPinging;
 
             Timing.RunCoroutine(OnModeStarted());
         }
