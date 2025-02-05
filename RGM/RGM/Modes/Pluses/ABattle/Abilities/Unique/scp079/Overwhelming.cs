@@ -17,7 +17,7 @@ using UnityEngine;
 
 namespace RGM.Modes.Abilities.Unique.Scp079;
 
-[Ability("고대의 존재 압도", "Q키를 눌러 해당 방에 있는 인간의 속도가 감소시킵니다.", AbilityCategory.Scp079, AbilityType.SCP079_OVERWHELMING)]
+[Ability("고대의 존재 압도", "[Q]ㅣ키를 홀드하는 동안 해당 방에 있는 인간의 속도를 감소시킵니다.", AbilityCategory.Scp079, AbilityType.SCP079_OVERWHELMING)]
 public class Overwhelming : Ability
 {
     public override void OnEnabled()
@@ -38,7 +38,7 @@ public class Overwhelming : Ability
         foreach (var player in Player.List.Where(x => !x.IsNPC && !x.IsScp && x.IsAlive))
         {
             if (player.CurrentRoom == ev.Player.CurrentRoom)
-                player.EnableEffect(EffectType.Slowness, (byte)(15 * ev.Player.AbilityCount(AbilityType.SCP079_OVERWHELMING)), 0.1f);
+                player.EnableEffect(EffectType.Slowness, (byte)(12 * ev.Player.AbilityCount(AbilityType.SCP079_OVERWHELMING)), 0.1f);
         }
     }
 }
