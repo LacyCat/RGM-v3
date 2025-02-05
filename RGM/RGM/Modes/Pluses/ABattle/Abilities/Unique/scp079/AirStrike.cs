@@ -21,7 +21,7 @@ using MapEditorReborn.API.Features.Objects;
 
 namespace RGM.Modes.Abilities.Unique.Scp079;
 
-[Ability("폭격", "핑이 찍힌 장소에 점화된 고폭 수류탄이 생성됩니다. (쿨타임 10초)", AbilityCategory.Scp079, AbilityType.SCP079_AIRSTRIKE)]
+[Ability("폭격", "핑이 찍힌 장소에 점화된 고폭 수류탄이 생성됩니다. (쿨타임 15초)", AbilityCategory.Scp079, AbilityType.SCP079_AIRSTRIKE)]
 public class AirStrike : Ability
 {
     bool _isScp079Cooldown = false;
@@ -46,19 +46,19 @@ public class AirStrike : Ability
             Timing.CallDelayed(0.1f, () =>
             {
                 var g = (ExplosiveGrenade)Item.Create(ItemType.GrenadeHE, ev.Player);
-                g.FuseTime = 4f;
+                g.FuseTime = 5f;
                 g.SpawnActive(ev.Position, ev.Player);
 
                 LightSourceObject light = ObjectSpawner.SpawnLightSource(new LightSourceSerializable("#9A2EFE", 10, 1, false), ev.Position);
 
-                Timing.CallDelayed(4, () =>
+                Timing.CallDelayed(5, () =>
                 {
                     light.Destroy();
                 });
 
                 _isScp079Cooldown = true;
 
-                Timing.CallDelayed(10, () =>
+                Timing.CallDelayed(15, () =>
                 {
                     _isScp079Cooldown = false;
                 });
