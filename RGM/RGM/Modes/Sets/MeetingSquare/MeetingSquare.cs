@@ -22,7 +22,7 @@ namespace RGM.Modes
     [Mode(ModeCategory.Public, ModeInfo.Set, ModeType.MeetingSquare)]
     class MeetingSquare : Mode
     {
-        public override string Name => "<맛보기> 만남의 광장";
+        public override string Name => "만남의 광장";
         public override string Description => "만남의 광장에서 동전 4개를 가장 먼저 모으세요!";
         public override string Detail =>
 """
