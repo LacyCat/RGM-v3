@@ -701,7 +701,7 @@ public class ABattle : Mode
             {
                 case <= 2:
                     return AbilityCategory.Mythic;
-                case <= 4:
+                case <= 8:
                     return AbilityCategory.Legend;
                 case <= 85:
                     return AbilityCategory.Epic;
