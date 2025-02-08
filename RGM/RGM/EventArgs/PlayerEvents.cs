@@ -24,6 +24,8 @@ using Exiled.API.Features.DamageHandlers;
 using Achievements.Handlers;
 using System.Runtime.InteropServices;
 using PlayerStatsSystem;
+using UserSettings.ServerSpecific;
+using Exiled.API.Features.Core.UserSettings;
 
 
 namespace RGM.EventArgs
@@ -44,6 +46,24 @@ namespace RGM.EventArgs
                     Damage = 0
                 });
             }
+
+            // --------------------------------------------------------------------
+
+            ButtonSetting button = new ButtonSetting(1, "나는", "매우", 0, "귀엽다", null, (pl, sb) =>
+            {
+                Log.Info($"Changed");
+            });
+            button.OnChanged = (pl, sb) =>
+            {
+                Log.Info($"1Changed");
+            };
+            List<ServerSpecificSettingBase> list = new List<ServerSpecificSettingBase>();
+            list.Add(button.Base);
+            ServerSpecificSettingsSync.SendToPlayer(ev.Player.ReferenceHub, list.ToArray());
+            ServerSpecificSettingsSync.ServerOnSettingValueReceived += (rh, sss) =>
+            {
+                Log.Info($"{Player.Get(rh).Nickname} {sss.Label} {sss.PlayerPrefsKey} {sss.DebugValue} {sss.SettingId}");
+            };
 
             // --------------------------------------------------------------------
 
