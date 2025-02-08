@@ -57,7 +57,7 @@ public class Escape : Ability
         {
             if (Tools.TryGetLookPlayer(ev.Player, 10f, out Player player, out RaycastHit? hit))
             {
-                if (player.LeadingTeam != ev.Player.LeadingTeam)
+                if (HitboxIdentity.IsEnemy(ev.Player.ReferenceHub, player.ReferenceHub))
                 {
                     ev.Item.Destroy();
 

@@ -55,7 +55,7 @@ public class FlashLight : Ability
             {
                 if (Tools.TryGetLookPlayer(Owner, 45, out Player target, out RaycastHit? hit))
                 {
-                    if (Owner != target && Owner.LeadingTeam != target.LeadingTeam)
+                    if (Owner != target && HitboxIdentity.IsEnemy(Owner.ReferenceHub, target.ReferenceHub))
                     {
                         Hitmarker.SendHitmarkerDirectly(Owner.ReferenceHub, 0.8f);
                         target.EnableEffect(EffectType.Flashed, 1, 1f);

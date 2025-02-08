@@ -39,13 +39,13 @@ public class GmanRoaringSound : Ability
 
         if (RoaringSoundCooldown <= 0)
         {
-            if (Tools.TryGetLookPlayer(ev.Player, 10f, out Player target, out RaycastHit? hit) && target.LeadingTeam != ev.Player.LeadingTeam)
+            if (Tools.TryGetLookPlayer(ev.Player, 10f, out Player target, out RaycastHit? hit) && HitboxIdentity.IsEnemy(ev.Player.ReferenceHub, target.ReferenceHub))
             {
                 RoaringSoundCooldown = 180;
 
                 GlobalPlayer.AddClip("GmanRoaringSound");
 
-                foreach (var player in Player.List.Where(x => !x.IsNPC && x.LeadingTeam != ev.Player.LeadingTeam && x.IsAlive))
+                foreach (var player in Player.List.Where(x => !x.IsNPC && HitboxIdentity.IsEnemy(ev.Player.ReferenceHub, x.ReferenceHub) && x.IsAlive))
                 {
                     player.EnableEffect(EffectType.Flashed, 1, 0.3f);
                     player.EnableEffect(EffectType.Blinded, 1, 7.5f);

@@ -31,7 +31,7 @@ public class Kick : Ability
 
         if (Tools.TryGetLookPlayer(ev.Player, 4f, out Player player, out RaycastHit? hit))
         {
-            if (ev.Player != player && MeleeCooldown <= 0 && ev.Player.LeadingTeam != player.LeadingTeam)
+            if (ev.Player != player && MeleeCooldown <= 0 && HitboxIdentity.IsEnemy(ev.Player.ReferenceHub, player.ReferenceHub))
             {
                 float damageCalcu(string pos)
                 {

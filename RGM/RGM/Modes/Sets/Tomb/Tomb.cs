@@ -43,7 +43,7 @@ namespace RGM.Modes
         {
             Server.FriendlyFire = true;
             Round.IsLocked = true;
-            Respawn.PauseWaves();
+            Respawn.PauseWaves(); 
 
             Exiled.Events.Handlers.Player.Died += OnDied;
 

@@ -34,7 +34,7 @@ public class EyeMan : Ability
             {
                 foreach (var near in Player.List.Where(x => x.IsAlive && Vector3.Distance(x.Position, Owner.Position) < 11))
                 {
-                    if (Owner != near && Owner.LeadingTeam != near.LeadingTeam)
+                    if (Owner != near && HitboxIdentity.IsEnemy(Owner.ReferenceHub, near.ReferenceHub))
                     {
                         near.EnableEffect(EffectType.SinkHole, 1, 0.2f);
                         near.EnableEffect(EffectType.Blinded, 1, 0.2f);
@@ -45,7 +45,7 @@ public class EyeMan : Ability
 
                 if (Tools.TryGetLookPlayer(Owner, 100f, out Player target, out RaycastHit? hit))
                 {
-                    if (Owner != target && Owner.LeadingTeam != target.LeadingTeam)
+                    if (Owner != target && HitboxIdentity.IsEnemy(Owner.ReferenceHub, target.ReferenceHub))
                     {
                         target.EnableEffect(EffectType.SinkHole, 1, 0.2f);
                         target.EnableEffect(EffectType.Blinded, 1, 0.2f);
