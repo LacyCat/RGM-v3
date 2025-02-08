@@ -282,6 +282,7 @@ public enum AbilityType
     RARE_AMBUSH, // [희귀] 매복자
     RARE_TRANSITION, // [희귀] 하급 변이
     RARE_UPGRADE, // [희귀] 강화
+    RARE_DND, // [희귀] 자리 비움
 
     // 영웅 //
     EPIC_TERRORISTREMAINS, // [영웅] 테러리스트의 유품
