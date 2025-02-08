@@ -46,7 +46,8 @@ namespace RGM.Modes
         public override void OnEnabled()
         {
             Round.IsLocked = true;
-            Respawn.PauseWaves();
+            Respawn.PauseWaves(); 
+            Server.FriendlyFire = true;
 
             Exiled.Events.Handlers.Player.Died += OnDied;
 

@@ -42,7 +42,7 @@ public class Glory : Ability
             {
                 if (Tools.TryGetLookPlayer(player, 45f, out Player target, out RaycastHit? hit))
                 {
-                    if (Owner == target && Owner.LeadingTeam != target.LeadingTeam)
+                    if (Owner == target && HitboxIdentity.IsEnemy(player.ReferenceHub, target.ReferenceHub))
                     {
                         Light.Position = Owner.Position;
 

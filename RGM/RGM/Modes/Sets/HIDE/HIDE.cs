@@ -42,7 +42,7 @@ namespace RGM.Modes
 
         public override void OnEnabled()
         {
-            Respawn.PauseWaves();
+            Respawn.PauseWaves(); 
             Server.ExecuteCommand($"/el l all");
             Server.ExecuteCommand($"/close **");
             Server.ExecuteCommand($"/lock **");

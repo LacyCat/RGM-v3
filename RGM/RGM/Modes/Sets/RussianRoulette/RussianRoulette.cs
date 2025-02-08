@@ -54,7 +54,8 @@ namespace RGM.Modes
         public override void OnEnabled()
         {
             Round.IsLocked = true;
-            Respawn.PauseWaves();
+            Respawn.PauseWaves(); 
+            Server.FriendlyFire = true;
 
             Exiled.Events.Handlers.Player.Shot += OnShot;
             Exiled.Events.Handlers.Player.SearchingPickup += OnSearchingPickup;

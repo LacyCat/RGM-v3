@@ -40,7 +40,8 @@ namespace RGM.Modes
 
         public override void OnEnabled()
         {
-            Respawn.PauseWaves();
+            Respawn.PauseWaves(); 
+            Server.FriendlyFire = true;
 
             Exiled.Events.Handlers.Server.RoundEnded += OnRoundEnded;
 
