@@ -77,15 +77,22 @@ namespace RGM.Modes
 
                 for (float i = 1; i < pl.Count / 10 + 2; i++)
                 {
-                    Player BomberMan = Tools.GetRandomValue(pl.Where(x => pl.Contains(x) && !BomberMans.Contains(x)).ToList());
-
-                    if (BomberMan != null)
+                    try
                     {
-                        BomberMan.Role.Set(RoleTypeId.Scp049, SpawnReason.ForceClass, RoleSpawnFlags.None);
-                        BomberMans.Add(BomberMan);
+                        Player BomberMan = Tools.GetRandomValue(pl.Where(x => pl.Contains(x) && !BomberMans.Contains(x)).ToList());
+
+                        if (BomberMan != null && BomberMan.IsConnected)
+                        {
+                            BomberMan.Role.Set(RoleTypeId.Scp049, SpawnReason.ForceClass, RoleSpawnFlags.None);
+                            BomberMans.Add(BomberMan);
+                        }
+                        else
+                            pl.Remove(BomberMan);
                     }
-                    else
-                        pl.Remove(BomberMan);
+                    catch (Exception e)
+                    {
+                        Log.Error(e);
+                    }
                 }
 
                 for (int i = 1; i < 11; i++)
