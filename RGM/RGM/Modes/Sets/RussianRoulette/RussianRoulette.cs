@@ -55,7 +55,6 @@ namespace RGM.Modes
         {
             Round.IsLocked = true;
             Respawn.PauseWaves(); 
-            Server.FriendlyFire = true;
 
             Exiled.Events.Handlers.Player.Shot += OnShot;
             Exiled.Events.Handlers.Player.SearchingPickup += OnSearchingPickup;
