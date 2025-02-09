@@ -227,22 +227,35 @@ $"""
             if (IsWinnerSelected)
                 yield break;
 
-            foreach (var player in playerList)
+            if (Server.PlayerCount >= 15)
             {
-                UsersManager.UsersCache[player.UserId][0] = (int.Parse(UsersManager.UsersCache[player.UserId][0]) + amount).ToString();
-                UsersManager.UsersCache[player.UserId][1] = (int.Parse(UsersManager.UsersCache[player.UserId][1]) + amount).ToString();
+                foreach (var player in playerList)
+                {
+                    UsersManager.UsersCache[player.UserId][0] = (int.Parse(UsersManager.UsersCache[player.UserId][0]) + amount).ToString();
+                    UsersManager.UsersCache[player.UserId][1] = (int.Parse(UsersManager.UsersCache[player.UserId][1]) + amount).ToString();
+                }
+
+                UsersManager.SaveUsers();
+
+                IsWinnerSelected = true;
+
+                while (true)
+                {
+                    foreach (var player in Player.List)
+                        player.AddBroadcast(1, $"<size={(30 - Math.Round(playerList.Count() * 0.5f))}><color=yellow><b>✨</b></color> <b>{string.Join($", ", playerList.Select(x => $"<color={x.Role.Color.ToHex()}>{x.DisplayNickname}</color>"))}</b>(이)가 <b>{amount}</b> EXP, RP를 획득하였습니다.</size>");
+
+                    yield return Timing.WaitForSeconds(1);
+                }
             }
-
-            UsersManager.SaveUsers();
-
-            IsWinnerSelected = true;
-
-            while (true)
+            else
             {
-                foreach (var player in Player.List)
-                    player.AddBroadcast(1, $"<size={(30 - Math.Round(playerList.Count() * 0.5f))}><color=yellow><b>✨</b></color> <b>{string.Join($", ", playerList.Select(x => $"<color={x.Role.Color.ToHex()}>{x.DisplayNickname}</color>"))}</b>(이)가 <b>{amount}</b> EXP, RP를 획득하였습니다.</size>");
+                while (true)
+                {
+                    foreach (var player in Player.List)
+                        player.AddBroadcast(1, $"<size=25>서버 인원이 15명 이하이므로 우승 보상은 지급되지 않습니다.</size>");
 
-                yield return Timing.WaitForSeconds(1);
+                    yield return Timing.WaitForSeconds(1);
+                }
             }
         }
 
