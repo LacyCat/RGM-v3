@@ -44,7 +44,7 @@ namespace RGM.EventArgs
                 Speaker speaker = p.AddSpeaker("Main", isSpatial: false, maxDistance: 5000);
             });
 
-            GlobalPlayer.AddClip("NewYear_Lobby", 0.3f, true);
+            GlobalPlayer.AddClip("End of day", 0.3f, true);
 
             Round.IsLobbyLocked = true;
             GameObject.Find("StartRound").transform.localScale = Vector3.zero;
@@ -58,6 +58,7 @@ namespace RGM.EventArgs
             Third = Tools.GetObjectList("Third");
             Numbers = Tools.GetObjectList("Number");
             RandomColors = Tools.GetObjectList("RandomColor");
+            RandomLights = Tools.GetObjectList("RandomLight");
             Balls = Tools.GetObjectList("Ball");
 
             PickModes();
