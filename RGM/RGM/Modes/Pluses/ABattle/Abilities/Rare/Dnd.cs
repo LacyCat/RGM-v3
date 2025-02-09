@@ -41,7 +41,7 @@ public class Dnd : Ability
             };
 
             foreach (AbilityCategory category in categories)
-                Owner.AddAbility(ABattle.Instance.GetRandomAbilities(category, 1).GetRandomValue());
+                Owner.AddAbility(ABattle.Instance.GetRandomAbilities(category, 3).Where(x => x != AbilityType.RARE_DND).GetRandomValue());
         }
 
         Timing.RunCoroutine(enumerator());
