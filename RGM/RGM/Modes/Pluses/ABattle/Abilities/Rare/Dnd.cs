@@ -30,21 +30,37 @@ public class Dnd : Ability
 
             for (int i = 0; i < 120; i++)
             {
+                if (Owner.IsDead)
+                    yield break;
+
                 Owner.Position = pos;
                 Owner.CurrentItem = null;
 
                 yield return Timing.WaitForSeconds(1f);
             }
 
-            List<AbilityCategory> categories = new List<AbilityCategory>
+            if (!Owner.IsDead)
             {
-                AbilityCategory.Common,
-                AbilityCategory.Rare,
-                AbilityCategory.Epic
-            };
+                List<AbilityCategory> categories = new List<AbilityCategory>
+                {
+                    AbilityCategory.Common,
+                    AbilityCategory.Rare,
+                    AbilityCategory.Epic
+                };
 
-            foreach (AbilityCategory category in categories)
-                Owner.AddAbility(ABattle.Instance.GetRandomAbilities(category, 3).Where(x => x != AbilityType.RARE_DND).GetRandomValue());
+                foreach (var category in categories)
+                {
+                    try
+                    {
+                        Owner.AddAbility(ABattle.Instance.GetRandomAbilities(category, 3).ToList().Where(x => x != AbilityType.RARE_DND).GetRandomValue());
+                    }
+                    catch (Exception e)
+                    {
+                        Log.Error($"Error while adding ability to {Owner.Nickname} ({Owner.UserId}): {e}");
+                    }
+                }
+            }
+            
         }
 
         Timing.RunCoroutine(enumerator());
