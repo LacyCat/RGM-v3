@@ -70,7 +70,8 @@ namespace RGM.Modes
                 Timing.CallDelayed(1f, () =>
                 {
                     monster.Role.Set(RoleTypeId.Scp0492);
-                    monster.Group = new UserGroup { BadgeText = "MONSTER", BadgeColor = "red" };
+                    monster.RankName = "MONSTER";
+                    monster.RankColor = "red";
                     monster.Position = new Vector3(-15.84375f, 1001.957f, 49.89063f);
                     Server.ExecuteCommand($"/open ESCAPE_PRIMARY");
 
