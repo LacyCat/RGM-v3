@@ -29,7 +29,7 @@ namespace RGM.Modes
         public override string Description => "건축하세요. 재료는 오직 건축가의 체력 뿐입니다.";
         public override string Detail =>
 """
-엄폐물 짓기에 실패하면 스텍이 쌓입니다. (<color=red>SCP-079</color>의 경우 [ALT])
+엄폐물 짓기에 실패하면 스텍이 쌓입니다. (<color=red>SCP-079</color>의 경우 [레벨 업])
 스텍은 엄폐물을 짓거나, 가장 큰 엄폐물 스텍을 초과하면 초기화됩니다.
 
 * 발차기(ALT)로 엄폐물을 부술 수 있습니다.
@@ -71,6 +71,7 @@ namespace RGM.Modes
             Exiled.Events.Handlers.Player.FlippingCoin += OnFlippingCoin;
             Exiled.Events.Handlers.Player.TogglingNoClip += OnTogglingNoClip;
 
+            Exiled.Events.Handlers.Scp079.GainingLevel += OnGainingLevel;
             Exiled.Events.Handlers.Scp079.Pinging += OnPinging;
 
             Timing.RunCoroutine(OnModeStarted());
@@ -215,20 +216,10 @@ namespace RGM.Modes
             if (_cooldownPlayers.Contains(ev.Player))
                 return;
 
-            if (ev.Player.Role.Type == RoleTypeId.Scp079)
-            {
-                _stacks[ev.Player]++;
+            Vector3 _forward = ev.Player.CameraTransform.forward;
 
-                if (_stacks[ev.Player] >= _objects.Count)
-                    _stacks[ev.Player] = 0;
-            }
-            else
-            {
-                Vector3 _forward = ev.Player.CameraTransform.forward;
-
-                if (Physics.Raycast(ev.Player.ReferenceHub.PlayerCameraReference.position + ev.Player.ReferenceHub.PlayerCameraReference.forward * 0.2f, _forward, out RaycastHit hit, 3, (LayerMask)1))
-                    GGUtils.HealthObject.DamageObject(ev.Player, ev.Player.IsScp ? 100 : 40, hit);
-            }
+            if (Physics.Raycast(ev.Player.ReferenceHub.PlayerCameraReference.position + ev.Player.ReferenceHub.PlayerCameraReference.forward * 0.2f, _forward, out RaycastHit hit, 3, (LayerMask)1))
+                GGUtils.HealthObject.DamageObject(ev.Player, ev.Player.IsScp ? 100 : 40, hit);
 
             _cooldownPlayers.Add(ev.Player);
 
@@ -236,6 +227,11 @@ namespace RGM.Modes
             {
                 _cooldownPlayers.Remove(ev.Player);
             });
+        }
+
+        public void OnGainingLevel(GainingLevelEventArgs ev)
+        {
+            _stacks[ev.Player]++;
         }
 
         public void OnPinging(PingingEventArgs ev)
@@ -261,8 +257,6 @@ namespace RGM.Modes
                     _object.Destroy();
                     UnityEngine.Object.Destroy(_object.gameObject);
                 });
-
-                _stacks[ev.Player] = 0;
 
                 Timing.CallDelayed(10, () =>
                 {
