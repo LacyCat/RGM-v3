@@ -9,6 +9,13 @@ namespace RGM.Modes.Abilities.Normal;
 [Ability("단련", "공격력이 12% 추가됩니다.", AbilityCategory.Common, AbilityType.NORMAL_TRAINING)]
 public class Training : Ability
 {
+    List<RoleTypeId> ignoredRoles = new List<RoleTypeId>
+    {
+        RoleTypeId.Scp173,
+        RoleTypeId.Scp049,
+        RoleTypeId.Scp106
+    };  
+
     public override void OnEnabled()
     {
         Exiled.Events.Handlers.Player.Hurting += OnHurting;
@@ -21,7 +28,7 @@ public class Training : Ability
 
     public void OnHurting(HurtingEventArgs ev)
     {
-        if (ev.Attacker != Owner || ev.Attacker.Role.Type == RoleTypeId.Scp173)
+        if (ev.Attacker != Owner || ignoredRoles.Contains(ev.Attacker.Role))
             return;
 
         ev.DamageHandler.Damage += ev.DamageHandler.Damage * 0.12f;
