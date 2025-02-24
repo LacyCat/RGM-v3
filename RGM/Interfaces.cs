@@ -82,6 +82,7 @@ public enum ModeType
     Distancing,
     DeadLine,
     DeathRun,
+    Develop,
     DoubleUp,
     FriendlyFire,
     FreeForAll,

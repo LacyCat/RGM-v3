@@ -437,6 +437,7 @@
     <Compile Include="RGM\Modes\Sets\DeadLine\DeadLine.cs" />
     <Compile Include="RGM\Modes\Sets\DeathRun\DeathRun.cs" />
     <Compile Include="RGM\Modes\Pluses\Distancing\Distancing.cs" />
+    <Compile Include="RGM\Modes\Sets\Develop\Develop.cs" />
     <Compile Include="RGM\Modes\Sets\DoubleUp\DoubleUp.cs" />
     <Compile Include="RGM\Modes\Sets\FreeForAll\FreeForAll.cs" />
     <Compile Include="RGM\Modes\Pluses\FriendlyFire\FriendlyFire.cs" />
