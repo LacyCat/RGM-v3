@@ -197,7 +197,7 @@ namespace RGM.EventArgs
 
             yield return Timing.WaitForSeconds(20 * 60);
 
-            if (!Warhead.IsDetonated)
+            if (!Warhead.IsDetonated && CurrentMode.GetModeData().Type != ModeType.Develop)
             {
                 AutoNuke = true;
                 Warhead.Start();
