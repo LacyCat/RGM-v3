@@ -32,6 +32,8 @@ test
         {
             Round.IsLocked = true;
             Respawn.PauseWaves();
+            Map.IsDecontaminationEnabled = false;
+
         }
 
         public IEnumerator<float> OnModeStarted()
