@@ -21,10 +21,13 @@ public class BagOfChaos : Ability
     {
         int Count = Owner.Items.Where(x => !x.IsAmmo).ToList().Count;
 
-        Owner.ClearInventory();
+        Owner.ClearItems();
 
         for (int i = 1; i < Count + 1; i++)
-            Owner.AddItem(Tools.GetRandomValue(Tools.EnumToList<ItemType>().Where(x => !x.IsAmmo()).ToList()));
+        {
+            try { Owner.AddItem(Tools.GetRandomValue(Tools.EnumToList<ItemType>().Where(x => !x.IsAmmo()).ToList())); }
+            catch { }
+        }
     }
 
     public override void OnDisabled()
