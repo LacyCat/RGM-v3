@@ -177,7 +177,7 @@ namespace RGM.Modes
                         Server.ExecuteCommand($"/doortp {ev.Player.Id} SURFACE_NUKE");
 
                     else
-                        ev.Player.Position = zombies.GetRandomValue().Position;
+                        ev.Player.Position = Player.List.Where(x => x.IsAlive).GetRandomValue().Position;
                 }
                 else
                 {
