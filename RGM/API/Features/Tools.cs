@@ -41,7 +41,13 @@ namespace RGM.API.Features
 
             foreach (T item in items)
             {
-                if (!item.ToString().Contains("None"))
+                List<string> list = new List<string>() 
+                {
+                    "None",
+                    "Unknown"
+                };
+
+                if (!list.Contains(item.ToString()))
                     itemList.Add(item);
             }
 
