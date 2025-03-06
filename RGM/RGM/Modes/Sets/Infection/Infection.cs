@@ -109,7 +109,7 @@ namespace RGM.Modes
             {
                 Round.IsLocked = false;
                 IsHumanEnd = true;
-                Timing.RunCoroutine(Tools.SetWinner(Player.List.Where(x => x.IsHuman).ToList(), 1));
+                Timing.RunCoroutine(Tools.SetWinner(Player.List.Where(x => x.IsHuman).ToList(), Player.List.Where(x => x.IsHuman).Count() == 1 ? 10 : 1));
 
                 foreach (var player in Player.List)
                 {
