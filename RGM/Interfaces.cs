@@ -110,6 +110,7 @@ public enum ModeType
     Spirit,
     SuperStar,
     TrickorTreat,
+    TripleAxel,
     Unlimited,
     Juggernaut,
     JumpMap,
