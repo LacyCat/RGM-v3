@@ -79,7 +79,7 @@
     </Reference>
     <Reference Include="Castle, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Users\GoldenPig1205\AppData\Roaming\EXILED\Plugins\dependencies\Castle.dll</HintPath>
+      <HintPath>..\..\Castle\Castle\bin\Debug\Castle.dll</HintPath>
     </Reference>
     <Reference Include="CommandSystem.Core">
       <HintPath>..\..\..\SCPSL\SCPSL_Data\Managed\CommandSystem.Core.dll</HintPath>
@@ -118,7 +118,7 @@
       <HintPath>..\..\GGUtils\bin\Debug\GGUtils.dll</HintPath>
     </Reference>
     <Reference Include="JumpMap">
-      <HintPath>C:\Users\GoldenPig1205\AppData\Roaming\EXILED\Plugins\JumpMap.dll</HintPath>
+      <HintPath>..\..\JumpMap\bin\Debug\JumpMap.dll</HintPath>
     </Reference>
     <Reference Include="MapEditorReborn">
       <HintPath>..\..\..\..\Users\11010박경현\AppData\Roaming\EXILED\Plugins\MapEditorReborn.dll</HintPath>
