@@ -169,7 +169,6 @@ namespace RGM.Modes
                 ev.Player.Health = ev.Player.MaxHealth;
 
                 IEnumerable<Player> zombies = Player.List.Where(x => x.Role.Type == RoleTypeId.Scp0492);
-                Vector3 pos = Tools.GetRandomValue(zombies.Select(x => x.Position).ToList());
 
                 if (zombies.Count() < 1)
                 {
@@ -181,6 +180,8 @@ namespace RGM.Modes
                 }
                 else
                 {
+                    Vector3 pos = Tools.GetRandomValue(zombies.Select(x => x.Position).ToList());
+
                     ev.Player.Position = pos;
                 }
             }
