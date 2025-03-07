@@ -14,7 +14,6 @@ using PlayerRoles;
 using Respawning;
 using RGM.API.Features;
 using UnityEngine;
-using Exiled.Loader;
 using Exiled.API.Enums;
 
 namespace RGM.Modes
