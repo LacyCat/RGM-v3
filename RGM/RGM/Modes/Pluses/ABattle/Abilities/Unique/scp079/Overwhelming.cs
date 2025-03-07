@@ -42,6 +42,6 @@ public class Overwhelming : Ability
         }
 
         if (ev.Player.Role is Scp079Role scp079)
-            scp079.Energy -= 0.2f;
+            scp079.Energy -= 0.05f;
     }
 }
