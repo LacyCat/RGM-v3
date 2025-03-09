@@ -319,7 +319,7 @@ public class ABattle : Mode
         if (CurrentExtraMode == "스펙업")
         {
             player.MaxHealth += 50;
-            player.Health = player.MaxHealth;
+            player.Health += 50;
         }
 
         if (player.HasAbility(AbilityType.LEGEND_REFLECTOR))
