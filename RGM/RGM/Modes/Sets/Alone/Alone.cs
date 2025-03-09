@@ -3,15 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Exiled.API.Enums;
 using Exiled.API.Extensions;
 using Exiled.API.Features;
 using Exiled.API.Features.Items;
+using Exiled.Events.EventArgs.Player;
 using Exiled.Events.EventArgs.Server;
 using MEC;
 using Mirror;
 using MultiBroadcast;
 using MultiBroadcast.API;
 using PlayerRoles;
+using Respawning;
 using RGM.API.Features;
 using UnityEngine;
 
@@ -35,6 +38,8 @@ $"""
 
         public override void OnEnabled()
         {
+            Exiled.Events.Handlers.Player.Escaped += OnEscaped;
+
             Exiled.Events.Handlers.Server.RoundEnded += OnRoundEnded;
 
             Timing.RunCoroutine(OnModeStarted());
@@ -42,8 +47,16 @@ $"""
 
         public IEnumerator<float> OnModeStarted()
         {
+            Respawn.PauseWaves();
+
             alone = Player.List.Where(x => !x.IsNPC).GetRandomValue();
-            List<RoleTypeId> scpRoles = Tools.EnumToList<RoleTypeId>().Where(x => x.IsScp() && x != RoleTypeId.Scp3114 && x != RoleTypeId.Scp079).ToList();
+            List<RoleTypeId> ignoredRoles = new List<RoleTypeId> 
+            { 
+                RoleTypeId.Scp079,
+                RoleTypeId.Scp3114,
+                RoleTypeId.Scp0492
+            };
+            List<RoleTypeId> scpRoles = Tools.EnumToList<RoleTypeId>().Where(x => x.IsScp() && !ignoredRoles.Contains(x)).ToList();
             List<ItemType> items = new List<ItemType>() 
             {
                 ItemType.KeycardO5,
@@ -57,6 +70,7 @@ $"""
             };
 
             alone.Role.Set(RoleTypeId.ClassD);
+            alone.EnableEffect(EffectType.MovementBoost, 30);
 
             foreach (var item in items)
                 alone.AddItem(item);
@@ -65,6 +79,17 @@ $"""
                 player.Role.Set(scpRoles.GetRandomValue());
 
             yield break;
+        }
+
+        public void OnEscaped(EscapedEventArgs ev)
+        {
+            if (ev.Player == alone)
+            {
+                Timing.RunCoroutine(Tools.SetWinner(new List<Player> { alone }, 5));
+
+                foreach (var player in Player.List.Where(x => x != alone && x.IsAlive))
+                    player.Role.Set(RoleTypeId.Tutorial);
+            } 
         }
 
         public void OnRoundEnded(RoundEndedEventArgs ev)
