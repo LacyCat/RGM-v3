@@ -79,6 +79,7 @@ public enum ModeType
     BombParty,
     Collector,
     Cell,
+    ChangedFate,
     Disguise,
     Distancing,
     DeadLine,
