@@ -59,7 +59,7 @@ public class EyeMan : Ability
                 Log.Error($"눈빛맨 오류: {e}");
             }
 
-            yield return Timing.WaitForSeconds(0.1f);
+            yield return Timing.WaitForOneFrame;
         }
     }
 }

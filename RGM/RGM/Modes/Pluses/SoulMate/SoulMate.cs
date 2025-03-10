@@ -192,7 +192,7 @@ namespace RGM.Modes
                         currentItems.Add(player, player.CurrentItem);
                 }
 
-                yield return Timing.WaitForSeconds(0.1f);
+                yield return Timing.WaitForOneFrame;
             }
         }
 

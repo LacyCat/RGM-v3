@@ -86,28 +86,28 @@ namespace RGM.Modes
 
         public IEnumerator<float> OnTeleporting(Exiled.Events.EventArgs.Scp106.TeleportingEventArgs ev)
         {
-            yield return Timing.WaitForSeconds(0.1f);
+            yield return Timing.WaitForOneFrame;
 
             ev.Scp106.RemainingSinkholeCooldown = 0;
         }
 
         public IEnumerator<float> OnStalking(Exiled.Events.EventArgs.Scp106.StalkingEventArgs ev)
         {
-            yield return Timing.WaitForSeconds(0.1f);
+            yield return Timing.WaitForOneFrame;
 
             ev.Scp106.RemainingSinkholeCooldown = 0;
         }
 
         public IEnumerator<float> OnScp106Attacking(Exiled.Events.EventArgs.Scp106.AttackingEventArgs ev)
         {
-            yield return Timing.WaitForSeconds(0.1f);
+            yield return Timing.WaitForOneFrame;
 
             ev.Scp106.CaptureCooldown = 0;
         }
 
         public IEnumerator<float> OnPlayingSound(Exiled.Events.EventArgs.Scp939.PlayingSoundEventArgs ev)
         {
-            yield return Timing.WaitForSeconds(0.1f);
+            yield return Timing.WaitForOneFrame;
 
             ev.Scp939.MimicryCooldown = 0;
         }
@@ -119,14 +119,14 @@ namespace RGM.Modes
 
         public IEnumerator<float> OnStartingRecall(Exiled.Events.EventArgs.Scp049.StartingRecallEventArgs ev)
         {
-            yield return Timing.WaitForSeconds(0.1f);
+            yield return Timing.WaitForOneFrame;
 
             ev.Scp049.RemainingCallDuration = 0;
         }
 
         public IEnumerator<float> OnScp049Attacking(Exiled.Events.EventArgs.Scp049.AttackingEventArgs ev)
         {
-            yield return Timing.WaitForSeconds(0.1f);
+            yield return Timing.WaitForOneFrame;
 
             ev.Scp049.RemainingAttackCooldown = 0;
             ev.Scp049.RemainingGoodSenseDuration = 0;
@@ -134,7 +134,7 @@ namespace RGM.Modes
 
         public IEnumerator<float> OnEnraging(Exiled.Events.EventArgs.Scp096.EnragingEventArgs ev)
         {
-            yield return Timing.WaitForSeconds(0.1f);
+            yield return Timing.WaitForOneFrame;
 
             ev.Scp096.EnrageCooldown = 0;
             ev.Scp096.EnragedTimeLeft = 99999;
@@ -152,7 +152,7 @@ namespace RGM.Modes
             {
                 Tantrum += 1;
 
-                yield return Timing.WaitForSeconds(0.1f);
+                yield return Timing.WaitForOneFrame;
 
                 ev.Cooldown.Remaining = 0;
 
@@ -164,7 +164,7 @@ namespace RGM.Modes
 
         public IEnumerator<float> OnUsingBreakneckSpeeds(Exiled.Events.EventArgs.Scp173.UsingBreakneckSpeedsEventArgs ev)
         {
-            yield return Timing.WaitForSeconds(0.1f);
+            yield return Timing.WaitForOneFrame;
 
             ev.Scp173.RemainingBreakneckCooldown = 0;
         }

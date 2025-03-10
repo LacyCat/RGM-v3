@@ -52,7 +52,7 @@ public class Glory : Ability
                 }
             }
 
-            yield return Timing.WaitForSeconds(0.1f);
+            yield return Timing.WaitForOneFrame;
         }
     }
 }
