@@ -36,6 +36,8 @@ namespace RGM.Modes
 """
 <b>인류</b>는 무슨 수를 써서라도 10분을 버텨야 합니다.
 <b><color=red>숙주</color></b>는 무슨 수를 써서라도 모든 인류를 감염시켜야 합니다.
+
+* <color=red>SCP-079</color>는 <b><color=red>숙주</color></b>의 조력자로 탄생합니다.
 """;
         public override string Color => "FF0000";
 
@@ -89,6 +91,14 @@ namespace RGM.Modes
                             }
                         });
                         player.AddItem(ItemType.KeycardScientist);
+                    }
+
+                    if (player.Role.Type == RoleTypeId.Scp079)
+                    {
+                        if (GodModePlayers.Contains(player))
+                            GodModePlayers.Remove(player);
+
+                        player.Kill("숙주 좀비의 조력자로 탄생할 것입니다.");
                     }
                 }
                 catch (Exception ex)
@@ -168,13 +178,16 @@ namespace RGM.Modes
                 ev.Player.MaxHealth = 500;
                 ev.Player.Health = ev.Player.MaxHealth;
 
-                IEnumerable<Player> zombies = Player.List.Where(x => x.Role.Type == RoleTypeId.Scp0492);
+                try
+                {
+                    IEnumerable<Player> zombies = Player.List.Where(x => x.Role.Type == RoleTypeId.Scp0492);
 
-                if (zombies.Count() < 1)
-                    ev.Player.Position = Player.List.Where(x => x.IsAlive && !x.IsScp && !x.IsNPC).GetRandomValue().Position;
-
-                else
                     ev.Player.Position = Tools.GetRandomValue(zombies.Select(x => x.Position).ToList());
+                }
+                catch (Exception ex)
+                {
+                    ev.Player.Position = Tools.GetRandomValue(Player.List.Where(x => x.Role.Type == RoleTypeId.NtfCaptain).Select(x => x.Position).ToList());
+                }
             }
             else
                 ev.Player.Role.Set(RoleTypeId.Tutorial, RoleSpawnFlags.None);
