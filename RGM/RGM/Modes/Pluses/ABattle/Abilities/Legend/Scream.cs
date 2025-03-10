@@ -61,7 +61,7 @@ public class GmanRoaringSound : Ability
                 {
                     Warhead.Shake();
 
-                    yield return Timing.WaitForSeconds(0.1f);
+                    yield return Timing.WaitForOneFrame;
                 }
 
                 Timing.CallDelayed(100, () =>

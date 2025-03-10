@@ -67,14 +67,14 @@ public class Contract : Ability
             ev.Player.Kill("계약에 따라 당신은 죽었습니다.");
 
             while (!ev.Player.IsAlive)
-                yield return Timing.WaitForSeconds(0.1f);
+                yield return Timing.WaitForOneFrame;
 
             for (int i = 1; i < 4; i++)
             {
                 ABattle.Instance.StartSelect(ev.Player);
 
                 while (ABattle.Instance.IsSelecting[ev.Player])
-                    yield return Timing.WaitForSeconds(0.1f);
+                    yield return Timing.WaitForOneFrame;
             }
         }
     }

@@ -40,7 +40,7 @@ namespace RGM.Modes
 
         public void OnRespawningTeam(Exiled.Events.EventArgs.Server.RespawningTeamEventArgs ev)
         {
-            Timing.CallDelayed(0.1f, () => 
+            Timing.CallDelayed(Timing.WaitForOneFrame, () => 
             {
                 switch (UnityEngine.Random.Range(1, 6))
                 {
