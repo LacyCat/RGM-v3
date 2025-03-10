@@ -646,11 +646,11 @@ namespace RGM.EventArgs
 
         public static void OnDied(DiedEventArgs ev)
         {
-            if (Round.IsLobby)
+            if (!Round.IsStarted)
             {
                 Timing.CallDelayed(5, () =>
                 {
-                    if (Round.IsLobby)
+                    if (!Round.IsStarted)
                         Tools.TeleportToLobby(ev.Player);
                 });
             }
