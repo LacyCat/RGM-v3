@@ -89,7 +89,7 @@ $"""
 
         public void OnSpawned(SpawnedEventArgs ev)
         {
-            if (ev.Reason != SpawnReason.ItemUsage)
+            if (ev.Player.IsAlive && ev.Reason != SpawnReason.ItemUsage)
             {
                 RoleTypeId roleType = selectRole(ev.Player);
                 ev.Player.Role.Set(roleType, SpawnReason.ItemUsage, RoleSpawnFlags.AssignInventory);
