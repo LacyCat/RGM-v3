@@ -14,6 +14,7 @@ using MultiBroadcast.API;
 using PlayerRoles;
 using Respawning;
 using RGM.API.DataBases;
+using Exiled.API.Extensions;
 
 namespace RGM.Modes
 {
@@ -57,10 +58,18 @@ namespace RGM.Modes
             Player.List.CopyTo(pl);
 
             List<ItemType> ItemTypes = Tools.EnumToList<ItemType>().Where(x => !Datas.ExceptItems.Contains(x)).ToList();
+            List<ItemType> ammoTypes = Tools.EnumToList<ItemType>().Where(x => x.IsAmmo()).ToList();
 
             for (int i = 1; i <= 1205; i++)
             {
-                Item Item = Item.Create(Tools.GetRandomValue(ItemTypes.ToList()));
+                Item Item = Item.Create(Tools.GetRandomValue(ItemTypes));
+
+                Item.CreatePickup(RandomPosition());
+            }
+
+            for (int i = 1; i <= 400; i++)
+            {
+                Item Item = Item.Create(Tools.GetRandomValue(ammoTypes));
 
                 Item.CreatePickup(RandomPosition());
             }
