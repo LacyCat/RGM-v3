@@ -439,6 +439,7 @@
     <Compile Include="RGM\Modes\Sets\BombParty\BombParty.cs" />
     <Compile Include="RGM\Modes\Sets\Cell\Cell.cs" />
     <Compile Include="RGM\Modes\Pluses\Collector\Collector.cs" />
+    <Compile Include="RGM\Modes\Sets\ChangedFate\ChangedFate.cs" />
     <Compile Include="RGM\Modes\Sets\DeadLine\DeadLine.cs" />
     <Compile Include="RGM\Modes\Sets\DeathRun\DeathRun.cs" />
     <Compile Include="RGM\Modes\Pluses\Distancing\Distancing.cs" />
