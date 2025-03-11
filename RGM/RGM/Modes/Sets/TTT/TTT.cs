@@ -77,6 +77,7 @@ Trouble in Terrorist Town의 약자.
             Exiled.Events.Handlers.Player.Died += OnDied;
 
             Timing.RunCoroutine(OnModeStarted());
+            Timing.RunCoroutine(Timer());
         }
 
         void spawn(Player player)
@@ -178,6 +179,27 @@ Trouble in Terrorist Town의 약자.
             }
 
             yield break;
+        }
+
+        public IEnumerator<float> Timer()
+        {
+            for (int i = 1; i < 180; i++)
+            {
+                Player.List.ToList().ForEach(x => x.AddBroadcast(1, $"<size=25><color={RoleTypeId.ClassD.GetColor().ToHex()}>무죄인 팀 승리</color>까지</color> {180 - i}초</size>"));
+
+                yield return Timing.WaitForSeconds(1f);
+            }
+
+            foreach (var player in Player.List.Where(x => x.IsAlive))
+            {
+                if (traitors.Contains(player))
+                {
+                    if (GodModePlayers.Contains(player))
+                        GodModePlayers.Remove(player);
+
+                    player.Kill("제한시간이 초과하였습니다.");
+                }
+            }
         }
 
         public void OnRoundEnded(RoundEndedEventArgs ev)
