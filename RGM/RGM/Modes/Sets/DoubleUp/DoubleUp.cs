@@ -45,7 +45,7 @@ Plus(Sub) - 서브로만 등장하는 모드입니다. (ex. 한국인이 좋아�
 
         public static List<ModeType> ModeKeys = ModeList.Keys.Where(x => Mods[x].Category == ModeCategory.Public).ToList();
         public static ModeType mod1 = Tools.GetRandomValue(ModeKeys);
-        public static ModeType mod2 = Tools.GetRandomValue(ModeKeys.Where(x => x != mod1 && ModeList.Keys.Where(x => x.GetModeData().Info != ModeInfo.Set).Contains(x)).ToList());
+        public static ModeType mod2 = Tools.GetRandomValue(ModeKeys.Where(x => (mod1.GetModeData().Info == ModeInfo.Set ? x != mod1 : true) && ModeList.Keys.Where(x => x.GetModeData().Info != ModeInfo.Set).Contains(x)).ToList());
 
         public List<ModeType> Modes = new List<ModeType>() { mod1, mod2 };
 
