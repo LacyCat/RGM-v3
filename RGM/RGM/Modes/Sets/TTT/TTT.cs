@@ -27,7 +27,7 @@ namespace RGM.Modes
     class TTT : Mode
     {
         public override string Name => "TTT";
-        public override string Description => "테러리스트 타운에서 일어난 마피아 게임 (반드시 자세한 설명을 읽으세요.)";
+        public override string Description => "테러리스트 타운에서 일어난 마피아 게임 (자세한 설명 필독)";
         public override string Detail =>
 $"""
 Trouble in Terrorist Town의 약자.
