@@ -21,7 +21,7 @@ namespace RGM.Commands.ClientCommands
     {
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
-            string input = string.Join(" ", arguments);
+            string[] input = string.Join(" ", arguments).Split('/');
             Player player = Player.Get(sender);
 
             if (!ShopCooldown.Contains(player))
@@ -30,12 +30,11 @@ namespace RGM.Commands.ClientCommands
 
                 Timing.CallDelayed(5f, () => ShopCooldown.Remove(player));
 
-                if (Products.Select(x => x.Name).Contains(input))
+                if (Products.Select(x => x.Name).Contains(input[0]))
                 {
-                    Product product = Products.FirstOrDefault(x => x.Name == input);
-                    string arg = input.Replace($"{product.Name}", "").Trim();
+                    Product product = Products.FirstOrDefault(x => x.Name == input[0]);
 
-                    if (product.Check(player, arg))
+                    if (product.Check(player, input[1]))
                     {
                         int rp = int.Parse(UsersManager.UsersCache[player.UserId][1]);
 
@@ -53,7 +52,7 @@ namespace RGM.Commands.ClientCommands
 
                                 try
                                 {
-                                    product.Script.Invoke(player, $"{arg}");
+                                    product.Script.Invoke(player, $"{input[1]}");
                                     break;
                                 }
                                 catch (Exception ex)
