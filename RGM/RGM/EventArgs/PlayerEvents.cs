@@ -459,11 +459,11 @@ namespace RGM.EventArgs
 
         public static IEnumerator<float> OnSpawned(SpawnedEventArgs ev)
         {
+            Server.ExecuteCommand($"/pfx FogControl 1 0 {ev.Player.Id}");
+
             if (ev.Player.IsAlive)
             {
                 ev.Player.Scale = new Vector3(1, 1, 1);
-                Server.ExecuteCommand($"/pfx FogControl 1 0 {ev.Player.Id}");
-                Server.ExecuteCommand($"/pfx Ghostly 0 0 {ev.Player.Id}");
 
                 if (Round.IsLobby || ev.Reason == SpawnReason.RoundStart)
                 {
