@@ -19,6 +19,7 @@ using static RGM.Variables.ServerManagers;
 using Exiled.API.Enums;
 using Exiled.API.Features.Doors;
 using Exiled.Events.EventArgs.Player;
+using Exiled.Events.EventArgs.Server;
 
 namespace RGM.Modes
 {
@@ -26,7 +27,7 @@ namespace RGM.Modes
     class TTT : Mode
     {
         public override string Name => "TTT";
-        public override string Description => "테러리스트 타운에서 배신자들을 처단하세요.";
+        public override string Description => "테러리스트 타운에서 일어난 마피아 게임";
         public override string Detail =>
 $"""
 Trouble in Terrorist Town의 약자.
@@ -37,7 +38,7 @@ Trouble in Terrorist Town의 약자.
 
 <b><size=30>[참고]</size></b>
 • 탐정은 <color={RoleTypeId.FacilityGuard.GetColor().ToHex()}>시설 경비</color>의 모습을 하고 있습니다. <color={RoleTypeId.ClassD.GetColor().ToHex()}>무죄인</color>들은 가급적이면 그의 명령을 따라야 합니다.
-• <color=red>배신자</color>들에게는 무전기와 SCP-1853(이)가 추가로 지급됩니다.</color>
+• <color=red>배신자</color>들에게는 무전기와 SCP-1853(이)가 추가로 지급됩니다.
 • 가끔씩 진통제, 고폭 수류탄, 섬광탄이 추가로 지급될 수 있습니다.
 • <b><i>절대로 아무나 쏴 죽이지 마십시오, 게임의 재미를 해칩니다!</i></b>
 """;
@@ -69,6 +70,8 @@ Trouble in Terrorist Town의 약자.
             Server.FriendlyFire = true;
             Round.IsLocked = true;
             Respawn.PauseWaves();
+
+            Exiled.Events.Handlers.Server.RoundEnded += OnRoundEnded;
 
             Exiled.Events.Handlers.Player.Shooting += OnShooting;
             Exiled.Events.Handlers.Player.Died += OnDied;
@@ -177,6 +180,23 @@ Trouble in Terrorist Town의 약자.
             yield break;
         }
 
+        public void OnRoundEnded(RoundEndedEventArgs ev)
+        {
+            foreach (var player in Player.List)
+            {
+                if (traitors.Contains(player))
+                {
+                    player.RankName = "배신자";
+                    player.RankColor = "red";
+                }
+                else if (player != detective)
+                {
+                    player.RankName = "무죄인";
+                    player.RankColor = "orange";
+                }
+            }
+        }
+
         public void OnShooting(ShootingEventArgs ev)
         {
             Timing.CallDelayed(Timing.WaitForOneFrame, () =>
@@ -192,7 +212,7 @@ Trouble in Terrorist Town의 약자.
                 ev.Player.RankName = "배신자";
                 ev.Player.RankColor = "red";
             }
-            else
+            else if (ev.Player != detective)
             {
                 ev.Player.RankName = "무죄인";
                 ev.Player.RankColor = "orange";
@@ -202,15 +222,23 @@ Trouble in Terrorist Town의 약자.
             {
                 Round.IsLocked = false;
 
-                if (detective.IsAlive)
+                if (detective != null && detective.IsAlive)
                     detective.Role.Set(RoleTypeId.ClassD);
 
+                foreach (var player in Player.List)
+                {
+                    player.AddBroadcast(20, $"<color=orange>무죄인</color> 팀의 승리입니다!");
+                }
                 Timing.RunCoroutine(Tools.SetWinner(Player.List.Where(x => !traitors.Contains(x)).ToList(), 1));
             }
             if (Player.List.Where(x => !traitors.Contains(x)).Where(x => x.IsAlive).Count() == 0)
             {
                 Round.IsLocked = false;
 
+                foreach (var player in Player.List)
+                {
+                    player.AddBroadcast(20, $"<color=red>배신자</color> 팀의 승리입니다!");
+                }
                 Timing.RunCoroutine(Tools.SetWinner(Player.List.Where(x => traitors.Contains(x)).ToList(), 3));
             }
         }
