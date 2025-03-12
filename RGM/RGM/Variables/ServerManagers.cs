@@ -10,6 +10,9 @@ using Exiled.API.Features;
 using Exiled.API.Features.Doors;
 using PlayerRoles;
 using Exiled.API.Extensions;
+using static System.Net.Mime.MediaTypeNames;
+using RGM.API.DataBases;
+using MultiBroadcast.API;
 
 namespace RGM.Variables
 {
@@ -200,6 +203,29 @@ namespace RGM.Variables
                     });
 
                     radio.AddClip(AudioClipStorage.AudioClips.GetRandomValue().Key);
+                }
+            },
+            new Product()
+            {
+                Name = "확성기",
+                Description = ".구매 확성기/<내용>ㅣ<내용>을 큼지막한 글씨로 띄웁니다. 로비 또는 라운드 종료 시에만 사용할 수 있습니다.",
+                Price = 5,
+                Check = (player, arg) => { return Round.IsLobby || Round.IsEnded; },
+                Script = (player, arg) =>
+                {
+                    string text = string.Concat(new string[]
+                    {
+                        $"<size=40><b>공지</b>ㅣ{Tools.BadgeFormat(player)}<color={player.Role.Color.ToHex()}>",
+                        Trans.Role[player.Role.Type],
+                        $"</color> ({player.DisplayNickname}) <b> | </b>",
+                        arg.Replace("=", "❤️"),
+                        "</size>"
+                    });
+
+                    foreach (Player ply in Player.List)
+                    {
+                        ply.AddBroadcast(10, text);
+                    }
                 }
             },
         };
