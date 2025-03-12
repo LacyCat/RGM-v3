@@ -34,7 +34,7 @@ namespace RGM.Modes
 제한 시간은 3분이며, 3분이 지나면 버스터콜이 발생합니다.
 
 <b>[Map Credit]</b>
-@vasileii
+@vasileii, @sleeplessbutter
 """;
         public override string Color => "F8E0E6";
 
