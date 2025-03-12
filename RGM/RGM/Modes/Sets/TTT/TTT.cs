@@ -43,7 +43,7 @@ Trouble in Terrorist Town의 약자.
 • <b><i><color={RoleTypeId.ClassD.GetColor().ToHex()}>무죄인</color>은 잘못된 유저를 죽이면 심각한 피해를 입습니다!</i></b>
 
 <b>[Map Credit]</b>
-@vasileii
+@vasileii, @sleeplessbutter
 """;
         public override string Color => "F78181";
 
