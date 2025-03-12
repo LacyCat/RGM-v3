@@ -30,6 +30,12 @@ namespace RGM.Modes
 
         public static RandomEffect Instance;
 
+        List<EffectType> ignoredEffect = new List<EffectType>
+        {
+            EffectType.PocketCorroding,
+            EffectType.PitDeath
+        };
+
         public override void OnEnabled()
         {
             Timing.RunCoroutine(OnModeStarted());
@@ -43,7 +49,7 @@ namespace RGM.Modes
 
                 foreach (var player in Player.List.Where(x => x.IsAlive))
                 {
-                    EffectType Effect = Tools.GetRandomValue(Effects.Where(x => x != EffectType.PocketCorroding).ToList());
+                    EffectType Effect = Tools.GetRandomValue(Effects.Where(x => !ignoredEffect.Contains(x)).ToList());
                     byte Intensity = (byte)UnityEngine.Random.Range(1, UnityEngine.Random.Range(12, UnityEngine.Random.Range(48, UnityEngine.Random.Range(64, UnityEngine.Random.Range(100, 255)))));
                     float Duration = UnityEngine.Random.Range(1, UnityEngine.Random.Range(12, UnityEngine.Random.Range(24, UnityEngine.Random.Range(48, 61))));
 
