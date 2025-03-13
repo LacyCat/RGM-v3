@@ -30,8 +30,6 @@ public class Escape : Ability
 
     public override void OnDisabled()
     {
-        Exiled.Events.Handlers.Player.ChangedItem -= OnChangedItem;
-        Exiled.Events.Handlers.Player.FlippingCoin -= OnFlippingCoin;
     }
 
     public void OnChangedItem(ChangedItemEventArgs ev)

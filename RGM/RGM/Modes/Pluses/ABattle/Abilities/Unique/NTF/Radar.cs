@@ -29,19 +29,21 @@ public class Radar : Ability
 
     public override void OnDisabled()
     {
-        Timing.KillCoroutines(_radar1);
     }
 
     public IEnumerator<float> Radar1()
     {
         while (true)
         {
-            if (Owner.CurrentItem != null && RadarSerial == Owner.CurrentItem.Serial)
+            foreach (var player in Player.List)
             {
-                if (Tools.TryGetNearestPlayer(Owner, out Player nearestPlayer, out float radius))
+                if (player.CurrentItem != null && RadarSerial == player.CurrentItem.Serial)
                 {
-                    if (nearestPlayer != null && radius < 99999)
-                        Owner.ShowHint($"<color={nearestPlayer.Role.Color.ToHex()}>{Trans.Role[nearestPlayer.Role.Type]}</color> - {radius.ToString("F1")}m", 1.2f);
+                    if (Tools.TryGetNearestPlayer(player, out Player nearestPlayer, out float radius))
+                    {
+                        if (nearestPlayer != null && radius < 99999)
+                            player.ShowHint($"<color={nearestPlayer.Role.Color.ToHex()}>{Trans.Role[nearestPlayer.Role.Type]}</color> - {radius.ToString("F1")}m", 1.2f);
+                    }
                 }
             }
 
