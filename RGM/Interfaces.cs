@@ -77,6 +77,7 @@ public enum ModeType
     Blessing,
     BomberMan,
     Builder,
+    ChupaChups,
     BombParty,
     Collector,
     Cell,
