@@ -29,15 +29,10 @@ public class SnakeHandRadio : Ability
 
     public override void OnDisabled()
     {
-        Exiled.Events.Handlers.Player.ChangedItem -= OnChangedItem;
-        Exiled.Events.Handlers.Player.TogglingRadio -= OnTogglingRadio;
     }
 
     public void OnChangedItem(ChangedItemEventArgs ev)
     {
-        if (ev.Player != Owner)
-            return;
-
         if (ev.Item != null)
         {
             if (CallSnakeHandsSerial == ev.Item.Serial)
@@ -47,9 +42,6 @@ public class SnakeHandRadio : Ability
 
     public void OnTogglingRadio(TogglingRadioEventArgs ev)
     {
-        if (ev.Player != Owner)
-            return;
-
         if (CallSnakeHandsSerial == ev.Item.Serial)
         {
             ev.Item.Destroy();

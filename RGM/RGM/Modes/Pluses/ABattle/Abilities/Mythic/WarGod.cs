@@ -25,15 +25,10 @@ public class WarGod : Ability
 
     public override void OnDisabled()
     {
-        Exiled.Events.Handlers.Player.ChangedItem -= OnChangedItem;
-        Exiled.Events.Handlers.Player.Hurting -= OnHurting;
     }
 
     public void OnChangedItem(ChangedItemEventArgs ev)
     {
-        if (ev.Player != Owner)
-            return;
-
         if (ev.Item != null)
         {
             if (LightWarriorSerial == ev.Item.Serial)
@@ -44,8 +39,7 @@ public class WarGod : Ability
     public void OnHurting(HurtingEventArgs ev)
     {
         if (ev.Attacker != null && 
-            ev.Attacker == Owner &&
-            ev.Player != Owner &&
+            ev.Player != ev.Attacker &&
             ev.Attacker.CurrentItem != null && 
             LightWarriorSerial == ev.Attacker.CurrentItem.Serial)
         {

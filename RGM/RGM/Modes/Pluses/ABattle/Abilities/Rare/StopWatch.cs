@@ -32,15 +32,10 @@ public class StopWatch : Ability
 
     public override void OnDisabled()
     {
-        Exiled.Events.Handlers.Player.ChangedItem -= OnChangedItem;
-        Exiled.Events.Handlers.Player.FlippingCoin -= OnFlippingCoin;
     }
 
     public void OnChangedItem(ChangedItemEventArgs ev)
     {
-        if (ev.Player != Owner)
-            return;
-
         if (ev.Item != null)
         {
             if (ClockCoinSerial == ev.Item.Serial)
@@ -50,9 +45,6 @@ public class StopWatch : Ability
 
     public void OnFlippingCoin(FlippingCoinEventArgs ev)
     {
-        if (ev.Player != Owner)
-            return;
-
         ushort Serial = ev.Item.Serial;
 
         if (ClockCoinSerial == Serial)

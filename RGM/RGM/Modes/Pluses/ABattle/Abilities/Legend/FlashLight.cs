@@ -30,16 +30,10 @@ public class FlashLight : Ability
 
     public override void OnDisabled()
     {
-        Exiled.Events.Handlers.Player.ChangedItem -= OnChangedItem;
-
-        Timing.KillCoroutines(_onStarted);
     }
 
     public void OnChangedItem(ChangedItemEventArgs ev)
     {
-        if (ev.Player != Owner)
-            return;
-
         if (ev.Item != null)
         {
             if (FlashLightSerial == ev.Item.Serial)
@@ -51,14 +45,17 @@ public class FlashLight : Ability
     {
         while (true)
         {
-            if (Owner.CurrentItem != null && FlashLightSerial == Owner.CurrentItem.Serial)
+            foreach (var player in Player.List)
             {
-                if (Tools.TryGetLookPlayer(Owner, 45, out Player target, out RaycastHit? hit))
+                if (player.CurrentItem != null && FlashLightSerial == player.CurrentItem.Serial)
                 {
-                    if (Owner != target && HitboxIdentity.IsEnemy(Owner.ReferenceHub, target.ReferenceHub))
+                    if (Tools.TryGetLookPlayer(player, 45, out Player target, out RaycastHit? hit))
                     {
-                        Hitmarker.SendHitmarkerDirectly(Owner.ReferenceHub, 0.8f);
-                        target.EnableEffect(EffectType.Flashed, 1, 1f);
+                        if (player != target && HitboxIdentity.IsEnemy(player.ReferenceHub, target.ReferenceHub))
+                        {
+                            Hitmarker.SendHitmarkerDirectly(player.ReferenceHub, 0.8f);
+                            target.EnableEffect(EffectType.Flashed, 1, 1f);
+                        }
                     }
                 }
             }
