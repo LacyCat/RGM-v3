@@ -34,6 +34,7 @@ namespace RGM.Variables
         public static bool IsWinnerSelected = false;
         public static bool IsWarningAlone = false;
         public static bool IsClearCitizen = false;
+        public static bool IsSuggestProcessing = false;
 
         public static Dictionary<ModeType, ModeData> ModeList = new Dictionary<ModeType, ModeData>();
         public static Dictionary<ModeType, List<Player>> ModeVote = new Dictionary<ModeType, List<Player>>();
@@ -136,6 +137,7 @@ namespace RGM.Variables
         public static List<Player> IntercomPlayers = new List<Player>();
         public static List<Player> ShopCooldown = new List<Player>();
         public static List<ModeType> highlightModes = new List<ModeType>();
+        public static List<Player> SuggestPlayers = new List<Player>();
         public static List<string> Maps = new List<string>()
         {
             "BarotraumaWinterhalter3",
@@ -159,7 +161,7 @@ namespace RGM.Variables
                 Check = (player, arg) => { return Round.IsLobby; },
                 Script = (player, arg) =>
                 {
-                    Ragdoll.CreateAndSpawn(Tools.EnumToList<RoleTypeId>().Where(x => x.TryGetRoleBase(out PlayerRoleBase roleBase)).GetRandomValue(), "인형", "이 깜찍한 인형 좀 보세요.", player.Position);
+                    Ragdoll.CreateAndSpawn(Tools.EnumToList<RoleTypeId>().GetRandomValue(), "인형", "이 깜찍한 인형 좀 보세요.", player.Position);
                 }
             },
             new Product()
@@ -215,7 +217,7 @@ namespace RGM.Variables
                 {
                     string text = string.Concat(new string[]
                     {
-                        $"<size=40><b>공지</b>ㅣ{Tools.BadgeFormat(player)}<color={player.Role.Color.ToHex()}>",
+                        $"<size=40><b>확성기</b>ㅣ{Tools.BadgeFormat(player)}<color={player.Role.Color.ToHex()}>",
                         Trans.Role[player.Role.Type],
                         $"</color> ({player.DisplayNickname}) <b> | </b>",
                         arg.Replace("=", "❤️"),
