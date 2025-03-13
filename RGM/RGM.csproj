@@ -433,6 +433,7 @@
     <Compile Include="RGM\Modes\Pluses\Disguise\Disguise.cs" />
     <Compile Include="RGM\Modes\Pluses\Ghost\Ghost.cs" />
     <Compile Include="RGM\Modes\Pluses\GrandBow\GrandBow.cs" />
+    <Compile Include="RGM\Modes\Pluses\ChupaChups\ChupaChups.cs" />
     <Compile Include="RGM\Modes\Pluses\PaperMan\PaperMan.cs" />
     <Compile Include="RGM\Modes\Pluses\RandomEffect\RandomEffect.cs" />
     <Compile Include="RGM\Modes\Pluses\RandomSize\RandomSize.cs" />
