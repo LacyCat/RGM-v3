@@ -67,7 +67,7 @@ public class FlameThrower : Ability
 
     public void OnChangingMicroHIDState(ChangingMicroHIDStateEventArgs ev)
     {
-        if (ev.NewPhase == MicroHidPhase.WindingUp)
+        if (FlamethrowerSerial == ev.Item.Serial && ev.NewPhase == MicroHidPhase.WindingUp)
             ev.NewPhase = MicroHidPhase.Firing;
     }
 
