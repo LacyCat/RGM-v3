@@ -120,7 +120,29 @@ Trouble in Terrorist Town의 약자.
             for (int i = 0; i < 10; i++)
             {
                 foreach (var player in Player.List)
-                    player.ShowHint($"{10 - i}초 후 게임이 시작됩니다.", 1.2f);
+                    player.ShowHint($"""
+<align=left><size=25>
+Trouble in Terrorist Town의 약자.
+
+<b><size=30>[승리 조건]</size></b>
+<color={RoleTypeId.ClassD.GetColor().ToHex()}>무죄인 팀</color>(탐정, 무죄인) - <color=red>배신자</color>들을 처단하세요.
+<color=red>배신자 팀</color>(배신자) - <color=red>배신자 팀</color> 구성원을 제외한 나머지를 모두 사살하세요.
+
+<b><size=30>[참고]</size></b>
+• 탐정은 <color={RoleTypeId.FacilityGuard.GetColor().ToHex()}>시설 경비</color>의 모습을 하고 있습니다. <color={RoleTypeId.ClassD.GetColor().ToHex()}>무죄인</color>들은 가급적이면 그의 명령을 따라야 합니다.
+• <color=red>배신자</color>들에게는 무전기와 SCP-1853(이)가 추가로 지급됩니다.
+• 가끔씩 진통제, 고폭 수류탄, 섬광탄이 추가로 지급될 수 있습니다.
+• <b><i><color={RoleTypeId.ClassD.GetColor().ToHex()}>무죄인</color>은 잘못된 유저를 죽이면 심각한 피해를 입습니다!</i></b>
+
+<b>[Map Credit]</b>
+@vasileii, @sleeplessbutter
+</size></align>
+
+{10 - i}초 후 게임이 시작됩니다.
+
+
+
+""", 1.2f);
 
                 yield return Timing.WaitForSeconds(1f);
             }
@@ -191,12 +213,12 @@ Trouble in Terrorist Town의 약자.
 
         public IEnumerator<float> Timer()
         {
-            for (int i = 1; i < 180; i++)
+            for (int i = 1; i < 600; i++)
             {
                 if (Round.IsEnded)
                     yield break;
 
-                Player.List.ToList().ForEach(x => x.AddBroadcast(1, $"<size=25><color={RoleTypeId.ClassD.GetColor().ToHex()}>무죄인 팀 승리</color>까지</color> {180 - i}초</size>"));
+                Player.List.ToList().ForEach(x => x.AddBroadcast(1, $"<size=25><color={RoleTypeId.ClassD.GetColor().ToHex()}>무죄인 팀 승리</color>까지</color> {600 - i}초</size>"));
 
                 yield return Timing.WaitForSeconds(1f);
             }
