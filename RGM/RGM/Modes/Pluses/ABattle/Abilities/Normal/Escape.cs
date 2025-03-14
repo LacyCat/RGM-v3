@@ -43,9 +43,7 @@ public class Escape : Ability
 
     public void OnFlippingCoin(FlippingCoinEventArgs ev)
     {
-        ushort Serial = ev.Item.Serial;
-
-        if (EscapeCoinSerial == Serial)
+        if (EscapeCoinSerial == ev.Item.Serial)
         {
             if (Tools.TryGetLookPlayer(ev.Player, 10f, out Player player, out RaycastHit? hit))
             {
