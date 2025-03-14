@@ -153,6 +153,7 @@ namespace RGM.EventArgs
 
                 Tools.TeleportToLobby(ev.Player);
 
+                ev.Player.AddItem(ItemType.Lantern);
                 if (SelectMode == "SecretVote")
                     ev.Player.EnableEffect(EffectType.Invisible);
 
