@@ -398,7 +398,7 @@ $"""
             int RequiredCount = Player.List.Count / 2;
             bool IsSuccess = false;
 
-            Webhook.Send($"🗳️ **게임 진행 불가 투표**ㅣ{host.DisplayNickname}에 의해 시작됨 ({reason})");
+            Webhook.Send($"🗳️ **게임 진행 불가 투표**ㅣ{host.Nickname}에 의해 시작됨 ({reason})");
 
             for (int i = 1; i<21; i++)
             {
@@ -442,7 +442,7 @@ $"""
             int RequiredCount = Player.List.Count / 2;
             bool IsSuccess = false;
 
-            Webhook.Send($"🔐 **의문의 제안**ㅣ{host.DisplayNickname}에 의해 시작됨 ({reason})");
+            Webhook.Send($"🔐 **의문의 제안**ㅣ{host.Nickname}에 의해 시작됨 ({reason})");
 
             for (int i = 1; i < 31; i++)
             {
