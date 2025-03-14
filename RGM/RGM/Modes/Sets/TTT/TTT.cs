@@ -117,7 +117,7 @@ Trouble in Terrorist Town의 약자.
                 spawn(player);
             }
 
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 20; i++)
             {
                 foreach (var player in Player.List)
                     player.ShowHint($"""
@@ -138,7 +138,7 @@ Trouble in Terrorist Town의 약자.
 @vasileii, @sleeplessbutter
 </size></align>
 
-{10 - i}초 후 게임이 시작됩니다.
+{20 - i}초 후 게임이 시작됩니다.
 
 
 
@@ -156,7 +156,7 @@ Trouble in Terrorist Town의 약자.
 
             GodModePlayers.Clear();
 
-            for (float i = 1; i < Player.List.Count / 10 + 2; i++)
+            for (float i = 1; i < Player.List.Count / 10 + 3; i++)
             {
                 Player traitor = Player.List.Where(x => !traitors.Contains(x)).GetRandomValue();
                 traitor.AddItem(ItemType.Radio);
