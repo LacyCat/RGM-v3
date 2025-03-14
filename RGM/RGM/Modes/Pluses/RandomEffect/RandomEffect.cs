@@ -12,6 +12,7 @@ using RGM.API.DataBases;
 using UnityEngine;
 using Exiled.API.Features.Items;
 using Exiled.API.Enums;
+using Exiled.Events.EventArgs.Player;
 
 namespace RGM.Modes
 {
@@ -44,18 +45,28 @@ namespace RGM.Modes
 
         public IEnumerator<float> OnModeStarted()
         {
-            List<EffectType> effects = Tools.EnumToList<EffectType>().Where(x => !ignoredEffect.Contains(x)).ToList();
-
-            foreach (var player in Player.List.Where(x => x.IsAlive))
+            foreach (var player in Player.List)
             {
-                EffectType Effect = Tools.GetRandomValue(effects);
-                byte Intensity = (byte)UnityEngine.Random.Range(1, UnityEngine.Random.Range(12, UnityEngine.Random.Range(48, UnityEngine.Random.Range(64, UnityEngine.Random.Range(100, 255)))));
-
-                player.EnableEffect(Effect, Intensity);
-                player.ShowHint($"<color=#D0FA58>{Effect}</color> 효과가 {Intensity}만큼 적용되는 중입니다.", 99999);
+                Spawned(player);
             }
 
             yield break;
+        }
+
+        public void OnSpawned(SpawnedEventArgs ev)
+        {
+            Spawned(ev.Player);
+        }
+
+        public void Spawned(Player player)
+        {
+            List<EffectType> effects = Tools.EnumToList<EffectType>().Where(x => !ignoredEffect.Contains(x)).ToList();
+
+            EffectType Effect = Tools.GetRandomValue(effects);
+            byte Intensity = (byte)UnityEngine.Random.Range(1, UnityEngine.Random.Range(12, UnityEngine.Random.Range(48, UnityEngine.Random.Range(64, UnityEngine.Random.Range(100, 255)))));
+
+            player.EnableEffect(Effect, Intensity);
+            player.ShowHint($"<color=#D0FA58>{Effect}</color> 효과가 {Intensity}만큼 적용되는 중입니다.", 99999);
         }
     }
 }
