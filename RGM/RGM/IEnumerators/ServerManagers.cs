@@ -18,6 +18,7 @@ using System.Diagnostics;
 using PlayerRoles.PlayableScps.Scp1507;
 using InventorySystem.Items.FlamingoTapePlayer;
 using Exiled.API.Enums;
+using Exiled.API.Extensions;
 
 namespace RGM.IEnumerators
 {
@@ -68,7 +69,21 @@ namespace RGM.IEnumerators
 
                             if (OnGround[player] <= 0)
                             {
-                                player.Kill("공허에 빨려들어갔습니다. (5초 이상 낙하)");
+                                if (Round.ElapsedTime.TotalSeconds < 10)
+                                {
+                                    player.IsGodModeEnabled = true;
+
+                                    player.Position = Player.List.Where(x => x != player).GetRandomValue().Position;
+
+                                    Timing.CallDelayed(1, () =>
+                                    {
+                                        player.IsGodModeEnabled = false;
+                                    });
+                                }
+                                else
+                                {
+                                    player.Kill("공허에 빨려들어갔습니다. (5초 이상 낙하)");
+                                }
 
                                 OnGround[player] = 5;
                             }
