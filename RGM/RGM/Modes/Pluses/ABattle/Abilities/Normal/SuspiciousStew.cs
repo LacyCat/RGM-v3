@@ -15,8 +15,16 @@ public class SuspiciousStew : Ability
     public override void OnEnabled()
     {
         List<EffectType> Effects = Tools.EnumToList<EffectType>();
+        List<EffectType> ignoredEffect = new List<EffectType>
+        {
+            EffectType.PocketCorroding,
+            EffectType.PitDeath,
+            EffectType.CardiacArrest,
+            EffectType.Poisoned,
+            EffectType.SpawnProtected
+        };
 
-        EffectType Effect = Tools.GetRandomValue(Effects.Where(x => x != EffectType.PocketCorroding).ToList());
+        EffectType Effect = Tools.GetRandomValue(Effects.Where(x => !ignoredEffect.Contains(x)).ToList());
         byte Intensity = (byte)Random.Range(1, Random.Range(12, Random.Range(48, Random.Range(64, Random.Range(100, 255)))));
 
         Owner.EnableEffect(Effect, Intensity);
