@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Exiled.API.Enums;
+using Exiled.API.Extensions;
 using Exiled.API.Features;
 using Exiled.API.Features.Items;
 using Exiled.Events.EventArgs.Player;
@@ -18,10 +19,7 @@ public class Loser : Ability
 {
     public override void OnEnabled()
     {
-        Timing.CallDelayed(Timing.WaitForOneFrame, () =>
-        {
-            ABattle.Instance.StartSelect(Owner, ABattle.Instance.GetRandomAbilities(AbilityCategory.Legend, 1));
-        });
+        Owner.AddAbility(ABattle.Instance.GetRandomAbilities(AbilityCategory.Legend, 1).GetRandomValue());
     }
 
     public override void OnDisabled()

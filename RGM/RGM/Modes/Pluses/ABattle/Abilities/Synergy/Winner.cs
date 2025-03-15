@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Exiled.API.Enums;
+using Exiled.API.Extensions;
 using Exiled.API.Features;
 using Exiled.API.Features.Items;
 using Exiled.Events.EventArgs.Player;
@@ -18,10 +19,7 @@ public class Winner : Ability
 {
     public override void OnEnabled()
     {
-        Timing.CallDelayed(Timing.WaitForOneFrame, () =>
-        {
-            ABattle.Instance.StartSelect(Owner, ABattle.Instance.GetRandomAbilities(AbilityCategory.Mythic, 2));
-        });
+        Owner.AddAbility(ABattle.Instance.GetRandomAbilities(AbilityCategory.Mythic, 2).GetRandomValue());
     }
 
     public override void OnDisabled()
