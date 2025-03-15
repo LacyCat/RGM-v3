@@ -35,7 +35,8 @@ namespace RGM.Modes
             EffectType.PocketCorroding,
             EffectType.PitDeath,
             EffectType.CardiacArrest,
-            EffectType.Poisoned
+            EffectType.Poisoned,
+            EffectType.SpawnProtected
         };
 
         public override void OnEnabled()
