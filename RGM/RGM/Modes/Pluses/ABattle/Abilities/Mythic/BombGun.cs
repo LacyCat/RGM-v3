@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace RGM.Modes.Abilities.Mythic;
 
-[Ability("워 머신", "발사할 때마다 랜덤한 투척물을 투하하는, 탄약이 무제한인 리볼버를 얻습니다.", AbilityCategory.Mythic, AbilityType.MYTHIC_BOMBGUN)]
+[Ability("워 머신", "발사할 때마다 고폭 수류탄을 투하하는, 탄약이 무제한인 리볼버를 얻습니다.", AbilityCategory.Mythic, AbilityType.MYTHIC_BOMBGUN)]
 public class BombGun : Ability
 {
     ushort itemSerial = 0;
@@ -21,7 +21,7 @@ public class BombGun : Ability
         itemSerial = item.Serial;
 
         Exiled.Events.Handlers.Player.ChangedItem += OnChangedItem;
-        Exiled.Events.Handlers.Player.Shot += OnShot;
+        Exiled.Events.Handlers.Player.Shooting += OnShooting;
     }
 
     public override void OnDisabled()
@@ -33,17 +33,20 @@ public class BombGun : Ability
         if (itemSerial == ev.Player.CurrentItem.Serial && ev.Item != null)
         {
             if (itemSerial == ev.Item.Serial)
-                ev.Player.ShowHint($"<b><color={ABattle.RatingColor["신화"]}>워 머신</color></b> 능력이 있는 **리볼버**입니다!");
+                ev.Player.ShowHint($"<b><color={ABattle.RatingColor["신화"]}>워 머신</color></b> 능력이 있는 <b>리볼버</b>입니다!");
         }
     }
 
-    public void OnShot(ShotEventArgs ev)
+    public void OnShooting(ShootingEventArgs ev)
     {
         if (ev.Item.Serial == itemSerial)
         {
-            ev.Player.ThrowGrenade(Tools.EnumToList<ProjectileType>().GetRandomValue());
+            ev.Player.ThrowGrenade(ProjectileType.FragGrenade);
 
-            ev.Player.CurrentItem.As<Firearm>().MagazineAmmo = 1;
+            Timing.CallDelayed(1, () =>
+            {
+                ev.Player.CurrentItem.As<Firearm>().MagazineAmmo = 6;
+            });
         }
     }
 }
