@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks.Sources;
+using System.Xml.Linq;
 using Exiled.API.Enums;
 using Exiled.API.Extensions;
 using Exiled.API.Features;
@@ -24,7 +25,9 @@ public class Lockdown : Ability
 {
     public override void OnEnabled()
     {
-        foreach (var door in Door.List.Where(x => !x.IsElevator))
+        List<Door> doors = Door.List.Where(x => !x.IsElevator && !x.Type.ToString().Contains("Scp079")).ToList();
+
+        foreach (var door in doors)
         {
             door.IsOpen = false;
             door.Lock(1205, DoorLockType.Lockdown079);
@@ -32,8 +35,10 @@ public class Lockdown : Ability
 
         Timing.CallDelayed(10, () =>
         {
-            foreach (var door in Door.List)
+            foreach (var door in doors)
+            {
                 door.Unlock();
+            }
         });
 
         Map.TurnOffAllLights(10);
