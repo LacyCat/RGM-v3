@@ -335,6 +335,7 @@ public enum AbilityType
     MYTHIC_JOKER, // [신화] 조커
     MYTHIC_WARGOD, // [신화] 광전사
     MYTHIC_NOCLIP, // [신화] 노클립
+    MYTHIC_BOMBGUN, // [신화] 워 머신
 
     // 전용 //
     // D계급
