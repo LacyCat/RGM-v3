@@ -287,6 +287,7 @@
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Legend\Scream.cs" />
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Legend\SnakeHandRadio.cs" />
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Legend\SpeedWagon.cs" />
+    <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Mythic\BombGun.cs" />
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Mythic\DimensionThief.cs" />
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Mythic\EyeMan.cs" />
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Mythic\Joker.cs" />
@@ -437,6 +438,7 @@
     <Compile Include="RGM\Modes\Pluses\Blessing\Blessing.cs" />
     <Compile Include="RGM\Modes\Pluses\BomberMan\BomberMan.cs" />
     <Compile Include="RGM\Modes\Pluses\Builder\Builder.cs" />
+    <Compile Include="RGM\Modes\Pluses\Clairvoyance\Clairvoyance.cs" />
     <Compile Include="RGM\Modes\Pluses\Disguise\Disguise.cs" />
     <Compile Include="RGM\Modes\Pluses\Ghost\Ghost.cs" />
     <Compile Include="RGM\Modes\Pluses\GrandBow\GrandBow.cs" />
