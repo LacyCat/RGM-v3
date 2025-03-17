@@ -24,6 +24,8 @@ namespace RGM.Modes
         public override string Detail =>
 """
 리볼버!!!!!!
+
+소환된 SCP-018은 60초 뒤에 사라집니다. 렉 방지를 위해
 """;
         public override string Color => "DF0101";
 
@@ -68,6 +70,11 @@ namespace RGM.Modes
                 Timing.CallDelayed(1, () =>
                 {
                     ev.Player.CurrentItem.As<Firearm>().MagazineAmmo = 6;
+                });
+
+                Timing.CallDelayed(60, () =>
+                {
+                    scp018.Destroy();
                 });
             }
         }
