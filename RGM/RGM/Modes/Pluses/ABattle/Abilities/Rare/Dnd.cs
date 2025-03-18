@@ -54,13 +54,14 @@ public class Dnd : Ability
                         {
                             Owner.RemoveAbility(this);
                         });
-                        Owner.AddAbility(AbilityType.DUMMY_NOAFK);
                     }
                     catch (Exception e)
                     {
                         Log.Error($"Error while adding ability to {Owner.Nickname} ({Owner.UserId}): {e}");
                     }
                 }
+
+                Owner.AddAbility(AbilityType.DUMMY_NOAFK);
             }
             
         }
