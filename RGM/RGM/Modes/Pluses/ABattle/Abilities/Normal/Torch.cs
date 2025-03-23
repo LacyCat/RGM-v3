@@ -11,17 +11,13 @@ using UnityEngine;
 
 namespace RGM.Modes.Abilities.Normal;
 
-[Ability("횃불", "랜턴과 노란 사탕이 포함된 SCP-330을 지급받습니다.", AbilityCategory.Common, AbilityType.NORMAL_TORCH)]
+[Ability("횃불", "랜턴과 아드레날린을 받습니다.", AbilityCategory.Common, AbilityType.NORMAL_TORCH)]
 public class Torch : Ability
 {
     public override void OnEnabled()
     {
         Owner.AddItem(ItemType.Lantern);
-
-        Scp330 YellowCandy = (Scp330)Item.Create(ItemType.SCP330);
-        YellowCandy.RemoveAllCandy();
-        YellowCandy.AddCandy(CandyKindID.Yellow);
-        Owner.AddItem(YellowCandy);
+        Owner.AddItem(ItemType.Adrenaline);
     }
 
     public override void OnDisabled()
