@@ -20,12 +20,13 @@ namespace RGM.Modes
     public class DogFight : Mode
     {
         public override string Name => "개판 1초전";
-        public override string Description => "리볼버를 얻습니다. ..?";
+        public override string Description => "팀킬이 허용됩니다. 리볼버를 얻습니다. ..?";
         public override string Detail =>
 """
 리볼버!!!!!!
 
 소환된 SCP-018은 60초 뒤에 사라집니다. 렉 방지를 위해
+팀킬이 허용됩니다.
 """;
         public override string Color => "DF0101";
 
@@ -41,6 +42,8 @@ namespace RGM.Modes
 
         public IEnumerator<float> OnModeStarted()
         {
+            Tools.TryInstallMode(ModeType.FriendlyFire);
+
             foreach (var player in Player.List)
             {
                 Spawned(player);
