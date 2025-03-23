@@ -46,6 +46,7 @@ public class Milk : Ability
         if (CoinSerial == ev.Item.Serial)
         {
             ev.Player.DisableAllEffects();
+            ev.Item.Destroy();
         }
     }
 }
