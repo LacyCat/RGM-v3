@@ -44,11 +44,11 @@ namespace RGM.EventArgs
                 Speaker speaker = p.AddSpeaker("Main", isSpatial: false, maxDistance: 5000);
             });
 
-            Tools.PlayGlobalAudio("Main_Lobby", 0.3f, true);
+            Tools.PlayGlobalAudio("Holiday by GoldenPig1205", 0.3f, true);
 
             Round.IsLobbyLocked = true;
             GameObject.Find("StartRound").transform.localScale = Vector3.zero;
-            Server.ExecuteCommand($"/mp load RGMLobby");
+            Server.ExecuteCommand($"/mp load Past_Lobby");
 
             var donator = new Donator.Main();
             donator.OnEnabled();
@@ -56,6 +56,7 @@ namespace RGM.EventArgs
             First = Tools.GetObjectList("First");
             Second = Tools.GetObjectList("Second");
             Third = Tools.GetObjectList("Third");
+            Fourth = Tools.GetObjectList("Fourth");
             Numbers = Tools.GetObjectList("Number");
             RandomColors = Tools.GetObjectList("RandomColor");
             RandomLights = Tools.GetObjectList("RandomLight");

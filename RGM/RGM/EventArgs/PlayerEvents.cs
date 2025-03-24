@@ -270,13 +270,13 @@ namespace RGM.EventArgs
                                 string Color;
                                 string Description;
 
-                                for (int i = 0; i < 3; i++)
+                                for (int i = 0; i < 4; i++)
                                 {
                                     if (ModeVote.ContainsKey(ModeVote.Keys.ToList()[i]) && ModeVote[ModeVote.Keys.ToList()[i]].Contains(ev.Player))
                                         ModeVote[ModeVote.Keys.ToList()[i]].Remove(ev.Player);
                                 }
 
-                                if (new List<string>() { "First", "Second", "Third" }.Contains(hit.collider.name))
+                                if (new List<string>() { "First", "Second", "Third", "Fourth" }.Contains(hit.collider.name))
                                 {
                                     if (hit.collider.name == "First")
                                     {
@@ -288,9 +288,14 @@ namespace RGM.EventArgs
                                         SelectedMode = ModeVote.Keys.ToList()[1];
                                         ModeVote[SelectedMode].Add(ev.Player);
                                     }
-                                    else
+                                    else if (hit.collider.name == "Third")
                                     {
                                         SelectedMode = ModeVote.Keys.ToList()[2];
+                                        ModeVote[SelectedMode].Add(ev.Player);
+                                    }
+                                    else
+                                    {
+                                        SelectedMode = ModeVote.Keys.ToList()[3];
                                         ModeVote[SelectedMode].Add(ev.Player);
                                     }
 
@@ -346,12 +351,15 @@ namespace RGM.EventArgs
                                     .Replace("{FirstMark}", ModeVote[iv(1)].Contains(ev.Player) ? "■" : "□")
                                     .Replace("{SecondMark}", ModeVote[iv(2)].Contains(ev.Player) ? "■" : "□")
                                     .Replace("{ThirdMark}", ModeVote[iv(3)].Contains(ev.Player) ? "■" : "□")
+                                    .Replace("{FourthMark}", ModeVote[iv(4)].Contains(ev.Player) ? "■" : "□")
                                     .Replace("{First}", (CurrentMode != ModeType.None ? CurrentMode.GetModeData().Name : $"<color=#{ModeList[iv(1)].Color}>{iv(1).GetModeData().Name}</color>") + (SubModeVote[0] != ModeType.None ? $" + <b><i> <size=20><color=#{ModeList[SubModeVote[0]].Color}>{SubModeVote[0].GetModeData().Name}</color></size></i></b>" : ""))
                                     .Replace("{FirstVote}", ModeVote[iv(1)].Contains(ev.Player) ? $"<color=yellow>{s(1)}</color>" : s(1))
                                     .Replace("{Second}", (CurrentMode != ModeType.None ? CurrentMode.GetModeData().Name : $"<color=#{ModeList[iv(2)].Color}>{iv(2).GetModeData().Name}</color>") + (SubModeVote[1] != ModeType.None ? $" + <b><i><size=20><color=#{ModeList[SubModeVote[1]].Color}>{SubModeVote[1].GetModeData().Name}</color></size></i></b>" : ""))
                                     .Replace("{SecondVote}", ModeVote[iv(2)].Contains(ev.Player) ? $"<color=yellow>{s(2)}</color>" : s(2))
                                     .Replace("{Third}", (CurrentMode != ModeType.None ? CurrentMode.GetModeData().Name : $"<color=#{ModeList[iv(3)].Color}>{iv(3).GetModeData().Name}</color>") + (SubModeVote[2] != ModeType.None ? $" + <b><i> <size=20><color=#{ModeList[SubModeVote[2]].Color}>{SubModeVote[2].GetModeData().Name}</color></size></i></b>" : ""))
                                     .Replace("{ThirdVote}", ModeVote[iv(3)].Contains(ev.Player) ? $"<color=yellow>{s(3)}</color>" : s(3))
+                                    .Replace("{Fourth}", (CurrentMode != ModeType.None ? CurrentMode.GetModeData().Name : $"<color=#{ModeList[iv(4)].Color}>{iv(4).GetModeData().Name}</color>") + (SubModeVote[3] != ModeType.None ? $" + <b><i> <size=20><color=#{ModeList[SubModeVote[3]].Color}>{SubModeVote[3].GetModeData().Name}</color></size></i></b>" : ""))
+                                    .Replace("{FourthVote}", ModeVote[iv(4)].Contains(ev.Player) ? $"<color=yellow>{s(4)}</color>" : s(4))
                                     .Replace("{ModeName}", $"{(SelectedMode == ModeType.None ? "<i>참고</i>" : SelectedMode.GetModeData().Name)}{IdeaBy()}")
                                     .Replace("{ModeColor}", $"{Color}").Replace("{ModeDescription}", $"{Description}")
                                     .Replace("{Lines}", $"{(Description.Contains("\n") ? "\n" : "\n\n")}")
@@ -388,7 +396,7 @@ namespace RGM.EventArgs
 
             if (Round.IsLobby)
             {
-                for (int i = 0; i < 3; i++)
+                for (int i = 0; i < 4; i++)
                 {
                     if (ModeVote.ContainsKey(ModeVote.Keys.ToList()[i]) && ModeVote[ModeVote.Keys.ToList()[i]].Contains(ev.Player))
                         ModeVote[ModeVote.Keys.ToList()[i]].Remove(ev.Player);
