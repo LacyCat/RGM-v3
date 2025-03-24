@@ -32,7 +32,7 @@ namespace RGM.EventArgs
 
             foreach (var player in Player.List)
             {
-                player.AddBroadcast(10, $"<size=20>맵 불러오기 완료: {ev.NewMap.Name}</size>");
+                player.AddBroadcast(10, $"<size=20>로드된 맵: {ev.NewMap.Name}</size>");
             }
         }
     }
