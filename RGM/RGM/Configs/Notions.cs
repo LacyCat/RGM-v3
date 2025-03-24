@@ -24,9 +24,9 @@ namespace RGM
         public static string WelcomeMessage { get; set; } = "<size=25><b>랜덤게임모드 (RGM)</b>에 오신 것을 환영합니다!</size>";
         public static string LobbyMessage { get; set; } =
 """
-<size=120><b><color=red>💀</color> ({Logo}) <color=#31B404>💀</color></b></size>
+<size=120><b><color=#B45F04>🎻</color> ({Logo}) <color=#FA8258>🎸</color></b></size>
 <size=80><b>[RGM] 랜덤게임모드</b></size> <size=25>(ver. {Version})</size>
-<align=right><size=20><b><i><color=#000000>두</color><color=#050505>려</color><color=#0B0B0B>웠</color><color=#111111>던</color> <color=#1D1D1D>일</color><color=#232323>이</color> <color=#2F2F2F>있</color><color=#353535>나</color><color=#3B3B3B>요</color><color=#414141>?</color></i></b></size></align>
+<align=right><size=20><b><i><color=#FF8585>왠</color><color=#FE9C9C>지</color> <color=#FECACA>모</color><color=#FEE1E1>를</color> <color=#C9CFF0>그</color><color=#AEC6F7>리</color><color=#94BDFF>움</color></i></b></size></align>
 <align=left>
 Exp: {Exp}
 RP: {RP}
@@ -35,6 +35,7 @@ RP: {RP}
 {FirstMark} [1] {First} | {FirstVote}
 {SecondMark} [2] {Second} | {SecondVote}
 {ThirdMark} [3] {Third} | {ThirdVote}
+{FourthMark} [4] {Fourth} | {FourthVote}
 
 <color=#{ModeColor}><b>{ModeName}</b></color>
 {ModeDescription}{Lines}

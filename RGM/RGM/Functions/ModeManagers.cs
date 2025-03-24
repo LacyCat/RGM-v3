@@ -20,7 +20,7 @@ namespace RGM.Functions
             ModeVote.Clear();
             SubModeVote.Clear();
 
-            for (int i = 1; i < 4; i++)
+            for (int i = 1; i < 5; i++)
             {
                 var StaticModeList = ModeList.Keys.Where(x => ModeList[x].Category == ModeCategory.Public && !ModeVote.ContainsKey(x)).ToList();
                 var mode = StaticModeList[UnityEngine.Random.Range(0, StaticModeList.Count())];
@@ -33,9 +33,9 @@ namespace RGM.Functions
                     SubModeVote.Add(ModeType.None);
             }
 
-            List<List<Transform>> Pads = new List<List<Transform>>() { First, Second, Third };
+            List<List<Transform>> Pads = new List<List<Transform>>() { First, Second, Third, Fourth };
 
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 4; i++)
             {
                 foreach (var Pad in Pads[i])
                     Pad.GetComponent<PrimitiveObject>().Primitive.Color = ColorUtility.TryParseHtmlString("#" + ModeList[ModeVote.Keys.ToList()[i]].Color, out Color color) ? color : Color.white;
