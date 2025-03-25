@@ -14,6 +14,7 @@ using static System.Net.Mime.MediaTypeNames;
 using RGM.API.DataBases;
 using MultiBroadcast.API;
 using UserSettings.ServerSpecific;
+using Exiled.API.Features.Core.UserSettings;
 
 namespace RGM.Variables
 {
@@ -39,12 +40,12 @@ namespace RGM.Variables
 
         public static Dictionary<ModeType, ModeData> ModeList = new();
         public static Dictionary<ModeType, List<Player>> ModeVote = new();
-        public static Dictionary<Player, float> OnGround = new();
+        public static Dictionary<string, float> OnGround = new();
         public static Dictionary<Player, Room> CurrentRoom = new();
         public static Dictionary<string, PlayerInfo> PlayersInfo = new();
         public static Dictionary<string, PlayerReport> PlayersReport = new();
         public static Dictionary<Door, int> InteractedDoors = new();
-        public static Dictionary<Player, List<ServerSpecificSettingBase>> SSSBases = new();
+        public static Dictionary<string, SSSItem> SSSBases = new();
         public static Dictionary<string, string> KillEffects = new Dictionary<string, string>()
         {
             {"영혼 가출", "죽은 상대에게서 혼을 추출해냅니다!"},

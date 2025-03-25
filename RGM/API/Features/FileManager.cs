@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Exiled.API.Features;
-
+using RGM.UserSettings;
 using static RGM.Variables.ServerManagers;
 
 namespace RGM.API.Features
@@ -77,6 +77,11 @@ namespace RGM.API.Features
                 var text = string.Join("\n", UsersCache.Select(x => $"{x.Key};{string.Join(";", x.Value)}"));
 
                 FileManager.WriteFile(UsersFileName, text);
+
+                foreach (var player in Player.List.Where(x => !x.IsHost))
+                {
+                    SSSBase.Refresh(player.UserId);
+                }
             }
         }
 

@@ -18,11 +18,11 @@ namespace RGM.Modes
     [Mode(ModeCategory.Private, ModeInfo.Set, ModeType.Develop)]
     class Develop : Mode
     {
-        public override string Name => "개발";
-        public override string Description => "개발!";
+        public override string Name => "❓ 필독!";
+        public override string Description => "[📃 전체 모드] 드롭다운을 활용하여 모드 설명을 읽어 보세요!";
         public override string Detail =>
 """
-test
+여기는 자세한 설명이 쓰이는 자리입니다.
 """;
         public override string Color => "FFFFFF";
 
