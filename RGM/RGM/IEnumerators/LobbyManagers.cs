@@ -18,7 +18,7 @@ namespace RGM.IEnumerators
     {
         public static IEnumerator<float> GameStartButton()
         {
-            int RemainingPress = 20;
+            int RemainingPress = 10;
             bool ButtonPressed = false;
             Transform redObject = null;
 
@@ -52,7 +52,7 @@ namespace RGM.IEnumerators
 
                     if (!pressing)
                     {
-                        if (RemainingPress < 20)
+                        if (RemainingPress < 10)
                         {
                             RemainingPress += 1;
 

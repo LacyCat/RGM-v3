@@ -218,6 +218,7 @@
     <Compile Include="API\Features\Tools.cs" />
     <Compile Include="API\Databases\Translations.cs" />
     <Compile Include="API\Interfaces\Product.cs" />
+    <Compile Include="API\Interfaces\SSSItem.cs" />
     <Compile Include="RGM\Commands\ClientCommands\BasicFeatures\BugVote.cs" />
     <Compile Include="RGM\Commands\ClientCommands\BasicFeatures\Emotion.cs" />
     <Compile Include="RGM\Commands\ClientCommands\ShopFeatures\ApplyBadge.cs" />
@@ -272,6 +273,7 @@
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Epic\GhostRule.cs" />
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Epic\GraveRobber.cs" />
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Epic\LuckyVicky.cs" />
+    <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Epic\Priest.cs" />
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Epic\RandomChest.cs" />
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Epic\RepairMan.cs" />
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Epic\Scp1344.cs" />
@@ -328,6 +330,7 @@
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Normal\Rainbow.cs" />
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Normal\RandomBox.cs" />
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Normal\ReRoll.cs" />
+    <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Normal\Rush.cs" />
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Normal\Sneak.cs" />
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Normal\StaminaReplenishment.cs" />
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Normal\Supply.cs" />
@@ -449,6 +452,7 @@
     <Compile Include="RGM\Modes\Pluses\Ghost\Ghost.cs" />
     <Compile Include="RGM\Modes\Pluses\GrandBow\GrandBow.cs" />
     <Compile Include="RGM\Modes\Pluses\ChupaChups\ChupaChups.cs" />
+    <Compile Include="RGM\Modes\Pluses\Radio\Radio.cs" />
     <Compile Include="RGM\Modes\Pluses\PaperMan\PaperMan.cs" />
     <Compile Include="RGM\Modes\Pluses\RandomEffect\RandomEffect.cs" />
     <Compile Include="RGM\Modes\Pluses\RandomSize\RandomSize.cs" />

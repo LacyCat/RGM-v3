@@ -49,8 +49,6 @@ namespace RGM.EventArgs
                 });
             }
 
-            SSSBase.Refresh(ev.Player);
-
             List<string> DefaultValues = Enumerable.Repeat("0", 15).ToList();
 
             if (!UsersManager.UsersCache.ContainsKey(ev.Player.UserId))
@@ -102,8 +100,8 @@ namespace RGM.EventArgs
                     ev.Player.CustomInfo = uc[6];
             }
 
-            OnGround.Add(ev.Player, 5);
-
+            OnGround.Add(ev.Player.UserId, 5);
+            SSSBase.Refresh(ev.Player.UserId);
             ev.Player.AddBroadcast(10, Notions.WelcomeMessage);
 
             if (Round.IsStarted)
@@ -374,9 +372,24 @@ namespace RGM.EventArgs
 
         public static IEnumerator<float> OnLeft(LeftEventArgs ev)
         {
-            if (OnGround.ContainsKey(ev.Player))
-                OnGround.Remove(ev.Player);
+            if (OnGround.ContainsKey(ev.Player.UserId))
+                OnGround.Remove(ev.Player.UserId);
 
+            if (SSSBases.ContainsKey(ev.Player.UserId))
+            {
+                foreach (var sssBase in SSSBases)
+                {
+                    if (sssBase.Key == ev.Player.UserId)
+                    {
+                        SettingBase.Unregister(settings: sssBase.Value.SBase);
+
+                        sssBase.Value.SSSBase.Clear();
+                        sssBase.Value.SBase = null;
+                    }
+                }
+
+                SSSBases.Remove(ev.Player.UserId);
+            }
             if (Round.IsLobby)
             {
                 for (int i = 0; i < 4; i++)

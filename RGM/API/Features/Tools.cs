@@ -22,6 +22,7 @@ using RGM.API.Interfaces;
 using AdminToys;
 using MapEditorReborn.API.Features.Objects;
 using Exiled.API.Enums;
+using RGM.UserSettings;
 
 namespace RGM.API.Features
 {
@@ -329,6 +330,11 @@ $"""
                 onEnabledMethod?.Invoke(modeInstance, null);
 
                 EnabledModeList.Add(ModeType);
+
+                foreach (var player in Player.List)
+                {
+                    SSSBase.Refresh(player.UserId);
+                }
 
                 return true;
             }

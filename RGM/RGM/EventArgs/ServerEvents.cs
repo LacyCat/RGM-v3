@@ -64,6 +64,7 @@ namespace RGM.EventArgs
 
             PickModes();
             Balls.ForEach(x => x.gameObject.AddComponent<BallComponent>());
+            EnabledModeList.Add(ModeType.Develop);
 
             Timing.RunCoroutine(SyncSpectatedHint());
             Timing.RunCoroutine(ThrowawayBroadcast());
@@ -116,6 +117,7 @@ namespace RGM.EventArgs
             Server.ExecuteCommand("/mp unload RGMLobby");
             Server.ExecuteCommand($"/speak {string.Join(".", Player.List.Select(x => x.Id))}. 0");
             IntercomPlayers.Clear();
+            EnabledModeList.Clear();
 
             if (AudioPlayer.TryGet("Global AudioPlayer", out AudioPlayer ap))
                 ap.RemoveAllClips();

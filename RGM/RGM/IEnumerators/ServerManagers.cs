@@ -59,16 +59,16 @@ namespace RGM.IEnumerators
             {
                 foreach (var player in Player.List.Where(x => x.IsAlive))
                 {
-                    if (OnGround.ContainsKey(player) && !player.IsNoclipPermitted && player.Role.Type != RoleTypeId.Scp079)
+                    if (OnGround.ContainsKey(player.UserId) && !player.IsNoclipPermitted && player.Role.Type != RoleTypeId.Scp079)
                     {
                         if (player.ReferenceHub.IsGrounded())
-                            OnGround[player] = 5;
+                            OnGround[player.UserId] = 5;
 
                         else
                         {
-                            OnGround[player] -= 0.1f;
+                            OnGround[player.UserId] -= 0.1f;
 
-                            if (OnGround[player] <= 0)
+                            if (OnGround[player.UserId] <= 0)
                             {
                                 if (Round.ElapsedTime.TotalSeconds < 10)
                                 {
@@ -86,7 +86,7 @@ namespace RGM.IEnumerators
                                     player.Kill("공허에 빨려들어갔습니다. (5초 이상 낙하)");
                                 }
 
-                                OnGround[player] = 5;
+                                OnGround[player.UserId] = 5;
                             }
                         }
                     }
