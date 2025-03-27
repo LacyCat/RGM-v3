@@ -45,7 +45,6 @@ namespace RGM.Variables
         public static Dictionary<string, PlayerInfo> PlayersInfo = new();
         public static Dictionary<string, PlayerReport> PlayersReport = new();
         public static Dictionary<Door, int> InteractedDoors = new();
-        public static Dictionary<string, SSSItem> SSSBases = new();
         public static Dictionary<string, string> KillEffects = new Dictionary<string, string>()
         {
             {"영혼 가출", "죽은 상대에게서 혼을 추출해냅니다!"},
@@ -120,6 +119,13 @@ namespace RGM.Variables
             {"Adieu! 2023", "⭐"},
             {"2023 RGM Summer", "⭐"},
             {"Adios! 2024", "✿"}
+        };
+
+        public static IEnumerable<HeaderSetting> headerSettings = new[] 
+        { 
+            new HeaderSetting("<align=left><size=110%>ⓘ 유저 정보</align></size>"),
+            new HeaderSetting("<align=left><size=110%>🎮 모드</align></size>"),
+            new HeaderSetting("<align=left><size=110%>⚙️ 기타</align></size>")
         };
 
         public static List<Transform> First;

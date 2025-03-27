@@ -218,7 +218,6 @@
     <Compile Include="API\Features\Tools.cs" />
     <Compile Include="API\Databases\Translations.cs" />
     <Compile Include="API\Interfaces\Product.cs" />
-    <Compile Include="API\Interfaces\SSSItem.cs" />
     <Compile Include="RGM\Commands\ClientCommands\BasicFeatures\BugVote.cs" />
     <Compile Include="RGM\Commands\ClientCommands\BasicFeatures\Emotion.cs" />
     <Compile Include="RGM\Commands\ClientCommands\ShopFeatures\ApplyBadge.cs" />
@@ -519,7 +518,7 @@
     <Compile Include="RGM\Functions\ModeManagers.cs" />
     <Compile Include="RGM\Modes\Sets\WhoamI2\WhoamI2.cs" />
     <Compile Include="RGM\Modes\Sets\WitGame\WitGame.cs" />
-    <Compile Include="RGM\UserSettings\SSSBase.cs" />
+    <Compile Include="RGM\UserSettings\ServerSpecificSettings.cs" />
     <Compile Include="RGM\Variables\ServerManagers.cs" />
   </ItemGroup>
   <ItemGroup>
