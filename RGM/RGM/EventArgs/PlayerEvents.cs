@@ -36,6 +36,8 @@ namespace RGM.EventArgs
     {
         public static IEnumerator<float> OnVerified(VerifiedEventArgs ev)
         {
+            ServerSpecificSettings.RegisterSettings(ev.Player);
+
             if (!PlayersReport.ContainsKey(ev.Player.UserId))
             {
                 PlayersReport.Add(ev.Player.UserId, new PlayerReport()
@@ -101,7 +103,6 @@ namespace RGM.EventArgs
             }
 
             OnGround.Add(ev.Player.UserId, 5);
-            SSSBase.Refresh(ev.Player.UserId);
             ev.Player.AddBroadcast(10, Notions.WelcomeMessage);
 
             if (Round.IsStarted)
@@ -372,24 +373,11 @@ namespace RGM.EventArgs
 
         public static IEnumerator<float> OnLeft(LeftEventArgs ev)
         {
+            ServerSpecificSettings.UnRegisterSettings(ev.Player);
+
             if (OnGround.ContainsKey(ev.Player.UserId))
                 OnGround.Remove(ev.Player.UserId);
 
-            if (SSSBases.ContainsKey(ev.Player.UserId))
-            {
-                foreach (var sssBase in SSSBases)
-                {
-                    if (sssBase.Key == ev.Player.UserId)
-                    {
-                        SettingBase.Unregister(settings: sssBase.Value.SBase);
-
-                        sssBase.Value.SSSBase.Clear();
-                        sssBase.Value.SBase = null;
-                    }
-                }
-
-                SSSBases.Remove(ev.Player.UserId);
-            }
             if (Round.IsLobby)
             {
                 for (int i = 0; i < 4; i++)

@@ -19,22 +19,22 @@ namespace RGM.Commands.RemoteAdminCommands
     {
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
-            string userId = Tools.TryGetUserId(arguments.At(0));
+            string player = Tools.TryGetUserId(arguments.At(0));
             bool result = int.TryParse(arguments.Count() < 2 ? "dum" : arguments.At(1), out int rp);
-            List<string> uc = UsersManager.UsersCache.ContainsKey(userId) ? UsersManager.UsersCache[userId] : new List<string>();
+            List<string> uc = UsersManager.UsersCache.ContainsKey(player) ? UsersManager.UsersCache[player] : new List<string>();
 
             if (uc.Count == 0)
             {
                 List<string> DefaultValues = Enumerable.Repeat("0", 15).ToList();
 
-                if (!UsersManager.UsersCache.ContainsKey(userId))
+                if (!UsersManager.UsersCache.ContainsKey(player))
                 {
-                    UsersManager.AddUser(userId, DefaultValues);
+                    UsersManager.AddUser(player, DefaultValues);
 
                     UsersManager.SaveUsers();
                 }
 
-                uc = UsersManager.UsersCache[userId];
+                uc = UsersManager.UsersCache[player];
             }
 
             if (result)
@@ -47,7 +47,7 @@ namespace RGM.Commands.RemoteAdminCommands
                 else
                 {
                     uc[1] = rp.ToString();
-                    UsersManager.UsersCache[userId] = uc;
+                    UsersManager.UsersCache[player] = uc;
                     response = "successfully set up RP.";
 
                     UsersManager.SaveUsers();

@@ -18,8 +18,6 @@ using RGM.API.Components;
 using RGM.API.Interfaces;
 using RGM.API.DataBases;
 
-using static RGM.UserSettings.SSSBase;
-
 using static RGM.Variables.ServerManagers;
 
 using static RGM.EventArgs.MEREvents;
@@ -29,6 +27,8 @@ using static RGM.EventArgs.WarheadEvents;
 using static RGM.EventArgs.Scp330Events;
 using static RGM.EventArgs.Scp244Events;
 using static RGM.EventArgs.Scp079Events;
+
+using Exiled.API.Features.Core.UserSettings;
 
 namespace RGM
 {
