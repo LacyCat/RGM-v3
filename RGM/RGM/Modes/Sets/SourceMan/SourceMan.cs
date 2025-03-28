@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Exiled.API.Extensions;
 using Exiled.API.Features;
 using Exiled.API.Features.Core.UserSettings;
 using Exiled.API.Features.Items;
@@ -35,15 +36,21 @@ namespace RGM.Modes
 
         public static SourceMan Instance;
 
-        public string Header = "<b>소스맨</b>";
+        string Header = "<b>소스맨</b>";
+        int time = 300;
+        Player sourceman;
 
-        public List<Player> WantToBeSourceMan = new List<Player>();
+        List<Player> WantToBeSourceMan = new List<Player>();
+        List<Player> TimeIncrease = new List<Player>();
+        List<Player> TimeDecrease = new List<Player>();
 
         public override void OnEnabled()
         {
             Round.IsLocked = true;
             Respawn.PauseWaves();
             Map.IsDecontaminationEnabled = false;
+
+            Timing.RunCoroutine(OnModeStarted());
         }
 
         public IEnumerator<float> OnModeStarted()
@@ -76,23 +83,67 @@ namespace RGM.Modes
             }
             else
             {
-                
+                sourceman = WantToBeSourceMan.GetRandomValue();
+
+                Server.ExecuteCommand($"/setgroup {sourceman.Id} sourceman");
+
+                foreach (var player in Player.List)
+                {
+                    player.AddBroadcast(10, $"<size=30>{sourceman.DisplayNickname}(이)가 이번 라운드의 <color=red>소스맨</color>입니다!</size>");
+                }
             }
 
+            while (time > 0)
+            {
+                foreach (var player in Player.List)
+                {
+                    player.AddBroadcast(1, $"<size=20>모드 종료까지 {time}초 남았습니다.</size>");
+                }
 
+                time--;
+
+                yield return Timing.WaitForSeconds(1);
+            }
+
+            Round.IsLocked = false;
+
+            foreach (var player in Player.List)
+            {
+                player.Role.Set(RoleTypeId.Tutorial, RoleSpawnFlags.None);
+            }
         }
 
-        public  List<SettingBase> SMSetting(Player player)
+        public List<SettingBase> SMSetting(Player player)
         {
             var header1 = new HeaderSetting(Header);
-            var button1 = new ButtonSetting(10110, "참가", "<color=red>소스맨</color>이 되고 싶다면 버튼을 누르세요.", 10, header: header1, onChanged: (p, sb) =>
+            var button1 = new ButtonSetting(10110, "참가", "<color=red>소스맨</color>이 되고 싶다면 버튼을 누르세요.", 5, header: header1);
+            button1.OnChanged = (p, sb) =>
             {
-                WantToBeSourceMan.Add(p);
+                if (!WantToBeSourceMan.Contains(p))
+                    WantToBeSourceMan.Add(p);
+            };
+            var button2 = new ButtonSetting(10111, "📈 시간 증가", "이 모드의 잔여 시간을 증가시키려면 누르세요. (+5초)", 0, header: header1);
+            button2.OnChanged = (p, sb) =>
+            {
+                if (!TimeIncrease.Contains(p))
+                {
+                    TimeIncrease.Add(p);
 
-                ServerSpecificSettings.UnregisterSettings(p.UserId, new() { Header });
-            });
+                    time += 5;
+                }
 
-            var settingBases = new List<SettingBase> { button1 };
+            };
+            var button3 = new ButtonSetting(10112, "📉 시간 감소", "이 모드의 잔여 시간을 감소시키려면 누르세요. (-5초)", 0, header: header1);
+            button3.OnChanged = (p, sb) =>
+            {
+                if (!TimeDecrease.Contains(p))
+                {
+                    TimeDecrease.Add(p);
+                    time -= 5;
+                }
+            };
+
+            var settingBases = new List<SettingBase> { button1, button2, button3 };
 
             return ServerSpecificSettings.Save(player, header1, settingBases, (p) => { SMSetting(p); });
         }

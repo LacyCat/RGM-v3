@@ -89,7 +89,7 @@
     </Reference>
     <Reference Include="Exiled.API, Version=9.3.0.0, Culture=neutral, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Users\GoldenPig1205\AppData\Roaming\EXILED\Plugins\dependencies\Exiled.API.dll</HintPath>
+      <HintPath>C:\Users\GoldenPig1205\AppData\Roaming\SCP Secret Laboratory\PluginAPI\plugins\global\dependencies\Exiled.API.dll</HintPath>
     </Reference>
     <Reference Include="Exiled.CreditTags, Version=9.5.1.0, Culture=neutral, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
@@ -466,7 +466,6 @@
     <Compile Include="RGM\Modes\Sets\DeadLine\DeadLine.cs" />
     <Compile Include="RGM\Modes\Sets\DeathRun\DeathRun.cs" />
     <Compile Include="RGM\Modes\Pluses\Distancing\Distancing.cs" />
-    <Compile Include="RGM\Modes\Sets\SourceMan\SourceMan.cs" />
     <Compile Include="RGM\Modes\Sets\Develop\Develop.cs" />
     <Compile Include="RGM\Modes\Sets\DoubleUp\DoubleUp.cs" />
     <Compile Include="RGM\Modes\Sets\FreeForAll\FreeForAll.cs" />
@@ -497,6 +496,7 @@
     <Compile Include="RGM\Modes\Sets\Rescue05\Rescue05.cs" />
     <Compile Include="RGM\Modes\Sets\RussianRoulette\RussianRoulette.cs" />
     <Compile Include="RGM\Modes\Sets\SnowBallFight\SnowBallFight.cs" />
+    <Compile Include="RGM\Modes\Sets\SourceMan\SourceMan.cs" />
     <Compile Include="RGM\Modes\Sets\SpeedRun\SpeedRun.cs" />
     <Compile Include="RGM\Modes\Pluses\Spirit\Spirit.cs" />
     <Compile Include="RGM\Modes\Sets\Spleef\Spleef.cs" />
