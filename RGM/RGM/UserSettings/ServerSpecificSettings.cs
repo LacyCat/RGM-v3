@@ -34,12 +34,12 @@ namespace RGM.UserSettings
 
         public static void RegisterCommonSettings(Player player)
         {
-            RGMSetting(player);
-            UserSetting(player);
-            ModeSetting(player);
-            EtcSetting(player);
+            //RGMSetting(player);
+            //UserSetting(player);
+            //ModeSetting(player);
+            //EtcSetting(player);
 
-            Refresh(player);
+            //Refresh(player);
         }
 
         public static void UnregisterHeader(string userId, List<string> headerNames = null)
