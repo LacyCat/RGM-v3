@@ -11,6 +11,7 @@ using System.Linq;
 using System.Runtime;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using UserSettings.ServerSpecific;
 using static RGM.Variables.ServerManagers;
 using static System.Net.Mime.MediaTypeNames;
@@ -19,6 +20,11 @@ namespace RGM.UserSettings
 {
     public static class ServerSpecificSettings
     {
+        public static string GetValue(string debugValue)
+        {
+            return debugValue.Split('(')[1].Trim();
+        }
+
         public static void RegisterCommonSettings(Player player)
         {
             RGMSetting(player);
@@ -80,10 +86,12 @@ namespace RGM.UserSettings
 
         public static List<SettingBase> Save(Player player, HeaderSetting header, List<SettingBase> settingBases, Action<Player> action)
         {
-            PlayerSettings[player.UserId].Item1.AddRange(settingBases);
+            List<SettingBase> sb = settingBases.Where(x => x != null).ToList();
+
+            PlayerSettings[player.UserId].Item1.AddRange(sb);
             PlayerSettings[player.UserId].Item2.Add(new SettingInfo
             {
-                SettingBases = settingBases,
+                SettingBases = sb,
                 Header = header,
                 Activate = action
             });
@@ -98,6 +106,7 @@ namespace RGM.UserSettings
 $"""
 • <b><color=#F6CECE>랜</color><color=#F6D8CE>덤</color><color=#F6E3CE>게</color><color=#F5ECCE>임</color><color=#F5F6CE>모</color><color=#ECF6CE>드</color></b>는 매 라운드마다 랜덤한 모드와 함께 라운드가 시작되는 한국 서버입니다.
 • 콘솔(` 또는 ~)을 열고 .help를 입력하여 사용 가능한 [RGM] 명령어 리스트를 확인할 수 있습니다.
+• <b>🏪 상점</b>에서 다양한 아이템을 구매해보세요!
 
 <size=25><align=center><color=#81BEF7><link=https://discord.gg/NWSrVqmKsq>| <b>디스코드 (클릭)</b> |</link></color></align></size>
 
@@ -113,15 +122,137 @@ $"""
 
         public static List<SettingBase> UserSetting(Player player)
         {
-            var userCache = UsersManager.UsersCache[player.UserId];
+            var uc = UsersManager.UsersCache[player.UserId];
 
-            var header1 = new HeaderSetting("<b>ⓘ 유저 정보</b>");
+            var header1 = new HeaderSetting("<b>ⓘ 유저</b>");
             var text1 = new TextInputSetting(1, $"👤 유저 ID: {player.UserId}<line-height=0>\n</line-height><align=right><mark=#5865f215><link=https://steamcommunity.com/profiles/{player.RawUserId}>ㅤ자신의 스팀 프로필 보기ㅤㅤ</link></mark></align>", header: header1);
-            var text2 = new TextInputSetting(2, $"⭐ EXP: {userCache[0]}", header: header1);
-            var text3 = new TextInputSetting(3, $"💫 RP: {userCache[1]}", header: header1);
-            var text4 = new TextInputSetting(4, $"💎 Cash: {userCache[2]}<line-height=0>\n</line-height><align=right><mark=#5865f215><link=https://discord.gg/h4AKgks7VMV>ㅤ🏪 Cash 충전하기ㅤㅤ</link></mark></align>", header: header1);
+            var text2 = new TextInputSetting(2, $"⭐ EXP: {uc[0]}", header: header1);
+            var text3 = new TextInputSetting(3, $"💫 RP: {uc[1]}", header: header1);
+            var text4 = new TextInputSetting(4, $"💎 Cash: {uc[2]}<line-height=0>\n</line-height><align=right><mark=#5865f215><link=https://discord.gg/h4AKgks7VMV>ㅤ🏪 Cash 충전하기ㅤㅤ</link></mark></align>", header: header1);
+            DropdownSetting dropdown1 = null;
+            if (uc[3] != "0")
+            {
+                dropdown1 = new DropdownSetting(5, "💀 킬이펙트", uc[3].Split('/').Append("-"), header: header1, onChanged: (p, sb) =>
+                {
+                    string value = GetValue(sb.Base.DebugValue);
 
-            var settingBases = new List<SettingBase> { text1, text2, text3, text4 };
+                    if (value == "-")
+                        value = "0";
+
+                    uc[4] = value;
+                    UsersManager.UsersCache[player.UserId] = uc;
+                    UsersManager.SaveUsers();
+                });
+                dropdown1.DefaultOption = uc[4] == "0" ? "-" : uc[4];
+            }
+            TextInputSetting text5 = null;
+            if (uc[7].Split('/').Contains("커스텀 닉네임"))
+            {
+                string nick()
+                {
+                    string n = uc[5];
+
+                    if (n == "0")
+                        n = "";
+
+                    if (n != "")
+                        return uc[5];
+
+                    else
+                        return "";
+                }
+
+                text5 = new TextInputSetting(6, $"🏷️ 커스텀 닉네임\n<size=20>[<color={}>{Tools.CustomFormatter(player, nick())}]</color></size>", hintDescription: nick(),  header: header1, onChanged: (p, sb) =>
+                {
+                    string value = GetValue(sb.Base.DebugValue);
+
+                    if (value == "")
+                        value = "0";
+
+                    uc[5] = value;
+                    UsersManager.UsersCache[player.UserId] = uc;
+                    UsersManager.SaveUsers();
+                });
+            }
+            TextInputSetting text6 = null;
+            if (uc[7].Split('/').Contains("커스텀 인포"))
+            {
+                string info()
+                {
+                    string n = uc[6];
+
+                    if (n == "0")
+                        n = "";
+
+                    if (n != "")
+                        return uc[6];
+
+                    else
+                        return "";
+                }
+
+                text6 = new TextInputSetting(7, $"🪧 커스텀 인포\n<size=20>[{Tools.CustomFormatter(player, info())}]</size>", hintDescription: info(), header: header1, onChanged: (p, sb) =>
+                {
+                    string value = GetValue(sb.Base.DebugValue);
+
+                    if (value == "")
+                        value = "0";
+
+                    uc[6] = value;
+                    UsersManager.UsersCache[player.UserId] = uc;
+                    UsersManager.SaveUsers();
+                });
+            }
+            DropdownSetting dropdown2 = null;
+            if (uc[8] != "0")
+            {
+                dropdown2 = new DropdownSetting(8, "🎨 페인트", uc[8].Split('/').Append("-"), header: header1, onChanged: (p, sb) =>
+                {
+                    string value = GetValue(sb.Base.DebugValue);
+
+                    if (value == "-")
+                        value = "0";
+
+                    uc[9] = value;
+                    UsersManager.UsersCache[player.UserId] = uc;
+                    UsersManager.SaveUsers();
+
+                    Tools.RemovePaint(player);
+
+                    if (value != "0")
+                        Tools.ChangePaint(player, uc[9]);
+                });
+                dropdown2.DefaultOption = uc[9] == "0" ? "-" : uc[9];
+            }
+            DropdownSetting dropdown3 = null;
+            if (uc[10] != "0")
+            {
+                dropdown3 = new DropdownSetting(9, "🔖 칭호", uc[10].Split('/').Append("-"), header: header1, onChanged: (p, sb) =>
+                {
+                    string value = GetValue(sb.Base.DebugValue);
+
+                    if (value == "-")
+                        value = "0";
+
+                    uc[11] = value;
+                    UsersManager.UsersCache[player.UserId] = uc;
+                    UsersManager.SaveUsers();
+
+                    if (value != "0")
+                        player.RankName = $"{(BadgeIcons.ContainsKey(uc[11]) ? $"{BadgeIcons[uc[11]]} " : "")}{uc[11]}";
+
+                    else
+                        player.RankName = null;
+                });
+                dropdown3.DefaultOption = uc[11] == "0" ? "-" : uc[11];
+            }
+            TextInputSetting text7 = null;
+            if (player.HasReservedSlot)
+            {
+                text7 = new TextInputSetting(10, $"<b>✨ 풀방 접속권 보유 중 ✨</b>", header: header1);
+            }
+
+            var settingBases = new List<SettingBase> { text1, text2, text3, text4, dropdown1, text5, text6, dropdown2, dropdown3, text7 };
 
             return Save(player, header1, settingBases, (p) => { UserSetting(p); });
         }
@@ -129,18 +260,19 @@ $"""
         public static List<SettingBase> ModeSetting(Player player)
         {
             var header1 = new HeaderSetting("<b>🎮 모드</b>");
-            var text1 = new TextInputSetting(103, "<align=left><size=105%>📝 모드 설명</align></size>\n자세한 설명을 조회할 모드를 선택해주세요.", header: header1);
-            var dropdown1 = new DropdownSetting(101, "✅ 활성화된 모드", EnabledModeList.Select(x => $"{x.GetModeData().Name} ({x.GetModeData().Category})"), header: header1, onChanged: (p, sb) =>
+            var text1 = new TextInputSetting(103, "📝 모드 설명\n자세한 설명을 조회할 모드를 선택해주세요.", header: header1);
+            IEnumerable<string> modeList = ModeList.Keys.Select(x => $"{x.GetModeData().Name} ({x.GetModeData().Category}, {x.GetModeData().Info})");
+            var dropdown1 = new DropdownSetting(102, "📃 전체 모드", modeList, header: header1, onChanged: (p, sb) =>
             {
-                string modeName = sb.Base.DebugValue.Split('(')[1].Trim();
-                var mode = ModeList.Keys.Select(x => x.GetModeData().Name).Contains(modeName) ? (ModeList.Keys.FirstOrDefault(x => x.GetModeData().Name == modeName)).GetModeData().Type : ModeType.Develop;
-                text1.Base.SendTextUpdate($"<align=left><size=105%>📝 모드 설명</align></size>\n{(mode.GetModeData().Description)}\n<size=80%>{mode.GetModeData().Detail}</size>");
+                string modeName = GetValue(sb.Base.DebugValue);
+                ModeType mode = ModeList.Keys.Select(x => x.GetModeData().Name).Contains(modeName) ? (ModeList.Keys.FirstOrDefault(x => x.GetModeData().Name == modeName)).GetModeData().Type : ModeType.Develop;
+                text1.Base.SendTextUpdate($"📝 모드 설명\n{(mode.GetModeData().Description)}\n<size=80%>{mode.GetModeData().Detail}</size>");
             });
-            var dropdown2 = new DropdownSetting(102, "📃 전체 모드", ModeList.Keys.Select(x => $"{x.GetModeData().Name} ({x.GetModeData().Category}, {x.GetModeData().Info})"), header: header1, onChanged: (p, sb) =>
+            var dropdown2 = new DropdownSetting(101, "✅ 활성화된 모드", EnabledModeList.Select(x => $"{x.GetModeData().Name} ({x.GetModeData().Category})"), header: header1, onChanged: (p, sb) =>
             {
-                string modeName = sb.Base.DebugValue.Split('(')[1].Trim();
+                string modeName = GetValue(sb.Base.DebugValue);
                 var mode = ModeList.Keys.Select(x => x.GetModeData().Name).Contains(modeName) ? (ModeList.Keys.FirstOrDefault(x => x.GetModeData().Name == modeName)).GetModeData().Type : ModeType.Develop;
-                text1.Base.SendTextUpdate($"<align=left><size=105%>📝 모드 설명</align></size>\n{(mode.GetModeData().Description)}\n<size=80%>{mode.GetModeData().Detail}</size>");
+                text1.Base.SendTextUpdate($"📝 모드 설명\n{(mode.GetModeData().Description)}\n<size=80%>{mode.GetModeData().Detail}</size>");
             });
 
             var settingBases = new List<SettingBase> { text1, dropdown1, dropdown2 };

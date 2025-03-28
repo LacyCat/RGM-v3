@@ -1,6 +1,5 @@
 ﻿using RGM.API.Features;
 using RGM.API.Interfaces;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -231,6 +230,30 @@ namespace RGM.Variables
                     foreach (Player ply in Player.List)
                     {
                         ply.AddBroadcast(10, text);
+                    }
+                }
+            },
+            new Product()
+            {
+                Name = "모드 제안서",
+                Description = ".구매 모드 제안서/<모드 이름>ㅣ4번째 투표 목록에 있는 모드를 10% 확률로 해당 모드로 교체합니다. 한 라운드 당 한번만 구매할 수 있습니다.",
+                Price = 10,
+                Check = (player, arg) => { return Round.IsLobby || ModeList.Keys.Select(x => x.GetModeData().Name).Contains(arg); },
+                Script = (player, arg) =>
+                {
+                    string modeName = ModeList.Keys.First(x => x.GetModeData().Name == arg).GetModeData().Name;
+                    bool flag = Random.Range(1, 11) == 1;
+
+                    if (flag)
+                    {
+                        ModeVote.Remove(ModeVote.ElementAt(3).Key);
+                        ModeVote.Add(ModeList.First(x => x.Value.Name == arg).Key, new List<Player>());
+
+                        Server.ExecuteCommand($"/cassie_sl {player.DisplayNickname}(이)가 <b>{modeName}</b> 모드를 제안하는 데 성공했습니다!!");
+                    }
+                    else
+                    {
+                        Server.ExecuteCommand($"/cassie_sl {player.DisplayNickname}(이)가 <b>{modeName}</b> 모드를 제안하는 데 실패했습니다.");
                     }
                 }
             },

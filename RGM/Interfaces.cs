@@ -112,6 +112,7 @@ public enum ModeType
     RocketLauncher,
     SCPRUSH,
     SnowBallFight,
+    SourceMan,
     Siberia,
     Silent,
     SoulMate,
