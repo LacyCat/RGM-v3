@@ -37,7 +37,7 @@ namespace RGM.UserSettings
             RGMSetting(player);
             UserSetting(player);
             ModeSetting(player);
-            EtcSetting(player);
+            // EtcSetting(player);
 
             Refresh(player);
         }
