@@ -20,6 +20,7 @@ using Exiled.API.Enums;
 using Exiled.API.Features.Doors;
 using Exiled.Events.EventArgs.Player;
 using Exiled.Events.EventArgs.Server;
+using System.Windows.Forms;
 
 namespace RGM.Modes
 {
@@ -148,6 +149,7 @@ Trouble in Terrorist Town의 약자.
             }
 
             Timing.RunCoroutine(Timer());
+            Timing.RunCoroutine(FindLocate());
 
             foreach (var player in Player.List.Where(x => x.IsDead))
             {
@@ -248,6 +250,23 @@ Trouble in Terrorist Town의 약자.
 
                     player.Kill("제한시간이 초과하였습니다.");
                 }
+            }
+        }
+
+        public IEnumerator<float> FindLocate()
+        {
+            while (!Round.IsEnded)
+            {
+                foreach (var traitor in traitors)
+                {
+                    if (Tools.TryGetNearestPlayer(traitor, out Player nearestPlayer, out float radius))
+                        traitor.ShowHint($"<b>[ <color={nearestPlayer.Role.Color.ToHex()}>{Trans.Role[nearestPlayer.Role.Type]}</color>, 거리: {radius.ToString("F1")}m ]</b>", 1.2f);
+
+                    else
+                        traitor.ShowHint("당신은 임무를 완수하였습니다.", 1.2f);
+                }
+
+                yield return Timing.WaitForSeconds(1f);
             }
         }
 
