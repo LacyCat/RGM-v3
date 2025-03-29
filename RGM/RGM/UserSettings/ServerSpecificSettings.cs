@@ -34,12 +34,12 @@ namespace RGM.UserSettings
 
         public static void RegisterCommonSettings(Player player)
         {
-            //RGMSetting(player);
-            //UserSetting(player);
-            //ModeSetting(player);
-            //EtcSetting(player);
+            RGMSetting(player);
+            UserSetting(player);
+            ModeSetting(player);
+            EtcSetting(player);
 
-            //Refresh(player);
+            Refresh(player);
         }
 
         public static void UnregisterHeader(string userId, List<string> headerNames = null)
@@ -118,7 +118,7 @@ $"""
 <size=25><align=center><color=#D0A9F5><link=https://www.randomsl.xyz/rule>| <b>규정 (클릭)</b> |</link></color></align></size>
 
 <size=25><align=center><color=#FA5858><link=https://www.youtube.com/@RandomGameMode>| <b>공식 유튜브 채널 (클릭)</b> |</link></color></align></size>
-""", foldoutMode: SSTextArea.FoldoutMode.CollapsedByDefault, header: header1);
+""", header: header1);
 
             var settingBases = new List<SettingBase> { text1 };
 
@@ -134,136 +134,139 @@ $"""
             var text2 = new TextInputSetting(2, $"⭐ EXP: {uc[0]}", header: header1);
             var text3 = new TextInputSetting(3, $"💫 RP: {uc[1]}", header: header1);
             var text4 = new TextInputSetting(4, $"💎 Cash: {uc[2]}<line-height=0>\n</line-height><align=right><mark=#5865f215><link=https://discord.gg/h4AKgks7VMV>ㅤ🏪 Cash 충전하기ㅤㅤ</link></mark></align>", header: header1);
-            DropdownSetting dropdown1 = null;
-            if (uc[3] != "0")
-            {
-                dropdown1 = new DropdownSetting(5, "💀 킬이펙트", uc[3].Split('/').Append("-"), header: header1, onChanged: (p, sb) =>
-                {
-                    string value = GetValue(sb.Base.DebugValue);
+            //DropdownSetting dropdown1 = null;
+            //if (uc[3] != "0")
+            //{
+            //    dropdown1 = new DropdownSetting(5, "💀 킬이펙트", uc[3].Split('/').Append("-"), header: header1);
+            //    dropdown1.OnChanged = (p, sb) =>
+            //    {
+            //        string value = GetValue(sb.Base.DebugValue);
 
-                    if (value == "-")
-                        value = "0";
+            //        if (value == "-")
+            //            value = "0";
 
-                    uc[4] = value;
-                    UsersManager.UsersCache[player.UserId] = uc;
-                    UsersManager.SaveUsers();
-                });
-                dropdown1.DefaultOption = uc[4] == "0" ? "-" : uc[4];
-            }
-            UserTextInputSetting text5 = null;
-            if (uc[7].Split('/').Contains("커스텀 닉네임"))
-            {
-                string nick()
-                {
-                    string n = uc[5];
+            //        uc[4] = value;
+            //        UsersManager.UsersCache[player.UserId] = uc;
+            //        UsersManager.SaveUsers();
+            //    };
+            //    dropdown1.DefaultOption = uc[4] == "0" ? "-" : uc[4];
+            //}
+            //UserTextInputSetting text5 = null;
+            //if (uc[7].Split('/').Contains("커스텀 닉네임"))
+            //{
+            //    string nick()
+            //    {
+            //        string n = uc[5];
 
-                    if (n == "0")
-                        n = "";
+            //        if (n == "0")
+            //            n = "";
 
-                    return n;
-                }
+            //        return n;
+            //    }
 
-                text5 = new UserTextInputSetting(6, $"📘 커스텀 닉네임 [{Tools.CustomFormatter(player, nick())}]", nick());
-                text5.Header = header1;
-                text5.OnChanged = (p, sb) =>
-                {
-                    string value = GetValue(sb.Base.DebugValue);
+            //    text5 = new UserTextInputSetting(6, $"📘 커스텀 닉네임 [{Tools.CustomFormatter(player, nick())}]", nick());
+            //    text5.Header = header1;
+            //    text5.OnChanged = (p, sb) =>
+            //    {
+            //        string value = GetValue(sb.Base.DebugValue);
 
-                    if (value == "")
-                        value = "0";
+            //        if (value == "")
+            //            value = "0";
 
-                    uc[5] = value;
-                    UsersManager.UsersCache[player.UserId] = uc;
-                    UsersManager.SaveUsers();
+            //        uc[5] = value;
+            //        UsersManager.UsersCache[player.UserId] = uc;
+            //        UsersManager.SaveUsers();
 
-                    text5.Label = $"📘 커스텀 닉네임 [{Tools.CustomFormatter(player, nick())}]";
-                };
-            }
-            UserTextInputSetting text6 = null;
-            if (uc[7].Split('/').Contains("커스텀 인포"))
-            {
-                string info()
-                {
-                    string n = uc[6];
+            //        text5.Label = $"📘 커스텀 닉네임 [{Tools.CustomFormatter(player, nick())}]";
+            //    };
+            //}
+            //UserTextInputSetting text6 = null;
+            //if (uc[7].Split('/').Contains("커스텀 인포"))
+            //{
+            //    string info()
+            //    {
+            //        string n = uc[6];
 
-                    if (n == "0")
-                        n = "";
+            //        if (n == "0")
+            //            n = "";
 
-                    return n;
-                }
+            //        return n;
+            //    }
 
-                text6 = new UserTextInputSetting(7, $"📙 커스텀 인포 [{Tools.CustomFormatter(player, info())}]", info());
-                text6.Header = header1;
-                text6.OnChanged = (p, sb) =>
-                {
-                    string value = GetValue(sb.Base.DebugValue);
+            //    text6 = new UserTextInputSetting(7, $"📙 커스텀 인포 [{Tools.CustomFormatter(player, info())}]", info());
+            //    text6.Header = header1;
+            //    text6.OnChanged = (p, sb) =>
+            //    {
+            //        string value = GetValue(sb.Base.DebugValue);
 
-                    if (value == "")
-                        value = "0";
+            //        if (value == "")
+            //            value = "0";
 
-                    uc[6] = value;
-                    UsersManager.UsersCache[player.UserId] = uc;
-                    UsersManager.SaveUsers();
+            //        uc[6] = value;
+            //        UsersManager.UsersCache[player.UserId] = uc;
+            //        UsersManager.SaveUsers();
 
-                    text6.Label = $"📙 커스텀 인포 [{Tools.CustomFormatter(player, info())}]";
-                };
-            }
-            DropdownSetting dropdown2 = null;
-            if (uc[8] != "0")
-            {
-                dropdown2 = new DropdownSetting(8, "🎨 페인트", uc[8].Split('/').Append("-"), header: header1, onChanged: (p, sb) =>
-                {
-                    string value = GetValue(sb.Base.DebugValue);
+            //        text6.Label = $"📙 커스텀 인포 [{Tools.CustomFormatter(player, info())}]";
+            //    };
+            //}
+            //DropdownSetting dropdown2 = null;
+            //if (uc[8] != "0")
+            //{
+            //    dropdown2 = new DropdownSetting(8, "🎨 페인트", uc[8].Split('/').Append("-"), header: header1);
+            //    dropdown2.OnChanged = (p, sb) =>
+            //    {
+            //        string value = GetValue(sb.Base.DebugValue);
 
-                    if (value == "-")
-                        value = "0";
+            //        if (value == "-")
+            //            value = "0";
 
-                    uc[9] = value;
-                    UsersManager.UsersCache[player.UserId] = uc;
-                    UsersManager.SaveUsers();
+            //        uc[9] = value;
+            //        UsersManager.UsersCache[player.UserId] = uc;
+            //        UsersManager.SaveUsers();
 
-                    try { Tools.RemovePaint(player); } catch { }
+            //        try { Tools.RemovePaint(player); } catch { }
 
-                    try
-                    {
-                        if (value != "0")
-                            Tools.ChangePaint(player, uc[9]);
-                    }
-                    catch
-                    {
-                    }
-                });
-                dropdown2.DefaultOption = uc[9] == "0" ? "-" : uc[9];
-            }
-            DropdownSetting dropdown3 = null;
-            if (uc[10] != "0")
-            {
-                dropdown3 = new DropdownSetting(9, "🔖 칭호", uc[10].Split('/').Append("-"), header: header1, onChanged: (p, sb) =>
-                {
-                    string value = GetValue(sb.Base.DebugValue);
+            //        try
+            //        {
+            //            if (value != "0")
+            //                Tools.ChangePaint(player, uc[9]);
+            //        }
+            //        catch
+            //        {
+            //        }
+            //    };
+            //    dropdown2.DefaultOption = uc[9] == "0" ? "-" : uc[9];
+            //}
+            //DropdownSetting dropdown3 = null;
+            //if (uc[10] != "0")
+            //{
+            //    dropdown3 = new DropdownSetting(9, "🔖 칭호", uc[10].Split('/').Append("-"), header: header1);
+            //    dropdown3.OnChanged = (p, sb) =>
+            //    {
+            //        string value = GetValue(sb.Base.DebugValue);
 
-                    if (value == "-")
-                        value = "0";
+            //        if (value == "-")
+            //            value = "0";
 
-                    uc[11] = value;
-                    UsersManager.UsersCache[player.UserId] = uc;
-                    UsersManager.SaveUsers();
+            //        uc[11] = value;
+            //        UsersManager.UsersCache[player.UserId] = uc;
+            //        UsersManager.SaveUsers();
 
-                    if (value != "0")
-                        player.RankName = $"{(BadgeIcons.ContainsKey(uc[11]) ? $"{BadgeIcons[uc[11]]} " : "")}{uc[11]}";
+            //        if (value != "0")
+            //            player.RankName = $"{(BadgeIcons.ContainsKey(uc[11]) ? $"{BadgeIcons[uc[11]]} " : "")}{uc[11]}";
 
-                    else
-                        player.RankName = null;
-                });
-                dropdown3.DefaultOption = uc[11] == "0" ? "-" : uc[11];
-            }
+            //        else
+            //            player.RankName = null;
+            //    };
+            //    dropdown3.DefaultOption = uc[11] == "0" ? "-" : uc[11];
+            //}
             TextInputSetting text7 = null;
             if (player.HasReservedSlot)
             {
                 text7 = new TextInputSetting(10, $"<b>✨ 풀방 접속권 보유 중 ✨</b>", header: header1);
             }
 
-            var settingBases = new List<SettingBase> { text1, text2, text3, text4, dropdown1, text5, text6, dropdown2, dropdown3, text7 };
+            var settingBases = new List<SettingBase> { text1, text2, text3, text4, /*dropdown1, text5, text6, dropdown2, dropdown3,*/ text7 };
 
             return Save(player, header1, settingBases, (p) => { UserSetting(p); });
         }
@@ -273,18 +276,20 @@ $"""
             var header1 = new HeaderSetting("<b>🎮 모드</b>");
             var text1 = new TextInputSetting(103, "📝 모드 설명\n자세한 설명을 조회할 모드를 선택해주세요.", header: header1);
             IEnumerable<string> modeList = ModeList.Keys.Select(x => $"{x.GetModeData().Name} ({x.GetModeData().Category}, {x.GetModeData().Info})");
-            var dropdown1 = new DropdownSetting(102, "📃 전체 모드", modeList, header: header1, onChanged: (p, sb) =>
+            var dropdown1 = new DropdownSetting(102, "📃 전체 모드", modeList, header: header1);
+            dropdown1.OnChanged = (p, sb) =>
             {
                 string modeName = GetValue(sb.Base.DebugValue);
                 ModeType mode = ModeList.Keys.Select(x => x.GetModeData().Name).Contains(modeName) ? (ModeList.Keys.FirstOrDefault(x => x.GetModeData().Name == modeName)).GetModeData().Type : ModeType.Develop;
                 text1.Base.SendTextUpdate($"📝 모드 설명\n{(mode.GetModeData().Description)}\n<size=80%>{mode.GetModeData().Detail}</size>");
-            });
-            var dropdown2 = new DropdownSetting(101, "✅ 활성화된 모드", EnabledModeList.Select(x => $"{x.GetModeData().Name} ({x.GetModeData().Category})"), header: header1, onChanged: (p, sb) =>
+            };
+            var dropdown2 = new DropdownSetting(101, "✅ 활성화된 모드", EnabledModeList.Select(x => $"{x.GetModeData().Name} ({x.GetModeData().Category})"), header: header1);
+            dropdown2.OnChanged = (p, sb) =>
             {
                 string modeName = GetValue(sb.Base.DebugValue);
                 var mode = ModeList.Keys.Select(x => x.GetModeData().Name).Contains(modeName) ? (ModeList.Keys.FirstOrDefault(x => x.GetModeData().Name == modeName)).GetModeData().Type : ModeType.Develop;
                 text1.Base.SendTextUpdate($"📝 모드 설명\n{(mode.GetModeData().Description)}\n<size=80%>{mode.GetModeData().Detail}</size>");
-            });
+            };
 
             var settingBases = new List<SettingBase> { text1, dropdown1, dropdown2 };
 

@@ -36,6 +36,7 @@ namespace RGM.EventArgs
     {
         public static IEnumerator<float> OnVerified(VerifiedEventArgs ev)
         {
+            PlayerSettings.Add(ev.Player.UserId, (new List<SettingBase>(), new List<SettingInfo>()));
             OnGround.Add(ev.Player.UserId, 5);
 
             if (!PlayersReport.ContainsKey(ev.Player.UserId))
@@ -50,6 +51,8 @@ namespace RGM.EventArgs
                     Damage = 0
                 });
             }
+
+            ServerSpecificSettings.RegisterCommonSettings(ev.Player);
 
             List<string> DefaultValues = Enumerable.Repeat("0", 15).ToList();
 
@@ -371,7 +374,10 @@ namespace RGM.EventArgs
 
         public static IEnumerator<float> OnLeft(LeftEventArgs ev)
         {
+            PlayerSettings.Remove(ev.Player.UserId);
             OnGround.Remove(ev.Player.UserId);
+
+            ServerSpecificSettings.UnregisterHeader(ev.Player.UserId);
 
             if (Round.IsLobby)
             {
