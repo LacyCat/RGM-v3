@@ -20,7 +20,7 @@ using UnityEngine;
 
 namespace RGM.Modes.Abilities.Unique.Scp079;
 
-[Ability("오버클럭", "1초마다 전력을 1 얻습니다.", AbilityCategory.Scp079, AbilityType.SCP079_OVERCLOCKING)]
+[Ability("오버클럭", "1초마다 전력을 0.2 얻습니다.", AbilityCategory.Scp079, AbilityType.SCP079_OVERCLOCKING)]
 public class Overclocking : Ability
 {
     public override void OnEnabled()
@@ -30,7 +30,7 @@ public class Overclocking : Ability
             while (Owner.Role.Type == RoleTypeId.Scp079)
             {
                 if (Owner.Role is Scp079Role scp079)
-                    scp079.Energy += 1;
+                    scp079.Energy += 0.2f;
 
                 yield return Timing.WaitForSeconds(1f);
             }
