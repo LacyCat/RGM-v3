@@ -19,12 +19,18 @@ public class RepairMan : Ability
     {
         Exiled.Events.Handlers.Player.InteractingDoor += OnInteractingDoor;
         Exiled.Events.Handlers.Player.TriggeringTesla += OnTriggeringTesla;
+        Exiled.Events.Handlers.Player.InteractingLocker += OnInteractingLocker;
+        Exiled.Events.Handlers.Player.OpeningGenerator += OnOpeningGenerator;
+        Exiled.Events.Handlers.Player.ClosingGenerator += OnClosingGenerator;
     }
 
     public override void OnDisabled()
     {
         Exiled.Events.Handlers.Player.InteractingDoor -= OnInteractingDoor;
         Exiled.Events.Handlers.Player.TriggeringTesla -= OnTriggeringTesla;
+        Exiled.Events.Handlers.Player.InteractingLocker -= OnInteractingLocker;
+        Exiled.Events.Handlers.Player.OpeningGenerator -= OnOpeningGenerator;
+        Exiled.Events.Handlers.Player.ClosingGenerator -= OnClosingGenerator;
     }
 
     public void OnInteractingDoor(InteractingDoorEventArgs ev)
@@ -59,5 +65,37 @@ public class RepairMan : Ability
             return;
 
         ev.IsTriggerable = false;
+    }
+
+    public void OnInteractingLocker(InteractingLockerEventArgs ev)
+    {
+        if (ev.Player != Owner)
+            return;
+
+        ev.IsAllowed = false;
+
+        if (ev.InteractingChamber.IsOpen)
+            ev.InteractingChamber.IsOpen = false;
+
+        else
+            ev.InteractingChamber.IsOpen = true;
+    }
+
+    public void OnOpeningGenerator(OpeningGeneratorEventArgs ev)
+    {
+        if (ev.Player != Owner)
+            return;
+
+        ev.IsAllowed = false;
+        ev.Generator.IsOpen = false;
+    }
+
+    public void OnClosingGenerator(ClosingGeneratorEventArgs ev)
+    {
+        if (ev.Player != Owner)
+            return;
+
+        ev.IsAllowed = false;
+        ev.Generator.IsOpen = true;
     }
 }
