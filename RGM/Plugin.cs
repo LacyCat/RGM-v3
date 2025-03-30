@@ -28,8 +28,6 @@ using static RGM.EventArgs.Scp330Events;
 using static RGM.EventArgs.Scp244Events;
 using static RGM.EventArgs.Scp079Events;
 
-using Exiled.API.Features.Core.UserSettings;
-
 namespace RGM
 {
     public class RGM : Plugin<Config>
@@ -38,7 +36,7 @@ namespace RGM
 
         public override string Name => "RGM";
         public override string Author => "GoldenPig1205";
-        public override Version Version { get; } = new(3, 13, 3);
+        public override Version Version { get; } = new(3, 13, 4);
         public override Version RequiredExiledVersion { get; } = new(1, 2, 0, 5);
 
         public override void OnEnabled()
