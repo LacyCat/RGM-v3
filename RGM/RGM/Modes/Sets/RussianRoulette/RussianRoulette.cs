@@ -103,7 +103,7 @@ namespace RGM.Modes
                         break;
 
                     table.Value.Add(pl[0]);
-                    pl.Remove(pl[0]);
+                    pl.RemoveAt(0);
                 }
 
                 if (table.Value.Count > 0)
