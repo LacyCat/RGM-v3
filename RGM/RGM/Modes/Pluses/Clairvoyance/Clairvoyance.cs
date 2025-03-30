@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CustomRendering;
 using Exiled.API.Features;
+using Exiled.Events.EventArgs.Player;
 using MEC;
 using Mirror;
 using RGM.API.Features;
@@ -45,14 +46,22 @@ SCP-1344 효과 - 투시
             yield break;
         }
 
-        public void OnSpawned(Exiled.Events.EventArgs.Player.SpawnedEventArgs ev)
+        public void OnSpawned(SpawnedEventArgs ev)
         {
             Spawned(ev.Player);
         }
 
         public void Spawned(Player player)
         {
-            player.EnableEffect(EffectType.Scp1344);
+            if (player.IsAlive)
+            {
+                player.DisableEffect(EffectType.Scp1344);
+
+                Timing.CallDelayed(1, () =>
+                {
+                    player.EnableEffect(EffectType.Scp1344);
+                });
+            }
         }
     }
 }
