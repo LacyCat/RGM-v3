@@ -44,7 +44,7 @@ namespace RGM.EventArgs
                 Speaker speaker = p.AddSpeaker("Main", isSpatial: false, maxDistance: 5000);
             });
 
-            Tools.PlayGlobalAudio("Holiday by GoldenPig1205", 0.3f, true);
+            Tools.PlayGlobalAudio("It raining tacos", 0.3f, true);
 
             Round.IsLobbyLocked = true;
             GameObject.Find("StartRound").transform.localScale = Vector3.zero;
@@ -76,7 +76,7 @@ namespace RGM.EventArgs
             Timing.RunCoroutine(RenewalPlayersInfo());
             Timing.RunCoroutine(Detonation());
 
-            int rn = UnityEngine.Random.Range(1, 6);
+            int rn = 5; //UnityEngine.Random.Range(1, 6);
 
             if (rn == 1)
             {
@@ -128,9 +128,12 @@ namespace RGM.EventArgs
             {
                 try
                 {
-                    var maxLength = ModeVote.Values.Max(list => list.Count);
-                    var longestKeys = ModeVote.Keys.Where(key => ModeVote[key].Count == maxLength).ToList();
-                    var randomKey = longestKeys[UnityEngine.Random.Range(0, longestKeys.Count)];
+                    var minLength = ModeVote.Values.Min(list => list.Count);
+                    var shortestKeys = ModeVote.Keys.Where(key => ModeVote[key].Count == minLength).ToList();
+                    var randomKey = shortestKeys[UnityEngine.Random.Range(0, shortestKeys.Count)];
+                    //var maxLength = ModeVote.Values.Max(list => list.Count);
+                    //var longestKeys = ModeVote.Keys.Where(key => ModeVote[key].Count == maxLength).ToList();
+                    //var randomKey = longestKeys[UnityEngine.Random.Range(0, longestKeys.Count)];
                     CurrentMode = randomKey;
                     CurrentSubMode = SubModeVote[ModeVote.Keys.ToList().IndexOf(randomKey)];
 
