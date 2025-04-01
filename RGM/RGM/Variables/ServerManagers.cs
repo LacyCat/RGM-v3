@@ -24,8 +24,8 @@ namespace RGM.Variables
         public static AudioPlayer GlobalPlayer;
         public static string SelectMode = null;
         public static string Tip = Tools.GetRandomValue(Tips.LobbyTips);
-        public static string Logo = UnityEngine.Random.Range(1, 3) == 1 ? "❓" : "❔";
-        public static int StartupRandom = UnityEngine.Random.Range(1, 31);
+        public static string Logo = Random.Range(1, 3) == 1 ? "❓" : "❔";
+        public static int StartupRandom = Random.Range(1, 31);
         public static bool FreezeGameStart = false;
         public static bool AutoNuke = false;
         public static bool IsScp3114Enabled = false;
@@ -37,6 +37,7 @@ namespace RGM.Variables
         public static bool IsClearCitizen = false;
         public static bool IsSuggestProcessing = false;
         public static bool IsModeSuggestUsed = false;
+        public static bool IsWaveEnabled = true;
 
         public static Dictionary<ModeType, ModeData> ModeList = new();
         public static Dictionary<ModeType, List<Player>> ModeVote = new();

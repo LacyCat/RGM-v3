@@ -297,7 +297,7 @@ namespace RGM.EventArgs
                                             return "<b>[선택 모드 : 롤토체스]</b> <color=#F5D0A9>투표한 유저 중에서 모드가 자동으로 결정됩니다.</color>";
 
                                         else if (SelectMode == "MostVote")
-                                            return "<b>[선택 모드 : 울랄라]</b> <color=#E6E0F8>?ㅇ??ㄹㅇ?ㄹㅇ?ㄹ?ㅇㄹ?ㅇ?ㄹ?ㄹ 서버 폐업한다ㅏㅏㅏㅏ</color>";/*"<b>[선택 모드 : 다수결]</b> <color=#E6E0F8>원하는 모드의 번호가 할당된 플랫폼을 밟아 투표하세요.</color>";*/
+                                            return "<b>[선택 모드 : 다수결]</b> <color=#E6E0F8>원하는 모드의 번호가 할당된 플랫폼을 밟아 투표하세요.</color>";
 
                                         else if (SelectMode == "SecretVote")
                                             return "<b>[선택 모드 : 비밀 선거]</b> <color=#E6F8E0>누가 어떤 모드를 투표했는지 알 수 없습니다.</color>";

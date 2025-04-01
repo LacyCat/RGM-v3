@@ -21,6 +21,7 @@ using static RGM.IEnumerators.ServerManagers;
 using Exiled.API.Enums;
 using RGM.API.DataBases;
 using InventorySystem.Configs;
+using Respawning;
 
 namespace RGM.EventArgs
 {
@@ -44,11 +45,12 @@ namespace RGM.EventArgs
                 Speaker speaker = p.AddSpeaker("Main", isSpatial: false, maxDistance: 5000);
             });
 
-            Tools.PlayGlobalAudio("It raining tacos", 0.3f, true);
+            Tools.PlayGlobalAudio("Holiday by GoldenPig1205", 0.3f, true);
 
             Round.IsLobbyLocked = true;
             GameObject.Find("StartRound").transform.localScale = Vector3.zero;
             Server.ExecuteCommand($"/mp load Past_Lobby");
+            Respawn.PauseWaves();
 
             var donator = new Donator.Main();
             donator.OnEnabled();
@@ -74,9 +76,8 @@ namespace RGM.EventArgs
             Timing.RunCoroutine(InputCooldown());
             Timing.RunCoroutine(Ball());
             Timing.RunCoroutine(RenewalPlayersInfo());
-            Timing.RunCoroutine(Detonation());
 
-            int rn = 5; //UnityEngine.Random.Range(1, 6);
+            int rn = UnityEngine.Random.Range(1, 6);
 
             if (rn == 1)
             {
@@ -128,12 +129,9 @@ namespace RGM.EventArgs
             {
                 try
                 {
-                    var minLength = ModeVote.Values.Min(list => list.Count);
-                    var shortestKeys = ModeVote.Keys.Where(key => ModeVote[key].Count == minLength).ToList();
-                    var randomKey = shortestKeys[UnityEngine.Random.Range(0, shortestKeys.Count)];
-                    //var maxLength = ModeVote.Values.Max(list => list.Count);
-                    //var longestKeys = ModeVote.Keys.Where(key => ModeVote[key].Count == maxLength).ToList();
-                    //var randomKey = longestKeys[UnityEngine.Random.Range(0, longestKeys.Count)];
+                    var maxLength = ModeVote.Values.Max(list => list.Count);
+                    var longestKeys = ModeVote.Keys.Where(key => ModeVote[key].Count == maxLength).ToList();
+                    var randomKey = longestKeys[UnityEngine.Random.Range(0, longestKeys.Count)];
                     CurrentMode = randomKey;
                     CurrentSubMode = SubModeVote[ModeVote.Keys.ToList().IndexOf(randomKey)];
 
@@ -197,6 +195,8 @@ namespace RGM.EventArgs
                 Timing.RunCoroutine(HumanLoop());
                 Timing.RunCoroutine(Scp079Broadcast());
             }
+
+            Timing.RunCoroutine(Detonation());
 
             DiscordInteraction.Discord.Webhook.Send($"시작된 모드 : {CurrentMode.GetModeData().Name}");
             Log.Info($"시작된 모드 : {CurrentMode.GetModeData().Name}");
