@@ -36,7 +36,9 @@ namespace RGM.Modes
             EffectType.PitDeath,
             EffectType.CardiacArrest,
             EffectType.Poisoned,
-            EffectType.SpawnProtected
+            EffectType.SpawnProtected,
+            EffectType.Ensnared,
+            EffectType.Flashed
         };
 
         public override void OnEnabled()
