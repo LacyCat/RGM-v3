@@ -21,7 +21,9 @@ public class SuspiciousStew : Ability
             EffectType.PitDeath,
             EffectType.CardiacArrest,
             EffectType.Poisoned,
-            EffectType.SpawnProtected
+            EffectType.SpawnProtected,
+            EffectType.Ensnared,
+            EffectType.Flashed
         };
 
         EffectType Effect = Tools.GetRandomValue(Effects.Where(x => !ignoredEffect.Contains(x)).ToList());
