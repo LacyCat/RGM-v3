@@ -18,7 +18,7 @@ using Exiled.API.Enums;
 
 namespace RGM.Modes
 {
-    [Mode(ModeCategory.Public, ModeInfo.Set, ModeType.MeetingSquare)]
+    [Mode(ModeCategory.Private, ModeInfo.Set, ModeType.MeetingSquare)]
     class MeetingSquare : Mode
     {
         public override string Name => "만남의 광장";
