@@ -30,10 +30,11 @@ using MapEditorReborn.API.Features;
 using MapEditorReborn.Events.Handlers.Internal;
 using MapEditorReborn.API;
 using System.Runtime.Remoting.Metadata.W3cXsd2001;
+using Exiled.API.Extensions;
 
 namespace RGM.API.Features
 {
-    public class Tools
+    public static class Tools
     {
         public static T GetRandomValue<T>(List<T> list)
         {
@@ -62,6 +63,7 @@ namespace RGM.API.Features
 
             return itemList;
         }
+
 
         public static void TeleportToLobby(Player player)
         {
