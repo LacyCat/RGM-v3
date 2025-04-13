@@ -16,7 +16,7 @@ using static RGM.Variables.ServerManagers;
 
 namespace RGM.Modes.Abilities.Rare;
 
-[Ability("회중시계", "지급된 동전을 튕기면 3초간 움직일 수 없는 대신에 무적 상태가 됩니다.", AbilityCategory.Rare, AbilityType.RARE_STOPWATCH)]
+[Ability("회중시계", "지급된 동전을 튕기면 3초간 움직일 수 없는 대신에 5초간 무적 상태가 됩니다.", AbilityCategory.Rare, AbilityType.RARE_STOPWATCH)]
 public class StopWatch : Ability
 {
     ushort ClockCoinSerial = 0;
@@ -55,7 +55,7 @@ public class StopWatch : Ability
 
             GodModePlayers.Add(ev.Player);
 
-            Timing.CallDelayed(3, () => 
+            Timing.CallDelayed(5, () => 
             { 
                 if (GodModePlayers.Contains(ev.Player)) 
                     GodModePlayers.Remove(ev.Player); 
