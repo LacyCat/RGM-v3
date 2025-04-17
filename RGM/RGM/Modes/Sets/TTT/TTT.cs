@@ -213,20 +213,6 @@ Trouble in Terrorist Town의 약자.
                     player.ShowHint($"당신은 <color={RoleTypeId.ClassD.GetColor().ToHex()}>무죄인</color>입니다. <color=#2ECCFA>탐정</color>과 함께 <color=red>배신자</color>들을 처단하세요.", 20);
                 }
             }
-
-            while (true)
-            {
-                foreach (var p in Player.List.Where(x => traitors.Contains(x)))
-                {
-                    if (Tools.TryGetLookPlayer(p, 100, out Player t, out RaycastHit? hit))
-                    {
-                        if (traitors.Contains(t))
-                            p.ShowHint($"그는 당신의 동료, 같은 <color=red>배신자</color>입니다.", 1.2f);
-                    }
-                }
-
-                yield return Timing.WaitForSeconds(1f);
-            }
         }
 
         public IEnumerator<float> Timer()
@@ -257,9 +243,14 @@ Trouble in Terrorist Town의 약자.
         {
             while (!Round.IsEnded)
             {
-                foreach (var traitor in traitors)
+                foreach (var traitor in traitors.Where(x => x.IsAlive))
                 {
-                    if (Tools.TryGetNearestPlayer(traitor, out Player nearestPlayer, out float radius))
+                    if (Tools.TryGetLookPlayer(traitor, 100, out Player t, out RaycastHit? hit))
+                    {
+                        if (traitors.Contains(t))
+                            traitor.ShowHint($"그는 당신의 동료, 같은 <color=red>배신자</color>입니다.", 1.2f);
+                    }
+                    else if (Tools.TryGetNearestPlayer(traitor, out Player nearestPlayer, out float radius))
                         traitor.ShowHint($"<b>[ <color={nearestPlayer.Role.Color.ToHex()}>{Trans.Role[nearestPlayer.Role.Type]}</color>, 거리: {radius.ToString("F1")}m ]</b>", 1.2f);
 
                     else
@@ -304,6 +295,7 @@ Trouble in Terrorist Town의 약자.
                             GodModePlayers.Remove(t);
 
                         t.Kill("배신자에 의해 처형되었습니다.");
+                        ev.Player.ShowHitMarker();
 
                         instantKillCooldown.Add(ev.Player);
 
