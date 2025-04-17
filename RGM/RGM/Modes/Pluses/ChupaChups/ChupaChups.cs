@@ -12,6 +12,7 @@ using RGM.API.DataBases;
 using UnityEngine;
 using Exiled.API.Features.Items;
 using PlayerRoles;
+using Exiled.Events.EventArgs.Player;
 
 namespace RGM.Modes
 {
@@ -39,15 +40,15 @@ namespace RGM.Modes
         {
             foreach (var player in Player.List)
             {
-                Spawned(player);
+                Timing.RunCoroutine(Spawned(player));
             }
 
             yield break;
         }
 
-        public void OnSpawned(Exiled.Events.EventArgs.Player.SpawnedEventArgs ev)
+        public void OnSpawned(SpawnedEventArgs ev)
         {
-            Spawned(ev.Player);
+            Timing.RunCoroutine(Spawned(ev.Player));
         }
 
         public IEnumerator<float> Spawned(Player player)
