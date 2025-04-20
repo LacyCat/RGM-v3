@@ -152,6 +152,31 @@ namespace RGM.Donator
 
                 Timing.CallDelayed(1.9f, XmasTree.Destroy);
             }
+
+            if (PlayerData[4] == "철퇴")
+            {
+                PlaySound(_pos, "8", 6);
+
+                SchematicObject Hammer = ObjectSpawner.SpawnSchematic("Hammer", new Vector3(_pos.x, _pos.y - 0.9f, _pos.z), rot, null, null);
+
+                Timing.CallDelayed(1.5f, Hammer.Destroy);
+            }
+
+            if (PlayerData[4] == "수렴형 레이저")
+            {
+                PlaySound(_pos, "9", 2);
+
+                SchematicObject Raser = ObjectSpawner.SpawnSchematic("Raser", new Vector3(_pos.x, _pos.y - 0.9f, _pos.z), rot, null, null);
+
+                Timing.CallDelayed(1.5f, Raser.Destroy);
+            }
+
+            if (PlayerData[4] == "5월 5일")
+            {
+                SchematicObject ChildrenDay = ObjectSpawner.SpawnSchematic("ChildrenDay", new Vector3(_pos.x, _pos.y - 0.9f, _pos.z), rot, null, null);
+
+                Timing.CallDelayed(1.5f, ChildrenDay.Destroy);
+            }
         }
 
         public IEnumerator<float> OnDying(Exiled.Events.EventArgs.Player.DyingEventArgs ev)
@@ -172,7 +197,10 @@ namespace RGM.Donator
                         Timing.RunCoroutine(KillEffect(AttackerData, ev.Attacker, ev.Player, _role, _pos));
 
                         foreach (var _player in Player.List.Where(x => x.IsDead || Vector3.Distance(x.Position, _pos) <= 10 || Vector3.Distance(x.Position, ev.Attacker.Position) <= 10))
-                            _player.AddBroadcast(6, $"<size=25>{Tools.BadgeFormat(ev.Attacker)}<color=#CEF6F5>{ev.Attacker.DisplayNickname}</color>(이)가 {Datas.KillEffectData[AttackerData[4]][0]}(으)로 {Tools.BadgeFormat(ev.Player)}<color=#CEF6F5>{ev.Player.DisplayNickname}</color>(을)를 {Datas.KillEffectData[AttackerData[4]][1]}시켰습니다!</size>");
+                        {
+                            if (Datas.KillEffectData.ContainsKey(AttackerData[4]))
+                                _player.AddBroadcast(6, $"<size=25>{Tools.BadgeFormat(ev.Attacker)}<color=#CEF6F5>{ev.Attacker.DisplayNickname}</color>(이)가 {Datas.KillEffectData[AttackerData[4]][0]}(으)로 {Tools.BadgeFormat(ev.Player)}<color=#CEF6F5>{ev.Player.DisplayNickname}</color>(을)를 {Datas.KillEffectData[AttackerData[4]][1]}시켰습니다!</size>");
+                        }
                     }
                 }
             }
