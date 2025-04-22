@@ -47,6 +47,7 @@ namespace RGM.Variables
         public static Dictionary<string, PlayerReport> PlayersReport = new();
         public static Dictionary<Door, int> InteractedDoors = new();
         public static Dictionary<string, (List<SettingBase>, List<SettingInfo>)> PlayerSettings = new();
+        public static Dictionary<string, string> DiscordIdToUserId;
         public static Dictionary<string, string> KillEffects = new Dictionary<string, string>()
         {
             {"영혼 가출", "죽은 상대에게서 혼을 추출해냅니다!"},
