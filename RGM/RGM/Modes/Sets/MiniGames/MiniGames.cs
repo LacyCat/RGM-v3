@@ -36,7 +36,7 @@ namespace RGM.Modes
         {
             "airstrike",
             "dm",
-            "escape",
+            //"escape",
             "battle",
             "versus",
             "cs",
