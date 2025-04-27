@@ -37,7 +37,7 @@ namespace RGM.Modes
         {
             while (true)
             {
-                AudioClipPlayback clip = GlobalPlayer.AddClip(AudioClipStorage.AudioClips.Keys.GetRandomValue(), 0.2f, false);
+                AudioClipPlayback clip = GlobalPlayer.AddClip(AudioClipStorage.AudioClips.Keys.GetRandomValue(), 0.3f, false);
 
                 yield return Timing.WaitForSeconds((int)clip.Duration.TotalSeconds + Random.Range(1, 21));
             }
