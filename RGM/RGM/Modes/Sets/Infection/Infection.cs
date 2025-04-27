@@ -68,7 +68,7 @@ namespace RGM.Modes
 
             Tools.PlayGlobalAudio("Voices", 0.3f, true);
 
-            for (int i = 0; i < Mathf.Min(1, Player.List.Count() / 7); i++)
+            for (int i = 0; i < Mathf.Max(1, Player.List.Count() / 7); i++)
             {
                 Player hostZombie = Tools.GetRandomValue(Player.List.Where(x => x.IsAlive && !HostZombies.Contains(x)).ToList());
 
@@ -189,7 +189,11 @@ namespace RGM.Modes
                 {
                     IEnumerable<Player> zombies = Player.List.Where(x => x.Role.Type == RoleTypeId.Scp0492);
 
-                    ev.Player.Position = Tools.GetRandomValue(zombies.Select(x => x.Position).ToList());
+                    if (zombies.Count() < 1)
+                        ev.Player.Position = Tools.GetRandomValue(Player.List.Where(x => x.Role.Type == RoleTypeId.NtfCaptain).Select(x => x.Position).ToList());
+
+                    else
+                        ev.Player.Position = Tools.GetRandomValue(zombies.Select(x => x.Position).ToList());
                 }
                 catch (Exception ex)
                 {
