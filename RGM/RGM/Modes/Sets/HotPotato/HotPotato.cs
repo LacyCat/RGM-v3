@@ -17,6 +17,7 @@ using Respawning;
 
 using static RGM.Variables.ServerManagers;
 using Exiled.API.Features.Doors;
+using Exiled.Events.EventArgs.Player;
 
 namespace RGM.Modes
 {
@@ -46,6 +47,7 @@ namespace RGM.Modes
             Round.IsLocked = true;
             Respawn.PauseWaves();
 
+            Exiled.Events.Handlers.Player.InteractingDoor += OnInteractingDoor;
             Exiled.Events.Handlers.Player.Spawned += OnSpawned;
             Exiled.Events.Handlers.Player.Hurting += OnHurting;
             Exiled.Events.Handlers.Player.Died += OnDied;
@@ -175,7 +177,12 @@ namespace RGM.Modes
             }
         }
 
-        public void OnSpawned(Exiled.Events.EventArgs.Player.SpawnedEventArgs ev)
+        public void OnInteractingDoor(InteractingDoorEventArgs ev)
+        {
+            ev.IsAllowed = false;
+        }
+
+        public void OnSpawned(SpawnedEventArgs ev)
         {
             Server.ExecuteCommand($"/speak {ev.Player.Id} 1");
             IntercomPlayers.Add(ev.Player);
@@ -183,9 +190,10 @@ namespace RGM.Modes
             ev.Player.GetEffect(EffectType.MovementBoost).Intensity = 50;
         }
 
-        public void OnHurting(Exiled.Events.EventArgs.Player.HurtingEventArgs ev)
+        public void OnHurting(HurtingEventArgs ev)
         {
-            ev.IsAllowed = false;
+            if (ev.DamageHandler.Type != DamageType.Falldown)
+                ev.IsAllowed = false;
 
             if (BomberMans.Contains(ev.Attacker) && !BomberMans.Contains(ev.Player) && !ev.Player.IsNPC)
             {
@@ -197,7 +205,7 @@ namespace RGM.Modes
             }
         }
 
-        public void OnDied(Exiled.Events.EventArgs.Player.DiedEventArgs ev)
+        public void OnDied(DiedEventArgs ev)
         {
             if (pl.Contains(ev.Player))
             {
