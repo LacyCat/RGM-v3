@@ -192,7 +192,7 @@ namespace RGM.Modes
 
         public void OnHurting(HurtingEventArgs ev)
         {
-            if (ev.DamageHandler.Type != DamageType.Falldown)
+            if (ev.DamageHandler.Type == DamageType.Scp049 || ev.DamageHandler.Type == DamageType.CardiacArrest)
                 ev.IsAllowed = false;
 
             if (BomberMans.Contains(ev.Attacker) && !BomberMans.Contains(ev.Player) && !ev.Player.IsNPC)
