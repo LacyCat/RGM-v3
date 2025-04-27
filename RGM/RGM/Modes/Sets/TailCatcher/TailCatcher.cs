@@ -17,6 +17,7 @@ using Respawning;
 
 using static RGM.Variables.ServerManagers;
 using Exiled.API.Features.Doors;
+using Exiled.Events.EventArgs.Player;
 
 namespace RGM.Modes
 {
@@ -53,6 +54,7 @@ namespace RGM.Modes
             Round.IsLocked = true;
             Respawn.PauseWaves();
 
+            Exiled.Events.Handlers.Player.InteractingDoor += OnInteractingDoor;
             Exiled.Events.Handlers.Player.Spawned += OnSpawned;
             Exiled.Events.Handlers.Player.DroppingItem += OnDroppingItem;
             Exiled.Events.Handlers.Player.DroppingAmmo += OnDroppingAmmo;
@@ -123,6 +125,11 @@ namespace RGM.Modes
                     yield return Timing.WaitForSeconds(0.15f);
                 }
             }
+        }
+
+        public void OnInteractingDoor(InteractingDoorEventArgs ev)
+        {
+            ev.IsAllowed = false;
         }
 
         public void OnSpawned(Exiled.Events.EventArgs.Player.SpawnedEventArgs ev)
