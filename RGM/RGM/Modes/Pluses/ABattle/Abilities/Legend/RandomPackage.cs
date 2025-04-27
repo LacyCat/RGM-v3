@@ -21,9 +21,16 @@ public class RandomPackage : Ability
 
         for (int i = 1; i < Server.PlayerCount * 2; i++)
         {
-            Item Item = Item.Create(Tools.GetRandomValue(ItemTypes));
+            try
+            {
+                Item Item = Item.Create(Tools.GetRandomValue(ItemTypes));
 
-            Item.CreatePickup(new Vector3(Owner.Position.x, Owner.Position.y + 2, Owner.Position.z));
+                Item.CreatePickup(new Vector3(Owner.Position.x, Owner.Position.y + 2, Owner.Position.z));
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Failed to create item: {ex}");
+            }
         }
     }
 
