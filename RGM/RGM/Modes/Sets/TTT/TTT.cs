@@ -50,6 +50,7 @@ Trouble in Terrorist Town의 약자.
 
         public static TTT Instance;
 
+        bool IsStarted = false;
         Player detective;
         List<Player> traitors = new List<Player>();
         List<Player> instantKillCooldown = new List<Player>();
@@ -147,6 +148,8 @@ Trouble in Terrorist Town의 약자.
 
                 yield return Timing.WaitForSeconds(1f);
             }
+
+            IsStarted = true;
 
             Timing.RunCoroutine(Timer());
             Timing.RunCoroutine(FindLocate());
@@ -314,6 +317,7 @@ Trouble in Terrorist Town의 약자.
         public void OnDied(DiedEventArgs ev)
         {
             if (Round.IsEnded)
+            if (Round.IsEnded || !IsStarted)
                 return;
 
             if (ev.Attacker != null)
