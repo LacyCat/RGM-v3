@@ -12,6 +12,7 @@ using UnityEngine;
 using VoiceChat;
 using VoiceChat.Playbacks;
 using static RGM.Modes.FriendlyFire;
+using static RGM.Variables.ServerManagers;
 
 namespace RGM.Modes
 {
@@ -38,6 +39,11 @@ namespace RGM.Modes
             while (true)
             {
                 Server.ExecuteCommand($"/speak {string.Join(".", Player.List.Select(x => x.Id))}. 1");
+                foreach (var player in Player.List)
+                {
+                    if (!IntercomPlayers.Contains(player))
+                        IntercomPlayers.Add(player);
+                }
 
                 yield return Timing.WaitForSeconds(1f);
             }
