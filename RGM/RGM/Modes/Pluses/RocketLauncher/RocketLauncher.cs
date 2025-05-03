@@ -7,6 +7,7 @@ using Exiled.API.Features;
 using MEC;
 using PlayerRoles;
 using RGM.API.DataBases;
+using RGM.API.Features;
 
 namespace RGM.Modes
 {
@@ -55,8 +56,8 @@ namespace RGM.Modes
 
                 if (GetPercent() == 1)
                 {
-                    Server.ExecuteCommand($"/cassie_sl {ev.Player.Nickname}(<color={ev.Player.Role.Color.ToHex()}>{Trans.Role[ev.Player.Role.Type]}</color>)(이)가 하늘로 승천했습니다.");
-                    Server.ExecuteCommand($"/rocket {ev.Player.Id} 1");
+                    Server.ExecuteCommand($"/cassie_sl {ev.Player.DisplayNickname}(<color={ev.Player.Role.Color.ToHex()}>{Trans.Role[ev.Player.Role.Type]}</color>)(이)가 하늘로 승천했습니다.");
+                    Timing.RunCoroutine(Tools.DoRocket(ev.Attacker, ev.Player, 1f));
                 }
             }
         }

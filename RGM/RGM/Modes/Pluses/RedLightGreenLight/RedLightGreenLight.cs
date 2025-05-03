@@ -93,7 +93,7 @@ namespace RGM.Modes
                     {
                         player.Role.Set(RoleTypeId.Tutorial);
                         player.Position = Tools.GetRandomValue(Player.List.Where(x => x.IsHuman).ToList()).Position;
-                        Server.ExecuteCommand($"/rocket {player.Id} 1");
+                        Timing.RunCoroutine(Tools.DoRocket(player, player, 1f));
                     }
                 }
 
@@ -122,10 +122,10 @@ namespace RGM.Modes
                                 {
                                     player.Role.Set(RoleTypeId.Tutorial);
                                     player.Position = Tools.GetRandomValue(Player.List.Where(x => x.IsHuman).ToList()).Position;
-                                    Server.ExecuteCommand($"/rocket {player.Id} 1");
+                                    Timing.RunCoroutine(Tools.DoRocket(player, player, 1f));
                                 }
                                 else
-                                    Server.ExecuteCommand($"/rocket {player.Id} 0.01");
+                                    Timing.RunCoroutine(Tools.DoRocket(player, player, 0.01f));
 
                                 Server.ExecuteCommand($"/clearcassie");
                                 Server.ExecuteCommand($"/cassie_sl 안타깝게도 {player.DisplayNickname}(이)가 <b><color=red>빨간 불</color></b>에 건넜습니다.");
