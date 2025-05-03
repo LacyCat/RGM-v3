@@ -31,6 +31,7 @@ using MapEditorReborn.Events.Handlers.Internal;
 using MapEditorReborn.API;
 using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using Exiled.API.Extensions;
+using Exiled.API.Features.Items;
 
 namespace RGM.API.Features
 {
@@ -747,6 +748,31 @@ $"""
             System.Random random = new System.Random();
             return new string(Enumerable.Repeat(chars, length)
                 .Select(s => s[random.Next(s.Length)]).ToArray());
+        }
+
+        public static IEnumerator<float> DoRocket(Player attacker, Player player, float speed)
+        {
+            int amnt = 0;
+            while (player.Role != RoleTypeId.Spectator)
+            {
+                player.Position += Vector3.up * speed;
+                int num = amnt;
+                amnt = num + 1;
+                bool flag = amnt >= 50;
+                if (flag)
+                {
+                    player.IsGodModeEnabled = false;
+                    ExplosiveGrenade grenade = (ExplosiveGrenade)Item.Create(ItemType.GrenadeHE, null);
+                    grenade.FuseTime = 0.5f;
+                    grenade.SpawnActive(player.Position, attacker);
+                    player.Kill("달에 갈끄니까!");
+                    grenade = null;
+                }
+
+                yield return float.NegativeInfinity;
+            }
+
+            yield break;
         }
     }
 }

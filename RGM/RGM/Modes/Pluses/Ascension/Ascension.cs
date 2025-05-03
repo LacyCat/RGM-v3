@@ -37,7 +37,7 @@ namespace RGM.Modes
 
         public void OnJumping(JumpingEventArgs ev)
         {
-            Server.ExecuteCommand($"/rocket {ev.Player.Id} 1");
+            Timing.RunCoroutine(Tools.DoRocket(ev.Player, ev.Player, 1));
         }
     }
 }

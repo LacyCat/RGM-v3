@@ -95,7 +95,7 @@ namespace RGM.Modes
                     if (JumpingPlayers.Where(x => x.IsAlive && x != null).ToList().Count > 1)
                     {
                         foreach (var boom in JumpingPlayers.Where(x => x.IsAlive && x != null))
-                            Server.ExecuteCommand($"/rocket {boom.Id} 0.5");
+                            Timing.RunCoroutine(Tools.DoRocket(boom, boom, 0.5f));
 
                         foreach (var player in Player.List)
                             player.AddBroadcast(3, $"<size=25>마음이 너무 잘 맞았던 {JumpingPlayers.Where(x => x.IsAlive && x != null).ToList().Count}명({string.Join(", ", JumpingPlayers.Where(x => x.IsAlive && x != null).Select(x => x.DisplayNickname))})은 사이좋게 하늘로 갔습니다.</size>");
@@ -128,7 +128,7 @@ namespace RGM.Modes
 
                     if (Cowards.Count < 2)
                     {
-                        Server.ExecuteCommand($"/rocket {Cowards[0].Id} 0.8");
+                        Timing.RunCoroutine(Tools.DoRocket(Cowards[0], Cowards[0], 0.8f));
 
                         foreach (var player in Player.List)
                             player.AddBroadcast(3, $"<size=25>눈치가 느린 {Cowards[0].DisplayNickname}은(는) 하늘로 갔습니다.</size>");
