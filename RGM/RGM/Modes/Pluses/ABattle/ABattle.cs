@@ -14,7 +14,7 @@ using PlayerRoles;
 using RemoteAdmin;
 using RGM.API.Features;
 using RGM.Modes.Commands;
-
+using static RGM.Variables.ServerManagers;
 using Random = UnityEngine.Random;
 
 namespace RGM.Modes;
@@ -311,6 +311,17 @@ public class ABattle : Mode
             int heal = player.IsScp ? 50 : 10;
             player.MaxHealth += heal;
             player.Health += heal;
+        }
+
+        if (type.ToString().Contains("LEGEND"))
+        {
+            if (GlobalPlayer.ClipsById.Where(x => x.Value.Clip == "abattle_legend").Count() < 1)
+                GlobalPlayer.AddClip("abattle_legend", 1.5f);
+        }
+        else if (type.ToString().Contains("MYTHIC"))
+        {
+            if (GlobalPlayer.ClipsById.Where(x => x.Value.Clip == "abattle_mythic").Count() < 1)
+                GlobalPlayer.AddClip("abattle_mythic", 1.5f);
         }
 
         if (player.HasAbility(AbilityType.LEGEND_REFLECTOR))
