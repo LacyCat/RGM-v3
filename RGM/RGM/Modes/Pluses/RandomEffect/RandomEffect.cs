@@ -43,6 +43,8 @@ namespace RGM.Modes
 
         public override void OnEnabled()
         {
+            Exiled.Events.Handlers.Player.Spawned += OnSpawned;
+
             Timing.RunCoroutine(OnModeStarted());
         }
 
