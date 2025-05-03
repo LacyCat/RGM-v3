@@ -321,7 +321,7 @@ public class ABattle : Mode
         else if (type.ToString().Contains("MYTHIC"))
         {
             if (GlobalPlayer.ClipsById.Where(x => x.Value.Clip == "abattle_mythic").Count() < 1)
-                GlobalPlayer.AddClip("abattle_mythic", 1.5f);
+                GlobalPlayer.AddClip("abattle_mythic", 2.5f);
         }
 
         if (player.HasAbility(AbilityType.LEGEND_REFLECTOR))
