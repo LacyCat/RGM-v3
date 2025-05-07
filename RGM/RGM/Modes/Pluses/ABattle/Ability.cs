@@ -315,6 +315,7 @@ public enum AbilityType
     EPIC_SCP1344, // [영웅] 투시
     EPIC_PRIEST, // [영웅] 성직자
     EPIC_ADDWORKSTATION, // [영웅] 업무 증가
+    EPIC_MADSCIENTIST, // [영웅] 매드 사이언티스트
 
     // 전설 //
     LEGEND_SPEEDWAGON, // [전설] 스피드왜건
