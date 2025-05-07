@@ -155,7 +155,7 @@ namespace RGM.Donator
 
             if (PlayerData[4] == "철퇴")
             {
-                PlaySound(_pos, "8", 6);
+                PlaySound(_pos, "8", 10);
 
                 SchematicObject Hammer = ObjectSpawner.SpawnSchematic("Hammer", new Vector3(_pos.x, _pos.y - 0.9f, _pos.z), rot, null, null);
 
