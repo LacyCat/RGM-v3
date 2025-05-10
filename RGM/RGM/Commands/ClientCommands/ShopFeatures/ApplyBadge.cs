@@ -46,6 +46,26 @@ namespace RGM.Commands.ClientCommands
                         player.RankName = null;
                         return true;
                     }
+                    if (args == "랜덤 적용")
+                    {
+                        uc[17] = "1";
+                        UsersManager.UsersCache[player.UserId] = uc;
+                        response = "칭호가 라운드마다 랜덤으로 적용됩니다.";
+
+                        UsersManager.SaveUsers();
+
+                        return true;
+                    }
+                    if (args == "랜덤 해제")
+                    {
+                        uc[17] = "0";
+                        UsersManager.UsersCache[player.UserId] = uc;
+                        response = "이제 칭호가 라운드마다 랜덤으로 적용되지 않습니다.";
+
+                        UsersManager.SaveUsers();
+
+                        return true;
+                    }
                     else if (Badges.ContainsKey(args) && uc[10].Split('/').Contains(args))
                     {
                         uc[11] = $"{args}";

@@ -50,20 +50,20 @@ namespace RGM.Donator
             audioPlayer.AddClip($"KillEffect_{clip}", volume: volume);
         }
 
-        public IEnumerator<float> KillEffect(List<string> PlayerData, Player Attacker, Player Player, Role _role, Vector3 _pos)
+        public IEnumerator<float> KillEffect(string kE, Player Attacker, Player Player, Role _role, Vector3 _pos)
         {
             Quaternion rot = Attacker.Rotation;
 
-            if (PlayerData[4] == "영혼 가출")
+            if (kE == "영혼 가출")
             {
                 PlaySound(_pos, "1", 4);
 
                 DamageHandlerBase DisruptorDamage = new DisruptorDamageHandler(new DisruptorShotEvent(ItemIdentifier.None, Attacker.Footprint, InventorySystem.Items.Firearms.Modules.DisruptorActionModule.FiringState.FiringSingle), Player.Position, -1);
 
-                Ragdoll.CreateAndSpawn(_role.Type, PlayerData[4], DisruptorDamage, _pos, rot);
+                Ragdoll.CreateAndSpawn(_role.Type, kE, DisruptorDamage, _pos, rot);
             }
 
-            if (PlayerData[4] == "솔라 테라")
+            if (kE == "솔라 테라")
             {
                 PlaySound(_pos, "2", 10);
 
@@ -72,7 +72,7 @@ namespace RGM.Donator
                 Timing.CallDelayed(1.5f, SolarTerra.Destroy);
             }
 
-            if (PlayerData[4] == "Kerfus")
+            if (kE == "Kerfus")
             {
                 PlaySound(_pos, "3", 10);
 
@@ -117,7 +117,7 @@ namespace RGM.Donator
                 Kerfus.Destroy();
             }
 
-            if (PlayerData[4] == "은제 말뚝")
+            if (kE == "은제 말뚝")
             {
                 PlaySound(_pos, "4", 7.5f);
 
@@ -126,7 +126,7 @@ namespace RGM.Donator
                 Timing.CallDelayed(1.5f, SilverStake.Destroy);
             }
 
-            if (PlayerData[4] == "KO 사인")
+            if (kE == "KO 사인")
             {
                 PlaySound(_pos, "5", 7.5f);
 
@@ -135,7 +135,7 @@ namespace RGM.Donator
                 Timing.CallDelayed(1.5f, KO.Destroy);
             }
 
-            if (PlayerData[4] == "크리스마스 트리")
+            if (kE == "크리스마스 트리")
             {
                 PlaySound(_pos, "6", 2);
 
@@ -144,7 +144,7 @@ namespace RGM.Donator
                 Timing.CallDelayed(1.9f, XmasTree.Destroy);
             }
 
-            if (PlayerData[4] == "크리스마스 볼")
+            if (kE == "크리스마스 볼")
             {
                 PlaySound(_pos, "7", 2);
 
@@ -153,7 +153,7 @@ namespace RGM.Donator
                 Timing.CallDelayed(1.9f, XmasTree.Destroy);
             }
 
-            if (PlayerData[4] == "철퇴")
+            if (kE == "철퇴")
             {
                 PlaySound(_pos, "8", 10);
 
@@ -162,7 +162,7 @@ namespace RGM.Donator
                 Timing.CallDelayed(1.5f, Hammer.Destroy);
             }
 
-            if (PlayerData[4] == "수렴형 레이저")
+            if (kE == "수렴형 레이저")
             {
                 PlaySound(_pos, "9", 2);
 
@@ -171,7 +171,7 @@ namespace RGM.Donator
                 Timing.CallDelayed(1.5f, Raser.Destroy);
             }
 
-            if (PlayerData[4] == "5월 5일")
+            if (kE == "5월 5일")
             {
                 SchematicObject ChildrenDay = ObjectSpawner.SpawnSchematic("ChildrenDay", new Vector3(_pos.x, _pos.y - 0.9f, _pos.z), rot, null, null);
 
@@ -191,15 +191,21 @@ namespace RGM.Donator
                 if (ev.Attacker != null && UsersManager.UsersCache.ContainsKey(ev.Attacker.UserId))
                 {
                     List<string> AttackerData = UsersManager.UsersCache[ev.Attacker.UserId];
+                    string kE = AttackerData[4];
 
-                    if (AttackerData[4] != "0")
+                    if (AttackerData[15] == "1" && AttackerData[3] != "0")
                     {
-                        Timing.RunCoroutine(KillEffect(AttackerData, ev.Attacker, ev.Player, _role, _pos));
+                        kE = AttackerData[3].Split('/').GetRandomValue();
+                    }
+
+                    if (kE != "0")
+                    {
+                        Timing.RunCoroutine(KillEffect(kE, ev.Attacker, ev.Player, _role, _pos));
 
                         foreach (var _player in Player.List.Where(x => x.IsDead || Vector3.Distance(x.Position, _pos) <= 10 || Vector3.Distance(x.Position, ev.Attacker.Position) <= 10))
                         {
-                            if (Datas.KillEffectData.ContainsKey(AttackerData[4]))
-                                _player.AddBroadcast(6, $"<size=25>{Tools.BadgeFormat(ev.Attacker)}<color=#CEF6F5>{ev.Attacker.DisplayNickname}</color>(이)가 {Datas.KillEffectData[AttackerData[4]][0]}(으)로 {Tools.BadgeFormat(ev.Player)}<color=#CEF6F5>{ev.Player.DisplayNickname}</color>(을)를 {Datas.KillEffectData[AttackerData[4]][1]}시켰습니다!</size>");
+                            if (Datas.KillEffectData.ContainsKey(kE))
+                                _player.AddBroadcast(6, $"<size=25>{Tools.BadgeFormat(ev.Attacker)}<color=#CEF6F5>{ev.Attacker.DisplayNickname}</color>(이)가 {Datas.KillEffectData[kE][0]}(으)로 {Tools.BadgeFormat(ev.Player)}<color=#CEF6F5>{ev.Player.DisplayNickname}</color>(을)를 {Datas.KillEffectData[kE][1]}시켰습니다!</size>");
                         }
                     }
                 }

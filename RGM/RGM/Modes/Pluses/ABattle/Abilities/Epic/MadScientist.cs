@@ -4,6 +4,7 @@ using System.Linq;
 using Exiled.API.Enums;
 using Exiled.API.Extensions;
 using Exiled.API.Features;
+using Exiled.API.Features.Doors;
 using Exiled.API.Features.Items;
 using Exiled.Events.EventArgs.Player;
 using InventorySystem.Items.Usables.Scp330;
@@ -35,26 +36,25 @@ public class MadScientist : Ability
         if (ev.Player != Owner)
             return;
 
-        if (new List<DamageType> 
+        Timing.CallDelayed(10, () =>
         {
-            DamageType.Falldown,
-            DamageType.PocketDimension
-        }.Contains(ev.DamageHandler.Type))
-        {
-            Owner.ShowHint($"<b><color={ABattle.RatingColor["영웅"]}>매드 사이언티스트</color></b> 능력을 발동시킬 수 없는 사망 원인입니다.");
-        }
-        else
-        {
-            Timing.CallDelayed(10, () =>
-            {
-                Owner.Role.Set(ev.TargetOldRole, RoleSpawnFlags.AssignInventory);
+            Owner.Role.Set(ev.TargetOldRole, RoleSpawnFlags.AssignInventory);
 
-                Timing.CallDelayed(Timing.WaitForOneFrame, () =>
-                {
-                    for (int i = 0; i < 5; i++)
-                        Owner.AddAbility(ABattle.Instance.GetRandomAbilities(ABattle.Instance.GetCategory(Owner), 1)[0]);
-                });
+            Timing.CallDelayed(Timing.WaitForOneFrame, () =>
+            {
+                for (int i = 0; i < 5; i++)
+                    Owner.AddAbility(ABattle.Instance.GetRandomAbilities(ABattle.Instance.GetCategory(Owner), 1)[0]);
             });
-        }
+
+            if (new List<DamageType>
+            {
+                DamageType.Falldown,
+                DamageType.PocketDimension,
+                DamageType.Scp106
+            }.Contains(ev.DamageHandler.Type))
+            {
+                Owner.RandomTeleport<Door>();
+            }
+        });
     }
 }

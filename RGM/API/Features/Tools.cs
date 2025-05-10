@@ -194,7 +194,7 @@ $"""
 
         public static void ChangePaint(Player player, string Color)
         {
-            if (UsersManager.UsersCache[player.UserId][9] != "0")
+            if (Color != "0")
             {
                 Dictionary<string, string[]> ColorDictionary = new Dictionary<string, string[]>()
                 {

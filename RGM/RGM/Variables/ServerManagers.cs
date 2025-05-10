@@ -165,6 +165,7 @@ namespace RGM.Variables
         {
             new Product()
             {
+                IsPubliced = true,
                 Name = "인형 소환",
                 Description = ".구매 인형/0ㅣ랜덤한 역할군의 인형을 소환합니다. 로비에서만 사용할 수 있습니다.",
                 Price = 3,
@@ -176,6 +177,7 @@ namespace RGM.Variables
             },
             new Product()
             {
+                IsPubliced = true,
                 Name = "랜덤박스",
                 Description = ".구매 랜덤박스/0ㅣ랜덤한 아이템을 얻습니다. 라운드 종료 시에만 사용할 수 있습니다.",
                 Price = 3,
@@ -187,6 +189,7 @@ namespace RGM.Variables
             },
             new Product()
             {
+                IsPubliced = true,
                 Name = "모드 추천서",
                 Description = ".구매 모드 추천서/<모드 이름>ㅣ해당 모드가 투표 목록에 있다면 이름을 강조 처리합니다.",
                 Price = 5,
@@ -200,6 +203,7 @@ namespace RGM.Variables
             },
             new Product()
             {
+                IsPubliced = true,
                 Name = "휴대용 라디오",
                 Description = ".구매 휴대용 라디오/<노래 이름>ㅣ이 서버에 등록된 소리 파일 중 하나를 랜덤으로 재생합니다.",
                 Price = 5,
@@ -207,7 +211,7 @@ namespace RGM.Variables
                 Script = (player, arg) =>
                 {
                     AudioPlayer radio = AudioPlayer.CreateOrGet($"Radio {player.UserId}", onIntialCreation: (p) =>
-                    {        
+                    {
                         p.transform.parent = player.GameObject.transform;
                         Speaker speaker = p.AddSpeaker("Main", isSpatial: true, minDistance: 5f, maxDistance: 15f);
                         speaker.transform.parent = player.GameObject.transform;
@@ -223,6 +227,7 @@ namespace RGM.Variables
             },
             new Product()
             {
+                IsPubliced = true,
                 Name = "확성기",
                 Description = ".구매 확성기/<내용>ㅣ<내용>을 큼지막한 글씨로 띄웁니다. 로비 또는 라운드 종료 시에만 사용할 수 있습니다.",
                 Price = 5,
@@ -246,6 +251,7 @@ namespace RGM.Variables
             },
             new Product()
             {
+                IsPubliced = true,
                 Name = "모드 제안서",
                 Description = ".구매 모드 제안서/<모드 이름>ㅣ4번째 투표 목록에 있는 모드를 10% 확률로 해당 모드로 교체합니다. 한 라운드 당 한번만 구매할 수 있습니다.",
                 Price = 10,
