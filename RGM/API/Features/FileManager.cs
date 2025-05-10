@@ -53,6 +53,10 @@ namespace RGM.API.Features
         닉네임 - 12
         연동된 디스코드 ID - 13
         연동 코드 - 14
+        킬이펙트 랜덤 여부 - 15
+        페인트 랜덤 여부 - 16
+        칭호 랜덤 여부 - 17
+        보유한 아이템 - 18
         */
 
         public static string UsersFileName = Path.Combine(Paths.Configs, "RGM/Users.txt");

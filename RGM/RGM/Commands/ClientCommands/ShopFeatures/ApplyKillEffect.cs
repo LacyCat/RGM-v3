@@ -45,6 +45,26 @@ namespace RGM.Commands.ClientCommands
                         UsersManager.SaveUsers();
                         return true;
                     }
+                    if (args == "랜덤 적용")
+                    {
+                        uc[15] = "1";
+                        UsersManager.UsersCache[player.UserId] = uc;
+                        response = "킬이펙트가 킬마다 랜덤으로 적용됩니다.";
+
+                        UsersManager.SaveUsers();
+
+                        return true;
+                    }
+                    if (args == "랜덤 해제")
+                    {
+                        uc[15] = "0";
+                        UsersManager.UsersCache[player.UserId] = uc;
+                        response = "이제 킬이펙트가 킬마다 랜덤으로 적용되지 않습니다.";
+
+                        UsersManager.SaveUsers();
+
+                        return true;
+                    }
                     else if (KillEffects.ContainsKey(args) && uc[3].Split('/').Contains(args))
                     {
                         uc[4] = args;

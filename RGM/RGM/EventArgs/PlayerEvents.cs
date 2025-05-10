@@ -62,7 +62,7 @@ namespace RGM.EventArgs
                 Log.Error(e);
             }
 
-            List<string> DefaultValues = Enumerable.Repeat("0", 20).ToList();
+            List<string> DefaultValues = Enumerable.Repeat("0", 25).ToList();
 
             if (!UsersManager.UsersCache.ContainsKey(ev.Player.UserId))
             {
@@ -86,9 +86,16 @@ namespace RGM.EventArgs
 
                     Timing.CallDelayed(Timing.WaitForOneFrame, () =>
                     {
+                        if (uc[17] == "1" && uc[10] != "0")
+                            uc[11] = uc[10].Split('/').GetRandomValue();
+
                         ev.Player.RankName = $"{(BadgeIcons.ContainsKey(uc[11]) ? $"{BadgeIcons[uc[11]]} " : "")}{(uc[11] != "0" ? uc[11] : "")}";
 
                         Tools.RemovePaint(ev.Player);
+
+                        if (uc[16] == "1" && uc[8] != "0")
+                            uc[9] = uc[8].Split('/').GetRandomValue();
+
                         Tools.ChangePaint(ev.Player, uc[9]);
                     });
                 }

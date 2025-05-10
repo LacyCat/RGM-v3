@@ -46,6 +46,26 @@ namespace RGM.Commands.ClientCommands
                         Tools.RemovePaint(player);
                         return true;
                     }
+                    if (args == "랜덤 적용")
+                    {
+                        uc[16] = "1";
+                        UsersManager.UsersCache[player.UserId] = uc;
+                        response = "페인트가 라운드마다 랜덤으로 적용됩니다.";
+
+                        UsersManager.SaveUsers();
+
+                        return true;
+                    }
+                    if (args == "랜덤 해제")
+                    {
+                        uc[16] = "0";
+                        UsersManager.UsersCache[player.UserId] = uc;
+                        response = "이제 페인트가 라운드마다 랜덤으로 적용되지 않습니다.";
+
+                        UsersManager.SaveUsers();
+
+                        return true;
+                    }
                     else if (Paints.ContainsKey(args) && uc[8].Split('/').Contains(args))
                     {
                         uc[9] = args;

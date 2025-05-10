@@ -28,13 +28,37 @@ namespace RGM.Commands.ClientCommands
             {
                 ShopCooldown.Add(player);
 
-                Timing.CallDelayed(5f, () => ShopCooldown.Remove(player));
+                Timing.CallDelayed(2f, () => ShopCooldown.Remove(player));
 
                 if (Products.Select(x => x.Name).Contains(input[0]))
                 {
                     Product product = Products.FirstOrDefault(x => x.Name == input[0]);
 
-                    if (product.Check(player, input[1]))
+                    if (input.Count() == 1)
+                    {
+                        int rc = int.Parse(UsersManager.UsersCache[player.UserId][1]);
+
+                        if (product.Price <= rc)
+                        {
+                            UsersManager.UsersCache[player.UserId][1] = $"{rc - product.Price}";
+                            if (UsersManager.UsersCache[player.UserId][18] == "0")
+                                UsersManager.UsersCache[player.UserId][18] = input[0];
+                            else
+                                UsersManager.UsersCache[player.UserId][18] = string.Join("/", UsersManager.UsersCache[player.UserId][18].Split('/').Append(input[0]));
+                            UsersManager.SaveUsers();
+
+                            Log.Info($"💰 구매ㅣ{player.Nickname}(`{player.Id}`, `{player.UserId}`, `{player.IPAddress}`) -> {product.Name} {product.Price}");
+
+                            response = "구매 완료!";
+                            return true;
+                        }
+                        else
+                        {
+                            response = "코인이 부족합니다.";
+                            return false;
+                        }
+                    }
+                    else if (product.Check(player, input[1]))
                     {
                         int rc = int.Parse(UsersManager.UsersCache[player.UserId][1]);
 
@@ -81,7 +105,7 @@ namespace RGM.Commands.ClientCommands
                 }
                 else
                 {
-                    response = $"\n<b>[상점 품목 목록]</b>\n\n{string.Join("\n", Products.Select(x => $"{x.Name}(${x.Price}) - {x.Description}"))}\n\n구매하려면 [.구매 <품목 이름>/<매개 변수>]을(를) 입력합니다.";
+                    response = $"\n<b>[상점 품목 목록]</b>\n\n{string.Join("\n", Products.Where(x => x.IsPubliced).Select(x => $"{x.Name}(${x.Price}) - {x.Description}"))}\n\n구매하려면 [.구매 <품목 이름>/<매개 변수>]을(를) 입력합니다.";
                     return false;
                 }
             }
