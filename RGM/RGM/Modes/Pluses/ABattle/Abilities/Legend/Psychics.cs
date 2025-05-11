@@ -11,9 +11,11 @@ using MultiBroadcast.API;
 using RGM.API.Features;
 using UnityEngine;
 
+using static RGM.Variables.ServerManagers;
+
 namespace RGM.Modes.Abilities.Legend;
 
-[Ability("영매", "당신을 바라보는 관전자 수에 비례하여 능력치가 상승합니다. (축복 모드의 효과와 동일)", AbilityCategory.Legend, AbilityType.LEGEND_PSYCHICS)]
+[Ability("영매", "당신을 바라보는 관전자 수에 비례하여 능력치가 상승합니다. 사망해도 모두에게 이야기할 수 있습니다.", AbilityCategory.Legend, AbilityType.LEGEND_PSYCHICS)]
 public class Psychics : Ability
 {
     CoroutineHandle _blessing;
@@ -21,6 +23,7 @@ public class Psychics : Ability
     public override void OnEnabled()
     {
         _blessing = Timing.RunCoroutine(Blessing());
+        Timing.RunCoroutine(Speaker());
     }
 
     public override void OnDisabled()
@@ -79,6 +82,20 @@ public class Psychics : Ability
 
             if (s >= 30)
                 Owner.EnableEffect(EffectType.Invisible, 1, 1.2f);
+
+            yield return Timing.WaitForSeconds(1f);
+        }
+    }
+
+    public IEnumerator<float> Speaker()
+    {
+        while (true)
+        {
+            if (!IntercomPlayers.Contains(Owner))
+                IntercomPlayers.Add(Owner);
+
+            if (Owner.VoiceChannel != VoiceChat.VoiceChatChannel.Intercom)
+                Server.ExecuteCommand($"/speak {Owner.Id} 1");
 
             yield return Timing.WaitForSeconds(1f);
         }
