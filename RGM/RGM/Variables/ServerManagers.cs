@@ -179,9 +179,9 @@ namespace RGM.Variables
             {
                 IsPubliced = true,
                 Name = "랜덤박스",
-                Description = ".구매 랜덤박스/0ㅣ랜덤한 아이템을 얻습니다. 라운드 종료 시에만 사용할 수 있습니다.",
+                Description = ".구매 랜덤박스/0ㅣ랜덤한 아이템을 얻습니다. 로비 또는 라운드 종료 시에만 사용할 수 있습니다.",
                 Price = 3,
-                Check = (player, arg) => { return Round.IsEnded; },
+                Check = (player, arg) => { return Round.IsLobby || Round.IsEnded; },
                 Script = (player, arg) =>
                 {
                     player.AddItem(Tools.EnumToList<ItemType>().GetRandomValue());
@@ -191,7 +191,7 @@ namespace RGM.Variables
             {
                 IsPubliced = true,
                 Name = "모드 추천서",
-                Description = ".구매 모드 추천서/<모드 이름>ㅣ해당 모드가 투표 목록에 있다면 이름을 강조 처리합니다.",
+                Description = $".구매 모드 추천서/{{모드 이름}}ㅣ해당 모드가 투표 목록에 있다면 이름을 강조 처리합니다.",
                 Price = 5,
                 Check = (player, arg) => { return Round.IsLobby && ModeList.Keys.Select(x => x.GetModeData().Name).Contains(arg); },
                 Script = (player, arg) =>
@@ -205,7 +205,7 @@ namespace RGM.Variables
             {
                 IsPubliced = true,
                 Name = "휴대용 라디오",
-                Description = ".구매 휴대용 라디오/<노래 이름>ㅣ이 서버에 등록된 소리 파일 중 하나를 랜덤으로 재생합니다.",
+                Description = $".구매 휴대용 라디오/<노래 이름>ㅣ이 서버에 등록된 소리 파일 중 하나를 랜덤으로 재생합니다.",
                 Price = 5,
                 Check = (player, arg) => { return player.IsAlive; },
                 Script = (player, arg) =>
@@ -229,7 +229,7 @@ namespace RGM.Variables
             {
                 IsPubliced = true,
                 Name = "확성기",
-                Description = ".구매 확성기/<내용>ㅣ<내용>을 큼지막한 글씨로 띄웁니다. 로비 또는 라운드 종료 시에만 사용할 수 있습니다.",
+                Description = $".구매 확성기/{{내용}}ㅣ{{내용}}을 큼지막한 글씨로 띄웁니다. 로비 또는 라운드 종료 시에만 사용할 수 있습니다.",
                 Price = 5,
                 Check = (player, arg) => { return Round.IsLobby || Round.IsEnded; },
                 Script = (player, arg) =>
@@ -253,7 +253,7 @@ namespace RGM.Variables
             {
                 IsPubliced = true,
                 Name = "모드 제안서",
-                Description = ".구매 모드 제안서/<모드 이름>ㅣ4번째 투표 목록에 있는 모드를 10% 확률로 해당 모드로 교체합니다. 한 라운드 당 한번만 구매할 수 있습니다.",
+                Description = $".구매 모드 제안서/{{모드 이름}}ㅣ4번째 투표 목록에 있는 모드를 10% 확률로 해당 모드로 교체합니다. 한 라운드 당 한번만 구매할 수 있습니다.",
                 Price = 10,
                 Check = (player, arg) => { return Round.IsLobby && ModeList.Keys.Select(x => x.GetModeData().Name).Contains(arg) && !IsModeSuggestUsed; },
                 Script = (player, arg) =>
@@ -274,6 +274,25 @@ namespace RGM.Variables
                     {
                         Server.ExecuteCommand($"/cassie_sl {player.DisplayNickname}(이)가 <b>{modeName}</b> 모드를 제안하는 데 실패했습니다.");
                     }
+                }
+            },
+            new Product()
+            {
+                IsPubliced = false,
+                Name = "고급 모드 제안서",
+                Description = $".사용 고급 모드 제안서/{{모드 이름}}ㅣ4번째 투표 목록에 있는 모드를 무조건적으로 해당 모드로 교체합니다.",
+                Price = 1205,
+                Check = (player, arg) => { return Round.IsLobby && ModeList.Keys.Select(x => x.GetModeData().Name).Contains(arg) && !IsModeSuggestUsed; },
+                Script = (player, arg) =>
+                {
+                    IsModeSuggestUsed = true;
+
+                    string modeName = ModeList.Keys.First(x => x.GetModeData().Name == arg).GetModeData().Name;
+
+                    ModeVote.Remove(ModeVote.ElementAt(3).Key);
+                    ModeVote.Add(ModeList.First(x => x.Value.Name == arg).Key, new List<Player>());
+
+                    Server.ExecuteCommand($"/cassie_sl {player.DisplayNickname}(이)가 <b><color=#ffd700>고급 모드 제안서</color></b>를 사용하여, <b>{modeName}</b> 모드를 제안하는 데 성공했습니다!!");
                 }
             },
         };
