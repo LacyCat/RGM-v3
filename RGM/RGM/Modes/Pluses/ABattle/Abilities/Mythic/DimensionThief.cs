@@ -3,7 +3,6 @@ using Exiled.API.Features;
 using Exiled.API.Features.Items;
 using Exiled.Events.EventArgs.Player;
 using MEC;
-using RGM.API.Features;
 using System.Collections.Generic;
 using UnityEngine;
 using static PlayerList;
@@ -37,7 +36,7 @@ public class DimensionThief : Ability
             foreach (var _ability in _abilities)
                 ev.Attacker.AddAbility(_ability.Data.AbilityType);
 
-            ev.Player.AddHint("능력을 강탈당했습니다!");
+            ev.Player.ShowHint("능력을 강탈당했습니다!");
         }
     }
 }
