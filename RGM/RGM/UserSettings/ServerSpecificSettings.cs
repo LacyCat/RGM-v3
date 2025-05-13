@@ -117,7 +117,9 @@ $"""
 
 <size=25><align=center><color=#D0A9F5><link=https://www.randomsl.xyz/rule>| <b>규정 (클릭)</b> |</link></color></align></size>
 
-<size=25><align=center><color=#F7FE2E><link=https://chzzk.naver.com/acb253a537e8a02632532a8f27fafcaa>| <b>개발자 치지직 채널 (클릭)</b> |</link></color></align></size>
+<size=25><align=center><color=#FA5858><link=https://www.youtube.com/@RandomGameMode>| <b>공식 유튜브 채널 (클릭)</b> |</link></color></align></size>
+
+<size=25><align=center><color=#F7FE2E><link=https://discord.com/channels/930837847026585600/1224668947459084439/1295030194171547779>| <b>상점 (클릭)</b> |</link></color></align></size>
 
 <size=25><align=center><color=#58FAD0><link=https://discord.com/channels/930837847026585600/1295036812791906368/1295040425215791194>| <b>명령어 가이드 (클릭)</b> |</link></color></align></size>
 """, header: header1);
