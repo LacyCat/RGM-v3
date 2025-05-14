@@ -68,8 +68,8 @@ public class BALLISTAEM3 : Ability
                 {
                     if (HitboxIdentity.IsEnemy(ev.Player.ReferenceHub, player.ReferenceHub))
                     {
-                        player.Hurt(new DisruptorDamageHandler(new InventorySystem.Items.Firearms.ShotEvents.DisruptorShotEvent(InventorySystem.Items.ItemIdentifier.None, ev.Player.Footprint, InventorySystem.Items.Firearms.Modules.DisruptorActionModule.FiringState.FiringRapid), player.Position, 500));
-
+                        player.Hit(ev.Player, 500);
+                        
                         enemy = true;
                     }
                 }
