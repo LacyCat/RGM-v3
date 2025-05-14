@@ -50,6 +50,8 @@ namespace RGM.API.Features
         
         public static void AddHint(this Player player, string customId, string hint, float duration = 3)
         {
+            duration = (int)duration;
+
             if (!_playerHints.ContainsKey(player))
                 _playerHints[player] = new Dictionary<string, (string, float)> { };
 

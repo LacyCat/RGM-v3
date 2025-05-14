@@ -171,7 +171,7 @@ namespace RGM.EventArgs
                         {
                             if (hit.transform.name == "Credit")
                             {
-                                ev.Player.AddHint("랜덤게임모드 크레딧",
+                                ev.Player.AddHint("로비",
     """
 <size=50><b>[ ⭐ 랜덤게임모드(RGM) 크레딧 ⭐ ]</b></size>
 
@@ -218,7 +218,7 @@ namespace RGM.EventArgs
                                         Modes.Add($"<color=#{Color}>{Name}</color>");
                                 }
 
-                                ev.Player.AddHint("랜덤게임모드 모드 목록", $"\n\n\n\n\n\n<size=40><b>[ ⭐ 랜덤게임모드(RGM) 모드 목록 ⭐ ]</b></size>\n\n<size=25>{string.Join(", ", Modes)}</size>");
+                                ev.Player.AddHint("로비", $"\n\n\n\n\n\n<size=40><b>[ ⭐ 랜덤게임모드(RGM) 모드 목록 ⭐ ]</b></size>\n\n<size=25>{string.Join(", ", Modes)}</size>");
                             }
                             else if (hit.transform.name == "ExpLeaderBoard")
                             {
@@ -261,7 +261,7 @@ namespace RGM.EventArgs
                                     }
                                 }
 
-                                ev.Player.AddHint("랜덤게임모드 EXP 순위표", $"<align=left><size=30><b>[ ⭐ 랜덤게임모드(RGM) EXP 순위표 ⭐ ]</b></size>\n\n<size=25>{string.Join("\n", queue)}</size></align>\n\n\n\n\n");
+                                ev.Player.AddHint("로비", $"<align=left><size=30><b>[ ⭐ 랜덤게임모드(RGM) EXP 순위표 ⭐ ]</b></size>\n\n<size=25>{string.Join("\n", queue)}</size></align>\n\n\n\n\n");
                             }
                             else
                             {
@@ -374,7 +374,7 @@ namespace RGM.EventArgs
                                     formatted = formatted.Replace(name, $"<b>{name}</b>");
                                 }
 
-                                ev.Player.AddHint("모드 투표", formatted, 1.2f);
+                                ev.Player.AddHint("로비", formatted, 1.2f);
                             }
                         }
                     }

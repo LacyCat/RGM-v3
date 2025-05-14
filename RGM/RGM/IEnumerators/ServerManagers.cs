@@ -34,11 +34,11 @@ namespace RGM.IEnumerators
                     if (player.Role is SpectatorRole spectator)
                     {
                         if (spectator.SpectatedPlayer != null && spectator.SpectatedPlayer.CurrentHint != null)
-                            player.AddHint("관전자 힌트", spectator.SpectatedPlayer.CurrentHint.Content, 1.2f);
+                            player.ShowHint(spectator.SpectatedPlayer.CurrentHint.Content, 1.2f);
                     }
                 }
 
-                yield return Timing.WaitForSeconds(1f);
+                yield return Timing.WaitForSeconds(1);
             }
         }
 
