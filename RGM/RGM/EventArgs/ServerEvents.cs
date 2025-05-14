@@ -124,7 +124,7 @@ namespace RGM.EventArgs
             if (AudioPlayer.TryGet("Global AudioPlayer", out AudioPlayer ap))
                 ap.RemoveAllClips();
 
-            MapEditorReborn.API.Features.ObjectSpawner.SpawnSchematic("glass", new Vector3(-39.88f, 990.92f, -36.14f), null, null, null);
+            Tools.LoadMap($"RGMBase");
 
             if (CurrentMode == ModeType.None)
             {

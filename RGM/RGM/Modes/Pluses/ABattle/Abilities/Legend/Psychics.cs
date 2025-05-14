@@ -91,11 +91,22 @@ public class Psychics : Ability
     {
         while (true)
         {
-            if (!IntercomPlayers.Contains(Owner))
-                IntercomPlayers.Add(Owner);
+            if (Owner.IsAlive)
+            {
+                if (IntercomPlayers.Contains(Owner))
+                    IntercomPlayers.Remove(Owner);
 
-            if (Owner.VoiceChannel != VoiceChat.VoiceChatChannel.Intercom)
-                Server.ExecuteCommand($"/speak {Owner.Id} 1");
+                if (Owner.VoiceChannel == VoiceChat.VoiceChatChannel.Intercom)
+                    Server.ExecuteCommand($"/speak {Owner.Id} 0");
+            }
+            else
+            {
+                if (!IntercomPlayers.Contains(Owner))
+                    IntercomPlayers.Add(Owner);
+
+                if (Owner.VoiceChannel != VoiceChat.VoiceChatChannel.Intercom)
+                    Server.ExecuteCommand($"/speak {Owner.Id} 1");
+            }
 
             yield return Timing.WaitForSeconds(1f);
         }
