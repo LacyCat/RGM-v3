@@ -55,12 +55,9 @@ public class GrapplingHook : Ability
                 Hitmarker.SendHitmarkerDirectly(ev.Player.ReferenceHub, 1f);
             }
             else
-                ev.Player.ShowHint("대상을 정확히 지정해 주세요.");
+                ev.Player.AddHint("동전 사용 실패", "대상을 정확히 지정해 주세요.");
         }
-<<<<<<< Updated upstream
         else
             ev.Player.AddHint("동전 사용 실패", "대상을 정확히 지정해 주세요.");
-=======
->>>>>>> Stashed changes
     }
 }
