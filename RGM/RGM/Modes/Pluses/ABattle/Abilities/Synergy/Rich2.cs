@@ -18,7 +18,9 @@ public class Rich2 : Ability
 {
     public override void OnEnabled()
     {
-        Owner.AddRC(8, out string response);
+        List<string> uc = UsersManager.UsersCache[Owner.UserId];
+
+        Owner.SetRC(Owner.UserId, 8 + int.Parse(uc[1]), out string response);
     }
 
     public override void OnDisabled()

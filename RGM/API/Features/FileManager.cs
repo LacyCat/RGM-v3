@@ -65,17 +65,17 @@ namespace RGM.API.Features
         public static string UsersFileName = Path.Combine(Paths.Configs, "RGM/Users.txt");
         public static Dictionary<string, List<string>> UsersCache = new Dictionary<string, List<string>>();
 
-        public static string CheckUser(string UserId, int num)
+        public static string CheckUser(string userId, int num)
         {
-            if (UsersCache.ContainsKey(UserId) && num >= 0 && num < UsersCache[UserId].Count)
-                return UsersCache[UserId][num];
+            if (UsersCache.ContainsKey(userId) && num >= 0 && num < UsersCache[userId].Count)
+                return UsersCache[userId][num];
 
             return null;
         }
 
-        public static bool AddUser(string UserId, List<string> UserInfo) 
+        public static bool AddUser(string userId, List<string> UserInfo) 
         {
-            UsersCache[UserId] = UserInfo;
+            UsersCache[userId] = UserInfo;
 
             return true;
         }

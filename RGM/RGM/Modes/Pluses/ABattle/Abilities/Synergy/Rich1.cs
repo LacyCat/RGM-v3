@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Discord;
 using Exiled.API.Enums;
 using Exiled.API.Features;
 using Exiled.API.Features.Items;
@@ -18,7 +19,9 @@ public class Rich1 : Ability
 {
     public override void OnEnabled()
     {
-        Owner.AddRC(3, out string response);
+        List<string> uc = UsersManager.UsersCache[Owner.UserId];
+
+        Owner.SetRC(Owner.UserId, 3 + int.Parse(uc[1]), out string response);
     }
 
     public override void OnDisabled()
