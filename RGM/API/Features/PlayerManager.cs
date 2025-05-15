@@ -1,12 +1,15 @@
 ﻿using Discord;
 using Exiled.API.Features;
+using MEC;
 using PlayerStatsSystem;
+using RGM.API.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine.Windows;
 using static RGM.Variables.ServerManagers;
 
 namespace RGM.API.Features
@@ -18,10 +21,8 @@ namespace RGM.API.Features
             player.Hurt(new DisruptorDamageHandler(new InventorySystem.Items.Firearms.ShotEvents.DisruptorShotEvent(InventorySystem.Items.ItemIdentifier.None, attacker.Footprint, InventorySystem.Items.Firearms.Modules.DisruptorActionModule.FiringState.FiringRapid), player.Position, damage));
         }
 
-        public static bool AddBadge(this Player player, string args, out string response, ArraySegment<string>? arguments = null)
+        public static bool AddBadge(this Player player, string userId, string args, out string response, ArraySegment<string>? arguments = null)
         {
-            string UserId = player.UserId;
-
             if (arguments.HasValue && arguments.Value.Count < 2)
             {
                 response = "칭호추가 <player> <badge name>";
@@ -29,12 +30,12 @@ namespace RGM.API.Features
             }
             else if (Badges.ContainsKey(args))
             {
-                List<string> uc = UsersManager.UsersCache[UserId];
+                List<string> uc = UsersManager.UsersCache[userId];
 
                 if (uc[10] == "0")
                 {
                     uc[10] = args;
-                    UsersManager.UsersCache[UserId] = uc;
+                    UsersManager.UsersCache[userId] = uc;
                     response = "Successfully add badge.";
 
                     UsersManager.SaveUsers();
@@ -50,7 +51,7 @@ namespace RGM.API.Features
                     else
                     {
                         uc[10] += $"/{args}";
-                        UsersManager.UsersCache[UserId] = uc;
+                        UsersManager.UsersCache[userId] = uc;
                         response = "Successfully add badge.";
 
                         UsersManager.SaveUsers();
@@ -65,10 +66,8 @@ namespace RGM.API.Features
             }
         }
 
-        public static bool AddCustom(this Player player, string args, out string response, ArraySegment<string>? arguments = null)
+        public static bool AddCustom(this Player player, string userId, string args, out string response, ArraySegment<string>? arguments = null)
         {
-            string UserId = player.UserId;
-
             if (arguments.HasValue && arguments.Value.Count < 2)
             {
                 response = "커스텀추가 <player> <custom feature name>";
@@ -76,12 +75,12 @@ namespace RGM.API.Features
             }
             else if (Customizations.ContainsKey(args))
             {
-                List<string> uc = UsersManager.UsersCache[UserId];
+                List<string> uc = UsersManager.UsersCache[userId];
 
                 if (uc[7] == "0")
                 {
                     uc[7] = args;
-                    UsersManager.UsersCache[UserId] = uc;
+                    UsersManager.UsersCache[userId] = uc;
                     response = "Successfully add custom feature.";
 
                     UsersManager.SaveUsers();
@@ -97,7 +96,7 @@ namespace RGM.API.Features
                     else
                     {
                         uc[7] += $"/{args}";
-                        UsersManager.UsersCache[UserId] = uc;
+                        UsersManager.UsersCache[userId] = uc;
                         response = "Successfully add custom feature.";
 
                         UsersManager.SaveUsers();
@@ -112,10 +111,8 @@ namespace RGM.API.Features
             }
         }
 
-        public static bool AddKillEffect(this Player player, string args, out string response, ArraySegment<string>? arguments = null)
+        public static bool AddKillEffect(this Player player, string userId, string args, out string response, ArraySegment<string>? arguments = null)
         {
-            string UserId = player.UserId;  
-
             if (arguments.HasValue && arguments.Value.Count < 2)
             {
                 response = "킬이펙트추가 <player> <kill effect name>";
@@ -123,12 +120,12 @@ namespace RGM.API.Features
             }
             else if (KillEffects.ContainsKey(args))
             {
-                List<string> uc = UsersManager.UsersCache[UserId];
+                List<string> uc = UsersManager.UsersCache[userId];
 
                 if (uc[3] == "0")
                 {
                     uc[3] = args;
-                    UsersManager.UsersCache[UserId] = uc;
+                    UsersManager.UsersCache[userId] = uc;
                     response = "Successfully add kill effect.";
 
                     UsersManager.SaveUsers();
@@ -144,7 +141,7 @@ namespace RGM.API.Features
                     else
                     {
                         uc[3] += $"/{args}";
-                        UsersManager.UsersCache[UserId] = uc;
+                        UsersManager.UsersCache[userId] = uc;
                         response = "Successfully add kill effect.";
 
                         UsersManager.SaveUsers();
@@ -159,10 +156,8 @@ namespace RGM.API.Features
             }
         }
 
-        public static bool AddPaint(this Player player, string args, out string response, ArraySegment<string>? arguments = null)
+        public static bool AddPaint(this Player player, string userId, string args, out string response, ArraySegment<string>? arguments = null)
         {
-            string UserId = player.UserId;
-
             if (arguments.HasValue && arguments.Value.Count < 2)
             {
                 response = "페인트추가 <player> <paint name>";
@@ -170,12 +165,12 @@ namespace RGM.API.Features
             }
             else if (Paints.ContainsKey(args))
             {
-                List<string> uc = UsersManager.UsersCache[UserId];
+                List<string> uc = UsersManager.UsersCache[userId];
 
                 if (uc[8] == "0")
                 {
                     uc[8] = args;
-                    UsersManager.UsersCache[UserId] = uc;
+                    UsersManager.UsersCache[userId] = uc;
                     response = "Successfully add paint.";
 
                     UsersManager.SaveUsers();
@@ -191,7 +186,7 @@ namespace RGM.API.Features
                     else
                     {
                         uc[8] += $"/{args}";
-                        UsersManager.UsersCache[UserId] = uc;
+                        UsersManager.UsersCache[userId] = uc;
                         response = "Successfully add paint.";
 
                         UsersManager.SaveUsers();
@@ -206,24 +201,9 @@ namespace RGM.API.Features
             }
         }
 
-        public static bool AddCash(this Player player, int cash, out string response, bool result = true)
+        public static bool SetCash(this Player player, string userId, int cash, out string response, bool result = true)
         {
-            string UserId = player.UserId;
-            List<string> uc = UsersManager.UsersCache.ContainsKey(UserId) ? UsersManager.UsersCache[UserId] : new List<string>();
-
-            if (uc.Count == 0)
-            {
-                List<string> DefaultValues = Enumerable.Repeat("0", 15).ToList();
-
-                if (!UsersManager.UsersCache.ContainsKey(UserId))
-                {
-                    UsersManager.AddUser(UserId, DefaultValues);
-
-                    UsersManager.SaveUsers();
-                }
-
-                uc = UsersManager.UsersCache[UserId];
-            }
+            List<string> uc = UsersManager.UsersCache[userId];
 
             if (result)
             {
@@ -235,7 +215,7 @@ namespace RGM.API.Features
                 else
                 {
                     uc[2] = cash.ToString();
-                    UsersManager.UsersCache[UserId] = uc;
+                    UsersManager.UsersCache[userId] = uc;
                     response = "successfully set up Cash.";
 
                     UsersManager.SaveUsers();
@@ -249,24 +229,9 @@ namespace RGM.API.Features
             }
         }
 
-        public static bool AddRC(this Player player, int rc, out string response, bool result = true)
+        public static bool SetRC(this Player player, string userId, int rc, out string response, bool result = true)
         {
-            string UserId = player.UserId;
-            List<string> uc = UsersManager.UsersCache.ContainsKey(UserId) ? UsersManager.UsersCache[UserId] : new List<string>();
-
-            if (uc.Count == 0)
-            {
-                List<string> DefaultValues = Enumerable.Repeat("0", 15).ToList();
-
-                if (!UsersManager.UsersCache.ContainsKey(UserId))
-                {
-                    UsersManager.AddUser(UserId, DefaultValues);
-
-                    UsersManager.SaveUsers();
-                }
-
-                uc = UsersManager.UsersCache[UserId];
-            }
+            List<string> uc = UsersManager.UsersCache[userId];
 
             if (result)
             {
@@ -278,7 +243,7 @@ namespace RGM.API.Features
                 else
                 {
                     uc[1] = rc.ToString();
-                    UsersManager.UsersCache[UserId] = uc;
+                    UsersManager.UsersCache[userId] = uc;
                     response = "successfully set up Random Coin.";
 
                     UsersManager.SaveUsers();
@@ -288,6 +253,43 @@ namespace RGM.API.Features
             else
             {
                 response = $"{uc[1]}";
+                return false;
+            }
+        }
+
+        public static bool AddProduct(this Player player, string userId, string args, out string response, ArraySegment<string>? arguments = null)
+        {
+            if (arguments.HasValue && arguments.Value.Count < 2)
+            {
+                response = "아이템추가 <player> <item name>";
+                return false;
+            }
+            else if (Products.Select(x => x.Name).Contains(args))
+            {
+                List<string> uc = UsersManager.UsersCache[userId];
+
+                if (uc[18] == "0")
+                {
+                    uc[18] = args;
+                    UsersManager.UsersCache[userId] = uc;
+                    response = "Successfully add item.";
+
+                    UsersManager.SaveUsers();
+                    return true;
+                }
+                else
+                {
+                    uc[18] += $"/{args}";
+                    UsersManager.UsersCache[userId] = uc;
+                    response = "Successfully add item.";
+
+                    UsersManager.SaveUsers();
+                    return true;
+                }
+            }
+            else
+            {
+                response = "This item is not exist.";
                 return false;
             }
         }
