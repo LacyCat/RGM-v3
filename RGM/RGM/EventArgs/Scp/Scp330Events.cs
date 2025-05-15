@@ -14,6 +14,9 @@ namespace RGM.EventArgs
     {
         public static void OnInteractingScp330(Exiled.Events.EventArgs.Scp330.InteractingScp330EventArgs ev)
         {
+            if (ev.Player.IsScp)
+                return;
+
             Timing.CallDelayed(Timing.WaitForOneFrame, () =>
             {
                 if (UnityEngine.Random.Range(1, 21) == 1)
