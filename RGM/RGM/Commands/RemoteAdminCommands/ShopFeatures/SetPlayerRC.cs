@@ -20,10 +20,11 @@ namespace RGM.Commands.RemoteAdminCommands
     {
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
-            string player = Tools.TryGetUserId(arguments.At(0));
+            string userId = Tools.TryGetUserId(arguments.At(0));
             bool result = int.TryParse(arguments.Count() < 2 ? "dum" : arguments.At(1), out int rc);
+            List<string> uc = UsersManager.UsersCache[userId];
 
-            bool flag = Player.Get(sender).AddCash(rc, out response, result);
+            bool flag = Player.Get(sender).SetRC(userId, rc + int.Parse(uc[1]), out response, result);
             return flag;
         }
 
