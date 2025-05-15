@@ -21,10 +21,10 @@ namespace RGM.Commands.RemoteAdminCommands
     {
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
-            string UserId = Tools.TryGetUserId(arguments.At(0));
+            string userId = Tools.TryGetUserId(arguments.At(0));
             string args = string.Join(" ", arguments.Skip(1)).Trim();
 
-            bool flag = Player.Get(sender).AddBadge(args, out response, arguments);
+            bool flag = Player.Get(sender).AddBadge(args, userId, out response, arguments);
             return flag;
         }
 
