@@ -448,6 +448,8 @@ public enum AbilityType
     SYNERGY_WINNER, // [시너지] 승리자
     SYNERGY_VAMPIRE, // [시너지] 뱀파이어,
     SYNERGY_GMAN, // [시너지] G맨
+    SYNERGY_RICH1, // [시너지] 부자Ⅰ
+    SYNERGY_RICH2, // [시너지] 부자Ⅱ
 }
 
 public static class AbilityTypeExtensions
