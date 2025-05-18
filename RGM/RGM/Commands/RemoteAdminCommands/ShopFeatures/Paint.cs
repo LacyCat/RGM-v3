@@ -21,11 +21,50 @@ namespace RGM.Commands.RemoteAdminCommands
     {
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
-            string userId = Tools.TryGetUserId(arguments.At(0));
+            string UserId = Tools.TryGetUserId(arguments.At(0));
             string args = string.Join(" ", arguments.Skip(1)).Trim();
 
-            bool flag = userId.AddPaint(args, out response, arguments);
-            return flag;
+            if (arguments.Count < 2)
+            {
+                response = "페인트추가 <player> <paint name>";
+                return false;
+            }
+            else if (Paints.ContainsKey(args))
+            {
+                List<string> uc = UsersManager.UsersCache[UserId];
+
+                if (uc[8] == "0")
+                {
+                    uc[8] = args;
+                    UsersManager.UsersCache[UserId] = uc;
+                    response = "Successfully add paint.";
+
+                    UsersManager.SaveUsers();
+                    return true;
+                }
+                else
+                {
+                    if (uc[8].Split('/').Contains(args))
+                    {
+                        response = "This player already have this paint.";
+                        return false;
+                    }
+                    else
+                    {
+                        uc[8] += $"/{args}";
+                        UsersManager.UsersCache[UserId] = uc;
+                        response = "Successfully add paint.";
+
+                        UsersManager.SaveUsers();
+                        return true;
+                    }
+                }
+            }
+            else
+            {
+                response = "This paint is not exist.";
+                return false;
+            }
         }
 
         public string Command { get; } = "addpaint";

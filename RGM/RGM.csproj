@@ -69,8 +69,7 @@
     <Reference Include="Assembly-CSharp-firstpass">
       <HintPath>..\..\..\SCPSL\SCPSL_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
     </Reference>
-    <Reference Include="Assembly-CSharp-Publicized, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Assembly-CSharp-Publicized">
       <HintPath>..\..\..\SCPSL\SCPSL_Data\Managed\Assembly-CSharp-Publicized.dll</HintPath>
     </Reference>
     <Reference Include="AudioPlayer, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
@@ -81,39 +80,32 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Castle\Castle\bin\Debug\Castle.dll</HintPath>
     </Reference>
-    <Reference Include="CommandSystem.Core">
-      <HintPath>..\..\..\SCPSL\SCPSL_Data\Managed\CommandSystem.Core.dll</HintPath>
+    <Reference Include="CommandSystem.Core, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\ExMod.Exiled.9.5.2\lib\net48\CommandSystem.Core.dll</HintPath>
     </Reference>
-    <Reference Include="DiscordInteraction, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="DiscordInteraction">
       <HintPath>..\..\DiscordInteraction\bin\Debug\DiscordInteraction.dll</HintPath>
     </Reference>
-    <Reference Include="Exiled.API, Version=9.1.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Users\11010박경현\AppData\Roaming\SCP Secret Laboratory\PluginAPI\plugins\global\dependencies\Exiled.API.dll</HintPath>
+    <Reference Include="Exiled.API, Version=9.5.2.0, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>packages\ExMod.Exiled.9.5.2\lib\net48\Exiled.API.dll</HintPath>
     </Reference>
-    <Reference Include="Exiled.CreditTags, Version=9.5.1.0, Culture=neutral, processorArchitecture=AMD64">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Users\GoldenPig1205\AppData\Roaming\EXILED\Plugins\Exiled.CreditTags.dll</HintPath>
+    <Reference Include="Exiled.CreditTags, Version=9.5.2.0, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>packages\ExMod.Exiled.9.5.2\lib\net48\Exiled.CreditTags.dll</HintPath>
     </Reference>
-    <Reference Include="Exiled.CustomItems, Version=9.5.1.0, Culture=neutral, processorArchitecture=AMD64">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Users\GoldenPig1205\AppData\Roaming\EXILED\Plugins\Exiled.CustomItems.dll</HintPath>
+    <Reference Include="Exiled.CustomItems, Version=9.5.2.0, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>packages\ExMod.Exiled.9.5.2\lib\net48\Exiled.CustomItems.dll</HintPath>
     </Reference>
-    <Reference Include="Exiled.CustomRoles, Version=9.5.1.0, Culture=neutral, processorArchitecture=AMD64">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Users\GoldenPig1205\AppData\Roaming\EXILED\Plugins\Exiled.CustomRoles.dll</HintPath>
+    <Reference Include="Exiled.CustomRoles, Version=9.5.2.0, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>packages\ExMod.Exiled.9.5.2\lib\net48\Exiled.CustomRoles.dll</HintPath>
     </Reference>
-    <Reference Include="Exiled.Events, Version=9.5.1.0, Culture=neutral, processorArchitecture=AMD64">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Users\GoldenPig1205\AppData\Roaming\EXILED\Plugins\Exiled.Events.dll</HintPath>
+    <Reference Include="Exiled.Events, Version=9.5.2.0, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>packages\ExMod.Exiled.9.5.2\lib\net48\Exiled.Events.dll</HintPath>
     </Reference>
-    <Reference Include="Exiled.Loader">
-      <HintPath>C:\Users\GoldenPig1205\AppData\Roaming\SCP Secret Laboratory\PluginAPI\plugins\global\Exiled.Loader.dll</HintPath>
+    <Reference Include="Exiled.Loader, Version=9.5.2.0, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>packages\ExMod.Exiled.9.5.2\lib\net48\Exiled.Loader.dll</HintPath>
     </Reference>
-    <Reference Include="Exiled.Permissions, Version=9.5.1.0, Culture=neutral, processorArchitecture=AMD64">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Users\GoldenPig1205\AppData\Roaming\EXILED\Plugins\Exiled.Permissions.dll</HintPath>
+    <Reference Include="Exiled.Permissions, Version=9.5.2.0, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>packages\ExMod.Exiled.9.5.2\lib\net48\Exiled.Permissions.dll</HintPath>
     </Reference>
     <Reference Include="GGUtils">
       <HintPath>..\..\GGUtils\bin\Debug\GGUtils.dll</HintPath>
@@ -139,15 +131,14 @@
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="NorthwoodLib, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\SCPSL\SCPSL_Data\Managed\NorthwoodLib.dll</HintPath>
+    <Reference Include="NorthwoodLib, Version=1.3.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\ExMod.Exiled.9.5.2\lib\net48\NorthwoodLib.dll</HintPath>
     </Reference>
     <Reference Include="NVorbis">
       <HintPath>..\..\..\..\Users\11010박경현\AppData\Roaming\EXILED\Plugins\dependencies\NVorbis.dll</HintPath>
     </Reference>
-    <Reference Include="PluginAPI">
-      <HintPath>..\..\..\SCPSL\SCPSL_Data\Managed\PluginAPI.dll</HintPath>
+    <Reference Include="PluginAPI, Version=13.1.5.0, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>packages\ExMod.Exiled.9.5.2\lib\net48\PluginAPI.dll</HintPath>
     </Reference>
     <Reference Include="Pooling">
       <HintPath>..\..\..\SCPSL\SCPSL_Data\Managed\Pooling.dll</HintPath>
@@ -213,6 +204,9 @@
       <HintPath>..\..\..\SCPSL\SCPSL_Data\Managed\UnityEngine.PhysicsModule.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
+    <Reference Include="YamlDotNet, Version=11.0.0.0, Culture=neutral, PublicKeyToken=ec19458f3c15af5e, processorArchitecture=MSIL">
+      <HintPath>packages\ExMod.Exiled.9.5.2\lib\net48\YamlDotNet.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="API\Databases\Datas.cs" />
@@ -390,8 +384,7 @@
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Synergy\Gman.cs" />
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Synergy\Loser.cs" />
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Synergy\RandomCollection.cs" />
-    <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Synergy\Rich1.cs" />
-    <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Synergy\Rich2.cs" />
+    <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Synergy\Rich.cs" />
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Synergy\SuicideSquad.cs" />
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Synergy\SurvivalExpert.cs" />
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Synergy\Vampire.cs" />
@@ -552,7 +545,7 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
-    <Analyzer Include="..\..\DiscordInteraction\bin\Debug\DiscordInteraction.dll" />
+    <Analyzer Include="..\..\..\SCPSL\SCPSL_Data\Managed\Assembly-CSharp-Publicized.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

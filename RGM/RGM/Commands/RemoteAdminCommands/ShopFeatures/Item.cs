@@ -21,11 +21,42 @@ namespace RGM.Commands.RemoteAdminCommands
     {
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
-            string userId = Tools.TryGetUserId(arguments.At(0));
+            string UserId = Tools.TryGetUserId(arguments.At(0));
             string args = string.Join(" ", arguments.Skip(1)).Trim();
 
-            bool flag = userId.AddProduct(args, out response, arguments);
-            return flag;
+            if (arguments.Count < 2)
+            {
+                response = "아이템추가 <player> <item name>";
+                return false;
+            }
+            else if (Products.Select(x => x.Name).Contains(args))
+            {
+                List<string> uc = UsersManager.UsersCache[UserId];
+
+                if (uc[18] == "0")
+                {
+                    uc[18] = args;
+                    UsersManager.UsersCache[UserId] = uc;
+                    response = "Successfully add item.";
+
+                    UsersManager.SaveUsers();
+                    return true;
+                }
+                else
+                {
+                    uc[18] += $"/{args}";
+                    UsersManager.UsersCache[UserId] = uc;
+                    response = "Successfully add item.";
+
+                    UsersManager.SaveUsers();
+                    return true;
+                }
+            }
+            else
+            {
+                response = "This item is not exist.";
+                return false;
+            }
         }
 
         public string Command { get; } = "item";

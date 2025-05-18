@@ -47,9 +47,8 @@ namespace RGM.Commands.ClientCommands
                 if (player.IsAlive)
                 {
                     var g = (ExplosiveGrenade)Item.Create(ItemType.GrenadeHE, player);
-                    g.FuseTime = 0;
-                    g.BurnDuration = 0;
-                    g.MaxRadius = 0;
+                    g.FuseTime = 0f;
+                    g.BurnDuration = 0f;
                     g.SpawnActive(player.Position);
 
                     if (GodModePlayers.Contains(player))
