@@ -21,50 +21,11 @@ namespace RGM.Commands.RemoteAdminCommands
     {
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
-            string UserId = Tools.TryGetUserId(arguments.At(0));
+            string userId = Tools.TryGetUserId(arguments.At(0));
             string args = string.Join(" ", arguments.Skip(1)).Trim();
 
-            if (arguments.Count < 2)
-            {
-                response = "킬이펙트추가 <player> <kill effect name>";
-                return false;
-            }
-            else if (KillEffects.ContainsKey(args))
-            {
-                List<string> uc = UsersManager.UsersCache[UserId];
-
-                if (uc[3] == "0")
-                {
-                    uc[3] = args;
-                    UsersManager.UsersCache[UserId] = uc;
-                    response = "Successfully add kill effect.";
-
-                    UsersManager.SaveUsers();
-                    return true;
-                }
-                else
-                {
-                    if (uc[3].Split('/').Contains(args))
-                    {
-                        response = "This player already have this kill effect.";
-                        return false;
-                    }
-                    else
-                    {
-                        uc[3] += $"/{args}";
-                        UsersManager.UsersCache[UserId] = uc;
-                        response = "Successfully add kill effect.";
-
-                        UsersManager.SaveUsers();
-                        return true;
-                    }
-                }
-            }
-            else
-            {
-                response = "This kill effect is not exist.";
-                return false;
-            }
+            bool flag = userId.AddKillEffect(args, out response, arguments);
+            return flag;
         }
 
         public string Command { get; } = "addkilleffect";
