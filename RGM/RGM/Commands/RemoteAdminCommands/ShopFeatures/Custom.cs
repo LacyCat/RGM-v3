@@ -21,50 +21,11 @@ namespace RGM.Commands.RemoteAdminCommands
     {
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
-            string UserId = Tools.TryGetUserId(arguments.At(0));
+            string userId = Tools.TryGetUserId(arguments.At(0));
             string args = string.Join(" ", arguments.Skip(1)).Trim();
 
-            if (arguments.Count < 2)
-            {
-                response = "커스텀추가 <player> <custom feature name>";
-                return false;
-            }
-            else if (Customizations.ContainsKey(args))
-            {
-                List<string> uc = UsersManager.UsersCache[UserId];
-
-                if (uc[7] == "0")
-                {
-                    uc[7] = args;
-                    UsersManager.UsersCache[UserId] = uc;
-                    response = "Successfully add custom feature.";
-
-                    UsersManager.SaveUsers();
-                    return true;
-                }
-                else
-                {
-                    if (uc[7].Split('/').Contains(args))
-                    {
-                        response = "This player already have this custom feature.";
-                        return false;
-                    }
-                    else
-                    {
-                        uc[7] += $"/{args}";
-                        UsersManager.UsersCache[UserId] = uc;
-                        response = "Successfully add custom feature.";
-
-                        UsersManager.SaveUsers();
-                        return true;
-                    }
-                }
-            }
-            else
-            {
-                response = "This custom feature is not exist.";
-                return false;
-            }
+            bool flag = userId.AddCustom(args, out response, arguments);
+            return flag;
         }
 
         public string Command { get; } = "addcustomfeature";
