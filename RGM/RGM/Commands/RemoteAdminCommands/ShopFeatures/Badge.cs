@@ -21,11 +21,50 @@ namespace RGM.Commands.RemoteAdminCommands
     {
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
-            string userId = Tools.TryGetUserId(arguments.At(0));
+            string UserId = Tools.TryGetUserId(arguments.At(0));
             string args = string.Join(" ", arguments.Skip(1)).Trim();
 
-            bool flag = userId.AddBadge(args, out response, arguments);
-            return flag;
+            if (arguments.Count < 2)
+            {
+                response = "칭호추가 <player> <badge name>";
+                return false;
+            }
+            else if (Badges.ContainsKey(args))
+            {
+                List<string> uc = UsersManager.UsersCache[UserId];
+
+                if (uc[10] == "0")
+                {
+                    uc[10] = args;
+                    UsersManager.UsersCache[UserId] = uc;
+                    response = "Successfully add badge.";
+
+                    UsersManager.SaveUsers();
+                    return true;
+                }
+                else
+                {
+                    if (uc[10].Split('/').Contains(args))
+                    {
+                        response = "This player already have this badge.";
+                        return false;
+                    }
+                    else
+                    {
+                        uc[10] += $"/{args}";
+                        UsersManager.UsersCache[UserId] = uc;
+                        response = "Successfully add badge.";
+
+                        UsersManager.SaveUsers();
+                        return true;
+                    }
+                }
+            }
+            else
+            {
+                response = "This badge is not exist.";
+                return false;
+            }
         }
 
         public string Command { get; } = "addbadge";

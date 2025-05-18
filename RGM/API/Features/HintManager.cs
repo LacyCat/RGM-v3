@@ -57,8 +57,7 @@ namespace RGM.API.Features
 
             if (_playerHints[player].ContainsKey(customId))
             {
-                _playerHints[player].Remove(customId);
-                _playerHints[player].Add(customId, (hint, duration));
+                _playerHints[player][customId] = (hint, duration);
             }
             else
             {

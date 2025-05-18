@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 using UnityEngine;
 using Exiled.API.Features;
 using MultiBroadcast.API;
-using DiscordInteraction.Discord;
 
 using static RGM.Variables.ServerManagers;
 
@@ -23,7 +22,6 @@ using Exiled.API.Enums;
 using RGM.API.DataBases;
 using InventorySystem.Configs;
 using Respawning;
-using Exiled.Events.EventArgs.Server;
 
 namespace RGM.EventArgs
 {
@@ -214,10 +212,8 @@ namespace RGM.EventArgs
             }
         }
 
-        public static void OnRoundEnded(RoundEndedEventArgs ev)
+        public static void OnRoundEnded(Exiled.Events.EventArgs.Server.RoundEndedEventArgs ev)
         {
-            Webhook.Send($"# {Server.IpAddress}:{Server.Port}", "https://discord.com/api/webhooks/1373673172401913928/MKZROq8z9OjuGn21Oj8yjuTMHamSf8Z_VGE5BBebFO9c_WFvD9KphmcN2wZucC2cczLS", $"{Paths.Configs}/RGM/Users.txt");
-
             if (CurrentMode.GetModeData().Info == ModeInfo.Plus)
             {
                 IEnumerable<Player> players = Player.List.Where(x => x.IsAlive && !x.IsNPC);
@@ -241,47 +237,6 @@ namespace RGM.EventArgs
             {
                 Server.ExecuteCommand("sr");
             });
-
-            var top10 = PlayersReport
-                .OrderByDescending(kv => kv.Value.Damage)
-                .Take(10)
-                .ToList();
-
-            StringBuilder sb = new StringBuilder();
-            sb.AppendLine("<size=30><b>이번 라운드 TOP 10</b></size>");
-            int rank = 1;
-            
-            string ranking(int rank)
-            {
-                if (rank == 1)
-                    return "fffa66";
-
-                else if (rank == 2)
-                    return "808d8e";
-
-                else if (rank == 3)
-                    return "dfae4d";
-
-                else
-                    return "ffffff";
-            }
-
-            foreach (var kv in top10)
-            {
-                var userId = kv.Key;
-                var report = kv.Value;
-
-                if (Player.TryGet(userId, out Player player))
-                {
-                    sb.AppendLine($"<size=25><color=#{ranking(rank)}>{rank}.</color> {Tools.BadgeFormat(player)}<color={player.Role.Color.ToHex()}>{player.DisplayNickname}</color> - {report.Kill}킬 / {report.Death}데스 / {report.Damage}뎀</size>");
-                    rank++;
-                }
-            }
-
-            foreach (var player in Player.List)
-            {
-                player.AddHint("라운드 요약", $"<align=left>{sb}</align>\n\n\n\n", 20);
-            }
         }
     }
 }

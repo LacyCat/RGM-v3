@@ -40,20 +40,11 @@ namespace RGM.Commands.ClientCommands
 
                         if (product.Price <= rc)
                         {
-                            var ownedProducts = UsersManager.UsersCache[player.UserId][18];
-                            int ownedCount = ownedProducts == "0" ? 0 : ownedProducts.Split('/').Length;
-
-                            if (ownedCount >= 10)
-                            {
-                                response = "한 번에 10개를 초과하여 구매할 수 없습니다.";
-                                return false;
-                            }
-
                             UsersManager.UsersCache[player.UserId][1] = $"{rc - product.Price}";
-                            if (ownedProducts == "0")
+                            if (UsersManager.UsersCache[player.UserId][18] == "0")
                                 UsersManager.UsersCache[player.UserId][18] = input[0];
                             else
-                                UsersManager.UsersCache[player.UserId][18] = string.Join("/", ownedProducts.Split('/').Append(input[0]));
+                                UsersManager.UsersCache[player.UserId][18] = string.Join("/", UsersManager.UsersCache[player.UserId][18].Split('/').Append(input[0]));
                             UsersManager.SaveUsers();
 
                             foreach (var p in Player.List.Where(x => x.IsDead || Vector3.Distance(x.Position, player.Position) < 11))

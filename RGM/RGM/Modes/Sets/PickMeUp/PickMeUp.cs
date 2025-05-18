@@ -105,6 +105,8 @@ namespace RGM.Modes
                 player.Role.Set(RoleTypeId.Tutorial);
             }
 
+            int items = Player.List.Count();
+
             while (!Round.IsEnded)
             {
                 Map.CleanAllItems();
@@ -117,19 +119,14 @@ namespace RGM.Modes
                     player.ClearInventory();
                 }
 
+                Vector3 pos = new List<Vector3> { SpawnX(), SpawnY(), SpawnZ() }.GetRandomValue();
                 ItemType item = ItemTypes.GetRandomValue();
 
-                Vector3 pos()
+                for (int i = 0; i < items / 2; i++)
                 {
-                    return new List<Vector3> { SpawnX(), SpawnY(), SpawnZ() }.GetRandomValue();
+                    items /= 2;
+                    Pickup.CreateAndSpawn(item, pos);
                 }
-
-                for (int i = 0; i < Player.List.Where(x => x.IsAlive).Count() / 2; i++)
-                {
-                    Pickup.CreateAndSpawn(item, pos());
-                }
-
-                GlobalPlayer.AddClip($"PickMeUp", 2f);
 
                 for (int i = 1; i < 11; i++)
                 {
@@ -159,11 +156,6 @@ namespace RGM.Modes
 
                 foreach (var player in Player.List.Where(x => x.IsAlive && !PassedPlayers.Contains(x)))
                 {
-                    var g = (ExplosiveGrenade)Item.Create(ItemType.GrenadeHE, Server.Host);
-                    g.FuseTime = 0.1f;
-                    g.MaxRadius = 0;
-                    g.SpawnActive(player.Position, Server.Host);
-
                     player.Kill($"굼떠서 사망했습니다.");
                 }
 
