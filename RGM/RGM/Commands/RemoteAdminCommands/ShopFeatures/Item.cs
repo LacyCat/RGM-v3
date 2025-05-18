@@ -24,7 +24,7 @@ namespace RGM.Commands.RemoteAdminCommands
             string userId = Tools.TryGetUserId(arguments.At(0));
             string args = string.Join(" ", arguments.Skip(1)).Trim();
 
-            bool flag = Player.Get(sender).AddProduct(userId, args, out response, arguments);
+            bool flag = userId.AddProduct(args, out response, arguments);
             return flag;
         }
 

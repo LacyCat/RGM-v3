@@ -24,7 +24,7 @@ namespace RGM.Commands.RemoteAdminCommands
             string userId = Tools.TryGetUserId(arguments.At(0));
             string args = string.Join(" ", arguments.Skip(1)).Trim();
 
-            bool flag = Player.Get(sender).AddKillEffect(args, userId, out response, arguments);
+            bool flag = userId.AddKillEffect(args, out response, arguments);
             return flag;
         }
 
