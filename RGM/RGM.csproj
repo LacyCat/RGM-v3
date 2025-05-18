@@ -84,7 +84,8 @@
     <Reference Include="CommandSystem.Core">
       <HintPath>..\..\..\SCPSL\SCPSL_Data\Managed\CommandSystem.Core.dll</HintPath>
     </Reference>
-    <Reference Include="DiscordInteraction">
+    <Reference Include="DiscordInteraction, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\DiscordInteraction\bin\Debug\DiscordInteraction.dll</HintPath>
     </Reference>
     <Reference Include="Exiled.API, Version=9.1.0.0, Culture=neutral, processorArchitecture=AMD64">
@@ -550,6 +551,8 @@
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Analyzer Include="..\..\DiscordInteraction\bin\Debug\DiscordInteraction.dll" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
