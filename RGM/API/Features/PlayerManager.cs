@@ -21,7 +21,7 @@ namespace RGM.API.Features
             player.Hurt(new DisruptorDamageHandler(new InventorySystem.Items.Firearms.ShotEvents.DisruptorShotEvent(InventorySystem.Items.ItemIdentifier.None, attacker.Footprint, InventorySystem.Items.Firearms.Modules.DisruptorActionModule.FiringState.FiringRapid), player.Position, damage));
         }
 
-        public static bool AddBadge(this Player player, string userId, string args, out string response, ArraySegment<string>? arguments = null)
+        public static bool AddBadge(this string userId, string args, out string response, ArraySegment<string>? arguments = null)
         {
             if (arguments.HasValue && arguments.Value.Count < 2)
             {
@@ -66,7 +66,7 @@ namespace RGM.API.Features
             }
         }
 
-        public static bool AddCustom(this Player player, string userId, string args, out string response, ArraySegment<string>? arguments = null)
+        public static bool AddCustom(this string userId, string args, out string response, ArraySegment<string>? arguments = null)
         {
             if (arguments.HasValue && arguments.Value.Count < 2)
             {
@@ -111,7 +111,7 @@ namespace RGM.API.Features
             }
         }
 
-        public static bool AddKillEffect(this Player player, string userId, string args, out string response, ArraySegment<string>? arguments = null)
+        public static bool AddKillEffect(this string userId, string args, out string response, ArraySegment<string>? arguments = null)
         {
             if (arguments.HasValue && arguments.Value.Count < 2)
             {
@@ -156,7 +156,7 @@ namespace RGM.API.Features
             }
         }
 
-        public static bool AddPaint(this Player player, string userId, string args, out string response, ArraySegment<string>? arguments = null)
+        public static bool AddPaint(this string userId, string args, out string response, ArraySegment<string>? arguments = null)
         {
             if (arguments.HasValue && arguments.Value.Count < 2)
             {
@@ -201,7 +201,7 @@ namespace RGM.API.Features
             }
         }
 
-        public static bool SetCash(this Player player, string userId, int cash, out string response, bool result = true)
+        public static bool SetCash(this string userId, int cash, out string response, bool result = true)
         {
             List<string> uc = UsersManager.UsersCache[userId];
 
@@ -229,7 +229,7 @@ namespace RGM.API.Features
             }
         }
 
-        public static bool SetRC(this Player player, string userId, int rc, out string response, bool result = true)
+        public static bool SetRC(this string userId, int rc, out string response, bool result = true)
         {
             List<string> uc = UsersManager.UsersCache[userId];
 
@@ -257,7 +257,7 @@ namespace RGM.API.Features
             }
         }
 
-        public static bool AddProduct(this Player player, string userId, string args, out string response, ArraySegment<string>? arguments = null)
+        public static bool AddProduct(this string userId, string args, out string response, ArraySegment<string>? arguments = null)
         {
             if (arguments.HasValue && arguments.Value.Count < 2)
             {

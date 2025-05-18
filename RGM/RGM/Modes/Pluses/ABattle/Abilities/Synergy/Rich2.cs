@@ -20,7 +20,7 @@ public class Rich2 : Ability
     {
         List<string> uc = UsersManager.UsersCache[Owner.UserId];
 
-        Owner.SetRC(Owner.UserId, 8 + int.Parse(uc[1]), out string response);
+        Owner.UserId.SetRC(8 + int.Parse(uc[1]), out string response);
     }
 
     public override void OnDisabled()
