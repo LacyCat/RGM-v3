@@ -18,10 +18,10 @@ namespace RGM.API.Features
             {
                 foreach (var player in Player.List.Where(x => x.IsAlive && _playerHints.ContainsKey(x) && _playerHints[x].Count > 0))
                 {
-                    player.ShowHint($"{string.Join("\n", _playerHints[player].Values.Select(x => x.Item1))}", 1.2f);
+                    player.ShowHint($"{string.Join("\n", _playerHints[player].Values.Select(x => x.Item1))}", 0.2f);
                 }
                 
-                yield return Timing.WaitForSeconds(1);
+                yield return Timing.WaitForSeconds(0.1f);
             }
         }
 

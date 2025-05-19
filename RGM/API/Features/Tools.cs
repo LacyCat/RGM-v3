@@ -315,7 +315,7 @@ $"""
             if (Physics.Raycast(player.ReferenceHub.PlayerCameraReference.position + player.ReferenceHub.PlayerCameraReference.forward * 0.2f, player.ReferenceHub.PlayerCameraReference.forward, out RaycastHit hit, Distance) &&
                     hit.collider.TryGetComponent<IDestructible>(out IDestructible destructible))
             {
-                if (Player.TryGet(hit.collider.GetComponentInParent<ReferenceHub>(), out Player t) && player != t)
+                if (Player.TryGet(hit.collider.GetComponentInParent<ReferenceHub>().gameObject, out Player t) && player != t)
                 {
                     target = t;
                     raycastHit = hit;
@@ -340,7 +340,7 @@ $"""
             {
                 if (hit.collider.TryGetComponent<IDestructible>(out IDestructible destructible))
                 {
-                    if (Player.TryGet(hit.collider.GetComponentInParent<ReferenceHub>(), out Player t) && !targets.Contains(t))
+                    if (Player.TryGet(hit.collider.GetComponentInParent<ReferenceHub>().gameObject, out Player t) && !targets.Contains(t))
                     {
                         targets.Add(t);
                         if (targets.Count == 1)
@@ -420,7 +420,7 @@ $"""
 
             GGUtils.Gtool.PlayerGet(sn).DisplayNickname = name;
 
-            return Player.Get(dj);
+            return Player.Get(dj.gameObject);
         }
 
 

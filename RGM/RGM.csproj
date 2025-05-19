@@ -73,9 +73,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\SCPSL\SCPSL_Data\Managed\Assembly-CSharp-Publicized.dll</HintPath>
     </Reference>
-    <Reference Include="AudioPlayer, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Users\11010박경현\AppData\Roaming\EXILED\Plugins\dependencies\AudioPlayer.dll</HintPath>
+    <Reference Include="AudioPlayerApi">
+      <HintPath>C:\Users\GoldenPig1205\AppData\Roaming\EXILED\Plugins\dependencies\AudioPlayerApi.dll</HintPath>
     </Reference>
     <Reference Include="Castle, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -88,26 +87,29 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\DiscordInteraction\bin\Debug\DiscordInteraction.dll</HintPath>
     </Reference>
-    <Reference Include="Exiled.API, Version=9.6.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>packages\ExMod.Exiled.9.6.0\lib\net48\Exiled.API.dll</HintPath>
+    <Reference Include="Exiled.API, Version=9.5.2.0, Culture=neutral, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Users\GoldenPig1205\AppData\Roaming\SCP Secret Laboratory\LabAPI\dependencies\global\Exiled.API.dll</HintPath>
     </Reference>
-    <Reference Include="Exiled.CreditTags, Version=9.6.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>packages\ExMod.Exiled.9.6.0\lib\net48\Exiled.CreditTags.dll</HintPath>
+    <Reference Include="Exiled.CreditTags, Version=9.5.2.0, Culture=neutral, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Users\GoldenPig1205\AppData\Roaming\EXILED\Plugins\Exiled.CreditTags.dll</HintPath>
     </Reference>
-    <Reference Include="Exiled.CustomItems, Version=9.6.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>packages\ExMod.Exiled.9.6.0\lib\net48\Exiled.CustomItems.dll</HintPath>
+    <Reference Include="Exiled.CustomItems, Version=9.5.2.0, Culture=neutral, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Users\GoldenPig1205\AppData\Roaming\EXILED\Plugins\Exiled.CustomItems.dll</HintPath>
     </Reference>
-    <Reference Include="Exiled.CustomRoles, Version=9.6.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>packages\ExMod.Exiled.9.6.0\lib\net48\Exiled.CustomRoles.dll</HintPath>
+    <Reference Include="Exiled.CustomRoles, Version=9.5.2.0, Culture=neutral, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Users\GoldenPig1205\AppData\Roaming\EXILED\Plugins\Exiled.CustomRoles.dll</HintPath>
     </Reference>
-    <Reference Include="Exiled.Events, Version=9.6.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>packages\ExMod.Exiled.9.6.0\lib\net48\Exiled.Events.dll</HintPath>
+    <Reference Include="Exiled.Events, Version=9.5.2.0, Culture=neutral, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Users\GoldenPig1205\AppData\Roaming\EXILED\Plugins\Exiled.Events.dll</HintPath>
     </Reference>
-    <Reference Include="Exiled.Loader, Version=9.6.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>packages\ExMod.Exiled.9.6.0\lib\net48\Exiled.Loader.dll</HintPath>
-    </Reference>
-    <Reference Include="Exiled.Permissions, Version=9.6.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>packages\ExMod.Exiled.9.6.0\lib\net48\Exiled.Permissions.dll</HintPath>
+    <Reference Include="Exiled.Permissions, Version=9.5.2.0, Culture=neutral, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Users\GoldenPig1205\AppData\Roaming\EXILED\Plugins\Exiled.Permissions.dll</HintPath>
     </Reference>
     <Reference Include="GGUtils">
       <HintPath>..\..\GGUtils\bin\Debug\GGUtils.dll</HintPath>
@@ -115,8 +117,8 @@
     <Reference Include="JumpMap">
       <HintPath>..\..\JumpMap\bin\Debug\JumpMap.dll</HintPath>
     </Reference>
-    <Reference Include="LabApi, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>packages\ExMod.Exiled.9.6.0\lib\net48\LabApi.dll</HintPath>
+    <Reference Include="LabApi">
+      <HintPath>..\..\..\SCPSL\14.1\SCPSL_Data\Managed\LabApi.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=6.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.Bcl.AsyncInterfaces.6.0.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
@@ -143,7 +145,7 @@
       <HintPath>..\..\..\SCPSL\SCPSL_Data\Managed\Pooling.dll</HintPath>
     </Reference>
     <Reference Include="ProjectMER">
-      <HintPath>..\..\..\..\Users\11010박경현\AppData\Roaming\EXILED\Plugins\ProjectMER.dll</HintPath>
+      <HintPath>C:\Users\GoldenPig1205\AppData\Roaming\EXILED\Plugins\ProjectMER.dll</HintPath>
     </Reference>
     <Reference Include="SCPSLAudioApi">
       <HintPath>..\..\..\..\Users\11010박경현\AppData\Roaming\EXILED\Plugins\dependencies\SCPSLAudioApi.dll</HintPath>
@@ -547,6 +549,8 @@
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\..\DiscordInteraction\bin\Debug\DiscordInteraction.dll" />
+    <Analyzer Include="C:\Users\GoldenPig1205\AppData\Roaming\EXILED\Plugins\dependencies\AudioPlayerApi.dll" />
+    <Analyzer Include="C:\Users\GoldenPig1205\AppData\Roaming\EXILED\Plugins\ProjectMER.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

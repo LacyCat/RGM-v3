@@ -35,12 +35,12 @@ namespace RGM.UserSettings
 
         public static void RegisterCommonSettings(Player player)
         {
-            RGMSetting(player);
-            UserSetting(player);
-            ModeSetting(player);
-            // EtcSetting(player);
+            //RGMSetting(player);
+            //UserSetting(player);
+            //ModeSetting(player);
+            //// EtcSetting(player);
 
-            Refresh(player);
+            //Refresh(player);
         }
 
         public static void UnregisterHeader(string userId, List<string> headerNames = null)
@@ -67,27 +67,27 @@ namespace RGM.UserSettings
 
         public static void Refresh(Player player)
         {
-            if (!PlayerSettings.ContainsKey(player.UserId))
-                PlayerSettings[player.UserId] = (new List<SettingBase>(), new List<SettingInfo>());
+            //if (!PlayerSettings.ContainsKey(player.UserId))
+            //    PlayerSettings[player.UserId] = (new List<SettingBase>(), new List<SettingInfo>());
 
-            PlayerSettings[player.UserId].Item1.Clear();
+            //PlayerSettings[player.UserId].Item1.Clear();
 
-            var header = new HeaderSetting("-");
+            //var header = new HeaderSetting("-");
 
-            SettingBase.Register(new List<SettingBase> { header }, (p) => { return p == player; });
+            //SettingBase.Register(new List<SettingBase> { header }, (p) => { return p == player; });
 
-            SettingBase.Unregister((p) => { return p == player; }, SettingBase.List.Where(x => x != header).ToList());
+            //SettingBase.Unregister((p) => { return p == player; }, SettingBase.List.Where(x => x != header).ToList());
 
-            var settingsToRemove = PlayerSettings[player.UserId].Item2.ToList();
-            foreach (var setting in settingsToRemove)
-            {
-                setting.Activate(player);
-                PlayerSettings[player.UserId].Item2.Remove(setting);
-            }
+            //var settingsToRemove = PlayerSettings[player.UserId].Item2.ToList();
+            //foreach (var setting in settingsToRemove)
+            //{
+            //    setting.Activate(player);
+            //    PlayerSettings[player.UserId].Item2.Remove(setting);
+            //}
 
-            SettingBase.Register(PlayerSettings[player.UserId].Item1, (p) => { return p == player; });
+            //SettingBase.Register(PlayerSettings[player.UserId].Item1, (p) => { return p == player; });
 
-            SettingBase.Unregister((p) => { return p == player; }, SettingBase.List.Where(x => x == header).ToList());
+            //SettingBase.Unregister((p) => { return p == player; }, SettingBase.List.Where(x => x == header).ToList());
         }
 
         public static List<SettingBase> Save(Player player, HeaderSetting header, List<SettingBase> settingBases, Action<Player> action)
