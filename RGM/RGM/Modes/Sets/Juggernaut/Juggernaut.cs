@@ -25,7 +25,6 @@ using Exiled.Events.EventArgs.Server;
 using MapEditorReborn.API.Features;
 using MapEditorReborn.API.Features.Objects;
 using MapEditorReborn.API.Extensions;
-using Exiled.Events.Commands.Hub;
 using PlayerRoles.FirstPersonControl;
 using RelativePositioning;
 using SCPSLAudioApi.AudioCore;
