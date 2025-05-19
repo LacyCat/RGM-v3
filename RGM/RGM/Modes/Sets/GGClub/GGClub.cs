@@ -12,7 +12,7 @@ using MapEditorReborn.API.Features.Serializable;
 using MEC;
 using Mirror;
 using PlayerRoles;
-using PluginAPI.Events;
+using LabApi.Events;
 using UnityEngine;
 using SCPSLAudioApi.AudioCore;
 using MultiBroadcast;

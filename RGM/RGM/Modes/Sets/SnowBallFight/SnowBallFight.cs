@@ -24,7 +24,6 @@ using Respawning;
 using Exiled.API.Features.Items;
 using CommandSystem.Commands.RemoteAdmin.Dummies;
 using GameCore;
-using Exiled.Events.Commands.Hub;
 using RelativePositioning;
 
 using static RGM.Variables.ServerManagers;
@@ -68,7 +67,7 @@ namespace RGM.Modes
 
             Tools.PlayGlobalAudio("ChristmasRock", 0.3f, true);
 
-            ReferenceHub dummy = DummyUtils.SpawnDummy("귀여운 땅콩이 ❤️");
+            ReferenceHub dummy = Dummy.SpawnDummy("귀여운 땅콩이 ❤️");
             Player bot = Player.Get(dummy);
 
             dummy.roleManager.ServerSetRole(RoleTypeId.Scp173, RoleChangeReason.RemoteAdmin);
