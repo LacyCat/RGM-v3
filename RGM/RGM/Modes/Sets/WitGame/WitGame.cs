@@ -75,7 +75,7 @@ namespace RGM.Modes
 
                 distance = 1f + (playerCount - 2) * 0.3f;
 
-                List<Vector3> platforms = Tools.GetCirclePoints(new Vector3(50.21484f, 1032.36f, -40.09766f), distance, playerCount);
+                List<Vector3> platforms = Tools.GetCirclePoints(new Vector3(77.1384f, 322.2464f, -42.116f), distance, playerCount);
 
                 foreach (var player in Player.List.Where(x => x.IsAlive))
                     player.Position = platforms[Player.List.Where(x => x.IsAlive).ToList().IndexOf(player)];

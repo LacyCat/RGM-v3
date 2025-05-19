@@ -121,7 +121,7 @@ namespace RGM.Modes
                     cdp.DisableAllEffects();
                     GodModePlayers.Add(cdp);
                 }
-                var scp = Player.Get(ca._attacker.Hub);
+                var scp = Player.Get(ca._attacker);
                 scp.Health = 1;
                 var g = (ExplosiveGrenade)Item.Create(ItemType.GrenadeHE, ev.Player);
                 g.FuseTime = 0f;

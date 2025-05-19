@@ -91,7 +91,6 @@ namespace RGM.Donator
                         if (primitiveObject != null)
                         {
                             primitiveObject.PrimitiveFlags = PrimitiveFlags.Visible;
-                            primitiveObject.UpdateParent();
                             primitiveObject.UpdatePositionClient();
                             primitiveObject.UpdatePositionServer();
                         }

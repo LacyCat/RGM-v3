@@ -172,7 +172,7 @@ namespace RGM.IEnumerators
                             if (Physics.Raycast(player.ReferenceHub.PlayerCameraReference.position + player.ReferenceHub.PlayerCameraReference.forward * 0.2f, player.ReferenceHub.PlayerCameraReference.forward, out RaycastHit hit, 25) &&
                                 hit.collider.TryGetComponent<IDestructible>(out IDestructible destructible))
                             {
-                                if (Player.TryGet(hit.collider.GetComponentInParent<ReferenceHub>(), out Player t) && player != t && t.IsScp)
+                                if (Player.TryGet(hit.collider.GetComponentInParent<ReferenceHub>().gameObject, out Player t) && player != t && t.IsScp)
                                 {
                                     JumpScareCooldown.Add(player);
 

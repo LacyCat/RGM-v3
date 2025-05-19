@@ -33,77 +33,84 @@ namespace RGM.EventArgs
         {
             yield return Timing.WaitForSeconds(1f);
 
-            foreach (var _audioClip in System.IO.Directory.GetFiles(Paths.Plugins + "/audio/"))
-                AudioClipStorage.LoadClip(_audioClip, _audioClip.Replace(Paths.Plugins + "/audio/", "").Replace(".ogg", ""));
-
-            InventoryLimits.StandardCategoryLimits[ItemCategory.SpecialWeapon] = 8;
-            InventoryLimits.StandardCategoryLimits[ItemCategory.SCPItem] = 8;
-            InventoryLimits.Config.RefreshCategoryLimits();
-
-            UsersManager.LoadUsers();
-
-            GlobalPlayer = AudioPlayer.CreateOrGet($"Global AudioPlayer", onIntialCreation: (p) =>
+            try
             {
-                Speaker speaker = p.AddSpeaker("Main", isSpatial: false, maxDistance: 5000);
-            });
+                foreach (var _audioClip in System.IO.Directory.GetFiles(Paths.Plugins + "/audio/"))
+                    AudioClipStorage.LoadClip(_audioClip, _audioClip.Replace(Paths.Plugins + "/audio/", "").Replace(".ogg", ""));
 
-            Tools.PlayGlobalAudio("Holiday by GoldenPig1205", 0.3f, true);
+                InventoryLimits.StandardCategoryLimits[ItemCategory.SpecialWeapon] = 8;
+                InventoryLimits.StandardCategoryLimits[ItemCategory.SCPItem] = 8;
+                InventoryLimits.Config.RefreshCategoryLimits();
 
-            Round.IsLobbyLocked = true;
-            GameObject.Find("StartRound").transform.localScale = Vector3.zero;
-            Tools.LoadMap($"Past_Lobby");
+                UsersManager.LoadUsers();
 
-            var donator = new Donator.Main();
-            donator.OnEnabled();
+                GlobalPlayer = AudioPlayer.CreateOrGet($"Global AudioPlayer", onIntialCreation: (p) =>
+                {
+                    Speaker speaker = p.AddSpeaker("Main", isSpatial: false, maxDistance: 5000);
+                });
 
-            First = Tools.GetObjectList("First");
-            Second = Tools.GetObjectList("Second");
-            Third = Tools.GetObjectList("Third");
-            Fourth = Tools.GetObjectList("Fourth");
-            Numbers = Tools.GetObjectList("Number");
-            RandomColors = Tools.GetObjectList("RandomColor");
-            RandomLights = Tools.GetObjectList("RandomLight");
-            Balls = Tools.GetObjectList("Ball");
+                Tools.PlayGlobalAudio("Holiday by GoldenPig1205", 0.3f, true);
 
-            PickModes();
-            Balls.ForEach(x => x.gameObject.AddComponent<BallComponent>());
-            EnabledModeList.Add(ModeType.Develop);
+                Round.IsLobbyLocked = true;
+                GameObject.Find("StartRound").transform.localScale = Vector3.zero;
+                Tools.LoadMap($"Past_Lobby");
 
-            Timing.RunCoroutine(SyncSpectatedHint());
-            Timing.RunCoroutine(ThrowawayBroadcast());
-            Timing.RunCoroutine(GameStartButton());
-            Timing.RunCoroutine(ModeResetButton());
-            Timing.RunCoroutine(IsFallDown());
-            Timing.RunCoroutine(InputCooldown());
-            Timing.RunCoroutine(Ball());
-            Timing.RunCoroutine(RenewalPlayersInfo());
-            Timing.RunCoroutine(HintManager.OnStarted());
-            Timing.RunCoroutine(HintManager.RemoveHint());
+                var donator = new Donator.Main();
+                donator.OnEnabled();
 
-            int rn = UnityEngine.Random.Range(1, 6);
+                First = Tools.GetObjectList("First");
+                Second = Tools.GetObjectList("Second");
+                Third = Tools.GetObjectList("Third");
+                Fourth = Tools.GetObjectList("Fourth");
+                Numbers = Tools.GetObjectList("Number");
+                RandomColors = Tools.GetObjectList("RandomColor");
+                RandomLights = Tools.GetObjectList("RandomLight");
+                Balls = Tools.GetObjectList("Ball");
 
-            if (rn == 1)
-            {
-                SelectMode = "RandomSelect";
-                Timing.RunCoroutine(RandomSelectMode());
+                PickModes();
+                Balls.ForEach(x => x.gameObject.AddComponent<BallComponent>());
+                EnabledModeList.Add(ModeType.Develop);
+
+                Timing.RunCoroutine(SyncSpectatedHint());
+                Timing.RunCoroutine(ThrowawayBroadcast());
+                Timing.RunCoroutine(GameStartButton());
+                Timing.RunCoroutine(ModeResetButton());
+                Timing.RunCoroutine(IsFallDown());
+                Timing.RunCoroutine(InputCooldown());
+                Timing.RunCoroutine(Ball());
+                Timing.RunCoroutine(RenewalPlayersInfo());
+                Timing.RunCoroutine(HintManager.OnStarted());
+                Timing.RunCoroutine(HintManager.RemoveHint());
+
+                int rn = UnityEngine.Random.Range(1, 6);
+
+                if (rn == 1)
+                {
+                    SelectMode = "RandomSelect";
+                    Timing.RunCoroutine(RandomSelectMode());
+                }
+                else if (rn == 2)
+                {
+                    SelectMode = "SimpleSelect";
+                }
+                else if (rn == 3)
+                {
+                    SelectMode = "SecretVote";
+                }
+                else if (rn == 4)
+                {
+                    SelectMode = "FightVote";
+
+                    Server.FriendlyFire = true;
+                }
+                else
+                {
+                    SelectMode = "MostVote";
+                }
             }
-            else if (rn == 2)
+            catch (Exception ex)
             {
-                SelectMode = "SimpleSelect";
-            }
-            else if (rn == 3)
-            {
-                SelectMode = "SecretVote";
-            }
-            else if (rn == 4)
-            {
-                SelectMode = "FightVote";
-
-                Server.FriendlyFire = true;
-            }
-            else
-            {
-                SelectMode = "MostVote";
+                Log.Error($"{ex}");
             }
 
             while (true)

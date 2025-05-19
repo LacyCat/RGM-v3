@@ -72,7 +72,7 @@ namespace RGM.Modes
             foreach (var player in Player.List)
             {
                 player.Role.Set(RoleTypeId.ClassD);
-                player.Position = new Vector3(41.26563f, 1084.793f, -114.7344f);
+                player.Position = new Vector3(36.99778f, 353.3881f, -88.50272f);
             }
 
             for (int i=1; i<11; i++)
