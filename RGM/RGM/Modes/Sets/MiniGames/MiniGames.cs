@@ -39,7 +39,7 @@ namespace RGM.Modes
             //"escape",
             "battle",
             "versus",
-            "cs",
+            //"cs",
             "glass",
             //"deathrun",
             "line",
@@ -59,6 +59,7 @@ namespace RGM.Modes
             "zombie",
             "zombie2"
         };
+        Vector3 pos = new Vector3(14.07672f, 328.4382f, 11.39262f);
 
         public override void OnEnabled()
         {
@@ -77,7 +78,7 @@ namespace RGM.Modes
             foreach (var player in Player.List)
             {
                 player.Role.Set(PlayerRoles.RoleTypeId.ClassD);
-                player.Position = new Vector3(14.07672f, 328.4382f, 11.39262f);
+                player.Position = pos;
             }
 
             yield return Timing.WaitForSeconds(10f);
@@ -108,7 +109,7 @@ namespace RGM.Modes
                 RoundCount += 1;
 
                 foreach (var player in Player.List)
-                    player.Position = new Vector3(14.07672f, 328.4382f, 11.39262f);
+                    player.Position = pos;
 
                 if (RoundCount != 3)
                 {
