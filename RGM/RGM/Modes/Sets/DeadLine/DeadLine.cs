@@ -67,7 +67,7 @@ namespace RGM.Modes
             foreach (var player in Player.List.Where(x => !x.IsNPC))
             {
                 player.Role.Set(RoleTypeId.Scientist);
-                player.Position = new Vector3(80.1824f, 1011.915f, -49.73869f);
+                player.Position = new Vector3(59.33407f, 322.2713f, -53.47082f);
                 player.ClearInventory();
             }
 

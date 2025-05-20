@@ -41,7 +41,7 @@ namespace RGM.Modes
             "versus",
             "cs",
             "glass",
-            "deathrun",
+            //"deathrun",
             "line",
             "dodge",
             "fall",
@@ -77,7 +77,7 @@ namespace RGM.Modes
             foreach (var player in Player.List)
             {
                 player.Role.Set(PlayerRoles.RoleTypeId.ClassD);
-                player.Position = new Vector3(-3.09375f, 1003.158f, 33.52344f);
+                player.Position = new Vector3(14.07672f, 328.4382f, 11.39262f);
             }
 
             yield return Timing.WaitForSeconds(10f);
@@ -108,7 +108,7 @@ namespace RGM.Modes
                 RoundCount += 1;
 
                 foreach (var player in Player.List)
-                    player.Position = new Vector3(-3.09375f, 1003.158f, 33.52344f);
+                    player.Position = new Vector3(14.07672f, 328.4382f, 11.39262f);
 
                 if (RoundCount != 3)
                 {

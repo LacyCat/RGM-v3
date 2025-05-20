@@ -12,6 +12,7 @@ using static RGM.Variables.ServerManagers;
 using RGM.API.DataBases;
 using LabApi.Features.Wrappers;
 using Exiled.API.Features.Toys;
+using ProjectMER.Features;
 
 namespace RGM.Functions
 {
@@ -40,15 +41,15 @@ namespace RGM.Functions
             //for (int i = 0; i < 4; i++)
             //{
             //    foreach (var Pad in Pads[i])
-            //        Pad.GetComponent<Primitive>().Color = ColorUtility.TryParseHtmlString("#" + ModeList[ModeVote.Keys.ToList()[i]].Color, out Color color) ? color : Color.white;
+            //        Pad.GetComponent<LightSourceToy>().Color = ColorUtility.TryParseHtmlString("#" + ModeList[ModeVote.Keys.ToList()[i]].Color, out Color color) ? color : Color.white;
             //}
 
             //Color randomColor = Tools.GetRandomColor(true);
 
-            //Numbers.ForEach(x => x.GetComponent<Primitive>().Color = randomColor);
-            //RandomColors.ForEach(x => x.GetComponent<Primitive>().Color = randomColor);
-            //RandomLights.ForEach(x => x.GetComponent<Exiled.API.Features.Toys.Light>().Color = Tools.GetRandomColor());
-            //Balls.ForEach(x => x.GetComponent<Primitive>().Color = Tools.GetRandomColor(true));
+            //Numbers.ForEach(x => x.GetComponent<PrimitiveObjectToy>().Color = randomColor);
+            //RandomColors.ForEach(x => x.GetComponent<PrimitiveObjectToy>().Color = randomColor);
+            //RandomLights.ForEach(x => x.GetComponent<LightSourceToy>().Color = Tools.GetRandomColor());
+            //Balls.ForEach(x => x.GetComponent<PrimitiveObjectToy>().Color = Tools.GetRandomColor(true));
         }
     }
 }

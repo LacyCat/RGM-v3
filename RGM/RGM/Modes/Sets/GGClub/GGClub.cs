@@ -78,8 +78,8 @@ namespace RGM.Modes
 
             foreach (var player in Player.List.Where(x => !x.IsNPC).ToList())
             {
-                player.Role.Set(RoleTypeId.ClassD);
-                player.Position = new Vector3(74.99881f, 1012.823f, -43.1801f);
+                player.Role.Set(RoleTypeId.Scp3114);
+                player.Position = new Vector3(77.66434f, 315.4858f, -42.20193f);
 
                 Server.ExecuteCommand($"/speak {player.Id} 1");
                 IntercomPlayers.Add(player);
@@ -93,6 +93,7 @@ namespace RGM.Modes
             }
 
             Timing.RunCoroutine(DJ());
+            Timing.RunCoroutine(gingerbreadHint());
             Timing.RunCoroutine(ShowPhase());
 
             ClubLights = Tools.GetObjectList("ClubLight");
@@ -213,7 +214,7 @@ namespace RGM.Modes
 
                     foreach (var ClubLight in ClubLights)
                     {
-                        ClubLight.GetComponent<Light>().color = new Color(UnityEngine.Random.value, UnityEngine.Random.value, UnityEngine.Random.value);
+                        ClubLight.GetComponent<LabApi.Features.Wrappers.LightSourceToy>().Color = new Color(UnityEngine.Random.value, UnityEngine.Random.value, UnityEngine.Random.value);
                     }
                 }
                 else
@@ -230,7 +231,7 @@ namespace RGM.Modes
 
                     foreach (var ClubLight in ClubLights)
                     {
-                        ClubLight.GetComponent<Light>().color = UnityEngine.Color.white;
+                        ClubLight.GetComponent<LabApi.Features.Wrappers.LightSourceToy>().Color = UnityEngine.Color.white;
                     }
                 }
 
