@@ -75,10 +75,10 @@ namespace RGM.Modes
             {
                 Timing.CallDelayed(1f, () =>
                 {
-                    monster.Role.Set(RoleTypeId.Scp0492);
+                    monster.Role.Set(RoleTypeId.Scp3114);
                     monster.RankName = "MONSTER";
                     monster.RankColor = "red";
-                    monster.Position = new Vector3(-15.84375f, 1001.957f, 49.89063f);
+                    monster.Position = new Vector3(0.05246925f, 320.6144f, -68.64725f);
                     Server.ExecuteCommand($"/open ESCAPE_PRIMARY");
 
                     float health = 10 * Player.List.Count + 1 * Player.List.Count;
@@ -92,7 +92,7 @@ namespace RGM.Modes
                         if (player != monster)
                         {
                             player.Role.Set(RoleTypeId.NtfPrivate);
-                            player.Position = new Vector3(18.08594f, 1001.957f, 15.34766f);
+                            player.Position = new Vector3(34.12779f, 317.9044f, -33.9793f);
                             for (int i = 1; i < 10; i++)
                                 player.AddItem(ItemType.Ammo9x19);
                         }
