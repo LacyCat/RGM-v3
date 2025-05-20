@@ -223,10 +223,10 @@ namespace RGM.Variables
                     });
 
                     if (AudioClipStorage.AudioClips.ContainsKey(arg))
-                        radio.AddClip(AudioClipStorage.AudioClips[arg].Name);
+                        radio.AddClip(AudioClipStorage.AudioClips[arg].Name, 0.5f);
 
                     else
-                        radio.AddClip(AudioClipStorage.AudioClips.GetRandomValue().Key);
+                        radio.AddClip(AudioClipStorage.AudioClips.GetRandomValue().Key, 0.5f);
                 }
             },
             new Product()

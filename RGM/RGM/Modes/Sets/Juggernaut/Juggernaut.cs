@@ -95,7 +95,7 @@ namespace RGM.Modes
             juggernaut.EnableEffect(EffectType.SinkHole);
             juggernaut.EnableEffect(EffectType.DamageReduction, 10);
             juggernaut.AddBroadcast(10, "<b><size=30>당신은 <color=#298A08>저거너트</color>입니다.</size></b>\n<size=25><i>본인을 제외한 모두를 사살하십시오.</i></size>");
-            juggernaut.Position = new Vector3(123.8387f, 988.7921f, 25.39412f);
+            juggernaut.Position = new Vector3(123.3271f, 288.7908f, 27.01838f);
 
             List<ItemType> Items = new List<ItemType>() { ItemType.GunLogicer, ItemType.Jailbird };
             foreach (var Item in Items)

@@ -63,7 +63,7 @@ namespace RGM.Modes
             foreach (var player in Player.List)
             {
                 player.Role.Set(PlayerRoles.RoleTypeId.ClassD);
-                player.Position = new Vector3(-0.09375f, 1000.957f, -7.28125f);
+                player.Position = new Vector3(-0.3515625f, 300.9572f, -9.261719f);
             }
 
             int t = 0;
@@ -118,7 +118,7 @@ namespace RGM.Modes
 
         public Vector3 GetRandomPosition()
         {
-            return new Vector3(UnityEngine.Random.Range(-9.941405f, 10.92998f), 1004.188f, UnityEngine.Random.Range(-15.76172f, 2.550781f));
+            return new Vector3(UnityEngine.Random.Range(-9.941405f, 10.92998f), 303.9572f, UnityEngine.Random.Range(-15.76172f, 2.550781f));
         }
 
         public void OnDied(Exiled.Events.EventArgs.Player.DiedEventArgs ev)
