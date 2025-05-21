@@ -47,6 +47,8 @@ namespace RGM.Modes
         public IEnumerator<float> OnModeStarted()
         {
             Tools.TryInstallMode(ModeType.FriendlyFire);
+            Tools.TryInstallMode(ModeType.Radio);
+            Tools.TryInstallMode(ModeType.Ghost);
 
             foreach (var player in Player.List)
             {
