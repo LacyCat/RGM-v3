@@ -36,7 +36,15 @@ namespace RGM.Functions
                     SubModeVote.Add(ModeType.None);
             }
 
-            //List<List<Transform>> Pads = new List<List<Transform>>() { First, Second, Third, Fourth };
+            List<List<Transform>> Pads = new List<List<Transform>>() { First, Second, Third, Fourth };
+
+            foreach (var first in First)
+            {
+                foreach (var component in first.GetComponentsInParent<Component>())
+                {
+                    Log.Info(component.name);
+                }
+            }
 
             //for (int i = 0; i < 4; i++)
             //{
