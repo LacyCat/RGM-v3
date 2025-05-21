@@ -493,14 +493,12 @@ namespace RGM.EventArgs
                         ev.Player.Health = ev.Player.MaxHealth;
                     }
 
-                    /*
                     if (UnityEngine.Random.Range(1, 21) == 1 && !IsScp3114Enabled)
                     {
                         ev.Player.Role.Set(RoleTypeId.Scp3114);
 
                         IsScp3114Enabled = true;
                     }
-                    */
 
                     if (CurrentMode.GetModeData().Info == ModeInfo.Plus)
                     {
