@@ -38,26 +38,63 @@ namespace RGM.Functions
 
             List<List<Transform>> Pads = new List<List<Transform>>() { First, Second, Third, Fourth };
 
-            foreach (var first in First)
+            for (int i = 0; i < 4; i++)
             {
-                foreach (var component in first.GetComponentsInParent<Component>())
+                if (Pads[i] == null)
+                    continue;
+
+                var modeKeys = ModeVote.Keys.ToList();
+                if (i >= modeKeys.Count)
+                    continue;
+
+                var modeKey = modeKeys[i];
+                if (!ModeList.ContainsKey(modeKey))
+                    continue;
+
+                string colorCode = ModeList[modeKey].Color;
+                Color padColor;
+                if (!string.IsNullOrEmpty(colorCode) && ColorUtility.TryParseHtmlString("#" + colorCode, out Color parsedColor))
+                    padColor = parsedColor;
+                else
+                    padColor = Color.white;
+
+                foreach (var Pad in Pads[i])
                 {
-                    Log.Info(component.name);
+                    if (Pad == null)
+                        continue;
+
+                    var toy = Pad.GetComponent<PrimitiveObjectToy>();
+                    if (toy != null)
+                        toy.Color = padColor;
                 }
             }
 
-            //for (int i = 0; i < 4; i++)
-            //{
-            //    foreach (var Pad in Pads[i])
-            //        Pad.GetComponent<LightSourceToy>().Color = ColorUtility.TryParseHtmlString("#" + ModeList[ModeVote.Keys.ToList()[i]].Color, out Color color) ? color : Color.white;
-            //}
+            Color randomColor = Tools.GetRandomColor(true);
 
-            //Color randomColor = Tools.GetRandomColor(true);
-
-            //Numbers.ForEach(x => x.GetComponent<PrimitiveObjectToy>().Color = randomColor);
-            //RandomColors.ForEach(x => x.GetComponent<PrimitiveObjectToy>().Color = randomColor);
-            //RandomLights.ForEach(x => x.GetComponent<LightSourceToy>().Color = Tools.GetRandomColor());
-            //Balls.ForEach(x => x.GetComponent<PrimitiveObjectToy>().Color = Tools.GetRandomColor(true));
+            Numbers?.ForEach(x =>
+            {
+                var toy = x?.GetComponent<PrimitiveObjectToy>();
+                if (toy != null)
+                    toy.Color = randomColor;
+            });
+            RandomColors?.ForEach(x =>
+            {
+                var toy = x?.GetComponent<PrimitiveObjectToy>();
+                if (toy != null)
+                    toy.Color = randomColor;
+            });
+            RandomLights?.ForEach(x =>
+            {
+                var toy = x?.GetComponent<PrimitiveObjectToy>();
+                if (toy != null)
+                    toy.Color = Tools.GetRandomColor();
+            });
+            Balls?.ForEach(x =>
+            {
+                var toy = x?.GetComponent<PrimitiveObjectToy>();
+                if (toy != null)
+                    toy.Color = Tools.GetRandomColor(true);
+            });
         }
     }
 }
