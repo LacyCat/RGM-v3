@@ -33,84 +33,81 @@ namespace RGM.EventArgs
         {
             yield return Timing.WaitForSeconds(1f);
 
-            try
+            foreach (var _audioClip in System.IO.Directory.GetFiles(Paths.Plugins + "/audio/"))
+                AudioClipStorage.LoadClip(_audioClip, _audioClip.Replace(Paths.Plugins + "/audio/", "").Replace(".ogg", ""));
+
+            InventoryLimits.StandardCategoryLimits[ItemCategory.SpecialWeapon] = 8;
+            InventoryLimits.StandardCategoryLimits[ItemCategory.SCPItem] = 8;
+            InventoryLimits.Config.RefreshCategoryLimits();
+
+            UsersManager.LoadUsers();
+
+            GlobalPlayer = AudioPlayer.CreateOrGet($"Global AudioPlayer", onIntialCreation: (p) =>
             {
-                foreach (var _audioClip in System.IO.Directory.GetFiles(Paths.Plugins + "/audio/"))
-                    AudioClipStorage.LoadClip(_audioClip, _audioClip.Replace(Paths.Plugins + "/audio/", "").Replace(".ogg", ""));
+                Speaker speaker = p.AddSpeaker("Main", isSpatial: false, maxDistance: 5000);
+            });
 
-                InventoryLimits.StandardCategoryLimits[ItemCategory.SpecialWeapon] = 8;
-                InventoryLimits.StandardCategoryLimits[ItemCategory.SCPItem] = 8;
-                InventoryLimits.Config.RefreshCategoryLimits();
+            Tools.PlayGlobalAudio("Holiday by GoldenPig1205", 0.3f, true);
 
-                UsersManager.LoadUsers();
+            Round.IsLobbyLocked = true;
+            GameObject.Find("StartRound").transform.localScale = Vector3.zero;
+            Tools.LoadMap($"Past_Lobby");
+            
+            var donator = new Donator.Main();
+            donator.OnEnabled();
 
-                GlobalPlayer = AudioPlayer.CreateOrGet($"Global AudioPlayer", onIntialCreation: (p) =>
-                {
-                    Speaker speaker = p.AddSpeaker("Main", isSpatial: false, maxDistance: 5000);
-                });
+            yield return Timing.WaitForSeconds(1);
 
-                Tools.PlayGlobalAudio("Holiday by GoldenPig1205", 0.3f, true);
+            First = Tools.GetObjectList("First");
+            Second = Tools.GetObjectList("Second");
+            Third = Tools.GetObjectList("Third");
+            Fourth = Tools.GetObjectList("Fourth");
+            Numbers = Tools.GetObjectList("Number");
+            RandomColors = Tools.GetObjectList("RandomColor");
+            RandomLights = Tools.GetObjectList("RandomLight");
+            Balls = Tools.GetObjectList("Ball");
 
-                Round.IsLobbyLocked = true;
-                GameObject.Find("StartRound").transform.localScale = Vector3.zero;
-                Tools.LoadMap($"Past_Lobby");
+            yield return Timing.WaitForSeconds(1);
 
-                var donator = new Donator.Main();
-                donator.OnEnabled();
+            PickModes();
+            Balls.ForEach(x => x.gameObject.AddComponent<BallComponent>());
+            EnabledModeList.Add(ModeType.Develop);
 
-                First = Tools.GetObjectList("First");
-                Second = Tools.GetObjectList("Second");
-                Third = Tools.GetObjectList("Third");
-                Fourth = Tools.GetObjectList("Fourth");
-                Numbers = Tools.GetObjectList("Number");
-                RandomColors = Tools.GetObjectList("RandomColor");
-                RandomLights = Tools.GetObjectList("RandomLight");
-                Balls = Tools.GetObjectList("Ball");
+            Timing.RunCoroutine(SyncSpectatedHint());
+            Timing.RunCoroutine(ThrowawayBroadcast());
+            Timing.RunCoroutine(GameStartButton());
+            Timing.RunCoroutine(ModeResetButton());
+            Timing.RunCoroutine(IsFallDown());
+            Timing.RunCoroutine(InputCooldown());
+            Timing.RunCoroutine(Ball());
+            Timing.RunCoroutine(RenewalPlayersInfo());
+            Timing.RunCoroutine(HintManager.OnStarted());
+            Timing.RunCoroutine(HintManager.RemoveHint());
 
-                PickModes();
-                Balls.ForEach(x => x.gameObject.AddComponent<BallComponent>());
-                EnabledModeList.Add(ModeType.Develop);
+            int rn = UnityEngine.Random.Range(1, 6);
 
-                Timing.RunCoroutine(SyncSpectatedHint());
-                Timing.RunCoroutine(ThrowawayBroadcast());
-                Timing.RunCoroutine(GameStartButton());
-                Timing.RunCoroutine(ModeResetButton());
-                Timing.RunCoroutine(IsFallDown());
-                Timing.RunCoroutine(InputCooldown());
-                Timing.RunCoroutine(Ball());
-                Timing.RunCoroutine(RenewalPlayersInfo());
-                Timing.RunCoroutine(HintManager.OnStarted());
-                Timing.RunCoroutine(HintManager.RemoveHint());
-
-                int rn = UnityEngine.Random.Range(1, 6);
-
-                if (rn == 1)
-                {
-                    SelectMode = "RandomSelect";
-                    Timing.RunCoroutine(RandomSelectMode());
-                }
-                else if (rn == 2)
-                {
-                    SelectMode = "SimpleSelect";
-                }
-                else if (rn == 3)
-                {
-                    SelectMode = "SecretVote";
-                }
-                else if (rn == 4)
-                {
-                    SelectMode = "FightVote";
-
-                    Server.FriendlyFire = true;
-                }
-                else
-                {
-                    SelectMode = "MostVote";
-                }
+            if (rn == 1)
+            {
+                SelectMode = "RandomSelect";
+                Timing.RunCoroutine(RandomSelectMode());
             }
-            catch (Exception ex)
+            else if (rn == 2)
             {
-                Log.Error($"{ex}");
+                SelectMode = "SimpleSelect";
+            }
+            else if (rn == 3)
+            {
+                SelectMode = "SecretVote";
+            }
+            else if (rn == 4)
+            {
+                SelectMode = "FightVote";
+
+                Server.FriendlyFire = true;
+            }
+            else
+            {
+                SelectMode = "MostVote";
             }
 
             while (true)
