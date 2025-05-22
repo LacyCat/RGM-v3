@@ -25,7 +25,7 @@ using static RGM.Variables.ServerManagers;
 
 namespace RGM.Modes
 {
-    [Mode(ModeCategory.Private, ModeInfo.Set, ModeType.GGClub)]
+    [Mode(ModeCategory.Public, ModeInfo.Set, ModeType.GGClub)]
     class GGClub : Mode
     {
         public override string Name => "GG 클럽";
@@ -121,7 +121,7 @@ namespace RGM.Modes
                     {
                         try
                         {
-                            if (hit.transform.GetComponent<LabApi.Features.Wrappers.PrimitiveObjectToy>().Color != UnityEngine.Color.yellow)
+                            if (hit.transform.GetComponent<AdminToys.PrimitiveObjectToy>().NetworkMaterialColor != UnityEngine.Color.yellow)
                             {
                                 if (player.IsAlive && !player.IsNPC)
                                     player.Kill("황금색 발판을 밟지 못한 자여.");
@@ -142,8 +142,8 @@ namespace RGM.Modes
 
                 foreach (var Pad in Pads)
                 {
-                    if (Pad.GetComponent<LabApi.Features.Wrappers.PrimitiveObjectToy>().Color == UnityEngine.Color.white)
-                        Pad.GetComponent<LabApi.Features.Wrappers.PrimitiveObjectToy>().Color = UnityEngine.Color.red;
+                    if (Pad.GetComponent<AdminToys.PrimitiveObjectToy>().NetworkMaterialColor == UnityEngine.Color.white)
+                        Pad.GetComponent<AdminToys.PrimitiveObjectToy>().NetworkMaterialColor = UnityEngine.Color.red;
                 }
 
                 yield return Timing.WaitForSeconds(1.25f);
@@ -209,29 +209,29 @@ namespace RGM.Modes
                 {
                     foreach (var Pad in Pads)
                     {
-                        Pad.GetComponent<LabApi.Features.Wrappers.PrimitiveObjectToy>().Color = new Color(UnityEngine.Random.value, UnityEngine.Random.value, UnityEngine.Random.value);
+                        Pad.GetComponent<AdminToys.PrimitiveObjectToy>().NetworkMaterialColor = new Color(UnityEngine.Random.value, UnityEngine.Random.value, UnityEngine.Random.value);
                     }
 
                     foreach (var ClubLight in ClubLights)
                     {
-                        ClubLight.GetComponent<LabApi.Features.Wrappers.LightSourceToy>().Color = new Color(UnityEngine.Random.value, UnityEngine.Random.value, UnityEngine.Random.value);
+                        ClubLight.GetComponent<AdminToys.LightSourceToy>().NetworkLightColor = new Color(UnityEngine.Random.value, UnityEngine.Random.value, UnityEngine.Random.value);
                     }
                 }
                 else
                 {
                     foreach (var Pad in Pads)
                     {
-                        Pad.GetComponent<LabApi.Features.Wrappers.PrimitiveObjectToy>().Color = UnityEngine.Color.white;
+                        Pad.GetComponent<AdminToys.PrimitiveObjectToy>().NetworkMaterialColor = UnityEngine.Color.white;
                     }
 
                     foreach (var Pad in goldPads)
                     {
-                        Pad.GetComponent<LabApi.Features.Wrappers.PrimitiveObjectToy>().Color = UnityEngine.Color.yellow;
+                        Pad.GetComponent<AdminToys.PrimitiveObjectToy>().NetworkMaterialColor = UnityEngine.Color.yellow;
                     }
 
                     foreach (var ClubLight in ClubLights)
                     {
-                        ClubLight.GetComponent<LabApi.Features.Wrappers.LightSourceToy>().Color = UnityEngine.Color.white;
+                        ClubLight.GetComponent<AdminToys.LightSourceToy>().NetworkLightColor = UnityEngine.Color.white;
                     }
                 }
 
