@@ -750,54 +750,18 @@ namespace RGM.EventArgs
 
             if (ev.Item.Type.ToString().Contains("KeycardCustom"))
             {
-                ev.Item.Destroy();
+                string info = $"ckeycard {ev.Player.Id} KeycardCustomTaskForce Deluxe_Private_Card 3 3 3 #EFC01A 000000 NAME 420 69 1";
+                string hint = $"<size=20><b>🎉 축하드립니다, 커스텀 키카드를 획득하셨군요!</b></size>\n<size=17>마음에 드는 디자인인 경우 스크린샷을 찍어두세요.</size>\n<size=15>{info}</size>";
 
-                string name = $"{UnityEngine.Random.Range(1, 10001)}번의 고뇌";
-                Color32 color()
-                {
-                    return new Color32(
-
-                        (byte)UnityEngine.Random.Range(0, 256),
-                        (byte)UnityEngine.Random.Range(0, 256),
-                        (byte)UnityEngine.Random.Range(0, 256),
-                        255
-                    );
-                }
-
-                if (CustomItem.TrySpawn(name, ev.Player.Position, out Pickup pickup))
-                {
-                    pickup.UnSpawn();
-
-                    CustomKeycard customKeycard = (CustomKeycard)CustomItem.Get(name);
-                    customKeycard.KeycardLabel = $"커스텀 키카드 ♥️";
-                    customKeycard.KeycardLabelColor = color();
-                    customKeycard.KeycardName = name;
-                    customKeycard.KeycardPermissionsColor = color();
-                    customKeycard.Permissions = Tools.EnumToList<KeycardPermissions>().GetRandomValue();
-                    customKeycard.TintColor = color();
-                    customKeycard.Give(ev.Player);
-
-                    string info = 
-$"""
-KeycardLabel: {customKeycard.KeycardLabel}
-KeycardLabelColor: {customKeycard.KeycardLabelColor}
-KeycardName: {customKeycard.KeycardName}
-KeycardPermissionsColor: {customKeycard.KeycardPermissionsColor}
-Permissions: {customKeycard.Permissions}
-TintColor: {customKeycard.TintColor}
-""";
-                    string hint = $"<size=20><b>🎉 축하드립니다, 커스텀 키카드를 획득하셨군요!</b></size>\n<size=17>마음에 드는 디자인인 경우 스크린샷을 찍어두세요.</size>\n<size=15>{info}</size>";
-
-                    ev.Player.AddHint("커스텀 키카드 획득", hint, 10);
-                    ev.Player.SendConsoleMessage(hint, "white");
-                    Webhook.Send(
+                ev.Player.AddHint("커스텀 키카드 획득", hint, 10);
+                ev.Player.SendConsoleMessage(hint, "white");
+                Webhook.Send(
 $"""
 {ev.Player.DisplayNickname}(`{ev.Player.Nickname}, {ev.Player.UserId}`)(이)가 커스텀 키카드를 획득했습니다.
 {info}
 """);
                         
-                }
-            } 
+            }
         }
 
         public static void OnShot(ShotEventArgs ev)
