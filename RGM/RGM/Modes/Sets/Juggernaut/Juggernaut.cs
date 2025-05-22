@@ -30,6 +30,7 @@ using SCPSLAudioApi.AudioCore;
 using VoiceChat;
 using Respawning;
 using Exiled.API.Features.Waves;
+using Newtonsoft.Json;
 
 namespace RGM.Modes
 {
@@ -56,6 +57,7 @@ namespace RGM.Modes
         public List<Player> ScpAttackCooldown = new List<Player>();
         public Dictionary<Player, float> PlayerDamages = new Dictionary<Player, float>();
         public Speaker speaker;
+        float stack = 0;
 
         public override void OnEnabled()
         {
@@ -288,6 +290,15 @@ namespace RGM.Modes
                             PlayerDamages.Add(ev.Attacker, 0);
 
                         PlayerDamages[ev.Attacker] += ev.DamageHandler.Damage;
+                        stack += ev.DamageHandler.Damage;
+
+                        if (stack > 150)
+                        {
+                            Respawn.GrantInfluence(Faction.FoundationStaff, 10);
+                            Respawn.GrantInfluence(Faction.FoundationEnemy, 10);
+
+                            stack = 0;
+                        }
 
                         foreach (var wave in WaveManager.Waves)
                         {
