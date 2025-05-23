@@ -25,6 +25,7 @@ using InventorySystem.Configs;
 using Respawning;
 using Exiled.Events.EventArgs.Server;
 using ProjectMER.Features;
+using Exiled.API.Extensions;
 
 namespace RGM.EventArgs
 {
@@ -54,7 +55,7 @@ namespace RGM.EventArgs
             GameObject.Find("StartRound").transform.localScale = Vector3.zero;
             Tools.LoadMap($"Past_Lobby");
             if (UnityEngine.Random.Range(1, 101) == 1) 
-                Tools.LoadMap($"capybara", false);
+                Tools.LoadMap(Surfaces.GetRandomValue(), false);
 
             var donator = new Donator.Main();
             donator.OnEnabled();
