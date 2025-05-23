@@ -313,13 +313,26 @@ public class ABattle : Mode
 
         if (type.ToString().Contains("LEGEND"))
         {
-            string name = "누군가가 전설 능력을 획득하였습니다";
+            string name;
+
+            switch (type) 
+            {
+                case AbilityType.LEGEND_LAVACHICKEN: name = "LavaChicken"; return;
+                default: name = "누군가가 전설 능력을 획득하였습니다"; break;
+            }
+
             if (GlobalPlayer.ClipsById.Where(x => x.Value.Clip == name).Count() < 1)
                 Tools.PlayGlobalAudio(name, 1.5f);
         }
         else if (type.ToString().Contains("MYTHIC"))
         {
-            string name = "누군가가 신화 능력을 영접하였습니다";
+            string name;
+
+            switch (type)
+            {
+                default: name = "누군가가 신화 능력을 영접하였습니다"; break;
+            }
+
             if (GlobalPlayer.ClipsById.Where(x => x.Value.Clip == name).Count() < 1)
                 Tools.PlayGlobalAudio(name, 2.5f);
         }

@@ -36,8 +36,6 @@ public class LavaChicken : Ability
 
     public IEnumerator<float> OnStarted()
     {
-        PlayersAudio[Owner].AddClip("LavaChicken", 1);
-
         SchematicObject lava = ObjectSpawner.SpawnSchematic("LavaChicken", new Vector3(1205, 1205, 1205));
 
         while (Owner.IsAlive)
