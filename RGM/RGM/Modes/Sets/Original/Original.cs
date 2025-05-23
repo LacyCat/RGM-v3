@@ -44,7 +44,7 @@ namespace RGM.Modes
 
         public IEnumerator<float> OnModeStarted()
         {
-            yield break;
+            yield return 0;
         }
     }
 }
