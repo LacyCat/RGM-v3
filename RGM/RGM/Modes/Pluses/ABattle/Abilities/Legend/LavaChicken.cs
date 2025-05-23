@@ -15,6 +15,7 @@ using Mirror;
 using PlayerRoles;
 using static UnityEngine.GraphicsBuffer;
 using PlayerStatsSystem;
+using static RGM.Variables.ServerManagers;
 
 namespace RGM.Modes.Abilities.Legend;
 
@@ -35,6 +36,8 @@ public class LavaChicken : Ability
 
     public IEnumerator<float> OnStarted()
     {
+        PlayersAudio[Owner].AddClip("LavaChicken", 1);
+
         SchematicObject lava = ObjectSpawner.SpawnSchematic("LavaChicken", new Vector3(1205, 1205, 1205));
 
         while (Owner.IsAlive)

@@ -348,6 +348,7 @@ public enum AbilityType
     MYTHIC_FLAMETHROWER, // [신화] 화염 방사기
     MYTHIC_WARGOD, // [신화] 광전사
     MYTHIC_BALLISTAEM3, // [신화] 발리스타 MP3
+    MYTHIC_TOOLGUN, // [신화] 툴건
 
     // 전용 //
     // D계급
@@ -450,6 +451,9 @@ public enum AbilityType
     SYNERGY_GMAN, // [시너지] G맨
     SYNERGY_RICH1, // [시너지] 부자Ⅰ
     SYNERGY_RICH2, // [시너지] 부자Ⅱ
+    SYNERGY_AFK, // [시너지] AFK
+    SYNERGY_BOMBPARTY, // [시너지] 폭탄 파티
+    SYNERGY_BLACKMARKET, // [시너지] 암시장
 }
 
 public static class AbilityTypeExtensions
