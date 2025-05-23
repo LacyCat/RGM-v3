@@ -17,7 +17,7 @@ using LabApi.Features.Wrappers;
 
 namespace RGM.Modes.Abilities.Epic;
 
-//[Ability("전방주시태만", "총알을 막아주는 방패를 몸 뒤에 장착합니다. 누군가 근처에 오면 방패가 비활성화됩니다.", AbilityCategory.Epic, AbilityType.EPIC_FORWARDLOOKING)]
+[Ability("전방주시태만", "총알을 막아주는 방패를 몸 뒤에 장착합니다. 누군가 근처에 오면 방패가 비활성화됩니다.", AbilityCategory.Epic, AbilityType.EPIC_FORWARDLOOKING)]
 public class ForwardLooking : Ability
 {
     CoroutineHandle _onStarted;
@@ -40,7 +40,7 @@ public class ForwardLooking : Ability
         {
             try
             {
-                schematic.Position = Owner.Position - Owner.Rotation * Vector3.forward;
+                schematic.Position = Owner.Position - Owner.Rotation * Vector3.forward * 1.5f;
                 schematic.Rotation = Owner.Rotation;
 
                 bool isNear = false;
@@ -55,8 +55,8 @@ public class ForwardLooking : Ability
 
                 if (isNear)
                 {
-                    schematic.GetComponentsInChildren<PrimitiveObjectToy>().ToList().ForEach(x => x.Base.SetFlags(AdminToys.PrimitiveFlags.Visible, AdminToys.PrimitiveFlags.Visible));
-                    schematic.GetComponentsInChildren<PrimitiveObjectToy>().ToList().ForEach(x => x.Color = new Color(8.3f, 0, 16.1f, 10.0f));
+                    schematic.GetComponentsInChildren<AdminToys.PrimitiveObjectToy>().ToList().ForEach(x => x.NetworkPrimitiveFlags = AdminToys.PrimitiveFlags.Visible);
+                    schematic.GetComponentsInChildren<AdminToys.PrimitiveObjectToy>().ToList().ForEach(x => x.NetworkMaterialColor = new Color(8.3f, 0, 16.1f, 10.0f));
                 }
             }
             catch (Exception e)
