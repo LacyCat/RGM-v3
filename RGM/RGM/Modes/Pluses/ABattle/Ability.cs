@@ -400,6 +400,7 @@ public enum AbilityType
     SCP096_STARTEARING, // [전용] 별자리 찢기
     SCP096_SEER, // [전용] 천리안
     SCP096_ENEMY, // [전용] 원수
+    SCP096_CANTMANAGEANGER, // [전용] 분노 조절 문제
 
     // SCP-106
     SCP106_RECOVERY, // [전용] 회춘
