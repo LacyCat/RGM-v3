@@ -21,9 +21,11 @@ namespace RGM.API.Features
             player.Hurt(new DisruptorDamageHandler(new InventorySystem.Items.Firearms.ShotEvents.DisruptorShotEvent(InventorySystem.Items.ItemIdentifier.None, attacker.Footprint, InventorySystem.Items.Firearms.Modules.DisruptorActionModule.FiringState.FiringRapid), player.Position, damage));
         }
 
-        public static void AddCustomKeycard(this Player player, string keycard, string name, int level1, int level2, int level3, string permissionColor, string tintColor, string label, string labelColor, string holderName, int serial)
+        public static void AddCustomKeycard(this Player player, string info)
         {
-            Server.ExecuteCommand($"/ckeycard {player.Id} {keycard} {name} {level1} {level2} {level3} {permissionColor} {tintColor} {label} {labelColor} {holderName} {serial}");
+            Server.ExecuteCommand($"/ckeycard {player.Id} {info}");
+
+            Server.ExecuteCommand($"/ckeycard 1 KeycardCustomSite02 커스텀_키카드 0 0 0 #56C491 #C1CE79 jumpscare-Scp939 #891064 AudioClips 100");
         }
 
         public static bool AddBadge(this string userId, string args, out string response, ArraySegment<string>? arguments = null)
