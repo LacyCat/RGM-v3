@@ -31,7 +31,6 @@ using RGM.UserSettings;
 using Exiled.API.Features.Roles;
 using Exiled.CustomItems.API.Features;
 using Exiled.API.Features.Pickups;
-using Random = UnityEngine.Random;
 
 
 namespace RGM.EventArgs
@@ -43,20 +42,24 @@ namespace RGM.EventArgs
             PlayerSettings.Add(ev.Player.UserId, (new List<SettingBase>(), new List<SettingInfo>()));
             OnGround.Add(ev.Player.UserId, 5);
 
-            AudioPlayer audioPlayer = AudioPlayer.CreateOrGet($"Player - {ev.Player.UserId}", condition: (hub) =>
+            if (!PlayersAudio.ContainsKey(ev.Player))
             {
-                return hub == ev.Player.ReferenceHub;
-            }, onIntialCreation: (p) =>
-            {
-                p.transform.parent = ev.Player.GameObject.transform;
+                AudioPlayer audioPlayer = AudioPlayer.CreateOrGet($"Player - {ev.Player.UserId}", condition: (hub) =>
+                {
+                    return hub == ev.Player.ReferenceHub;
+                }
+                , onIntialCreation: (p) =>
+                {
+                    p.transform.parent = ev.Player.GameObject.transform;
 
-                Speaker speaker = p.AddSpeaker("Main", isSpatial: false, maxDistance: 10);
+                    Speaker speaker = p.AddSpeaker("Main", isSpatial: false, minDistance: 0, maxDistance: 5000);
 
-                speaker.transform.parent = ev.Player.GameObject.transform;
-                speaker.transform.localPosition = Vector3.zero;
-            });
+                    speaker.transform.parent = ev.Player.GameObject.transform;
+                    speaker.transform.localPosition = Vector3.zero;
+                });
 
-            PlayersAudio.Add(ev.Player, audioPlayer);
+                PlayersAudio.Add(ev.Player, audioPlayer);
+            }
 
             if (!PlayersReport.ContainsKey(ev.Player.UserId))
             {
@@ -765,35 +768,48 @@ namespace RGM.EventArgs
                 }
             }
 
-            if (ev.Item.Type.ToString().Contains("KeycardCustom"))
+            if (ev.Item.Type.ToString().Contains("KeycardCustom") && ev.Player.Id != 1)
             {
                 if (ev.Item is Keycard kc)
                 {
-                    if (kc.Base.Name == string.Empty)
+                    if (kc.Permissions == KeycardPermissions.None)
                     {
                         string keycard = $"{ev.Item.Type.ToString()}";
-                        string name = "커스텀_키카드";
-                        int level1 = Random.Range(0, 4);
-                        int level2 = Random.Range(0, 4);
-                        int level3 = Random.Range(0, 4);
+                        string name = $"커스텀_키카드";
+                        int level1 = UnityEngine.Random.Range(0, 4);
+                        int level2 = UnityEngine.Random.Range(0, 4);
+                        int level3 = UnityEngine.Random.Range(0, 4);
                         string permissionColor = Tools.GenerateRandomHexColor();
                         string tintColor = Tools.GenerateRandomHexColor();
                         string label = AudioClipStorage.AudioClips.Keys.GetRandomValue().Replace(" ", "_");
                         string labelColor = Tools.GenerateRandomHexColor();
                         string holderName = "AudioClips";
-                        int serial = Random.Range(1, 10001);
+                        int num1 = UnityEngine.Random.Range(1, 5);
 
-                        string info = $"ckeycard (Id) {keycard} {name} {level1} {level2} {level3} {permissionColor} {tintColor} {label} {labelColor} {holderName} {serial}";
+                        string info;
+
+                        switch (ev.Item.Type) 
+                        {
+                            case ItemType.KeycardCustomTaskForce:
+                                info = $"{keycard} {name} {level1} {level2} {level3} {permissionColor} {tintColor} {holderName} {num1} {num1}";
+                                break;
+
+                            default:
+                                info = $"{keycard} {name} {level1} {level2} {level3} {permissionColor} {tintColor} {label} {labelColor} {holderName} {num1}";
+                                break;
+                        }
+
                         string hint = $"<size=20><b>🎉 축하드립니다, 커스텀 키카드를 획득하셨군요!</b></size>\n<size=17>마음에 드는 디자인인 경우 스크린샷을 찍어두세요.</size>\n<size=15>{info}</size>";
 
-                        ev.Player.AddCustomKeycard($"{ev.Item.Type.ToString()}", $"커스텀_키카드", Random.Range(0, 4), Random.Range(0, 4), Random.Range(0, 4), Tools.GenerateRandomHexColor(), Tools.GenerateRandomHexColor(), AudioClipStorage.AudioClips.Keys.GetRandomValue().Replace(" ", "_"), Tools.GenerateRandomHexColor(), "AudioClips", Random.Range(1, 1206));
+                        ev.Player.AddCustomKeycard(info);
                         ev.Player.AddHint("커스텀 키카드 획득", hint, 10);
                         ev.Player.SendConsoleMessage(hint, "white");
                         Webhook.Send(
-        $"""
+$"""
 {ev.Player.DisplayNickname}(`{ev.Player.Nickname}, {ev.Player.UserId}`)(이)가 커스텀 키카드를 획득했습니다.
 {info}
 """);
+                        ev.Item.Destroy();
                     }
                 }     
             }
