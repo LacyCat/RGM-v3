@@ -166,6 +166,11 @@ namespace RGM.Variables
             // "InTheSea",
             "City"
         };
+        public static List<string> Surfaces = new()
+        {
+            "capybara",
+            "Sky"
+        };
         public static List<Product> Products = new()
         {
             new Product()
