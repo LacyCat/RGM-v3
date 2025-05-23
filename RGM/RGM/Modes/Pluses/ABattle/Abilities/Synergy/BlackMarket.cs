@@ -17,13 +17,12 @@ using Exiled.API.Features.DamageHandlers;
 
 namespace RGM.Modes.Abilities.Synergy;
 
-[RequiresAbility(AbilityType.RARE_STEELSHELL, AbilityType.RARE_TRANSPARENTCLOAK, AbilityType.LEGEND_SCREAM, AbilityType.MYTHIC_EYEMAN)]
-[Ability("G맨", "<강철 껍질, 투명 망토, 괴성, 눈빛맨> G맨 토일렛을 연상캐 하는 조합입니다.", AbilityCategory.Synergy, AbilityType.SYNERGY_GMAN)]
-public class Gman : Ability
+[RequiresAbility(AbilityType.NORMAL_EXCHANGE, AbilityType.RARE_UPGRADE)]
+[Ability("암시장", "<교환, 강화> 다른 진영의 전용 능력이 능력 선택창에 나타날 수 있습니다.", AbilityCategory.Synergy, AbilityType.SYNERGY_BLACKMARKET)]
+public class BlackMarket : Ability
 {
     public override void OnEnabled()
     {
-        Owner.AddAbility(AbilityType.MYTHIC_NOCLIP);
     }
 
     public override void OnDisabled()

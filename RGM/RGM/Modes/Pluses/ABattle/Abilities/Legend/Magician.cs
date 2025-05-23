@@ -15,22 +15,32 @@ using static RGM.Variables.ServerManagers;
 
 namespace RGM.Modes.Abilities.Legend;
 
-[Ability("마술사", "누군가에게 죽으면, 공격자의 모든 능력을 무시하고 영혼이 교체됩니다.", AbilityCategory.Legend, AbilityType.LEGEND_MAGICIAN)]
+[Ability("마술사", "사망 시, 공격자의 최대 체력이 자신보다 더 낮았다면, 공격자의 모든 능력을 무시하고 영혼이 교체됩니다.\n피해를 입으면 1/5 비례하여 최대 체력이 늘어납니다.", AbilityCategory.Legend, AbilityType.LEGEND_MAGICIAN)]
 public class Magician : Ability
 {
     public override void OnEnabled()
     {
+        Exiled.Events.Handlers.Player.Hurt += OnHurt;
         Exiled.Events.Handlers.Player.Dying += OnDying;
     }
 
     public override void OnDisabled()
     {
+        Exiled.Events.Handlers.Player.Hurt -= OnHurt;
         Exiled.Events.Handlers.Player.Dying -= OnDying;
+    }
+
+    public void OnHurt(HurtEventArgs ev)
+    {
+        if (ev.Player != Owner || !HitboxIdentity.IsEnemy(ev.Player.ReferenceHub, ev.Attacker.ReferenceHub))
+            return;
+
+        ev.Player.MaxHealth += ev.DamageHandler.Damage / 5;
     }
 
     public void OnDying(DyingEventArgs ev)
     {
-        if (ev.Player != Owner || ABattle.Instance.IsLifeUsed[Owner] || ev.Attacker == null)
+        if (ev.Player != Owner || ABattle.Instance.IsLifeUsed[Owner] || ev.Attacker == null || ev.Attacker.MaxHealth > Owner.MaxHealth)
             return;
 
         ev.IsAllowed = false;

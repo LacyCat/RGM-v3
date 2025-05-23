@@ -561,7 +561,7 @@ public class ABattle : Mode
 
             ignoredIndexes.Add(index);
 
-            var ability = GetRandomAbilities(player.GetAbilityCategory(), 1).First();
+            var ability = GetRandomAbilities(player.HasAbility(AbilityType.SYNERGY_BLACKMARKET) ? Tools.EnumToList<AbilityCategory>().GetRandomValue() : player.GetAbilityCategory(), 1).First();
 
             abilities[index] = ability;
         }

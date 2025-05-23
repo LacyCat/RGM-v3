@@ -268,6 +268,7 @@
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Dummy\UsedSnakeHandRadio.cs" />
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Epic\Blink.cs" />
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Mythic\BALLISTAEM3.cs" />
+    <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Mythic\ToolGun.cs" />
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Rare\Clone.cs" />
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Epic\Disguise.cs" />
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Epic\Diver.cs" />
@@ -374,7 +375,10 @@
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Rare\Upgrade.cs" />
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Rare\Vampire.cs" />
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Rare\WeaponExpert.cs" />
+    <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Synergy\AFK.cs" />
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Synergy\Assassin.cs" />
+    <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Synergy\BlackMarket.cs" />
+    <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Synergy\BombParty.cs" />
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Synergy\Druid.cs" />
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Synergy\DuplicateFate.cs" />
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Synergy\FourMajorExercises.cs" />

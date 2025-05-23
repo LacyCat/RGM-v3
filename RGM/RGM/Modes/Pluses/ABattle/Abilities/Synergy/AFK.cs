@@ -17,13 +17,13 @@ using Exiled.API.Features.DamageHandlers;
 
 namespace RGM.Modes.Abilities.Synergy;
 
-[RequiresAbility(AbilityType.RARE_STEELSHELL, AbilityType.RARE_TRANSPARENTCLOAK, AbilityType.LEGEND_SCREAM, AbilityType.MYTHIC_EYEMAN)]
-[Ability("G맨", "<강철 껍질, 투명 망토, 괴성, 눈빛맨> G맨 토일렛을 연상캐 하는 조합입니다.", AbilityCategory.Synergy, AbilityType.SYNERGY_GMAN)]
-public class Gman : Ability
+[RequiresAbility(AbilityType.RARE_DND, AbilityType.RARE_DND, AbilityType.RARE_DND)]
+[Ability("AFK", "<자리 비움 x3> 게임 하고 싶은 거 맞죠..? 용기가 가상하시니 선물을 드릴게요.", AbilityCategory.Synergy, AbilityType.SYNERGY_AFK)]
+public class AFK : Ability
 {
     public override void OnEnabled()
     {
-        Owner.AddAbility(AbilityType.MYTHIC_NOCLIP);
+        Owner.AddAhp(1205, 1205, 0);
     }
 
     public override void OnDisabled()
