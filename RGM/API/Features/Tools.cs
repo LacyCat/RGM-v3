@@ -684,8 +684,7 @@ $"""
 
         public static string GenerateRandomHexColor()
         {
-            System.Random random = new System.Random();
-            int colorValue = random.Next(0x1000000);
+            int colorValue = UnityEngine.Random.Range(0, 0x1000000);
             return $"#{colorValue:X6}";
         }
 
