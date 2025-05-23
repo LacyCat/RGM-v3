@@ -43,6 +43,21 @@ namespace RGM.EventArgs
             PlayerSettings.Add(ev.Player.UserId, (new List<SettingBase>(), new List<SettingInfo>()));
             OnGround.Add(ev.Player.UserId, 5);
 
+            AudioPlayer audioPlayer = AudioPlayer.CreateOrGet($"Player - {ev.Player.UserId}", condition: (hub) =>
+            {
+                return hub == ev.Player.ReferenceHub;
+            }, onIntialCreation: (p) =>
+            {
+                p.transform.parent = ev.Player.GameObject.transform;
+
+                Speaker speaker = p.AddSpeaker("Main", isSpatial: false, maxDistance: 10);
+
+                speaker.transform.parent = ev.Player.GameObject.transform;
+                speaker.transform.localPosition = Vector3.zero;
+            });
+
+            PlayersAudio.Add(ev.Player, audioPlayer);
+
             if (!PlayersReport.ContainsKey(ev.Player.UserId))
             {
                 PlayersReport.Add(ev.Player.UserId, new PlayerReport()
@@ -395,6 +410,7 @@ namespace RGM.EventArgs
         {
             PlayerSettings.Remove(ev.Player.UserId);
             OnGround.Remove(ev.Player.UserId);
+            PlayersAudio.Remove(ev.Player);
 
             ServerSpecificSettings.UnregisterHeader(ev.Player.UserId);
 

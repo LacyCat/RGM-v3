@@ -181,19 +181,11 @@ namespace RGM.IEnumerators
                                         JumpScareCooldown.Remove(player);
                                     });
 
-                                    AudioPlayer audioPlayer = AudioPlayer.CreateOrGet($"Player {player.Nickname}", condition: (hub) =>
-                                    {
-                                        return hub == player.ReferenceHub;
-                                    }, onIntialCreation: (p) =>
-                                    {
-                                        Speaker speaker = p.AddSpeaker("Main", isSpatial: false, maxDistance: 12050);
-                                    });
-
-                                    audioPlayer.AddClip($"facingScp-{UnityEngine.Random.Range(1, 7)}", volume: 2);
-
+                                    PlayersAudio[player].AddClip($"facingScp-{UnityEngine.Random.Range(1, 7)}", volume: 2);
+                                    
                                     Timing.CallDelayed(3, () =>
                                     {
-                                        audioPlayer.AddClip("chase", volume: 2);
+                                        PlayersAudio[player].AddClip("chase", volume: 2);
                                     });
                                 }
                             }
