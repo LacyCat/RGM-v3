@@ -336,6 +336,7 @@ public enum AbilityType
     LEGEND_REFLECTOR, // [전설] 반사경
     LEGEND_CATACLYSMGENERATOR, // [전설] 대격변 생성기
     LEGEND_LAVACHICKEN, // [전설] La-La-La Lava Ch-Ch-Ch Chicken
+    LEGEND_UNLIMITED, // [전설] 무제한
 
     // 신화 //
     MYTHIC_ROCKETLAUNCHER, // [신화] 로켓 런처

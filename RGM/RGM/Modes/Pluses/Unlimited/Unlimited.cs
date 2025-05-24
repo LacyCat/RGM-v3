@@ -29,8 +29,6 @@ namespace RGM.Modes
 
         public override void OnEnabled()
         {
-            Timing.RunCoroutine(OnModeStarted());
-
             Exiled.Events.Handlers.Player.Spawned += OnSpawned;
             Exiled.Events.Handlers.Player.Healing += OnHealing;
             Exiled.Events.Handlers.Player.UsingItem += OnUsingItem;
@@ -57,6 +55,8 @@ namespace RGM.Modes
             Exiled.Events.Handlers.Player.UsingMicroHIDEnergy += OnUsingMicroHIDEnergy;
 
             Exiled.Events.Handlers.Item.ChargingJailbird += OnChargingJailbird;
+
+            Timing.RunCoroutine(OnModeStarted());
         }
 
         public IEnumerator<float> OnModeStarted()
