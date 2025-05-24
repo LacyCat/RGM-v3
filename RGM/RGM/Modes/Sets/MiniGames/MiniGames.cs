@@ -44,7 +44,7 @@ namespace RGM.Modes
             //"deathrun",
             "line",
             "dodge",
-            "fall",
+            //"fall",
             "football",
             "gungame",
             "knives",
