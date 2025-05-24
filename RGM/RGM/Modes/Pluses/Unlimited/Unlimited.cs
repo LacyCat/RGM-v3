@@ -234,7 +234,7 @@ namespace RGM.Modes
         {
             yield return Timing.WaitForOneFrame;
 
-            ev.BlinkCooldown = 0.1f;
+            ev.BlinkCooldown = 0.4f;
         }
 
         public void OnShooting(Exiled.Events.EventArgs.Player.ShootingEventArgs ev)
