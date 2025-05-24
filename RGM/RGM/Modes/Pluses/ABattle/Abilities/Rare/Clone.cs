@@ -49,7 +49,7 @@ public class Clone : Ability
 
         while (Owner.IsAlive)
         {
-            clone.gameObject.AddComponent<PlayerFollower>().Init(Owner.ReferenceHub, 125f, 1, 40f);
+            clone.gameObject.AddComponent<PlayerFollower>().Init(Owner.ReferenceHub, 125f, 1, 60f);
 
             yield return Timing.WaitForSeconds(2);
         }
