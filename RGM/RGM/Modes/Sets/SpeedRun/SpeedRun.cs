@@ -114,7 +114,16 @@ namespace RGM.Modes
                 pl.Remove(ev.Player);
 
                 if (pl.Count() < 2)
-                    Round.IsLocked = false;
+                {
+                    if (!IsEnd)
+                    {
+                        Round.IsLocked = false;
+
+                        Player.List.ToList().ForEach(x => x.AddBroadcast(20, $"<b><size=30><생존자 : {ev.Player.DisplayNickname}></size></b>"));
+                        Timing.RunCoroutine(Tools.SetWinner(new List<Player>() { ev.Player }, 5));
+                        IsEnd = true;
+                    }
+                }
             }
         }
 
@@ -122,10 +131,10 @@ namespace RGM.Modes
         {
             if (ev.Player.Role.Type == RoleTypeId.ClassD)
             {
-                Round.IsLocked = false;
-
                 if (!IsEnd)
                 {
+                    Round.IsLocked = false;
+
                     Player.List.ToList().ForEach(x => x.AddBroadcast(20, $"<b><size=30><최초 탈출자 : {ev.Player.DisplayNickname}></size></b>"));
                     Timing.RunCoroutine(Tools.SetWinner(new List<Player>() { ev.Player }, 5));
                     IsEnd = true;
