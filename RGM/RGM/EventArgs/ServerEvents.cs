@@ -135,6 +135,7 @@ namespace RGM.EventArgs
                 ap.RemoveAllClips();
 
             Tools.LoadMap($"RGMBase");
+            Tools.CreateText(new Vector3(231.1433f, 368.6755f, -43.0956f), new Quaternion(0, 90, 0, 90), "<size=100><b><color=#FFF0F0>[</color><color=#FEEAF1>R</color><color=#FDE5F2>G</color><color=#FDDFF3>M</color><color=#FCDAF4>]</color> <color=#FBCFF6>랜</color><color=#FBC9F7>덤</color><color=#FAC4F8>게</color><color=#FABEF9>임</color><color=#F9B9FA>모</color><color=#F9B3FB>드</color></b><color=#F8AEFC>에</color> <color=#F2A9F7>오</color><color=#ECA9F1>신</color> <color=#E0A9E4>것</color><color=#DAA9DE>을</color> <color=#CEAAD1>환</color><color=#C8AACA>영</color><color=#C2AAC4>합</color><color=#BCAABE>니</color><color=#B6AAB7>다</color><color=#B0AAB1>!</color></size>", 12051205);
 
             if (CurrentMode == ModeType.None)
             {
