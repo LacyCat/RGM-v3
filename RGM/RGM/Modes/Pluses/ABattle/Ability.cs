@@ -417,6 +417,7 @@ public enum AbilityType
     SCP3114_SKILLEDASSASSIN, // [전용] 숙련된 암살자
     SCP3114_HALFBLOCK, // [전용] 반블럭
     SCP3114_DORAEMONPOCKET, // [전용] 도라에몽 주머니
+    SCP3114_SHOWMANSHIP, // [전용] 쇼맨쉽
 
     // SCP-079
     SCP079_PINGREMOTE, // [전용] 핑 리모컨
