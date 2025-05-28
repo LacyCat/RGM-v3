@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using CommandSystem;
+using Exiled.API.Enums;
 using Exiled.API.Extensions;
 using Exiled.API.Features;
+using Exiled.API.Features.Roles;
 using MultiBroadcast.API;
 using PlayerRoles;
 using PlayerRoles.FirstPersonControl.Thirdperson.Subcontrollers;
@@ -36,22 +38,29 @@ namespace RGM.Commands.ClientCommands
                 {
                     if (int.TryParse(arguments.At(0), out int num))
                     {
-                        try
-                        {
-                            player.Emotion = (EmotionPresetType)(num - 1);
+                        player.Emotion = (EmotionPresetType)(num - 1);
 
-                            response = $"감정을 성공적으로 변경했습니다.";
-                            return true;
-                        }
-                        catch
-                        {
-                            response = $"1~7번 사이에서 입력해주세요.\n\n{string.Join("\n", Tools.EnumToList<EmotionPresetType>())}";
-                            return false;
-                        }
+                        response = $"감정을 성공적으로 변경했습니다.";
+                        return true;
                     }
                     else
                     {
                         response = $"1~7번 사이에서 입력해주세요.\n\n{string.Join("\n", Tools.EnumToList<EmotionPresetType>())}";
+                        return false;
+                    }
+                }
+                else if (player.Role is Scp3114Role scp3114)
+                {
+                    if (int.TryParse(arguments.At(0), out int num))
+                    {
+                        scp3114.StartDancing((DanceType)(num - 1));
+
+                        response = $"댄스를 성공적으로 시작했습니다.";
+                        return true;
+                    }
+                    else
+                    {
+                        response = $"1~7번 사이에서 입력해주세요.\n\n{string.Join("\n", Tools.EnumToList<DanceType>())}";
                         return false;
                     }
                 }
@@ -63,16 +72,31 @@ namespace RGM.Commands.ClientCommands
             }
             catch
             {
-                player.Emotion = (EmotionPresetType)UnityEngine.Random.Range(0, 7);
+                if (player.IsHuman)
+                {
+                    player.Emotion = (EmotionPresetType)UnityEngine.Random.Range(0, 7);
 
-                response = $"감정을 성공적으로 변경했습니다.";
-                return true;
+                    response = $"감정을 성공적으로 변경했습니다.";
+                    return true;
+                }
+                else if (player.Role is Scp3114Role scp3114)
+                {
+                    scp3114.StartDancing((DanceType)UnityEngine.Random.Range(0, 7));
+
+                    response = $"댄스를 성공적으로 시작했습니다.";
+                    return true;
+                }
+                else
+                {
+                    response = "인간만 사용 가능한 명령어입니다.";
+                    return false;
+                }
             }
         }
 
         public string Command { get; } = "감정";
 
-        public string[] Aliases { get; } = { "감정표현" };
+        public string[] Aliases { get; } = { "감정표현", "댄스" };
 
         public string Description { get; } = "[RGM] 감정 표현을 더 쉽게 하세요.";
 
