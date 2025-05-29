@@ -94,7 +94,18 @@ namespace RGM.Modes
                 }
             }
 
+            Timing.RunCoroutine(HurtScp049());
             Timing.RunCoroutine(EndSequence());
+        }
+
+        public IEnumerator<float> HurtScp049()
+        {
+            while (Bomb.IsAlive)
+            {
+                Bomb.Hurt(Bomb.MaxHealth / 150);
+
+                yield return Timing.WaitForSeconds(1);
+            }
         }
 
         public IEnumerator<float> EndSequence()
