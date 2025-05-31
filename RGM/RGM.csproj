@@ -269,6 +269,7 @@
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Dummy\UsedPingHook.cs" />
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Dummy\UsedSnakeHandRadio.cs" />
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Epic\Blink.cs" />
+    <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Epic\Scp127.cs" />
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Legend\Unlimited.cs" />
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Mythic\BALLISTAEM3.cs" />
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Mythic\ToolGun.cs" />
@@ -518,6 +519,7 @@
     <Compile Include="RGM\Modes\Pluses\SoulMate\SoulMate.cs" />
     <Compile Include="RGM\Modes\Sets\Rescue05\Rescue05.cs" />
     <Compile Include="RGM\Modes\Sets\RussianRoulette\RussianRoulette.cs" />
+    <Compile Include="RGM\Modes\Sets\Snake\Snake.cs" />
     <Compile Include="RGM\Modes\Sets\SourceMan\SourceMan.cs" />
     <Compile Include="RGM\Modes\Sets\SpeedRun\SpeedRun.cs" />
     <Compile Include="RGM\Modes\Pluses\Spirit\Spirit.cs" />
