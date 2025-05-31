@@ -22,7 +22,7 @@ using Exiled.API.Features.Pickups;
 
 namespace RGM.Modes
 {
-    [Mode(ModeCategory.Private, ModeInfo.Set, ModeType.PickMeUp)]
+    [Mode(ModeCategory.Public, ModeInfo.Set, ModeType.PickMeUp)]
     public class PickMeUp : Mode
     {
         public override string Name => "픽미업!";
