@@ -632,7 +632,7 @@ namespace RGM.EventArgs
         
         public static void OnHurting(HurtingEventArgs ev)
         {
-            if (Round.IsLobby)
+            if (Round.IsLobby || Round.IsEnded)
                 return;
 
             if (GodModePlayers.Contains(ev.Player))
