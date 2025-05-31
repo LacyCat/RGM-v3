@@ -21,8 +21,11 @@ public class Teleportation : Ability
         Player target = Tools.GetRandomValue(Player.List.Where(x => x != Owner && x.IsAlive && x.Role.Type != RoleTypeId.Scp079).ToList());
         Owner.Position = target.Position;
 
-        Owner.RemoveAbility(this);
-        Owner.AddAbility(AbilityType.DUMMY_TELEPORTED);
+        Timing.CallDelayed(1, () =>
+        {
+            Owner.RemoveAbility(this);
+            Owner.AddAbility(AbilityType.DUMMY_TELEPORTED);
+        });
     }
 
     public override void OnDisabled()
