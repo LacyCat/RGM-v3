@@ -586,6 +586,16 @@ public class ABattle : Mode
         if (abilities.Count == 0)
             return;
 
+        if (abilities.Distinct().Count() == 1) // 전부 중복인 경우
+        {
+            player.AddAbility(AbilityType.SYNERGY_DUPLICATEFATE);
+
+            foreach (var ability in abilities)
+            {
+                player.AddAbility(ability);
+            }
+        }
+
         if (Random.Range(1, 21) == 1) // 전용 능력
         {
             int index;
