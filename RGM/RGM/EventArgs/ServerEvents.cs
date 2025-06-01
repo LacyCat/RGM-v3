@@ -26,6 +26,7 @@ using Respawning;
 using Exiled.Events.EventArgs.Server;
 using ProjectMER.Features;
 using Exiled.API.Extensions;
+using GPUtils.Features.PaintToText.Core;
 
 namespace RGM.EventArgs
 {
@@ -54,8 +55,26 @@ namespace RGM.EventArgs
             Round.IsLobbyLocked = true;
             GameObject.Find("StartRound").transform.localScale = Vector3.zero;
             Tools.LoadMap($"Past-Lobby");
-            if (UnityEngine.Random.Range(1, 101) == 1) 
-                Tools.LoadMap(Surfaces.GetRandomValue(), false);
+            switch (UnityEngine.Random.Range(1, 101))
+            {
+                case 1:
+                    Tools.LoadMap(Surfaces.GetRandomValue(), false);
+                    break;
+
+                case 2:
+                    IEnumerator<float> paintText()
+                    {
+                        while (true)
+                        {
+                            PaintToTextMain.PlayVideo("A pig on a bed", new Vector3(0, 350, 0), new Quaternion(0, 0, 0, 0));
+
+                            yield return Timing.WaitForSeconds(4);
+                        }
+                    }
+
+                    Timing.RunCoroutine(paintText());
+                    break;
+            }
 
             var donator = new Donator.Main();
             donator.OnEnabled();
@@ -300,13 +319,20 @@ namespace RGM.EventArgs
 
                 foreach (var kv in top10)
                 {
-                    var userId = kv.Key;
-                    var report = kv.Value;
-
-                    if (Player.TryGet(userId, out Player player))
+                    try
                     {
-                        sb.AppendLine($"<size=25><color=#{ranking(rank)}>{rank}.</color> {Tools.BadgeFormat(player)}<color={player.Role.Color.ToHex()}>{player.DisplayNickname}</color> - {report.Kill}킬 / {report.Death}데스 / {report.Damage}뎀</size>");
-                        rank++;
+                        var userId = kv.Key;
+                        var report = kv.Value;
+
+                        if (Player.TryGet(userId, out Player player))
+                        {
+                            sb.AppendLine($"<size=25><color=#{ranking(rank)}>{rank}.</color> {Tools.BadgeFormat(player)}<color={player.Role.Color.ToHex()}>{player.DisplayNickname}</color> - {report.Kill}킬 / {report.Death}데스 / {report.Damage}뎀</size>");
+                            rank++;
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Log.Error($"Error in generating round summary: {e}");
                     }
                 }
 
