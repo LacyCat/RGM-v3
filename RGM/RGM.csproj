@@ -455,6 +455,7 @@
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Unique\Scp3114\SkilledAssassin.cs" />
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Unique\Scp939\AgileHuntingTool.cs" />
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Unique\Scp939\HugMe.cs" />
+    <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Unique\Scp939\NoEyes.cs" />
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Unique\Scp939\Minic.cs" />
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Unique\Tutorial\Researcher.cs" />
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Unique\Tutorial\ThirdForce.cs" />

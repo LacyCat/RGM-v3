@@ -413,6 +413,7 @@ public enum AbilityType
     SCP939_MINIC, // [전용] 흉내쟁이
     SCP939_HUGME, // [전용] 안아줘요
     SCP939_AGILEHUNTINGTOOL, // [전용] 민첩한 사냥 도구
+    SCP939_NOEYES, // [전용] 어차피 안 보인다고
 
     // SCP-3114
     SCP3114_SKILLEDASSASSIN, // [전용] 숙련된 암살자
