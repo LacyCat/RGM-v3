@@ -17,7 +17,7 @@ using UnityEngine;
 
 namespace RGM.Modes.Abilities.Unique.Scp939;
 
-[Ability("어차피 안 보인다고", "섬광탄 효과를 반감시킵니다.", AbilityCategory.Scp939, AbilityType.SCP939_NOEYES)]
+[Ability("실명", "섬광탄 효과를 반감시킵니다.", AbilityCategory.Scp939, AbilityType.SCP939_NOEYES)]
 public class NoEyes : Ability
 {
     public override void OnEnabled()
@@ -30,10 +30,12 @@ public class NoEyes : Ability
         Exiled.Events.Handlers.Player.ReceivingEffect -= OnReceivingEffect;
     }
 
-    public void OnReceivingEffect(ReceivingEffectEventArgs ev)
+    public IEnumerator<float> OnReceivingEffect(ReceivingEffectEventArgs ev)
     {
         if (ev.Player != Owner)
-            return;
+            yield break;
+
+        yield return Timing.WaitForOneFrame;
 
         if (ev.Effect.GetEffectType() == EffectType.Flashed)
         {
