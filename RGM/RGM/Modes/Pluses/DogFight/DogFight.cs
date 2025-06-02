@@ -14,6 +14,7 @@ using RGM.API.Features;
 using Exiled.API.Extensions;
 using Exiled.Events.EventArgs.Scp079;
 using Exiled.API.Features.Pickups;
+using Exiled.Events.EventArgs.Server;
 
 namespace RGM.Modes
 {
@@ -21,7 +22,7 @@ namespace RGM.Modes
     public class DogFight : Mode
     {
         public override string Name => "개판 1초전";
-        public override string Description => "팀킬이 허용됩니다. 리볼버를 얻습니다. ..?";
+        public override string Description => "그냥 개판입니다. 관리자에게 제약이 적용되지 않습니다.";
         public override string Detail =>
 """
 리볼버!!!!!!
@@ -35,6 +36,8 @@ namespace RGM.Modes
 
         public override void OnEnabled()
         {
+            Exiled.Events.Handlers.Server.RoundEnded += OnRoundEnded;
+
             Exiled.Events.Handlers.Player.Spawned += OnSpawned;
             Exiled.Events.Handlers.Player.Shooting += OnShooting;
             Exiled.Events.Handlers.Player.Hurting += OnHurting;
@@ -102,6 +105,14 @@ namespace RGM.Modes
         public void OnPinging(PingingEventArgs ev)
         {
             Pickup.CreateAndSpawn(ItemType.SCP018, ev.Position, new Quaternion(Random.Range(1, 180), Random.Range(1, 180), Random.Range(1, 180), Random.Range(1, 180)), ev.Player);
+        }
+
+        public void OnRoundEnded(RoundEndedEventArgs ev)
+        {
+            foreach (var player in Player.List.Where(x => x.IsAlive))
+            {
+                Server.ExecuteCommand($"/drop {player.Id} 31 25");
+            }
         }
     }
 }
