@@ -43,7 +43,16 @@ public class MadScientist : Ability
             Timing.CallDelayed(Timing.WaitForOneFrame, () =>
             {
                 for (int i = 0; i < 5; i++)
-                    Owner.AddAbility(ABattle.Instance.GetRandomAbilities(ABattle.Instance.GetCategory(Owner), 1)[0]);
+                {
+                    try
+                    {
+                        Owner.AddAbility(ABattle.Instance.GetRandomAbilities(ABattle.Instance.GetCategory(Owner), 1)[0]);
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.Error($"Failed to add ability to Mad Scientist: {ex}");
+                    }
+                }
             });
 
             if (new List<DamageType>
