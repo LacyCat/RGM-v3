@@ -62,8 +62,14 @@ namespace RGM.Modes
             int rand = UnityEngine.Random.Range(1, 101);
 
             if (0 < rand && rand < 3)
+            {
                 ev.Player.EnableEffect(EffectType.SeveredHands);
 
+                Timing.CallDelayed(50, () =>
+                {
+                    ev.Player.DisableEffect(EffectType.SeveredHands);
+                });
+            }
             else
             {
                 ev.Item.Destroy();
