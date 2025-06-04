@@ -42,6 +42,11 @@ public class Gambler : Ability
         if (0 < rand && rand < 3)
         {
             Owner.EnableEffect(EffectType.SeveredHands);
+
+            Timing.CallDelayed(50, () =>
+            {
+                Owner.DisableEffect(EffectType.SeveredHands);
+            });
         }
         else
         {
