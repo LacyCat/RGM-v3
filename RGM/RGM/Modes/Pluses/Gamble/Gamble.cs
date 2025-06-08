@@ -63,12 +63,7 @@ namespace RGM.Modes
 
             if (0 < rand && rand < 3)
             {
-                ev.Player.EnableEffect(EffectType.SeveredHands);
-
-                Timing.CallDelayed(50, () =>
-                {
-                    ev.Player.DisableEffect(EffectType.SeveredHands);
-                });
+                ev.Player.EnableEffect(EffectType.SeveredHands, 1, 50);
             }
             else
             {
