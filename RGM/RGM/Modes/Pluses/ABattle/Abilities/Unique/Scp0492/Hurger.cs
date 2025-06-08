@@ -29,7 +29,7 @@ public class Hurger : Ability
 
     public void OnConsumingCorpse(Exiled.Events.EventArgs.Scp0492.ConsumingCorpseEventArgs ev)
     {
-        if (ev.Player != Owner)
+        if (ev.Player != Owner || !ev.IsAllowed)
             return;
 
         Timing.CallDelayed(0.1f, () =>
