@@ -54,6 +54,7 @@ namespace RGM.Modes
 
             Exiled.Events.Handlers.Player.Verified += OnVerified;
             Exiled.Events.Handlers.Player.Spawned += OnSpawned;
+            Exiled.Events.Handlers.Player.InteractingDoor += OnInteractingDoor;
             Exiled.Events.Handlers.Player.Died += OnDied;
 
             Timing.RunCoroutine(OnModeStarted());
@@ -180,6 +181,17 @@ namespace RGM.Modes
                     ev.Player.Kill("숙주 좀비가 될 것입니다.");
                 }
             });
+        }
+
+        public void OnInteractingDoor(InteractingDoorEventArgs ev)
+        {
+            if (HostZombies.Contains(ev.Player))
+            {
+                if (ev.Door is BreakableDoor door)
+                {
+                    door.Break();
+                }
+            }
         }
 
         public IEnumerator<float> OnDied(DiedEventArgs ev)
