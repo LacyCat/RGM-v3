@@ -22,7 +22,7 @@ namespace RGM.Modes
 """
 <i>다른 사람과 가까이 붙지 마세요.</i>
 
-7.5m 초과의 거리를 유지하지 못한다면 체력의 일정 비율만큼 데미지를 입습니다.
+5m 초과의 거리를 유지하지 못한다면 체력의 일정 비율만큼 데미지를 입습니다.
 """;
         public override string Color => "38610B";
 
@@ -56,7 +56,7 @@ namespace RGM.Modes
 
                 foreach (var player in DamagePlayers.Where(x => x.Role.Type != RoleTypeId.Scp079))
                 {
-                    player.Hurt(2, "인싸는 죽었습니다.");
+                    player.Hurt(player.IsScp ? 30 : 2, "인싸는 죽었습니다.");
 
                     if (player.IsAlive)
                     {
