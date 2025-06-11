@@ -8,6 +8,7 @@ using Exiled.API.Features;
 using Exiled.API.Enums;
 using MEC;
 using Exiled.API.Features.Roles;
+using Exiled.Events.EventArgs.Player;
 
 namespace RGM.Modes
 {
@@ -15,7 +16,7 @@ namespace RGM.Modes
     public class KoreanSpeed : Mode
     {
         public override string Name => "한국인이 좋아하는 속도";
-        public override string Description => "이런 거 좋아하시죠?";
+        public override string Description => "누군가가 사망할 때마다 모두의 속도가 증가합니다.";
         public override string Detail =>
 """
 <b><i><color=#FB00FF>슈</color><color=#D200D5>우</color><color=#A901AB>우</color><color=#800282>우</color><color=#570358>웅</color><color=#2E042E>화</color></i></b>
@@ -24,23 +25,40 @@ namespace RGM.Modes
 
         public static KoreanSpeed Instance;
 
+        int count = 0;
+
         public override void OnEnabled()
         {
+            Exiled.Events.Handlers.Player.Died += OnDied;
+            Exiled.Events.Handlers.Player.SearchingPickup += OnSearchingPickup;
+            Exiled.Events.Handlers.Player.ThrowingRequest += OnThrowingRequest;
+
             Timing.RunCoroutine(OnModeStarted());
         }
 
         public IEnumerator<float> OnModeStarted()
         {
-            while (true)
-            {
-                foreach (var player in Player.List)
-                {
-                    player.EnableEffect(EffectType.MovementBoost, 125);
-                    player.EnableEffect(EffectType.Scp1853, 5);
-                }
+            yield return 0;
+        }
 
-                yield return Timing.WaitForSeconds(1f);
+        public void OnDied(DiedEventArgs ev)
+        {
+            count++;
+
+            foreach (var player in Player.List)
+            {
+                player.EnableEffect(EffectType.MovementBoost, (byte)(count * 3));
             }
+        }
+
+        public void OnSearchingPickup(SearchingPickupEventArgs ev)
+        {
+            ev.SearchTime -= count * 0.1f;
+        }
+
+        public void OnThrowingRequest(ThrowingRequestEventArgs ev)
+        {
+            ev.Throwable.PinPullTime -= count * 0.1f;
         }
     }
 }
