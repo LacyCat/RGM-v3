@@ -533,6 +533,8 @@
     <Compile Include="RGM\Modes\Sets\WitGame\WitGame.cs" />
     <Compile Include="RGM\UserSettings\ServerSpecificSettings.cs" />
     <Compile Include="RGM\Variables\ServerManagers.cs" />
+    <Compile Include="Translations\Interfaces.cs" />
+    <Compile Include="Translations\ko\API\Databases\Datas.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -544,6 +546,8 @@
   <ItemGroup>
     <Analyzer Include="..\..\DiscordInteraction\bin\Debug\DiscordInteraction.dll" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Translations\en\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

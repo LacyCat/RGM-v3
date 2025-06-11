@@ -10,34 +10,6 @@ namespace RGM.API.DataBases
 {
     public class Datas
     {
-        public static List<string> ModeSets = new List<string>()
-        {
-            "더블업",
-            "저거너트",
-            "폭탄 파티",
-            "개인전",
-            "Gun Game",
-            "HIDE",
-            "GG 클럽",
-            "미니게임",
-            "해적 룰렛",
-            "05 평의회 구출 작전",
-            "러시안 룰렛",
-            "스플리프",
-            "무덤",
-            "데드 라인",
-            "폭탄 돌리기",
-            "꼬리 잡기",
-            "데스런",
-            "고문",
-            "숨바꼭질",
-            "점프맵 라운지",
-            "스피드런",
-            "여긴 어디?",
-            "나는 누구?",
-            "눈치게임"
-        };
-
         public static Dictionary<string, string> Colors = new Dictionary<string, string>
         {
             // {"gold", "#EFC01A"},
