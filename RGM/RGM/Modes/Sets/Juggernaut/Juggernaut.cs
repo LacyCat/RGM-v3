@@ -30,7 +30,6 @@ using SCPSLAudioApi.AudioCore;
 using VoiceChat;
 using Respawning;
 using Exiled.API.Features.Waves;
-using Newtonsoft.Json;
 
 namespace RGM.Modes
 {
