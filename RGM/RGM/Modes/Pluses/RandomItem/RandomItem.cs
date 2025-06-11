@@ -91,7 +91,7 @@ namespace RGM.Modes
             {
                 player.AddItem(Tools.GetRandomValue(ItemTypes.Where(x => !ignoreItems.Contains(x) && !Datas.ExceptItems.Contains(x)).ToList()));
 
-                yield return Timing.WaitForOneFrame;
+                yield return Timing.WaitForSeconds(1);
             }
         }
     }

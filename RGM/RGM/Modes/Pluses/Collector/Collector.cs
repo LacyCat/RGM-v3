@@ -41,7 +41,7 @@ namespace RGM.Modes
                 Spawned(player);
             }
 
-            yield break;
+            yield return 0;
         }
 
         public void OnSpawned(Exiled.Events.EventArgs.Player.SpawnedEventArgs ev)
@@ -49,13 +49,17 @@ namespace RGM.Modes
             Spawned(ev.Player);
         }
 
-        public void Spawned(Player player)
+        public IEnumerator<float> Spawned(Player player)
         {
             if (player.Role.Type == RoleTypeId.Scp079)
-                return;
+                yield break;
 
             for (int i=1; i<4; i++)
+            {
                 player.AddItem(Tools.GetRandomValue(Tools.EnumToList<ItemType>().Where(x => x.ToString().Contains("SCP") && !Datas.ExceptItems.Contains(x)).ToList()));
+
+                yield return Timing.WaitForSeconds(1);
+            }
         }
     }
 }
