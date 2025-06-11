@@ -18,6 +18,7 @@ using ProjectMER.Features.Objects;
 using ProjectMER.Features;
 
 using static RGM.Variables.ServerManagers;
+using Exiled.API.Features.Pickups.Projectiles;
 
 namespace RGM.Modes
 {
@@ -47,6 +48,7 @@ namespace RGM.Modes
             Exiled.Events.Handlers.Player.ItemAdded += OnItemAdded;
             Exiled.Events.Handlers.Player.PickingUpItem += OnPickingUpItem;
             Exiled.Events.Handlers.Player.DroppingItem += OnDroppingItem;
+            Exiled.Events.Handlers.Player.ThrownProjectile += OnThrownProjectile;
 
             Exiled.Events.Handlers.Scp079.Pinging += OnPinging;
 
@@ -153,6 +155,24 @@ namespace RGM.Modes
                         _isScp079Cooldown = false;
                     });
                 });
+            }
+        }
+
+        public IEnumerator<float> OnThrownProjectile(ThrownProjectileEventArgs ev)
+        {
+            yield return Timing.WaitForSeconds(1);
+
+            if (ev.Projectile is ExplosionGrenadeProjectile grenade)
+            {
+                while (!grenade.IsAlreadyDetonated)
+                {
+                    if (Physics.OverlapSphere(grenade.Position, 0.1f).Count() > 0)
+                    {
+                        grenade.Base.Network_syncTargetTime = 0.1f;
+                    }
+
+                    yield return Timing.WaitForOneFrame;
+                }
             }
         }
     }
