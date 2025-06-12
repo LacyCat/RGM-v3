@@ -160,13 +160,13 @@ namespace RGM.Modes
 
         public IEnumerator<float> OnThrownProjectile(ThrownProjectileEventArgs ev)
         {
-            yield return Timing.WaitForSeconds(1);
+            yield return Timing.WaitForSeconds(0.3f);
 
-            if (ev.Projectile is ExplosionGrenadeProjectile grenade)
+            if (ev.Projectile is ExplosionGrenadeProjectile grenade && ev.Player.Role.Type != PlayerRoles.RoleTypeId.Scp079)
             {
                 while (!grenade.IsAlreadyDetonated)
                 {
-                    if (Physics.OverlapSphere(grenade.Position, 0.1f).Count() > 0)
+                    if (Physics.OverlapSphere(grenade.Position, 0.3f).Count() > 4)
                     {
                         grenade.Base.Network_syncTargetTime = 0.1f;
                     }
