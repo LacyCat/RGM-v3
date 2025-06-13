@@ -36,9 +36,6 @@ namespace RGM.EventArgs
         {
             yield return Timing.WaitForSeconds(1f);
 
-            foreach (var _audioClip in System.IO.Directory.GetFiles(Paths.Plugins + "/audio/"))
-                AudioClipStorage.LoadClip(_audioClip, _audioClip.Replace(Paths.Plugins + "/audio/", "").Replace(".ogg", ""));
-
             InventoryLimits.StandardCategoryLimits[ItemCategory.SpecialWeapon] = 8;
             InventoryLimits.StandardCategoryLimits[ItemCategory.SCPItem] = 8;
             InventoryLimits.Config.RefreshCategoryLimits();
@@ -50,11 +47,11 @@ namespace RGM.EventArgs
                 Speaker speaker = p.AddSpeaker("Main", isSpatial: false, maxDistance: 5000);
             });
 
-            Tools.PlayGlobalAudio("Holiday by GoldenPig1205", 0.3f, true);
+            Tools.PlayGlobalAudio("Obelatian by GoldenPig1205", 0.3f, true);
 
             Round.IsLobbyLocked = true;
             GameObject.Find("StartRound").transform.localScale = Vector3.zero;
-            Tools.LoadMap($"Past-Lobby");
+            Tools.LoadMap($"RGMLobby");
             switch (UnityEngine.Random.Range(1, 101))
             {
                 case 1:
@@ -145,7 +142,7 @@ namespace RGM.EventArgs
         {
             Server.FriendlyFire = false;
 
-            MapUtils.UnloadMap("Past-Lobby");
+            MapUtils.UnloadMap("RGMLobby");
             Server.ExecuteCommand($"/speak {string.Join(".", Player.List.Select(x => x.Id))}. 0");
             IntercomPlayers.Clear();
             EnabledModeList.Clear();
@@ -243,7 +240,7 @@ namespace RGM.EventArgs
 
             yield return Timing.WaitForSeconds(4 * 60);
 
-            GlobalPlayer.AddClip("SCP - Breach", 1);
+            GlobalPlayer.TryPlay("SCP - Breach", 1);
         }
 
         public static IEnumerator<float> OnRoundEnded(RoundEndedEventArgs ev)
