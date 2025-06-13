@@ -223,7 +223,7 @@ namespace RGM.Variables
                     AudioPlayer radio = AudioPlayer.CreateOrGet($"Radio {player.UserId}", onIntialCreation: (p) =>
                     {
                         p.transform.parent = player.GameObject.transform;
-                        Speaker speaker = p.AddSpeaker("Main", isSpatial: true, minDistance: 5f, maxDistance: 15f);
+                        Speaker speaker = p.AddSpeaker("Main", isSpatial: true, minDistance: 1f, maxDistance: 50f);
                         speaker.transform.parent = player.GameObject.transform;
                         speaker.transform.localPosition = Vector3.zero;
                     });
