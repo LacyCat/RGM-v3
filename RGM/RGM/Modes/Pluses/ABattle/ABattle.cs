@@ -321,13 +321,6 @@ public class ABattle : Mode
     // 플레이어에게 특정 능력을 부여
     public void AddAbility(Player player, AbilityType type)
     {
-        if (CurrentExtraMode == "스펙업")
-        {
-            int heal = player.IsScp ? 50 : 10;
-            player.MaxHealth += heal;
-            player.Health += heal;
-        }
-
         if (type.ToString().Contains("LEGEND"))
         {
             string name;
@@ -406,6 +399,13 @@ public class ABattle : Mode
         string Message = $"<size=20>{styleName}</size>\n<size=15>{abilityData.Description}</size>";
         player.AddBroadcast(10, Message);
         player.SendConsoleMessage($"\n{Message}", "white");
+
+        if (CurrentExtraMode == "스펙업")
+        {
+            int heal = player.IsScp ? 50 : 10;
+            player.MaxHealth += heal;
+            player.Health += heal;
+        }
     }
 
     // 플레이어에게 시너지 능력 부여

@@ -52,6 +52,7 @@ namespace RGM.EventArgs
             Round.IsLobbyLocked = true;
             GameObject.Find("StartRound").transform.localScale = Vector3.zero;
             Tools.LoadMap($"RGMLobby");
+
             switch (UnityEngine.Random.Range(1, 101))
             {
                 case 1:
