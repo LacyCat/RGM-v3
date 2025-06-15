@@ -647,10 +647,10 @@ namespace RGM.EventArgs
             }
             else if (ev.Attacker != null)
             {
-                ev.DamageHandler.Damage = ev.IsInstantKill ? ev.Player.MaxHealth : ev.DamageHandler.Damage;
+                float damage = ev.IsInstantKill ? ev.Player.MaxHealth + ev.Player.MaxArtificialHealth + ev.Player.MaxHumeShield : ev.DamageHandler.Damage;
 
-                if ((HitboxIdentity.IsEnemy(ev.Attacker.ReferenceHub, ev.Player.ReferenceHub) || ev.Attacker.LeadingTeam != ev.Player.LeadingTeam || Server.FriendlyFire) && ev.Attacker != ev.Player && ev.DamageHandler.Damage < 10000)
-                    PlayersReport[ev.Attacker.UserId].Damage += (int)ev.DamageHandler.Damage;
+                if ((HitboxIdentity.IsEnemy(ev.Attacker.ReferenceHub, ev.Player.ReferenceHub) || ev.Attacker.LeadingTeam != ev.Player.LeadingTeam || Server.FriendlyFire) && ev.Attacker != ev.Player && damage < 10000)
+                    PlayersReport[ev.Attacker.UserId].Damage += (int)damage;
             }
         }
 
