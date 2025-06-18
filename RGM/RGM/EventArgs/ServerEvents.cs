@@ -105,7 +105,7 @@ namespace RGM.EventArgs
             Timing.RunCoroutine(HintManager.OnStarted());
             Timing.RunCoroutine(HintManager.RemoveHint());
 
-            int rn = UnityEngine.Random.Range(1, 6);
+            int rn = UnityEngine.Random.Range(1, 7);
 
             if (rn == 1)
             {
@@ -125,6 +125,10 @@ namespace RGM.EventArgs
                 SelectMode = "FightVote";
 
                 Server.FriendlyFire = true;
+            }
+            else if (rn == 5)
+            {
+                SelectMode = "Secret2Vote";
             }
             else
             {
@@ -195,7 +199,14 @@ namespace RGM.EventArgs
                 }
             }
 
-            Server.Name = Server.Name.Replace("[라운드 시작 전 로비]", $"[현재 모드: <color=#{CurrentMode.GetModeData().Color}>{CurrentMode.GetModeData().Name}</color>{(CurrentSubMode == ModeType.None ? "" : $"<size=25> + <color=#{CurrentSubMode.GetModeData().Color}>{CurrentSubMode.GetModeData().Name}</color></size>")}]");
+            if (SelectMode == "Secret2Vote")
+            {
+                Server.Name = Server.Name.Replace("[라운드 시작 전 로비]", $"[무슨 모드인지 안 알려준다 꿀]");
+            }
+            else
+            {
+                Server.Name = Server.Name.Replace("[라운드 시작 전 로비]", $"[현재 모드: <color=#{CurrentMode.GetModeData().Color}>{CurrentMode.GetModeData().Name}</color>{(CurrentSubMode == ModeType.None ? "" : $"<size=25> + <color=#{CurrentSubMode.GetModeData().Color}>{CurrentSubMode.GetModeData().Name}</color></size>")}]");
+            }
 
             List<string> ModeDesc = Tools.GetModeDesc(CurrentMode, CurrentSubMode);
 
