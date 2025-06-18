@@ -122,8 +122,8 @@ namespace RGM.API.Features
 
             string Message = Notions.StartModeDescription
                 .Replace("{ModeColor}", Color)
-                .Replace("{CurrentMode}", Name)
-                .Replace("{CurrentSubMode}", SubModeType != ModeType.None ? (en ? $"<size=20>Added submode: <color=#{ModeList[SubModeType].Color}>{ModeList[SubModeType].Name}</color></size>\n" : $"<size=20>추가된 서브 모드 : <color=#{ModeList[SubModeType].Color}>{ModeList[SubModeType].Name}</color></size>\n") : "")
+                .Replace("{CurrentMode}", SelectMode == "Secret2Vote" ? "이건무슨모드일까요다람쥐" : Name)
+                .Replace("{CurrentSubMode}", SelectMode == "Secret2Vote" ? "풉ㅋ" : SubModeType != ModeType.None ? (en ? $"<size=20>Added submode: <color=#{ModeList[SubModeType].Color}>{ModeList[SubModeType].Name}</color></size>\n" : $"<size=20>추가된 서브 모드 : <color=#{ModeList[SubModeType].Color}>{ModeList[SubModeType].Name}</color></size>\n") : "")
                 .Replace("{ModeDescription}", Description)
                 .Replace("{ModeInfo}", ModeType.GetModeData().Info.ToString());
 

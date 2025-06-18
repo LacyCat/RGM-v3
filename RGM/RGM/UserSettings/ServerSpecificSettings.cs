@@ -37,7 +37,8 @@ namespace RGM.UserSettings
         {
             RGMSetting(player);
             UserSetting(player);
-            ModeSetting(player);
+            if (SelectMode != "Secret2Vote")
+                ModeSetting(player);
             // EtcSetting(player);
 
             Refresh(player);

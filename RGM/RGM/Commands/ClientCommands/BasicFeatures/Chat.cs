@@ -37,7 +37,7 @@ namespace RGM.Commands.ClientCommands
                 response = "뮤트된 상태입니다.";
                 return false;
             }
-            else if (SelectMode == "SecretVote" && Round.IsLobby)
+            else if (SelectMode.Contains("Secret") && Round.IsLobby)
             {
                 response = "비밀 선거 조항을 깨트리지 마십시오.";
                 return false;
