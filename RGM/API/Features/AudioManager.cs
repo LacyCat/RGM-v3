@@ -25,8 +25,6 @@ namespace RGM.API.Features
             }
             else
             {
-                Log.Warn($"오디오 파일 '{clipName}.ogg'을(를) 찾을 수 없습니다.");
-
                 return null;
             }
         }

@@ -44,6 +44,9 @@ namespace RGM
             Instance = this;
             base.OnEnabled();
 
+            // Config
+            en = Config.en;
+
             ModeList = new Dictionary<ModeType, ModeData>();
 
             foreach (var type in Assembly.GetExecutingAssembly().GetTypes())

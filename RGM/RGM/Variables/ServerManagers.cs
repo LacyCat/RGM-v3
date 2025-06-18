@@ -19,6 +19,9 @@ namespace RGM.Variables
 {
     public static class ServerManagers
     {
+        // Config
+        public static bool en;
+
         public static ModeType CurrentMode = ModeType.None;
         public static ModeType CurrentSubMode = ModeType.None;
         public static AudioPlayer GlobalPlayer;
@@ -247,7 +250,7 @@ namespace RGM.Variables
                     string text = string.Concat(new string[]
                     {
                         $"<size=40><b>확성기</b>ㅣ{Tools.BadgeFormat(player)}<color={player.Role.Color.ToHex()}>",
-                        Trans.Role[player.Role.Type],
+                        en ? player.Role.Name : Trans.Role[player.Role.Type],
                         $"</color> ({player.DisplayNickname}) <b> | </b>",
                         arg.Replace("=", "❤️"),
                         "</size>"

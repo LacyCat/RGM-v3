@@ -158,7 +158,7 @@ namespace RGM.Modes
             while (!Round.IsEnded)
             {
                 if (Tools.TryGetNearestPlayer(juggernaut, out Player nearestPlayer, out float radius, new List<Player>() { dj }))
-                    juggernaut.AddHint("저거너트 레이더", $"<b>[ <color={nearestPlayer.Role.Color.ToHex()}>{Trans.Role[nearestPlayer.Role.Type]}</color>, 거리: {radius.ToString("F1")}m ]</b>", 1.2f);
+                    juggernaut.AddHint("저거너트 레이더", $"<b>[ <color={nearestPlayer.Role.Color.ToHex()}>{(en ? nearestPlayer.Role.Name : Trans.Role[nearestPlayer.Role.Type])}</color>, 거리: {radius.ToString("F1")}m ]</b>", 1.2f);
 
                 else
                     juggernaut.AddHint("저거너트 승리", "당신은 임무를 완수하였습니다.", 1.2f);

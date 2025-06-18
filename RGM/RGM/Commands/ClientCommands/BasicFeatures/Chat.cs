@@ -66,7 +66,7 @@ namespace RGM.Commands.ClientCommands
 
             string ChatFormat(string chatType)
             {
-                string text = Trans.Role[player.Role.Type];
+                string text = en ? player.Role.Name : Trans.Role[player.Role.Type];
                 string text2 = string.Concat(new string[]
                 {
                     $"<size=25><b>{chatType}</b>ㅣ{Tools.BadgeFormat(player)}<color={player.Role.Color.ToHex()}>",
@@ -111,7 +111,7 @@ namespace RGM.Commands.ClientCommands
                         ply.AddBroadcast(6, text2);
                 }
 
-                Webhook.Send($"**{chatType}**ㅣ`{player.DisplayNickname}`[{player.IPAddress}, {player.UserId}]({Trans.Role[player.Role.Type]}) - {string.Join(" ", arguments)}");
+                Webhook.Send($"**{chatType}**ㅣ`{player.DisplayNickname}`[{player.IPAddress}, {player.UserId}]({(en ? player.Role.Name : Trans.Role[player.Role.Type])}) - {string.Join(" ", arguments)}");
 
                 return $"'{text2}'";
             }

@@ -6,6 +6,7 @@ using MEC;
 using RGM.API.DataBases;
 using RGM.API.Features;
 using UnityEngine;
+using static RGM.Variables.ServerManagers;
 
 namespace RGM.Modes.Abilities.Mythic;
 
@@ -32,7 +33,7 @@ public class RocketLauncher : Ability
             if (Random.Range(1, 6) == 1)
             {
                 Timing.RunCoroutine(Tools.DoRocket(Owner, ev.Player, 1));
-                Server.ExecuteCommand($"/cassie_sl {ev.Player.DisplayNickname}(<color={ev.Player.Role.Color.ToHex()}>{Trans.Role[ev.Player.Role.Type]}</color>)(이)가 하늘로 승천했습니다.");
+                Server.ExecuteCommand($"/cassie_sl {ev.Player.DisplayNickname}(<color={ev.Player.Role.Color.ToHex()}>{(en ? ev.Player.Role : Trans.Role[ev.Player.Role.Type])}</color>)(이)가 하늘로 승천했습니다.");
             }
         }
         else
@@ -40,7 +41,7 @@ public class RocketLauncher : Ability
             if (Random.Range(1, 21) == 1)
             {
                 Timing.RunCoroutine(Tools.DoRocket(Owner, ev.Player, 1));
-                Server.ExecuteCommand($"/cassie_sl {ev.Player.DisplayNickname}(<color={ev.Player.Role.Color.ToHex()}>{Trans.Role[ev.Player.Role.Type]}</color>)(이)가 하늘로 승천했습니다.");
+                Server.ExecuteCommand($"/cassie_sl {ev.Player.DisplayNickname}(<color={ev.Player.Role.Color.ToHex()}>{(en ? ev.Player.Role : Trans.Role[ev.Player.Role.Type])}</color>)(이)가 하늘로 승천했습니다.");
             }
         }
     }
