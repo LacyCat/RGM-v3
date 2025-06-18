@@ -110,7 +110,7 @@ namespace RGM.API.Features
 
         public static List<Transform> GetObjectList(string Name)
         {
-            return GameObject.FindObjectsOfType<Transform>().Where(t => t.name == Name).ToList();
+            return GameObject.FindObjectsByType<Transform>(FindObjectsSortMode.None).Where(t => t.name == Name).ToList();
         }
 
         public static List<string> GetModeDesc(ModeType ModeType, ModeType SubModeType)
@@ -123,7 +123,7 @@ namespace RGM.API.Features
             string Message = Notions.StartModeDescription
                 .Replace("{ModeColor}", Color)
                 .Replace("{CurrentMode}", Name)
-                .Replace("{CurrentSubMode}", SubModeType != ModeType.None ? $"<size=20>추가된 서브 모드 : <color=#{ModeList[SubModeType].Color}>{ModeList[SubModeType].Name}</color></size>\n" : "")
+                .Replace("{CurrentSubMode}", SubModeType != ModeType.None ? (en ? $"<size=20>Added submode: <color=#{ModeList[SubModeType].Color}>{ModeList[SubModeType].Name}</color></size>\n" : $"<size=20>추가된 서브 모드 : <color=#{ModeList[SubModeType].Color}>{ModeList[SubModeType].Name}</color></size>\n") : "")
                 .Replace("{ModeDescription}", Description)
                 .Replace("{ModeInfo}", ModeType.GetModeData().Info.ToString());
 
@@ -603,7 +603,7 @@ $"""
                 .Replace("{max_health}", $"{player.MaxHealth}")
                 .Replace("{health}", $"{player.Health}")
                 .Replace("{items_count}", $"{player.Items.Count}")
-                .Replace("{role}", $"{Trans.Role[player.Role]}")
+                .Replace("{role}", $"{(en ? player.Role.Name : en ? player.Role : Trans.Role[player.Role])}")
                 .Replace("{damage}", $"{pr[player.UserId].Damage}")
                 ;
         }

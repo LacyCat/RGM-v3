@@ -6,7 +6,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Exiled.API.Interfaces;
 using RGM.Modes;
-using RGM.Translations;
 
 namespace RGM
 {
@@ -14,6 +13,6 @@ namespace RGM
     {
         public bool IsEnabled { get; set; } = true;
         public bool Debug { get; set; } = false;
-        public Language Language { get; set; } = Language.ko;
+        public bool en { get; set; } = false;
     }
 }
