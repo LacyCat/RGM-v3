@@ -122,16 +122,16 @@ namespace RGM.API.Features
 
             string Message = Notions.StartModeDescription
                 .Replace("{ModeColor}", Color)
-                .Replace("{CurrentMode}", SelectMode == "Secret2Vote" ? "이건무슨모드일까요다람쥐" : Name)
-                .Replace("{CurrentSubMode}", SelectMode == "Secret2Vote" ? "풉ㅋ" : SubModeType != ModeType.None ? (en ? $"<size=20>Added submode: <color=#{ModeList[SubModeType].Color}>{ModeList[SubModeType].Name}</color></size>\n" : $"<size=20>추가된 서브 모드 : <color=#{ModeList[SubModeType].Color}>{ModeList[SubModeType].Name}</color></size>\n") : "")
+                .Replace("{CurrentMode}", SelectMode == "Secret2Vote" ? (en ? "whatisthismodeeeeee" : "이건무슨모드일까요다람쥐") : Name)
+                .Replace("{CurrentSubMode}", SelectMode == "Secret2Vote" ? (en ? "puhlol" : "풉ㅋ") : SubModeType != ModeType.None ? (en ? $"<size=20>Added submode: <color=#{ModeList[SubModeType].Color}>{ModeList[SubModeType].Name}</color></size>\n" : $"<size=20>추가된 서브 모드 : <color=#{ModeList[SubModeType].Color}>{ModeList[SubModeType].Name}</color></size>\n") : "")
                 .Replace("{ModeDescription}", Description)
                 .Replace("{ModeInfo}", ModeType.GetModeData().Info.ToString());
 
             return new List<string>() 
             { 
                 Message,
-                "성공적으로 모드 설명을 불러왔습니다.",
-                "해당 모드에 대한 자세한 설명이 없습니다.", 
+                en ? "Mode description loaded successfully." : "성공적으로 모드 설명을 불러왔습니다.",
+                en ? "There is no detailed description for this mode." : "해당 모드에 대한 자세한 설명이 없습니다.", 
                 Detail 
             };
         }
@@ -159,6 +159,40 @@ namespace RGM.API.Features
             }
 
             return
+en ?
+$"""
+
+
+<size=20><b>{player.Nickname}</b>'s Information</size>
+
+<size=15>SteamID: {player.UserId}</size>
+<size=15>Exp: {uc[0]}</size>
+<size=15>Random Coin: {uc[1]}</size>
+<size=15><i>Cash</i>: ₩{int.Parse(uc[2]).ToString("N0")}</size>
+
+<size=15>Owned Kill Effects: {GetJoinedInfo(3)}</size>
+<size=15>Equipped Kill Effect: {(uc[4] == "0" ? "-" : uc[4])}</size>
+<size=10>{(uc[4] == "0" ? "Use the command '.rgmkilleffect <effect name>' to equip a kill effect." : KillEffects[uc[4]])}</size>
+
+<size=15>Owned Spawn Effects: {GetJoinedInfo(19)}</size>
+<size=15>Equipped Spawn Effect: {(uc[20] == "0" ? "-" : uc[20])}</size>
+<size=10>{(uc[20] == "0" ? "Use the command '.rgmspawneffect <effect name>' to equip a spawn effect." : SpawnEffects[uc[20]])}</size>
+
+<size=15>Owned Customs: {GetJoinedInfo(7)}</size>
+<size=15>Custom Nickname: {(uc[5] == "0" ? "-" : uc[5])}</size>
+<size=10>{(uc[5] == "0" ? "Use the command '.rgmnickname <text>' to set a custom nickname." : $"Preview: {Tools.CustomFormatter(player, uc[5]).Replace("\n", "\\n")}")}</size>
+<size=15>Custom Info: {(uc[6] == "0" ? "-" : uc[6])}</size>
+<size=10>{(uc[6] == "0" ? "Use the command '.rgminfo <text>' to set custom info." : $"Preview: {Tools.CustomFormatter(player, uc[6]).Replace("\n", "\\n")}")}</size>
+
+<size=15>Owned Paints: {GetJoinedInfo(8)}</size>
+<size=15>Equipped Paint: {(uc[9] == "0" ? "-" : uc[9])}</size>
+<size=10>{(uc[9] == "0" ? "Use the command '.rgmpaint <paint name>' to equip a paint." : Paints[uc[9]])}</size>
+
+<size=15>Owned Badges: {GetJoinedInfo(10)}</size>
+<size=15>Equipped Badge: {(uc[11] == "0" ? "-" : uc[11])}</size>
+<size=10>{(uc[11] == "0" ? "Use the command '.rgmbadge <badge name>' to equip a badge." : Badges[uc[11]])}</size>
+"""
+:
 $"""
 
 
@@ -199,32 +233,32 @@ $"""
             {
                 Dictionary<string, string[]> ColorDictionary = new Dictionary<string, string[]>()
                 {
-                    {"블랙골드", new string[] { "brown", "yellow" } },
-                    {"핫핑크", new string[] { "magenta", "pink" } },
-                    {"레인보우", Datas.Colors.Keys.ToArray() },
-                    {"분홍색", new string[] { "pink" } },
-                    {"빨간색", new string[] { "red" } },
-                    {"흰색", new string[] { "default" } },
-                    {"갈색", new string[] { "brown" } },
-                    {"은색", new string[] { "silver" } },
-                    {"밝은 녹색", new string[] { "light_green" } },
-                    {"진홍색", new string[] { "crimson" } },
-                    {"청록색", new string[] { "cyan" } },
-                    {"옥색", new string[] { "aqua" } },
-                    {"진한 분홍색", new string[] { "deep_pink" } },
-                    {"토마토색", new string[] { "tomato" } },
-                    {"노란색", new string[] { "yellow" } },
-                    {"짙은 홍색", new string[] { "magenta" } },
-                    {"푸른 녹색", new string[] { "blue_green" } },
-                    {"주황색", new string[] { "orange" } },
-                    {"라임색", new string[] { "lime" } },
-                    {"초록색", new string[] { "green" } },
-                    {"에메랄드색", new string[] { "emerald" } },
-                    {"카민색", new string[] { "carmine" } },
-                    {"니켈색", new string[] { "nickel" } },
-                    {"박하색", new string[] { "mint" } },
-                    {"군대 녹색", new string[] { "army_green" } },
-                    {"호박색", new string[] { "pumpkin" } }
+                    {en ? "Black Gold" : "블랙골드", new string[] { "brown", "yellow" } },
+                    {en ? "Hot Pink" : "핫핑크", new string[] { "magenta", "pink" } },
+                    {en ? "Rainbow" : "레인보우", Datas.Colors.Keys.ToArray() },
+                    {en ? "Pink" : "분홍색", new string[] { "pink" } },
+                    {en ? "Red" : "빨간색", new string[] { "red" } },
+                    {en ? "Default" : "흰색", new string[] { "default" } },
+                    {en ? "Brown" : "갈색", new string[] { "brown" } },
+                    {en ? "Silver" : "은색", new string[] { "silver" } },
+                    {en ? "Light Green" : "밝은 녹색", new string[] { "light_green" } },
+                    {en ? "Crimson" : "진홍색", new string[] { "crimson" } },
+                    {en ? "Cyan" : "청록색", new string[] { "cyan" } },
+                    {en ? "Aqua" : "옥색", new string[] { "aqua" } },
+                    {en ? "Deep Pink" : "진한 분홍색", new string[] { "deep_pink" } },
+                    {en ? "Tomato" : "토마토색", new string[] { "tomato" } },
+                    {en ? "Yellow" : "노란색", new string[] { "yellow" } },
+                    {en ? "Magenta" : "짙은 홍색", new string[] { "magenta" } },
+                    {en ? "Blue Green" : "푸른 녹색", new string[] { "blue_green" } },
+                    {en ? "Orange" : "주황색", new string[] { "orange" } },
+                    {en ? "Lime" : "라임색", new string[] { "lime" } },
+                    {en ? "Green" : "초록색", new string[] { "green" } },
+                    {en ? "Emerald" : "에메랄드색", new string[] { "emerald" } },
+                    {en ? "Carmine" : "카민색", new string[] { "carmine" } },
+                    {en ? "Nickel" : "니켈색", new string[] { "nickel" } },
+                    {en ? "Mint" : "박하색", new string[] { "mint" } },
+                    {en ? "Army Green" : "군대 녹색", new string[] { "army_green" } },
+                    {en ? "Pumpkin" : "호박색", new string[] { "pumpkin" } }
                 };
 
                 if (player.GameObject.TryGetComponent<TagController>(out TagController rtc))
@@ -264,7 +298,7 @@ $"""
                 while (true)
                 {
                     foreach (var player in Player.List)
-                        player.AddHint("라운드 보상 지급", $"<size={(30 - Math.Round(playerList.Count() * 0.5f))}><color=yellow><b>✨</b></color> <b>{string.Join($", ", playerList.Select(x => $"<color={x.Role.Color.ToHex()}>{x.DisplayNickname}</color>"))}</b>(이)가 <b>{amount}</b> EXP, 랜덤코인을 획득하였습니다.</size>", 1);
+                        player.AddHint("라운드 보상 지급", en ? $"<size={(30 - Math.Round(playerList.Count() * 0.5f))}><color=yellow><b>✨</b></color> <b>{string.Join($", ", playerList.Select(x => $"<color={x.Role.Color.ToHex()}>{x.DisplayNickname}</color>"))}</b> has received <b>{amount}</b> EXP and random coins.</size>" : $"<size={(30 - Math.Round(playerList.Count() * 0.5f))}><color=yellow><b>✨</b></color> <b>{string.Join($", ", playerList.Select(x => $"<color={x.Role.Color.ToHex()}>{x.DisplayNickname}</color>"))}</b> has received <b>{amount}</b> EXP and random coins.</size>", 1);
 
                     yield return Timing.WaitForSeconds(1);
                 }
@@ -274,7 +308,7 @@ $"""
                 while (true)
                 {
                     foreach (var player in Player.List)
-                        player.AddHint("라운드 보상 지급", $"<size=25>서버 인원이 15명 이하이므로 우승 보상은 지급되지 않습니다.</size>", 1);
+                        player.AddHint("라운드 보상 지급", en ? $"<size=25>Since the server has less than 15 players, no prizes will be awarded.</size>" : $"<size=25>서버 인원이 15명 이하이므로 우승 보상은 지급되지 않습니다.</size>", 1);
 
                     yield return Timing.WaitForSeconds(1);
                 }
@@ -445,7 +479,7 @@ $"""
             int RequiredCount = Player.List.Count / 2;
             bool IsSuccess = false;
 
-            Webhook.Send($"🗳️ **게임 진행 불가 투표**ㅣ{host.Nickname}에 의해 시작됨 ({reason})");
+            Webhook.Send(en ? $"🗳️ **Game Unplayable Vote**ㅣStarted by {host.Nickname} ({reason})" : $"🗳️ **게임 진행 불가 투표**ㅣ{host.Nickname}에 의해 시작됨 ({reason})");
 
             for (int i = 1; i<21; i++)
             {
@@ -456,7 +490,7 @@ $"""
                 }
 
                 foreach (var player in Player.List)
-                    player.AddHint("게임진행불가투표", $"<size=25>{host.DisplayNickname}(이)가 <b><color=#FFBF00>게임 진행 불가 투표</color></b>를 개설하였습니다.\n라운드를 강제로 종료해야 한다면 <b>.찬성</b> 명령어를 입력하세요.</size>\n이유 : {reason}\n<size=20>투표 종료까지 {21 - i}초 남음 ({BugVotePlayers.Count}/{RequiredCount})</size>", 1.2f);
+                    player.AddHint("게임진행불가투표", en ? $"<size=25>{host.DisplayNickname} has opened a <b><color=#FFBF00>game inactivity vote</color></b>.\nIf you want to force a round to end, type the <b>.yes</b> command.</size>\nReason: {reason}\n<size=20>{21 - i} seconds left until the vote ends ({BugVotePlayers.Count}/{RequiredCount})</size>" : $"<size=25>{host.DisplayNickname}(이)가 <b><color=#FFBF00>게임 진행 불가 투표</color></b>를 개설하였습니다.\n라운드를 강제로 종료해야 한다면 <b>.찬성</b> 명령어를 입력하세요.</size>\n이유 : {reason}\n<size=20>투표 종료까지 {21 - i}초 남음 ({BugVotePlayers.Count}/{RequiredCount})</size>", 1.2f);
 
                 yield return Timing.WaitForSeconds(1);
             }
@@ -464,9 +498,9 @@ $"""
             if (IsSuccess)
             {
                 foreach (var player in Player.List)
-                    player.AddBroadcast(5, $"게임 진행 불가 투표가 <b><color=#9AFE2E>가결</color></b>되었습니다. 곧 서버가 재시작됩니다.");
+                    player.AddBroadcast(5, en ? $"The vote to disable the game has <b><color=#9AFE2E>passed</color></b>. The servers will be restarted shortly." : $"게임 진행 불가 투표가 <b><color=#9AFE2E>가결</color></b>되었습니다. 곧 서버가 재시작됩니다.");
 
-                Webhook.Send($"🗳️ **게임 진행 불가 투표**ㅣ✅ 가결됨 (투표자: {string.Join(", ", BugVotePlayers.Select(x => x.Nickname))})");
+                Webhook.Send(en ? $"🗳️ **Game Inability Vote**ㅣ✅ Passed (Voters: {string.Join(", ", BugVotePlayers.Select(x => x.Nickname))})" : $"🗳️ **게임 진행 불가 투표**ㅣ✅ 가결됨 (투표자: {string.Join(", ", BugVotePlayers.Select(x => x.Nickname))})");
 
                 yield return Timing.WaitForSeconds(5);
 
@@ -475,9 +509,9 @@ $"""
             else
             {
                 foreach (var player in Player.List)
-                    player.AddBroadcast(5, $"게임 진행 불가 투표가 <b><color=#FE2E2E>부결</color></b>되었습니다.");
+                    player.AddBroadcast(5, en ? $"The vote to disable game play has been <b><color=#FE2E2E>rejected</color></b>." : $"게임 진행 불가 투표가 <b><color=#FE2E2E>부결</color></b>되었습니다.");
 
-                Webhook.Send($"🗳️ **게임 진행 불가 투표**ㅣ❌ 부결됨 (투표자: {string.Join(", ", BugVotePlayers.Select(x => x.Nickname))})");
+                Webhook.Send(en ? $"🗳️ **Game Inoperable Vote**ㅣ❌ Rejected (Voters: {string.Join(", ", BugVotePlayers.Select(x => x.Nickname))})" : $"🗳️ **게임 진행 불가 투표**ㅣ❌ 부결됨 (투표자: {string.Join(", ", BugVotePlayers.Select(x => x.Nickname))})");
             }
 
             IsBugVoteProcessing = false;
@@ -489,7 +523,7 @@ $"""
             int RequiredCount = Player.List.Count / 2;
             bool IsSuccess = false;
 
-            Webhook.Send($"🔐 **의문의 제안**ㅣ{host.Nickname}에 의해 시작됨 ({reason})");
+            Webhook.Send(en ? $"🔐 **Questionable Proposal**ㅣInitiated by {host.Nickname} ({reason})" : $"🔐 **의문의 제안**ㅣ{host.Nickname}에 의해 시작됨 ({reason})");
 
             for (int i = 1; i < 31; i++)
             {
@@ -500,7 +534,7 @@ $"""
                 }
 
                 foreach (var player in Player.List)
-                    player.AddHint("의문의 제안", $"<size=25><b><color=#DA81F5>의문의 제안</color></b>이 개설되었습니다.\n제안을 수락하시려면 <b>.수락</b> 명령어를 입력하세요.</size>\n{reason}\n<size=20>투표 종료까지 {31 - i}초 남음 ({SuggestPlayers.Count}/{RequiredCount})</size>", 1.2f);
+                    player.AddHint("의문의 제안", en ? $"<size=25><b><color=#DA81F5>Questionable Proposal</color></b> has been opened.\nTo accept the proposal, type the <b>.accept</b> command.</size>\n{reason}\n<size=20>{31 - i} seconds left until voting ends ({SuggestPlayers.Count}/{RequiredCount})</size>" : $"<size=25><b><color=#DA81F5>의문의 제안</color></b>이 개설되었습니다.\n제안을 수락하시려면 <b>.수락</b> 명령어를 입력하세요.</size>\n{reason}\n<size=20>투표 종료까지 {31 - i}초 남음 ({SuggestPlayers.Count}/{RequiredCount})</size>", 1.2f);
 
                 yield return Timing.WaitForSeconds(1);
             }
@@ -508,16 +542,16 @@ $"""
             if (IsSuccess)
             {
                 foreach (var player in Player.List)
-                    player.AddBroadcast(5, $"의문의 제안이 <b><color=#9AFE2E>가결</color></b>되었습니다.");
+                    player.AddBroadcast(5, en ? $"Questionable Proposal <b><color=#9AFE2E>passed</color></b>." : $"의문의 제안이 <b><color=#9AFE2E>가결</color></b>되었습니다.");
 
-                Webhook.Send($"🔐 **의문의 제안**ㅣ✅ 가결됨 (투표자: {string.Join(", ", SuggestPlayers.Select(x => x.Nickname))})");
+                Webhook.Send(en ? $"🔐 **Questionable Proposal**ㅣ✅ Passed (Voters: {string.Join(", ", SuggestPlayers.Select(x => x.Nickname))})" : $"🔐 **의문의 제안**ㅣ✅ 가결됨 (투표자: {string.Join(", ", SuggestPlayers.Select(x => x.Nickname))})");
             }
             else
             {
                 foreach (var player in Player.List)
-                    player.AddBroadcast(5, $"의문의 제안이 <b><color=#FE2E2E>부결</color></b>되었습니다.");
+                    player.AddBroadcast(5, en ? $"Questionable Proposal <b><color=#FE2E2E>was rejected</color></b>." : $"의문의 제안이 <b><color=#FE2E2E>부결</color></b>되었습니다.");
 
-                Webhook.Send($"🔐 **의문의 제안**ㅣ❌ 부결됨 (투표자: {string.Join(", ", SuggestPlayers.Select(x => x.Nickname))})");
+                Webhook.Send(en ? $"Questionable Proposal <b><color=#FE2E2E>was rejected</color></b>." : $"🔐 **의문의 제안**ㅣ❌ 부결됨 (투표자: {string.Join(", ", SuggestPlayers.Select(x => x.Nickname))})");
             }
 
             IsSuggestProcessing = false;
@@ -559,7 +593,7 @@ $"""
             }
 
             if (Convener != null)
-                Convener.AddHint("뱀의 손", $"<i>{SnakeHands.Count()}명의 <color=#FE2EF7>동료</color>들이 당신과 함께합니다..</i>", 5f);
+                Convener.AddHint("뱀의 손", en ? $"<i>{SnakeHands.Count()} <color=#FE2EF7>companions</color> are with you..</i>" : $"<i>{SnakeHands.Count()}명의 <color=#FE2EF7>동료</color>들이 당신과 함께합니다..</i>", 5f);
         }
 
         public static string ColorFormat(string cn)
@@ -644,7 +678,7 @@ $"""
 
         public static void PlayGlobalAudio(string clipName, float volume = 1, bool loop = false, bool destroyOnEnd = true)
         {
-            string notice = $"로드된 오디오: {clipName}";
+            string notice = en ? $"Loaded audio: {clipName}" : $"로드된 오디오: {clipName}";
 
             foreach (var player in Player.List)
             {
@@ -662,7 +696,7 @@ $"""
 
             if (map == null)
             {
-                Log.Error($"맵 '{mapName}'을(를) 찾을 수 없습니다. 로드 실패.");
+                Log.Error(en ? $"Cannot find map '{mapName}'. Load failed." : $"맵 '{mapName}'을(를) 찾을 수 없습니다. 로드 실패.");
                 return null;
             }
 
@@ -674,7 +708,7 @@ $"""
             {
                 foreach (var player in Player.List)
                 {
-                    player.AddBroadcast(10, $"<size=20>로드된 맵: {mapName}</size>");
+                    player.AddBroadcast(10, en ? $"<size=20>Loaded map: {mapName}</size>" : $"<size=20>로드된 맵: {mapName}</size>");
                 }
             }
 
