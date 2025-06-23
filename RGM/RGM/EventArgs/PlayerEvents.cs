@@ -41,7 +41,7 @@ namespace RGM.EventArgs
         {
             Chats.Add(ev.Player, new List<string>());
 
-            var text = Tools.CreateText(Vector3.zero, new Quaternion(0, 180, 0, 0), "test", 0);
+            var text = Tools.CreateText(Vector3.zero, new Quaternion(0, 180, 0, 0), "", 0);
             text.Parent = ev.Player.Transform;
             Texts.Add(ev.Player, text);
 

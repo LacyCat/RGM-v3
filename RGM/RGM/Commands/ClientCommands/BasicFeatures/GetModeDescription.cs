@@ -29,7 +29,7 @@ namespace RGM.Commands.ClientCommands
             {
                 if (CurrentMode == ModeType.None)
                 {
-                    response = "현재 모드가 설정되지 않았습니다.";
+                    response = en ? "The current mode is not set." : "현재 모드가 설정되지 않았습니다.";
                     return false;
                 }
                 else
@@ -55,7 +55,7 @@ namespace RGM.Commands.ClientCommands
                 foreach (var Mode in ModeList.Keys)
                     ModeList_.Add($"{Mode.GetModeData().Name}");
 
-                response = $"<b><size=30>[ 모드 리스트 ]</size></b>\n{string.Join(", ", ModeList_)}\nSending Command Error..";
+                response = en ? $"<b><size=30>[ Mode List ]</size></b>\n{string.Join(", ", ModeList_)}\nSending Command Error.." : $"<b><size=30>[ 모드 리스트 ]</size></b>\n{string.Join(", ", ModeList_)}\nSending Command Error..";
                 return false;
             }
             else
@@ -79,17 +79,17 @@ namespace RGM.Commands.ClientCommands
                 }
                 else
                 {
-                    response = "존재하지 않는 <모드 이름>입니다.\nSending Command Error..";
+                    response = en ? "<mod name> does not exist.\nSending Command Error.." : "존재하지 않는 <모드 이름>입니다.\nSending Command Error..";
                     return false;
                 }
             }
         }
 
-        public string Command { get; } = "모드";
+        public string Command { get; } = "mode";
 
-        public string[] Aliases { get; } = { "mode", "mod" };
+        public string[] Aliases { get; } = { "모드", "mod" };
 
-        public string Description { get; } = "[RGM] 현재 모드를 확인합니다.";
+        public string Description { get; } = en ? "[RGM] Check the current mode." : "[RGM] 현재 모드를 확인합니다.";
 
         public bool SanitizeResponse { get; } = true;
     }

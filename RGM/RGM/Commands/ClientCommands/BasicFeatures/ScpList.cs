@@ -11,6 +11,7 @@ using RGM.API;
 using RGM.API.Components;
 using RGM.Modes;
 using UnityEngine;
+using static RGM.Variables.ServerManagers;
 
 namespace RGM.Commands.ClientCommands
 {
@@ -28,16 +29,16 @@ namespace RGM.Commands.ClientCommands
             }
             else
             {
-                response = "SCP만 사용할 수 있는 명령어입니다.";
+                response = en ? "This command can only be used by SCPs." : "SCP만 사용할 수 있는 명령어입니다.";
                 return false;
             }
         }
 
-        public string Command { get; } = "scp리스트";
+        public string Command { get; } = "scplist";
 
-        public string[] Aliases { get; } = { "sl", "scp", "scplist" };
+        public string[] Aliases { get; } = { "sl", "scp", "scp리스트" };
 
-        public string Description { get; } = "[RGM] 존재하는 SCP 리스트를 나열합니다.";
+        public string Description { get; } = en ? "[RGM] Lists all existing SCPs." : "[RGM] 존재하는 SCP 리스트를 나열합니다.";
 
         public bool SanitizeResponse { get; } = true;
     }
