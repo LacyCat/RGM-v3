@@ -72,7 +72,6 @@ public enum ModeType
     Alone,
     ABattle,
     AdditionalWave,
-    AddNew,
     Ascension,
     Blackout,
     Blessing,
@@ -141,7 +140,8 @@ public enum ModeType
     WhereamI,
     WhoamI1,
     WhoamI2,
-    WitGame
+    WitGame,
+    PlanB,
 }
 
 

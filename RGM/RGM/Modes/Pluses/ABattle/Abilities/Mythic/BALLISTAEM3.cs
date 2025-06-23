@@ -27,14 +27,14 @@ public class BALLISTAEM3 : Ability
         Exiled.Events.Handlers.Player.ChangedItem += OnChangedItem;
         Exiled.Events.Handlers.Player.Shot += OnShot;
 
-        Timing.RunCoroutine(AddNewAmmo());
+        Timing.RunCoroutine(PlanBAmmo());
     }
 
     public override void OnDisabled()
     {
     }
 
-    public IEnumerator<float> AddNewAmmo()
+    public IEnumerator<float> PlanBAmmo()
     {
         while (true)
         {
