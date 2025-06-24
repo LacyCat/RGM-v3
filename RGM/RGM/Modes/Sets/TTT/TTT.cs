@@ -53,6 +53,7 @@ Trouble in Terrorist Town의 약자.
         bool IsStarted = false;
         Player detective;
         List<Player> traitors = new List<Player>();
+        List<Player> mimics = new List<Player>();
         List<Player> instantKillCooldown = new List<Player>();
         List<ItemType> main = new List<ItemType> 
         {
@@ -184,7 +185,14 @@ Trouble in Terrorist Town의 약자.
                 traitors.Add(traitor);
             }
 
-            detective = Player.List.Where(x => !traitors.Contains(x)).GetRandomValue();
+            for (int i = 0; i < traitorCount / 3; i++)
+            {
+                Player mimic = Player.List.Where(x => !traitors.Contains(x) && !mimics.Contains(x)).GetRandomValue();
+
+                mimics.Add(mimic);
+            }
+
+            detective = Player.List.Where(x => !traitors.Contains(x) && !mimics.Contains(x)).GetRandomValue();
             detective.Role.Set(RoleTypeId.FacilityGuard, RoleSpawnFlags.None);
             detective.RankName = "탐정";
             detective.RankColor = "cyan";
@@ -204,6 +212,10 @@ Trouble in Terrorist Town의 약자.
                 if (traitors.Contains(player))
                 {
                     player.AddHint("TTT 배신자", $"당신은 <color=red>배신자</color>입니다. <color=red>배신자</color>들을 제외한 나머지를 모두 사살하세요.\n<size=25>{traitors.Count()}명의 <color=red>배신자</color>가 존재합니다.\n<b>[ALT]ㅣ근접한 플레이어를 즉시 처형할 수 있습니다. (쿨다운 10초)</b></size>", 20);
+                }
+                else if (mimics.Contains(player))
+                {
+                    player.AddHint("TTT 전과자", $"당신은 <color={RoleTypeId.ClassD.GetColor().ToHex()}>전과자</color>입니다. <color=#2ECCFA>탐정</color>과 함께 <color=red>배신자</color>들을 처단하세요.\n<size=25>당신은 <color=red>배신자</color>들로 하여금 같은 팀으로 착각하게 만드는 폭력적인 비주얼을 가지고 있습니다.</size>", 20);
                 }
                 else if (player == detective)
                 {
@@ -250,7 +262,7 @@ Trouble in Terrorist Town의 약자.
                 {
                     if (Tools.TryGetLookPlayer(traitor, 100, out Player t, out RaycastHit? hit))
                     {
-                        if (traitors.Contains(t))
+                        if (traitors.Contains(t) || mimics.Contains(t))
                             traitor.AddHint("TTT 배신자 확인", $"그는 당신의 동료, 같은 <color=red>배신자</color>입니다.", 1.2f);
 
                         else
@@ -275,6 +287,11 @@ Trouble in Terrorist Town의 약자.
                 {
                     player.RankName = "배신자";
                     player.RankColor = "red";
+                }
+                else if (mimics.Contains(player))
+                {
+                    player.RankName = "전과자";
+                    player.RankColor = "orange";
                 }
                 else if (player != detective)
                 {
