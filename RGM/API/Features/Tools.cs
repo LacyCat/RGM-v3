@@ -110,7 +110,7 @@ namespace RGM.API.Features
 
         public static List<Transform> GetObjectList(string Name)
         {
-            return GameObject.FindObjectsByType<Transform>(FindObjectsSortMode.None).Where(t => t.name == Name).ToList();
+            return GameObject.FindObjectsByType<Transform>(FindObjectsSortMode.InstanceID).Where(t => t.name == Name).ToList();
         }
 
         public static List<string> GetModeDesc(ModeType ModeType, ModeType SubModeType)
