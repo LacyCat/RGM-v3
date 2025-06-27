@@ -514,6 +514,7 @@
     <Compile Include="RGM\Modes\Pluses\RandomItem\RandomItem.cs" />
     <Compile Include="RGM\Modes\Pluses\RedLightGreenLight\RedLightGreenLight.cs" />
     <Compile Include="RGM\Modes\Pluses\RocketLauncher\RocketLauncher.cs" />
+    <Compile Include="RGM\Modes\Sets\Run!\Run.cs" />
     <Compile Include="RGM\Modes\Sets\SCPRUSH\SCPRUSH.cs" />
     <Compile Include="RGM\Modes\Pluses\Siberia\Siberia.cs" />
     <Compile Include="RGM\Modes\Pluses\SoulMate\SoulMate.cs" />

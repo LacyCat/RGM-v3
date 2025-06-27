@@ -142,6 +142,7 @@ public enum ModeType
     WhoamI2,
     WitGame,
     PlanB,
+    RUN,
 }
 
 
