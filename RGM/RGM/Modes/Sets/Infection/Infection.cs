@@ -108,10 +108,10 @@ namespace RGM.Modes
                 }
             }
 
-            for (int i = 0; i < 600; i++)
+            for (int i = 0; i < 500; i++)
             {
                 foreach (var player in Player.List)
-                    player.AddBroadcast(1, $"<b><size=25>{600 - i}초 뒤 인류가 승리합니다.</size></b>");
+                    player.AddBroadcast(1, $"<b><size=25>{500 - i}초 뒤 인류가 승리합니다.</size></b>");
 
                 yield return Timing.WaitForSeconds(1);
             }
