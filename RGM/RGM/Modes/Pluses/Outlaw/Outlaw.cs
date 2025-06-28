@@ -11,6 +11,7 @@ using PlayerRoles;
 using Exiled.API.Enums;
 using Exiled.API.Extensions;
 using RGM.API.DataBases;
+using Exiled.Events.EventArgs.Server;
 
 namespace RGM.Modes
 {
@@ -22,6 +23,8 @@ namespace RGM.Modes
         public override string Detail =>
 """
 무기 아이템 중에서 랜덤으로 지급받습니다.
+
+SCP는 매 지원마다 새로운 무기를 받습니다.
 """;
         public override string Color => "9F81F7";
 
@@ -37,6 +40,8 @@ namespace RGM.Modes
 
         public override void OnEnabled()
         {
+            Exiled.Events.Handlers.Server.RespawningTeam += OnRespawningTeam;
+
             Exiled.Events.Handlers.Player.Spawned += OnSpawned;
 
             Timing.RunCoroutine(OnModeStarted());
@@ -78,6 +83,12 @@ namespace RGM.Modes
                     }
                 }
             });
+        }
+
+        public void OnRespawningTeam(RespawningTeamEventArgs ev)
+        {
+            foreach (var player in Player.List.Where(x => x.IsAlive && x.IsScp && x.Role.Type != RoleTypeId.Scp079))
+                Spawned(player);
         }
     }
 }
