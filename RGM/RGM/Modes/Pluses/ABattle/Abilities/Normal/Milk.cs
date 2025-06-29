@@ -43,7 +43,7 @@ public class Milk : Ability
 
     public void OnFlippingCoin(FlippingCoinEventArgs ev)
     {
-        if (CoinSerial == ev.Item.Serial)
+        if (CoinSerial == ev.Item.Serial && ev.Player.CurrentRoom.Type != RoomType.Pocket)
         {
             ev.Player.DisableAllEffects();
             ev.Item.Destroy();
