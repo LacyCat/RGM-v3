@@ -335,13 +335,19 @@ namespace RGM.API.Features
             }
         }
 
-        public static Item AddCandy(this Player player, CandyKindID candyKindID)
+        public static void AddCandy(this Player player, CandyKindID candyKindID)
         {
-            Scp330 scp330 = (Scp330)Item.Create(ItemType.SCP330);
-            scp330.AddCandy(candyKindID);
-            scp330.RemoveCandy(scp330.Candies.ToList()[0]);
-            player.AddItem(scp330);
-            return scp330;
+            if (player.HasItem(ItemType.SCP330))
+            {
+                player.TryAddCandy(candyKindID);
+            }
+            else
+            {
+                Scp330 scp330 = (Scp330)Item.Create(ItemType.SCP330);
+                scp330.AddCandy(candyKindID);
+                scp330.RemoveCandy(scp330.Candies.ToList()[0]);
+                player.AddItem(scp330);
+            }
         }
     }
 }
