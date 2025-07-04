@@ -283,7 +283,7 @@ namespace RGM.EventArgs
                 IntercomPlayers.Add(player);
             }
 
-            Timing.CallDelayed(ev.TimeToRestart - 0.1f, () =>
+            Timing.CallDelayed(ev.TimeToRestart - 1, () =>
             {
                 Server.ExecuteCommand("sr");
             });
