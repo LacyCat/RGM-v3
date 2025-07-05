@@ -18,6 +18,7 @@ using RGM.API.Features;
 using Exiled.Events.EventArgs.Server;
 using Exiled.Events.EventArgs.Player;
 using Exiled.API.Extensions;
+using static RGM.Variables.ServerManagers;
 
 namespace RGM.Modes
 {
@@ -29,6 +30,8 @@ namespace RGM.Modes
         public override string Detail =>
 """
 1분마다 진영이 변경된다는 설명으로도 충분하다.
+
+<i>* 게임 시작 10분 뒤 <color=red>자동핵</color>이 작동됩니다.</i>
 """;
         public override string Color => "01DF74";
 
@@ -53,6 +56,7 @@ namespace RGM.Modes
             Exiled.Events.Handlers.Server.RoundEnded += OnRoundEnded;
 
             Timing.RunCoroutine(OnModeStarted());
+            Timing.RunCoroutine(AutoWarhead());
         }
 
         public IEnumerator<float> OnModeStarted()
@@ -75,6 +79,24 @@ namespace RGM.Modes
 
             else if (players.Count() > 1)
                 Timing.RunCoroutine(Tools.SetWinner(players.ToList(), 1));
+        }
+
+        public IEnumerator<float> AutoWarhead()
+        {
+            yield return Timing.WaitForSeconds(9 * 60);
+
+            if (Warhead.IsDetonated)
+                yield break;
+
+            Server.ExecuteCommand("/cassie_sl 1분 뒤 <color=red>자동핵</color>이 작동됩니다.");
+
+            if (Warhead.IsDetonated)
+                yield break;
+
+            yield return Timing.WaitForSeconds(1 * 60);
+
+            AutoNuke = true;
+            Warhead.Start();
         }
     }
 }
