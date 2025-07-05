@@ -12,6 +12,8 @@ using PlayerRoles;
 using ProjectMER.Events.Arguments;
 using RGM.API.Features;
 using UnityEngine;
+using RGM.Modes.Sets.AddScp.Scps;
+using RGM.Modes.Sets.AddScp.Scps.Scp999;
 
 namespace RGM.Modes
 {
@@ -30,33 +32,12 @@ namespace RGM.Modes
 
         public override void OnEnabled()
         {
-            ProjectMER.Events.Handlers.Schematic.SchematicSpawned += OnSchematicSpawned;
+            Scp999.OnEnabled();
         }
 
         public IEnumerator<float> OnModeStarted()
         {
             yield break;
-        }
-
-        public void OnSchematicSpawned(SchematicSpawnedEventArgs ev)
-        {
-            if (ev.Name == "SCP_999")
-            {
-                IEnumerator<float> enumerator()
-                {
-                    while (true)
-                    {
-                        ev.Schematic.AnimationController.Stop();
-                        string name = $"Normal{Random.Range(1, 3)}";
-                        ev.Schematic.AnimationController.Play(name);
-                        Tools.PlaySound(ev.Schematic.transform, "scp-999", 2);
-
-                        yield return Timing.WaitForSeconds(Random.Range(2, 11));
-                    }
-                }
-
-                Timing.RunCoroutine(enumerator());
-            }
         }
     }
 }
