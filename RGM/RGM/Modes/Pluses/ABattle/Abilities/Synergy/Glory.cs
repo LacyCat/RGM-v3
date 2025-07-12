@@ -37,8 +37,8 @@ public class Glory : Ability
     {
         LightSourceToy lightSource = LightSourceToy.Create();
         lightSource.Color = Color.yellow;
-        lightSource.Intensity = 100;
-        lightSource.Range = 20;
+        lightSource.Intensity = 50;
+        lightSource.Range = 10;
 
         while (Owner.IsAlive)
         {

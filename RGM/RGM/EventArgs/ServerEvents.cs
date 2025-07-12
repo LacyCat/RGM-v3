@@ -285,7 +285,7 @@ namespace RGM.EventArgs
 
             Timing.CallDelayed(ev.TimeToRestart - 1, () =>
             {
-                Server.ExecuteCommand("/rnr");
+                Server.ExecuteCommand("sr");
             });
 
             foreach (var player in Player.List)

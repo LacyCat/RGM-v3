@@ -340,6 +340,7 @@ public class ABattle : Mode
 
             switch (type)
             {
+                case AbilityType.MYTHIC_KINGSCOLOR: name = "시산혈해의 파도가 보인다"; break;
                 default: name = "누군가가 신화 능력을 영접하였습니다"; break;
             }
 
