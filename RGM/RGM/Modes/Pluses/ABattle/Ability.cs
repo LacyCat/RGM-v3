@@ -353,6 +353,7 @@ public enum AbilityType
     MYTHIC_WARGOD, // [신화] 광전사
     MYTHIC_BALLISTAEM3, // [신화] 발리스타 MP3
     MYTHIC_TOOLGUN, // [신화] 툴건
+    MYTHIC_KINGSCOLOR, // [신화] 패왕색 패기
 
     // 전용 //
     // D계급
