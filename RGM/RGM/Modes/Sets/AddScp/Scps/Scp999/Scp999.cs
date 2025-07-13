@@ -29,7 +29,7 @@ namespace RGM.Modes.Sets.AddScp.Scps
             CommandProcessor.RemoteAdminCommandHandler.RegisterCommand(new SetScp999());
         }
 
-        public static Player CreateScp999(Player player)
+        public static Player Create(Player player)
         {
             player.Role.Set(RoleTypeId.Tutorial, RoleSpawnFlags.AssignInventory);
             player.EnableEffect(EffectType.Ghostly, 1);
