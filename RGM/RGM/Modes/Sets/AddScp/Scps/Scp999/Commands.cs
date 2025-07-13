@@ -11,7 +11,7 @@ public class SetScp999 : ICommand
     {
         Player player = Player.Get(arguments.At(0));
 
-        Scp999.CreateScp999(player);
+        Scp999.Create(player);
 
         response = $"{player.DisplayNickname}을(를) SCP-999로 만드는데 성공했습니다.";
         return true;

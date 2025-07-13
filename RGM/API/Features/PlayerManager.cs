@@ -20,6 +20,7 @@ namespace RGM.API.Features
     {
         public static void Hit(this Player player, Player attacker, float damage)
         {
+            attacker.ShowHitMarker(damage / 10);
             player.Hurt(new DisruptorDamageHandler(new InventorySystem.Items.Firearms.ShotEvents.DisruptorShotEvent(InventorySystem.Items.ItemIdentifier.None, attacker.Footprint, InventorySystem.Items.Firearms.Modules.DisruptorActionModule.FiringState.FiringRapid), player.Position, damage));
         }
 
