@@ -26,17 +26,20 @@ namespace RGM.Modes.Sets.AddScp.Scps
         public static Player Create(Player player)
         {
             player.Role.Set(RoleTypeId.Tutorial, RoleSpawnFlags.None);
-            player.MaxHealth = 250;
+            player.MaxHealth = 350;
             player.Health = player.MaxHealth;
             player.EnableEffect(EffectType.Stained, 1);
             player.EnableEffect(EffectType.MovementBoost, 25);
-            player.AddHint("SCP-035 설명", 
+            player.AddHint("SCP-035 설명",
 """
 <size=25>
 당신은 <color=red>SCP-035</color>(<color=red>Keter</color>)입니다.
 </size>
 <size=20>
-인간의 뇌를 지배한 가면
+인간의 뇌를 지배한 가면입니다.
+• 뱀의 손 역할군으로 지정되며, 모든 진영에 중립입니다.
+• 점액질로 인해 체력이 3초당 1씩 감소합니다. 주의하세요!
+• 당신이 사망한 후, 누군가가 <color=red>SCP-035</color>를 회수하면 그 유저가 <color=red>SCP-035</color>가 됩니다.
 </size>
 """, 20);
             SchematicObject schematic = ObjectSpawner.SpawnSchematic("SCP_035", new Vector3(0, 0, 0), new Quaternion(0, 0, 0, 0), new Vector3(0.7f, 0.7f, 0.7f));
