@@ -53,6 +53,7 @@ namespace RGM.Modes
             Exiled.Events.Handlers.Player.Shot += OnShot;
 
             Timing.RunCoroutine(OnModeStarted());
+            Timing.RunCoroutine(Display());
         }
 
         public IEnumerator<float> OnModeStarted()
@@ -76,12 +77,31 @@ namespace RGM.Modes
 
             yield return Timing.WaitForSeconds(180f);
 
+            foreach (var door in Door.List)
+            {
+                door.IsOpen = false;
+                door.Lock(DoorLockType.SpecialDoorFeature);
+            }
+
             Player BusterCall = Tools.GetRandomValue(Player.List.Where(x => x.IsAlive).ToList());
 
             foreach (var player in Player.List)
             {
                 player.Position = BusterCall.Position;
                 player.AddBroadcast(20, "<b><size=30>[<color=yellow>버스터콜</color>]</size></b>\n<size=20>모두가 한자리에 모입니다.</size>");
+            }
+        }
+
+        public IEnumerator<float> Display()
+        {
+            while (!Round.IsEnded)
+            {
+                foreach (var player in Player.List)
+                {
+                    player.AddHint($"계급 사회", $"<size=20>당신의 계급: {player.RankName}</size>", 1);
+                }
+
+                yield return Timing.WaitForSeconds(1);
             }
         }
 
