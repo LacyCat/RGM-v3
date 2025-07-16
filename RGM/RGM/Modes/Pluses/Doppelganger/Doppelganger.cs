@@ -49,7 +49,7 @@ namespace RGM.Modes
 
             while (!Round.IsEnded)
             {
-                foreach (var player in Player.List.Where(x => x != owner))
+                foreach (var player in Player.List)
                 {
                     player.DisplayNickname = owner.DisplayNickname;
                     player.CustomInfo = owner.CustomInfo;
