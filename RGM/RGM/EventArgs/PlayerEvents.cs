@@ -859,11 +859,17 @@ namespace RGM.EventArgs
             {
                 if (ev.Player.Role is Scp173Role scp173)
                 {
-                    if (scp173.IsObserved)
+                    if (Tools.TryGetLookPlayer(ev.Player, 1000, out Player target, out RaycastHit? hit))
                     {
-                        ev.ClaimedTarget.Hurt(new PlayerStatsSystem.ScpDamageHandler(ev.Player.ReferenceHub, ev.Firearm.Damage, DeathTranslations.Scp173));
+                        if (ev.ClaimedTarget == target)
+                        {
+                            if (scp173.IsObserved)
+                            {
+                                ev.ClaimedTarget.Hurt(new PlayerStatsSystem.ScpDamageHandler(ev.Player.ReferenceHub, ev.Firearm.Damage, DeathTranslations.Scp173));
 
-                        ev.Player.ShowHitMarker();
+                                ev.Player.ShowHitMarker();
+                            }
+                        }
                     }
                 }
             }
