@@ -342,6 +342,13 @@ public enum AbilityType
     LEGEND_UNLIMITED, // [전설] 무제한
     LEGEND_FLAMETHROWER, // [전설] 화염 방사기
     LEGEND_ASYNC, // [전설] A-Sync Research
+    LEGEND_AIMHACK, // [전설] 솔져: 76
+    LEGEND_SCP008, // [전설] SCP-008, 좀비 전염병
+    LEGEND_SCP035, // [전설] SCP-035, 빙의 가면
+    LEGEND_SCP294, // [전설] SCP-294, 커피 자판기
+    LEGEND_SCP457, // [전설] SCP-457, 불타는 남자
+    LEGEND_SCP966, // [전설] SCP-966, 잠을 죽이는 자
+    LEGEND_SCP999, // [전설] SCP-999, 간지럼 괴물
 
     // 신화 //
     MYTHIC_ROCKETLAUNCHER, // [신화] 로켓 런처

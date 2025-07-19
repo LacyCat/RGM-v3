@@ -290,6 +290,12 @@
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Epic\FoodResearcher.cs" />
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Epic\Scp127.cs" />
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Legend\A-Sync Research.cs" />
+    <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Legend\AimHack.cs" />
+    <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Legend\Scp999.cs" />
+    <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Legend\Scp966.cs" />
+    <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Legend\Scp457.cs" />
+    <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Legend\Scp035.cs" />
+    <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Legend\Scp008.cs" />
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Legend\Unlimited.cs" />
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Mythic\BALLISTAEM3.cs" />
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Mythic\KingsColor.cs" />
