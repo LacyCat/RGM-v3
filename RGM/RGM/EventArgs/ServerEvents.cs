@@ -33,6 +33,8 @@ namespace RGM.EventArgs
         {
             yield return Timing.WaitForSeconds(1f);
 
+            Server.ExecuteCommand("rnr");
+
             InventoryLimits.StandardCategoryLimits[ItemCategory.SpecialWeapon] = 8;
             InventoryLimits.StandardCategoryLimits[ItemCategory.SCPItem] = 8;
             InventoryLimits.Config.RefreshCategoryLimits();
@@ -285,11 +287,6 @@ namespace RGM.EventArgs
                 Server.ExecuteCommand($"/speak {player.Id} 1");
                 IntercomPlayers.Add(player);
             }
-
-            Timing.CallDelayed(18, () =>
-            {
-                Server.ExecuteCommand("/sr");
-            });
 
             foreach (var player in Player.List)
             {
