@@ -164,9 +164,9 @@ namespace RGM.Modes
 
                 if (HostZombies.Contains(ev.Player))
                 {
-                    ev.Player.MaxHealth = 500;
+                    ev.Player.MaxHealth = 555;
                     ev.Player.Health = ev.Player.MaxHealth;
-                    ev.Player.EnableEffect(EffectType.MovementBoost, 10);
+                    ev.Player.EnableEffect(EffectType.MovementBoost, 15);
                     ev.Player.IsBypassModeEnabled = true;
                 }
 
@@ -196,9 +196,9 @@ namespace RGM.Modes
 
         public IEnumerator<float> OnDied(DiedEventArgs ev)
         {
-            for (int i = 0; i < 11; i++)
+            for (int i = 0; i < 9; i++)
             {
-                ev.Player.AddHint("감염 확산", $"<size=25>{11 - i}초 뒤 <color=red>동료</color> 근처에서 부활합니다.</size>", 1.2f);
+                ev.Player.ShowHint($"<size=25>{9 - i}초 뒤 <color=red>동료</color> 근처에서 부활합니다.</size>", 1.2f);
 
                 yield return Timing.WaitForSeconds(1f);
             }
@@ -206,7 +206,7 @@ namespace RGM.Modes
             if (!IsHumanEnd)
             {
                 ev.Player.Role.Set(RoleTypeId.Scp0492);
-                ev.Player.MaxHealth = 400;
+                ev.Player.MaxHealth = 455;
                 ev.Player.Health = ev.Player.MaxHealth;
 
                 try
