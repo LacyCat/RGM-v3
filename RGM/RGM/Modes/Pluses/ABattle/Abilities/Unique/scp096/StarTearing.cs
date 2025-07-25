@@ -40,7 +40,7 @@ public class StarTearing : Ability
             if (GodModePlayers.Contains(ev.Player))
                 GodModePlayers.Remove(ev.Player);
 
-            ev.Player.Kill($"SCP-096의 별자리 찢기에 당했습니다.");
+            ev.Player.Hit(ev.Attacker, ev.Player.MaxHealth);
         }
     }
 }
