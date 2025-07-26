@@ -872,7 +872,7 @@ namespace RGM.EventArgs
                         {
                             if (scp173.IsObserved)
                             {
-                                ev.ClaimedTarget.Hurt(new PlayerStatsSystem.ScpDamageHandler(ev.Player.ReferenceHub, ev.Firearm.Damage, DeathTranslations.Scp173));
+                                ev.ClaimedTarget.Hurt(new PlayerStatsSystem.ScpDamageHandler(ev.Player.ReferenceHub, ev.Firearm.Damage / 2, DeathTranslations.Scp173));
 
                                 ev.Player.ShowHitMarker();
                             }
