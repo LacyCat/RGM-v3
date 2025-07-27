@@ -171,7 +171,14 @@ namespace RGM.Variables
             // "NowYoureACadet",
             // "InTheSea",
             "City",
-            "Airplane6"
+            "Airplane6",
+            "OperationHarvest",
+            "OperationNightFlight",
+            "MiniCityDesertV1",
+            "China",
+            "CityPlusCITY",
+            "OperationNightFlight",
+            "Castle"
         };
         public static List<string> Surfaces = new()
         {
