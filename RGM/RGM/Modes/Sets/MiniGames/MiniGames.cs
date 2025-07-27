@@ -34,10 +34,10 @@ namespace RGM.Modes
         public int RoundCount = 0;
         public List<string> Games = new List<string>()
         {
-            //"jail",
+            //"jail", - 뭔 게임인지 모름
             "airstrike",
             "dm",
-            "escape",
+            //"escape", - 버그 있음
             "battle",
             "versus",
             "cs",
