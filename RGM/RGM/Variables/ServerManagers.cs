@@ -174,10 +174,8 @@ namespace RGM.Variables
             "Airplane6",
             "OperationHarvest",
             "OperationNightFlight",
-            "MiniCityDesertV1",
             "China",
             "CityPlusCITY",
-            "OperationNightFlight",
             "Castle"
         };
         public static List<string> Surfaces = new()
