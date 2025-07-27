@@ -170,7 +170,8 @@ namespace RGM.Variables
             "TarkovStreet",
             // "NowYoureACadet",
             // "InTheSea",
-            "City"
+            "City",
+            "Airplane6"
         };
         public static List<string> Surfaces = new()
         {
