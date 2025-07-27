@@ -700,6 +700,14 @@ $"""
                 return null;
             }
 
+            if (Maps.Contains(mapName))
+            {
+                if (UnityEngine.Random.Range(1, 3) == 1)
+                {
+                    ObjectSpawner.SpawnSchematic("Sun", new Vector3(0, 1500, 0));
+                }
+            }
+
             if (!MapUtils.LoadedMaps.ContainsKey(mapName))
                 MapUtils.LoadMap(mapName);
 
