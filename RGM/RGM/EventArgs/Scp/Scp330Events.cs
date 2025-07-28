@@ -25,8 +25,6 @@ namespace RGM.EventArgs
             {
                 if (UnityEngine.Random.Range(1, 21) == 1)
                 {
-                    ev.Scp330.RemoveCandy(ev.Candy);
-
                     ev.Player.AddCandy(CandyKindID.Pink);
                 }
             });
