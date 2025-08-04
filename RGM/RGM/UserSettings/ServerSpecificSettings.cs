@@ -73,7 +73,7 @@ namespace RGM.UserSettings
 
             PlayerSettings[player.UserId].Item1.Clear();
 
-            var header = new HeaderSetting("-");
+            var header = new HeaderSetting(24492, "-");
 
             SettingBase.Register(new List<SettingBase> { header }, (p) => { return p == player; });
 
@@ -108,7 +108,7 @@ namespace RGM.UserSettings
 
         public static List<SettingBase> RGMSetting(Player player)
         {
-            var header1 = new HeaderSetting("<size=30>[<color=#F78181>K</color><color=#5882FA>R</color>]</size></align> <b><size=30><color=#F6CECE>랜</color><color=#F6D8CE>덤</color><color=#F6E3CE>게</color><color=#F5ECCE>임</color><color=#F5F6CE>모</color><color=#ECF6CE>드</color></size></b>");
+            var header1 = new HeaderSetting(19282, "<size=30>[<color=#F78181>K</color><color=#5882FA>R</color>]</size></align> <b><size=30><color=#F6CECE>랜</color><color=#F6D8CE>덤</color><color=#F6E3CE>게</color><color=#F5ECCE>임</color><color=#F5F6CE>모</color><color=#ECF6CE>드</color></size></b>");
             var text1 = new TextInputSetting(1, 
 $"""
 • <b><color=#F6CECE>랜</color><color=#F6D8CE>덤</color><color=#F6E3CE>게</color><color=#F5ECCE>임</color><color=#F5F6CE>모</color><color=#ECF6CE>드</color></b>는 매 라운드마다 랜덤한 모드와 함께 라운드가 시작되는 한국 서버입니다.
@@ -137,7 +137,7 @@ $"""
                 return UsersManager.UsersCache[player.UserId];
             }
 
-            var header1 = new HeaderSetting("<b>ⓘ 유저</b>");
+            var header1 = new HeaderSetting(2111, "<b>ⓘ 유저</b>");
             var text1 = new TextInputSetting(1, $"👤 Steam ID: {player.UserId}<line-height=0>\n</line-height><align=right><mark=#5865f215><link=https://steamcommunity.com/profiles/{player.RawUserId}>ㅤ자신의 스팀 프로필 보기ㅤㅤ</link></mark></align>", header: header1);
             var text2 = new TextInputSetting(2, $"⭐ EXP: {uc()[0]}", header: header1);
             var text3 = new TextInputSetting(3, $"💫 랜덤코인: {uc()[1]}", header: header1);
@@ -171,7 +171,7 @@ $"""
 
         public static List<SettingBase> ModeSetting(Player player)
         {
-            var header1 = new HeaderSetting("<b>🎮 모드</b>");
+            var header1 = new HeaderSetting(123456, "<b>🎮 모드</b>");
             var text1 = new TextInputSetting(103, "📝 모드 설명\n자세한 설명을 조회할 모드를 선택해주세요.", header: header1);
             IEnumerable<string> modeList = ModeList.Keys.Select(x => $"{x.GetModeData().Name} ({x.GetModeData().Category}, {x.GetModeData().Info})");
             var dropdown1 = new DropdownSetting(102, "📃 전체 모드", modeList, header: header1);
@@ -196,7 +196,7 @@ $"""
 
         public static List<SettingBase> EtcSetting(Player player)
         {
-            var header1 = new HeaderSetting("<b>⚙️ 기타</b>");
+            var header1 = new HeaderSetting(01928, "<b>⚙️ 기타</b>");
             var button1 = new ButtonSetting(200, "🔄 새로고침", "모든 정보를 새로고침합니다.", 1, header: header1);
             button1.OnChanged = (p, sb) =>
             {

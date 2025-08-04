@@ -115,7 +115,7 @@ namespace RGM.Modes
 
         public List<SettingBase> SMSetting(Player player)
         {
-            var header1 = new HeaderSetting(Header);
+            var header1 = new HeaderSetting(244241, Header);
             var button1 = new ButtonSetting(10110, "참가", "<color=red>소스맨</color>이 되고 싶다면 버튼을 누르세요.", 5, header: header1);
             button1.OnChanged = (p, sb) =>
             {
