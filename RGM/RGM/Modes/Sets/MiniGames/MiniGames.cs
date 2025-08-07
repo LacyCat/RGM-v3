@@ -35,19 +35,19 @@ namespace RGM.Modes
         public List<string> Games = new List<string>()
         {
             //"jail", - 뭔 게임인지 모름
-            "airstrike",
-            "dm",
+            //"airstrike", - 순수 노잼
+            //"dm", - 모드로 이미 존재함
             //"escape", - 버그 있음
             "battle",
             "versus",
             "cs",
             "glass",
             "deathrun",
-            "line",
+            //"line", - 모드로 이미 존재함
             "dodge",
             "fall",
             "football",
-            "gungame",
+            //"gungame", - 겁나 오래 걸림
             "knives",
             "chair",
             "puzzle",
@@ -55,7 +55,7 @@ namespace RGM.Modes
             "light",
             "spleef",
             "tag",
-            "tdm",
+            //"tdm", - 모드로 이미 존재함
             "lava",
             "zombie",
             "zombie2"
