@@ -170,8 +170,8 @@ namespace RGM.EventArgs
 
                 string Message = Notions.LateJoinModeDescription
                 .Replace("{ModeColor}", Color)
-                .Replace("{CurrentMode}", SelectMode == "Secret2Vote" ? "이건무슨모드일까요다람쥐" : Name)
-                .Replace("{CurrentSubMode}", SelectMode == "Secret2Vote" ? "풉ㅋ" : CurrentSubMode != ModeType.None ? $"<size=20>추가된 서브 모드 : <color=#{ModeList[CurrentSubMode].Color}>{CurrentSubMode.GetModeData().Name}</color></size>\n" : "")
+                .Replace("{CurrentMode}", Name)
+                .Replace("{CurrentSubMode}", CurrentSubMode != ModeType.None ? $"<size=20>추가된 서브 모드 : <color=#{ModeList[CurrentSubMode].Color}>{CurrentSubMode.GetModeData().Name}</color></size>\n" : "")
                 .Replace("{ModeDescription}", Description)
                 .Replace("{ModeInfo}", CurrentMode.GetModeData().Info.ToString());
 
@@ -357,9 +357,6 @@ namespace RGM.EventArgs
 
                                         else if (SelectMode == "FightVote")
                                             return "<b>[선택 모드 : 공포 정치]</b> <color=#FA5858>소수가 지배하는 모드 투표장이 되었습니다.</color>";
-
-                                        else if (SelectMode == "Secret2Vote")
-                                            return "<b>[선택 모드 : 시크릿]</b> <color=#E6F8E0>어떤 모드로 시작했는지 알려주지 않습니다.</color>";
 
                                         else
                                             return "<b>[버그로 추정됨 : 문의 요망]</b> 어떤 선택 모드도 선택되지 않았습니다. 뭔가 이상합니다.";
