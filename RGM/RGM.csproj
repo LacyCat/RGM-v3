@@ -556,6 +556,7 @@
     <Compile Include="RGM\Modes\Sets\GGClub\GGClub.cs" />
     <Compile Include="RGM\Modes\Sets\GunGame\GunGame.cs" />
     <Compile Include="RGM\Modes\Sets\HideAndSeek\HideAndSeek.cs" />
+    <Compile Include="RGM\Modes\Sets\Tag\Tag.cs" />
     <Compile Include="RGM\Modes\Sets\HIDE\HIDE.cs" />
     <Compile Include="RGM\Modes\Sets\HotPotato\HotPotato.cs" />
     <Compile Include="RGM\Modes\Pluses\JohnWick\JohnWick.cs" />

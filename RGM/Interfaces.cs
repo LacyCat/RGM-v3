@@ -99,7 +99,6 @@ public enum ModeType
     GunGame,
     JohnWick,
     HIDE,
-    HideAndSeek,
     Skeleton,
     KoreanSpeed,
     Outlaw,
@@ -147,7 +146,9 @@ public enum ModeType
     ClassSociety,
     Doppelganger,
     Moon,
-    Curse
+    Curse,
+    Tag,
+    HideAndSeek
 }
 
 
