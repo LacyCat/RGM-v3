@@ -146,7 +146,8 @@ public enum ModeType
     SitDown,
     ClassSociety,
     Doppelganger,
-    Moon
+    Moon,
+    Curse
 }
 
 
