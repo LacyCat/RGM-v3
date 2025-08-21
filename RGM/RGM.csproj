@@ -504,6 +504,7 @@
     <Compile Include="RGM\Modes\Pluses\AdditionalWave\AdditionalWave.cs" />
     <Compile Include="RGM\Modes\Pluses\Ascension\Ascension.cs" />
     <Compile Include="RGM\Modes\Pluses\Blackout\Blackout.cs" />
+    <Compile Include="RGM\Modes\Pluses\Curse\Curse.cs" />
     <Compile Include="RGM\Modes\Pluses\Blessing\Blessing.cs" />
     <Compile Include="RGM\Modes\Pluses\BomberMan\BomberMan.cs" />
     <Compile Include="RGM\Modes\Pluses\Builder\Builder.cs" />
