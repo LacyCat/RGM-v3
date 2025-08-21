@@ -12,7 +12,7 @@ using UnityEngine;
 
 namespace RGM.Modes.Abilities.Mythic;
 
-[Ability("툴건", "아무 기능도 없는 권총을 얻습니다. 사용을 시도할 때마다 20%의 체력을 소실합니다.", AbilityCategory.Mythic, AbilityType.MYTHIC_TOOLGUN)]
+//[Ability("툴건", "아무 기능도 없는 권총을 얻습니다. 사용을 시도할 때마다 20%의 체력을 소실합니다.", AbilityCategory.Mythic, AbilityType.MYTHIC_TOOLGUN)]
 public class ToolGun : Ability
 {
     public override void OnEnabled()

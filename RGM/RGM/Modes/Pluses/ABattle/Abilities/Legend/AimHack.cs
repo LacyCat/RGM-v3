@@ -16,7 +16,7 @@ using UnityEngine;
 
 namespace RGM.Modes.Abilities.Legend;
 
-[Ability("솔져: 76", "당신의 데미지는 절반으로 줄어들지만 에임이 자동으로 보정됩니다.", AbilityCategory.Legend, AbilityType.LEGEND_AIMHACK)]
+//[Ability("솔져: 76", "당신의 데미지는 절반으로 줄어들지만 에임이 자동으로 보정됩니다.", AbilityCategory.Legend, AbilityType.LEGEND_AIMHACK)]
 public class AimHack : Ability
 {
     public override void OnEnabled()
