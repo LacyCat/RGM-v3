@@ -27,7 +27,6 @@ namespace RGM.Modes
         public override void OnEnabled()
         {
             Exiled.Events.Handlers.Player.Spawned += OnSpawned;
-            Exiled.Events.Handlers.Player.Hurting += OnHurting;
 
             Timing.RunCoroutine(OnModeStarted());
         }
@@ -52,14 +51,6 @@ namespace RGM.Modes
             if (player.IsAlive)
             {
                 player.EnableEffect(EffectType.Lightweight, 255);
-            }
-        }
-
-        void OnHurting(HurtingEventArgs ev)
-        {
-            if (ev.DamageHandler.Type == DamageType.Falldown)
-            {
-                ev.IsAllowed = false;
             }
         }
     }

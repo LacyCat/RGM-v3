@@ -1,4 +1,5 @@
-﻿using CustomRendering;
+﻿using CustomPlayerEffects;
+using CustomRendering;
 using Exiled.API.Enums;
 using Exiled.API.Features;
 using Exiled.API.Features.Doors;
@@ -174,17 +175,17 @@ namespace RGM.Modes
                 Timing.RunCoroutine(Tools.SetWinner(players.ToList(), 1));
         }
 
-        public void OnDroppingItem(DroppingItemEventArgs ev)
+        void OnDroppingItem(DroppingItemEventArgs ev)
         {
             ev.IsAllowed = false;
         }
 
-        public void OnDroppingAmmo(DroppingAmmoEventArgs ev)
+        void OnDroppingAmmo(DroppingAmmoEventArgs ev)
         {
             ev.IsAllowed = false;
         }
 
-        public void OnShot(ShotEventArgs ev)
+        void OnShot(ShotEventArgs ev)
         {
             ev.Player.AddAmmo(ev.Firearm.AmmoType, 1);
         }
