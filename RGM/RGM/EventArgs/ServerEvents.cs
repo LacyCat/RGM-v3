@@ -372,17 +372,13 @@ namespace RGM.EventArgs
                 {
                     try
                     {
-                        player.AddHint("라운드 요약", $"<align=left>{sb}</align>\n\n\n\n", 1);
+                        string text = $"<align=left>{sb}</align>\n\n\n\n";
+                        player.ShowHint(text, 1);
                     }
                     catch (Exception e)
                     {
                         Log.Error($"Error in AddHint: {e}");
                     }
-                }
-
-                foreach (var player in Player.List)
-                {
-                    player.AddHint("라운드 요약", $"<align=left>{sb}</align>\n\n\n\n", 1);
                 }
 
                 yield return Timing.WaitForSeconds(1);
