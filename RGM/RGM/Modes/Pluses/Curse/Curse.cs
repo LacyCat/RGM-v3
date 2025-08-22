@@ -138,7 +138,10 @@ $"""
 
         void OnHurting(HurtingEventArgs ev)
         {
-            ev.DamageHandler.Damage *= 0.1f * ev.Player.CurrentSpectatingPlayers.Count();
+            int spectatorCount = ev.Player.CurrentSpectatingPlayers.Count();
+            float increaseRate = 1f + (0.01f * spectatorCount);
+
+            ev.DamageHandler.Damage *= increaseRate;
         }
     }
 }
