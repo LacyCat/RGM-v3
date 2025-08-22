@@ -14,7 +14,7 @@ namespace RGM.API.Features
 
         public static IEnumerator<float> OnStarted()
         {
-            while (true)
+            while (!Round.IsEnded)
             {
                 foreach (var player in Player.List.Where(x => x.IsAlive && _playerHints.ContainsKey(x) && _playerHints[x].Count > 0))
                 {
