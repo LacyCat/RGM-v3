@@ -32,6 +32,7 @@ using Exiled.API.Features.Roles;
 using Exiled.CustomItems.API.Features;
 using Exiled.API.Features.Pickups;
 using System.Diagnostics.Eventing.Reader;
+using CustomPlayerEffects;
 
 
 namespace RGM.EventArgs
@@ -651,6 +652,11 @@ namespace RGM.EventArgs
         {
             if (Round.IsLobby || Round.IsEnded)
                 return;
+
+            if (ev.DamageHandler.Type == DamageType.Falldown && ev.Player.TryGetEffect(EffectType.Lightweight, out StatusEffectBase statusEffect))
+            {
+                ev.IsAllowed = false;
+            }
 
             if (GodModePlayers.Contains(ev.Player))
             {
