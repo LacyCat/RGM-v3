@@ -50,6 +50,7 @@ public class TouchOfChaos : Ability
         ev.Item.Destroy();
 
         ev.Player.DisableAllEffects();
+        ev.Player.RemoveAllAbilities();
 
         ABattle.Instance.PlayerWorkstations[ev.Player].Clear();
         ABattle.Instance.PlayerAbilities[ev.Player].Clear();
