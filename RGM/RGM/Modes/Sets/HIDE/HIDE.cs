@@ -79,12 +79,12 @@ namespace RGM.Modes
                     monster.Position = new Vector3(-0.6015625f, 332.9026f, -32.56641f);
                     Server.ExecuteCommand($"/open ESCAPE_PRIMARY");
 
-                    float health = 20 * Player.List.Count + 5 * Player.List.Count;
+                    float health = 15 * Player.List.Count + 5 * Player.List.Count;
                     monster.MaxHealth = health;
                     monster.Health = health;
                     monster.IsUsingStamina = false;
                     monster.EnableEffect(EffectType.MovementBoost, 50);
-                    monster.EnableEffect(EffectType.Fade, 240);
+                    monster.EnableEffect(EffectType.Fade, 230);
                     monster.EnableEffect(EffectType.Lightweight, 150);
 
                     foreach (var player in Player.List)
