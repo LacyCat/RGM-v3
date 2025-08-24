@@ -20,6 +20,7 @@ using Exiled.Events.EventArgs.Player;
 using Exiled.API.Extensions;
 using Exiled.API.Features.Pickups;
 using RGM.Modes.SnakeSystem;
+using AFK;
 
 namespace RGM.Modes
 {
@@ -48,6 +49,7 @@ namespace RGM.Modes
             Server.FriendlyFire = true;
             Round.IsLocked = true;
             Respawn.PauseWaves();
+            AFKManager._kickTime = 120500;
 
             PlayerScoreManager.LoadScores();
             SnakeEventManager.Initialize();
@@ -61,7 +63,6 @@ namespace RGM.Modes
             SnakeEventManager.OnSnakeScoreChanged += OnSnakeScoreChanged;
 
             Timing.RunCoroutine(OnModeStarted());
-            Timing.RunCoroutine(blockAFK());
         }
 
         public IEnumerator<float> OnModeStarted()
@@ -89,17 +90,22 @@ namespace RGM.Modes
             {
                 time++;
 
-                foreach (var player in playerScore.Keys.Where(x => x.IsAlive))
+                foreach (var player in playerScore.Keys)
                 {
-                    int remain = 30 - (time - playerScore[player].Item2);
+                    player.AddBroadcast(1, $"<size=30>{177 - time}초 후 게임이 종료됩니다.</size>");
 
-                    if (remain <= 0)
+                    if (player.IsAlive)
                     {
-                        player.Kill($"최종 점수: {playerScore[player].Item1}점");
-                    }
-                    else
-                    {
-                        player.AddBroadcast(1, $"<size=30>{177 - time}초 후 게임이 종료됩니다.</size>\n<size=25><b>{remain}초 안에 다음 점수를 획득하세요.</b> <i>그렇지 않으면 <color=red>사망</color>합니다.</i></size>");
+                        int remain = 30 - (time - playerScore[player].Item2);
+
+                        if (remain <= 0)
+                        {
+                            player.Kill($"최종 점수: {playerScore[player].Item1}점");
+                        }
+                        else
+                        {
+                            player.AddBroadcast(1, $"<size=25><b>{remain}초 안에 다음 점수를 획득하세요.</b> <i>그렇지 않으면 <color=red>사망</color>합니다.</i></size>");
+                        }
                     }
                 }
                 
@@ -112,38 +118,6 @@ namespace RGM.Modes
                 }
 
                 yield return Timing.WaitForSeconds(1);
-            }
-        }
-
-        IEnumerator<float> blockAFK()
-        {
-            while (true)
-            {
-                foreach (var player in Player.List.Where(x => x.IsAlive))
-                {
-                    IEnumerator<float> walk()
-                    {
-                        player.Position = player.Position + new Vector3(0.1f, 0, 0);
-
-                        yield return Timing.WaitForSeconds(0.1f);
-
-                        player.Position = player.Position + new Vector3(0, 0, 0.1f);
-
-                        yield return Timing.WaitForSeconds(0.1f);
-
-                        player.Position = player.Position + new Vector3(0, 0, -0.1f);
-
-                        yield return Timing.WaitForSeconds(0.1f);
-
-                        player.Position = player.Position + new Vector3(-0.1f, 0, 0);
-
-                        yield return Timing.WaitForSeconds(0.1f);
-                    }
-
-                    Timing.RunCoroutine(walk());
-                }
-
-                yield return Timing.WaitForSeconds(60);
             }
         }
 
