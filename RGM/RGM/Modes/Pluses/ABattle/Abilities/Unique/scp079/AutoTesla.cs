@@ -37,11 +37,11 @@ public class AutoTesla : Ability
     {
         while (true)
         {
-            TeslaGate tesla = TeslaGate.AllGates.GetRandomValue();
+            LabApi.Features.Wrappers.Tesla tesla = LabApi.Features.Wrappers.Tesla.List.GetRandomValue();
+            tesla.Trigger();
+            tesla.InstantTrigger();
 
-            tesla.UserCode_RpcInstantBurst();
-
-            yield return Timing.WaitForSeconds(UnityEngine.Random.Range(1, 120));
+            yield return Timing.WaitForSeconds(UnityEngine.Random.Range(1, 60));
         }
     }
 }
