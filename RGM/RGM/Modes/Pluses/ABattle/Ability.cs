@@ -298,6 +298,7 @@ public enum AbilityType
     RARE_DND, // [희귀] 자리 비움
     RARE_CLONE, // [희귀] 분신
     RARE_SPACETRAVEL, // [희귀] 공간이동
+    RARE_ORGANICMILK, // [희귀] 유기농 우유
 
     // 영웅 //
     EPIC_TERRORISTREMAINS, // [영웅] 테러리스트의 유품
@@ -459,6 +460,7 @@ public enum AbilityType
     SCP079_SYSTEMHACKING, // [전용] 시스템 해킹
     SCP079_CAMERAFLASH, // [전용] 카메라 플래시
     SCP079_CASSIE, // [전용] C.A.S.S.I.E.
+    SCP079_AUTOTESLA, // [전용] 자동 방어 시스템
 
     // 시너지 //
     SYNERGY_SURVIVALEXPERT, // [시너지] 생존 전문가

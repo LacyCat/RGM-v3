@@ -243,6 +243,7 @@
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Rare\Undine.cs" />
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Rare\Upgrade.cs" />
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Rare\Vampire.cs" />
+    <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Rare\OrganicMilk.cs" />
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Rare\WeaponExpert.cs" />
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Synergy\AFK.cs" />
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Synergy\Assassin.cs" />
@@ -296,6 +297,7 @@
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Unique\Scp079\Overclocking.cs" />
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Unique\Scp079\OverCurrent.cs" />
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Unique\Scp079\Overwhelming.cs" />
+    <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Unique\Scp079\AutoTesla.cs" />
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Unique\Scp079\PingHook.cs" />
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Unique\Scp079\PingRemote.cs" />
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Unique\Scp079\PortableCharger.cs" />
