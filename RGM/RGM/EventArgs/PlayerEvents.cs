@@ -539,7 +539,7 @@ namespace RGM.EventArgs
                 {
                     if (ev.Player.Role.Type == RoleTypeId.Scp079)
                     {
-                        ev.Player.MaxHealth = 12050;
+                        ev.Player.MaxHealth = 2322;
                         ev.Player.Health = ev.Player.MaxHealth;
                     }
 
