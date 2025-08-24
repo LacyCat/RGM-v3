@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using CustomRendering;
 using Exiled.API.Enums;
 using Exiled.API.Features;
+using Exiled.Events.EventArgs.Player;
 using Exiled.Events.EventArgs.Server;
 using MEC;
 using Mirror;
@@ -29,6 +30,8 @@ namespace RGM.Modes
 고도의 심리전 싸움입니다.
 
 최후의 승자는 과연 누가 될 것인가..
+
+TIP. [ALT] 키를 통해 아군을 밀칠 수 있습니다.
 """;
         public override string Color => "F5A9E1";
 
@@ -39,6 +42,8 @@ namespace RGM.Modes
             Round.IsLocked = true;
             Respawn.PauseWaves(); 
             Server.FriendlyFire = true;
+
+            Exiled.Events.Handlers.Player.TogglingNoClip += OnTogglingNoClip;
 
             Exiled.Events.Handlers.Server.RoundEnded += OnRoundEnded;
 
@@ -93,6 +98,17 @@ namespace RGM.Modes
 
             if (!Round.IsEnded)
                 Finders.ForEach(x => x.Kill($"제한 시간 안에 생존자를 전부 죽이지 못했습니다."));
+        }
+
+        void OnTogglingNoClip(TogglingNoClipEventArgs ev)
+        {
+            if (Tools.TryGetLookPlayer(ev.Player, 2, out Player target, out RaycastHit? hit))
+            {
+                if (!target.IsScp)
+                {
+                    ev.Player.Push(target);
+                }
+            }
         }
 
         public void OnRoundEnded(RoundEndedEventArgs ev)

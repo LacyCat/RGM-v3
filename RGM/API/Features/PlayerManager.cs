@@ -11,6 +11,7 @@ using System.Linq;
 using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 using UnityEngine.Windows;
 using static RGM.Variables.ServerManagers;
 
@@ -371,6 +372,41 @@ namespace RGM.API.Features
             else
             {
                 add();
+            }
+        }
+
+        public static void Push(this Player player, Player target, float distance = 5, float height = 1)
+        {
+            Vector3 horizontalDirection = target.Position - player.Position;
+            horizontalDirection.y = 0;
+            horizontalDirection = horizontalDirection.normalized;
+
+            Vector3 throwVector = horizontalDirection * distance;
+            throwVector.y = height;
+
+            RaycastHit[] hits = Physics.RaycastAll(
+                player.ReferenceHub.PlayerCameraReference.position + player.ReferenceHub.PlayerCameraReference.forward * 0.2f,
+                player.ReferenceHub.PlayerCameraReference.forward,
+                distance
+            );
+
+            RaycastHit? validHit = null;
+            foreach (var h in hits.OrderBy(hit => hit.distance))
+            {
+                if (!h.collider.TryGetComponent<IDestructible>(out IDestructible destructible))
+                {
+                    validHit = h;
+                    break;
+                }
+            }
+
+            if (validHit.HasValue)
+            {
+                target.Position = validHit.Value.point;
+            }
+            else
+            {
+                target.Position = player.Position + throwVector;
             }
         }
     }
