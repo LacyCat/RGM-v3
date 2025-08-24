@@ -1,19 +1,20 @@
-﻿using System;
+﻿using CustomRendering;
+using Exiled.API.Enums;
+using Exiled.API.Extensions;
+using Exiled.API.Features;
+using Exiled.API.Features.Items;
+using Exiled.Events.EventArgs.Player;
+using MEC;
+using Mirror;
+using MultiBroadcast.API;
+using PlayerRoles;
+using RGM.API.Features;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CustomRendering;
-using Exiled.API.Features;
-using Exiled.API.Features.Items;
-using MEC;
-using Mirror;
-using MultiBroadcast.API;
 using UnityEngine;
-using Exiled.API.Enums;
-using RGM.API.Features;
-using Exiled.API.Extensions;
-
 using static RGM.Variables.ServerManagers;
 
 namespace RGM.Modes
@@ -239,7 +240,7 @@ namespace RGM.Modes
             }
         }
 
-        public void OnDying(Exiled.Events.EventArgs.Player.DyingEventArgs ev)
+        public void OnDying(DyingEventArgs ev)
         {
             string playerColor = ev.Player.Role.Color.ToHex();
             string soulMateColor = soulMates[ev.Player] == null ? null : soulMates[ev.Player].Role.Color.ToHex();
@@ -269,7 +270,7 @@ namespace RGM.Modes
             });
         }
 
-        public void OnHurt(Exiled.Events.EventArgs.Player.HurtEventArgs ev)
+        public void OnHurt(HurtEventArgs ev)
         {
             if (soulMates.ContainsKey(ev.Player))
             {
@@ -280,7 +281,7 @@ namespace RGM.Modes
             }
         }
 
-        public void OnHealed(Exiled.Events.EventArgs.Player.HealedEventArgs ev)
+        public void OnHealed(HealedEventArgs ev)
         {
             if (soulMates.ContainsKey(ev.Player))
             {
@@ -291,7 +292,7 @@ namespace RGM.Modes
             }
         }
 
-        public void OnPickingUpItem(Exiled.Events.EventArgs.Player.PickingUpItemEventArgs ev)
+        public void OnPickingUpItem(PickingUpItemEventArgs ev)
         {
             if (soulMates.ContainsKey(ev.Player))
             {
@@ -301,7 +302,7 @@ namespace RGM.Modes
             }
         }
 
-        public void OnDroppingItem(Exiled.Events.EventArgs.Player.DroppingItemEventArgs ev)
+        public void OnDroppingItem(DroppingItemEventArgs ev)
         {
             if (soulMates.ContainsKey(ev.Player))
             {
@@ -318,7 +319,7 @@ namespace RGM.Modes
             }
         }
 
-        public void OnUsingItemCompleted(Exiled.Events.EventArgs.Player.UsingItemCompletedEventArgs ev)
+        public void OnUsingItemCompleted(UsingItemCompletedEventArgs ev)
         {
             if (soulMates.ContainsKey(ev.Player))
             {
@@ -335,7 +336,7 @@ namespace RGM.Modes
             }
         }
 
-        public void OnEscaping(Exiled.Events.EventArgs.Player.EscapingEventArgs ev)
+        public void OnEscaping(EscapingEventArgs ev)
         {
             Timing.CallDelayed(0.1f, () => 
             {
