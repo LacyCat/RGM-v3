@@ -9,7 +9,6 @@ using Exiled.API.Features;
 using Exiled.API.Features.Doors;
 using Exiled.API.Features.Toys;
 using HarmonyLib;
-using MapEditorReborn.API.Features.Objects;
 using MEC;
 using Mirror;
 using MultiBroadcast;
@@ -19,7 +18,6 @@ using PlayerRoles.FirstPersonControl;
 using PlayerRoles;
 using RGM.API.Features;
 using MultiBroadcast.API;
-using MapEditorReborn.API.Features;
 using Respawning;
 using Exiled.API.Features.Items;
 using CommandSystem.Commands.RemoteAdmin.Dummies;
@@ -27,6 +25,7 @@ using GameCore;
 using RelativePositioning;
 
 using static RGM.Variables.ServerManagers;
+using NetworkManagerUtils.Dummies;
 
 namespace RGM.Modes
 {
@@ -67,11 +66,11 @@ namespace RGM.Modes
 
             Tools.PlayGlobalAudio("ChristmasRock", 0.3f, true);
 
-            ReferenceHub dummy = Dummy.SpawnDummy("귀여운 땅콩이 ❤️");
+            ReferenceHub dummy = DummyUtils.SpawnDummy("귀여운 땅콩이 ❤️");
             Player bot = Player.Get(dummy);
 
             dummy.roleManager.ServerSetRole(RoleTypeId.Scp173, RoleChangeReason.RemoteAdmin);
-            dummy.TryOverridePosition(new Vector3(-100, 1000, -100), Vector3.zero);
+            dummy.TryOverridePosition(new Vector3(-100, 1000, -100));
 
             FirstPersonMovementModule fpcModule = (bot.ReferenceHub.roleManager.CurrentRole as FpcStandardRoleBase).FpcModule;
             fpcModule.Noclip.IsActive = true;
