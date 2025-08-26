@@ -1,0 +1,51 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Text;
+using System.Threading.Tasks;
+using CustomRendering;
+using Exiled.API.Enums;
+using Exiled.API.Features;
+using Exiled.Events.EventArgs.Player;
+using Exiled.Events.EventArgs.Server;
+using MEC;
+using Mirror;
+using MultiBroadcast;
+using MultiBroadcast.API;
+using PlayerRoles;
+using Respawning;
+using RGM.API.Features;
+using RGM.Modes.Sets.PVE;
+using UnityEngine;
+
+namespace RGM.Modes
+{
+    [Mode(ModeCategory.Private, ModeInfo.Set, ModeType.PVE)]
+    class PVE : Mode
+    {
+        public override string Name => "공성전";
+        public override string Description => "AI들의 웨이브를 버텨내세요.";
+        public override string Detail =>
+"""
+나도이게뭔지잘몰?루
+""";
+        public override string Color => "a0aade";
+        public override string Suggester => "made by A3인데(@a3ind)";
+
+        public override void OnEnabled()
+        {
+            Round.IsLocked = true;
+            Respawn.PauseWaves(); 
+
+            Timing.RunCoroutine(OnModeStarted());
+        }
+
+        public IEnumerator<float> OnModeStarted()
+        {
+            Main.OnEnabled();
+
+            yield return Timing.WaitForSeconds(1);
+        }
+    }
+}

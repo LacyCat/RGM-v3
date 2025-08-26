@@ -394,6 +394,19 @@
     <Compile Include="RGM\Modes\Sets\GGClub\GGClub.cs" />
     <Compile Include="RGM\Modes\Sets\GunGame\GunGame.cs" />
     <Compile Include="RGM\Modes\Sets\HideAndSeek\HideAndSeek.cs" />
+    <Compile Include="RGM\Modes\Sets\PVE\PVESystem\Config.cs" />
+    <Compile Include="RGM\Modes\Sets\PVE\PVESystem\Enemies\ClassD.cs" />
+    <Compile Include="RGM\Modes\Sets\PVE\PVESystem\Enemies\Cloaker.cs" />
+    <Compile Include="RGM\Modes\Sets\PVE\PVESystem\Enemies\Demolisher.cs" />
+    <Compile Include="RGM\Modes\Sets\PVE\PVESystem\Enemies\Juggernaut.cs" />
+    <Compile Include="RGM\Modes\Sets\PVE\PVESystem\Enemies\Pyromancer.cs" />
+    <Compile Include="RGM\Modes\Sets\PVE\PVESystem\Enemies\Scout.cs" />
+    <Compile Include="RGM\Modes\Sets\PVE\PVESystem\Enemies\Tranquilizer.cs" />
+    <Compile Include="RGM\Modes\Sets\PVE\PVESystem\Enemy.cs" />
+    <Compile Include="RGM\Modes\Sets\PVE\PVESystem\Main.cs" />
+    <Compile Include="RGM\Modes\Sets\PVE\PVESystem\RoundHandler.cs" />
+    <Compile Include="RGM\Modes\Sets\PVE\PVESystem\WaveConfig.cs" />
+    <Compile Include="RGM\Modes\Sets\PVE\PVE.cs" />
     <Compile Include="RGM\Modes\Sets\Snake\SnakeSystem\Config.cs" />
     <Compile Include="RGM\Modes\Sets\Snake\SnakeSystem\PlayerScoreManager.cs" />
     <Compile Include="RGM\Modes\Sets\Snake\SnakeSystem\SnakeCommands.cs" />
@@ -401,6 +414,7 @@
     <Compile Include="RGM\Modes\Sets\Snake\SnakeSystem\SnakeEventHandler.cs" />
     <Compile Include="RGM\Modes\Sets\Snake\SnakeSystem\SnakeGameMonitor.cs" />
     <Compile Include="RGM\Modes\Sets\Snake\SnakeSystem\SnakeMarketSystem.cs" />
+    <Compile Include="RGM\Modes\Sets\SnowBallFight\SnowBallFight.cs" />
     <Compile Include="RGM\Modes\Sets\Tag\Tag.cs" />
     <Compile Include="RGM\Modes\Sets\HIDE\HIDE.cs" />
     <Compile Include="RGM\Modes\Sets\HotPotato\HotPotato.cs" />
@@ -593,6 +607,10 @@
     <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\SCPSL\14.1\SCPSL_Data\Managed\UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.AIModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\SCPSL\SCPSL_Data\Managed\UnityEngine.AIModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

@@ -148,7 +148,8 @@ public enum ModeType
     Moon,
     Curse,
     Tag,
-    HideAndSeek
+    HideAndSeek,
+    PVE
 }
 
 
