@@ -16,7 +16,6 @@ using MultiBroadcast.API;
 using PlayerRoles;
 using Respawning;
 using RGM.API.Features;
-using RGM.Modes.Sets.PVE;
 using UnityEngine;
 
 namespace RGM.Modes
@@ -43,7 +42,10 @@ namespace RGM.Modes
 
         public IEnumerator<float> OnModeStarted()
         {
-            Main.OnEnabled();
+            RoundHandler roundHandler = new RoundHandler();
+            roundHandler.OnRoundStarted();
+
+            Exiled.Events.Handlers.Server.EndingRound += roundHandler.OnEndingRound;
 
             yield return Timing.WaitForSeconds(1);
         }

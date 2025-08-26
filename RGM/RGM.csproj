@@ -394,18 +394,6 @@
     <Compile Include="RGM\Modes\Sets\GGClub\GGClub.cs" />
     <Compile Include="RGM\Modes\Sets\GunGame\GunGame.cs" />
     <Compile Include="RGM\Modes\Sets\HideAndSeek\HideAndSeek.cs" />
-    <Compile Include="RGM\Modes\Sets\PVE\PVESystem\Config.cs" />
-    <Compile Include="RGM\Modes\Sets\PVE\PVESystem\Enemies\ClassD.cs" />
-    <Compile Include="RGM\Modes\Sets\PVE\PVESystem\Enemies\Cloaker.cs" />
-    <Compile Include="RGM\Modes\Sets\PVE\PVESystem\Enemies\Demolisher.cs" />
-    <Compile Include="RGM\Modes\Sets\PVE\PVESystem\Enemies\Juggernaut.cs" />
-    <Compile Include="RGM\Modes\Sets\PVE\PVESystem\Enemies\Pyromancer.cs" />
-    <Compile Include="RGM\Modes\Sets\PVE\PVESystem\Enemies\Scout.cs" />
-    <Compile Include="RGM\Modes\Sets\PVE\PVESystem\Enemies\Tranquilizer.cs" />
-    <Compile Include="RGM\Modes\Sets\PVE\PVESystem\Enemy.cs" />
-    <Compile Include="RGM\Modes\Sets\PVE\PVESystem\Main.cs" />
-    <Compile Include="RGM\Modes\Sets\PVE\PVESystem\RoundHandler.cs" />
-    <Compile Include="RGM\Modes\Sets\PVE\PVESystem\WaveConfig.cs" />
     <Compile Include="RGM\Modes\Sets\PVE\PVE.cs" />
     <Compile Include="RGM\Modes\Sets\Snake\SnakeSystem\Config.cs" />
     <Compile Include="RGM\Modes\Sets\Snake\SnakeSystem\PlayerScoreManager.cs" />
@@ -583,6 +571,9 @@
     <Reference Include="ProjectMER, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Users\GoldenPig1205\AppData\Roaming\SCP Secret Laboratory\LabAPI\plugins\global\ProjectMER.dll</HintPath>
+    </Reference>
+    <Reference Include="PveExiled">
+      <HintPath>C:\Users\GoldenPig1205\Downloads\PveExiled.dll</HintPath>
     </Reference>
     <Reference Include="SCPSLAudioApi, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
