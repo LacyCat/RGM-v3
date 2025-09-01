@@ -511,7 +511,7 @@ namespace RGM.EventArgs
             });
         }
 
-        public static IEnumerator<float> OnSpawned(SpawnedEventArgs ev)
+        public static void OnSpawned(SpawnedEventArgs ev)
         {
             Server.ExecuteCommand($"/pfx FogControl 1 0 {ev.Player.Id}");
 
@@ -591,16 +591,17 @@ namespace RGM.EventArgs
                 }
             }
 
-            if (ev.Player.IsAlive && Round.IsStarted && 
-                (ev.Reason == SpawnReason.RoundStart || ev.Reason == SpawnReason.Respawn || ev.Reason == SpawnReason.ItemUsage || ev.Reason == SpawnReason.Escaped) && 
+            if (ev.Player.IsAlive && Round.IsStarted &&
+                (ev.Reason == SpawnReason.RoundStart || ev.Reason == SpawnReason.Respawn || ev.Reason == SpawnReason.ItemUsage || ev.Reason == SpawnReason.Escaped) &&
                 CurrentMode.GetModeData().Info == ModeInfo.Plus)
             {
                 GodModePlayers.Add(ev.Player);
 
-                yield return Timing.WaitForSeconds(5);
-
-                if (GodModePlayers.Contains(ev.Player))
-                    GodModePlayers.Remove(ev.Player);
+                Timing.CallDelayed(5, () =>
+                {
+                    if (GodModePlayers.Contains(ev.Player))
+                        GodModePlayers.Remove(ev.Player);
+                });
             }
         }
 
