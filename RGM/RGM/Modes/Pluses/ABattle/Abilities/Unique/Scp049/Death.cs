@@ -33,6 +33,6 @@ public class Death : Ability
 
         yield return Timing.WaitForOneFrame;
 
-        ev.Scp049.RemainingAttackCooldown /= 4;
+        ev.Scp049.RemainingAttackCooldown *= 0.75f;
     }
 }

@@ -21,22 +21,11 @@ public class Recovery : Ability
 {
     public override void OnEnabled()
     {
-        Exiled.Events.Handlers.Scp106.Attacking += OnAttacking;
+        if (Owner.Role is Scp106Role scp106) 
+            scp106.CaptureCooldown *= 0.75f;
     }
 
     public override void OnDisabled()
     {
-        Exiled.Events.Handlers.Scp106.Attacking -= OnAttacking;
-    }
-
-    public void OnAttacking(AttackingEventArgs ev)
-    {
-        if (ev.Player != Owner)
-            return;
-
-        Timing.CallDelayed(Timing.WaitForOneFrame, () =>
-        {
-            ev.Scp106.CaptureCooldown *= 0.75f;
-        });
     }
 }

@@ -29,7 +29,6 @@ namespace RGM.Modes.SnakeSystem
 
                 if (OnSnakeGameEnd != null)
                     OnSnakeGameEnd(player, newScore);
-                Log.Debug($"Snake game ended for {player.Nickname} with score {newScore}");
             }
 
             if (OnSnakeScoreChanged != null)
@@ -85,7 +84,6 @@ namespace RGM.Modes.SnakeSystem
         private static void OnRoundStarted()
         {
             _lastRoundStartTime = DateTime.Now;
-            Log.Debug($"Round started at {_lastRoundStartTime}. Market cooldown activated for {Config.MarketCooldownAfterRoundStart} seconds.");
         }
 
         public static bool IsMarketOnCooldown(out int remainingSeconds)
