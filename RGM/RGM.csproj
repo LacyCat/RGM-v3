@@ -112,6 +112,7 @@
     <Compile Include="API\Interfaces\PlayerInfo.cs" />
     <Compile Include="API\Interfaces\PlayerReport.cs" />
     <Compile Include="Interfaces.cs" />
+    <Compile Include="RGM\Modes\Pluses\LoLChess\LoLChess.cs" />
     <Compile Include="RGM\Modes\Pluses\ABattle\ABattle.cs" />
     <Compile Include="RGM\Modes\Pluses\ABattle\ABattleEventHandler.cs" />
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Dummy\BackedUp.cs" />

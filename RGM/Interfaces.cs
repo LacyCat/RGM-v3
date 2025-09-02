@@ -149,7 +149,8 @@ public enum ModeType
     Curse,
     Tag,
     HideAndSeek,
-    PVE
+    PVE,
+    LoLChess
 }
 
 
