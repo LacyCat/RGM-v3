@@ -27,8 +27,6 @@ namespace RGM.Modes.SnakeSystem
                     BindingFlags.Static | BindingFlags.Public);
 
                 _harmony.Patch(originalSetDisplay, postfix: new HarmonyMethod(patchSetDisplay));
-
-                Log.Debug("SnakeDisplay patching successful!");
             }
             catch (Exception ex)
             {

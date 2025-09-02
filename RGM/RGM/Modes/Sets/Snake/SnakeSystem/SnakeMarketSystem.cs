@@ -83,7 +83,6 @@ namespace RGM.Modes.SnakeSystem
             if (hasDoubleXp)
             {
                 actualScore = (int)(finalScore * Config.XpMultiplier);
-                Log.Debug($"Player {player.Nickname} has double XP permission. Score: {finalScore} -> {actualScore}");
             }
 
             var newTotal = currentTotal + actualScore;
@@ -108,7 +107,6 @@ namespace RGM.Modes.SnakeSystem
             if (SnakeEventManager.IsMarketOnCooldown(out int remainingSeconds))
             {
                 player.ShowHint(string.Format(Config.Language.MarketCooldownActive, remainingSeconds), 5);
-                Log.Debug($"Player {player.Nickname} tried to use market during cooldown. {remainingSeconds} seconds remaining.");
                 return false;
             }
 
@@ -118,7 +116,6 @@ namespace RGM.Modes.SnakeSystem
             if (!marketItems.ContainsKey(cleanItemName))
             {
                 player.ShowHint(string.Format(Config.Language.InvalidItem, itemName), 4);
-                Log.Debug($"Player {player.Nickname} tried to buy invalid item: {itemName}");
                 return false;
             }
 
@@ -135,7 +132,6 @@ namespace RGM.Modes.SnakeSystem
             {
                 PlayerScoreManager.SavePlayerScore(player.UserId, playerScore - item.Price);
                 player.ShowHint(string.Format(Config.Language.ItemPurchased, item.DisplayName, playerScore - item.Price), 4);
-                Log.Debug($"Player {player.Nickname} bought {cleanItemName} for {item.Price} points");
                 return true;
             }
             else
@@ -152,13 +148,11 @@ namespace RGM.Modes.SnakeSystem
                 if (item.ItemType.HasValue)
                 {
                     player.AddItem(item.ItemType.Value);
-                    Log.Debug($"Giving {item.ItemType.Value} to {player.Nickname}");
                     return true;
                 }
                 else if (item.AmmoType.HasValue)
                 {
                     player.AddAmmo(item.AmmoType.Value, item.AmmoAmount);
-                    Log.Debug($"Giving {item.AmmoAmount} {item.AmmoType.Value} ammo to {player.Nickname}");
                     return true;
                 }
 

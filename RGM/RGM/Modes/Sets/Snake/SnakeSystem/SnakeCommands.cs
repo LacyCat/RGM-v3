@@ -66,8 +66,6 @@ namespace RGM.Modes.SnakeSystem.Commands
 
             var itemName = arguments.At(0).ToLower().Trim();
 
-            Log.Debug($"Player {player.Nickname} attempting to buy: '{itemName}'");
-
             if (SnakeMarketSystem.ProcessMarketPurchase(player, itemName))
             {
                 response = ResponseCleaner.CleanResponse(Config.Language.PurchaseSuccessful);

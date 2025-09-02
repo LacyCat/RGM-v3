@@ -27,7 +27,6 @@ namespace RGM.Modes.SnakeSystem
                 Timing.KillCoroutines(_monitorCoroutine);
 
             _monitorCoroutine = Timing.RunCoroutine(MonitorSnakeGames());
-            Log.Debug(Config.Language.MonitoringStarted);
         }
 
         public static void StopMonitoring()
@@ -36,7 +35,6 @@ namespace RGM.Modes.SnakeSystem
                 Timing.KillCoroutines(_monitorCoroutine);
 
             _playerSnakeData.Clear();
-            Log.Debug(Config.Language.MonitoringStopped);
         }
 
         private static IEnumerator<float> MonitorSnakeGames()
@@ -72,34 +70,28 @@ namespace RGM.Modes.SnakeSystem
 #pragma warning restore CS0618
             }
 
-            Log.Debug($"Found {snakeDisplays.Length} SnakeDisplay objects");
-
             // Önce tüm oyuncuları kontrol et
             foreach (var player in Player.List)
             {
                 if (player == null || !player.IsAlive) continue;
 
                 bool isHoldingSnakeCard = IsPlayerHoldingSnakeCard(player);
-                Log.Debug($"Player {player.Nickname} - Holding snake card: {isHoldingSnakeCard}");
 
                 if (isHoldingSnakeCard)
                 {
                     var activeDisplay = FindActiveDisplayForPlayer(player, snakeDisplays);
                     if (activeDisplay != null)
                     {
-                        Log.Debug($"Player {player.Nickname} - Found active display");
                         ProcessPlayerSnakeDisplay(player, activeDisplay);
                     }
                     else
                     {
-                        Log.Debug($"Player {player.Nickname} - No active display found");
                     }
                 }
                 else
                 {
                     if (_playerSnakeData.ContainsKey(player))
                     {
-                        Log.Debug($"Player {player.Nickname} - No longer holding snake card, marking as not playing");
                         _playerSnakeData[player].IsPlayingSnake = false;
                     }
                 }
@@ -113,19 +105,16 @@ namespace RGM.Modes.SnakeSystem
                 var currentItem = player.CurrentItem;
                 if (currentItem == null)
                 {
-                    Log.Debug($"Player {player.Nickname} - No current item");
                     return false;
                 }
 
                 var itemType = currentItem.Type.ToString();
-                Log.Debug($"Player {player.Nickname} - Current item: {itemType}");
 
                 // Tüm keycard türlerini kontrol et
                 bool isKeycard = itemType.Contains("Keycard") || itemType.Contains("Card");
 
                 if (isKeycard)
                 {
-                    Log.Debug($"Player {player.Nickname} is holding a keycard: {itemType}");
                     // Keycard tutuyorsa muhtemelen Snake oynuyor
                     return true;
                 }
@@ -151,13 +140,11 @@ namespace RGM.Modes.SnakeSystem
                     if (display == null) continue;
 
                     float distance = Vector3.Distance(player.Position, display.transform.position);
-                    Log.Debug($"Player {player.Nickname} - Display distance: {distance}");
 
                     if (distance < Config.PlayerDetectionRange && distance < closestDistance)
                     {
                         closestDistance = distance;
                         closestDisplay = display;
-                        Log.Debug($"Player {player.Nickname} - Found closer display at {distance}m");
                     }
                 }
                 catch (Exception ex)
@@ -168,7 +155,6 @@ namespace RGM.Modes.SnakeSystem
 
             if (closestDisplay != null)
             {
-                Log.Debug($"Player {player.Nickname} - Active display found at {closestDistance}m");
             }
 
             return closestDisplay;
@@ -180,12 +166,10 @@ namespace RGM.Modes.SnakeSystem
             {
                 if (display.ScoreText == null)
                 {
-                    Log.Debug($"Player {player.Nickname} - Display has no ScoreText");
                     return;
                 }
 
                 var scoreText = display.ScoreText.text;
-                Log.Debug($"Player {player.Nickname} - Score text: '{scoreText}'");
 
                 // Farklı skor formatlarını dene
                 int currentScore = 0;
@@ -195,12 +179,9 @@ namespace RGM.Modes.SnakeSystem
                     var cleanText = scoreText.Replace("Score: ", "").Replace("SKOR: ", "").Replace("Puan: ", "").Trim();
                     if (!int.TryParse(cleanText, out currentScore))
                     {
-                        Log.Debug($"Player {player.Nickname} - Could not parse score from: '{scoreText}'");
                         return;
                     }
                 }
-
-                Log.Debug($"Player {player.Nickname} - Current score: {currentScore}");
 
                 if (!_playerSnakeData.ContainsKey(player))
                 {
@@ -211,7 +192,7 @@ namespace RGM.Modes.SnakeSystem
                         LastUpdate = DateTime.Now,
                         IsPlayingSnake = true
                     };
-                    Log.Debug($"Player {player.Nickname} - Started tracking with score {currentScore}");
+
                     return;
                 }
 
@@ -219,7 +200,6 @@ namespace RGM.Modes.SnakeSystem
 
                 if (playerData.LastDisplay != display)
                 {
-                    Log.Debug($"Player {player.Nickname} - Switched to different display");
                     playerData.LastDisplay = display;
                     playerData.LastScore = currentScore;
                     playerData.LastUpdate = DateTime.Now;
@@ -230,16 +210,11 @@ namespace RGM.Modes.SnakeSystem
                 // Skor değişikliği kontrolü
                 if (currentScore != playerData.LastScore)
                 {
-                    Log.Debug($"Player {player.Nickname} - Score changed from {playerData.LastScore} to {currentScore}");
-
                     if (currentScore == 0 && playerData.LastScore > 0)
                     {
-                        Log.Debug($"Player {player.Nickname} - Game ended! Final score: {playerData.LastScore}");
-
                         if (playerData.IsPlayingSnake && (DateTime.Now - playerData.LastUpdate).TotalSeconds < 30)
                         {
                             SnakeEventManager.NotifyScoreChange(player, playerData.LastScore, true);
-                            Log.Debug($"Player {player.Nickname} - Awarding {playerData.LastScore} points");
                         }
                         else
                         {
@@ -250,7 +225,6 @@ namespace RGM.Modes.SnakeSystem
                     }
                     else if (currentScore > playerData.LastScore)
                     {
-                        Log.Debug($"Player {player.Nickname} - Score increased, confirming active play");
                         playerData.IsPlayingSnake = true;
                         SnakeEventManager.NotifyScoreChange(player, currentScore, false);
                     }
@@ -285,7 +259,6 @@ namespace RGM.Modes.SnakeSystem
             foreach (var player in playersToRemove)
             {
                 _playerSnakeData.Remove(player);
-                Log.Debug($"Cleaned up old data for player: {player?.Nickname}");
             }
         }
 
@@ -294,7 +267,6 @@ namespace RGM.Modes.SnakeSystem
             if (_playerSnakeData.ContainsKey(player))
             {
                 _playerSnakeData.Remove(player);
-                Log.Debug($"Cleaned up snake data for disconnected player: {player?.Nickname}");
             }
         }
     }
