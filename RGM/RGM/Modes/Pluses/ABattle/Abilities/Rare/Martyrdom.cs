@@ -17,21 +17,29 @@ public class Martyrdom : Ability
 {
     public override void OnEnabled()
     {
-        Exiled.Events.Handlers.Player.Died += OnDied;
+        Exiled.Events.Handlers.Player.Dying += OnDying;
     }
 
     public override void OnDisabled()
     {
-        Exiled.Events.Handlers.Player.Died -= OnDied;
+        Exiled.Events.Handlers.Player.Dying -= OnDying;
     }
 
-    public void OnDied(DiedEventArgs ev)
+    public void OnDying(DyingEventArgs ev)
     {
         if (ev.Player != Owner)
             return;
 
-        var g = (ExplosiveGrenade)Item.Create(ItemType.GrenadeHE, ev.Player);
-        g.FuseTime = 3f;
-        g.SpawnActive(ev.Player.Position, ev.Player);
+        Vector3 pos = ev.Player.Position;
+
+        Timing.CallDelayed(Timing.WaitForOneFrame, () =>
+        {
+            if (ev.Player.IsDead)
+            {
+                var g = (ExplosiveGrenade)Item.Create(ItemType.GrenadeHE, ev.Player);
+                g.FuseTime = 3f;
+                g.SpawnActive(pos, ev.Player);
+            }
+        });
     }
 }
