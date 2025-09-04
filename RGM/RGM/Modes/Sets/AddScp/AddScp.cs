@@ -21,7 +21,7 @@ using Exiled.Events.EventArgs.Player;
 namespace RGM.Modes
 {
     [Mode(ModeCategory.Public, ModeInfo.Set, ModeType.AddScp)]
-    class AddScp : Mode
+    class AddScpMode : Mode
     {
         public override string Name => "추가 SCP";
         public override string Description => "새로운 SCP들이 추가됩니다.";
@@ -40,9 +40,9 @@ namespace RGM.Modes
 """;
         public override string Color => "fd0101";
 
-        public static AddScp Instance;
+        public static AddScpMode Instance;
 
-        static List<Player> specialScps = new();
+        public static List<Player> SpecialScps = new();
 
         public override void OnEnabled()
         {
@@ -58,8 +58,8 @@ namespace RGM.Modes
 
             if (Server.PlayerCount >= 5)
             {
-                Player scp999 = Player.List.GetRandomValue(x => !x.IsScp && x.IsAlive && !specialScps.Contains(x));
-                specialScps.Add(scp999);
+                Player scp999 = Player.List.GetRandomValue(x => !x.IsScp && x.IsAlive && !SpecialScps.Contains(x));
+                SpecialScps.Add(scp999);
 
                 Door door = Door.Get(DoorType.HIDLab);
                 scp999.Position = door.Position + new Vector3(0, 2, 0);
@@ -70,16 +70,16 @@ namespace RGM.Modes
             if (Server.PlayerCount >= 10)
             {
                 Item item = Scp005.Create();
-                Player lucky = Player.List.GetRandomValue(x => !x.IsScp && x.IsAlive && !specialScps.Contains(x));
+                Player lucky = Player.List.GetRandomValue(x => !x.IsScp && x.IsAlive && !SpecialScps.Contains(x));
                 lucky.AddItem(item);
 
-                Player scp008 = Player.List.GetRandomValue(x => !x.IsScp && x.IsAlive && !specialScps.Contains(x));
-                specialScps.Add(scp008);
+                Player scp008 = Player.List.GetRandomValue(x => !x.IsScp && x.IsAlive && !SpecialScps.Contains(x));
+                SpecialScps.Add(scp008);
 
                 Scp008.Create(scp008);
 
-                Player scp035 = Player.List.GetRandomValue(x => !x.IsScp && x.IsAlive && !specialScps.Contains(x));
-                specialScps.Add(scp035);
+                Player scp035 = Player.List.GetRandomValue(x => !x.IsScp && x.IsAlive && !SpecialScps.Contains(x));
+                SpecialScps.Add(scp035);
 
                 Door door = Door.Get(DoorType.ElevatorNuke);
                 scp035.Position = door.Position + new Vector3(0, 2, 0);
@@ -89,13 +89,13 @@ namespace RGM.Modes
 
             if (Server.PlayerCount >= 15)
             {
-                Player scp457 = Player.List.GetRandomValue(x => x.IsScp && x.IsAlive && !specialScps.Contains(x));
-                specialScps.Add(scp457);
+                Player scp457 = Player.List.GetRandomValue(x => x.IsScp && x.IsAlive && !SpecialScps.Contains(x));
+                SpecialScps.Add(scp457);
 
                 Scp457.Create(scp457);
 
-                Player scp966 = Player.List.GetRandomValue(x => x.IsScp && x.IsAlive && !specialScps.Contains(x));
-                specialScps.Add(scp966);
+                Player scp966 = Player.List.GetRandomValue(x => x.IsScp && x.IsAlive && !SpecialScps.Contains(x));
+                SpecialScps.Add(scp966);
 
                 Scp966.Create(scp966);
             }
