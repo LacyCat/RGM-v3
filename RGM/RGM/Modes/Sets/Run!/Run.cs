@@ -69,6 +69,7 @@ namespace RGM.Modes
 
         Vector3 pos;
         Vector3 finalDoor;
+        bool hellMode = false;
 
         public override void OnEnabled()
         {
@@ -79,6 +80,16 @@ namespace RGM.Modes
 
         public IEnumerator<float> OnModeStarted()
         {
+            if (UnityEngine.Random.Range(1, 11) == 1)
+            {
+                hellMode = true;
+                
+                foreach (var player in Player.List)
+                {
+                    player.AddBroadcast(10, "<color=red><b><size=25>지옥 모드 활성화</size></b></color>");
+                }
+            }
+
             Server.FriendlyFire = true;
             Round.IsLocked = true;
             Respawn.PauseWaves();
@@ -164,7 +175,7 @@ namespace RGM.Modes
         {
             while (!Round.IsEnded)
             {
-                if (UnityEngine.Random.Range(1, 3) == 1)
+                if (hellMode ? true : UnityEngine.Random.Range(1, 3) == 1)
                 {
                     SchematicObject raser = ObjectSpawner.SpawnSchematic(
                         $"Raser{UnityEngine.Random.Range(1, 11)}",
@@ -178,7 +189,7 @@ namespace RGM.Modes
                     {
                         while (!Round.IsEnded)
                         {
-                            raser.Position += new Vector3(-0.1f, 0, 0);
+                            raser.Position += new Vector3(hellMode ? -0.12f : -0.1f, 0, 0);
 
                             yield return Timing.WaitForOneFrame;
                         }
