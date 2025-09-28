@@ -79,7 +79,7 @@ namespace RGM.Commands.ClientCommands
                     $"<size=20><b>{chatType}</b>ㅣ{Tools.BadgeFormat(player)}<color={player.Role.Color.ToHex()}>",
                     text,
                     $"</color> ({player.DisplayNickname}) <b> | </b>",
-                    $"<noparse>{args}</noparse>",
+                    $"<noparse>{args.Replace("</noparse>", "")}</noparse>",
                     "</size>"
                 });
 
