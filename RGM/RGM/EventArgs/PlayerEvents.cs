@@ -591,12 +591,18 @@ namespace RGM.EventArgs
                 }
             }
 
-            if (ev.Player.IsAlive && Round.IsStarted &&
-                (ev.Reason == SpawnReason.RoundStart || ev.Reason == SpawnReason.Respawn || ev.Reason == SpawnReason.ItemUsage || ev.Reason == SpawnReason.Escaped) &&
+            if (ev.Player.IsAlive && Round.IsStarted && 
+                new List<SpawnReason> 
+                {
+                    SpawnReason.RoundStart, 
+                    SpawnReason.Respawn, 
+                    SpawnReason.ItemUsage, 
+                    SpawnReason.Escaped, 
+                    SpawnReason.RespawnMiniwave
+                }.Contains(ev.Reason) &&
                 CurrentMode.GetModeData().Info == ModeInfo.Plus)
             {
-                Log.Debug($"{ev.Player.DisplayNickname}({ev.Player.UserId}) - {ev.Reason}");
-                ev.Player.ApplyGodMode(5);
+                ev.Player.ApplyGodMode(10);
             }
         }
 
