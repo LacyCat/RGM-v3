@@ -20,7 +20,7 @@ using Exiled.Events.EventArgs.Player;
 
 namespace RGM.Modes
 {
-    [Mode(ModeCategory.Public, ModeInfo.Set, ModeType.AddScp)]
+    [Mode(ModeCategory.Private, ModeInfo.Set, ModeType.AddScp)]
     class AddScpMode : Mode
     {
         public override string Name => "추가 SCP";
