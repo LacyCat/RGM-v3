@@ -319,7 +319,7 @@ namespace RGM.EventArgs
                     .ToList();
 
                 StringBuilder sb = new StringBuilder();
-                sb.AppendLine("<size=30><b>이번 라운드 TOP 10</b></size>");
+                sb.AppendLine($"<size=30><b>이번 라운드 TOP 10</b></size>");
                 int rank = 1;
 
                 string ranking(int r)
@@ -372,7 +372,8 @@ namespace RGM.EventArgs
                 {
                     try
                     {
-                        string text = $"<align=left>{sb}</align>\n\n\n\n";
+                        var report = PlayersReport[player.UserId];
+                        string text = $"<size=20>{player.DisplayNickname} - {report.Kill}킬 / {report.Death}데스 / {report.Damage}뎀</size>\n<align=left>{sb}</align>\n\n\n\n";
                         player.ShowHint($"{WinMessage}\n\n{text}", 1.2f);
                     }
                     catch (Exception e)
