@@ -180,10 +180,11 @@ namespace RGM.Variables
             "CityPlusCITY",
             "Castle"
         };
-        public static List<string> Surfaces = new()
+        public static List<string> Specials = new()
         {
             "capybara",
-            "Sky"
+            "Sky",
+            "TRRBR"
         };
         public static List<Product> Products = new()
         {

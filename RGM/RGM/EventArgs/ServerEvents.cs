@@ -46,7 +46,7 @@ namespace RGM.EventArgs
                 Speaker speaker = p.AddSpeaker("Main", isSpatial: false, maxDistance: 5000);
             });
 
-            Tools.PlayGlobalAudio("SCP - Breach (GP Remix)", 0.5f, true);
+            Tools.PlayGlobalAudio("SCP - Breach (GP Remix)", 0.75f, true);
 
             Round.IsLobbyLocked = true;
             GameObject.Find("StartRound").transform.localScale = Vector3.zero;
@@ -219,25 +219,17 @@ namespace RGM.EventArgs
             {
                 if (CurrentMode.GetModeData().Info == ModeInfo.Plus)
                 {
-                    switch (UnityEngine.Random.Range(1, 101))
+                    int num = UnityEngine.Random.Range(1, 51);
+
+                    if (num == 1)
                     {
-                        case 1:
-                            Tools.LoadMap(Surfaces.GetRandomValue(), false);
-                            break;
-
-                        case 2:
-                            IEnumerator<float> paintText()
+                        foreach (var special in Specials)
+                        {
+                            if (UnityEngine.Random.Range(1, 4) == 1)
                             {
-                                while (true)
-                                {
-                                    PaintToTextMain.PlayVideo("A pig on a bed", new Vector3(0, 350, 0), new Quaternion(0, 0, 0, 0));
-
-                                    yield return Timing.WaitForSeconds(4);
-                                }
+                                Tools.LoadMap(special, false);
                             }
-
-                            Timing.RunCoroutine(paintText());
-                            break;
+                        }
                     }
                 }
 
