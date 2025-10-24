@@ -27,7 +27,7 @@ namespace RGM.IEnumerators
     {
         public static IEnumerator<float> SyncSpectatedHint()
         {
-            while (true)
+            while (!Round.IsEnded)
             {
                 foreach (var player in Player.List)
                 {
