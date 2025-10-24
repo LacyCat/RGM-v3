@@ -184,7 +184,8 @@ namespace RGM.Variables
         {
             "capybara",
             "Sky",
-            "TRRBR"
+            "TRRBR",
+            "Moszka"
         };
         public static List<Product> Products = new()
         {
@@ -286,7 +287,7 @@ namespace RGM.Variables
                 {
                     IsModeSuggestUsed = true;
 
-                    string modeName = ModeList.Keys.First(x => x.GetModeData().Name == arg).GetModeData().Name;
+                    string modeName = ModeList.Keys.First(x => x.GetModeData().Name == arg && x.GetModeData().Category != ModeCategory.Private).GetModeData().Name;
                     bool flag = Random.Range(1, 11) == 1;
 
                     if (flag)
@@ -313,7 +314,7 @@ namespace RGM.Variables
                 {
                     IsModeSuggestUsed = true;
 
-                    string modeName = ModeList.Keys.First(x => x.GetModeData().Name == arg).GetModeData().Name;
+                    string modeName = ModeList.Keys.First(x => x.GetModeData().Name == arg && x.GetModeData().Category != ModeCategory.Private).GetModeData().Name;
 
                     ModeVote.Remove(ModeVote.ElementAt(3).Key);
                     ModeVote.Add(ModeList.First(x => x.Value.Name == arg).Key, new List<Player>());
