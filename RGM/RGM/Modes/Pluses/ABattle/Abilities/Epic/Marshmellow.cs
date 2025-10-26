@@ -17,8 +17,8 @@ public class MarshMellow : Ability
 {
     public override void OnEnabled()
     {
-        Owner.MaxHealth = 500;
-        Owner.Health = Owner.MaxHealth;
+        Owner.MaxHealth += 500;
+        Owner.Health += 500;
         Owner.AddAbility(AbilityType.NORMAL_SWIFT);
         Owner.AddAbility(AbilityType.NORMAL_SWIFT);
     }
