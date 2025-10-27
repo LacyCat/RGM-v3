@@ -529,7 +529,7 @@ namespace RGM.EventArgs
 
             if (ev.Reason == SpawnReason.RoundStart)
             {
-                if (ev.Player.Zone == ZoneType.Surface) //지상에 그대로 스폰되는 경우
+                if (ev.Player.Zone == ZoneType.Surface) // 지상에 그대로 스폰되는 경우
                 {
                     ev.Player.Role.Set(RoleTypeId.Tutorial);
                     ev.Player.Position = Player.List.GetRandomValue(x => x.IsHuman && x != ev.Player).Position;
@@ -582,7 +582,7 @@ namespace RGM.EventArgs
                         ev.Player.Health = ev.Player.MaxHealth;
                     }
 
-                    if (UnityEngine.Random.Range(1, 41) == 1 && !IsScp3114Enabled)
+                    if (UnityEngine.Random.Range(1, 41) == 1 && !IsScp3114Enabled && !Player.List.Select(x => x.Role.Type).Contains(RoleTypeId.Scp3114)) // SCP-3114 추가
                     {
                         ev.Player.Role.Set(RoleTypeId.Scp3114);
 
