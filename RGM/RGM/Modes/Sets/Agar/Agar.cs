@@ -24,6 +24,7 @@ using UnityEngine;
 using static RGM.Variables.ServerManagers;
 using Exiled.API.Enums;
 using Exiled.Events.EventArgs.Server;
+using Decals;
 
 namespace RGM.Modes
 {
@@ -118,7 +119,16 @@ namespace RGM.Modes
                 reviver.CurrentItem = item;
             }
 
-            Map.CleanAllRagdolls();
+            foreach (var decal in new List<DecalPoolType> 
+            { 
+                DecalPoolType.Bullet,
+                DecalPoolType.GlassCrack,
+                DecalPoolType.Buckshot,
+                DecalPoolType.Blood,
+            })
+            {
+                Map.Clean(decal);
+            }
         }
 
         public void OnDroppingItem(DroppingItemEventArgs ev)
