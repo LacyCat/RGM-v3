@@ -38,6 +38,12 @@ namespace RGM.Commands.ClientCommands
                     {
                         int rc = int.Parse(UsersManager.UsersCache[player.UserId][1]);
 
+                        if (!product.IsPubliced)
+                        {
+                            response = "해당 품목은 구매할 수 없습니다.";
+                            return false;
+                        }
+
                         if (product.Price <= rc)
                         {
                             var ownedProducts = UsersManager.UsersCache[player.UserId][18];
@@ -73,6 +79,12 @@ namespace RGM.Commands.ClientCommands
                     else if (product.Check(player, input[1]))
                     {
                         int rc = int.Parse(UsersManager.UsersCache[player.UserId][1]);
+
+                        if (!product.IsPubliced)
+                        {
+                            response = "해당 품목은 구매할 수 없습니다.";
+                            return false;
+                        }
 
                         if (product.Price <= rc)
                         {
