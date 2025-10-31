@@ -2,6 +2,7 @@
 using Exiled.API.Enums;
 using Exiled.API.Extensions;
 using Exiled.API.Features;
+using Exiled.CustomItems.API.EventArgs;
 using Exiled.Events.EventArgs.Player;
 using MEC;
 using PlayerRoles;
@@ -136,20 +137,23 @@ namespace RGM.Modes.Sets.AddScp.Scps
                 }
             }
 
-            void OnSearchingPickup(SearchingPickupEventArgs ev)
+            void OnItemAdded(ItemAddedEventArgs ev)
             {
                 if (ev.Player != player)
                     return;
 
-                if (ev.Pickup.Type.IsWeapon())
+                if (ev.Pickup.Type.IsWeapon() || new List<ItemType> { 
+                    ItemType.GrenadeHE,
+                    ItemType.SCP018
+                }.Contains(ev.Item.Type))
                 {
-                    ev.IsAllowed = false;
+                    ev.Player.DropItem(ev.Item);
 
                     player.AddHint("SCP-999 무기 금지", "<size=20><color=red>SCP-999</color>은(는) 무기를 쥘 수 없습니다.</size>", 3);
                 }
                 else if (ev.Pickup.Type == ItemType.KeycardO5)
                 {
-                    ev.IsAllowed = false;
+                    ev.Player.DropItem(ev.Item);
                 }
             }
 
@@ -205,7 +209,7 @@ namespace RGM.Modes.Sets.AddScp.Scps
                             Timing.RunCoroutine(ball());
                             Tools.PlaySound(dead.transform, "scp-999-dead", 2);
 
-                            Exiled.Events.Handlers.Player.SearchingPickup -= OnSearchingPickup;
+                            Exiled.Events.Handlers.Player.ItemAdded -= OnItemAdded;
                             Exiled.Events.Handlers.Player.TogglingNoClip -= OnTogglingNoClip;
                             Exiled.Events.Handlers.Player.SpawningRagdoll -= OnSpawningRagdoll;
                             Exiled.Events.Handlers.Player.Dying -= OnDying;
@@ -214,7 +218,7 @@ namespace RGM.Modes.Sets.AddScp.Scps
                 });
             }
 
-            Exiled.Events.Handlers.Player.SearchingPickup += OnSearchingPickup;
+            Exiled.Events.Handlers.Player.ItemAdded += OnItemAdded;
             Exiled.Events.Handlers.Player.TogglingNoClip += OnTogglingNoClip;
             Exiled.Events.Handlers.Player.SpawningRagdoll += OnSpawningRagdoll;
             Exiled.Events.Handlers.Player.Dying += OnDying;
