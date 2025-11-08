@@ -237,7 +237,7 @@ namespace RGM.EventArgs
                 if (!Warhead.IsDetonated && CurrentMode.GetModeData().Type != ModeType.Develop)
                 {
                     AutoNuke = true;
-                    Warhead.Start();
+                    DeadmanSwitch.StartWarhead();
                     Server.ExecuteCommand("/cassie_sl <color=red>예정된 시설 자폭 프로세스가 시작되었습니다.</color> <b>대피하십시오.</b>");
                 }
             }
