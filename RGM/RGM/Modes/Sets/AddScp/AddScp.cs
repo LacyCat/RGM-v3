@@ -56,6 +56,8 @@ namespace RGM.Modes
             Scp294.OnEnabled();
             Scp1162.OnEnabled();
 
+            yield return Timing.WaitForSeconds(1f);
+
             if (Server.PlayerCount >= 5)
             {
                 Player scp999 = Player.List.GetRandomValue(x => !x.IsScp && x.IsAlive && !SpecialScps.Contains(x));
