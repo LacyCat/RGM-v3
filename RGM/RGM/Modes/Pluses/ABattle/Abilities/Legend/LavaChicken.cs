@@ -49,7 +49,7 @@ public class LavaChicken : Ability
 
                 foreach (var player in Player.List.Where(x => HitboxIdentity.IsEnemy(x.ReferenceHub, Owner.ReferenceHub)))
                 {
-                    if (Vector3.Distance(player.Position, Owner.Position) <= 10)
+                    if (Vector3.Distance(player.Position, Owner.Position) <= 8)
                     {
                         float damage = player.IsScp ? player.MaxHealth / 100 : player.MaxHealth / 25;
 
