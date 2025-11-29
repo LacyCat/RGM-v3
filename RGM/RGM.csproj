@@ -117,6 +117,7 @@
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Legend\CandyPower.cs" />
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Mythic\Hammer.cs" />
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Mythic\Rosehip.cs" />
+    <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Mythic\Unlimited.cs" />
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Normal\RandomCandy.cs" />
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Rare\CandyBag.cs" />
     <Compile Include="RGM\Modes\Pluses\LoLChess\LoLChess.cs" />
@@ -141,7 +142,6 @@
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Legend\Scp457.cs" />
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Legend\Scp035.cs" />
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Legend\Scp008.cs" />
-    <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Legend\Unlimited.cs" />
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Mythic\BALLISTAEM3.cs" />
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Mythic\KingsColor.cs" />
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Mythic\ToolGun.cs" />

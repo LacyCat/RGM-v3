@@ -12,9 +12,9 @@ using PlayerRoles;
 using RGM.API.Features;
 using UnityEngine;
 
-namespace RGM.Modes.Abilities.Legend;
+namespace RGM.Modes.Abilities.Mythic;
 
-[Ability("무제한", "제한이 사라집니다. (무제한 모드와 동일)", AbilityCategory.Legend, AbilityType.LEGEND_UNLIMITED)]
+[Ability("무제한", "제한이 사라집니다. (무제한 모드와 동일)", AbilityCategory.Mythic, AbilityType.MYTHIC_UNLIMITED)]
 public class Unlimited : Ability
 {
     public int Tantrum = 0;
