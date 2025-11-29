@@ -345,7 +345,6 @@ public enum AbilityType
     LEGEND_REFLECTOR, // [전설] 반사경
     LEGEND_CATACLYSMGENERATOR, // [전설] 대격변 생성기
     LEGEND_LAVACHICKEN, // [전설] La-La-La Lava Ch-Ch-Ch Chicken
-    LEGEND_UNLIMITED, // [전설] 무제한
     LEGEND_FLAMETHROWER, // [전설] 화염 방사기
     LEGEND_ASYNC, // [전설] A-Sync Research
     LEGEND_AIMHACK, // [전설] 솔져: 76
@@ -371,6 +370,7 @@ public enum AbilityType
     MYTHIC_KINGSCOLOR, // [신화] 패왕색 패기
     MYTHIC_ROSEHIP, // [신화] 장미칼
     MYTHIC_HAMMER, // [신화] 철퇴
+    MYTHIC_UNLIMITED, // [신화] 무제한
 
     // 전용 //
     // D계급
