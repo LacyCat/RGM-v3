@@ -47,7 +47,7 @@ public class HealGun : Ability
         {
             ev.IsAllowed = false;
 
-            ev.Player.Heal(ev.Player.HasAbility(AbilityType.LEGEND_UNLIMITED) ? 0.1f : 15);
+            ev.Player.Heal(ev.Player.HasAbility(AbilityType.MYTHIC_UNLIMITED) ? 0.1f : 15);
         }
     }
 }
