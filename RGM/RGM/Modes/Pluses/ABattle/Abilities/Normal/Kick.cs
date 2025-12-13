@@ -1,10 +1,13 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Exiled.API.Enums;
+﻿using Exiled.API.Enums;
 using Exiled.API.Features;
 using Exiled.Events.EventArgs.Player;
 using MEC;
+using PlayerRoles.FirstPersonControl;
+using PlayerRoles.FirstPersonControl.Thirdperson;
+using PlayerRoles.FirstPersonControl.Thirdperson.Subcontrollers.OverlayAnims;
 using RGM.API.Features;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace RGM.Modes.Abilities.Normal;
@@ -52,6 +55,7 @@ public class Kick : Ability
 
                 Hitmarker.SendHitmarkerDirectly(ev.Player.ReferenceHub, damage / 14);
                 player.Hit(ev.Player, damage);
+                ev.Player.Grab();
 
                 MeleeCooldown = 1;
 

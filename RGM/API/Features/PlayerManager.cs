@@ -4,6 +4,9 @@ using Exiled.API.Features.Items;
 using InventorySystem.Items.Usables.Scp330;
 using MEC;
 using PlayerRoles;
+using PlayerRoles.FirstPersonControl;
+using PlayerRoles.FirstPersonControl.Thirdperson;
+using PlayerRoles.FirstPersonControl.Thirdperson.Subcontrollers.OverlayAnims;
 using PlayerStatsSystem;
 using RGM.API.Interfaces;
 using System;
@@ -22,7 +25,7 @@ namespace RGM.API.Features
     {
         public static List<Player> List 
         { 
-            get => Player.List.Where(x => x.Role.Type != RoleTypeId.Overwatch).ToList();
+            get => Player.List.Where(x => !NonePlayers.Contains(x)).ToList();
         }
 
         public static void Hit(this Player player, Player attacker, float damage)
@@ -425,6 +428,20 @@ namespace RGM.API.Features
                 if (GodModePlayers.Contains(player))
                     GodModePlayers.Remove(player);
             });
+        }
+        
+        public static void Grab(this Player player)
+        {
+            OverlayAnimationsSubcontroller subcontroller;
+            if (!(player.ReferenceHub.roleManager.CurrentRole is IFpcRole currentRole) ||
+                !(currentRole.FpcModule.CharacterModelInstance is AnimatedCharacterModel
+                    characterModelInstance) ||
+                !characterModelInstance.TryGetSubcontroller<OverlayAnimationsSubcontroller>(out subcontroller))
+            {
+                return;
+            }
+            subcontroller._overlayAnimations[1].OnStarted();
+            subcontroller._overlayAnimations[1].SendRpc();
         }
     }
 }
