@@ -1,32 +1,35 @@
-﻿using System;
+﻿using Exiled.API.Enums;
+using Exiled.API.Extensions;
+using Exiled.API.Features;
+using HarmonyLib;
+using MEC;
+using MultiBroadcast.API;
+using ProjectMER.Features.Objects;
+using Respawning;
+using Respawning.Waves;
+using RGM.API.Components;
+using RGM.API.DataBases;
+using RGM.API.Features;
+using RGM.API.Interfaces;
+using RGM.Modes;
+using RGM.Patches;
+using RGM.UserSettings;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using System.Reflection;
-using Exiled.API.Features;
-using MEC;
 using UnityEngine;
-using ProjectMER.Features.Objects;
-using MultiBroadcast.API;
-using Exiled.API.Enums;
-using Exiled.API.Extensions;
-
-using RGM.Modes;
-using RGM.API.Features;
-using RGM.API.Components;
-using RGM.API.Interfaces;
-using RGM.API.DataBases;
-
-using static RGM.Variables.ServerManagers;
-
+using UserSettings.ServerSpecific;
 using static RGM.EventArgs.MEREvents;
-using static RGM.EventArgs.ServerEvents;
 using static RGM.EventArgs.PlayerEvents;
-using static RGM.EventArgs.WarheadEvents;
-using static RGM.EventArgs.Scp330Events;
-using static RGM.EventArgs.Scp244Events;
 using static RGM.EventArgs.Scp079Events;
+using static RGM.EventArgs.Scp244Events;
+using static RGM.EventArgs.Scp330Events;
+using static RGM.EventArgs.ServerEvents;
+using static RGM.EventArgs.WarheadEvents;
+using static RGM.Variables.ServerManagers;
 
 namespace RGM
 {
@@ -36,7 +39,7 @@ namespace RGM
 
         public override string Name => "RGM";
         public override string Author => "GoldenPig1205";
-        public override Version Version { get; } = new(3, 19, 12);
+        public override Version Version { get; } = new(3, 19, 13);
         public override Version RequiredExiledVersion { get; } = new(1, 2, 0, 5);
 
         public override void OnEnabled()
@@ -95,6 +98,7 @@ namespace RGM
             Exiled.Events.Handlers.Player.Hurting += OnHurting;
             Exiled.Events.Handlers.Player.Dying += OnDying;
             Exiled.Events.Handlers.Player.Died += OnDied;
+            Exiled.Events.Handlers.Player.ItemAdded += OnItemAdded;
             Exiled.Events.Handlers.Player.DroppingItem += OnDroppingItem;
             Exiled.Events.Handlers.Player.DroppingAmmo += OnDroppingAmmo;
             Exiled.Events.Handlers.Player.DroppedItem += OnDroppedItem;
@@ -116,6 +120,16 @@ namespace RGM
             Exiled.Events.Handlers.Scp244.OpeningScp244 += OnOpeningScp244;
 
             Exiled.Events.Handlers.Scp079.Recontained += OnRecontained;
+
+            ServerSpecificSettings.RegisterSettings();
+
+            ServerSpecificSettingsSync.ServerOnSettingValueReceived += ServerSpecificSettings.OnSSInput;
+
+            Harmony harmony = new Harmony($"Harmony - {DateTime.Now.Ticks}");
+            harmony.Patch(AccessTools.Method(typeof(Map), nameof(Map.Broadcast), [typeof(ushort), typeof(string), typeof(Broadcast.BroadcastFlags), typeof(bool)]),
+                postfix: new HarmonyMethod(AccessTools.Method(typeof(BroadcastPostfix), nameof(BroadcastPostfix.Postfix))));
+            harmony.Patch(AccessTools.Method(typeof(WaveSpawner), nameof(WaveSpawner.CanBeSpawned), [typeof(ReferenceHub)]),
+                postfix: new HarmonyMethod(AccessTools.Method(typeof(WavePostfix), nameof(WavePostfix.Postfix))));
         }
     }
 }
