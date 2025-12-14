@@ -287,7 +287,7 @@ $"""
 
             if (Server.PlayerCount >= 15)
             {
-                foreach (var player in playerList.Where(x => UsersManager.UsersCache.ContainsKey(x.UserId)))
+                foreach (var player in playerList.Where(x => !NonePlayers.Contains(x) && UsersManager.UsersCache.ContainsKey(x.UserId)))
                 {
                     UsersManager.UsersCache[player.UserId][0] = (int.Parse(UsersManager.UsersCache[player.UserId][0]) + amount).ToString();
                     UsersManager.UsersCache[player.UserId][1] = (int.Parse(UsersManager.UsersCache[player.UserId][1]) + amount).ToString();
