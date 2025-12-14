@@ -14,6 +14,7 @@ using RGM.API.Interfaces;
 using RGM.Modes;
 using RGM.Patches;
 using RGM.UserSettings;
+using RGM.Variables;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,7 +30,7 @@ using static RGM.EventArgs.Scp244Events;
 using static RGM.EventArgs.Scp330Events;
 using static RGM.EventArgs.ServerEvents;
 using static RGM.EventArgs.WarheadEvents;
-using static RGM.Variables.ServerManagers;
+using static RGM.Variables.Variable;
 
 namespace RGM
 {
@@ -39,7 +40,7 @@ namespace RGM
 
         public override string Name => "RGM";
         public override string Author => "GoldenPig1205";
-        public override Version Version { get; } = new(3, 19, 16);
+        public override Version Version { get; } = new(3, 19, 17);
         public override Version RequiredExiledVersion { get; } = new(1, 2, 0, 5);
 
         public override void OnEnabled()
