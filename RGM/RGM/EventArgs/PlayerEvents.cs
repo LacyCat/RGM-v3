@@ -811,7 +811,7 @@ namespace RGM.EventArgs
 
         public static void OnDroppingItem(DroppingItemEventArgs ev)
         {
-            if (Round.IsLobby)
+            if (Round.IsLobby || NonePlayers.Contains(ev.Player))
                 ev.IsAllowed = false;
         }
 
