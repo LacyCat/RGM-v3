@@ -236,7 +236,7 @@ Trouble in Terrorist Town의 약자.
                 }
                 else if (player == O5)
                 {
-                    player.AddHint("TTT O5", $"당신은 <color=#000000>O5 평의회</color>입니다. 끝까지 혼자 살아남으세요!", 20);
+                    player.AddHint("TTT O5", $"당신은 <color=#000000>O5 평의회</color>입니다. 끝까지 생존하거나, 나머지를 전부 죽이세요!", 20);
                     player.MaxHealth = 350;
                     player.Health = player.MaxHealth;
                     player.AddItem(ItemType.SCP330);
@@ -262,14 +262,27 @@ Trouble in Terrorist Town의 약자.
                 yield return Timing.WaitForSeconds(1f);
             }
 
-            foreach (var player in PlayerManager.List.Where(x => x.IsAlive))
+            if (O5 != null && O5.IsAlive)
             {
-                if (traitors.Contains(player))
+                foreach (var player in PlayerManager.List.Where(x => x.IsAlive && x != O5))
                 {
                     if (GodModePlayers.Contains(player))
                         GodModePlayers.Remove(player);
 
-                    player.Kill("제한시간이 초과하였습니다.");
+                    player.Kill("아뿔싸! O5 평의회가 살아있었군요!");
+                }
+            }
+            else
+            {
+                foreach (var player in PlayerManager.List.Where(x => x.IsAlive))
+                {
+                    if (traitors.Contains(player))
+                    {
+                        if (GodModePlayers.Contains(player))
+                            GodModePlayers.Remove(player);
+
+                        player.Kill("제한시간이 초과하였습니다.");
+                    }
                 }
             }
         }

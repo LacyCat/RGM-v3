@@ -10,6 +10,7 @@ using PlayerRoles.FirstPersonControl.Thirdperson;
 using PlayerRoles.FirstPersonControl.Thirdperson.Subcontrollers.OverlayAnims;
 using PlayerStatsSystem;
 using RGM.API.Interfaces;
+using RGM.Variables;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -450,20 +451,32 @@ namespace RGM.API.Features
         {
             try
             {
-                List<TextInputSetting> settings = new();
+                List<TextInputSetting> textInputSettings = new();
+                List<DropdownSetting> dropdownSettings = new();
 
                 List<string> uc()
                 {
                     return UsersManager.UsersCache[player.UserId];
                 }
 
+                foreach (var setting in ServerSpecificSettingsSync.ReceivedUserSettings[player.ReferenceHub])
+                {
+                    Log.Info(setting.SettingId);
+                }
+
                 for (int i = 1; i <= 11; i++)
                 {
                     TextInputSetting textInputSetting = (TextInputSetting)SettingBase.SyncedList[player].First(x => x.Id == i);
-                    settings.Add(textInputSetting);
+                    textInputSettings.Add(textInputSetting);
                 }
 
-                foreach (var setting in settings)
+                for (int i = 100; i <= 101; i++)
+                {
+                    DropdownSetting dropdownSetting = (DropdownSetting)SettingBase.SyncedList[player].First(x => x.Id == i);
+                    dropdownSettings.Add(dropdownSetting);
+                }
+
+                foreach (var setting in textInputSettings)
                 {
                     if (setting.Id == 1)
                     {
@@ -471,15 +484,15 @@ namespace RGM.API.Features
                     }
                     if (setting.Id == 2)
                     {
-                        setting.UpdateLabelAndHint($"⭐ EXP: {uc()[0]}", null);
+                        setting.UpdateLabelAndHint($"<color=#fef143>⭐ EXP: {uc()[0]}</color>", null);
                     }
                     if (setting.Id == 3)
                     {
-                        setting.UpdateLabelAndHint($"💫 랜덤코인: {uc()[1]}", null);
+                        setting.UpdateLabelAndHint($"<color=#dd3333>👛 랜덤코인: {uc()[1]}</color>", null);
                     }
                     if (setting.Id == 4)
                     {
-                        setting.UpdateLabelAndHint($"💎 Cash: {uc()[2]}<line-height=0>\n</line-height><align=right><mark=#5865f215><link=https://discord.gg/h4AKgks7VMV>ㅤ🏪 Cash 충전하기ㅤㅤ</link></mark></align>", null);
+                        setting.UpdateLabelAndHint($"<color=#92f7fb>💎 Cash: {uc()[2]}</color><line-height=0>\n</line-height><align=right><mark=#5865f215><link=https://discord.gg/h4AKgks7VMV>ㅤ🏪 Cash 충전하기ㅤㅤ</link></mark></align>", null);
                     }
                     if (setting.Id == 5)
                     {
@@ -487,11 +500,11 @@ namespace RGM.API.Features
                     }
                     if (setting.Id == 6)
                     {
-                        setting.UpdateLabelAndHint(uc()[3].Split('/').Count() == 0 ? "보유한 킬이펙트가 없습니다." : $"{(uc()[4] == "0" ? "" : $"장착한 킬이펙트: {uc()[4]}\n<size=15>{KillEffects[uc()[4]]}</size>\n")}보유한 킬이펙트\n{string.Join("\n", uc()[3].Split('/').Select(x => $"<size=15>{x}</size>"))}", $"💀 킬이펙트");
+                        setting.UpdateLabelAndHint(uc()[3].Split('/').Count() == 0 ? "보유한 킬이펙트가 없습니다." : $"{(uc()[4] == "0" ? "" : $"장착한 킬이펙트: {uc()[4]}\n<size=15>{KillEffects[uc()[4]]}</size>\n")}보유한 킬이펙트\n{string.Join("\n", uc()[3].Split('/').Select(x => $"<size=15>{x}</size>"))}", $"<color=#fbd492>💀 킬이펙트</color>");
                     }
                     if (setting.Id == 7)
                     {
-                        setting.UpdateLabelAndHint(uc()[19].Split('/').Count() == 0 ? "보유한 스폰이펙트가 없습니다." : $"{(uc()[20] == "0" ? "" : $"장착한 스폰이펙트: {uc()[20]}\n<size=15>{SpawnEffects[uc()[20]]}</size>\n")}보유한 스폰이펙트\n{string.Join("\n", uc()[19].Split('/').Select(x => $"<size=15>{x}</size>"))}", $"📥 스폰이펙트");
+                        setting.UpdateLabelAndHint(uc()[19].Split('/').Count() == 0 ? "보유한 스폰이펙트가 없습니다." : $"{(uc()[20] == "0" ? "" : $"장착한 스폰이펙트: {uc()[20]}\n<size=15>{SpawnEffects[uc()[20]]}</size>\n")}보유한 스폰이펙트\n{string.Join("\n", uc()[19].Split('/').Select(x => $"<size=15>{x}</size>"))}", $"<color=#a2b5d6>📥 스폰이펙트</color>");
                     }
                     if (setting.Id == 8)
                     {
@@ -505,19 +518,32 @@ namespace RGM.API.Features
                             return n;
                         }
 
-                        setting.UpdateLabelAndHint(uc()[7].Split('/').Count() == 0 ? "보유한 커스터마이징이 없습니다." : $"{(uc()[7].Split('/').Contains("커스텀 닉네임") ? $"커스텀 닉네임: {uc()[5]}({Tools.CustomFormatter(player, nick(5))})" : "")}{(uc()[7].Split('/').Contains("커스텀 인포") ? $"\n커스텀 인포: {uc()[6]}({Tools.CustomFormatter(player, nick(6))})" : "")}", $"🔧 커스터마이징");
+                        setting.UpdateLabelAndHint(uc()[7].Split('/').Count() == 0 ? "보유한 커스터마이징이 없습니다." : $"{(uc()[7].Split('/').Contains("커스텀 닉네임") ? $"커스텀 닉네임: {uc()[5]}({Tools.CustomFormatter(player, nick(5))})" : "")}{(uc()[7].Split('/').Contains("커스텀 인포") ? $"\n커스텀 인포: {uc()[6]}({Tools.CustomFormatter(player, nick(6))})" : "")}", $"<color=#d9b1fa>🔧 커스터마이징</color>");
                     }
                     if (setting.Id == 9)
                     {
-                        setting.UpdateLabelAndHint(uc()[8].Split('/').Count() == 0 ? "보유한 페인트가 없습니다." : $"{(uc()[9] == "0" ? "" : $"장착한 페인트: {uc()[9]}\n<size=15>{Paints[uc()[9]]}</size>\n")}보유한 페인트\n{string.Join("\n", uc()[8].Split('/').Select(x => $"<size=15>{x}</size>"))}", $"🎨 페인트");
+                        setting.UpdateLabelAndHint(uc()[8].Split('/').Count() == 0 ? "보유한 페인트가 없습니다." : $"{(uc()[9] == "0" ? "" : $"장착한 페인트: {uc()[9]}\n<size=15>{Paints[uc()[9]]}</size>\n")}보유한 페인트\n{string.Join("\n", uc()[8].Split('/').Select(x => $"<size=15>{x}</size>"))}", $"<color=#fab2e2>🎨 페인트</color>");
                     }
                     if (setting.Id == 10)
                     {
-                        setting.UpdateLabelAndHint(uc()[10].Split('/').Count() == 0 ? "보유한 칭호가 없습니다." : $"{(uc()[11] == "0" ? "" : $"장착한 칭호: {uc()[11]}\n<size=15>{Badges[uc()[11]]}</size>\n")}보유한 칭호\n{string.Join("\n", uc()[10].Split('/').Select(x => $"<size=15>{x}</size>"))}", $"🔖 칭호");
+                        setting.UpdateLabelAndHint(uc()[10].Split('/').Count() == 0 ? "보유한 칭호가 없습니다." : $"{(uc()[11] == "0" ? "" : $"장착한 칭호: {uc()[11]}\n<size=15>{Badges[uc()[11]]}</size>\n")}보유한 칭호\n{string.Join("\n", uc()[10].Split('/').Select(x => $"<size=15>{x}</size>"))}", $"<color=#b2fada>🔖 칭호</color>");
                     }
                     if (setting.Id == 11 && player.HasReservedSlot)
                     {
-                        setting.UpdateLabelAndHint($"<b>✨ 풀방 접속권 보유 중 ✨</b>", null);
+                        setting.UpdateLabelAndHint($"<b><color=#FF0000>✨</color> <color=#DD0022>풀</color><color=#CC0033>방</color> <color=#AA0055>접</color><color=#990066>속</color><color=#880077>권</color> <color=#660099>보</color><color=#5500AA>유</color> <color=#3300CC>중</color> <color=#1100EE>✨</color></b>", null);
+                    }
+                }
+
+                foreach (var setting in dropdownSettings)
+                {
+                    if (setting.Id == 100)
+                    {
+                        IEnumerable<string> modeList = ModeList.Keys.Select(x => $"{x.GetModeData().Name} ({x.GetModeData().Category}, {x.GetModeData().Info})");
+                        setting.UpdateSetting(modeList.ToArray());
+                    }
+                    if (setting.Id == 101)
+                    {
+                        setting.UpdateSetting(EnabledModeList.Select(x => $"{x.GetModeData().Name} ({x.GetModeData().Category})").ToArray());
                     }
                 }
             }
