@@ -36,24 +36,6 @@ namespace RGM.UserSettings
         public static ButtonSetting SpectatorToNone { get; private set; }
         public static ButtonSetting SwitchToSpectator { get; private set; }
 
-        public static HeaderSetting Info { get; private set; } = new HeaderSetting(2111, "<b>ⓘ 유저</b>");
-        public static TextInputSetting SteamProfile { get; private set; }
-        public static TextInputSetting Exp { get; private set; }
-        public static TextInputSetting RandomCoin { get; private set; }
-        public static TextInputSetting Cash { get; private set; }
-        public static TextInputSetting LinkToDiscord { get; private set; }
-        public static TextInputSetting KillEffects { get; private set; }
-        public static TextInputSetting SpawnEffects { get; private set; }
-        public static TextInputSetting Customs { get; private set; }
-        public static TextInputSetting Paints { get; private set; }
-        public static TextInputSetting Badges { get; private set; }
-        public static TextInputSetting ReservedSlot { get; private set; }
-
-        public static HeaderSetting Mode { get; private set; } = new HeaderSetting(3001, "<b>🎮 모드</b>");
-        public static TextInputSetting ModeDescription { get; private set; }
-        public static DropdownSetting AllModes { get; private set; }
-        public static DropdownSetting CurrentModes { get; private set; }
-
         public static string GetValue(string debugValue)
         {
             try
