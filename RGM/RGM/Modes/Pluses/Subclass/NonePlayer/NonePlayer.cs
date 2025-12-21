@@ -43,7 +43,10 @@ namespace RGM.Modes.SubClass
                     ItemType.SCP1509,
                     ItemType.SCP1507Tape,
                     ItemType.SCP244a,
-                    ItemType.SCP244b
+                    ItemType.SCP244b,
+                    ItemType.SCP018,
+                    ItemType.SpecialCoal,
+                    ItemType.SCP1507Tape
                 }.Contains(x)));
 
                 yield break;
