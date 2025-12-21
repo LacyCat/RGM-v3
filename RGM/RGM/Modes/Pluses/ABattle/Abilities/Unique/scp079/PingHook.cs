@@ -14,6 +14,7 @@ using InventorySystem.Items.Usables.Scp330;
 using MEC;
 using RGM.API.DataBases;
 using RGM.API.Features;
+using RGM.Modes.SubClass;
 using UnityEngine;
 
 namespace RGM.Modes.Abilities.Unique.Scp079;
@@ -40,6 +41,6 @@ public class PingHook : Ability
 
         Vector3 pos = ev.Position;
 
-        PlayerManager.List.Where(x => x.IsAlive).GetRandomValue().Position = new Vector3(pos.x, pos.y + 2, pos.z);
+        PlayerManager.List.Where(x => x.IsAlive && !NonePlayer.Players.Contains(x)).GetRandomValue().Position = new Vector3(pos.x, pos.y + 2, pos.z);
     }
 }
