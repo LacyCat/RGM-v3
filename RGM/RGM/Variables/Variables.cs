@@ -167,7 +167,7 @@ namespace RGM.Variables
         public static List<Transform> RandomColors;
         public static List<Transform> RandomLights;
         public static List<Transform> Balls;
-        public static List<ModeType> EnabledModeList = new();
+        public static List<Mode> EnabledModeList = new();
         public static List<ModeType> SubModeVote = new();
         public static List<Player> JumpScareCooldown = new();
         public static List<Player> GodModePlayers = new();

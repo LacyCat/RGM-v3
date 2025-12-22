@@ -78,7 +78,6 @@ namespace RGM.EventArgs
 
             PickModes();
             Balls.ForEach(x => x.gameObject.AddComponent<BallComponent>());
-            EnabledModeList.Add(ModeType.Develop);
 
             Timing.RunCoroutine(SyncSpectatedHint());
             Timing.RunCoroutine(ThrowawayBroadcast());
