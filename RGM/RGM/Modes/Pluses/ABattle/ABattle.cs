@@ -4,6 +4,8 @@ using System.Linq;
 using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
 using System.Xml.Linq;
+using _Scripts.CommandSystem.Commands.Shared;
+using CommandSystem;
 using DiscordInteraction.Discord;
 using Exiled.API.Enums;
 using Exiled.API.Extensions;
@@ -93,6 +95,21 @@ public class ABattle : Mode
         {"대출", "워크스테이션 제한이 해제됩니다. 각 워크스테이션마다 처음 1회를 제외하고 추가로 얻으려고 시도하는 경우, 20% 확률로 아사합니다."},
         {"지원", "1~3분마다 모두에게 능력 선택창이 열립니다."}
     };
+    public static List<ICommand> DotCommands = new()
+    {
+        new SelectFirst(),
+        new SelectSecond(),
+        new SelectThird(),
+        new SelectFourth(),
+        new SelectFifth(),
+        new GetExtraMode(),
+        new CASSIE()
+    };
+    public static List<ICommand> RemoteAdminCommands = new()
+    {
+        new AddAbility(),
+        new SetExtraMode()
+    };
 
     public static string ColorFormat(string text)
     {
@@ -179,16 +196,15 @@ public class ABattle : Mode
             }
         }
 
-        QueryProcessor.DotCommandHandler.RegisterCommand(new SelectFirst());
-        QueryProcessor.DotCommandHandler.RegisterCommand(new SelectSecond());
-        QueryProcessor.DotCommandHandler.RegisterCommand(new SelectThird());
-        QueryProcessor.DotCommandHandler.RegisterCommand(new SelectFourth());
-        QueryProcessor.DotCommandHandler.RegisterCommand(new SelectFifth());
-        QueryProcessor.DotCommandHandler.RegisterCommand(new GetExtraMode());
-        QueryProcessor.DotCommandHandler.RegisterCommand(new CASSIE());
+        foreach (var dot in DotCommands)
+        {
+            QueryProcessor.DotCommandHandler.RegisterCommand(dot);
+        }
 
-        CommandProcessor.RemoteAdminCommandHandler.RegisterCommand(new AddAbility());
-        CommandProcessor.RemoteAdminCommandHandler.RegisterCommand(new SetExtraMode());
+        foreach (var ra in RemoteAdminCommands)
+        {
+            CommandProcessor.RemoteAdminCommandHandler.RegisterCommand(ra);
+        }
 
         _onModeStarted = Timing.RunCoroutine(OnModeStarted());
         _hintCoroutine = Timing.RunCoroutine(HintCoroutine());
@@ -198,20 +214,26 @@ public class ABattle : Mode
     {
         _eventHandler.UnregisterEvents();
 
+        CurrentExtraMode = null;
 
-        try
+        foreach (var dot in DotCommands)
         {
-            foreach (var player in Player.List)
-            {
-                foreach (var ability in GetAbilities(player))
-                {
-                    ability.OnDisabled();
-                }
-            }
+            if (QueryProcessor.DotCommandHandler.TryGetCommand(dot.Command, out ICommand command))
+                QueryProcessor.DotCommandHandler.UnregisterCommand(command);
         }
-        catch (Exception e)
+
+        foreach (var ra in RemoteAdminCommands)
         {
-            Log.Error($"An error occurred while trying to disable abilities: {e}");
+            if (CommandProcessor.RemoteAdminCommandHandler.TryGetCommand(ra.Command, out ICommand command))
+                CommandProcessor.RemoteAdminCommandHandler.UnregisterCommand(command);
+        }
+
+        foreach (var player in Player.List)
+        {
+            foreach (var ability in GetAbilities(player))
+            {
+                ability.OnDisabled();
+            }
         }
 
         Timing.KillCoroutines(_onModeStarted);
