@@ -40,7 +40,7 @@ namespace RGM
 
         public override string Name => "RGM";
         public override string Author => "GoldenPig1205";
-        public override Version Version { get; } = new(3, 19, 19);
+        public override Version Version { get; } = new(3, 19, 25);
         public override Version RequiredExiledVersion { get; } = new(1, 2, 0, 5);
 
         public override void OnEnabled()
@@ -77,7 +77,8 @@ namespace RGM
                         Description = mode.Description,
                         Detail = mode.Detail,
                         Color = mode.Color,
-                        Suggester = mode.Suggester
+                        Suggester = mode.Suggester,
+                        Map = mode.Map
                     });
                 }
                 catch (Exception ex)
