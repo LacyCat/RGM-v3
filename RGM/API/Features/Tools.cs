@@ -389,15 +389,16 @@ $"""
 
             if (modeType != null)
             {
-                var modeInstance = Activator.CreateInstance(modeType);
+                Mode modeInstance = (Mode)Activator.CreateInstance(modeType);
+                modeInstance.Data = ModeList[ModeType];
+                EnabledModeList.Add(modeInstance);
+
                 var onEnabledMethod = modeType.GetMethod("OnEnabled");
 
                 if (ModeType.GetModeData().Map != "")
                     LoadMap(ModeType.GetModeData().Map);
 
                 onEnabledMethod?.Invoke(modeInstance, null);
-
-                EnabledModeList.Add(ModeType);
 
                 return true;
             }
@@ -417,14 +418,17 @@ $"""
 
             if (modeType != null)
             {
-                var modeInstance = Activator.CreateInstance(modeType);
-                var onEnabledMethod = modeType.GetMethod("OnDisabled");
-                onEnabledMethod?.Invoke(modeInstance, null);
+                Mode mode = EnabledModeList.First(x => x.Data.Type == ModeType);
+
+                if (mode == null)
+                    return false;
+
+                mode.OnDisabled();
 
                 if (ModeType.GetModeData().Map != "")
                     Server.ExecuteCommand($"/mp unload {ModeType.GetModeData().Map}");
 
-                EnabledModeList.Remove(ModeType);
+                EnabledModeList.Remove(mode);
 
                 return true;
             }
