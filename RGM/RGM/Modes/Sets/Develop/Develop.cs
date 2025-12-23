@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Exiled.API.Features;
 using Exiled.API.Features.Items;
+using Exiled.Events.EventArgs.Scp1509;
 using MEC;
 using Mirror;
 using MultiBroadcast;
@@ -33,10 +34,22 @@ namespace RGM.Modes
             Round.IsLocked = true;
             Respawn.PauseWaves();
             Exiled.API.Features.Map.IsDecontaminationEnabled = false;
+
+            Exiled.Events.Handlers.Scp1509.Resurrecting += OnResurrecting;
         }
 
         public override void OnDisabled()
         {
+            Round.IsLocked = false;
+            Respawn.ResumeWaves();
+            Exiled.API.Features.Map.IsDecontaminationEnabled = true;
+
+            Exiled.Events.Handlers.Scp1509.Resurrecting -= OnResurrecting;
+        }
+
+        void OnResurrecting(ResurrectingEventArgs ev)
+        {
+            ev.IsAllowed = false;
         }
     }
 }
