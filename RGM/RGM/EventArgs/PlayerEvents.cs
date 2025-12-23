@@ -733,6 +733,29 @@ namespace RGM.EventArgs
             }
             else
             {
+                IEnumerator<float> timeCount()
+                {
+                    List<ButtonSetting> buttons = PlayerSetting[ev.Player].Where(x => x.Id == 12051 || x.Id == 12052).Select(x => (ButtonSetting)x).ToList();
+                    List<int> cooldowns = new List<int> { 30, 10 };
+
+                    foreach (var button in buttons)
+                    {
+                        string text = button.Label;
+                        int cooldown = cooldowns[buttons.IndexOf(button)];
+
+                        for (int i = 0; i < cooldown; i++)
+                        {
+                            button.UpdateLabelAndHint($"{text} ({cooldown - i}초 남음)", button.HintDescription, filter: x => x == ev.Player);
+
+                            yield return Timing.WaitForSeconds(1);
+                        }
+
+                        button.UpdateLabelAndHint($"{text}", button.HintDescription, filter: x => x == ev.Player);
+                    }
+                }
+
+                Timing.RunCoroutine(timeCount());
+
                 string MessageFormat()
                 {
                     if (ev.Attacker == null)
