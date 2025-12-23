@@ -73,7 +73,7 @@ namespace RGM.Commands.RemoteAdminCommands
         {
             Player player = Player.Get(sender);
 
-            string args = string.Join(" ", arguments.Skip(0).Skip(1).Skip(2));
+            string args = string.Join(" ", arguments).Replace($"{arguments.At(0)} ", "");
 
             List<string> poll = arguments.At(0) == "player" ? Player.List.Select(x => x.DisplayNickname).ToList() : arguments.At(0).Split('/').ToList();
 
@@ -141,7 +141,7 @@ namespace RGM.Commands.RemoteAdminCommands
 
         public string Command { get; } = "룰렛";
 
-        public string[] Aliases { get; } = { };
+        public string[] Aliases { get; } = { "뽑기" };
 
         public string Description { get; } = "룰렛을 돌립니다. 결과는 모두가 확인할 수 있습니다.";
 
