@@ -31,17 +31,17 @@ namespace RGM.API.Features
     {
         public static List<Player> List
         {
-            get => Player.List.Where(x => UsersManager.UsersCache[x.UserId][23] == "0" && !NonePlayer.Players.Contains(x)).ToList();
+            get => Player.List.Where(x => x.IsNPC ? true : (UsersManager.UsersCache[x.UserId][23] == "0" && !NonePlayer.Players.Contains(x))).ToList();
         }
 
         public static bool IsScpRole(this Player player)
         {
-            return player.IsScp || player.Role.Type.IsFlamingo();
+            return IsScpRole(player.Role.Type);
         }
 
         public static bool IsScpRole(this RoleTypeId roleTypeId)
         {
-            return roleTypeId.IsScp() || roleTypeId.IsFlamingo();
+            return roleTypeId.IsScp() || roleTypeId.ToString().Contains("Flamingo");
         }
 
         public static void Hit(this Player player, Player attacker, float damage)
