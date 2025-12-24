@@ -117,6 +117,7 @@ public enum AbilityCategory
     Scp939,
     Scp3114,
     Scp079,
+    Flamingo,
     Synergy,
 }
 
@@ -147,6 +148,11 @@ public static class AbilityCategoryExtensions
             RoleTypeId.Scp939 => AbilityCategory.Scp939,
             RoleTypeId.Scp3114 => AbilityCategory.Scp3114,
             RoleTypeId.Scp079 => AbilityCategory.Scp079,
+            RoleTypeId.Flamingo => AbilityCategory.Flamingo,
+            RoleTypeId.AlphaFlamingo => AbilityCategory.Flamingo,
+            RoleTypeId.ChaosFlamingo => AbilityCategory.Flamingo,
+            RoleTypeId.NtfFlamingo => AbilityCategory.Flamingo,
+            RoleTypeId.ZombieFlamingo => AbilityCategory.Flamingo,
             RoleTypeId.Tutorial => AbilityCategory.Tutorial,
             _ => AbilityCategory.Dummy
         };
@@ -174,6 +180,7 @@ public static class AbilityCategoryExtensions
             AbilityCategory.Scp939 => "전용",
             AbilityCategory.Scp3114 => "전용",
             AbilityCategory.Scp079 => "전용",
+            AbilityCategory.Flamingo => "전용",
             AbilityCategory.Synergy => "시너지",
             _ => "?"
         };
@@ -468,6 +475,9 @@ public enum AbilityType
     SCP079_CAMERAFLASH, // [전용] 카메라 플래시
     SCP079_CASSIE, // [전용] C.A.S.S.I.E.
     SCP079_AUTOTESLA, // [전용] 자동 방어 시스템
+
+    // 플라밍고
+    FLAMINGO_MINIFACTORY, // [전용] 미니 공장
 
     // 시너지 //
     SYNERGY_SURVIVALEXPERT, // [시너지] 생존 전문가

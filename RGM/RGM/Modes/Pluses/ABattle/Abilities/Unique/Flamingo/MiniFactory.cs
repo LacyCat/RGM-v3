@@ -1,0 +1,33 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Exiled.API.Enums;
+using Exiled.API.Extensions;
+using Exiled.API.Features;
+using Exiled.API.Features.Items;
+using Exiled.Events.EventArgs.Player;
+using InventorySystem.Items.Usables.Scp330;
+using MEC;
+using PlayerRoles;
+using RGM.API.DataBases;
+using RGM.API.Features;
+using UnityEngine;
+
+namespace RGM.Modes.Abilities.Unique.Flamingo;
+
+[Ability("미니 공장", "죽은 플레이어 중 하나를 플라밍고로 부활시킵니다.", AbilityCategory.Flamingo, AbilityType.FLAMINGO_MINIFACTORY)]
+public class MiniFactory : Ability
+{
+    public override void OnEnabled()
+    {
+        List<Player> deadPlayers = PlayerManager.List.Where(x => x.IsDead).ToList();
+        Player player = deadPlayers.GetRandomValue();
+
+        player.Role.Set(Owner.Role.Type);
+        player.Position = Owner.Position;
+    }
+
+    public override void OnDisabled()
+    {
+    }
+}
