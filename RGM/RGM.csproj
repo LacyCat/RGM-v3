@@ -73,6 +73,7 @@
     <Compile Include="RGM\Commands\ClientCommands\BasicFeatures\BugVote.cs" />
     <Compile Include="RGM\Commands\ClientCommands\BasicFeatures\Emotion.cs" />
     <Compile Include="RGM\Commands\ClientCommands\BasicFeatures\Link.cs" />
+    <Compile Include="RGM\Commands\RemoteAdminCommands\AdminFeatures\Pet.cs" />
     <Compile Include="RGM\Commands\ClientCommands\ShopFeatures\ApplyBadge.cs" />
     <Compile Include="RGM\Commands\ClientCommands\ShopFeatures\ApplyCustom.cs" />
     <Compile Include="RGM\Commands\ClientCommands\ShopFeatures\ApplySpawnEffect.cs" />
@@ -122,6 +123,7 @@
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Mythic\Unlimited.cs" />
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Normal\RandomCandy.cs" />
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Rare\CandyBag.cs" />
+    <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Unique\Flamingo\MiniFactory.cs" />
     <Compile Include="RGM\Modes\Pluses\LoLChess\LoLChess.cs" />
     <Compile Include="RGM\Modes\Pluses\ABattle\ABattle.cs" />
     <Compile Include="RGM\Modes\Pluses\ABattle\ABattleEventHandler.cs" />
@@ -371,6 +373,7 @@
     <Compile Include="RGM\Modes\Pluses\Silent\Silent.cs" />
     <Compile Include="RGM\Modes\Pluses\Moon\Moon.cs" />
     <Compile Include="RGM\Modes\Pluses\Subclass\NonePlayer\NonePlayer.cs" />
+    <Compile Include="RGM\Modes\Pluses\Subclass\Pet\Capybara.cs" />
     <Compile Include="RGM\Modes\Pluses\TripleAxel\TripleAxel.cs" />
     <Compile Include="RGM\Modes\Sets\AddScp\AddScp.cs" />
     <Compile Include="RGM\Modes\Sets\AddScp\Scps\Scp005\Commands.cs" />
