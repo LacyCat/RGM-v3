@@ -40,7 +40,7 @@ namespace RGM
 
         public override string Name => "RGM";
         public override string Author => "GoldenPig1205";
-        public override Version Version { get; } = new(3, 19, 28);
+        public override Version Version { get; } = new(3, 19, 29);
         public override Version RequiredExiledVersion { get; } = new(1, 2, 0, 5);
 
         public override void OnEnabled()
@@ -123,6 +123,9 @@ namespace RGM
 
             Exiled.Events.Handlers.Scp079.Recontained += OnRecontained;
 
+            ProjectMER.Events.Handlers.Schematic.SchematicSpawned += OnSchematicSpawned;
+            ProjectMER.Events.Handlers.Schematic.SchematicDestroyed += OnSchematicDestroyed;
+
             ServerSpecificSettings.Init();
 
             ServerSpecificSettingsSync.ServerOnSettingValueReceived += ServerSpecificSettings.OnSSInput;
@@ -132,6 +135,11 @@ namespace RGM
                 postfix: new HarmonyMethod(AccessTools.Method(typeof(BroadcastPostfix), nameof(BroadcastPostfix.Postfix))));
             harmony.Patch(AccessTools.Method(typeof(WaveSpawner), nameof(WaveSpawner.CanBeSpawned), [typeof(ReferenceHub)]),
                 postfix: new HarmonyMethod(AccessTools.Method(typeof(WavePostfix), nameof(WavePostfix.Postfix))));
+        }
+
+        private void On(ProjectMER.Events.Arguments.SchematicSpawnedEventArgs ev)
+        {
+            throw new NotImplementedException();
         }
     }
 }
