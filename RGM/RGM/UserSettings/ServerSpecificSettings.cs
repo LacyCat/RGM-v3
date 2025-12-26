@@ -84,7 +84,7 @@ $"""
 관전석에서 훈련장으로 이동합니다.
 
 • Set 모드 또는 특정 모드에서 사용 불가
-• 사망 후 30초가 지나야 사용 가능
+• 사망 후 10초가 지나야 사용 가능
 """,
                 
                 header: Setting,
@@ -149,7 +149,7 @@ $"""
             {
                 if ((CurrentMode == ModeType.None || CurrentMode.GetModeData().Info == ModeInfo.Plus) && 
                     IsNonePlayerAllowed &&
-                    (Round.IsLobby || (DateTime.UtcNow - PlayersReport[player.UserId].LastDeath).TotalSeconds >= 30))
+                    (Round.IsLobby || (DateTime.UtcNow - PlayersReport[player.UserId].LastDeath).TotalSeconds >= 10))
                 {
                     if (player.IsAlive && NonePlayer.Players.Contains(player))
                     {
