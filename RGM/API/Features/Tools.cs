@@ -66,20 +66,7 @@ namespace RGM.API.Features
 
         public static void TeleportToLobby(Player player)
         {
-            List<RoleTypeId> Scps = new List<RoleTypeId>()
-            {
-                RoleTypeId.Scp173,
-                RoleTypeId.Scp049,
-                RoleTypeId.Scp0492,
-                RoleTypeId.Scp106,
-                RoleTypeId.Scp939,
-                RoleTypeId.Scp3114,
-                RoleTypeId.Flamingo,
-                RoleTypeId.AlphaFlamingo,
-                RoleTypeId.ZombieFlamingo,
-            };
-
-            List<RoleTypeId> Humans = new List<RoleTypeId>()
+            List<RoleTypeId> humans = new List<RoleTypeId>()
             {
                 RoleTypeId.ClassD,
                 RoleTypeId.Scientist,
@@ -89,7 +76,7 @@ namespace RGM.API.Features
                 RoleTypeId.Tutorial
             };
 
-            player.Role.Set(Tools.GetRandomValue(Humans));
+            player.Role.Set(humans.GetRandomValue());
             player.ClearInventory();
             player.Position = GameObject.Find("LobbyStartPoint").transform.position;
 
