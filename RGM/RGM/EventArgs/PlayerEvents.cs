@@ -153,7 +153,7 @@ namespace RGM.EventArgs
 
             // ---------------------------------------------------------------------------------------
 
-            if (UnityEngine.Random.Range(1, 201) == 1)
+            if (UnityEngine.Random.Range(1, 101) == 1)
                 CapybaraPet.Create(ev.Player);
 
             // ---------------------------------------------------------------------------------------
@@ -847,8 +847,7 @@ namespace RGM.EventArgs
                 return;
             }
 
-            foreach (var player in PlayerManager.List)
-                player.AddBroadcast(10, $"<size=20>{ev.Target.Nickname}(이)가 서버에서 <color=red>추방</color>되었습니다. (사유: {ev.Reason})</size>");
+            MultiBroadcast.API.MultiBroadcast.AddMapBroadcast(10, $"<size=20>{ev.Target.Nickname}(이)가 서버에서 <color=red>추방</color>되었습니다. (사유: {ev.Reason})</size>");
         }
 
         public static void OnBanning(BanningEventArgs ev)
@@ -859,8 +858,7 @@ namespace RGM.EventArgs
                 return;
             }
 
-            foreach (var player in PlayerManager.List)
-                player.AddBroadcast(10, $"<size=20>{ev.Target.Nickname}(이)가 서버에서 <color=red>차단</color>되었습니다. (사유: {ev.Reason})</size>");
+            MultiBroadcast.API.MultiBroadcast.AddMapBroadcast(10, $"<size=20>{ev.Target.Nickname}(이)가 서버에서 <color=red>차단</color>되었습니다. (사유: {ev.Reason})</size>");
         }
 
         public static void OnChangingGroup(ChangingGroupEventArgs ev)

@@ -89,8 +89,7 @@ namespace RGM.Modes
 
             for (int i = 1; i < 11; i++)
             {
-                foreach (var player in PlayerManager.List)
-                    player.AddBroadcast(1, $"{11 - i}초 뒤 <b><color=#F2F5A9>예선전</color></b>이 시작됩니다.");
+                MultiBroadcast.API.MultiBroadcast.AddMapBroadcast(1, $"{11 - i}초 뒤 <b><color=#F2F5A9>예선전</color></b>이 시작됩니다.");
 
                 yield return Timing.WaitForSeconds(1f);
             }
@@ -138,8 +137,7 @@ namespace RGM.Modes
 
             for (int i = 1; i < 11; i++)
             {
-                foreach (var player in PlayerManager.List)
-                    player.AddBroadcast(1, $"{11 - i}초 뒤 <b><color=#F7D358>결승전</color></b>이 시작됩니다.");
+                MultiBroadcast.API.MultiBroadcast.AddMapBroadcast(1, $"{11 - i}초 뒤 <b><color=#F7D358>결승전</color></b>이 시작됩니다.");
 
                 yield return Timing.WaitForSeconds(1f);
             }
@@ -219,8 +217,7 @@ namespace RGM.Modes
                     {
                         if (roundName == "결승전")
                         {
-                            foreach (var player in PlayerManager.List)
-                                player.AddBroadcast(1, Message);
+                            MultiBroadcast.API.MultiBroadcast.AddMapBroadcast(1, Message);
                         }
                         else
                         {
@@ -279,8 +276,7 @@ namespace RGM.Modes
             {
                 Round.IsLocked = false;
 
-                foreach (var player in PlayerManager.List)
-                    player.AddBroadcast(20, $"<size=25>🎉 축하합니다, <b><color=yellow>{Finals[0].DisplayNickname}</color></b>(이)가 <b><color=#{ModeType.RussianRoulette.GetModeData().Color}>러시안 룰렛</color></b>에서 우승하였습니다! 🎉</size>");
+                MultiBroadcast.API.MultiBroadcast.AddMapBroadcast(20, $"<size=25>🎉 축하합니다, <b><color=yellow>{Finals[0].DisplayNickname}</color></b>(이)가 <b><color=#{ModeType.RussianRoulette.GetModeData().Color}>러시안 룰렛</color></b>에서 우승하였습니다! 🎉</size>");
 
                 Finals[0].DisableEffect(EffectType.Ensnared);
                 Timing.RunCoroutine(Tools.SetWinner(new List<Player>() { Finals[0] }, 5));

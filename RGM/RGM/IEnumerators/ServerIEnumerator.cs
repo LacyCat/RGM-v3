@@ -62,7 +62,7 @@ namespace RGM.IEnumerators
                     Map.Broadcast(10, $"<b><size=25>플라밍고를 소환하는 테이프가 재사용 가능해집니다.</size></b>");
                 }
 
-                foreach (var player in PlayerManager.List)
+                foreach (var player in Player.List)
                 {
                     player.AddBroadcast(20, $"<size=20><b><color=#7289da>Discord</color>에 가입하여 <color=#C8FE2E>실시간 업데이트 현황</color>을 확인하고, 서버에 대한 <color=#F781D8>아이디어</color>를 나누고, <color=#FF4000>상점</color>을 이용하세요!</b></size>");
                     player.AddBroadcast(20, $"<size=20>만일 서버가 터진다면 그것은 개발자가 이상한 거 만들다가 가끔씩 터트리는 것이오니, 계속 플레이하시려면 고쳐질때까지 계속 <b>재접속</b>하시는 것을 권장드립니다.</size>");

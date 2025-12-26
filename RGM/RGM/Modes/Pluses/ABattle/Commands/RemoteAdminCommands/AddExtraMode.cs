@@ -7,7 +7,7 @@ using RGM.API.Features;
 
 namespace RGM.Modes.Commands;
 
-public class SetExtraMode : ICommand
+public class AddExtraMode : ICommand
 {
     public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
     {
@@ -23,8 +23,8 @@ public class SetExtraMode : ICommand
             }
             else
             {
-                ABattle.CurrentExtraMode = args;
-                string extraMode = $"<size=25><b><color=#fecdcd>{ABattle.CurrentExtraMode}</color></b></size>\n<size=20>{ABattle.ExtraModes[ABattle.CurrentExtraMode]}</size>";
+                ABattle.CurrentExtraModes.Add(args);
+                string extraMode = $"<size=25><b><color=#fecdcd>{ABattle.CurrentExtraModes}</color></b></size>\n<size=20>{ABattle.ExtraModes[args]}</size>";
                 
                 foreach (var p in PlayerManager.List)
                 {

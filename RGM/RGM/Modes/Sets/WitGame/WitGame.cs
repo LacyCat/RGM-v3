@@ -112,8 +112,7 @@ namespace RGM.Modes
                         foreach (var boom in JumpingPlayers.Where(x => x.IsAlive && x != null))
                             Timing.RunCoroutine(Tools.DoRocket(boom, boom, 0.5f));
 
-                        foreach (var player in PlayerManager.List)
-                            player.AddBroadcast(3, $"<size=25>마음이 너무 잘 맞았던 {JumpingPlayers.Where(x => x.IsAlive && x != null).ToList().Count}명({string.Join(", ", JumpingPlayers.Where(x => x.IsAlive && x != null).Select(x => x.DisplayNickname))})은 사이좋게 하늘로 갔습니다.</size>");
+                        MultiBroadcast.API.MultiBroadcast.AddMapBroadcast(3, $"<size=25>마음이 너무 잘 맞았던 {JumpingPlayers.Where(x => x.IsAlive && x != null).ToList().Count}명({string.Join(", ", JumpingPlayers.Where(x => x.IsAlive && x != null).Select(x => x.DisplayNickname))})은 사이좋게 하늘로 갔습니다.</size>");
 
                         Remain = PlayerManager.List.Where(x => x.IsAlive && !JumpingPlayers.Contains(x)).ToList().Count;
 
@@ -121,7 +120,7 @@ namespace RGM.Modes
 
                         for (int i = 1; i < 4; i++)
                         {
-                            foreach (var player in PlayerManager.List) player.AddBroadcast(1, $"<b>{i}</b>");
+                            MultiBroadcast.API.MultiBroadcast.AddMapBroadcast(1, $"<b>{i}</b>");
 
                             yield return Timing.WaitForSeconds(1f);
                         }
@@ -132,8 +131,7 @@ namespace RGM.Modes
 
                         Stack++;
 
-                        foreach (var player in PlayerManager.List)
-                            player.AddBroadcast(3, $"<size=20>{JumpingPlayers.Where(x => x.IsAlive && x != null).ToList()[0].DisplayNickname}, {Stack}!</size>");
+                        MultiBroadcast.API.MultiBroadcast.AddMapBroadcast(3, $"<size=20>{JumpingPlayers.Where(x => x.IsAlive && x != null).ToList()[0].DisplayNickname}, {Stack}!</size>");
                     }
                 }
 
@@ -145,8 +143,7 @@ namespace RGM.Modes
                     {
                         Timing.RunCoroutine(Tools.DoRocket(Cowards[0], Cowards[0], 0.8f));
 
-                        foreach (var player in PlayerManager.List)
-                            player.AddBroadcast(3, $"<size=25>눈치가 느린 {Cowards[0].DisplayNickname}은(는) 하늘로 갔습니다.</size>");
+                        MultiBroadcast.API.MultiBroadcast.AddMapBroadcast(3, $"<size=25>눈치가 느린 {Cowards[0].DisplayNickname}은(는) 하늘로 갔습니다.</size>");
 
                         Remain = PlayerManager.List.Where(x => x.IsAlive && !Cowards.Contains(x)).ToList().Count;
 
@@ -154,7 +151,7 @@ namespace RGM.Modes
 
                         for (int i = 1; i < 4; i++)
                         {
-                            foreach (var player in PlayerManager.List) player.AddBroadcast(1, $"<b>{i}</b>");
+                            MultiBroadcast.API.MultiBroadcast.AddMapBroadcast(1, $"<b>{i}</b>");
 
                             yield return Timing.WaitForSeconds(1f);
                         }

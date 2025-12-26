@@ -503,8 +503,7 @@ $"""
 
             if (IsSuccess)
             {
-                foreach (var player in PlayerManager.List)
-                    player.AddBroadcast(5, en ? $"The vote to disable the game has <b><color=#9AFE2E>passed</color></b>. The servers will be restarted shortly." : $"게임 진행 불가 투표가 <b><color=#9AFE2E>가결</color></b>되었습니다. 곧 서버가 재시작됩니다.");
+                MultiBroadcast.API.MultiBroadcast.AddMapBroadcast(5, en ? $"The vote to disable the game has <b><color=#9AFE2E>passed</color></b>. The servers will be restarted shortly." : $"게임 진행 불가 투표가 <b><color=#9AFE2E>가결</color></b>되었습니다. 곧 서버가 재시작됩니다.");
 
                 Webhook.Send(en ? $"🗳️ **Game Inability Vote**ㅣ✅ Passed (Voters: {string.Join(", ", BugVotePlayers.Select(x => x.Nickname))})" : $"🗳️ **게임 진행 불가 투표**ㅣ✅ 가결됨 (투표자: {string.Join(", ", BugVotePlayers.Select(x => x.Nickname))})");
 
@@ -514,8 +513,7 @@ $"""
             }
             else
             {
-                foreach (var player in PlayerManager.List)
-                    player.AddBroadcast(5, en ? $"The vote to disable game play has been <b><color=#FE2E2E>rejected</color></b>." : $"게임 진행 불가 투표가 <b><color=#FE2E2E>부결</color></b>되었습니다.");
+                MultiBroadcast.API.MultiBroadcast.AddMapBroadcast(5, en ? $"The vote to disable game play has been <b><color=#FE2E2E>rejected</color></b>." : $"게임 진행 불가 투표가 <b><color=#FE2E2E>부결</color></b>되었습니다.");
 
                 Webhook.Send(en ? $"🗳️ **Game Inoperable Vote**ㅣ❌ Rejected (Voters: {string.Join(", ", BugVotePlayers.Select(x => x.Nickname))})" : $"🗳️ **게임 진행 불가 투표**ㅣ❌ 부결됨 (투표자: {string.Join(", ", BugVotePlayers.Select(x => x.Nickname))})");
             }
@@ -547,15 +545,13 @@ $"""
 
             if (IsSuccess)
             {
-                foreach (var player in PlayerManager.List)
-                    player.AddBroadcast(5, en ? $"Questionable Proposal <b><color=#9AFE2E>passed</color></b>." : $"의문의 제안이 <b><color=#9AFE2E>가결</color></b>되었습니다.");
+                MultiBroadcast.API.MultiBroadcast.AddMapBroadcast(5, en ? $"Questionable Proposal <b><color=#9AFE2E>passed</color></b>." : $"의문의 제안이 <b><color=#9AFE2E>가결</color></b>되었습니다.");
 
                 Webhook.Send(en ? $"🔐 **Questionable Proposal**ㅣ✅ Passed (Voters: {string.Join(", ", SuggestPlayers.Select(x => x.Nickname))})" : $"🔐 **의문의 제안**ㅣ✅ 가결됨 (투표자: {string.Join(", ", SuggestPlayers.Select(x => x.Nickname))})");
             }
             else
             {
-                foreach (var player in PlayerManager.List)
-                    player.AddBroadcast(5, en ? $"Questionable Proposal <b><color=#FE2E2E>was rejected</color></b>." : $"의문의 제안이 <b><color=#FE2E2E>부결</color></b>되었습니다.");
+                MultiBroadcast.API.MultiBroadcast.AddMapBroadcast(5, en ? $"Questionable Proposal <b><color=#FE2E2E>was rejected</color></b>." : $"의문의 제안이 <b><color=#FE2E2E>부결</color></b>되었습니다.");
 
                 Webhook.Send(en ? $"Questionable Proposal <b><color=#FE2E2E>was rejected</color></b>." : $"🔐 **의문의 제안**ㅣ❌ 부결됨 (투표자: {string.Join(", ", SuggestPlayers.Select(x => x.Nickname))})");
             }

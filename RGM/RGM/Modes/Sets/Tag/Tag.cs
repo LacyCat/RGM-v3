@@ -77,8 +77,7 @@ TIP. [ALT] 키를 통해 아군을 밀칠 수 있습니다.
 
             for (int i = 1; i < 10; i++)
             {
-                foreach (var player in PlayerManager.List)
-                    player.AddBroadcast(1, $"<size=25><b><color=red>{10 - i}초 뒤 술래가 출몰합니다.</color></b></size>");
+                MultiBroadcast.API.MultiBroadcast.AddMapBroadcast(1, $"<size=25><b><color=red>{10 - i}초 뒤 술래가 출몰합니다.</color></b></size>");
 
                 yield return Timing.WaitForSeconds(1f);
             }
