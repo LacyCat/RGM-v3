@@ -309,7 +309,7 @@ public class ABattle : Mode
     {
         while (true)
         {
-            foreach (var player in PlayerManager.List.Where(x => !x.IsNPC && x.IsAlive))
+            foreach (var player in PlayerManager.List.Where(x => !x.IsNPC && x.IsAlive && PlayerManager.List.Contains(x)))
             {
                 StartSelect(player);
             }
