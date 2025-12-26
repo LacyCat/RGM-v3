@@ -30,7 +30,7 @@ namespace RGM.IEnumerators
         {
             while (!Round.IsEnded)
             {
-                foreach (var player in PlayerManager.List)
+                foreach (var player in Player.List)
                 {
                     if (player.Role is OverwatchRole overwatch)
                     {
