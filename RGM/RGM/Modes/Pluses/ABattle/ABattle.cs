@@ -93,7 +93,8 @@ public class ABattle : Mode
         {"스펙업", "능력을 획득하면 추가 최대 체력이 지급됩니다. (+10 (SCP의 경우 +50))"},
         {"캐시 청소", "9분마다 모든 유저의 워크스테이션 획득 기록이 초기화됩니다."},
         {"대출", "워크스테이션 제한이 해제됩니다. 각 워크스테이션마다 처음 1회를 제외하고 추가로 얻으려고 시도하는 경우, 20% 확률로 아사합니다."},
-        {"지원", "1~3분마다 모두에게 능력 선택창이 열립니다."}
+        {"지원", "1~3분마다 모두에게 능력 선택창이 열립니다."},
+        {"난장판", "두가지의 추가 모드가 적용되며, 관리자의 제약이 모두 풀립니다."}
     };
     public static List<ICommand> DotCommands = new()
     {
@@ -108,7 +109,7 @@ public class ABattle : Mode
     public static List<ICommand> RemoteAdminCommands = new()
     {
         new AddAbility(),
-        new SetExtraMode()
+        new AddExtraMode()
     };
 
     public static string ColorFormat(string text)
@@ -146,11 +147,17 @@ public class ABattle : Mode
             if (extraMode == "지원")
                 Timing.RunCoroutine(Instance.Backup());
 
+            if (extraMode == "난장판")
+            {
+                for (int i = 0; i < 2; i++)
+                    PickExtraMode(new List<string> { "난장판" });
+            }
+
             return extraMode;
         }
     }
 
-    public static string CurrentExtraMode;
+    public static List<string> CurrentExtraModes = new();
 
     CoroutineHandle _onModeStarted;
     CoroutineHandle _hintCoroutine;
@@ -160,7 +167,7 @@ public class ABattle : Mode
     {
         Instance = this;
 
-        CurrentExtraMode = PickExtraMode();
+        CurrentExtraModes.Add(PickExtraMode());
 
         _eventHandler = new ABattleEventHandler(this);
         _eventHandler.RegisterEvents();
@@ -214,7 +221,7 @@ public class ABattle : Mode
     {
         _eventHandler.UnregisterEvents();
 
-        CurrentExtraMode = null;
+        CurrentExtraModes.Clear();
 
         foreach (var dot in DotCommands)
         {
@@ -359,12 +366,15 @@ public class ABattle : Mode
 
     public void ExtraModeNotion(Player player, bool enableBroadcast = true)
     {
-        string extraMode = $"<size=25><b><color=#fecdcd>{CurrentExtraMode}</color></b></size>\n<size=20>{ExtraModes[CurrentExtraMode]}</size>";
+        foreach (var cem in CurrentExtraModes)
+        {
+            string extraMode = $"<size=25><b><color=#fecdcd>{cem}</color></b></size>\n<size=20>{ExtraModes[cem]}</size>";
 
-        if (enableBroadcast)
-            player.AddBroadcast(10, extraMode);
+            if (enableBroadcast)
+                player.AddBroadcast(10, extraMode);
 
-        player.SendConsoleMessage("\n" + extraMode, "white");
+            player.SendConsoleMessage("\n" + extraMode, "white");
+        }
     }
 
     // 플레이어에게 특정 능력을 부여
@@ -450,7 +460,7 @@ public class ABattle : Mode
         player.AddBroadcast(10, Message);
         player.SendConsoleMessage($"\n{Message}", "white");
 
-        if (CurrentExtraMode == "스펙업")
+        if (CurrentExtraModes.Contains("스펙업"))
         {
             int heal = player.IsScpRole() ? 50 : 10;
             player.MaxHealth += heal;
@@ -595,11 +605,11 @@ public class ABattle : Mode
 
     public void StartSelect(Player player, List<AbilityType> abilities = null, int count = 3)
     {
-        if (CurrentExtraMode == "1 + 1")
+        if (CurrentExtraModes.Contains("1 + 1"))
         {
             count = 1;
         }    
-        else if (CurrentExtraMode == "수저")
+        else if (CurrentExtraModes.Contains("수저"))
         {
             switch (Random.Range(1, 4))
             {
@@ -625,7 +635,7 @@ public class ABattle : Mode
         if (category == AbilityCategory.Dummy)
             return;
 
-        if (CurrentExtraMode == "1 + 1")
+        if (CurrentExtraModes.Contains("1 + 1"))
         {
             player.AddAbility(GetRandomAbilities(category, 1).First());
         }
@@ -808,7 +818,7 @@ public class ABattle : Mode
 
         var random = Random.Range(1, 10001);
 
-        if (CurrentExtraMode == "잔칫상")
+        if (CurrentExtraModes.Contains("잔칫상"))
         {
             switch (random)
             {
@@ -877,7 +887,7 @@ public class ABattle : Mode
 
     public static void ApplyPrelude(Player player)
     {
-        if (CurrentExtraMode == "골드 전주곡")
+        if (CurrentExtraModes.Contains("골드 전주곡"))
         {
             if (player.Role.Type == RoleTypeId.Scp079)
                 player.AddAbility(ABattle.Instance.GetRandomAbilities(AbilityCategory.Scp079, 1).First());
@@ -885,7 +895,7 @@ public class ABattle : Mode
             else
                 player.AddAbility(ABattle.Instance.GetRandomAbilities(AbilityCategory.Epic, 1).First());
         }
-        else if (CurrentExtraMode == "프리즘 전주곡")
+        else if (CurrentExtraModes.Contains("프리즘 전주곡"))
         {
             if (player.Role.Type == RoleTypeId.Scp079)
             {

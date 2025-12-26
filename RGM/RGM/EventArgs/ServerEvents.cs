@@ -217,7 +217,7 @@ namespace RGM.EventArgs
                     Timing.RunCoroutine(HumanLoop());
                     Timing.RunCoroutine(Scp079Broadcast());
 
-                    int num = UnityEngine.Random.Range(1, 51);
+                    int num = UnityEngine.Random.Range(1, 11);
 
                     if (num == 1)
                     {
@@ -306,13 +306,13 @@ namespace RGM.EventArgs
 
             Tools.TryInstallMode(ModeType.FriendlyFire);
 
-            foreach (var player in PlayerManager.List)
+            foreach (var player in Player.List)
             {
                 Server.ExecuteCommand($"/speak {player.Id} 1");
                 IntercomPlayers.Add(player);
             }
 
-            foreach (var player in PlayerManager.List)
+            foreach (var player in Player.List)
             {
                 List<string> uc = UsersManager.UsersCache[player.UserId];
 
@@ -407,7 +407,7 @@ namespace RGM.EventArgs
                     }
                 }
 
-                foreach (var player in PlayerManager.List)
+                foreach (var player in Player.List)
                 {
                     try
                     {

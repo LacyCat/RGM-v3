@@ -112,8 +112,7 @@ namespace RGM.Modes
 
             for (int i = 1; i < 60; i++)
             {
-                foreach (var player in PlayerManager.List)
-                    player.AddBroadcast(1, $"<size=25><b><color=red>{60 - i}초 뒤 술래가 출몰합니다. 빨리 숨으세요!</color></b></size>");
+                MultiBroadcast.API.MultiBroadcast.AddMapBroadcast(1, $"<size=25><b><color=red>{60 - i}초 뒤 술래가 출몰합니다. 빨리 숨으세요!</color></b></size>");
 
                 yield return Timing.WaitForSeconds(1f);
             }

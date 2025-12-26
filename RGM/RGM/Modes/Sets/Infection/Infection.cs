@@ -128,8 +128,7 @@ namespace RGM.Modes
 
             for (int i = 0; i < 500; i++)
             {
-                foreach (var player in PlayerManager.List)
-                    player.AddBroadcast(1, $"<b><size=25>{500 - i}초 뒤 인류가 승리합니다.</size></b>");
+                MultiBroadcast.API.MultiBroadcast.AddMapBroadcast(1, $"<b><size=25>{500 - i}초 뒤 인류가 승리합니다.</size></b>");
 
                 yield return Timing.WaitForSeconds(1);
             }
@@ -159,8 +158,7 @@ namespace RGM.Modes
                     Round.IsLocked = false;
                     Timing.RunCoroutine(Tools.SetWinner(PlayerManager.List.Where(x => x.Role.Type == RoleTypeId.Scp0492).ToList(), 1));
 
-                    foreach (var player in PlayerManager.List)
-                        player.AddBroadcast(20, $"<size=30><b>숙주의 승리입니다. <color=red>남겨진 인류는 안타까운 결말을 맞이할 것입니다.</color></b></size>");
+                    MultiBroadcast.API.MultiBroadcast.AddMapBroadcast(20, $"<size=30><b>숙주의 승리입니다. <color=red>남겨진 인류는 안타까운 결말을 맞이할 것입니다.</color></b></size>");
 
                     yield break;
                 }
