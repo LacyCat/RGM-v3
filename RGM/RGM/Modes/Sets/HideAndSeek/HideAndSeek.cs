@@ -154,35 +154,26 @@ namespace RGM.Modes
 
             for (int i = 1; i < Remaining; i++)
             {
-                foreach (var player in PlayerManager.List)
-                {
-                    player.AddBroadcast(1, $"<size=25><b><color=#2EFEF7>{Remaining - i}초 뒤 술래가 패배합니다.</color></b></size>");
-                }
+                MultiBroadcast.API.MultiBroadcast.AddMapBroadcast(1, $"<size=25><b><color=#2EFEF7>{Remaining - i}초 뒤 술래가 패배합니다.</color></b></size>");
 
                 if (i == 275)
                 {
                     foreach (var finder in Finders)
                     {
-                        finder.EnableEffect(EffectType.Scp1344);
+                        finder.AddEffect(EffectType.Scp1344, 1);
                     }
 
-                    foreach (var player in PlayerManager.List)
-                    {
-                        player.AddBroadcast(10, $"<size=25>모든 술래에게 <color=red>SCP-1344</color>가 지급됩니다, 행운을 빕니다!</size>");
-                    }
+                    MultiBroadcast.API.MultiBroadcast.AddMapBroadcast(10, $"<size=25>모든 술래에게 <color=red>SCP-1344</color>가 지급됩니다, 행운을 빕니다!</size>");
                 }
 
                 yield return Timing.WaitForSeconds(1f);
             }
 
-            if (!Round.IsEnded)
-            {
-                Round.IsLocked = false;
+            Round.IsLocked = false;
 
-                foreach (var player in PlayerManager.List.Where(x => x.Role.Type == RoleTypeId.FacilityGuard))
-                {
-                    player.Kill($"제한 시간 안에 생존자를 전부 죽이지 못했습니다.");
-                }
+            foreach (var player in Player.List.Where(x => x.Role.Type == RoleTypeId.FacilityGuard))
+            {
+                player.Kill($"제한 시간 안에 생존자를 전부 죽이지 못했습니다.");
             }
         }
 
