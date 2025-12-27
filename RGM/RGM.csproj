@@ -96,6 +96,7 @@
     <Compile Include="RGM\Commands\RemoteAdminCommands\ShopFeatures\SpawnEffect.cs" />
     <Compile Include="RGM\Commands\RemoteAdminCommands\ShopFeatures\SetPlayerRC.cs" />
     <Compile Include="RGM\EventArgs\MEREvents.cs" />
+    <Compile Include="RGM\EventArgs\Scp\Scp1509Events.cs" />
     <Compile Include="RGM\IEnumerators\LobbyIEnumerator.cs" />
     <Compile Include="RGM\IEnumerators\ServerIEnumerator.cs" />
     <Compile Include="RGM\Commands\RemoteAdminCommands\ShopFeatures\Custom.cs" />
