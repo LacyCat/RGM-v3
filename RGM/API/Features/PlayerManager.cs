@@ -39,6 +39,11 @@ namespace RGM.API.Features
             return UsersManager.UsersCache[player.UserId][23] == "1";
         }
 
+        public static bool IsNonePlayer(this Player player)
+        {
+            return NonePlayer.Players.Contains(player);
+        }
+
         public static bool IsScpRole(this Player player)
         {
             return IsScpRole(player.Role.Type);

@@ -85,6 +85,9 @@ namespace RGM.Modes
 
         public void OnSpawned(Exiled.Events.EventArgs.Player.SpawnedEventArgs ev)
         {
+            if (ev.Player.IsNonePlayer())
+                return;
+
             Timing.RunCoroutine(Spawned(ev.Player));
         }
 
