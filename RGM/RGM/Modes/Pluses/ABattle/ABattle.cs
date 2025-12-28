@@ -94,7 +94,7 @@ public class ABattle : Mode
         {"캐시 청소", "9분마다 모든 유저의 워크스테이션 획득 기록이 초기화됩니다."},
         {"대출", "워크스테이션 제한이 해제됩니다. 각 워크스테이션마다 처음 1회를 제외하고 추가로 얻으려고 시도하는 경우, 20% 확률로 아사합니다."},
         {"지원", "1~3분마다 모두에게 능력 선택창이 열립니다."},
-        {"난장판", "두가지의 추가 모드가 적용되며, 관리자의 제약이 모두 풀립니다."}
+        {"난장판", "두가지의 추가 모드(난장판 포함)가 적용되며, 관리자의 제약이 모두 풀립니다."}
     };
     public static List<ICommand> DotCommands = new()
     {
@@ -138,6 +138,9 @@ public class ABattle : Mode
         {
             string extraMode = Tools.GetRandomValue(ExtraModes.Keys.Where(x => !exceptModes.Contains(x)).ToList());
 
+            if (!CurrentExtraModes.Contains(extraMode))
+                CurrentExtraModes.Add(extraMode);
+
             Webhook.Send($"추가 모드: {extraMode}");
             Log.Info($"추가 모드: {extraMode}");
 
@@ -150,7 +153,7 @@ public class ABattle : Mode
             if (extraMode == "난장판")
             {
                 for (int i = 0; i < 2; i++)
-                    PickExtraMode(new List<string> { "난장판" });
+                    PickExtraMode();
             }
 
             return extraMode;
@@ -167,7 +170,7 @@ public class ABattle : Mode
     {
         Instance = this;
 
-        CurrentExtraModes.Add(PickExtraMode());
+        PickExtraMode();
 
         _eventHandler = new ABattleEventHandler(this);
         _eventHandler.RegisterEvents();
