@@ -93,7 +93,7 @@ namespace RGM.Modes
                         break;
 
                     case 6:
-                        Server.ExecuteCommand($"/cassie_sl .G{Random.Range(1, 101)}");
+                        Exiled.API.Features.Cassie.Message($".G{Random.Range(1, 101)}");
                         break;
 
                     case 7:
