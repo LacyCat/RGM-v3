@@ -430,7 +430,7 @@ namespace RGM.EventArgs
         {
             if (HolidayUtils.IsHolidayActive(HolidayType.Christmas) && UnityEngine.Random.Range(0, 100) < 10)
             {
-                foreach (var player in ev.Players)
+                foreach (var player in ev.Players.ToList())
                 {
                     player.Role.Set(ev.Wave.TargetFaction == Faction.FoundationStaff ? RoleTypeId.NtfFlamingo : RoleTypeId.ChaosFlamingo, RoleSpawnFlags.AssignInventory);
                 }
