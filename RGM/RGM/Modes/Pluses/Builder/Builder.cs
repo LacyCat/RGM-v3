@@ -21,7 +21,7 @@ using PlayerRoles;
 
 namespace RGM.Modes
 {
-    [Mode(ModeCategory.Public, ModeInfo.Plus, ModeType.Builder)]
+    [Mode(ModeCategory.Private, ModeInfo.Plus, ModeType.Builder)]
     public class Builder : Mode
     {
         public override string Name => "건축가";
