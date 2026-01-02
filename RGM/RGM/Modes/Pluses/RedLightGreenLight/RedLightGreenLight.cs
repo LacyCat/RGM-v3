@@ -138,7 +138,7 @@ namespace RGM.Modes
                                     Timing.RunCoroutine(Tools.DoRocket(player, player, 0.01f));
 
                                 Server.ExecuteCommand($"/clearcassie");
-                                Exiled.API.Features.Cassie.Message($"안타깝게도 {player.DisplayNickname}(이)가 <b><color=red>빨간 불</color></b>에 건넜습니다.");
+                                Exiled.API.Features.Cassie.MessageTranslated("", $"안타깝게도 {player.DisplayNickname}(이)가 <b><color=red>빨간 불</color></b>에 건넜습니다.");
                             }
                         }
                     }

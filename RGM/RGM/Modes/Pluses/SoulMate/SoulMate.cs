@@ -271,7 +271,7 @@ namespace RGM.Modes
                             soulMate.ClearInventory();
                             soulMate.Kill(ev.DamageHandler);
 
-                            Exiled.API.Features.Cassie.Message($"<color=red>{ev.Attacker.DisplayNickname}</color>(이)가 영혼의 단짝이였던 <color=#5858FA>{ev.Player.DisplayNickname}</color>와(과) <color=#FE2EF7>{soulMate.DisplayNickname}</color>을(를) 사이좋게 하늘로 보냈습니다.");
+                            Exiled.API.Features.Cassie.MessageTranslated("", $"<color=red>{ev.Attacker.DisplayNickname}</color>(이)가 영혼의 단짝이였던 <color=#5858FA>{ev.Player.DisplayNickname}</color>와(과) <color=#FE2EF7>{soulMate.DisplayNickname}</color>을(를) 사이좋게 하늘로 보냈습니다.");
                         }
                     }
                 }
