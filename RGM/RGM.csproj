@@ -124,6 +124,7 @@
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Mythic\Unlimited.cs" />
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Normal\RandomCandy.cs" />
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Rare\CandyBag.cs" />
+    <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Rare\DobbyIsFree.cs" />
     <Compile Include="RGM\Modes\Pluses\ABattle\Abilities\Unique\Flamingo\MiniFactory.cs" />
     <Compile Include="RGM\Modes\Pluses\LoLChess\LoLChess.cs" />
     <Compile Include="RGM\Modes\Pluses\ABattle\ABattle.cs" />
