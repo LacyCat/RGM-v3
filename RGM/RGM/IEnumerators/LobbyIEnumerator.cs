@@ -131,7 +131,7 @@ namespace RGM.IEnumerators
             }
 
             PickModes();
-            Exiled.API.Features.Cassie.Message($"<mark=#ffff00aa><color=#000000><color=#ffffff>모드 투표 리스트</color>가 초기화되었습니다.</color></mark>");
+            Exiled.API.Features.Cassie.MessageTranslated("", $"<mark=#ffff00aa><color=#000000><color=#ffffff>모드 투표 리스트</color>가 초기화되었습니다.</color></mark>");
 
             FreezeGameStart = true;
 

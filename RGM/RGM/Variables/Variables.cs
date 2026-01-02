@@ -139,7 +139,7 @@ namespace RGM.Variables
                 {
                     HighlightModes.Add(ModeList.Keys.First(x => x.GetModeData().Name == arg));
 
-                    Exiled.API.Features.Cassie.Message($"{player.DisplayNickname}(이)가 <b>{ModeList.Keys.First(x => x.GetModeData().Name == arg).GetModeData().Name}</b> 모드를 추천하였습니다.");
+                    Exiled.API.Features.Cassie.MessageTranslated("", $"{player.DisplayNickname}(이)가 <b>{ModeList.Keys.First(x => x.GetModeData().Name == arg).GetModeData().Name}</b> 모드를 추천하였습니다.");
                 }
             },
             new Product()
@@ -210,11 +210,11 @@ namespace RGM.Variables
                         ModeVote.Remove(ModeVote.ElementAt(3).Key);
                         ModeVote.Add(ModeList.First(x => x.Value.Name == arg).Key, new List<Player>());
 
-                        Exiled.API.Features.Cassie.Message($"{player.DisplayNickname}(이)가 <b>{modeName}</b> 모드를 제안하는 데 성공했습니다!!");
+                        Exiled.API.Features.Cassie.MessageTranslated("", $"{player.DisplayNickname}(이)가 <b>{modeName}</b> 모드를 제안하는 데 성공했습니다!!");
                     }
                     else
                     {
-                        Exiled.API.Features.Cassie.Message($"{player.DisplayNickname}(이)가 <b>{modeName}</b> 모드를 제안하는 데 실패했습니다.");
+                        Exiled.API.Features.Cassie.MessageTranslated("", $"{player.DisplayNickname}(이)가 <b>{modeName}</b> 모드를 제안하는 데 실패했습니다.");
                     }
                 }
             },
@@ -234,7 +234,7 @@ namespace RGM.Variables
                     ModeVote.Remove(ModeVote.ElementAt(3).Key);
                     ModeVote.Add(ModeList.First(x => x.Value.Name == arg).Key, new List<Player>());
 
-                    Exiled.API.Features.Cassie.Message($"{player.DisplayNickname}(이)가 <b><color=#ffd700>고급 모드 제안서</color></b>를 사용하여, <b>{modeName}</b> 모드를 제안하는 데 성공했습니다!!");
+                    Exiled.API.Features.Cassie.MessageTranslated("", $"{player.DisplayNickname}(이)가 <b><color=#ffd700>고급 모드 제안서</color></b>를 사용하여, <b>{modeName}</b> 모드를 제안하는 데 성공했습니다!!");
                 }
             },
         };
