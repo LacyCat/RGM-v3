@@ -723,6 +723,9 @@ namespace RGM.EventArgs
 
         public static void OnDied(DiedEventArgs ev)
         {
+            if (ev.Attacker == null || ev.Attacker.IsNonePlayer() || ev.Player.IsNonePlayer())
+                return;
+
             if (!Round.IsStarted)
             {
                 Timing.CallDelayed(5, () =>
@@ -745,24 +748,21 @@ namespace RGM.EventArgs
                 foreach (var player in PlayerManager.List.Where(x => x.IsDead || x == ev.Attacker))
                     player.AddBroadcast(10, $"<size=20>{MessageFormat()}</size>");
 
-                if (!NonePlayer.Players.Contains(ev.Player))
+                if (ev.Attacker != null && !ev.Attacker.IsNPC)
                 {
-                    if (ev.Attacker != null && !ev.Attacker.IsNPC)
-                    {
-                        PlayersReport[ev.Attacker.UserId].Kill += 1;
+                    PlayersReport[ev.Attacker.UserId].Kill += 1;
 
-                        if (ev.Player.IsScpRole())
-                            PlayersReport[ev.Attacker.UserId].KillScp += 1;
+                    if (ev.Player.IsScpRole())
+                        PlayersReport[ev.Attacker.UserId].KillScp += 1;
 
-                        if (!ev.Player.IsScpRole())
-                            PlayersReport[ev.Attacker.UserId].KillHuman += 1;
-                    }
+                    if (!ev.Player.IsScpRole())
+                        PlayersReport[ev.Attacker.UserId].KillHuman += 1;
+                }
 
-                    if (!ev.Player.IsNPC)
-                    {
-                        PlayersReport[ev.Player.UserId].Death += 1;
-                        PlayersReport[ev.Player.UserId].LastDeath = DateTime.UtcNow;
-                    }
+                if (!ev.Player.IsNPC)
+                {
+                    PlayersReport[ev.Player.UserId].Death += 1;
+                    PlayersReport[ev.Player.UserId].LastDeath = DateTime.UtcNow;
                 }
             }
         }
