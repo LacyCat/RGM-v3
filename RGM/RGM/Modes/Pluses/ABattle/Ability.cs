@@ -70,6 +70,7 @@ public class AbilityData
     public string Description { get; set; }
     public AbilityCategory Category { get; set; }
     public AbilityType AbilityType { get; set; }
+    public AbilityHolidayType HolidayType { get; set; }
     public List<AbilityType> Requires { get; set; }
     public bool Keep { get; set; }
 
@@ -80,12 +81,13 @@ public class AbilityData
 }
 
 [AttributeUsage(AttributeTargets.Class)]
-public class AbilityAttribute(string name, string description, AbilityCategory category, AbilityType type, bool keep = false) : Attribute
+public class AbilityAttribute(string name, string description, AbilityCategory category, AbilityType type, AbilityHolidayType holidayType = AbilityHolidayType.None, bool keep = false) : Attribute
 {
     public string Name { get; } = name;
     public string Description { get; } = description;
     public AbilityCategory Category { get; } = category;
     public AbilityType Type { get; set; } = type;
+    public AbilityHolidayType HolidayType { get; set; } = holidayType;
     public bool Keep { get; set; } = false;
 }
 
@@ -222,6 +224,13 @@ public static class PlayerExtensions
     }
 }
 
+public enum AbilityHolidayType
+{
+    None,
+    Christmas,
+    Halloween,
+}
+
 public enum AbilityType
 {
     NONE,
@@ -308,6 +317,7 @@ public enum AbilityType
     RARE_SPACETRAVEL, // [희귀] 공간이동
     RARE_ORGANICMILK, // [희귀] 유기농 우유
     RARE_CANDYBAG, // [희귀] 사탕 봉지
+    RARE_DOBBYISFREE, // [희귀] 도비는 자유에요
 
     // 영웅 //
     EPIC_TERRORISTREMAINS, // [영웅] 테러리스트의 유품

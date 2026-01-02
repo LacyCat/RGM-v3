@@ -11,6 +11,7 @@ using Exiled.API.Enums;
 using Exiled.API.Extensions;
 using Exiled.API.Features;
 using InventorySystem.Items.Firearms.Attachments;
+using MapGeneration.Holidays;
 using MEC;
 using MultiBroadcast.API;
 using PlayerRoles;
@@ -185,6 +186,12 @@ public class ABattle : Mode
             if (!typeof(Ability).IsAssignableFrom(type))
                 continue;
 
+            if (abilityAttribute.HolidayType == AbilityHolidayType.Christmas && !HolidayUtils.IsHolidayActive(HolidayType.Christmas))
+                continue;
+
+            if (abilityAttribute.HolidayType == AbilityHolidayType.Halloween && !HolidayUtils.IsHolidayActive(HolidayType.Halloween))
+                continue;
+
             Abilities.Add(abilityAttribute.Type, new AbilityData
             {
                 Type = type,
@@ -192,6 +199,7 @@ public class ABattle : Mode
                 Description = abilityAttribute.Description,
                 Category = abilityAttribute.Category,
                 AbilityType = abilityAttribute.Type,
+                HolidayType = abilityAttribute.HolidayType,
                 Keep = abilityAttribute.Keep
             });
 
@@ -767,8 +775,27 @@ public class ABattle : Mode
 
     private IEnumerator<float> SelectionCoroutine(Player player)
     {
+        bool holidayFormat(AbilityType type, out string result)
+        {
+            result = "";
+
+            if (Abilities[type].HolidayType == AbilityHolidayType.Halloween)
+            {
+                result = "<b><color=#FF9500>[</color><color=#FF9F09>H</color><color=#FFA912>A</color><color=#FFB31B>L</color><color=#FFBD24>L</color><color=#FFC72E>O</color><color=#FFDC37>W</color><color=#FFF240>E</color><color=#FFFF49>E</color><color=#FFFF52>N</color><color=#FFFF5C>]</color></b>";
+                return true;
+            }
+
+            if (Abilities[type].HolidayType == AbilityHolidayType.Christmas)
+            {
+                result = "<b><color=#FC0000>[</color><color=#EA1300>C</color><color=#D82600>h</color><color=#C63900>r</color><color=#B44C00>i</color><color=#A25F00>s</color><color=#917200>t</color><color=#7F8500>m</color><color=#6D9800>a</color><color=#5BAB00>s</color><color=#49BE00>]</color></b>";
+                return true;
+            }
+
+            return false;
+        }
+
         var abilities = Selections[player];
-        var text = string.Join("\n", abilities.Select((x, i) => $"[{i + 1}] {x.GetTranslation()}\n<size=20>{Abilities[x].Description}</size>\n"));
+        var text = string.Join("\n", abilities.Select((x, i) => $"[{i + 1}] {x.GetTranslation()}\n<size=20>{(holidayFormat(x, out string result) ? $"{result} " : "")}{Abilities[x].Description}</size>\n"));
 
         string CheckAbilityGrade()
         {
