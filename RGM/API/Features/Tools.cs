@@ -794,5 +794,32 @@ $"""
 
             return audioPlayer.TryPlay(name, volume, loop);
         }
+
+        public static string ApplyGradient(string hexColor, string text)
+        {
+            Color baseColor;
+            if (!ColorUtility.TryParseHtmlString(hexColor, out baseColor))
+                return text;
+
+            int length = text.Length;
+            StringBuilder sb = new StringBuilder();
+
+            for (int i = 0; i < length; i++)
+            {
+                float t = (float)i / (length - 1);
+                float brightness = Mathf.Lerp(0.6f, 1.4f, t);
+
+                Color c = new Color(
+                    Mathf.Clamp01(baseColor.r * brightness),
+                    Mathf.Clamp01(baseColor.g * brightness),
+                    Mathf.Clamp01(baseColor.b * brightness)
+                );
+
+                string colorHex = ColorUtility.ToHtmlStringRGB(c);
+                sb.Append($"<color=#{colorHex}>{text[i]}</color>");
+            }
+
+            return sb.ToString();
+        }
     }
 }
