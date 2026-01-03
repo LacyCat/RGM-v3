@@ -13,6 +13,7 @@ using RGM.API.DataBases;
 using LabApi.Features.Wrappers;
 using Exiled.API.Features.Toys;
 using ProjectMER.Features;
+using Exiled.API.Extensions;
 
 namespace RGM.Functions
 {
@@ -28,11 +29,11 @@ namespace RGM.Functions
                 for (int i = 1; i < 5; i++)
                 {
                     var StaticModeList = ModeList.Keys.Where(x => ModeList[x].Category == ModeCategory.Public && !ModeVote.ContainsKey(x)).ToList();
-                    var mode = StaticModeList[UnityEngine.Random.Range(0, StaticModeList.Count())];
+                    var mode = StaticModeList.GetRandomValue();
                     ModeVote.Add(mode, new List<Exiled.API.Features.Player>());
 
-                    if (UnityEngine.Random.Range(1, 11) == 1)
-                        SubModeVote.Add(Tools.GetRandomValue(ModeList.Keys.Where(x => ModeList[x].Category != ModeCategory.Private && !ModeVote.ContainsKey(x) && ModeList.Keys.Where(x => x.GetModeData().Info != ModeInfo.Set).Contains(x)).ToList()));
+                    if (mode.GetModeData().Info != ModeInfo.Lock && UnityEngine.Random.Range(1, 11) == 1)
+                        SubModeVote.Add(ModeList.Keys.Where(x => ModeList[x].Category != ModeCategory.Private && ModeList[x].Info != ModeInfo.Lock && !ModeVote.ContainsKey(x) && ModeList.Keys.Where(x => x.GetModeData().Info != ModeInfo.Set).Contains(x)).GetRandomValue());
 
                     else
                         SubModeVote.Add(ModeType.None);

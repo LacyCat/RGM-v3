@@ -65,7 +65,8 @@ public enum ModeInfo
 {
     None,
     Plus,
-    Set
+    Set,
+    Lock,
 }
 
 public enum ModeType
@@ -153,8 +154,8 @@ public enum ModeType
     Tag,
     HideAndSeek,
     PVE,
-    LoLChess,
-    Agar
+    Agar,
+    TFT
 }
 
 
