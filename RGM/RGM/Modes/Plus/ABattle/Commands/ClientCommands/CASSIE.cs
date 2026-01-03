@@ -17,7 +17,7 @@ public class CASSIE : ICommand
         {
             ABattleVar.CASSIE[player]--;
 
-            Exiled.API.Features.Cassie.Message("<color=red>SCP-079</color>({player.DisplayNickname}): {args}");
+            Exiled.API.Features.Cassie.MessageTranslated("", $"<color=red>SCP-079</color>({player.DisplayNickname}): {args}");
 
             response = $"\n전송 완료!\nC.A.S.S.I.E.";
             return true;

@@ -210,6 +210,7 @@ public static class AbilityCategoryExtensions
             AbilityCategory.Scp939 => "#F7819F",
             AbilityCategory.Scp3114 => "#F7819F",
             AbilityCategory.Scp079 => "#F7819F",
+            AbilityCategory.Flamingo => "#F7819F",
             AbilityCategory.Synergy => "#DEEFED",
             _ => "white"
         };
