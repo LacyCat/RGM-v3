@@ -1,6 +1,7 @@
 ﻿using Exiled.API.Enums;
 using Exiled.API.Features;
 using Exiled.API.Features.Doors;
+using Exiled.Events.EventArgs.Warhead;
 using MEC;
 using RGM.API.Features;
 using System;
@@ -15,7 +16,13 @@ namespace RGM.EventArgs
 {
     public static class WarheadEvents
     {
-        public static IEnumerator<float> OnDetonating(Exiled.Events.EventArgs.Warhead.DetonatingEventArgs ev)
+        public static void OnStopping(StoppingEventArgs ev)
+        {
+            if (Warhead.IsLocked)
+                ev.IsAllowed = false;
+        }
+
+        public static IEnumerator<float> OnDetonating(DetonatingEventArgs ev)
         {
             foreach (var _door in Door.List)
             {

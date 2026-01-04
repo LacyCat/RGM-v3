@@ -112,6 +112,7 @@ namespace RGM
             Exiled.Events.Handlers.Player.VoiceChatting += OnVoiceChatting;
             Exiled.Events.Handlers.Player.DamagingShootingTarget += OnDamagingShootingTarget;
 
+            Exiled.Events.Handlers.Warhead.Stopping += OnStopping;
             Exiled.Events.Handlers.Warhead.Detonating += OnDetonating;
 
             Exiled.Events.Handlers.Scp1509.Resurrecting += OnResurrecting;
