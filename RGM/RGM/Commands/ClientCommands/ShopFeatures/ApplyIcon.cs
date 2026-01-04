@@ -17,7 +17,7 @@ using static RGM.Variables.Variable;
 namespace RGM.Commands.ClientCommands
 {
     [CommandHandler(typeof(ClientCommandHandler))]
-    public class ApplyBadge : ICommand
+    public class ApplyIcon : ICommand
     {
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
@@ -37,40 +37,40 @@ namespace RGM.Commands.ClientCommands
 
                     if (args == "0")
                     {
-                        uc[11] = "0";
+                        uc[25] = "0";
                         UsersManager.UsersCache[player.UserId] = uc;
-                        response =  "칭호 장착 해제 완료!\n-";
+                        response =  "아이콘 장착 해제 완료!\n-";
 
                         UsersManager.SaveUsers();
 
                         player.RankName = null;
                         return true;
                     }
-                    if (args == ( "랜덤 적용"))
+                    if (args == "랜덤 적용")
                     {
-                        uc[17] = "1";
+                        uc[26] = "1";
                         UsersManager.UsersCache[player.UserId] = uc;
-                        response =  "칭호가 라운드마다 랜덤으로 적용됩니다.";
+                        response =  "아이콘이 라운드마다 랜덤으로 적용됩니다.";
 
                         UsersManager.SaveUsers();
 
                         return true;
                     }
-                    if (args == ( "랜덤 해제"))
+                    if (args == "랜덤 해제")
                     {
-                        uc[17] = "0";
+                        uc[26] = "0";
                         UsersManager.UsersCache[player.UserId] = uc;
-                        response =  "이제 칭호가 라운드마다 랜덤으로 적용되지 않습니다.";
+                        response =  "이제 아이콘이 라운드마다 랜덤으로 적용되지 않습니다.";
 
                         UsersManager.SaveUsers();
 
                         return true;
                     }
-                    else if (Badges.ContainsKey(args) && uc[10].Split('/').Contains(args))
+                    else if (Icons.ContainsKey(args) && uc[24].Split('/').Contains(args))
                     {
-                        uc[11] = $"{args}";
+                        uc[25] = $"{args}";
                         UsersManager.UsersCache[player.UserId] = uc;
-                        response =  "칭호 장착 완료!\n-";
+                        response =  "아이콘 장착 완료!\n-";
 
                         UsersManager.SaveUsers();
 
@@ -79,7 +79,7 @@ namespace RGM.Commands.ClientCommands
                     }
                     else
                     {
-                        response =  "존재하지 않거나 보유하지 않은 칭호입니다.\n-";
+                        response =  "존재하지 않거나 보유하지 않은 아이콘입니다.\n-";
                         return false;
                     }
                 }
@@ -91,11 +91,11 @@ namespace RGM.Commands.ClientCommands
             }
         }
 
-        public string Command { get; } = "applybadge";
+        public string Command { get; } = "applyicon";
 
-        public string[] Aliases { get; } = { "뱃지", "ab", "칭호" };
+        public string[] Aliases { get; } = { "아이콘", "icon" };
 
-        public string Description { get; } =  "[RGM] 칭호 이름을 입력하여 장착을 변경합니다.";
+        public string Description { get; } =  "[RGM] 아이콘을 입력하여 장착을 변경합니다.";
 
         public bool SanitizeResponse { get; } = true;
     }

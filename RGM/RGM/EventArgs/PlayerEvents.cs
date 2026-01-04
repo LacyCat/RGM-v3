@@ -81,7 +81,7 @@ namespace RGM.EventArgs
                 });
             }
 
-            List<string> DefaultValues = Enumerable.Repeat("0", 25).ToList();
+            List<string> DefaultValues = Enumerable.Repeat("0", 30).ToList();
 
             if (!UsersManager.UsersCache.ContainsKey(ev.Player.UserId))
             {
@@ -103,12 +103,12 @@ namespace RGM.EventArgs
                     ev.Player.RankName = null;
                     ev.Player.BadgeHidden = false;
 
-                    Timing.CallDelayed(Timing.WaitForOneFrame, () =>
+                    Timing.CallDelayed(1, () =>
                     {
                         if (uc[17] == "1" && uc[10] != "0")
                             uc[11] = uc[10].Split('/').GetRandomValue();
 
-                        ev.Player.RankName = $"{(BadgeIcons.ContainsKey(uc[11]) ? $"{BadgeIcons[uc[11]]} " : "")}{(uc[11] != "0" ? uc[11] : "")}";
+                        ev.Player.RankName = $"{(uc[25] != "0" ? $"{uc[25]} " : "")}{(uc[11] != "0" ? uc[11] : "")}";
 
                         Tools.RemovePaint(ev.Player);
 
