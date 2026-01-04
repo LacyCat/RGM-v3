@@ -344,6 +344,51 @@ namespace RGM.API.Features
             }
         }
 
+        public static bool AddIcon(this string userId, string args, out string response, ArraySegment<string>? arguments = null)
+        {
+            if (arguments.HasValue && arguments.Value.Count < 2)
+            {
+                response = "아이콘추가 <player> <icon name>";
+                return false;
+            }
+            else if (Icons.ContainsKey(args))
+            {
+                List<string> uc = UsersManager.UsersCache[userId];
+
+                if (uc[24] == "0")
+                {
+                    uc[24] = args;
+                    UsersManager.UsersCache[userId] = uc;
+                    response = "Successfully add icon.";
+
+                    UsersManager.SaveUsers();
+                    return true;
+                }
+                else
+                {
+                    if (uc[24].Split('/').Contains(args))
+                    {
+                        response = "This player already have this icon.";
+                        return false;
+                    }
+                    else
+                    {
+                        uc[24] += $"/{args}";
+                        UsersManager.UsersCache[userId] = uc;
+                        response = "Successfully add icon.";
+
+                        UsersManager.SaveUsers();
+                        return true;
+                    }
+                }
+            }
+            else
+            {
+                response = "This icon is not exist.";
+                return false;
+            }
+        }
+
         public static bool AddWarn(this string userId, string args, out string response, ArraySegment<string>? arguments = null)
         {
             List<string> uc = UsersManager.UsersCache[userId];
