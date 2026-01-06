@@ -1,4 +1,5 @@
-﻿using Exiled.API.Features;
+﻿using Exiled.API.Extensions;
+using Exiled.API.Features;
 using Exiled.Events.EventArgs.Player;
 using Exiled.Events.EventArgs.Server;
 using MEC;
@@ -33,6 +34,7 @@ public class TFT : Mode
         Exiled.Events.Handlers.Server.RoundEnded += OnRoundEnded;
 
         Exiled.Events.Handlers.Player.Verified += OnVerified;
+        Exiled.Events.Handlers.Player.ChangingRole += OnChangingRole;
 
         _onModeStarted = Timing.RunCoroutine(OnModeStarted());
     }
@@ -42,6 +44,7 @@ public class TFT : Mode
         Exiled.Events.Handlers.Server.RoundEnded -= OnRoundEnded;
 
         Exiled.Events.Handlers.Player.Verified -= OnVerified;
+        Exiled.Events.Handlers.Player.ChangingRole -= OnChangingRole;
 
         Timing.KillCoroutines(_onModeStarted);
     }
@@ -76,6 +79,17 @@ public class TFT : Mode
     void OnVerified(VerifiedEventArgs ev)
     {
         DAONTFT.Core.EventArgs.PlayerEvents.Verified(ev.Player);
+    }
+
+    void OnChangingRole(ChangingRoleEventArgs ev)
+    {
+        if (ev.Player.IsDead || ev.NewRole.IsDead() || ev.Player.GetAbilities().Count() == 0)
+        {
+            Timing.CallDelayed(Timing.WaitForOneFrame, () =>
+            {
+                DAONTFT.Core.TFT.ABattle.Reset(ev.Player);
+            });
+        }
     }
 
     void OnRoundEnded(RoundEndedEventArgs ev)
