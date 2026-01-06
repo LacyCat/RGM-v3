@@ -26,9 +26,7 @@ public class StartWarhead : Ability
 {
     public override void OnEnabled()
     {
-        Warhead.IsLocked = true;
-
-        Warhead.Start();
+        DeadmanSwitch.StartWarhead();
     }
 
     public override void OnDisabled()

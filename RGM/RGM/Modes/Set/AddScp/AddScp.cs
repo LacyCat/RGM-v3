@@ -17,6 +17,7 @@ using Exiled.API.Extensions;
 using Exiled.API.Features.Doors;
 using Exiled.API.Enums;
 using Exiled.Events.EventArgs.Player;
+using Exiled.Events.EventArgs.Server;
 
 namespace RGM.Modes
 {
@@ -48,6 +49,8 @@ namespace RGM.Modes
 
         public override void OnEnabled()
         {
+            Exiled.Events.Handlers.Server.RoundEnded += OnRoundEnded;
+
             Exiled.Events.Handlers.Player.Spawned += OnSpawned;
 
             _onModeStarted = Timing.RunCoroutine(OnModeStarted());
@@ -55,6 +58,8 @@ namespace RGM.Modes
 
         public override void OnDisabled()
         {
+            Exiled.Events.Handlers.Server.RoundEnded -= OnRoundEnded;
+
             Exiled.Events.Handlers.Player.Spawned -= OnSpawned;
 
             Timing.KillCoroutines(_onModeStarted);
@@ -123,6 +128,17 @@ namespace RGM.Modes
                     ev.Player.AddItem(ItemType.Coin);
                 }
             }
+        }
+
+        public void OnRoundEnded(RoundEndedEventArgs ev)
+        {
+            IEnumerable<Player> players = PlayerManager.List.Where(x => x.IsAlive && !x.IsNPC);
+
+            if (players.Count() == 1)
+                Timing.RunCoroutine(Tools.SetWinner(players.ToList(), 5));
+
+            else if (players.Count() > 1)
+                Timing.RunCoroutine(Tools.SetWinner(players.ToList(), 1));
         }
     }
 }
