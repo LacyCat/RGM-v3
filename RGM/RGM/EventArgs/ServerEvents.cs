@@ -263,8 +263,8 @@ namespace RGM.EventArgs
 
                 if (!Warhead.IsDetonated && CurrentMode.GetModeData().Type != ModeType.Develop)
                 {
-                    Warhead.IsLocked = true;
                     DeadmanSwitch.StartWarhead();
+
                     Exiled.API.Features.Cassie.MessageTranslated("", $"<color=red>예정된 시설 자폭 프로세스가 시작되었습니다.</color> <b>대피하십시오.</b>");
                 }
             }

@@ -1,9 +1,11 @@
 ﻿using Exiled.API.Features;
 using Exiled.Events.EventArgs.Player;
+using Exiled.Events.EventArgs.Server;
 using MEC;
 using RemoteAdmin;
 using RGM.API.Features;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace RGM.Modes;
 
@@ -28,6 +30,8 @@ public class TFT : Mode
 
     public override void OnEnabled()
     {
+        Exiled.Events.Handlers.Server.RoundEnded += OnRoundEnded;
+
         Exiled.Events.Handlers.Player.Verified += OnVerified;
 
         _onModeStarted = Timing.RunCoroutine(OnModeStarted());
@@ -35,6 +39,8 @@ public class TFT : Mode
 
     public override void OnDisabled()
     {
+        Exiled.Events.Handlers.Server.RoundEnded -= OnRoundEnded;
+
         Exiled.Events.Handlers.Player.Verified -= OnVerified;
 
         Timing.KillCoroutines(_onModeStarted);
@@ -70,5 +76,16 @@ public class TFT : Mode
     void OnVerified(VerifiedEventArgs ev)
     {
         DAONTFT.Core.EventArgs.PlayerEvents.Verified(ev.Player);
+    }
+
+    void OnRoundEnded(RoundEndedEventArgs ev)
+    {
+        IEnumerable<Player> players = PlayerManager.List.Where(x => x.IsAlive && !x.IsNPC);
+
+        if (players.Count() == 1)
+            Timing.RunCoroutine(Tools.SetWinner(players.ToList(), 5));
+
+        else if (players.Count() > 1)
+            Timing.RunCoroutine(Tools.SetWinner(players.ToList(), 1));
     }
 }

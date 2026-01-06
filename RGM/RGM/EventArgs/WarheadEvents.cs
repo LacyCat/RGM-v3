@@ -16,12 +16,6 @@ namespace RGM.EventArgs
 {
     public static class WarheadEvents
     {
-        public static void OnStopping(StoppingEventArgs ev)
-        {
-            if (Warhead.IsLocked)
-                ev.IsAllowed = false;
-        }
-
         public static IEnumerator<float> OnDetonating(DetonatingEventArgs ev)
         {
             foreach (var _door in Door.List)
@@ -47,7 +41,6 @@ namespace RGM.EventArgs
 
             yield return Timing.WaitForSeconds(300);
 
-            Warhead.IsLocked = true;
             Exiled.API.Features.Cassie.MessageTranslated("", $"시간이 너무 오래 걸립니다! 모두의 체력이 초당 5%씩 줄어듭니다!");
 
             PlayerManager.List.ToList().ForEach(x => x.EnableEffect(EffectType.PocketCorroding));

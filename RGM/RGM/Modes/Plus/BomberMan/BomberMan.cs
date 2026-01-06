@@ -116,8 +116,7 @@ namespace RGM.Modes
 
             yield return Timing.WaitForSeconds(1 * 60);
 
-            Warhead.IsLocked = true;
-            Warhead.Start();
+            DeadmanSwitch.StartWarhead();
         }
 
         public void OnItemAdded(ItemAddedEventArgs ev)

@@ -106,7 +106,7 @@ namespace RGM.Modes
 
                 foreach (var player in playerScore.Keys)
                 {
-                    player.AddBroadcast(1, $"<size=30>{177 - time}초 후 게임이 종료됩니다.</size>");
+                    player.AddBroadcast(1, 177 - time > 0 ? $"<size=30>{177 - time}초 후 게임이 종료됩니다.</size>" : "게임이 종료되었습니다.");
 
                     if (player.IsAlive)
                     {
