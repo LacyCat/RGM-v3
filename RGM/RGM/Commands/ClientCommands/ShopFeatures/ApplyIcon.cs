@@ -43,7 +43,12 @@ namespace RGM.Commands.ClientCommands
 
                         UsersManager.SaveUsers();
 
-                        player.RankName = null;
+                        if (uc[11] != "0")
+                            player.RankName = $"{uc[11]}";
+
+                        else
+                            player.RankName = null;
+
                         return true;
                     }
                     if (args == "랜덤 적용")
