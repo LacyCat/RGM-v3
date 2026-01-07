@@ -68,7 +68,7 @@ $"""
                 RoleTypeId.Scp3114,
                 RoleTypeId.Scp0492
             };
-            List<RoleTypeId> scpRoles = Tools.EnumToList<RoleTypeId>().Where(x => x.IsScpRole() && !ignoredRoles.Contains(x)).ToList();
+            List<RoleTypeId> scpRoles = Tools.EnumToList<RoleTypeId>().Where(x => x.IsScp() && !ignoredRoles.Contains(x)).ToList();
             List<ItemType> items = new List<ItemType>() 
             {
                 ItemType.KeycardO5,
