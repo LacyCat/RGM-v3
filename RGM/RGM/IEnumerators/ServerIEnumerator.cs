@@ -37,12 +37,40 @@ namespace RGM.IEnumerators
                     if (player.Role is OverwatchRole overwatch)
                     {
                         if (overwatch.SpectatedPlayer != null && overwatch.SpectatedPlayer.CurrentHint != null)
-                            player.ShowHint(overwatch.SpectatedPlayer.CurrentHint.Content, 1.2f);
+                        {
+                            string content = overwatch.SpectatedPlayer.CurrentHint.Content;
+
+                            if (player.IsUsingTranslator())
+                            {
+                                TranslationManager.TranslatePreserveNewlines(content, TranslatorPlayers[player],
+                                    translated =>
+                                    {
+                                        player.ShowHint(translated, 1.2f);
+                                    }
+                                );
+                            }
+                            else
+                                player.ShowHint(content, 1.2f);
+                        }  
                     }
                     else if (player.Role is SpectatorRole spectator)
                     {
+                        string content = spectator.SpectatedPlayer.CurrentHint.Content;
+
                         if (spectator.SpectatedPlayer != null && spectator.SpectatedPlayer.CurrentHint != null)
-                            player.ShowHint(spectator.SpectatedPlayer.CurrentHint.Content, 1.2f);
+                        {
+                            if (player.IsUsingTranslator())
+                            {
+                                TranslationManager.TranslatePreserveNewlines(content, TranslatorPlayers[player],
+                                    translated =>
+                                    {
+                                        player.ShowHint(translated, 1.2f);
+                                    }
+                                );
+                            }
+                            else
+                                player.ShowHint(content, 1.2f);
+                        }
                     }
                 }
 
