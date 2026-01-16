@@ -1,35 +1,34 @@
-﻿using System;
+﻿using AdminToys;
+using DiscordInteraction.Discord;
+using Exiled.API.Enums;
+using Exiled.API.Extensions;
+using Exiled.API.Features;
+using Exiled.API.Features.Items;
+using Exiled.Events.Commands.Reload;
+using MEC;
+using PlayerRoles;
+using ProjectMER;
+using ProjectMER.Features;
+using ProjectMER.Features.Objects;
+using ProjectMER.Features.Serializable;
+using RGM.API.Components;
+using RGM.API.DataBases;
+using RGM.API.Interfaces;
+using RGM.Modes.SubClass;
+using RGM.UserSettings;
+using System;
 using System.CodeDom;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Runtime.Remoting.Messaging;
+using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
-using Exiled.API.Features;
-using Exiled.Events.Commands.Reload;
-using MEC;
-
-using PlayerRoles;
-using RGM.API.Components;
-using RGM.API.DataBases;
 using UnityEngine;
-using DiscordInteraction.Discord;
-
 using static RGM.Variables.Variable;
-using RGM.API.Interfaces;
-using AdminToys;
-using ProjectMER.Features.Objects;
-using Exiled.API.Enums;
-using RGM.UserSettings;
-using ProjectMER.Features.Serializable;
-using ProjectMER.Features;
-using ProjectMER;
-using System.Runtime.Remoting.Metadata.W3cXsd2001;
-using Exiled.API.Extensions;
-using Exiled.API.Features.Items;
-using RGM.Modes.SubClass;
 
 namespace RGM.API.Features
 {
@@ -836,6 +835,16 @@ $"""
             }
 
             return sb.ToString();
+        }
+
+        public static string ReadTextFile(string directoryPath, string fileName)
+        {
+            string fullPath = Path.Combine(directoryPath, fileName);
+
+            if (!File.Exists(fullPath))
+                return null;
+
+            return File.ReadAllText(fullPath);
         }
     }
 }
