@@ -139,7 +139,6 @@ namespace RGM.Commands.ClientCommands
                             translated =>
                             {
                                 string msg = $"{prefix}<noparse>{translated.Replace("</noparse>", "")}</noparse>{suffix}";
-                                msg += $"\n<size=16><i><color=#A9A9A9>(orig) {rawMessageNoParse}</color></i></size>";
                                 ply.AddBroadcast(6, msg);
                             }
                         );
