@@ -340,8 +340,8 @@ Trouble in Terrorist Town의 약자.
                         else
                             traitor.AddHint("TTT 무죄인 확인", $"[ALT]ㅣ해당 <color={RoleTypeId.ClassD.GetColor().ToHex()}>무죄인</color>을 일격에 즉사시키십시오.", 1.2f);
                     }
-                    else if (Tools.TryGetNearestPlayer(traitor, out Player nearestPlayer, out float radius))
-                        traitor.AddHint("TTT 생존자 거리 확인", $"<b>[ <color={nearestPlayer.Role.Color.ToHex()}>{( Trans.Role[nearestPlayer.Role.Type])}</color>, 거리: {radius.ToString("F1")}m ]</b>", 1.2f);
+                    else if (Tools.TryGetNearestPlayer(traitor, out Player nearestPlayer, out float radius, Player.List.Where(traitors.Contains).ToList()))
+                        traitor.AddHint("TTT 생존자 거리 확인", $"<b>[ <color={nearestPlayer.Role.Color.ToHex()}>{Trans.Role[nearestPlayer.Role.Type]}</color>, 거리: {radius.ToString("F1")}m ]</b>", 1.2f);
 
                     else
                         traitor.AddHint("TTT 배신자 임무 완수", "당신은 임무를 완수하였습니다.", 1.2f);
