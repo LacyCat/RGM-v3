@@ -312,6 +312,34 @@ namespace RGM.API.Features
             }
         }
 
+        public static bool SetExp(this string userId, int rc, out string response, bool result = true)
+        {
+            List<string> uc = UsersManager.UsersCache[userId];
+
+            if (result)
+            {
+                if (rc < 0)
+                {
+                    response = "0 upper.";
+                    return false;
+                }
+                else
+                {
+                    uc[0] = rc.ToString();
+                    UsersManager.UsersCache[userId] = uc;
+                    response = "successfully set up Random Coin.";
+
+                    UsersManager.SaveUsers();
+                    return true;
+                }
+            }
+            else
+            {
+                response = $"{uc[0]}";
+                return false;
+            }
+        }
+
         public static bool AddProduct(this string userId, string args, out string response, ArraySegment<string>? arguments = null)
         {
             if (arguments.HasValue && arguments.Value.Count < 2)
