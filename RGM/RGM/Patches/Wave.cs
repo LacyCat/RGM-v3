@@ -1,4 +1,5 @@
-﻿using Exiled.API.Features;
+﻿using Discord;
+using Exiled.API.Features;
 
 using RGM.API.Features;
 using RGM.Modes.SubClass;
@@ -13,6 +14,9 @@ namespace RGM.Patches
         {
             try
             {
+                if (__result)
+                    return;
+
                 if (player.IsHost || player.IsDummy)
                 {
                     __result = false;
@@ -20,6 +24,8 @@ namespace RGM.Patches
                 else
                 {
                     Player ply = Player.Get(player);
+
+                    if (ply == null) { __result = false; return; }
 
                     __result = !ply.IsDND() && (ply.IsDead || ply.IsNonePlayer());
                 }
