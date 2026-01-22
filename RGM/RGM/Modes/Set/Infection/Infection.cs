@@ -192,7 +192,7 @@ namespace RGM.Modes
                 {
                     ev.Player.MaxHealth = 555;
                     ev.Player.Health = ev.Player.MaxHealth;
-                    ev.Player.EnableEffect(EffectType.MovementBoost, 15);
+                    ev.Player.AddEffect(EffectType.MovementBoost, 5);
                     ev.Player.IsBypassModeEnabled = true;
                 }
 
