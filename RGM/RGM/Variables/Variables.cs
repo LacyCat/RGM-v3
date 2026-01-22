@@ -323,7 +323,8 @@ namespace RGM.Variables
         public static Dictionary<string, string> Customizations = new Dictionary<string, string>()
         {
             {"커스텀 닉네임", "표시되는 플레이어 이름을 수정합니다."},
-            {"커스텀 인포", "플레이어 인포를 추가합니다."}
+            {"커스텀 인포", "플레이어 인포를 추가합니다."},
+            {"커스텀 키카드", "들고 있는 키카드를 수정합니다."}
         };
         public static Dictionary<string, string> Paints = new Dictionary<string, string>()
         {
