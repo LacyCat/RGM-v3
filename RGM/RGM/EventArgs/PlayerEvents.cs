@@ -564,7 +564,7 @@ namespace RGM.EventArgs
 
         public static void OnSpawned(SpawnedEventArgs ev)
         {
-            Server.ExecuteCommand($"/pfx FogControl 1 0 {ev.Player.Id}");
+            ev.Player.EnableEffect(EffectType.FogControl, 1);
 
             if (ev.Player.IsAlive)
             {
@@ -634,7 +634,7 @@ namespace RGM.EventArgs
                         ev.Player.Health = ev.Player.MaxHealth;
                     }
 
-                    if (UnityEngine.Random.Range(1, 51) == 1 && !(HolidayUtils.IsHolidayActive(HolidayType.Halloween) || HolidayUtils.IsHolidayActive(HolidayType.Christmas))) // SCP-3114 추가
+                    if (UnityEngine.Random.Range(1, 101) == 1 && !(HolidayUtils.IsHolidayActive(HolidayType.Halloween) || HolidayUtils.IsHolidayActive(HolidayType.Christmas))) // SCP-3114 추가
                     {
                         ev.Player.Role.Set(RoleTypeId.Scp3114);
                     }
