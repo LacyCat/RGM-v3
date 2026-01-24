@@ -5,7 +5,10 @@ using Exiled.API.Extensions;
 using Exiled.API.Features;
 using Exiled.API.Features.Items;
 using Exiled.Events.Commands.Reload;
+using InventorySystem.Items.Usables.Scp330;
 using MEC;
+using Mirror;
+using NetworkManagerUtils.Dummies;
 using PlayerRoles;
 using ProjectMER;
 using ProjectMER.Features;
@@ -848,6 +851,94 @@ $"""
                 return null;
 
             return File.ReadAllText(fullPath);
+        }
+
+        public static CandyKindID PickRandomCandy()
+        {
+            List<CandyKindID> poll = new();
+
+            List<CandyKindID> L = new()
+            {
+                CandyKindID.Evil,
+            };
+            List<CandyKindID> S = new()
+            {
+                CandyKindID.Black,
+                CandyKindID.Pink
+            };
+            List<CandyKindID> A = new()
+            {
+                CandyKindID.White,
+                CandyKindID.Orange,
+                CandyKindID.Gray,
+            };
+            List<CandyKindID> B = new()
+            {
+                CandyKindID.Rainbow,
+            };
+            List<CandyKindID> C = new()
+            {
+                CandyKindID.Blue,
+                CandyKindID.Green,
+                CandyKindID.Red,
+                CandyKindID.Yellow,
+                CandyKindID.Purple,
+            };
+            List<CandyKindID> D = new()
+            {
+                CandyKindID.Brown
+            };
+
+            foreach (var iL in L)
+                poll.Add(iL);
+
+            for (int i = 0; i < 3; i++)
+            {
+                foreach (var iS in S)
+                    poll.Add(iS);
+            }
+
+            for (int i = 0; i < 6; i++)
+            {
+                foreach (var iA in A)
+                    poll.Add(iA);
+            }
+
+            for (int i = 0; i < 12; i++)
+            {
+                foreach (var iB in B)
+                    poll.Add(iB);
+            }
+
+            for (int i = 0; i < 15; i++)
+            {
+                foreach (var iC in C)
+                    poll.Add(iC);
+            }
+
+            for (int i = 0; i < 4; i++)
+            {
+                foreach (var iD in D)
+                    poll.Add(iD);
+            }
+
+            return poll.GetRandomValue();
+        }
+
+        public static void PlaceCandy(CandyKindID candyKindID, Vector3 pos)
+        {
+            Scp330 scp330 = (Scp330)Item.Create(ItemType.SCP330);
+            scp330.AddCandy(candyKindID);
+            scp330.RemoveCandy(scp330.Candies.ToList()[0]);
+
+            Player dummy = Player.Get(DummyUtils.SpawnDummy());
+            dummy.Role.Set(RoleTypeId.Tutorial);
+            dummy.Position = pos;
+            dummy.AddItem(scp330);
+
+            scp330.Base.ServerDropCandy(0);
+
+            NetworkServer.Destroy(dummy.GameObject);
         }
     }
 }
