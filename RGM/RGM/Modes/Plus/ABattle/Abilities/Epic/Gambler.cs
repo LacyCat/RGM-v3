@@ -35,9 +35,6 @@ public class Gambler : Ability
         if (ev.Player != Owner)
             return;
 
-        List<ItemType> ItemList = Tools.EnumToList<ItemType>();
-        ItemType Item = Tools.GetRandomValue(ItemList);
-
         int rand = UnityEngine.Random.Range(1, 101);
         if (0 < rand && rand < 3)
         {
@@ -46,7 +43,7 @@ public class Gambler : Ability
         else
         {
             ev.Item.Destroy();
-            Item CurrentItem = Owner.AddItem(Item);
+            Item CurrentItem = Owner.AddRandomItem();
             Owner.DropItem(CurrentItem);
         }
     }
@@ -63,10 +60,7 @@ public class Gambler : Ability
 
         else
         {
-            List<ItemType> ItemList = Tools.EnumToList<ItemType>();
-            ItemType Item = Tools.GetRandomValue(ItemList);
-
-            Owner.AddItem(Item);
+            Owner.AddRandomItem();
         }
     }
 }

@@ -336,11 +336,6 @@ namespace RGM.Commands.ClientCommands
             if (!CustomKeycardCmdFormat.TryGetValue(customType, out string fmt))
                 throw new Exception($"CustomKeycardCmdFormat missing for {customType}");
 
-            string test1 = "0";
-            string test2 = "0";
-            string test3 = "0";
-            string test4 = "0";
-
             string invArg = EscapeArg(invName);
             string labelArg = EscapeArg(label);
             string holderArg = EscapeArg(holder);
@@ -363,11 +358,6 @@ namespace RGM.Commands.ClientCommands
 
             fmt = ReplaceIfContains(fmt, "{sys_rank}", rankDetail.ToString());
 
-            fmt = ReplaceIfContains(fmt, "{test_1}", test1);
-            fmt = ReplaceIfContains(fmt, "{test_2}", test2);
-            fmt = ReplaceIfContains(fmt, "{test_3}", test3);
-            fmt = ReplaceIfContains(fmt, "{test_4}", test4);
-
             return fmt;
         }
 
@@ -378,22 +368,18 @@ namespace RGM.Commands.ClientCommands
         {
             return vanilla switch
             {
-                ItemType.KeycardJanitor => (0, 0, 0),
-                ItemType.KeycardScientist => (0, 0, 0),
-                ItemType.KeycardResearchCoordinator => (1, 0, 0),
-                ItemType.KeycardContainmentEngineer => (2, 1, 0),
+                ItemType.KeycardJanitor => (1, 0, 0),
+                ItemType.KeycardZoneManager => (1, 0, 1),
+                ItemType.KeycardScientist => (2, 0, 0),
+                ItemType.KeycardResearchCoordinator => (2, 0, 1),
+                ItemType.KeycardContainmentEngineer => (3, 0, 1),
 
-                ItemType.KeycardGuard => (1, 1, 0),
-                ItemType.KeycardMTFPrivate => (2, 2, 0),
-                ItemType.KeycardMTFOperative => (3, 3, 0),
-                ItemType.KeycardMTFCaptain => (3, 3, 1),
+                ItemType.KeycardGuard => (1, 1, 1),
+                ItemType.KeycardMTFPrivate => (2, 2, 1),
+                ItemType.KeycardMTFOperative => (2, 2, 2),
+                ItemType.KeycardMTFCaptain => (2, 3, 2),
 
-                ItemType.KeycardZoneManager => (3, 2, 1),
-                ItemType.KeycardFacilityManager => (3, 3, 2),
-
-                ItemType.KeycardChaosInsurgency => (3, 3, 1),
-                ItemType.KeycardO5 => (3, 3, 3),
-                ItemType.SurfaceAccessPass => (0, 0, 0),
+                ItemType.KeycardFacilityManager => (3, 0, 3),
 
                 _ => (0, 0, 0),
             };
