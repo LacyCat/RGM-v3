@@ -1,13 +1,16 @@
-﻿using Exiled.API.Features.Items;
+﻿using Exiled.API.Features;
+using Exiled.API.Features.Doors;
+using Exiled.API.Features.Items;
+using InventorySystem.Items.Usables.Scp330;
+using MEC;
+using RGM.API.Features;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Exiled.API.Features;
-using MEC;
-using RGM.API.Features;
-using InventorySystem.Items.Usables.Scp330;
+using UnityEngine;
+using static RGM.Variables.Variable;
 
 namespace RGM.Modes
 {
@@ -15,11 +18,13 @@ namespace RGM.Modes
     public class TrickorTreat : Mode
     {
         public override string Name => "트릭 오어 트릿";
-        public override string Description => "사탕 4개를 가지고 시작합니다. 다른 이를 사살하면 사탕 1개를 더 받습니다.";
+        public override string Description => "재단에 사탕 파티가 열렸습니다!";
         public override string Detail =>
 """
 <b><i><color=#E65000>무</color><color=#E5560F>작</color><color=#E55D1F>위</color> <color=#E46A3E>사</color><color=#E4714D>탕</color> <color=#E37E6C>4</color><color=#E3857C>개</color></i></b>를 획득합니다.
-<color=#FA58F4>핑크 캔디</color>도 다른 사탕과 동일한 확률로 등장합니다.
+
+가끔씩 바닥에 꽁짜 사탕이 떨어질 수도 있겠죠.
+아니면 누군가를 죽이거나..
 """;
         public override string Color => "5F04B4";
 
@@ -50,7 +55,31 @@ namespace RGM.Modes
                 Spawned(player);
             }
 
-            yield break;
+            while (true)
+            {
+                foreach (var door in Door.List)
+                {
+                    if (UnityEngine.Random.Range(0, 100) < 1)
+                    {
+                        for (int i = 0; i < UnityEngine.Random.Range(1, 10); i++)
+                        {
+                            Tools.PlaceCandy(Tools.PickRandomCandy(), door.Position + new Vector3(0, 2, 0));
+                        }
+                    }
+                }
+
+                foreach (var player in Player.List)
+                {
+                    if (UnityEngine.Random.Range(0, 100) < 2)
+                    {
+                        Tools.PlaceCandy(Tools.PickRandomCandy(), player.Position);
+                    }
+                }
+
+                GlobalPlayer.TryPlay("treat or treat", 1.5f);
+
+                yield return Timing.WaitForSeconds(UnityEngine.Random.Range(1, 300));
+            }
         }
 
         public void OnSpawned(Exiled.Events.EventArgs.Player.SpawnedEventArgs ev)
@@ -68,8 +97,7 @@ namespace RGM.Modes
 
                     for (int i = 1; i < 4; i++)
                     {
-                        var Candy = Tools.GetRandomValue(Tools.EnumToList<CandyKindID>());
-                        player.AddCandy(Candy);
+                        player.AddRandomCandy();
                     }
                 });
             }
@@ -80,14 +108,7 @@ namespace RGM.Modes
             if (ev.Attacker == null)
                 return;
 
-            List<CandyKindID> CandyList = Tools.EnumToList<CandyKindID>();
-            {
-                var toGive = Tools.GetRandomValue(CandyList);
-                ev.Attacker.AddCandy(toGive);
-
-                if (ev.Player.IsScpRole())
-                    Server.ExecuteCommand($"/forceeq {ev.Player.Id} 42");
-            }
+            ev.Attacker.AddRandomCandy();
         }
     }
 };
