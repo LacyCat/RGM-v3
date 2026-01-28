@@ -8,10 +8,11 @@ using Exiled.API.Features.Toys;
 using InventorySystem.Items.FlamingoTapePlayer;
 using MapGeneration.Holidays;
 using MEC;
-
 using PlayerRoles;
 using PlayerRoles.FirstPersonControl;
 using PlayerRoles.PlayableScps.Scp1507;
+using ProjectMER.Features;
+using ProjectMER.Features.Objects;
 using RGM.API.Features;
 using RGM.API.Interfaces;
 using System;
@@ -315,45 +316,153 @@ namespace RGM.IEnumerators
 
         public static IEnumerator<float> TimezoneCheck()
         {
-            DateTime lastProcessedDate = DateTime.MinValue;
+            DateTime lastProcessedDate = DateTime.MinValue.Date;
+            bool isProcessing = false;
+            bool pendingReset = false;
 
-            TimeZoneInfo kst = TimeZoneInfo.FindSystemTimeZoneById("Asia/Seoul");
+            object usersLock = UsersManager.UsersCache;
+
+            TimeZoneInfo kst;
+            try
+            {
+                kst = TimeZoneInfo.FindSystemTimeZoneById("Asia/Seoul");
+            }
+            catch
+            {
+                kst = TimeZoneInfo.Local;
+            }
+
+            try
+            {
+                var initNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, kst);
+                lastProcessedDate = initNow.Date;
+            }
+            catch { }
 
             while (true)
             {
                 try
                 {
-                    DateTime nowKst = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, kst);
-
-                    bool isMidnight = nowKst.Hour == 0 && nowKst.Minute == 0;
-
-                    if (isMidnight && lastProcessedDate.Date != nowKst.Date)
+                    var nowKst = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, kst);
+                    if (nowKst.Date != lastProcessedDate && !isProcessing)
                     {
-                        foreach (var steamId in UsersManager.UsersCache.Keys)
-                        {
-                            try
-                            {
-                                if (UsersManager.UsersCache[steamId][29] == "0")
-                                    UsersManager.UsersCache[steamId][28] = "0";
-
-                                UsersManager.UsersCache[steamId][29] = "0";
-                            }
-                            catch
-                            {
-                            }
-                        }
-
-                        UsersManager.SaveUsers();
-                        lastProcessedDate = nowKst.Date;
+                        pendingReset = true;
                     }
                 }
                 catch (Exception ex)
                 {
-                    Log.Error($"TimezoneCheck 오류 발생: {ex.Message}");
+                    Log.Error($"[TimezoneCheck] time check error: {ex}");
                 }
 
-                yield return Timing.WaitForSeconds(60);
+                if (pendingReset && !isProcessing)
+                {
+                    isProcessing = true;
+                    pendingReset = false;
+
+                    yield return Timing.WaitForSeconds(UnityEngine.Random.Range(0f, 30f));
+
+                    try
+                    {
+                        var checkKst = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, kst);
+                        if (checkKst.Date != lastProcessedDate)
+                        {
+                            int processed = 0, skipped = 0, resized = 0, notList = 0;
+
+                            List<string> keysSnapshot;
+                            lock (usersLock)
+                            {
+                                keysSnapshot = UsersManager.UsersCache.Keys.ToList();
+                            }
+
+                            lock (usersLock)
+                            {
+                                foreach (var steamId in keysSnapshot)
+                                {
+                                    if (!UsersManager.UsersCache.TryGetValue(steamId, out var data) || data == null)
+                                    {
+                                        skipped++;
+                                        continue;
+                                    }
+
+                                    if (data is List<string> list)
+                                    {
+                                        if (list.Count < 30)
+                                        {
+                                            while (list.Count < 30) list.Add("0");
+                                            resized++;
+                                        }
+
+                                        if (list[29] == "0")
+                                            list[28] = "0";
+
+                                        list[29] = "0";
+                                        processed++;
+                                    }
+                                    else
+                                    {
+                                        notList++;
+                                    }
+                                }
+
+                                UsersManager.SaveUsers();
+                            }
+
+                            lastProcessedDate = checkKst.Date;
+
+                            Log.Info(
+                                $"[TimezoneCheck] Daily reset done ({lastProcessedDate:yyyy-MM-dd}) " +
+                                $"processed={processed}, skipped={skipped}, resized={resized}, notList={notList}, totalKeys={keysSnapshot.Count}"
+                            );
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.Error($"[TimezoneCheck] reset error: {ex}");
+                    }
+
+                    isProcessing = false;
+                }
+
+                yield return Timing.WaitForSeconds(60f);
             }
+        }
+
+        public static IEnumerator<float> ScpGlow(Player Owner)
+        {
+            SchematicObject schematic = ObjectSpawner.SpawnSchematic("Light", Vector3.zero);
+            LightSourceToy light = schematic.GetComponentsInChildren<LightSourceToy>().First();
+
+            bool flag = false;
+
+            if (Owner.IsScp)
+            {
+                while (Owner.IsAlive)
+                {
+                    if (!flag && Owner.CurrentItem != null && !(Owner.Role is Scp3114Role scp3114 && scp3114.DisguiseStatus == PlayerRoles.PlayableScps.Scp3114.Scp3114Identity.DisguiseStatus.Active))
+                    {
+                        flag = true;
+
+                        schematic.transform.parent = Owner.Transform;
+                        schematic.transform.localPosition = Vector3.zero;
+
+                        if (ColorUtility.TryParseHtmlString("#ffff00", out Color color))
+                            light.NetworkLightColor = color;
+                        light.NetworkLightRange = 50;
+                        light.NetworkLightIntensity = 10;
+                    }
+                    else if (flag && Owner.CurrentItem == null)
+                    {
+                        flag = false;
+
+                        schematic.transform.parent = null;
+                        schematic.transform.position = Vector3.zero;
+                    }
+
+                    yield return Timing.WaitForSeconds(1);
+                }
+            }
+
+            schematic.Destroy();
         }
     }
 }
