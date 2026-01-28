@@ -38,6 +38,8 @@ using Respawning.Waves;
 using System.Windows.Forms;
 using RGM.Modes.SubClass;
 
+using static RGM.IEnumerators.ServerIEnumerator;
+
 
 namespace RGM.EventArgs
 {
@@ -719,8 +721,11 @@ namespace RGM.EventArgs
                 if (!Datas.BlockDamageTypes.Contains(ev.DamageHandler.Type))
                     ev.IsAllowed = false;
             }
-            else if (ev.Attacker != null && !NonePlayer.Players.Contains(ev.Attacker))
+            else if (ev.Attacker != null && !ev.Attacker.IsNonePlayer())
             {
+                if (ev.Attacker.IsScpRole() && ev.DamageHandler.Type.IsWeapon())
+                    ev.DamageHandler.Damage /= 2;
+
                 float damage = ev.IsInstantKill ? ev.Player.MaxHealth + ev.Player.MaxArtificialHealth + ev.Player.MaxHumeShield : ev.DamageHandler.Damage;
 
                 if ((HitboxIdentity.IsEnemy(ev.Attacker.ReferenceHub, ev.Player.ReferenceHub) || ev.Attacker.LeadingTeam != ev.Player.LeadingTeam || Server.FriendlyFire) && ev.Attacker != ev.Player && damage < 10000)
@@ -739,6 +744,11 @@ namespace RGM.EventArgs
             }
             else
             {
+                if (ev.Player.IsScpRole())
+                {
+                    Timing.RunCoroutine(ScpGlow(ev.Player));
+                }
+
                 if (GodModePlayers.Contains(ev.Player))
                 {
                     if (!Datas.BlockDamageTypes.Contains(ev.DamageHandler.Type))
