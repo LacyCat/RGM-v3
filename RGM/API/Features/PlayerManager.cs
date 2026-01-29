@@ -636,11 +636,11 @@ namespace RGM.API.Features
                 ItemType.GunCOM15,
 
                 // 탄약
-                ItemType.Ammo12gauge,
-                ItemType.Ammo44cal,
-                ItemType.Ammo556x45,
-                ItemType.Ammo762x39,
-                ItemType.Ammo9x19,
+                //ItemType.Ammo12gauge,
+                //ItemType.Ammo44cal,
+                //ItemType.Ammo556x45,
+                //ItemType.Ammo762x39,
+                //ItemType.Ammo9x19,
 
                 // 치료
                 ItemType.Painkillers,

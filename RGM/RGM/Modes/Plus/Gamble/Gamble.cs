@@ -96,10 +96,10 @@ namespace RGM.Modes
 
             else
             {
-                List<ItemType> ItemList = Tools.EnumToList<ItemType>();
-                ItemType Item = Tools.GetRandomValue(ItemList);
+                if (ev.Player.IsScpRole())
+                    ev.Player.Hit(ev.Player, ev.Player.MaxHealth / 100);
 
-                ev.Player.AddItem(Item);
+                ev.Player.AddRandomItem();
             }
         }
     }
