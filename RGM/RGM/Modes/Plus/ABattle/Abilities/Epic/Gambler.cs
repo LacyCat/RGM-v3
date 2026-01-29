@@ -60,6 +60,9 @@ public class Gambler : Ability
 
         else
         {
+            if (Owner.IsScpRole())
+                Owner.Hit(Owner, Owner.MaxHealth / 100);
+
             Owner.AddRandomItem();
         }
     }
