@@ -591,6 +591,9 @@ namespace RGM.EventArgs
                 }
                 else
                     PlayersReport[ev.Player.UserId].Revive += 1;
+
+                if (ev.Player.IsScpRole())
+                    Timing.RunCoroutine(ScpGlow(ev.Player));
             }
 
             if (ev.Reason == SpawnReason.RoundStart)
@@ -757,11 +760,6 @@ namespace RGM.EventArgs
             }
             else
             {
-                if (ev.Player.IsScpRole())
-                {
-                    Timing.RunCoroutine(ScpGlow(ev.Player));
-                }
-
                 if (GodModePlayers.Contains(ev.Player))
                 {
                     if (!Datas.BlockDamageTypes.Contains(ev.DamageHandler.Type))
