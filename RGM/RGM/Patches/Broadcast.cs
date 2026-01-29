@@ -1,16 +1,17 @@
 ﻿using Exiled.API.Features;
 
 using RGM.API.Features;
+using System.Linq;
 
 namespace RGM.Patches
 {
     public class BroadcastPatch
     {
-        public static void Postfix(ushort duration, string message, Broadcast.BroadcastFlags type, bool shouldClearPrevious)
+        public static void MapBroadcastPostfix(ushort duration, string message, Broadcast.BroadcastFlags type, bool shouldClearPrevious)
         {
             foreach (var player in Player.List)
             {
-                player.AddBroadcast(duration, message);
+                player.AddBroadcast(duration, message, tag: $"{duration} {message.Split(' ').Count()} {type} {shouldClearPrevious}");
             }
         }
     }
