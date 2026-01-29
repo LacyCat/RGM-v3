@@ -98,27 +98,40 @@ namespace RGM.EventArgs
             {
                 List<string> uc = UsersManager.UsersCache[ev.Player.UserId];
 
-                if (uc[29] == "0") // 오늘 출석을 하지 않았다면
+                if (uc[29] == "0") // 오늘 아직 출석 안 했다면
                 {
-                    int score = int.Parse(uc[27]) + 1;
-                    bool flag = int.Parse(uc[28]) < score;
-                    UsersManager.UsersCache[ev.Player.UserId][29] = "1";
-                    UsersManager.UsersCache[ev.Player.UserId][27] = $"{score}";
+                    int total = int.Parse(uc[27]);
+                    int current = int.Parse(uc[30]);
+                    int max = int.Parse(uc[28]);
 
-                    if (flag)
-                    {
-                        UsersManager.UsersCache[ev.Player.UserId][28] = $"{score}";
+                    total++;
+                    current++;
 
+                    bool isNewRecord = current > max;
+                    if (isNewRecord)
+                        max = current;
+
+                    uc[29] = "1";                 // 오늘 출석 처리
+                    uc[27] = total.ToString();    // 누적 출석
+                    uc[30] = current.ToString();  // 현재 연속
+                    uc[28] = max.ToString();      // 최대 연속
+
+                    if (isNewRecord)
                         PlayersAudio[ev.Player].TryPlay("출석 체크 굿");
-                    }
                     else
-                    {
                         PlayersAudio[ev.Player].TryPlay("출석 체크");
-                    }
 
                     UsersManager.SaveUsers();
 
-                    ev.Player.AddBroadcast(20, $"<size=25><b>출석 체크 완료!</b> 오늘도 즐거운 랜덤게임모드(RGM) 되세요!</size>\n<size=20>{(flag ? $"우와 신기록이네요! {score}번이나 연속으로 잊지 않고 놀러와주셔서 감사합니다.": $"총 {uc[28]}회 출석 체크했으며, 최고 기록은 {score}회입니다.")}</size>");
+                    ev.Player.AddBroadcast(
+                        20,
+                        $"<size=25><b>출석 체크 완료!</b> 오늘도 즐거운 랜덤게임모드(RGM) 되세요!</size>\n" +
+                        $"<size=20>" +
+                        (isNewRecord
+                            ? $"우와 신기록이네요! {current}일 연속으로 잊지 않고 놀러와주셔서 감사합니다."
+                            : $"총 {total}회 출석하셨고, 현재 {current}일 연속 출석 중입니다. 최고 기록은 {max}일입니다.")
+                        + "</size>"
+                    );
                 }
 
                 try
@@ -428,9 +441,9 @@ namespace RGM.EventArgs
                                     .Replace("{FirstVote}", ModeVote[iv(1)].Contains(ev.Player) ? $"<color=yellow>{s(1)}</color>" : s(1))
                                     .Replace("{Second}", (CurrentMode != ModeType.None ? CurrentMode.GetModeData().Name : (ModeList[iv(2)].Info == ModeInfo.Lock ? $"{Tools.ApplyGradient($"#{ModeList[iv(2)].Color}", iv(2).GetModeData().Name)}" : $"<color=#{ModeList[iv(2)].Color}>{iv(2).GetModeData().Name}</color>")) + (SubModeVote[1] != ModeType.None ? $" + <b><i><size=20><color=#{ModeList[SubModeVote[1]].Color}>{SubModeVote[1].GetModeData().Name}</color></size></i></b>" : ""))
                                     .Replace("{SecondVote}", ModeVote[iv(2)].Contains(ev.Player) ? $"<color=yellow>{s(2)}</color>" : s(2))
-                                    .Replace("{Third}", (CurrentMode != ModeType.None ? CurrentMode.GetModeData().Name : (ModeList[iv(1)].Info == ModeInfo.Lock ? $"{Tools.ApplyGradient($"#{ModeList[iv(3)].Color}", iv(3).GetModeData().Name)}" : $"<color=#{ModeList[iv(3)].Color}>{iv(3).GetModeData().Name}</color>")) + (SubModeVote[2] != ModeType.None ? $" + <b><i> <size=20><color=#{ModeList[SubModeVote[2]].Color}>{SubModeVote[2].GetModeData().Name}</color></size></i></b>" : ""))
+                                    .Replace("{Third}", (CurrentMode != ModeType.None ? CurrentMode.GetModeData().Name : (ModeList[iv(3)].Info == ModeInfo.Lock ? $"{Tools.ApplyGradient($"#{ModeList[iv(3)].Color}", iv(3).GetModeData().Name)}" : $"<color=#{ModeList[iv(3)].Color}>{iv(3).GetModeData().Name}</color>")) + (SubModeVote[2] != ModeType.None ? $" + <b><i> <size=20><color=#{ModeList[SubModeVote[2]].Color}>{SubModeVote[2].GetModeData().Name}</color></size></i></b>" : ""))
                                     .Replace("{ThirdVote}", ModeVote[iv(3)].Contains(ev.Player) ? $"<color=yellow>{s(3)}</color>" : s(3))
-                                    .Replace("{Fourth}", (CurrentMode != ModeType.None ? CurrentMode.GetModeData().Name : (ModeList[iv(1)].Info == ModeInfo.Lock ? $"{Tools.ApplyGradient($"#{ModeList[iv(4)].Color}", iv(4).GetModeData().Name)}" : $"<color=#{ModeList[iv(4)].Color}>{iv(4).GetModeData().Name}</color>")) + (SubModeVote[3] != ModeType.None ? $" + <b><i> <size=20><color=#{ModeList[SubModeVote[3]].Color}>{SubModeVote[3].GetModeData().Name}</color></size></i></b>" : ""))
+                                    .Replace("{Fourth}", (CurrentMode != ModeType.None ? CurrentMode.GetModeData().Name : (ModeList[iv(4)].Info == ModeInfo.Lock ? $"{Tools.ApplyGradient($"#{ModeList[iv(4)].Color}", iv(4).GetModeData().Name)}" : $"<color=#{ModeList[iv(4)].Color}>{iv(4).GetModeData().Name}</color>")) + (SubModeVote[3] != ModeType.None ? $" + <b><i> <size=20><color=#{ModeList[SubModeVote[3]].Color}>{SubModeVote[3].GetModeData().Name}</color></size></i></b>" : ""))
                                     .Replace("{FourthVote}", ModeVote[iv(4)].Contains(ev.Player) ? $"<color=yellow>{s(4)}</color>" : s(4))
                                     .Replace("{ModeName}", $"{(SelectedMode == ModeType.None ? "<i>참고</i>" : SelectedMode.GetModeData().Name)}{IdeaBy()}")
                                     .Replace("{ModeColor}", $"{Color}").Replace("{ModeDescription}", $"{Description}")
