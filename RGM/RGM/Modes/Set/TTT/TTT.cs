@@ -285,6 +285,33 @@ Trouble in Terrorist Town의 약자.
                 yield return Timing.WaitForSeconds(1f);
             }
 
+            // 게임 종료 시점: 무죄인이 살아있으면 무죄인 승리
+            var innocents = PlayerManager.List.Where(x =>
+                x.IsAlive &&
+                !traitors.Contains(x) &&
+                x != O5 &&
+                x != jester
+            ).ToList();
+
+            if (innocents.Count > 0)
+            {
+                foreach (var player in PlayerManager.List.Where(x => x.IsAlive && !innocents.Contains(x)))
+                {
+                    if (GodModePlayers.Contains(player))
+                        GodModePlayers.Remove(player);
+
+                    player.Kill("무죄인 팀이 승리하였습니다!");
+                }
+
+                foreach (var player in innocents)
+                {
+                    player.AddBroadcast(20, $"<color=orange>무죄인</color> 팀의 승리입니다!");
+                }
+                Timing.RunCoroutine(Tools.SetWinner(innocents, 1));
+                yield break;
+            }
+
+            // 무죄인 없으면 광대 또는 O5 평의회 중에서 승리자 결정
             if (jester != null && jester.IsAlive)
             {
                 foreach (var player in PlayerManager.List.Where(x => x.IsAlive && x != jester))
@@ -294,6 +321,8 @@ Trouble in Terrorist Town의 약자.
 
                     player.Kill("광대가 승리를 탈취해갔습니다!");
                 }
+                jester.AddBroadcast(20, $"<color=#f178fc>광대</color>의 승리입니다!");
+                Timing.RunCoroutine(Tools.SetWinner(PlayerManager.List.Where(x => x == jester).ToList(), 5));
             }
             else if (O5 != null && O5.IsAlive)
             {
@@ -304,19 +333,8 @@ Trouble in Terrorist Town의 약자.
 
                     player.Kill("아뿔싸! O5 평의회가 살아있었군요!");
                 }
-            }
-            else
-            {
-                foreach (var player in PlayerManager.List.Where(x => x.IsAlive))
-                {
-                    if (traitors.Contains(player))
-                    {
-                        if (GodModePlayers.Contains(player))
-                            GodModePlayers.Remove(player);
-
-                        player.Kill("제한시간이 초과하였습니다.");
-                    }
-                }
+                O5.AddBroadcast(20, $"<color=#000000>O5 평의회</color>의 승리입니다!");
+                Timing.RunCoroutine(Tools.SetWinner(PlayerManager.List.Where(x => x == O5).ToList(), 5));
             }
         }
 
