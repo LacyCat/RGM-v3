@@ -123,7 +123,7 @@ namespace RGM.Modes
         {
             while (true)
             {
-                foreach (var player in dict.Keys)
+                foreach (var player in dict.Keys.Where(x => !x.IsNonePlayer()))
                 {
                     var blockedAction = dict[player];
                     FirstPersonMovementModule fpcModule = (player.ReferenceHub.roleManager.CurrentRole as FpcStandardRoleBase).FpcModule;
@@ -145,7 +145,7 @@ namespace RGM.Modes
                         if (!pos_dict.ContainsKey(player))
                             pos_dict.Add(player, player.Position);
 
-                        if (Vector3.Distance(pos_dict[player], player.Position) > 0.1f)
+                        if (pos_dict[player] != player.Position)
                             player.ExplodeGrenade(ignore: true);
 
                         pos_dict[player] = player.Position;
@@ -158,42 +158,63 @@ namespace RGM.Modes
 
         void OnJumping(JumpingEventArgs ev)
         {
+            if (ev.Player.IsNonePlayer())
+                return;
+
             if (dict.ContainsKey(ev.Player) && dict[ev.Player] == BlockedActions.점프)
                 ev.Player.ExplodeGrenade(ignore: true);
         }
 
         void OnHurting(HurtingEventArgs ev)
         {
+            if (ev.Player.IsNonePlayer())
+                return;
+
             if (ev.Attacker != null && dict.ContainsKey(ev.Attacker) && dict[ev.Attacker] == BlockedActions.공격)
                 ev.Attacker.ExplodeGrenade(ignore: true);
         }
         
         void OnVoiceChatting(VoiceChattingEventArgs ev)
         {
+            if (ev.Player.IsNonePlayer())
+                return;
+
             if (dict.ContainsKey(ev.Player) && dict[ev.Player] == BlockedActions.말하기)
                 ev.Player.ExplodeGrenade(ignore: true);
         }
 
         void OnUsedItem(UsingItemEventArgs ev)
         {
+            if (ev.Player.IsNonePlayer())
+                return;
+
             if (dict.ContainsKey(ev.Player) && dict[ev.Player] == BlockedActions.아이템_사용)
                 ev.Player.ExplodeGrenade(ignore: true);
         }
 
         void OnInteractingDoor(InteractingDoorEventArgs ev)
         {
+            if (ev.Player.IsNonePlayer())
+                return;
+
             if (dict.ContainsKey(ev.Player) && dict[ev.Player] == BlockedActions.문_상호작용)
                 ev.Player.ExplodeGrenade(ignore: true);
         }
 
         void OnOpeningGenerator(OpeningGeneratorEventArgs ev)
         {
+            if (ev.Player.IsNonePlayer())
+                return;
+
             if (dict.ContainsKey(ev.Player) && dict[ev.Player] == BlockedActions.발전기_열기)
                 ev.Player.ExplodeGrenade(ignore: true);
         }
 
         void OnChangingItem(ChangingItemEventArgs ev)
         {
+            if (ev.Player.IsNonePlayer())
+                return;
+
             if (dict.ContainsKey(ev.Player)) 
             {
                 if (dict[ev.Player] == BlockedActions.카드키_들기 && ev.Item.Type.IsKeycard())
@@ -209,6 +230,9 @@ namespace RGM.Modes
 
         void OnEscaping(EscapingEventArgs ev)
         {
+            if (ev.Player.IsNonePlayer())
+                return;
+
             if (dict.ContainsKey(ev.Player) && dict[ev.Player] == BlockedActions.탈출하기)
                 ev.Player.ExplodeGrenade(ignore: true);
         }
