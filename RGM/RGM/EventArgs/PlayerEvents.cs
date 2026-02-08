@@ -62,7 +62,10 @@ namespace RGM.EventArgs
             {
                 AudioPlayer audioPlayer = AudioPlayer.CreateOrGet($"Player - {ev.Player.UserId}", condition: (hub) =>
                 {
-                    return hub == ev.Player.ReferenceHub && !MuteBGMPlayers.Contains(Player.Get(hub));
+                    Player ply = Player.Get(hub);
+
+                    return (ply == ev.Player && !MuteBGMPlayers.Contains(ply)) || 
+                    (ev.Player.CurrentSpectatingPlayers.Contains(ply) && !MuteBGMPlayers.Contains(ply));
                 }
                 , onIntialCreation: (p) =>
                 {
@@ -826,6 +829,8 @@ namespace RGM.EventArgs
 
                     if (!ev.Player.IsScpRole())
                         PlayersReport[ev.Attacker.UserId].KillHuman += 1;
+
+                    PlayersAudio[ev.Attacker].TryPlay("Overwatch2Kill", 2);
                 }
 
                 if (!ev.Player.IsNPC)
