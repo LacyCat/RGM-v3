@@ -134,6 +134,8 @@ namespace RGM.Modes
             {
                 Player reviver = PlayerManager.List.GetRandomValue(x => x.Role.Type == RoleTypeId.Spectator);
                 reviver.Role.Set(Tools.EnumToList<RoleTypeId>().GetRandomValue(x => x.GetSide() == ev.Attacker.Role.Type.GetSide()), RoleSpawnFlags.None);
+                if (reviver.Role.Team == Team.Dead)
+                    reviver.Role.Set(UnityEngine.Random.Range(1, 3) == 1 ? RoleTypeId.ClassD : RoleTypeId.Scientist, RoleSpawnFlags.None);
                 Item item = reviver.AddItem(ItemType.SCP1509);
                 reviver.CurrentItem = item;
             }
