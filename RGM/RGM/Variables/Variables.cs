@@ -93,12 +93,9 @@ namespace RGM.Variables
         };
         public static List<string> Specials = new()
         {
-            "capybara",
-            "Sky",
             "TRRBR",
             "Moszka",
             "Agar",
-            "undertale"
         };
         public static List<Product> Products = new()
         {
