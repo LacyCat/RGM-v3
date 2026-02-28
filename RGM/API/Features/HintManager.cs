@@ -22,6 +22,8 @@ namespace RGM.API.Features
                 {
                     string message = $"{string.Join("\n", _playerHints[player].Values.Select(x => x.Item1))}";
 
+                    message = message.Replace("<color=#855439>*</color>", "");
+
                     if (player.IsUsingTranslator())
                     {
                         TranslationManager.TranslatePreserveNewlines(message, TranslatorPlayers[player], 

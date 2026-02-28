@@ -31,7 +31,7 @@ namespace RGM.Modes
 """
 1분마다 진영이 변경된다는 설명으로도 충분하다.
 
-<i>* 게임 시작 10분 뒤 <color=red>자동핵</color>이 작동됩니다.</i>
+* 게임 시작 10분 뒤 <color=red>자동핵</color>이 작동됩니다.
 """;
         public override string Color => "01DF74";
 
@@ -101,7 +101,7 @@ namespace RGM.Modes
             if (Warhead.IsDetonated)
                 yield break;
 
-            Exiled.API.Features.Cassie.MessageTranslated("", $"1분 뒤 <color=red>자동핵</color>이 작동됩니다.");
+            Tools.MessageTranslated("", $"1분 뒤 <color=red>자동핵</color>이 작동됩니다.");
 
             if (Warhead.IsDetonated)
                 yield break;

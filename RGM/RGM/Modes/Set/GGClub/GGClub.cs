@@ -187,7 +187,7 @@ namespace RGM.Modes
             while (true)
             {
                 foreach (var player in PlayerManager.List)
-                    player.AddHint("3114 힌트", $"<b>[TIP]</b> <i>gingerbread</i>를 입력하면 춤출 수 있습니다.", 1.2f);
+                    player.AddHint("3114 힌트", $"<b>[TIP]</b> gingerbread를 입력하면 춤출 수 있습니다.", 1.2f);
 
                 yield return Timing.WaitForSeconds(1f);
             }

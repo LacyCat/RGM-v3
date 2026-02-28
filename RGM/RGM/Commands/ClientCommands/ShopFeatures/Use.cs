@@ -73,9 +73,9 @@ namespace RGM.Commands.ClientCommands
                                 UsersManager.SaveUsers();
 
                                 foreach (var p in PlayerManager.List.Where(x => x.IsDead || Vector3.Distance(x.Position, player.Position) < 11))
-                                    p.AddBroadcast(5, $"<size=20>{Tools.BadgeFormat(player)}<color={player.Role.Color.ToHex()}>{player.DisplayNickname}</color>(이)가 {product.Name}(을)를 사용하였습니다.</size>");
+                                    p.AddBroadcast(5, $"<size=20>{Tools.BadgeFormat(player)}<color={player.Role.Color.ToHex()}><b><i>{player.DisplayNickname}</i></b></color>(이)가 {product.Name}(을)를 사용하였습니다.</size>");
 
-                                Log.Info($"🔑 사용ㅣ{player.Nickname}(`{player.Id}`, `{player.UserId}`, `{player.IPAddress}`) -> {product.Name} {product.Price}");
+                                Log.Info($"🔑 사용ㅣ<b><i>{player.Nickname}</i></b>(`{player.Id}`, `{player.UserId}`, `{player.IPAddress}`) -> {product.Name} {product.Price}");
 
                                 response = $"<b>{product.Name}</b> 사용 완료!";
                                 return true;

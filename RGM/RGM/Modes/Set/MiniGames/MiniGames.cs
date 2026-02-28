@@ -122,7 +122,7 @@ namespace RGM.Modes
                 {
                     for (int i = 1; i < 10; i++)
                     {
-                        MultiBroadcast.API.MultiBroadcast.AddMapBroadcast(1, $"<b><color=red>{10 - i}</color>초 후 <i><color=yellow>{RoundCount + 1}번째 라운드</color></i>가 시작됩니다.</b>");
+                        MultiBroadcast.API.MultiBroadcast.AddMapBroadcast(1, $"<b><color=red>{10 - i}</color>초 후 <color=yellow>{RoundCount + 1}번째 라운드</color>가 시작됩니다.</b>");
 
                         yield return Timing.WaitForSeconds(1f);
                     }

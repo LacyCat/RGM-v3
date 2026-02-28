@@ -28,7 +28,7 @@ namespace RGM.UserSettings
 {
     public static class ServerSpecificSettings
     {
-        public static HeaderSetting RGM { get; private set; } = new HeaderSetting(429022, "<size=30>[<color=#F78181>K</color><color=#5882FA>R</color>]</size></align> <b><size=30><color=#F6CECE>랜</color><color=#F6D8CE>덤</color><color=#F6E3CE>게</color><color=#F5ECCE>임</color><color=#F5F6CE>모</color><color=#ECF6CE>드</color></size></b>");
+        public static HeaderSetting RGMHeader { get; private set; } = new HeaderSetting(429022, "<size=30>[<color=#F78181>K</color><color=#5882FA>R</color>]</size></align> <b><size=30><color=#F6CECE>랜</color><color=#F6D8CE>덤</color><color=#F6E3CE>게</color><color=#F5ECCE>임</color><color=#F5F6CE>모</color><color=#ECF6CE>드</color></size></b>");
 
         public static HeaderSetting Setting { get; private set; } = new HeaderSetting(19287, "<b>⚙️ 설정</b>");
         public static KeybindSetting ScpCanEquipRandomItem { get; private set; }
@@ -108,15 +108,10 @@ Are you worried BGM might be copyrighted by YouTube? Use this feature.
                 label: "번역ㅣTranslation",
                 options: new string[]
                 {
-                    "Chinese (zh)",
-                    "English (en)",
-                    "German (de)",
-                    "Italian (it)",
-                    "Japanese (ja)",
                     "Korean (ko)",
-                    "Russian (ru)",
+                    "English (en)",
                 },
-                defaultOptionIndex: 5,
+                defaultOptionIndex: RGM.Instance.Config.EN ? 1 : 0,
                 hintDescription: 
 """
 언어의 장벽을 부수려면 이 설정을 사용하세요.

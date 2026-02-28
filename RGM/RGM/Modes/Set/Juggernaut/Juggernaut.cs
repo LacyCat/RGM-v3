@@ -44,9 +44,9 @@ namespace RGM.Modes
 지금은 우리(SCP, 반란, MTF)끼리 싸울 때가 아닙니다.
 군대를 홀로 섬멸할 수 있는 전력인 저거너트가 재단을 점령하기 위해 왔습니다.
 
-<i>이제 친구가 될 시간이야.</i>
+이제 친구가 될 시간이야.
 
-<i>* 게임 시작 10분 뒤 <color=red>자동핵</color>이 작동됩니다.</i>
+* 게임 시작 10분 뒤 <color=red>자동핵</color>이 작동됩니다.
 """;
         public override string Color => "088A08";
 
@@ -126,7 +126,7 @@ namespace RGM.Modes
             juggernaut.IsBypassModeEnabled = true;
             juggernaut.EnableEffect(EffectType.SinkHole);
             juggernaut.EnableEffect(EffectType.DamageReduction, 10);
-            juggernaut.AddBroadcast(10, "<b><size=30>당신은 <color=#298A08>저거너트</color>입니다.</size></b>\n<size=25><i>본인을 제외한 모두를 사살하십시오.</i></size>");
+            juggernaut.AddBroadcast(10, "<b><size=30>당신은 <color=#298A08>저거너트</color>입니다.</size></b>\n<size=25>본인을 제외한 모두를 사살하십시오.</size>");
             juggernaut.Position = new Vector3(123.3271f, 288.7908f, 27.01838f);
 
             List<ItemType> Items = new List<ItemType>() { ItemType.GunLogicer, ItemType.Jailbird };
@@ -168,7 +168,7 @@ namespace RGM.Modes
             if (Warhead.IsDetonated)
                 yield break;
 
-            Exiled.API.Features.Cassie.MessageTranslated("", $"1분 뒤 <color=red>자동핵</color>이 작동됩니다.");
+            Tools.MessageTranslated("", $"1분 뒤 <color=red>자동핵</color>이 작동됩니다.");
 
             if (Warhead.IsDetonated)
                 yield break;

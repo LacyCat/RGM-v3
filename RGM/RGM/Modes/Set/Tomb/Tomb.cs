@@ -27,7 +27,7 @@ namespace RGM.Modes
 """
 널리 펼쳐진 평지에는 <b>수많은 아이템</b>이 널려 있습니다.
 
-<i>배틀그라운드와 흡사하죠.</b>
+배틀그라운드와 흡사하죠.</b>
 """;
         public override string Color => "000000";
 

@@ -41,7 +41,7 @@ namespace RGM.Commands.RemoteAdminCommands
                 CurrentMode = ModeList.Keys.FirstOrDefault(x => x.GetModeData().Name == args);
 
                 if (player != null)
-                    Exiled.API.Features.Cassie.MessageTranslated("", $"<mark=#ffff00cc><color=#000000>운영진(<color=#ffffff>{player.Nickname}</color>)에 의하여 이번 라운드의 모드가 <b>{args}</b>으로 확정되었습니다.</color></mark>");
+                    Tools.MessageTranslated("", $"<mark=#ffff00cc><color=#000000>운영진(<color=#ffffff><b><i>{player.Nickname}</i></b></color>)에 의하여 이번 라운드의 모드가 <b>{args}</b>으로 확정되었습니다.</color></mark>");
                 
                 response = $"이번 라운드의 모드는 <b>{args}</b>입니다.\nSending Command Complete!";
                 return true;

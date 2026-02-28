@@ -76,12 +76,12 @@ public class ABattle : Mode
     };
     public static Dictionary<string, string> SelectFormat = new Dictionary<string, string>()
     {
-        {"일반", "<b><i><color=#404040>일반</color></i></b>"},
-        {"희귀", "<b><i><color=#47DAFF>희귀</color></i></b>"},
-        {"영웅", "<b><i><color=#F185FF>영웅</color></i></b>"},
-        {"전설", "<b><i><color=#FFF70A>전설</color></i></b>"},
-        {"신화", "<b><i><color=#F52500>신화</color></i></b>"},
-        {"알 수 없음", "<b><i><color=#000000>알수없음</i></b>"}
+        {"일반", "<b><color=#404040>일반</color></b>"},
+        {"희귀", "<b><color=#47DAFF>희귀</color></b>"},
+        {"영웅", "<b><color=#F185FF>영웅</color></b>"},
+        {"전설", "<b><color=#FFF70A>전설</color></b>"},
+        {"신화", "<b><color=#F52500>신화</color></b>"},
+        {"알 수 없음", "<b><color=#000000>알수없음</b>"}
     };
     public static Dictionary<string, string> ExtraModes = new Dictionary<string, string>()
     {
@@ -276,7 +276,7 @@ public class ABattle : Mode
             }
             catch (Exception e)
             {
-                Log.Error($"An error occurred while trying to add {player.Nickname} to the dictionary: {e}");
+                Log.Error($"An error occurred while trying to add <b><i>{player.Nickname}</i></b> to the dictionary: {e}");
             }
         }
 

@@ -29,7 +29,7 @@ namespace RGM.Modes
 <color=#000000><b>05 평의회</b></color>가 사살될 경우,
 <color=#088A08>혼돈의 반란</color> 진영이 승리합니다.
 
-<i>* 게임 시작 10분 뒤 <color=red>자동핵</color>이 작동됩니다.</i>
+* 게임 시작 10분 뒤 <color=red>자동핵</color>이 작동됩니다.
 """;
         public override string Color => "0040FF";
 
@@ -120,7 +120,7 @@ namespace RGM.Modes
         {
             yield return Timing.WaitForSeconds(9 * 60);
 
-            Exiled.API.Features.Cassie.MessageTranslated("", $"1분 뒤 <color=red>자동핵</color>이 작동됩니다.");
+            Tools.MessageTranslated("", $"1분 뒤 <color=red>자동핵</color>이 작동됩니다.");
 
             yield return Timing.WaitForSeconds(1 * 60);
 
@@ -136,7 +136,7 @@ namespace RGM.Modes
 
                 foreach (var player in Player.List)
                 {
-                    player.AddBroadcast(20, $"<size=30><b><color=#000000>05 평의회</color>({Level05.DisplayNickname})</b>가 탈출하여 <u><i>강화제 제작 방법</i>을 재단에 넘기는 데 성공하였습니다.</u></size>");
+                    player.AddBroadcast(20, $"<size=30><b><color=#000000>05 평의회</color>({Level05.DisplayNickname})</b>가 탈출하여 <u>강화제 제작 방법을 재단에 넘기는 데 성공하였습니다.</u></size>");
 
                     if (player.IsCHI || player.Role.Type == RoleTypeId.ClassD)
                         player.Role.Set(RoleTypeId.Tutorial, RoleSpawnFlags.None);

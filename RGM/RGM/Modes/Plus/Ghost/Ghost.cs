@@ -93,7 +93,7 @@ namespace RGM.Modes
                         break;
 
                     case 6:
-                        Exiled.API.Features.Cassie.MessageTranslated("", $".G{Random.Range(1, 101)}");
+                        Tools.MessageTranslated("", $".G{Random.Range(1, 101)}");
                         break;
 
                     case 7:

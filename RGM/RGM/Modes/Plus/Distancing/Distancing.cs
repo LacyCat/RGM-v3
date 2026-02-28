@@ -21,7 +21,7 @@ namespace RGM.Modes
         public override string Description => "최대한 다른 사람과 멀어지세요! 감염 예방이 최우선입니다!";
         public override string Detail =>
 """
-<i>다른 사람과 가까이 붙지 마세요.</i>
+다른 사람과 가까이 붙지 마세요.
 
 5m 초과의 거리를 유지하지 못한다면 체력의 일정 비율만큼 데미지를 입습니다.
 """;

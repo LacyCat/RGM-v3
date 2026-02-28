@@ -20,7 +20,7 @@ namespace RGM.Modes
         public override string Description => "빨간 불에는 움직이지 마세요.";
         public override string Detail =>
 """
-<i>순발력이 좋아야 살아남습니다.</i>
+순발력이 좋아야 살아남습니다.
 
 엘레베이터와 같은 움직이는 물체를 주의하세요!
 
@@ -138,7 +138,7 @@ namespace RGM.Modes
                                     Timing.RunCoroutine(Tools.DoRocket(player, player, 0.01f));
 
                                 Server.ExecuteCommand($"/clearcassie");
-                                Exiled.API.Features.Cassie.MessageTranslated("", $"안타깝게도 {player.DisplayNickname}(이)가 <b><color=red>빨간 불</color></b>에 건넜습니다.");
+                                Tools.MessageTranslated("", $"안타깝게도 <b><i>{player.DisplayNickname}</i></b>(이)가 <b><color=red>빨간 불</color></b>에 건넜습니다.");
                             }
                         }
                     }

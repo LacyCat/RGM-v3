@@ -741,6 +741,8 @@ namespace RGM.API.Features
 
         public static void AddBroadcast(this Player player, ushort duration, string message, byte priority = 0, string tag = "")
         {
+            message = message.Replace("<color=#855439>*</color>", "");
+
             if (player.IsUsingTranslator() && tag != "chat" && tag != "kill")
             {
                 TranslationManager.TranslatePreserveNewlines(message, TranslatorPlayers[player], translated => 

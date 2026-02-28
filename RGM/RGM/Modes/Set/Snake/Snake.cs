@@ -118,7 +118,7 @@ namespace RGM.Modes
                         }
                         else
                         {
-                            player.AddBroadcast(1, $"<size=25><b>{remain}초 안에 다음 점수를 획득하세요.</b> <i>그렇지 않으면 <color=red>사망</color>합니다.</i></size>");
+                            player.AddBroadcast(1, $"<size=25><b>{remain}초 안에 다음 점수를 획득하세요.</b> 그렇지 않으면 <color=red>사망</color>합니다.</size>");
                         }
                     }
                 }

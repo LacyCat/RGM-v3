@@ -161,7 +161,7 @@ namespace RGM.Modes.SnakeSystem
             }
             catch (Exception ex)
             {
-                Log.Error($"Error giving item {item.DisplayName} to player {player.Nickname}: {ex}");
+                Log.Error($"Error giving item {item.DisplayName} to player <b><i>{player.Nickname}</i></b>: {ex}");
                 return false;
             }
         }
