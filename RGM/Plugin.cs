@@ -44,7 +44,7 @@ namespace RGM
 
         public override string Name => "RGM";
         public override string Author => "GoldenPig1205";
-        public override Version Version { get; } = new(3, 21, 4);
+        public override Version Version { get; } = new(3, 21, 5);
         public override Version RequiredExiledVersion { get; } = new(1, 2, 0, 5);
 
         public override void OnEnabled()
@@ -162,12 +162,10 @@ namespace RGM
 
             TranslationManager.ApiKey = Tools.ReadTextFile(Path.Combine(Paths.Configs, "RGM"), "GoogleAPIKey.txt");
             TranslationManager.IsEnabled = true;
-
-            TranslationManager.MinInterval = 0.20f;   // 번역 요청 간 최소 간격 (초)
-            TranslationManager.MaxRetries = 2;        // 실패 시 재시도 횟수
             TranslationManager.Debug = false;
 
-            TranslationManager.StartWorker();
+            if (Server.Port == 7803)
+                TranslationManager.StartWorker();
         }
     }
 }
