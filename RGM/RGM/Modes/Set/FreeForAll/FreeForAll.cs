@@ -28,7 +28,7 @@ namespace RGM.Modes
 """
 랜덤한 문으로 순간이동한 후 랜덤하게 지급되는 아이템으로 싸움을 시작합니다.
 
-<i>모든 문은 잠겨 있습니다.</i>
+모든 문은 잠겨 있습니다.
 """;
         public override string Color => "FA58F4";
 

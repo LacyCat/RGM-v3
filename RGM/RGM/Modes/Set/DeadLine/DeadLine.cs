@@ -29,7 +29,7 @@ namespace RGM.Modes
 """
 <color=red>빨간색</color>을 밟으면 죽습니다.
 
-<i>발 아래를 조심하세요!</i>
+발 아래를 조심하세요!
 """;
         public override string Color => "FA8258";
         public override string Map => "dl";

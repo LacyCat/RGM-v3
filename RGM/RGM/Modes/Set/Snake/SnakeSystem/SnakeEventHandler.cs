@@ -21,7 +21,7 @@ namespace RGM.Modes.SnakeSystem
                 var lastScoreTime = GetLastScoreTime(player);
                 if (lastScoreTime.HasValue && (DateTime.Now - lastScoreTime.Value).TotalSeconds < Config.AntiSpamDelay)
                 {
-                    Log.Warn($"Preventing duplicate score for {player.Nickname} - too soon after last score");
+                    Log.Warn($"Preventing duplicate score for <b><i>{player.Nickname}</i></b> - too soon after last score");
                     return;
                 }
 

@@ -342,7 +342,7 @@ namespace RGM.EventArgs
                                         string Name = user.Value[12];
                                         string Exp = user.Value[0];
 
-                                        queue.Add($"{c(queue.Count() + 1)} - <b>{Name}</b>(<color=yellow>{Exp}</color>)");
+                                        queue.Add($"{c(queue.Count() + 1)} - <i>{Name}</i>(<color=yellow>{Exp}</color>)");
                                     }
                                     catch (Exception e)
                                     {
@@ -440,15 +440,15 @@ namespace RGM.EventArgs
                                     .Replace("{SecondMark}", ModeVote[iv(2)].Contains(ev.Player) ? "■" : "□")
                                     .Replace("{ThirdMark}", ModeVote[iv(3)].Contains(ev.Player) ? "■" : "□")
                                     .Replace("{FourthMark}", ModeVote[iv(4)].Contains(ev.Player) ? "■" : "□")
-                                    .Replace("{First}", (CurrentMode != ModeType.None ? CurrentMode.GetModeData().Name : $"<color=#{ModeList[iv(1)].Color}>{iv(1).GetModeData().Name}</color>") + (SubModeVote[0] != ModeType.None ? $" + <b><i> <size=20><color=#{ModeList[SubModeVote[0]].Color}>{SubModeVote[0].GetModeData().Name}</color></size></i></b>" : ""))
+                                    .Replace("{First}", (CurrentMode != ModeType.None ? CurrentMode.GetModeData().Name : $"<color=#{ModeList[iv(1)].Color}>{iv(1).GetModeData().Name}</color>") + (SubModeVote[0] != ModeType.None ? $" + <b> <size=20><color=#{ModeList[SubModeVote[0]].Color}>{SubModeVote[0].GetModeData().Name}</color></size></b>" : ""))
                                     .Replace("{FirstVote}", ModeVote[iv(1)].Contains(ev.Player) ? $"<color=yellow>{s(1)}</color>" : s(1))
-                                    .Replace("{Second}", (CurrentMode != ModeType.None ? CurrentMode.GetModeData().Name : $"<color=#{ModeList[iv(2)].Color}>{iv(2).GetModeData().Name}</color>") + (SubModeVote[1] != ModeType.None ? $" + <b><i><size=20><color=#{ModeList[SubModeVote[1]].Color}>{SubModeVote[1].GetModeData().Name}</color></size></i></b>" : ""))
+                                    .Replace("{Second}", (CurrentMode != ModeType.None ? CurrentMode.GetModeData().Name : $"<color=#{ModeList[iv(2)].Color}>{iv(2).GetModeData().Name}</color>") + (SubModeVote[1] != ModeType.None ? $" + <b><size=20><color=#{ModeList[SubModeVote[1]].Color}>{SubModeVote[1].GetModeData().Name}</color></size></b>" : ""))
                                     .Replace("{SecondVote}", ModeVote[iv(2)].Contains(ev.Player) ? $"<color=yellow>{s(2)}</color>" : s(2))
-                                    .Replace("{Third}", (CurrentMode != ModeType.None ? CurrentMode.GetModeData().Name :$"<color=#{ModeList[iv(3)].Color}>{iv(3).GetModeData().Name}</color>") + (SubModeVote[2] != ModeType.None ? $" + <b><i> <size=20><color=#{ModeList[SubModeVote[2]].Color}>{SubModeVote[2].GetModeData().Name}</color></size></i></b>" : ""))
+                                    .Replace("{Third}", (CurrentMode != ModeType.None ? CurrentMode.GetModeData().Name :$"<color=#{ModeList[iv(3)].Color}>{iv(3).GetModeData().Name}</color>") + (SubModeVote[2] != ModeType.None ? $" + <b> <size=20><color=#{ModeList[SubModeVote[2]].Color}>{SubModeVote[2].GetModeData().Name}</color></size></b>" : ""))
                                     .Replace("{ThirdVote}", ModeVote[iv(3)].Contains(ev.Player) ? $"<color=yellow>{s(3)}</color>" : s(3))
-                                    .Replace("{Fourth}", (CurrentMode != ModeType.None ? CurrentMode.GetModeData().Name : $"<color=#{ModeList[iv(4)].Color}>{iv(4).GetModeData().Name}</color>") + (SubModeVote[3] != ModeType.None ? $" + <b><i> <size=20><color=#{ModeList[SubModeVote[3]].Color}>{SubModeVote[3].GetModeData().Name}</color></size></i></b>" : ""))
+                                    .Replace("{Fourth}", (CurrentMode != ModeType.None ? CurrentMode.GetModeData().Name : $"<color=#{ModeList[iv(4)].Color}>{iv(4).GetModeData().Name}</color>") + (SubModeVote[3] != ModeType.None ? $" + <b> <size=20><color=#{ModeList[SubModeVote[3]].Color}>{SubModeVote[3].GetModeData().Name}</color></size></b>" : ""))
                                     .Replace("{FourthVote}", ModeVote[iv(4)].Contains(ev.Player) ? $"<color=yellow>{s(4)}</color>" : s(4))
-                                    .Replace("{ModeName}", $"{(SelectedMode == ModeType.None ? "<i>참고</i>" : SelectedMode.GetModeData().Name)}{IdeaBy()}")
+                                    .Replace("{ModeName}", $"{(SelectedMode == ModeType.None ? "참고" : SelectedMode.GetModeData().Name)}{IdeaBy()}")
                                     .Replace("{ModeColor}", $"{Color}").Replace("{ModeDescription}", $"{Description}")
                                     .Replace("{Lines}", $"{(Description.Contains("\n") ? "\n" : "\n\n")}")
                                     .Replace("{Exp}", $"{uc[0]}")
@@ -545,7 +545,7 @@ namespace RGM.EventArgs
                                 if (PlayersInfo.ContainsKey(userId))
                                     PlayersInfo.Remove(userId);
 
-                                PlayerManager.List.Where(x => x.IsDead).ToList().ForEach(x => x.AddBroadcast(10, $"<size=20>❤️ SCP 재접속 -> {player.DisplayNickname}(<color={player.Role.Color.ToHex()}>{Trans.Role[player.Role.Type]}</color>)</size>"));
+                                PlayerManager.List.Where(x => x.IsDead).ToList().ForEach(x => x.AddBroadcast(10, $"<size=20>❤️ SCP 재접속 -> <b><i>{player.DisplayNickname}</i></b>(<color={player.Role.Color.ToHex()}>{Trans.Role[player.Role.Type]}</color>)</size>"));
                                 Webhook.Send($"**✅ 재접속 완료**ㅣ`{nickname}`({role}, {userId})");
                                 yield break;
                             }
@@ -814,7 +814,7 @@ namespace RGM.EventArgs
                         return $"{(PlayersInfo.ContainsKey(ev.Player.UserId) && ev.DamageHandler.Type == DamageType.Unknown ? "⏳ <color=#FF0000><b>SCP 탈주</b></color>(3분 내로 재접속 가능)" : "💀 <color=#A4A4A4>자살</color>")}ㅣ{Tools.BadgeFormat(ev.Player)}<color=#F2F5A9>{ev.Player.DisplayNickname}</color>(<color={ev.TargetOldRole.GetColor().ToHex()}>{Trans.Role[ev.TargetOldRole]}</color>) - {ev.DamageHandler.Type}";
 
                     else
-                        return $"💔 <color=#FAAC58>{(ev.Player.IsCuffed ? "<b>체포킬</b>(신고 가능 여부는 규칙 확인)" : "사살")}</color>ㅣ{Tools.BadgeFormat(ev.Attacker)}<color=#F2F5A9>{ev.Attacker.DisplayNickname}</color>(<color={ev.Attacker.Role.Color.ToHex()}>{Trans.Role[ev.Attacker.Role.Type]}</color>) -> {Tools.BadgeFormat(ev.Player)}<color=#F2F5A9>{ev.Player.DisplayNickname}</color>(<color={ev.TargetOldRole.GetColor().ToHex()}>{Trans.Role[ev.TargetOldRole]}</color>) - {ev.DamageHandler.Type}";
+                        return $"💔 <color=#FAAC58>{(ev.Player.IsCuffed ? "<b>체포킬</b>(신고 가능 여부는 규칙 확인)" : "사살")}</color>ㅣ{Tools.BadgeFormat(ev.Attacker)}<color=#F2F5A9><i>{ev.Attacker.DisplayNickname}</i></color>(<color={ev.Attacker.Role.Color.ToHex()}>{Trans.Role[ev.Attacker.Role.Type]}</color>) -> {Tools.BadgeFormat(ev.Player)}<color=#F2F5A9>{ev.Player.DisplayNickname}</color>(<color={ev.TargetOldRole.GetColor().ToHex()}>{Trans.Role[ev.TargetOldRole]}</color>) - {ev.DamageHandler.Type}";
                 }
 
                 foreach (var player in PlayerManager.List.Where(x => x.IsDead || x == ev.Attacker))

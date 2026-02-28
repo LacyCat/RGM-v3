@@ -92,12 +92,12 @@ namespace RGM.Modes
                 finders.Add(Tools.GetRandomValue(PlayerManager.List.Where(x => !finders.Contains(x)).ToList()));
             }
 
-            foreach (var Finder in finders)
+            foreach (var finder in finders)
             {
-                Finder.Role.Set(RoleTypeId.Tutorial);
-                Finder.Role.Set(RoleTypeId.Scp049, RoleSpawnFlags.None);
+                finder.Role.Set(RoleTypeId.Tutorial);
+                finder.Role.Set(RoleTypeId.Scp049, RoleSpawnFlags.None);
 
-                Server.ExecuteCommand($"/speak {Finder.Id} 1");
+                Server.ExecuteCommand($"/speak {finder.Id} 1");
             }
 
             foreach (var player in PlayerManager.List.Where(x => !finders.Contains(x)))
@@ -150,6 +150,8 @@ namespace RGM.Modes
                 }
                 finder.Position = Door.Get(DoorType.HIDLab).Position + new Vector3(0, 2, 0);
                 finder.IsBypassModeEnabled = true;
+                finder.MaxHealth *= 5;
+                finder.Health = finder.MaxHealth;
             }
 
             yield return Timing.WaitForSeconds(1f);

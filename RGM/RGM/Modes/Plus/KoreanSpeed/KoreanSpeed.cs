@@ -20,7 +20,7 @@ namespace RGM.Modes
         public override string Description => "누군가가 사망할 때마다 모두의 속도가 증가합니다.";
         public override string Detail =>
 """
-<b><i><color=#FB00FF>슈</color><color=#D200D5>우</color><color=#A901AB>우</color><color=#800282>우</color><color=#570358>웅</color><color=#2E042E>화</color></i></b>
+<b><color=#FB00FF>슈</color><color=#D200D5>우</color><color=#A901AB>우</color><color=#800282>우</color><color=#570358>웅</color><color=#2E042E>화</color></b>
 """;
         public override string Color => "5882FA";
 

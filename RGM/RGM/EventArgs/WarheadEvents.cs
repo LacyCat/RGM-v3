@@ -41,7 +41,7 @@ namespace RGM.EventArgs
 
             yield return Timing.WaitForSeconds(300);
 
-            Exiled.API.Features.Cassie.MessageTranslated("", $"시간이 너무 오래 걸립니다! 모두의 체력이 초당 5%씩 줄어듭니다!");
+            Tools.MessageTranslated("", $"시간이 너무 오래 걸립니다! 모두의 체력이 초당 5%씩 줄어듭니다!");
 
             PlayerManager.List.ToList().ForEach(x => x.EnableEffect(EffectType.PocketCorroding));
 

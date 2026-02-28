@@ -14,7 +14,7 @@ public class SetScp999 : ICommand
 
         Scp999.Create(player);
 
-        response = $"{player.DisplayNickname}을(를) SCP-999로 만드는데 성공했습니다.";
+        response = $"<b><i>{player.DisplayNickname}</i></b>을(를) SCP-999로 만드는데 성공했습니다.";
         return true;
     }
 

@@ -1,4 +1,5 @@
 ﻿using AdminToys;
+using Cassie;
 using DiscordInteraction.Discord;
 using Exiled.API.Enums;
 using Exiled.API.Extensions;
@@ -195,12 +196,12 @@ namespace RGM.API.Features
 $"""
 
 
-<size=20><b>{player.Nickname}</b>님의 정보</size>
+<size=20><b><i>{player.Nickname}</i></b>님의 정보</size>
 
 <size=15>SteamID: {player.UserId}</size>
 <size=15>Exp: {uc[0]}</size>
 <size=15>랜덤코인: {uc[1]}</size>
-<size=15><i>Cash</i>: ₩{int.Parse(uc[2]).ToString("N0")}</size>
+<size=15>Cash: ₩{int.Parse(uc[2]).ToString("N0")}</size>
 <size=15>누적 출석: {uc[27]}회 · 현재 {uc[30]}일 연속 출석 중 (최대 {uc[28]}일)</size>
 
 <size=15>보유한 킬이펙트: {GetJoinedInfo(3)}</size>
@@ -310,7 +311,7 @@ $"""
 
                 UsersManager.SaveUsers();
 
-                WinMessage = $"<size={30 - Math.Round(playerList.Count() * 0.5f)}><color=yellow><b>✨</b></color> <b>{string.Join($", ", playerList.Select(x => $"<color={x.Role.Color.ToHex()}>{x.DisplayNickname}</color>"))}</b>(이)가 <b>{amount}</b> EXP, 랜덤코인을 획득하였습니다";
+                WinMessage = $"<size={30 - Math.Round(playerList.Count() * 0.5f)}><color=yellow><b>✨</b></color> <b>{string.Join($", ", playerList.Select(x => $"<color={x.Role.Color.ToHex()}><i>{x.DisplayNickname}</i></color>"))}</b>(이)가 <b>{amount}</b> EXP, 랜덤코인을 획득하였습니다";
             }
             else
             {
@@ -526,7 +527,7 @@ $"""
                 }
 
                 foreach (var player in PlayerManager.List)
-                    player.AddHint("게임진행불가투표", $"<size=25>{host.DisplayNickname}(이)가 <b><color=#FFBF00>게임 진행 불가 투표</color></b>를 개설하였습니다.\n라운드를 강제로 종료해야 한다면 <b>.찬성</b> 명령어를 입력하세요.</size>\n이유 : {reason}\n<size=20>투표 종료까지 {21 - i}초 남음 ({BugVotePlayers.Count}/{RequiredCount})</size>", 1.2f);
+                    player.AddHint("게임진행불가투표", $"<size=25><i>{host.DisplayNickname}</i>(이)가 <b><color=#FFBF00>게임 진행 불가 투표</color></b>를 개설하였습니다.\n라운드를 강제로 종료해야 한다면 <b>.찬성</b> 명령어를 입력하세요.</size>\n이유 : {reason}\n<size=20>투표 종료까지 {21 - i}초 남음 ({BugVotePlayers.Count}/{RequiredCount})</size>", 1.2f);
 
                 yield return Timing.WaitForSeconds(1);
             }
@@ -625,7 +626,7 @@ $"""
             }
 
             if (Convener != null)
-                Convener.AddHint("뱀의 손", $"<i>{SnakeHands.Count()}명의 <color=#FE2EF7>동료</color>들이 당신과 함께합니다..</i>", 5f);
+                Convener.AddHint("뱀의 손", $"{SnakeHands.Count()}명의 <color=#FE2EF7>동료</color>들이 당신과 함께합니다..", 5f);
         }
 
         public static string ColorFormat(string cn)
@@ -953,6 +954,19 @@ $"""
             scp330.Base.ServerDropCandy(0);
 
             NetworkServer.Destroy(dummy.GameObject);
+        }
+
+        public static void MessageTranslated(string message, string translation, bool isHeld = false, bool isNoisy = true, bool isSubtitles = true)
+        {
+            if (RGM.Instance.Config.EN)
+            {
+                TranslationManager.TranslatePreserveNewlines(message, "en", translated =>
+                {
+                    Exiled.API.Features.Cassie.MessageTranslated(message, translated, isHeld, isNoisy, isSubtitles);
+                });
+            }                
+            else    
+                Exiled.API.Features.Cassie.MessageTranslated(message, translation, isHeld, isNoisy, isSubtitles);
         }
     }
 }

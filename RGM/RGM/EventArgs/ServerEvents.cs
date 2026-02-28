@@ -191,7 +191,7 @@ namespace RGM.EventArgs
                             Timing.CallDelayed(1f, () =>
                             {
                                 foreach (var p in PlayerManager.List)
-                                    p.AddBroadcast(10, $"<size=25><b>롤토체스 당첨자({player.DisplayNickname})</b>에 의해 모드가 {CurrentMode.GetModeData().Name}(으)로 선택되었습니다.</size>");
+                                    p.AddBroadcast(10, $"<size=25><b>롤토체스 당첨자(<b><i>{player.DisplayNickname}</i></b>)</b>에 의해 모드가 {CurrentMode.GetModeData().Name}(으)로 선택되었습니다.</size>");
                             });
                         }
                     }
@@ -270,7 +270,7 @@ namespace RGM.EventArgs
                 {
                     DeadmanSwitch.StartWarhead();
 
-                    Exiled.API.Features.Cassie.MessageTranslated("", $"<color=red>예정된 시설 자폭 프로세스가 시작되었습니다.</color> <b>대피하십시오.</b>");
+                    Tools.MessageTranslated("", $"<color=red>예정된 시설 자폭 프로세스가 시작되었습니다.</color> <b>대피하십시오.</b>");
                 }
             }
         }
@@ -420,11 +420,11 @@ namespace RGM.EventArgs
 
                         if (found && player != null)
                         {
-                            sb.AppendLine($"<size=25><color=#{ranking(rank)}>{rank}.</color> {Tools.BadgeFormat(player)}<color={player.Role.Color.ToHex()}>{player.DisplayNickname}</color> - {report.Kill}킬 / {report.Death}데스 / {report.Damage}뎀</size>");
+                            sb.AppendLine($"<size=25><color=#{ranking(rank)}>{rank}.</color> {Tools.BadgeFormat(player)}<color={player.Role.Color.ToHex()}><b><i>{player.DisplayNickname}</i></b></color> - {report.Kill}킬 / {report.Death}데스 / {report.Damage}뎀</size>");
                         }
                         else
                         {
-                            sb.AppendLine($"<size=25><color=#{ranking(rank)}>{rank}.</color> <color=#888888>알 수 없음</color> - {report.Kill}킬 / {report.Death}데스 / {report.Damage}뎀</size>");
+                            sb.AppendLine($"<size=25><color=#{ranking(rank)}>{rank}.</color> <color=#888888>null</color> - {report.Kill} kill / {report.Death} death / {report.Damage} damage</size>");
                         }
                         rank++;
                     }
@@ -439,18 +439,10 @@ namespace RGM.EventArgs
                     try
                     {
                         var report = PlayersReport[player.UserId];
-                        string text = $"<align=left><size=20>{player.DisplayNickname} - {report.Kill}킬 / {report.Death}데스 / {report.Damage}뎀</size></align>\n<align=left>{sb}</align>\n\n\n\n";
+                        string text = $"<align=left><size=20><b><i>{player.DisplayNickname}</i></b> - {report.Kill} kill / {report.Death} death / {report.Damage} damage</size></align>\n<align=left>{sb}</align>\n\n\n\n";
                         string result = $"{WinMessage}\n\n{text}";
-                        if (player.IsUsingTranslator())
-                        {
-                            TranslationManager.TranslatePreserveNewlines(result, TranslatorPlayers[player],
-                                translated =>
-                                {
-                                    player.ShowHint(translated, 1.2f);
-                                });
-                        }
-                        else
-                            player.ShowHint(result, 1.2f);
+
+                        player.ShowHint(result, 1.2f);
                     }
                     catch (Exception e)
                     {

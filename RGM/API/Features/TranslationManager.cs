@@ -26,14 +26,10 @@ namespace RGM.API.Features
     {
         private static readonly string CacheDir = Path.Combine(Paths.Configs, "RGM");
 
-        private static readonly string CacheFile = Path.Combine(CacheDir, "TranslationCache.json");
+        private static readonly string CacheFile = Path.Combine(CacheDir, "translation_cache.json");
 
         // langPair -> (text -> translated)
         private static Dictionary<string, Dictionary<string, string>> _fileCache = new();
-
-        private static bool _fileCacheLoaded;
-        private static float _lastSaveTime;
-        private const float SaveInterval = 30f; // 초 (IO 보호)
 
         // ===== Public config =====
         public static bool IsEnabled { get; set; } = true;
@@ -43,7 +39,7 @@ namespace RGM.API.Features
         public static string ApiKey { get; set; } = string.Empty;
 
         /// <summary>Minimum delay between outbound requests (seconds).</summary>
-        public static float MinInterval { get; set; } = 0.20f;
+        public static float MinInterval { get; set; } = 0;
 
         /// <summary>Max retry count on transient failures (429/5xx/network).</summary>
         public static int MaxRetries { get; set; } = 2;
@@ -88,11 +84,6 @@ namespace RGM.API.Features
 
         private static void TrySaveFileCache()
         {
-            if (Time.realtimeSinceStartup - _lastSaveTime < SaveInterval)
-                return;
-
-            _lastSaveTime = Time.realtimeSinceStartup;
-
             try
             {
                 string json = JsonConvert.SerializeObject(_fileCache, Formatting.Indented);
@@ -134,13 +125,66 @@ namespace RGM.API.Features
                 _ => i < numbers.Count ? numbers[i++] : "{#}");
         }
 
+        private static string NormalizeColors(string text, out List<string> colors)
+        {
+            var list = new List<string>();
+
+            string result = Regex.Replace(
+                text,
+                @"<color=([^>]+)>",
+                m =>
+                {
+                    list.Add(m.Groups[1].Value);
+                    return "{C}";
+                });
+
+            colors = list;
+
+            return result;
+        }
+
+        private static string RestoreColors(string text, List<string> colors)
+        {
+            int i = 0;
+
+            return Regex.Replace(
+                text,
+                @"\{C\}",
+                _ => i < colors.Count ? $"<color={colors[i++]}>" : "<color=white>");
+        }
+
+        private static string NormalizePlayers(string text, out List<string> players)
+        {
+            var list = new List<string>();
+
+            string result = Regex.Replace(
+                text,
+                @"<i>([^<]+)</i>",
+                m =>
+                {
+                    list.Add(m.Groups[1].Value);
+                    return "{P}";
+                });
+
+            players = list;
+
+            return result;
+        }
+
+        private static string RestorePlayers(string text, List<string> players)
+        {
+            int i = 0;
+
+            return Regex.Replace(
+                text,
+                @"\{P\}",
+                _ => i < players.Count ? players[i++] : "");
+        }
+
         // ===== Public API =====
 
         public static void EnsureFileCacheLoaded()
         {
-            if (_fileCacheLoaded)
-                return;
-
             try
             {
                 if (!Directory.Exists(CacheDir))
@@ -152,13 +196,14 @@ namespace RGM.API.Features
                     _fileCache = JsonConvert.DeserializeObject<
                         Dictionary<string, Dictionary<string, string>>
                     >(json) ?? new();
+
+                    _cache.Clear();
+                    _inFlight.Clear();
                 }
                 else
                 {
                     _fileCache = new();
                 }
-
-                _fileCacheLoaded = true;
 
                 if (Debug)
                     Log.Info($"[TranslationManager] Loaded file cache ({_fileCache.Sum(k => k.Value.Count)} entries)");
@@ -167,7 +212,6 @@ namespace RGM.API.Features
             {
                 Log.Error($"[TranslationManager] Failed to load cache file: {e}");
                 _fileCache = new();
-                _fileCacheLoaded = true;
             }
         }
 
@@ -277,16 +321,19 @@ namespace RGM.API.Features
                     continue;
                 }
 
-                // 🔥 핵심: 숫자 정규화
-                string normalized = NormalizeNumbers(line, out var numbers);
+                string colorNormalized = NormalizeColors(line, out var colors);
+                string playerNormalized = NormalizePlayers(colorNormalized, out var players);
+                string numberNormalized = NormalizeNumbers(playerNormalized, out var numbers);
 
                 Translate(
-                    normalized,
+                    numberNormalized,
                     target,
                     translated =>
                     {
-                        // 🔥 숫자 복원
                         string restored = RestoreNumbers(translated, numbers);
+                        restored = RestorePlayers(restored, players);
+                        restored = RestoreColors(restored, colors);
+
                         results[idx] = restored;
 
                         if (--remaining == 0)
@@ -294,7 +341,10 @@ namespace RGM.API.Features
                     },
                     err =>
                     {
-                        onError?.Invoke(err);
+                        results[idx] = line;
+
+                        if (--remaining == 0)
+                            onSuccess(string.Join("\n", results));
                     },
                     source
                 );

@@ -16,7 +16,7 @@ public class AddScp005 : ICommand
         Item item = Scp005.Create();
         player.AddItem(item);
 
-        response = $"{player.DisplayNickname}에(게) SCP-005를 지급했습니다.";
+        response = $"<b><i>{player.DisplayNickname}</i></b>에(게) SCP-005를 지급했습니다.";
         return true;
     }
 

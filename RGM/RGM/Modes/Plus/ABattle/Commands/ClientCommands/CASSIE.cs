@@ -3,6 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using CommandSystem;
 using Exiled.API.Features;
 using PlayerRoles;
+using RGM.API.Features;
 
 namespace RGM.Modes.Commands;
 
@@ -17,7 +18,7 @@ public class CASSIE : ICommand
         {
             ABattleVar.CASSIE[player]--;
 
-            Exiled.API.Features.Cassie.MessageTranslated("", $"<color=red>SCP-079</color>({player.DisplayNickname}): {args}");
+            Tools.MessageTranslated("", $"<color=red>SCP-079</color>(<b><i>{player.DisplayNickname}</i></b>): {args}");
 
             response = $"\n전송 완료!\nC.A.S.S.I.E.";
             return true;

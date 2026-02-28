@@ -26,7 +26,7 @@ namespace RGM
 """
 <size=120><b><color=#e5dd84>❓</color> ({Logo}) <color=#84e5db>❓</color></b></size>
 <size=80><b>[RGM] 랜덤게임모드</b></size> <size=25>(ver. {Version})</size>
-<align=right><size=20><b><i>아름다운 세상</i></b></size></align>
+<align=right><size=20><b>아름다운 세상</b></size></align>
 <align=left>
 Exp: {Exp}
 랜덤코인: {RC}
@@ -39,7 +39,7 @@ Exp: {Exp}
 
 <color=#{ModeColor}><b>{ModeName}</b></color>
 {ModeDescription}{Lines}
-<size=25>tip. <i>{Tip}</i></size>
+<size=25>tip. {Tip}</size>
 </align>
 
 

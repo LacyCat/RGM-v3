@@ -51,7 +51,7 @@ Trouble in Terrorist Town의 약자.
 • 탐정은 <color={RoleTypeId.FacilityGuard.GetColor().ToHex()}>시설 경비</color>의 모습을 하고 있습니다. <color={RoleTypeId.ClassD.GetColor().ToHex()}>무죄인</color>들은 가급적이면 그의 명령을 따라야 합니다.
 • <color=red>배신자</color>들에게는 무전기와 SCP-1853(이)가 추가로 지급됩니다.
 • 가끔씩 진통제, 고폭 수류탄, 섬광탄이 추가로 지급될 수 있습니다.
-• <b><i><color={RoleTypeId.ClassD.GetColor().ToHex()}>무죄인</color>은 잘못된 유저를 죽이면 심각한 피해를 입습니다!</i></b>
+• <b><color={RoleTypeId.ClassD.GetColor().ToHex()}>무죄인</color>은 잘못된 유저를 죽이면 심각한 피해를 입습니다!</b>
 • <color={RoleTypeId.ClassD.GetColor().ToHex()}>전과자</color>는 <color={RoleTypeId.ClassD.GetColor().ToHex()}>무죄인</color> 팀이지만 <color=red>배신자</color>에게는 <color=red>배신자</color>로 보입니다. 주의하세요!
 • <color=#c753d9>소울메이트</color>들은 서로의 위치를 확인할 수 있습니다.
 • <color=#000000>O5 평의회</color>는 혼자서 살아남아야 하는 대신, 많은 체력과 아이템들을 가지고 시작합니다.

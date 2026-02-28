@@ -50,7 +50,7 @@ public class Spirit : Ability
                 }
                 catch (Exception e)
                 {
-                    Log.Error($"An error occurred while removing SCP-1344 from {player.Nickname} ({player.UserId}): {e}");
+                    Log.Error($"An error occurred while removing SCP-1344 from <b><i>{player.Nickname}</i></b> ({player.UserId}): {e}");
                 }
             }
 

@@ -55,7 +55,7 @@ public class GmanRoaringSound : Ability
 
                 yield return Timing.WaitForSeconds(0.65f);
 
-                PlayerManager.List.ToList().ForEach(x => x.AddHint("저주받은 괴성", "<b><i><color=#B08A03>저주받은 괴성</color></i></b>", 5));
+                PlayerManager.List.ToList().ForEach(x => x.AddHint("저주받은 괴성", "<b><color=#B08A03>저주받은 괴성</color></b>", 5));
 
                 for (int i = 1; i < 71; i++)
                 {

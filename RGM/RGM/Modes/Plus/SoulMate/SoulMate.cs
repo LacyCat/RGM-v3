@@ -26,7 +26,7 @@ namespace RGM.Modes
         public override string Description => "단짝 친구와 모든 것을 함께하세요!";
         public override string Detail =>
 """
-<b><i><color=#FF00DD>소</color><color=#EB01CD>울</color><color=#D702BD>메</color><color=#C404AD>이</color><color=#B0059D>트</color> <color=#89077D>메</color><color=#76096D>이</color><color=#620A5D>킹</color></i></b>을 시도할 때,
+<b><color=#FF00DD>소</color><color=#EB01CD>울</color><color=#D702BD>메</color><color=#C404AD>이</color><color=#B0059D>트</color> <color=#89077D>메</color><color=#76096D>이</color><color=#620A5D>킹</color></b>을 시도할 때,
 체력이 높은 쪽으로 지정됩니다.
 
 <color=red>SCP</color>가 포함된 짝들만 살아남은 경우 반드시 서로를 죽여야 합니다.
@@ -271,7 +271,7 @@ namespace RGM.Modes
                             soulMate.ClearInventory();
                             soulMate.Kill(ev.DamageHandler);
 
-                            Exiled.API.Features.Cassie.MessageTranslated("", $"<color=red>{ev.Attacker.DisplayNickname}</color>(이)가 영혼의 단짝이였던 <color=#5858FA>{ev.Player.DisplayNickname}</color>와(과) <color=#FE2EF7>{soulMate.DisplayNickname}</color>을(를) 사이좋게 하늘로 보냈습니다.");
+                            Tools.MessageTranslated("", $"<color=red>{ev.Attacker.DisplayNickname}</color>(이)가 영혼의 단짝이였던 <color=#5858FA>{ev.Player.DisplayNickname}</color>와(과) <color=#FE2EF7>{soulMate.DisplayNickname}</color>을(를) 사이좋게 하늘로 보냈습니다.");
                         }
                     }
                 }

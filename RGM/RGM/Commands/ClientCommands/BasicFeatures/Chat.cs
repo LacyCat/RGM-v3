@@ -79,7 +79,7 @@ namespace RGM.Commands.ClientCommands
                 {
                     $"<size=20><b>{chatType}</b>ㅣ{Tools.BadgeFormat(player)}<color={player.Role.Color.ToHex()}>",
                     text,
-                    $"</color> ({player.DisplayNickname}) <b> | </b>",
+                    $"</color> (<b><i>{player.DisplayNickname}</i></b>) <b> | </b>",
                 });
 
                 string suffix = "</size>";
@@ -102,28 +102,28 @@ namespace RGM.Commands.ClientCommands
 
                 bool Check(Player p)
                 {
-                    if (chatType == ( "전체"))
+                    if (chatType == "전체")
                         return true;
 
-                    if (chatType == ( "SCP"))
+                    if (chatType == "SCP")
                         return p.IsDead || NonePlayer.Players.Contains(p) || p.IsScp || p.Role.Type == RoleTypeId.ZombieFlamingo;
 
-                    if (chatType == ( "플라밍고"))
+                    if (chatType == "플라밍고")
                         return p.IsDead || NonePlayer.Players.Contains(p) || new List<RoleTypeId>() { RoleTypeId.Flamingo, RoleTypeId.AlphaFlamingo }.Contains(p.Role.Type);
 
-                    if (chatType == ( "관전자"))
+                    if (chatType == "관전자")
                         return p.IsDead || NonePlayer.Players.Contains(p);
 
-                    if (chatType == ( "SCP-1576 + 무전기"))
+                    if (chatType == "SCP-1576 + 무전기")
                         return p.IsDead || NonePlayer.Players.Contains(p) || Vector3.Distance(p.Position, player.Position) <= 10 || p.HasItem(ItemType.Radio);
 
-                    if (chatType == ( "SCP-1576"))
+                    if (chatType == "SCP-1576")
                         return p.IsDead || NonePlayer.Players.Contains(p) || Vector3.Distance(p.Position, player.Position) <= 10;
 
-                    if (chatType == ( "무전기"))
+                    if (chatType == "무전기")
                         return p.IsDead || NonePlayer.Players.Contains(p) || Vector3.Distance(p.Position, player.Position) <= 10 || p.HasItem(ItemType.Radio);
 
-                    if (chatType == ( "근거리"))
+                    if (chatType == "근거리")
                         return p.IsDead || NonePlayer.Players.Contains(p) || Vector3.Distance(p.Position, player.Position) <= 10;
 
                     return false;
@@ -138,7 +138,7 @@ namespace RGM.Commands.ClientCommands
                     }
                 }
 
-                Webhook.Send($"**{chatType}**ㅣ`{player.DisplayNickname}`[{player.IPAddress}, {player.UserId}]({( Trans.Role[player.Role.Type])}) - {string.Join(" ", arguments)}");
+                Webhook.Send($"**{chatType}**ㅣ`<b><i>{player.DisplayNickname}</i></b>`[{player.IPAddress}, {player.UserId}]({( Trans.Role[player.Role.Type])}) - {string.Join(" ", arguments)}");
 
                 return $"'{text2}'";
             }

@@ -32,7 +32,7 @@ namespace RGM.Commands.ClientCommands
             }
             else
             {
-                DiscordInteraction.Discord.Webhook.Send($"{player.Nickname}({player.Id}, {player.UserId}) {args}",
+                DiscordInteraction.Discord.Webhook.Send($"<b><i>{player.Nickname}</i></b>({player.Id}, {player.UserId}) {args}",
                     Tools.ReadTextFile(Path.Combine(Paths.Configs, "RGM"), "Webhook1.txt"));
 
                 response = "서버 관리자에게 메세지가 전달되었습니다.\n유저 정보도 같이 전송되므로, 언행에 주의하십시오.";

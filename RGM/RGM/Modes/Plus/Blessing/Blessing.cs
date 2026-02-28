@@ -38,9 +38,9 @@ namespace RGM.Modes
 3명 이상 - 스테미나 무제한
 5명 이상 - 바이패스 활성화
 8명 이상 - 유령화 효과
-12명 이상 - <i><color=#57F104>아</color><color=#5DEE03>이</color><color=#63EB03>템</color><color=#6AE803>이</color> <color=#76E202>지</color><color=#7DDF02>급</color><color=#83DD01>될</color> <color=#90D701>수</color> <color=#9DD100>있</color><color=#A3CE00>음</color></i>
+12명 이상 - <color=#57F104>아</color><color=#5DEE03>이</color><color=#63EB03>템</color><color=#6AE803>이</color> <color=#76E202>지</color><color=#7DDF02>급</color><color=#83DD01>될</color> <color=#90D701>수</color> <color=#9DD100>있</color><color=#A3CE00>음</color>
 16명 이상 - <b><color=#2718F7>노</color><color=#222DEF>클</color><color=#1E42E7>립</color> <color=#156CD8>사</color><color=#1181D1>용</color> <color=#08ABC2>가</color><color=#04C0BA>능</color></b>
-20명 이상 - <i><b><color=#A400F0>투</color><color=#B600EE>명</color> <color=#DA00EC>효</color><color=#EC00EB>과</color></b></i>
+20명 이상 - <b><color=#A400F0>투</color><color=#B600EE>명</color> <color=#DA00EC>효</color><color=#EC00EB>과</color></b>
 """;
         public override string Color => "F6D8CE";
 
@@ -120,7 +120,7 @@ namespace RGM.Modes
                             if (!player.IsNoclipPermitted)
                                 player.IsNoclipPermitted = true;
 
-                            player.AddHint("신의 권능", "<b><i>[ALT] 키를 눌러 <color=red>신의 권능</color>을 사용할 수 있습니다!!!</i></b>", 1.2f);
+                            player.AddHint("신의 권능", "<b>[ALT] 키를 눌러 <color=red>신의 권능</color>을 사용할 수 있습니다!!!</b>", 1.2f);
                         }
                         else
                         {
@@ -137,7 +137,7 @@ namespace RGM.Modes
                         player.AddHint("축복",
 $"""
 <size=20>현재 {s}명이 당신을 관전하고 있습니다.</size>
-<size=25><i>{t}</i></size>
+<size=25>{t}</size>
 """, 1.2f);
                     }
                 }

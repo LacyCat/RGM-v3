@@ -124,7 +124,7 @@ namespace RGM.Modes.SnakeSystem
             }
             catch (Exception ex)
             {
-                Log.Error($"Error checking snake card for {player.Nickname}: {ex}");
+                Log.Error($"Error checking snake card for <b><i>{player.Nickname}</i></b>: {ex}");
                 return false;
             }
         }
@@ -219,7 +219,7 @@ namespace RGM.Modes.SnakeSystem
                         }
                         else
                         {
-                            Log.Warn($"Player {player.Nickname} - Not awarding points (not playing or too old)");
+                            Log.Warn($"Player <b><i>{player.Nickname}</i></b> - Not awarding points (not playing or too old)");
                         }
 
                         playerData.IsPlayingSnake = false;
@@ -237,7 +237,7 @@ namespace RGM.Modes.SnakeSystem
             }
             catch (Exception ex)
             {
-                Log.Error($"Error processing snake display for {player.Nickname}: {ex}");
+                Log.Error($"Error processing snake display for <b><i>{player.Nickname}</i></b>: {ex}");
             }
         }
 

@@ -109,7 +109,7 @@ namespace RGM.Modes
             if (Warhead.IsDetonated)
                 yield break;
 
-            Exiled.API.Features.Cassie.MessageTranslated("", $"1분 뒤 <color=red>자동핵</color>이 작동됩니다.");
+            Tools.MessageTranslated("", $"1분 뒤 <color=red>자동핵</color>이 작동됩니다.");
 
             if (Warhead.IsDetonated)
                 yield break;

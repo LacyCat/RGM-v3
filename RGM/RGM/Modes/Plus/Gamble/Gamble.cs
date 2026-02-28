@@ -21,7 +21,7 @@ namespace RGM.Modes
 """
 생각 없이 도박을 하다 보면 2%는 금방이랍니다.
 
-<i><b>* SCP 진영의 경우에도</b></i>
+<b>* SCP 진영의 경우에도</b>
 [Space + ALT]ㅣ도박을 진행할 수 있습니다.
 """;
         public override string Color => "8A4B08";
