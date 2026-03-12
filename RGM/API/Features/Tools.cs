@@ -285,7 +285,7 @@ $"""
 
         public static IEnumerator<float> SetWinner(List<Player> playerList, int amount)
         {
-            if (IsWinnerSelected)
+            if (IsWinnerSelected || RGM.Instance.Config.FixedMode != ModeType.None)
                 yield break;
 
             IsWinnerSelected = true;
@@ -319,7 +319,7 @@ $"""
             }
         }
 
-        public static bool TryGetNearestPlayer(Player player, out Player nearestPlayer, out float radius, List<Player> exceptPlayers = null)
+        public static bool TryGetNearestPlayer(this Player player, out Player nearestPlayer, out float radius, List<Player> exceptPlayers = null)
         {
             nearestPlayer = null;
             radius = 99999;
@@ -465,35 +465,6 @@ $"""
             else
                 return null;
         }
-
-        public static Player SpawnDJ(string name, RoleTypeId roleTypeId, Vector3 position, string sn = null)
-        {
-            ReferenceHub dj = GGUtils.Gtool.Spawn(roleTypeId, position);
-
-            if (sn == null)
-                sn = $"{UnityEngine.Random.value}";
-
-            Dictionary<ReferenceHub, string> register = new Dictionary<ReferenceHub, string>()
-            {
-                { dj, sn }
-            };
-
-            foreach (var reg in register)
-            {
-                try
-                {
-                    GGUtils.Gtool.Register(reg.Key, reg.Value);
-                }
-                catch
-                {
-                }
-            }
-
-            GGUtils.Gtool.PlayerGet(sn).DisplayNickname = name;
-
-            return Player.Get(dj.gameObject);
-        }
-
 
         public static List<Vector3> GetCirclePoints(Vector3 center, float radius, int pointCount)
         {

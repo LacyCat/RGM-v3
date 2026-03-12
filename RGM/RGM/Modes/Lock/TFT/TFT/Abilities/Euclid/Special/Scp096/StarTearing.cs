@@ -1,0 +1,46 @@
+﻿using DAONTFT.Core.Classes;
+using DAONTFT.Core.Functions;
+using Exiled.API.Enums;
+using Exiled.API.Extensions;
+using Exiled.API.Features;
+using Exiled.API.Features.Items;
+using Exiled.Events.EventArgs.Player;
+using Exiled.Events.EventArgs.Scp096;
+using HintServiceMeow.Core.Extension;
+using InventorySystem.Items.Usables.Scp330;
+using MEC;
+using RGM.API.Features;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+using static DAONTFT.Core.Variables.Base;
+
+namespace DAONTFT.Core.TFT.Euclid.Scp096;
+
+[TFTAbility("별자리 찢기", "공격 시 25% 확률로 대상을 즉시 사망시킵니다.", TFTAbilityLevel.Euclid, TFTAbilityCategory.Scp096, TFTAbilityPoint.Continuous, TFTAbilityType.StarTearing, "🌟")]
+public class StarTearing : TFTAbility
+{
+    public override void OnEnabled()
+    {
+        Exiled.Events.Handlers.Player.Hurting += OnHurting;
+    }
+
+    public override void OnDisabled()
+    {
+        Exiled.Events.Handlers.Player.Hurting -= OnHurting;
+    }
+
+    public void OnHurting(HurtingEventArgs ev)
+    {
+        if (ev.Attacker == null || ev.Attacker != Owner)
+            return;
+
+        if (UnityEngine.Random.Range(1, 5) == 1)
+        {
+            if (GodModePlayers.Contains(ev.Player))
+                GodModePlayers.Remove(ev.Player);
+
+            ev.Player.Hit(ev.Attacker, ev.Player.MaxHealth);
+        }
+    }
+}

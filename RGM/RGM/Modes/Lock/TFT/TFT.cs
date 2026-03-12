@@ -1,4 +1,5 @@
-﻿using Exiled.API.Enums;
+﻿using DAONTFT.Core.TFT;
+using Exiled.API.Enums;
 using Exiled.API.Extensions;
 using Exiled.API.Features;
 using Exiled.Events.EventArgs.Player;
@@ -10,8 +11,11 @@ using NetworkManagerUtils.Dummies;
 using PlayerRoles;
 using RemoteAdmin;
 using RGM.API.Features;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using UnityEngine;
 using static RGM.Variables.Variable;
 
@@ -58,14 +62,33 @@ public class TFT : Mode
 
     IEnumerator<float> OnModeStarted()
     {
-        DAONTFT.Main.Init();
+        foreach (var type in Assembly.GetExecutingAssembly().GetTypes())
+        {
+            var abilityAttribute = type.GetCustomAttribute<TFTAbilityAttribute>();
 
-        QueryProcessor.DotCommandHandler.RegisterCommand(new DAONTFT.Core.Commands.ClientCommands.basicfeatures.SelectFirst());
-        QueryProcessor.DotCommandHandler.RegisterCommand(new DAONTFT.Core.Commands.ClientCommands.basicfeatures.SelectSecond());
-        QueryProcessor.DotCommandHandler.RegisterCommand(new DAONTFT.Core.Commands.ClientCommands.basicfeatures.SelectThird());
-        QueryProcessor.DotCommandHandler.RegisterCommand(new DAONTFT.Core.Commands.ClientCommands.basicfeatures.RerollFirst());
-        QueryProcessor.DotCommandHandler.RegisterCommand(new DAONTFT.Core.Commands.ClientCommands.basicfeatures.RerollSecond());
-        QueryProcessor.DotCommandHandler.RegisterCommand(new DAONTFT.Core.Commands.ClientCommands.basicfeatures.RerollThird());
+            if (abilityAttribute == null)
+                continue;
+
+            if (!typeof(TFTAbility).IsAssignableFrom(type))
+                continue;
+
+            DAONTFT.Core.Variables.Base.TFTAbilities.Add(abilityAttribute.Type, new TFTAbilityData
+            {
+                Type = type,
+                Name = abilityAttribute.Name,
+                Description = abilityAttribute.Description,
+                Emoji = abilityAttribute.Emoji,
+                Level = abilityAttribute.Level,
+                Category = abilityAttribute.Category,
+                Point = abilityAttribute.Point,
+                TFTAbilityType = abilityAttribute.Type,
+            });
+        }
+
+        QueryProcessor.DotCommandHandler.RegisterCommand(new DAONTFT.Core.Commands.ClientCommands.basicfeatures.SelectTFTFirst());
+        QueryProcessor.DotCommandHandler.RegisterCommand(new DAONTFT.Core.Commands.ClientCommands.basicfeatures.SelectTFTSecond());
+        QueryProcessor.DotCommandHandler.RegisterCommand(new DAONTFT.Core.Commands.ClientCommands.basicfeatures.RerollTFTFirst());
+        QueryProcessor.DotCommandHandler.RegisterCommand(new DAONTFT.Core.Commands.ClientCommands.basicfeatures.RerollTFTSecond());
 
         foreach (var player in PlayerManager.List)
             DAONTFT.Core.EventArgs.PlayerEvents.Verified(player);
@@ -74,7 +97,7 @@ public class TFT : Mode
 
         MultiBroadcast.API.MultiBroadcast.ClearAllBroadcasts();
 
-        GlobalPlayer.AddClip("게임 시작", 2);
+        GlobalPlayer.TryPlay("게임 시작", 2);
 
         Round.IsLocked = true;
 
@@ -133,7 +156,7 @@ public class TFT : Mode
                 if (DAONTFT.Core.Variables.Base.Encounter == RoleTypeId.ChaosMarauder)
                 {
                     foreach (var player in Player.List)
-                        player.AddItem(Random.Range(1, 3) == 1 ? ItemType.GrenadeFlash : ItemType.GrenadeHE);
+                        player.AddItem(UnityEngine.Random.Range(1, 3) == 1 ? ItemType.GrenadeFlash : ItemType.GrenadeHE);
                 }
 
                 if (DAONTFT.Core.Variables.Base.Encounter == RoleTypeId.ChaosConscript)
@@ -157,7 +180,7 @@ public class TFT : Mode
 
         Timing.CallDelayed(30, () =>
         {
-            DAONTFT.Core.TFT.ABattle.StartUpgrade();
+            DAONTFT.Core.TFT.TFTBattle.StartUpgrade();
         });
 
         int getTime()
@@ -181,7 +204,7 @@ public class TFT : Mode
         {
             yield return Timing.WaitForSeconds(waitTime);
 
-            DAONTFT.Core.TFT.ABattle.StartUpgrade();
+            DAONTFT.Core.TFT.TFTBattle.StartUpgrade();
         }
     }
 
@@ -192,11 +215,11 @@ public class TFT : Mode
 
     void OnChangingRole(ChangingRoleEventArgs ev)
     {
-        if (ev.Player.IsDead || ev.NewRole.IsDead() || ev.Player.GetAbilities().Count() == 0)
+        if (ev.Player.IsDead || ev.NewRole.IsDead() || DAONTFT.Core.TFT.TFTBattle.GetAbilities(ev.Player).Count() == 0)
         {
             Timing.CallDelayed(Timing.WaitForOneFrame, () =>
             {
-                DAONTFT.Core.TFT.ABattle.Reset(ev.Player);
+                DAONTFT.Core.TFT.TFTBattle.Reset(ev.Player);
             });
         }
     }

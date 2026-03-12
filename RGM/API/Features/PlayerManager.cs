@@ -1,4 +1,5 @@
 ﻿using AdminToys;
+using CustomPlayerEffects;
 using Discord;
 using Exiled.API.Enums;
 using Exiled.API.Extensions;
@@ -36,17 +37,17 @@ namespace RGM.API.Features
     {
         public static List<Player> List
         {
-            get => Player.List.Where(x => x.IsNPC ? true : (!x.IsDND() && !x.IsNonePlayer())).ToList();
+            get => RGM.Instance.Config.FixedMode != ModeType.None ? Player.List.ToList() : Player.List.Where(x => x.IsNPC ? true : (!x.IsDND() && !x.IsNonePlayer())).ToList();
         }
 
         public static bool IsUsingTranslator(this Player player)
         {
-            return TranslatorPlayers[player] != "ko";
+            return RGM.Instance.Config.FixedMode != ModeType.None ? false : TranslatorPlayers[player] != "ko";
         }
 
         public static bool IsDND(this Player player)
         {
-            return UsersManager.UsersCache[player.UserId][23] == "1";
+            return RGM.Instance.Config.FixedMode != ModeType.None ? false : UsersManager.UsersCache[player.UserId][23] == "1";
         }
 
         public static bool IsNonePlayer(this Player player)
@@ -64,10 +65,65 @@ namespace RGM.API.Features
             return roleTypeId.IsScp() || roleTypeId.ToString().Contains("Flamingo");
         }
 
+        public static void Setup(this Player player)
+        {
+            TranslatorPlayers.Add(player, "ko");
+            Chats.Add(player, new List<string>());
+
+            var text = Tools.CreateText(Vector3.zero, new Quaternion(0, 180, 0, 0), "", 0);
+            text.Parent = player.Transform;
+            Texts.Add(player, text);
+
+            OnGround.Add(player.UserId, 5);
+
+            EffectIntensities.Add(player, new Dictionary<EffectType, int>());
+
+            if (!PlayersAudio.ContainsKey(player))
+            {
+                AudioPlayer audioPlayer = AudioPlayer.CreateOrGet($"Player - {player.UserId}", condition: (hub) =>
+                {
+                    Player ply = Player.Get(hub);
+
+                    return (ply == player && !MuteBGMPlayers.Contains(ply)) ||
+                    (player.CurrentSpectatingPlayers.Contains(ply) && !MuteBGMPlayers.Contains(ply));
+                }
+                , onIntialCreation: (p) =>
+                {
+                    Speaker speaker = p.AddSpeaker("Main", isSpatial: false, minDistance: 0, maxDistance: 5000);
+                });
+
+                PlayersAudio.Add(player, audioPlayer);
+            }
+
+            if (!PlayersReport.ContainsKey(player.UserId))
+            {
+                PlayersReport.Add(player.UserId, new PlayerReport()
+                {
+                    Kill = 0,
+                    Death = 0,
+                    Revive = 0,
+                    KillScp = 0,
+                    KillHuman = 0,
+                    Damage = 0,
+                    LastDeath = DateTime.MinValue
+                });
+            }
+        }
+
         public static void Hit(this Player player, Player attacker, float damage)
         {
             attacker.ShowHitMarker(damage / 10);
             player.Hurt(new DisruptorDamageHandler(new InventorySystem.Items.Firearms.ShotEvents.DisruptorShotEvent(InventorySystem.Items.ItemIdentifier.None, attacker.Footprint, InventorySystem.Items.Firearms.Modules.DisruptorActionModule.FiringState.FiringRapid), player.Position, damage));
+        }
+
+        public static bool HasKeycardPermission(this Player player, KeycardPermissions permissions, bool requiresAllPermissions = false)
+        {
+            if (player.IsEffectActive<AmnesiaVision>())
+                return false;
+
+            return requiresAllPermissions
+                ? player.Items.Any(item => item is Keycard keycard && keycard.Permissions.HasFlag(permissions))
+                : player.Items.Any(item => item is Keycard keycard && (keycard.Permissions & permissions) != 0);
         }
 
         public static void AddCustomKeycard(this Player player, string info)
