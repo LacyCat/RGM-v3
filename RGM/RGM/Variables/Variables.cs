@@ -28,7 +28,7 @@ namespace RGM.Variables
         public static ModeType CurrentMode = ModeType.None;
         public static ModeType CurrentSubMode = ModeType.None;
         public static AudioPlayer GlobalPlayer;
-        public static string SelectMode = null;
+        public static string SelectMode = "";
         public static string Tip = Tools.GetRandomValue(Tips.LobbyTips);
         public static string Logo = UnityEngine.Random.Range(1, 3) == 1 ? "❓" : "❔";
         public static string WinMessage = "";

@@ -47,53 +47,13 @@ namespace RGM.EventArgs
     {
         public static IEnumerator<float> OnVerified(VerifiedEventArgs ev)
         {
-            TranslatorPlayers.Add(ev.Player, "ko");
-            Chats.Add(ev.Player, new List<string>());
+            ev.Player.Setup();
 
-            var text = Tools.CreateText(Vector3.zero, new Quaternion(0, 180, 0, 0), "", 0);
-            text.Parent = ev.Player.Transform;
-            Texts.Add(ev.Player, text);
-
-            OnGround.Add(ev.Player.UserId, 5);
-
-            EffectIntensities.Add(ev.Player, new Dictionary<EffectType, int>());
-
-            if (!PlayersAudio.ContainsKey(ev.Player))
-            {
-                AudioPlayer audioPlayer = AudioPlayer.CreateOrGet($"Player - {ev.Player.UserId}", condition: (hub) =>
-                {
-                    Player ply = Player.Get(hub);
-
-                    return (ply == ev.Player && !MuteBGMPlayers.Contains(ply)) || 
-                    (ev.Player.CurrentSpectatingPlayers.Contains(ply) && !MuteBGMPlayers.Contains(ply));
-                }
-                , onIntialCreation: (p) =>
-                {
-                    Speaker speaker = p.AddSpeaker("Main", isSpatial: false, minDistance: 0, maxDistance: 5000);
-                });
-
-                PlayersAudio.Add(ev.Player, audioPlayer);
-            }
-
-            if (!PlayersReport.ContainsKey(ev.Player.UserId))
-            {
-                PlayersReport.Add(ev.Player.UserId, new PlayerReport()
-                {
-                    Kill = 0,
-                    Death = 0,
-                    Revive = 0,
-                    KillScp = 0,
-                    KillHuman = 0,
-                    Damage = 0,
-                    LastDeath = DateTime.MinValue
-                });
-            }
-
-            List<string> DefaultValues = Enumerable.Repeat("0", 35).ToList();
+            List<string> defaultValues = Enumerable.Repeat("0", 35).ToList();
 
             if (!UsersManager.UsersCache.ContainsKey(ev.Player.UserId))
             {
-                UsersManager.AddUser(ev.Player.UserId, DefaultValues);
+                UsersManager.AddUser(ev.Player.UserId, defaultValues);
 
                 UsersManager.SaveUsers();
             }
@@ -167,9 +127,9 @@ namespace RGM.EventArgs
                     Log.Error(e);
                 }
 
-                if (uc.Count < DefaultValues.Count)
+                if (uc.Count < defaultValues.Count)
                 {
-                    int diff = DefaultValues.Count - uc.Count;
+                    int diff = defaultValues.Count - uc.Count;
 
                     for (int i = 0; i < diff; i++)
                         uc.Add("0");

@@ -17,6 +17,7 @@ using RGM.API.DataBases;
 using RGM.API.Features;
 using RGM.Modes;
 using RGM.Modes.Sets.AddScp.Scps;
+using RGM.UserSettings;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -24,6 +25,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UserSettings.ServerSpecific;
 using static RGM.IEnumerators.LobbyIEnumerator;
 using static RGM.IEnumerators.ServerIEnumerator;
 using static RGM.Variables.Variable;
@@ -34,9 +36,11 @@ namespace RGM.EventArgs
     {
         public static IEnumerator<float> OnWaitingForPlayers()
         {
-            Server.Name = Server.Name.Replace("{version}", $"v{RGM.Instance.Version.Major}.{RGM.Instance.Version.Minor}.{RGM.Instance.Version.Build}");
+            ServerManager.Setup();
 
             yield return Timing.WaitForSeconds(1f);
+
+            Server.Name = Server.Name.Replace("{version}", $"v{RGM.Instance.Version.Major}.{RGM.Instance.Version.Minor}.{RGM.Instance.Version.Build}");
 
             try
             {
@@ -59,24 +63,7 @@ namespace RGM.EventArgs
                 Log.Error($"Error sending LocalAdminLogs webhook: {e}");
             }
 
-            InventoryLimits.StandardCategoryLimits[ItemCategory.SpecialWeapon] = 8;
-            InventoryLimits.StandardCategoryLimits[ItemCategory.SCPItem] = 8;
-            InventoryLimits.Config.RefreshCategoryLimits();
-
-            foreach (var data in CandyDataDict)
-            {
-                Scp330Candies.DictionarizedCandies.Add(data.Key, data.Value);
-            }
-
             UsersManager.LoadUsers();
-
-            GlobalPlayer = AudioPlayer.CreateOrGet($"Global AudioPlayer", condition: (ReferenceHub hub) =>
-            {
-                return !MuteBGMPlayers.Contains(Player.Get(hub));
-            }, onIntialCreation: (p) =>
-            {
-                Speaker speaker = p.AddSpeaker("Main", isSpatial: false, maxDistance: 5000);
-            });
 
             Tools.PlayGlobalAudio("Escape the Backrooms OST - Menu", 1.5f, true);
 
@@ -87,8 +74,6 @@ namespace RGM.EventArgs
 
             var donator = new Donator.Main();
             donator.OnEnabled();
-
-            yield return Timing.WaitForSeconds(1);
 
             First = Tools.GetObjectList("First");
             Second = Tools.GetObjectList("Second");
@@ -106,18 +91,12 @@ namespace RGM.EventArgs
             Tools.PickModes();
             Balls.ForEach(x => x.gameObject.AddComponent<BallComponent>());
 
-            Timing.RunCoroutine(SyncSpectatedHint());
             Timing.RunCoroutine(ThrowawayBroadcast());
             Timing.RunCoroutine(GameStartButton());
             Timing.RunCoroutine(ModeResetButton());
             Timing.RunCoroutine(IsFallDown());
-            Timing.RunCoroutine(InputCooldown());
             Timing.RunCoroutine(Ball());
-            Timing.RunCoroutine(RenewalPlayersInfo());
             Timing.RunCoroutine(MovingShootingTarget());
-            Timing.RunCoroutine(HintManager.OnStarted());
-            Timing.RunCoroutine(HintManager.RemoveHint());
-            Timing.RunCoroutine(ChatManager.RunChat());
 
             int rn = UnityEngine.Random.Range(1, 6);
 

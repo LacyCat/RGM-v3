@@ -26,6 +26,12 @@ namespace RGM.Commands.ClientCommands
             Player player = Player.Get(sender);
             string args = string.Join(" ", arguments).Trim();
 
+            if (args.Count() > 16)
+            {
+                response = "닉네임은 최대 16자까지만 허용됩니다.\n-";
+                return false;
+            }
+
             if (UsersManager.UsersCache.ContainsKey(player.UserId))
             {
                 List<string> uc = UsersManager.UsersCache[player.UserId];

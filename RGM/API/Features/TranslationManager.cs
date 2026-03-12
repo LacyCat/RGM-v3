@@ -50,9 +50,6 @@ namespace RGM.API.Features
         /// <summary>Max delay for backoff (seconds).</summary>
         public static float RateLimitBackoffMax { get; set; } = 8.0f;
 
-        /// <summary>LRU cache size (translation entries).</summary>
-        public static int CacheCapacity { get; set; } = 2000;
-
         /// <summary>
         /// RGM ServerSpecificSetting id for language choice.
         /// (matches RGM.UserSettings.ServerSpecificSettings.Translation)
@@ -222,7 +219,6 @@ namespace RGM.API.Features
 
             EnsureFileCacheLoaded();
 
-            _cache.Capacity = Math.Max(10, CacheCapacity);
             _worker = Timing.RunCoroutine(Worker(), Segment.FixedUpdate);
         }
 
@@ -304,20 +300,19 @@ namespace RGM.API.Features
             string source = null)
         {
             var lines = text.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None);
-
-            var results = new string[lines.Length];
-            int remaining = lines.Length;
+            var finalLines = new string[lines.Length];
+            int remainingLines = lines.Length;
 
             for (int i = 0; i < lines.Length; i++)
             {
-                int idx = i;
-                string line = lines[idx];
+                int lineIndex = i;
+                string line = lines[lineIndex];
 
-                if (string.IsNullOrEmpty(line))
+                if (string.IsNullOrWhiteSpace(line))
                 {
-                    results[idx] = "";
-                    if (--remaining == 0)
-                        onSuccess(string.Join("\n", results));
+                    finalLines[lineIndex] = line;
+                    if (--remainingLines == 0)
+                        onSuccess(string.Join("\n", finalLines));
                     continue;
                 }
 
@@ -325,29 +320,55 @@ namespace RGM.API.Features
                 string playerNormalized = NormalizePlayers(colorNormalized, out var players);
                 string numberNormalized = NormalizeNumbers(playerNormalized, out var numbers);
 
-                Translate(
-                    numberNormalized,
-                    target,
-                    translated =>
+                var parts = numberNormalized.Split(',');
+                var translatedParts = new string[parts.Length];
+                int remainingParts = parts.Length;
+
+                for (int p = 0; p < parts.Length; p++)
+                {
+                    int partIndex = p;
+                    string part = parts[partIndex];
+
+                    if (string.IsNullOrWhiteSpace(part))
                     {
-                        string restored = RestoreNumbers(translated, numbers);
-                        restored = RestorePlayers(restored, players);
-                        restored = RestoreColors(restored, colors);
+                        translatedParts[partIndex] = part;
+                        if (--remainingParts == 0)
+                            FinishLine();
+                        continue;
+                    }
 
-                        results[idx] = restored;
+                    Translate(
+                        part.Trim(),
+                        target,
+                        translated =>
+                        {
+                            translatedParts[partIndex] = translated;
+                            if (--remainingParts == 0)
+                                FinishLine();
+                        },
+                        err =>
+                        {
+                            translatedParts[partIndex] = part;
+                            if (--remainingParts == 0)
+                                FinishLine();
+                        },
+                        source
+                    );
+                }
 
-                        if (--remaining == 0)
-                            onSuccess(string.Join("\n", results));
-                    },
-                    err =>
-                    {
-                        results[idx] = line;
+                void FinishLine()
+                {
+                    string joined = string.Join(", ", translatedParts);
 
-                        if (--remaining == 0)
-                            onSuccess(string.Join("\n", results));
-                    },
-                    source
-                );
+                    joined = RestoreNumbers(joined, numbers);
+                    joined = RestorePlayers(joined, players);
+                    joined = RestoreColors(joined, colors);
+
+                    finalLines[lineIndex] = joined;
+
+                    if (--remainingLines == 0)
+                        onSuccess(string.Join("\n", finalLines));
+                }
             }
         }
 

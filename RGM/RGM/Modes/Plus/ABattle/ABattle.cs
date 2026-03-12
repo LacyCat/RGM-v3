@@ -353,7 +353,7 @@ public class ABattle : Mode
                     : g.First().Data.GetFormattedName())
                 .ToList());
 
-        return $"<align=left><b><size=25>보유 업그레이드</size></b>\n<size=20>{abilitiesText}</size></align>";
+        return $"<align=left><b><size=25>보유 업그레이드</size></b>\n<size=20>{abilitiesText}</size>\n</align>";
     }
 
     public IEnumerator<float> RestoreAbilities(List<Player> players)
