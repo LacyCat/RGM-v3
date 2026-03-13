@@ -400,6 +400,7 @@ FodyWeavers.xsd
 *.sln.iml
 
 # RGM Project Files
+/RGM/bin
 /RGM/obj
 /RGM/packages
 /RGM/.vs
