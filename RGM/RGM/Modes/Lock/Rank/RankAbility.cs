@@ -28,26 +28,30 @@ public class RankAbilityData
     public string Name { get; set; }
     public string Description { get; set; }
     public string Emoji { get; set; } = "🎲";
-    public RankAbilityType TFTAbilityType { get; set; }
+    public RankAbilityType RankAbilityType { get; set; }
+    public RankCategory RankCategory { get; set; }
+    public RankAbilityCategory RankAbilityCategory { get; set; }
 
     public string GetFormattedName()
     {
-        return $"<color={Level.GetColor()}>[{Level.GetTranslation()}]</color> {Emoji} {Name}";
+        return $"<color={RankAbilityCategory.GetColor()}>{RankAbilityCategory.GetTranslation()}</color> {Emoji} {Name}";
     }
 }
 
 [AttributeUsage(AttributeTargets.Class)]
-public class RankAbilityAttribute(string name, string description, RankAbilityType type, string emoji = "🎲") : Attribute
+public class RankAbilityAttribute(string name, string description, RankAbilityType type, RankCategory rankCategory, RankAbilityCategory rankAbilityCategory, string emoji = "🎲") : Attribute
 {
     public string Name { get; } = name;
     public string Description { get; } = description;
     public string Emoji { get; set; } = emoji;
     public RankAbilityType Type { get; set; } = type;
+    public RankCategory RankCategory { get; set; } = rankCategory;
+    public RankAbilityCategory RankAbilityCategory { get; set; } = rankAbilityCategory;
 }
 
 public static class RankAbilityTypeExtensions
 {
-    public static RankAbilityData GetData(RankAbilityType type)
+    public static RankAbilityData GetData(this RankAbilityType type)
     {
         if (!RankAbilities.TryGetValue(type, out var RankAbility))
             return null;
@@ -83,7 +87,7 @@ public static class RankAbilityCategoryExtensions
 
 public static class RankCategoryExtensions
 {
-    public static RankCategory GetAbilityCategory(this Player player)
+    public static RankCategory GetRankCategory(this Player player)
     {
         RoleTypeId role = player.Role.Type;
 
@@ -187,21 +191,127 @@ public enum RankAbilityType
     None,
 
     // 기어 (공통)
+    공격,
+    속도,
+    방어,
+    치유,
+    효율,
+
+    // 변칙성
     // D계급
+    밤눈,
+    강렬한_의지,
+
     // 과학자
+    선임_연구원,
+    지문_인식,
+
     // 시설 경비
+    위기_감지,
+    변칙_감지,
+
     // 구미호
+    베테랑,
+    조직,
+
     // 반란
+    방독면,
+    송수신_해킹,
+
     // 튜토리얼
+    예능,
+    선천적_체질,
 
     // SCP-049
+    장의사,
+    사신,
+    자원봉사자,
+
     // SCP-049-2
+    광기,
+    요리사,
+
     // SCP-079
+    Installed,
+    Upgrade,
+    Mute,
+
     // SCP-096
+    본능,
+    날카로움_5,
+
     // SCP-106
+    이십삼분_카레,
+    가벼운_주머니,
+
     // SCP-173
+    좋아_자연스러웠어,
+    피규어,
+
     // SCP-939
+    암살_조장,
+    흉내쟁이,
+
     // SCP-3114
+    살점은_나의_힘,
+    단백질,
+
+    // 가젯
+    // D계급
+    전력_질주,
+    또수코인,
+
+    // 과학자
+    변칙성_배리어,
+    변칙성_인식_저해,
+
+    // 시설 경비
+    구보,
+    이중_탄창,
+
+    // 구미호
+    몰래_챙겨온_초콜릿,
+    용도_외_사용금지,
+
+    // 반란
+    스펀지,
+    텔레파시,
+
+    // 튜토리얼
+    프로그램,
+    변칙성_이동기,
+
+    // SCP-049
+    걸작,
+    집결,
+
+    // SCP-049-2
+    강펀치,
+    유대,
+
+    // SCP-079
+    Fix,
+    Brake,
+
+    // SCP-096
+    허상,
+    아드레날린,
+
+    // SCP-106
+    비타민_C,
+    참호,
+
+    // SCP-173
+    엇박자,
+    망원경,
+
+    // SCP-939
+    목표를_포착했다,
+    유독성_가스,
+
+    // SCP-3114
+    트릭,
+    외골격,
 }
 
 public class RankVar
