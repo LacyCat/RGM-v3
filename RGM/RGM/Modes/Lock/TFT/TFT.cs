@@ -36,8 +36,6 @@ public class TFT : Mode
 """;
     public override string Color => "ffd700";
 
-    public static ABattle Instance;
-
     CoroutineHandle _onModeStarted;
 
     public override void OnEnabled()

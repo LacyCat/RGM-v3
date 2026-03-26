@@ -603,6 +603,9 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="0Harmony">
+      <HintPath>..\..\..\..\..\Users\pkj73\AppData\Roaming\EXILED\Plugins\dependencies\0Harmony.dll</HintPath>
+    </Reference>
     <Reference Include="Assembly-CSharp-firstpass">
       <HintPath>..\..\..\..\SCPSL\Latest\SCPSL_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
     </Reference>
@@ -668,6 +671,9 @@
     </Reference>
     <Reference Include="ProjectMER">
       <HintPath>..\..\..\..\..\Users\pkj73\AppData\Roaming\SCP Secret Laboratory\LabAPI\plugins\global\ProjectMER.dll</HintPath>
+    </Reference>
+    <Reference Include="PveExiled">
+      <HintPath>..\..\..\..\..\Users\pkj73\AppData\Roaming\EXILED\Plugins\dependencies\PveExiled.dll</HintPath>
     </Reference>
     <Reference Include="SLPlayerRotation">
       <HintPath>..\..\..\..\..\Users\pkj73\AppData\Roaming\EXILED\Plugins\dependencies\SLPlayerRotation.dll</HintPath>
