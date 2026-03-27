@@ -112,13 +112,13 @@ namespace RGM.Modes
                 else
                     abilityType = RankInfo.기어[selectedOption].Item2;
 
-                if (!RankInfo.PlayerRankAbilities.ContainsKey(player))
-                    RankInfo.PlayerRankAbilities[player] = new();
+                if (!RankInfo.PlayerRankSettingAbilities.ContainsKey(player))
+                    RankInfo.PlayerRankSettingAbilities[player] = new();
 
-                if (!RankInfo.PlayerRankAbilities[player].ContainsKey(rankCategory))
-                    RankInfo.PlayerRankAbilities[player][rankCategory] = new();
+                if (!RankInfo.PlayerRankSettingAbilities[player].ContainsKey(rankCategory))
+                    RankInfo.PlayerRankSettingAbilities[player][rankCategory] = new();
 
-                var list = RankInfo.PlayerRankAbilities[player][rankCategory];
+                var list = RankInfo.PlayerRankSettingAbilities[player][rankCategory];
 
                 if (!list.Contains(abilityType))
                     list.Add(abilityType);

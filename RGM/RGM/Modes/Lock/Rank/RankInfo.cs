@@ -13,7 +13,8 @@ namespace RGM.Modes
     public class RankInfo
     {
         public static Dictionary<RankAbilityType, RankAbilityData> RankAbilities = new Dictionary<RankAbilityType, RankAbilityData>();
-        public static Dictionary<Player, Dictionary<RankCategory, List<RankAbilityType>>> PlayerRankAbilities = new();
+        public static Dictionary<Player, Dictionary<RankCategory, List<RankAbilityType>>> PlayerRankSettingAbilities = new();
+        public static Dictionary<Player, List<RankAbility>> PlayerRankAbilities = new();
 
         public static Dictionary<RankCategory, Dictionary<string, (string, RankAbilityType)>> 변칙성 = new()
         {

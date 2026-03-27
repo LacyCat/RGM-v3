@@ -26,7 +26,6 @@ using ProjectMER.Features;
 using ProjectMER.Features.Objects;
 using PlayerRoles.FirstPersonControl;
 using RelativePositioning;
-using SCPSLAudioApi.AudioCore;
 using VoiceChat;
 using Respawning;
 using Exiled.API.Features.Waves;

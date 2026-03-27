@@ -126,6 +126,22 @@
     <Compile Include="API\Interfaces\PlayerInfo.cs" />
     <Compile Include="API\Interfaces\PlayerReport.cs" />
     <Compile Include="Interfaces.cs" />
+    <Compile Include="RGM\Modes\Lock\Rank\RankAbilityList\기어\효율.cs" />
+    <Compile Include="RGM\Modes\Lock\Rank\RankAbilityList\기어\치유.cs" />
+    <Compile Include="RGM\Modes\Lock\Rank\RankAbilityList\기어\방어.cs" />
+    <Compile Include="RGM\Modes\Lock\Rank\RankAbilityList\기어\공격.cs" />
+    <Compile Include="RGM\Modes\Lock\Rank\RankAbilityList\기어\속도.cs" />
+    <Compile Include="RGM\Modes\Lock\Rank\RankAbilityList\변칙성\D계급\강렬한_의지.cs" />
+    <Compile Include="RGM\Modes\Lock\Rank\RankAbilityList\변칙성\D계급\밤눈.cs" />
+    <Compile Include="RGM\Modes\Lock\Rank\RankAbilityList\변칙성\과학자\지문_인식.cs" />
+    <Compile Include="RGM\Modes\Lock\Rank\RankAbilityList\변칙성\과학자\선임_연구원.cs" />
+    <Compile Include="RGM\Modes\Lock\Rank\RankAbilityList\변칙성\구미호\조직.cs" />
+    <Compile Include="RGM\Modes\Lock\Rank\RankAbilityList\변칙성\구미호\베테랑.cs" />
+    <Compile Include="RGM\Modes\Lock\Rank\RankAbilityList\변칙성\반란\송수신 해킹.cs" />
+    <Compile Include="RGM\Modes\Lock\Rank\RankAbilityList\변칙성\반란\방독면.cs" />
+    <Compile Include="RGM\Modes\Lock\Rank\RankAbilityList\변칙성\시설_경비\변칙_감지.cs" />
+    <Compile Include="RGM\Modes\Lock\Rank\RankAbilityList\변칙성\시설_경비\위기_감지.cs" />
+    <Compile Include="RGM\Modes\Lock\Rank\RankBattle.cs" />
     <Compile Include="RGM\Modes\Lock\Rank\RankInfo.cs" />
     <Compile Include="RGM\Modes\Lock\Rank\RankSetting.cs" />
     <Compile Include="RGM\Modes\Lock\Rank\RankAbility.cs" />
@@ -622,6 +638,9 @@
     <Reference Include="CommandSystem.Core">
       <HintPath>..\..\..\..\SCPSL\Latest\SCPSL_Data\Managed\CommandSystem.Core.dll</HintPath>
     </Reference>
+    <Reference Include="DiscordInteraction">
+      <HintPath>..\..\..\..\..\Users\pkj73\AppData\Roaming\EXILED\Plugins\dependencies\DiscordInteraction.dll</HintPath>
+    </Reference>
     <Reference Include="Exiled.API">
       <HintPath>..\..\..\..\..\Users\pkj73\AppData\Roaming\SCP Secret Laboratory\LabAPI\dependencies\global\Exiled.API.dll</HintPath>
     </Reference>
@@ -714,6 +733,31 @@
     <Reference Include="YamlDotNet">
       <HintPath>..\..\..\..\SCPSL\Latest\SCPSL_Data\Managed\YamlDotNet.dll</HintPath>
     </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="RGM\Modes\Lock\Rank\RankAbilityList\가젯\D계급\" />
+    <Folder Include="RGM\Modes\Lock\Rank\RankAbilityList\가젯\SCP_049\" />
+    <Folder Include="RGM\Modes\Lock\Rank\RankAbilityList\가젯\SCP_049_2\" />
+    <Folder Include="RGM\Modes\Lock\Rank\RankAbilityList\가젯\SCP_079\" />
+    <Folder Include="RGM\Modes\Lock\Rank\RankAbilityList\가젯\SCP_096\" />
+    <Folder Include="RGM\Modes\Lock\Rank\RankAbilityList\가젯\SCP_106\" />
+    <Folder Include="RGM\Modes\Lock\Rank\RankAbilityList\가젯\SCP_173\" />
+    <Folder Include="RGM\Modes\Lock\Rank\RankAbilityList\가젯\SCP_3114\" />
+    <Folder Include="RGM\Modes\Lock\Rank\RankAbilityList\가젯\SCP_939\" />
+    <Folder Include="RGM\Modes\Lock\Rank\RankAbilityList\가젯\과학자\" />
+    <Folder Include="RGM\Modes\Lock\Rank\RankAbilityList\가젯\구미호\" />
+    <Folder Include="RGM\Modes\Lock\Rank\RankAbilityList\가젯\반란\" />
+    <Folder Include="RGM\Modes\Lock\Rank\RankAbilityList\가젯\시설_경비\" />
+    <Folder Include="RGM\Modes\Lock\Rank\RankAbilityList\가젯\튜토리얼\" />
+    <Folder Include="RGM\Modes\Lock\Rank\RankAbilityList\변칙성\SCP_049\" />
+    <Folder Include="RGM\Modes\Lock\Rank\RankAbilityList\변칙성\SCP_049_2\" />
+    <Folder Include="RGM\Modes\Lock\Rank\RankAbilityList\변칙성\SCP_079\" />
+    <Folder Include="RGM\Modes\Lock\Rank\RankAbilityList\변칙성\SCP_096\" />
+    <Folder Include="RGM\Modes\Lock\Rank\RankAbilityList\변칙성\SCP_106\" />
+    <Folder Include="RGM\Modes\Lock\Rank\RankAbilityList\변칙성\SCP_173\" />
+    <Folder Include="RGM\Modes\Lock\Rank\RankAbilityList\변칙성\SCP_3114\" />
+    <Folder Include="RGM\Modes\Lock\Rank\RankAbilityList\변칙성\SCP_939\" />
+    <Folder Include="RGM\Modes\Lock\Rank\RankAbilityList\변칙성\튜토리얼\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

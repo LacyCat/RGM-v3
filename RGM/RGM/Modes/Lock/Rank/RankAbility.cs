@@ -163,6 +163,7 @@ public static class RankCategoryExtensions
 
 public enum RankCategory
 {
+    공통,
     D계급,
     과학자,
     시설_경비,
@@ -317,5 +318,5 @@ public enum RankAbilityType
 public class RankVar
 {
     public static Dictionary<RankAbilityType, RankAbilityData> RankAbilities = new Dictionary<RankAbilityType, RankAbilityData>();
-    public static Dictionary<Player, List<RankAbility>> PlayerRankAbilities = new Dictionary<Player, List<RankAbility>>();
+    public static Dictionary<Player, List<RankAbility>> PlayerRankSettingAbilities = new Dictionary<Player, List<RankAbility>>();
 }

@@ -1,6 +1,7 @@
 ﻿using CustomRendering;
 using DAONTFT.Core.TFT;
 using Exiled.API.Enums;
+using Exiled.API.Extensions;
 using Exiled.API.Features;
 using Exiled.API.Features.Doors;
 using Exiled.Events.EventArgs.Player;
@@ -65,6 +66,8 @@ namespace RGM.Modes
                 });
             }
 
+            Exiled.Events.Handlers.Player.ChangingRole += OnChangingRole;
+
             RankSetting.Init();
 
             ServerSpecificSettingsSync.ServerOnSettingValueReceived += ServerSpecificSettings.OnSSInput;
@@ -74,6 +77,8 @@ namespace RGM.Modes
 
         public override void OnDisabled()
         {
+            Exiled.Events.Handlers.Player.ChangingRole -= OnChangingRole;
+
             ServerSpecificSettingsSync.ServerOnSettingValueReceived -= ServerSpecificSettings.OnSSInput;
 
             Timing.KillCoroutines(_onModeStarted);
@@ -83,51 +88,26 @@ namespace RGM.Modes
         {
             yield return Timing.WaitForSeconds(30);
 
-            foreach (var player in RankInfo.PlayerRankAbilities.Keys.ToList())
+            foreach (var player in RankInfo.PlayerRankSettingAbilities.Keys.ToList())
             {
                 RankCategory rankCategory = player.GetRankCategory();
 
-                List<RankAbilityType> list = RankInfo.PlayerRankAbilities[player][rankCategory];
+                List<RankAbilityType> list = RankInfo.PlayerRankSettingAbilities[player][rankCategory];
 
                 foreach (var ability in list)
-                    AddRankAbility(player, ability);
+                    RankBattle.AddRankAbility(player, ability);
             }
         }
 
-        // 플레이어에게 특정 능력을 부여
-        void AddRankAbility(Player player, RankAbilityType type)
+        void OnChangingRole(ChangingRoleEventArgs ev)
         {
-            Log.Info("AddTFTAbility called with " + player.DisplayNickname + " and " + type);
-
-            if (!RankInfo.RankAbilities.ContainsKey(type))
+            if (ev.Player.IsDead || ev.NewRole.IsDead())
             {
-                Log.Error($"TFTAbility {type} not found.");
-
-                return;
+                Timing.CallDelayed(Timing.WaitForOneFrame, () =>
+                {
+                    RankBattle.Reset(ev.Player);
+                });
             }
-
-            var RankAbilityData = RankInfo.RankAbilities[type];
-            RankAbility RankAbility;
-
-            try
-            {
-                RankAbility = Activator.CreateInstance(RankInfo.RankAbilities[type].Type) as RankAbility;
-            }
-            catch (Exception e)
-            {
-                Log.Error($"An error occurred while trying to create an instance of {RankAbilityData.Name}: {e}");
-                return;
-            }
-
-            if (RankAbility == null)
-            {
-                Log.Error($"An error occurred while trying to create an instance of {RankAbilityData.Name}. The instance is null.");
-                return;
-            }
-
-            RankAbility.Data = RankAbilityData;
-            RankAbility.Owner = player;
-            RankAbility.OnEnabled();
         }
     }
 }
