@@ -101,6 +101,7 @@
     <Compile Include="RGM\Commands\RemoteAdminCommands\ShopFeatures\Badge.cs" />
     <Compile Include="RGM\Commands\RemoteAdminCommands\ShopFeatures\Item.cs" />
     <Compile Include="RGM\Commands\RemoteAdminCommands\ShopFeatures\Icon.cs" />
+    <Compile Include="RGM\Commands\RemoteAdminCommands\ShopFeatures\SetPlayerInfo.cs" />
     <Compile Include="RGM\Commands\RemoteAdminCommands\ShopFeatures\SetPlayerExp.cs" />
     <Compile Include="RGM\Commands\RemoteAdminCommands\ShopFeatures\DailyCheck.cs" />
     <Compile Include="RGM\Commands\RemoteAdminCommands\ShopFeatures\SpawnEffect.cs" />
