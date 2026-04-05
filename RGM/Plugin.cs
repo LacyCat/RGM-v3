@@ -139,7 +139,7 @@ namespace RGM
                 // ------------------------------------------------------------------------------------------------------
 
                 TranslationManager.ApiKey = Tools.ReadTextFile(Path.Combine(Paths.Configs, "RGM"), "GoogleAPIKey.txt");
-                TranslationManager.IsEnabled = false;
+                TranslationManager.IsEnabled = true;
                 TranslationManager.Debug = true;
 
                 TranslationManager.StartWorker();
