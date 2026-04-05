@@ -89,10 +89,10 @@ namespace RGM.Modes
 
         IEnumerator<float> OnModeStarted()
         {
-            yield return Timing.WaitForSeconds(30);
-
             foreach (var p in Player.List)
                 Verified(p);
+
+            yield return Timing.WaitForSeconds(30);
 
             foreach (var player in RankInfo.PlayerRankSettingAbilities.Keys.ToList())
             {

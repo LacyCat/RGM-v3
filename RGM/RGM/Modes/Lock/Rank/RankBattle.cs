@@ -96,7 +96,7 @@ namespace RGM.Modes
                     {
                         Text = $"<size=15>{string.Join("\n", queue)}</size>",
                         Id = "능력 리스트",
-                        XCoordinate = 300,
+                        XCoordinate = -300,
                         YCoordinate = 100,
                         Alignment = HintAlignment.Left
                     };
@@ -127,7 +127,7 @@ namespace RGM.Modes
                     {
                         Text = $"<size=15>{string.Join("\n", queue)}</size>",
                         Id = "능력 리스트",
-                        XCoordinate = 300,
+                        XCoordinate = -300,
                         YCoordinate = 100,
                         Alignment = HintAlignment.Left
                     };
