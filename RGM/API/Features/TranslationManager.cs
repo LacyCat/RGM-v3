@@ -531,13 +531,13 @@ namespace RGM.API.Features
 
         private static IEnumerator<float> SendRequest(Request req)
         {
-            string url = $"https://translation.googleapis.com/v3/projects/random-game-mode/locations/global:translateText?key={ApiKey}";
+            string url = $"https://translation.googleapis.com/language/translate/v2?key={ApiKey}";
 
             var body = new
             {
-                contents = new[] { req.Text },
-                targetLanguageCode = req.Target,
-                mimeType = "text/plain"
+                q = req.Text,
+                target = req.Target,
+                format = "text"
             };
 
             string json = JsonConvert.SerializeObject(body);
@@ -577,7 +577,7 @@ namespace RGM.API.Features
             try
             {
                 var root = JObject.Parse(request.downloadHandler.text);
-                string translated = root["translations"]?[0]?["translatedText"]?.Value<string>();
+                string translated = root["data"]?["translations"]?[0]?["translatedText"]?.Value<string>();
 
                 if (string.IsNullOrWhiteSpace(translated))
                     throw new Exception("translatedText not found");
