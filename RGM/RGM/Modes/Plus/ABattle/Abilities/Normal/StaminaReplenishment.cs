@@ -1,10 +1,5 @@
-﻿using System.Collections.Generic;
-using Exiled.API.Enums;
-using Exiled.API.Features;
-using Exiled.Events.EventArgs.Player;
-using InventorySystem.Items.Usables.Scp330;
+﻿using InventorySystem.Items.Usables.Scp330;
 using RGM.API.Features;
-using UnityEngine;
 
 namespace RGM.Modes.Abilities.Normal;
 

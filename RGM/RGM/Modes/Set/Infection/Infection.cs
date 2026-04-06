@@ -1,16 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CustomPlayerEffects;
-using CustomRendering;
-using Exiled.API.Extensions;
 using Exiled.API.Features;
-using Exiled.API.Features.Roles;
-using ProjectMER.Features.Objects;
 using MEC;
-using Mirror;
 
 using PlayerRoles;
 using UnityEngine;
@@ -18,10 +10,6 @@ using Exiled.API.Enums;
 using RGM.API.Features;
 
 using static RGM.Variables.Variable;
-using RGM.API.DataBases;
-using Respawning;
-using Exiled.Events.EventArgs.Server;
-using Respawning.Waves;
 using Exiled.Events.EventArgs.Player;
 using Exiled.API.Features.Doors;
 using Exiled.Events.EventArgs.Warhead;

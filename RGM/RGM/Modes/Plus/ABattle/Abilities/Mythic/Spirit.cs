@@ -1,8 +1,5 @@
 ﻿using Exiled.API.Enums;
-using Exiled.API.Extensions;
 using Exiled.API.Features;
-using Exiled.API.Features.Items;
-using Exiled.CustomItems.API.EventArgs;
 using Exiled.Events.EventArgs.Player;
 using MEC;
 using System.Collections.Generic;

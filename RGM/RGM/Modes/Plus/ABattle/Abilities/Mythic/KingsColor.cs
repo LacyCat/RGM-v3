@@ -1,19 +1,11 @@
-﻿using Exiled.API.Extensions;
-using Exiled.API.Features;
-using Exiled.API.Features.Items;
+﻿using Exiled.API.Features;
 using MEC;
 using RGM.API.Features;
 using System.Collections.Generic;
 using System.Linq;
-using System;
 using UnityEngine;
 using Exiled.API.Enums;
-using ProjectMER.Features.Objects;
-using ProjectMER.Features;
-using Mirror;
-using PlayerRoles;
 using Exiled.Events.EventArgs.Player;
-using static RGM.Variables.Variable;
 
 namespace RGM.Modes.Abilities.Mythic;
 

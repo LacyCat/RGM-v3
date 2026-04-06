@@ -1,5 +1,4 @@
-﻿using Exiled.API.Enums;
-using Exiled.API.Extensions;
+﻿using Exiled.API.Extensions;
 using Exiled.Events.EventArgs.Player;
 using RGM.Modes;
 

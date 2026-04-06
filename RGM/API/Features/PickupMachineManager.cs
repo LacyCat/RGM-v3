@@ -1,5 +1,4 @@
 ﻿using CommandSystem;
-using Exiled.API.Features;
 using Exiled.Events.EventArgs.Player;
 using MEC;
 using ProjectMER.Features;
@@ -7,10 +6,7 @@ using ProjectMER.Features.Objects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
-using static PlayerRoles.PlayableScps.Scp939.Mimicry.EnvMimicrySequence;
 
 namespace RGM.API.Features
 {

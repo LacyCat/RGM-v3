@@ -1,6 +1,4 @@
-﻿using Exiled.API.Extensions;
-using Exiled.API.Features;
-using Exiled.API.Features.Items;
+﻿using Exiled.API.Features;
 using MEC;
 using RGM.API.Features;
 using System.Collections.Generic;

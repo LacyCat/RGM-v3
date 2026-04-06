@@ -1,22 +1,12 @@
-﻿using Exiled.API.Enums;
-using Exiled.API.Extensions;
+﻿using Exiled.API.Extensions;
 using Exiled.API.Features;
-using Exiled.API.Features.Items;
-using Exiled.API.Features.Roles;
 using Exiled.Events.EventArgs.Player;
-using InventorySystem.Items;
 using MEC;
-using PlayerRoles;
 using PlayerRoles.FirstPersonControl;
-using RGM.API;
 using RGM.API.Features;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
-using VoiceChat.Codec;
 using static RGM.Variables.Variable;
 
 namespace RGM.Modes

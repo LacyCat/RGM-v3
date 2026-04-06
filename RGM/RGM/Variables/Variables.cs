@@ -1,5 +1,4 @@
-﻿using AdminToys;
-using Exiled.API.Enums;
+﻿using Exiled.API.Enums;
 using Exiled.API.Extensions;
 using Exiled.API.Features;
 using Exiled.API.Features.Core.UserSettings;
@@ -11,15 +10,10 @@ using PlayerRoles;
 using RGM.API.DataBases;
 using RGM.API.Features;
 using RGM.API.Interfaces;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
-using UserSettings.ServerSpecific;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace RGM.Variables
 {

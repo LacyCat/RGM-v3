@@ -1,12 +1,6 @@
-﻿using RGM.Modes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 
 using static RGM.Variables.Variable;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 
 namespace RGM;
 

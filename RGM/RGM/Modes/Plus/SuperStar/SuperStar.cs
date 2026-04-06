@@ -1,18 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Discord;
 using Exiled.API.Features;
-using HarmonyLib;
 using MEC;
-using PlayerRoles;
 using RGM.API.Features;
-using UnityEngine;
-using VoiceChat;
-using VoiceChat.Playbacks;
-using static RGM.Modes.FriendlyFire;
 using static RGM.Variables.Variable;
 
 namespace RGM.Modes

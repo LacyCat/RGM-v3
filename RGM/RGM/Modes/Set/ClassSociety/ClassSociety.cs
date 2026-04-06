@@ -1,30 +1,13 @@
-﻿using AdminToys;
-using CommandSystem.Commands.RemoteAdmin;
-using CustomPlayerEffects;
-using Exiled.API.Enums;
-using Exiled.API.Extensions;
+﻿using Exiled.API.Enums;
 using Exiled.API.Features;
 using Exiled.API.Features.Doors;
-using Exiled.API.Features.Items;
-using Exiled.API.Features.Roles;
 using Exiled.Events.EventArgs.Player;
-using Exiled.Events.EventArgs.Scp244;
-using Exiled.Events.EventArgs.Server;
-using Interactables.Interobjects.DoorUtils;
 using MEC;
 
 using PlayerRoles;
-using PlayerStatsSystem;
-using Respawning;
 using RGM.API.Features;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
-
-using static RGM.Variables.Variable;
 
 namespace RGM.Modes
 {

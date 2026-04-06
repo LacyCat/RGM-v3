@@ -1,5 +1,4 @@
-﻿using Exiled.API.Interfaces;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace RGM.Modes.SnakeSystem
 {

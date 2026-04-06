@@ -1,17 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CustomRendering;
 using Exiled.API.Enums;
 using Exiled.API.Features;
 using Exiled.API.Features.Items;
-using InventorySystem.Items.Usables.Scp244;
 using MEC;
 using Mirror;
-
-using Respawning;
 using RGM.API.Features;
 using UnityEngine;
 

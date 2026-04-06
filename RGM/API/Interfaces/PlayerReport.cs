@@ -1,12 +1,4 @@
-﻿using CustomPlayerEffects;
-using Exiled.API.Features.Items;
-using PlayerRoles;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
+﻿using System;
 
 namespace RGM.API.Interfaces
 {

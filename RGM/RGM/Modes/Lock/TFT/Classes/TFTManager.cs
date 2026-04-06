@@ -2,13 +2,8 @@
 using DAONTFT.Core.TFT;
 using Exiled.API.Features;
 using HintServiceMeow.Core.Enum;
-using HintServiceMeow.Core.Models.Hints;
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using static DAONTFT.Core.Variables.Base;
 using Hint = HintServiceMeow.Core.Models.Hints.Hint;
 

@@ -1,29 +1,10 @@
-﻿using Discord;
-using Exiled.API.Extensions;
+﻿using Exiled.API.Extensions;
 using Exiled.API.Features;
 using Exiled.API.Features.Core.UserSettings;
-using HarmonyLib;
-using MEC;
-using MonoMod.Utils;
-
-using PlayerRoles;
-using RGM.API.DataBases;
-using RGM.API.Features;
-using RGM.API.Interfaces;
-using RGM.Commands.ClientCommands;
-using RGM.Modes.SubClass;
-using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Configuration;
 using System.Linq;
-using System.Runtime;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using UnityEngine;
 using UserSettings.ServerSpecific;
-using static RGM.Variables.Variable;
 
 namespace RGM.Modes
 {

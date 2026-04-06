@@ -1,10 +1,6 @@
-﻿using System.Collections.Generic;
-using Exiled.API.Enums;
-using Exiled.Events.EventArgs.Player;
-using PlayerRoles;
+﻿using Exiled.Events.EventArgs.Player;
 using Scp914.Processors;
 using Scp914;
-using UnityEngine;
 
 namespace RGM.Modes.Abilities.Normal;
 

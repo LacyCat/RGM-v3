@@ -1,15 +1,9 @@
 ﻿using Exiled.API.Features;
 using Exiled.API.Features.Doors;
-using Exiled.API.Features.Items;
-using InventorySystem.Items.Usables.Scp330;
 using MEC;
 using RGM.API.Features;
 using RGM.Commands.RemoteAdminCommands;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using static RGM.Variables.Variable;
 

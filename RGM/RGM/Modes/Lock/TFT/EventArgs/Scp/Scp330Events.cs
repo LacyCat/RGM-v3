@@ -1,14 +1,7 @@
-﻿using DAONTFT.Core.Classes;
-using Exiled.Events.EventArgs.Player;
-using Exiled.Events.EventArgs.Scp330;
+﻿using Exiled.Events.EventArgs.Scp330;
 using InventorySystem.Items.Usables.Scp330;
 using MEC;
-using PlayerRoles;
 using RGM.API.Features;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DAONTFT.Core.EventArgs
 {

@@ -1,17 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using Exiled.API.Enums;
 using Exiled.API.Extensions;
 using Exiled.API.Features;
-using Exiled.API.Features.Items;
-using Exiled.Events.EventArgs.Player;
-using InventorySystem.Items.Usables.Scp330;
-using MEC;
-using PlayerRoles;
-using RGM.API.DataBases;
 using RGM.API.Features;
-using UnityEngine;
 
 namespace RGM.Modes.Abilities.Unique.Flamingo;
 

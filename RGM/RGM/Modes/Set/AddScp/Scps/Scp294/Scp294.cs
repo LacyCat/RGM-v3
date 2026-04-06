@@ -1,24 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CustomRendering;
 using Exiled.API.Features;
 using MEC;
-using Mirror;
 using RGM.API.Features;
-using RGM.API.DataBases;
 using UnityEngine;
 using Exiled.API.Features.Items;
-using PlayerRoles;
 using Exiled.API.Extensions;
 using Exiled.Events.EventArgs.Player;
 using InventorySystem.Items.Usables.Scp330;
 using Exiled.API.Features.Pickups;
-using Exiled.API.Enums;
-using static PlayerList;
-using RemoteAdmin;
 
 namespace RGM.Modes.Sets.AddScp.Scps
 {

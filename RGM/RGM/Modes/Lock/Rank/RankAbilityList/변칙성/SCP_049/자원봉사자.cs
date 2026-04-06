@@ -1,8 +1,4 @@
-﻿using Exiled.API.Enums;
-using Exiled.API.Extensions;
-using Exiled.API.Features.Roles;
-using Exiled.Events.EventArgs.Player;
-using Exiled.Events.EventArgs.Scp049;
+﻿using Exiled.API.Features.Roles;
 using MEC;
 using RGM.Modes;
 using System.Collections.Generic;

@@ -5,7 +5,6 @@ using Exiled.API.Extensions;
 using Exiled.API.Features;
 using Exiled.API.Features.Roles;
 using Exiled.API.Features.Toys;
-using InventorySystem.Items.FlamingoTapePlayer;
 using MapGeneration.Holidays;
 using MEC;
 using PlayerRoles;
@@ -17,12 +16,8 @@ using RGM.API.Features;
 using RGM.API.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
-using UserSettings;
 using static RGM.Variables.Variable;
 
 namespace RGM.IEnumerators

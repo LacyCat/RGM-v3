@@ -1,20 +1,11 @@
-﻿using DAONTFT.Core.Classes;
-using DAONTFT.Core.Functions;
-using Exiled.API.Enums;
-using Exiled.API.Extensions;
-using Exiled.API.Features;
-using Exiled.API.Features.Items;
-using Exiled.Events.EventArgs.Player;
+﻿using Exiled.API.Features;
 using HintServiceMeow.Core.Enum;
 using HintServiceMeow.Core.Extension;
-using InventorySystem.Items.Usables.Scp330;
 using MEC;
 using RGM.API.Features;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using UnityEngine;
-using static DAONTFT.Core.Variables.Base;
 
 namespace DAONTFT.Core.TFT.Euclid.Scp;
 

@@ -1,8 +1,5 @@
 ﻿using Exiled.API.Enums;
-using Exiled.API.Extensions;
-using Exiled.Events.EventArgs.Player;
 using Exiled.Events.EventArgs.Scp049;
-using Exiled.Events.Patches.Events.Scp049;
 using MEC;
 using RGM.Modes;
 using System.Collections.Generic;

@@ -1,10 +1,7 @@
-﻿using Discord;
-using Exiled.API.Features;
+﻿using Exiled.API.Features;
 
 using RGM.API.Features;
-using RGM.Modes.SubClass;
 using System;
-using static RGM.Variables.Variable;
 
 namespace RGM.Patches
 {

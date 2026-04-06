@@ -1,16 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Exiled.API.Enums;
-using Exiled.API.Features;
-using Exiled.API.Features.Doors;
-using Exiled.API.Features.Items;
-using Exiled.Events.EventArgs.Player;
-using InventorySystem.Items.Usables.Scp330;
-using ProjectMER.Features.Objects;
-using MEC;
-using RGM.API.Features;
-using UnityEngine;
+﻿using Exiled.API.Enums;
 
 namespace RGM.Modes.Abilities.Epic;
 

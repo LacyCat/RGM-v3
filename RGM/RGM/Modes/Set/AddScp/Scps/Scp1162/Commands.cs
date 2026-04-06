@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Linq;
 using CommandSystem;
-using Exiled.API.Features;
 
 namespace RGM.Modes.Sets.AddScp.Scps;
 

@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using Exiled.API.Enums;
 using Exiled.API.Extensions;
-using Exiled.API.Features;
 using MEC;
 
 using PlayerRoles;
 using Respawning.Objectives;
 using RGM.API.DataBases;
 using RGM.API.Features;
-using UnityEngine;
-using static RGM.Variables.Variable;
 
 namespace RGM.Modes.Abilities.Epic;
 

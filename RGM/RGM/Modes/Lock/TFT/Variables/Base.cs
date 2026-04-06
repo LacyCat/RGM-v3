@@ -1,22 +1,9 @@
-﻿using DAONTFT.Core.Classes;
-using DAONTFT.Core.TFT;
+﻿using DAONTFT.Core.TFT;
 using Exiled.API.Enums;
 using Exiled.API.Extensions;
 using Exiled.API.Features;
-using HintServiceMeow.Core.Models.Hints;
-using InventorySystem.Items.Firearms.Attachments;
-using InventorySystem.Items.Usables.Scp330;
 using PlayerRoles;
-using PlayerStatsSystem;
-using ProjectMER.Features.Objects;
-using Respawning.Waves;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
-using Utf8Json.Formatters;
 using Hint = HintServiceMeow.Core.Models.Hints.Hint;
 
 namespace DAONTFT.Core.Variables

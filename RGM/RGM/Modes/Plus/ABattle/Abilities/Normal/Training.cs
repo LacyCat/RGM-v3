@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
-using Exiled.API.Enums;
 using Exiled.Events.EventArgs.Player;
 using PlayerRoles;
-using UnityEngine;
 
 namespace RGM.Modes.Abilities.Normal;
 

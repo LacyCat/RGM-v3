@@ -1,10 +1,7 @@
 using CommandSystem;
 using Exiled.API.Features;
-using InventorySystem.Items.Keycards.Snake;
 using System;
-using System.Linq;
 using System.Text.RegularExpressions;
-using UnityEngine;
 
 namespace RGM.Modes.SnakeSystem.Commands
 {

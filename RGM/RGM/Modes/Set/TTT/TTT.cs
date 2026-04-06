@@ -1,27 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CustomRendering;
 using Exiled.API.Features;
 using MEC;
-using Mirror;
 using UnityEngine;
-using Exiled.API.Features.Items;
 using RGM.API.Features;
 
 using PlayerRoles;
-using Respawning;
 using RGM.API.DataBases;
 using Exiled.API.Extensions;
-using System.Reflection;
 using static RGM.Variables.Variable;
-using Exiled.API.Enums;
-using Exiled.API.Features.Doors;
 using Exiled.Events.EventArgs.Player;
 using Exiled.Events.EventArgs.Server;
-using System.Windows.Forms;
-using UserSettings.AudioSettings;
 using InventorySystem.Items.Usables.Scp330;
 
 namespace RGM.Modes

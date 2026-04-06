@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Exiled.API.Features;
 using UnityEngine;
 using MEC;
@@ -10,11 +7,7 @@ using HarmonyLib;
 using PlayerRoles;
 using RGM.API.Features;
 using RGM.API.DataBases;
-using static UnityEngine.GraphicsBuffer;
 using Exiled.API.Enums;
-using Exiled.API.Features.DamageHandlers;
-
-using static RGM.Variables.Variable;
 
 namespace RGM.Modes
 {
