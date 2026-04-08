@@ -1,30 +1,10 @@
-﻿using Exiled.API.Enums;
-using Exiled.API.Extensions;
-using Exiled.API.Features;
-using Exiled.API.Features.Core.UserSettings;
-using Exiled.Events.EventArgs.Map;
+﻿using Exiled.API.Features;
 using Exiled.Events.EventArgs.Player;
-using Exiled.Events.EventArgs.Scp096;
-using Exiled.Events.EventArgs.Scp173;
-using HarmonyLib;
 using MEC;
-using Mirror;
-
-using PlayerRoles;
-using PlayerStatsSystem;
 using ProjectMER.Features;
 using ProjectMER.Features.Objects;
-using RGM.API.Features;
-using RGM.Commands.RemoteAdminCommands;
-using RGM.UserSettings;
-using System;
-using System.CodeDom;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
-using static RGM.Variables.Variable;
 
 namespace RGM.Modes.SubClass
 {

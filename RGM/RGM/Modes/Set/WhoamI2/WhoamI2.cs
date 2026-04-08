@@ -1,24 +1,11 @@
-﻿using Exiled.API.Features.Items;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Exiled.API.Features;
 using MEC;
 using PlayerRoles;
-using RGM.API;
-using Achievements.Handlers;
-using Exiled.API.Enums;
-using UnityEngine;
-using CustomPlayerEffects;
-
-using RGM.API.Interfaces;
 using RGM.API.Features;
 using Exiled.Events.EventArgs.Server;
-using Exiled.Events.EventArgs.Player;
 using Exiled.API.Extensions;
-using static RGM.Variables.Variable;
 
 namespace RGM.Modes
 {

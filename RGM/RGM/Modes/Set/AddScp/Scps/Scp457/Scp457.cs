@@ -1,6 +1,4 @@
-﻿using CommandSystem;
-using Exiled.API.Enums;
-using Exiled.API.Extensions;
+﻿using Exiled.API.Enums;
 using Exiled.API.Features;
 using Exiled.API.Features.Items;
 using Exiled.API.Features.Pickups;
@@ -8,21 +6,12 @@ using Exiled.API.Features.Pickups.Projectiles;
 using Exiled.Events.EventArgs.Player;
 using MEC;
 using PlayerRoles;
-using ProjectMER.Commands.Modifying.Position;
-using ProjectMER.Events.Arguments;
-using ProjectMER.Events.Handlers;
 using ProjectMER.Features;
 using ProjectMER.Features.Objects;
-using RemoteAdmin;
-using RGM.API.Components;
 using RGM.API.Features;
-using RGM.Modes.Commands;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
-using static RGM.Variables.Variable;
 
 namespace RGM.Modes.Sets.AddScp.Scps
 {

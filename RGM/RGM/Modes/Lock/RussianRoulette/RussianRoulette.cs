@@ -1,14 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CustomPlayerEffects;
-using CustomRendering;
-using Exiled.API.Extensions;
 using Exiled.API.Features;
-using Exiled.API.Features.Roles;
-using ProjectMER.Features.Objects;
 using MEC;
 using Mirror;
 
@@ -16,13 +9,9 @@ using PlayerRoles;
 using UnityEngine;
 using Exiled.API.Enums;
 using RGM.API.Features;
-using ProjectMER.Features;
-using System.Windows.Forms;
-using System.Runtime.InteropServices;
 using Exiled.API.Features.Items;
 
 using static RGM.Variables.Variable;
-using Respawning;
 
 namespace RGM.Modes
 {

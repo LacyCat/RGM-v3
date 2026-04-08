@@ -1,7 +1,6 @@
 ﻿using System;
 using Exiled.API.Features;
 using Exiled.Events.EventArgs.Player;
-using Exiled.Events.EventArgs.Server;
 
 namespace RGM.Modes.SnakeSystem
 {

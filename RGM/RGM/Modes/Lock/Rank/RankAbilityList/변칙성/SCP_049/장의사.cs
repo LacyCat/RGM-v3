@@ -1,8 +1,4 @@
-﻿using Exiled.API.Enums;
-using Exiled.API.Extensions;
-using Exiled.API.Features.Roles;
-using Exiled.Events.EventArgs.Player;
-using HarmonyLib;
+﻿using HarmonyLib;
 using PlayerRoles.PlayableScps.Scp049;
 using RGM.Modes;
 using System;

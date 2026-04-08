@@ -2,22 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Exiled.API.Features;
 using MEC;
 using UnityEngine;
-using Exiled.API.Features.Roles;
-using Exiled.API.Enums;
 using RGM.API.Features;
 
 using Exiled.Events.EventArgs.Player;
 using Exiled.Events.EventArgs.Scp079;
-using ProjectMER.Features.Serializable;
-using ProjectMER.Features.Objects;
-using ProjectMER.Features;
-
-using static RGM.Variables.Variable;
 using Exiled.API.Features.Pickups.Projectiles;
 
 namespace RGM.Modes

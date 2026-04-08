@@ -1,19 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Exiled.API.Enums;
 using Exiled.API.Features;
-using Exiled.API.Features.Items;
 using Exiled.Events.EventArgs.Player;
-using InventorySystem.Items.Usables.Scp330;
 using MEC;
-using Mirror;
-using PlayerRoles;
 using RGM.API.Features;
 using UnityEngine;
-
-using static RGM.Variables.Variable;
 
 namespace RGM.Modes.Abilities.Legend;
 

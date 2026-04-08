@@ -1,14 +1,8 @@
-﻿using Exiled.API.Enums;
-using Exiled.API.Extensions;
-using Exiled.API.Features;
-using Exiled.API.Features.Items;
-using Exiled.Events.EventArgs.Player;
+﻿using Exiled.API.Features;
 using LabApi.Events.Arguments.PlayerEvents;
-using MEC;
 using ProjectMER.Features.Extensions;
 using ProjectMER.Features.ToolGun;
 using RGM.API.Features;
-using UnityEngine;
 
 namespace RGM.Modes.Abilities.Mythic;
 

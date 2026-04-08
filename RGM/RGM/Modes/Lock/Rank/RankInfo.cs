@@ -1,12 +1,5 @@
-﻿using DAONTFT.Core.TFT;
-using Exiled.API.Features;
-using PlayerRoles;
-using RGM.Modes;
-using System;
+﻿using Exiled.API.Features;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RGM.Modes
 {

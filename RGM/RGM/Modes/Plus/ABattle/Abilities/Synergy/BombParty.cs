@@ -1,19 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Exiled.API.Enums;
-using Exiled.API.Features;
+﻿using System.Linq;
 using Exiled.API.Features.Items;
-using Exiled.Events.EventArgs.Player;
-using InventorySystem.Items.Usables.Scp330;
-using ProjectMER.Features.Objects;
-using ProjectMER.Features.Serializable;
-using ProjectMER.Features;
-using MEC;
 using RGM.API.Features;
-using UnityEngine;
-using RGM.API.DataBases;
-using Exiled.API.Features.DamageHandlers;
 
 namespace RGM.Modes.Abilities.Synergy;
 

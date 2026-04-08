@@ -1,19 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Exiled.API.Enums;
 using Exiled.API.Features;
-using Exiled.API.Features.Items;
-using Exiled.Events.EventArgs.Player;
-using InventorySystem.Items.Usables.Scp330;
 using ProjectMER.Features.Objects;
 using ProjectMER.Features;
 using MEC;
 using Mirror;
 using RGM.API.Features;
 using UnityEngine;
-using Microsoft.Win32.SafeHandles;
-using LabApi.Features.Wrappers;
 
 namespace RGM.Modes.Abilities.Epic;
 

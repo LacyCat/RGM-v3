@@ -1,18 +1,5 @@
-﻿using Exiled.API.Enums;
-using Exiled.API.Features;
-using Exiled.API.Features.Doors;
-using Exiled.API.Features.Items;
-using Exiled.Events.EventArgs.Player;
-using InventorySystem.Items.Usables.Scp330;
-using MEC;
+﻿using Exiled.Events.EventArgs.Player;
 using PlayerStatsSystem;
-using ProjectMER.Features;
-using RGM.API.Features;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.Eventing.Reader;
-using System.Linq;
-using UnityEngine;
 
 namespace RGM.Modes.Abilities.Legend;
 

@@ -1,11 +1,8 @@
 ﻿using Exiled.API.Enums;
-using Exiled.API.Extensions;
-using Exiled.API.Features;
 using Exiled.API.Features.Items;
 using Exiled.Events.EventArgs.Player;
 using MEC;
 using RGM.API.Features;
-using UnityEngine;
 
 namespace RGM.Modes.Abilities.Mythic;
 

@@ -1,17 +1,11 @@
 ﻿using Exiled.API.Features.Items;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Exiled.API.Features;
 using MEC;
-using RGM.API;
 using UnityEngine;
-using Exiled.API.Enums;
-using PlayerRoles;
 using Exiled.Events.EventArgs.Player;
 using RGM.API.Features;
-using Exiled.API.Extensions;
 using Exiled.Events.EventArgs.Scp079;
 using Exiled.API.Features.Pickups;
 using Exiled.Events.EventArgs.Server;

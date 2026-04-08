@@ -1,20 +1,15 @@
 ﻿using Exiled.API.Enums;
 using Exiled.API.Extensions;
 using Exiled.API.Features;
-using PlayerRoles;
 using RGM.API.Features;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using PlayerStatsSystem;
 using ProjectMER.Features;
 using ProjectMER.Features.Objects;
 using MEC;
 using UnityEngine;
-using Exiled.API.Features.Toys;
-using RGM.API.Interfaces;
 
 using static RGM.Variables.Variable;
 
@@ -22,13 +17,9 @@ using RGM.API.DataBases;
 using Exiled.API.Features.Roles;
 using AdminToys;
 using InventorySystem.Items.Firearms.ShotEvents;
-using InventorySystem.Items.Firearms;
 using InventorySystem.Items;
 using Exiled.Events.EventArgs.Player;
-using InventorySystem.Items.Scp1509;
-using NetworkManagerUtils.Dummies;
 using Mirror;
-using Exiled.API.Features.Items;
 
 namespace RGM.Donator
 {

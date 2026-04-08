@@ -1,17 +1,4 @@
-﻿using DAONTFT.Core.Functions;
-using Exiled.API.Enums;
-using Exiled.API.Extensions;
-using Exiled.API.Features;
-using Exiled.API.Features.Items;
-using Exiled.Events.EventArgs.Player;
-using HintServiceMeow.Core.Extension;
-using InventorySystem.Items.Usables.Scp330;
-using MEC;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using UnityEngine;
-using static DAONTFT.Core.Variables.Base;
+﻿using Exiled.Events.EventArgs.Player;
 
 namespace DAONTFT.Core.TFT.Euclid.Human;
 

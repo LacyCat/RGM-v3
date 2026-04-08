@@ -7,8 +7,6 @@ using MEC;
 using UnityEngine;
 
 using Exiled.Events.EventArgs.Scp079;
-using RGM.API.DataBases;
-using PlayerRoles;
 using Exiled.API.Extensions;
 using Exiled.Events.EventArgs.Scp1507;
 

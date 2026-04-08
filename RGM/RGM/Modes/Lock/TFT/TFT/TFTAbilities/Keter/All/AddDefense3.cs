@@ -1,15 +1,4 @@
-﻿using DAONTFT.Core.Functions;
-using Exiled.API.Enums;
-using Exiled.API.Extensions;
-using Exiled.API.Features;
-using Exiled.API.Features.Items;
-using Exiled.Events.EventArgs.Player;
-using InventorySystem.Items.Usables.Scp330;
-using MEC;
-using PlayerRoles;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
+﻿using Exiled.API.Enums;
 
 namespace DAONTFT.Core.TFT.Keter.All;
 

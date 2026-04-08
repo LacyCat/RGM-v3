@@ -1,18 +1,13 @@
 ﻿using Exiled.API.Features.Items;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Exiled.API.Features;
 using MEC;
 using UnityEngine;
-using Exiled.API.Features.Roles;
 using Exiled.API.Enums;
 using PlayerRoles;
 
 using RGM.API.Features;
-using Mirror;
-using Respawning;
 
 using static RGM.Variables.Variable;
 using Exiled.API.Features.Doors;

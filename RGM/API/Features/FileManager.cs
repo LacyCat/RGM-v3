@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using Exiled.API.Features;
 using MEC;
-using RGM.UserSettings;
 using static RGM.Variables.Variable;
 
 namespace RGM.API.Features

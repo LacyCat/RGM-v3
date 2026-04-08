@@ -1,8 +1,5 @@
-﻿using Exiled.API.Features.Items;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Exiled.API.Features;
 using MEC;
 using Exiled.Events.EventArgs.Player;
@@ -11,7 +8,6 @@ using RGM.API.Features;
 using PlayerRoles;
 using RGM.API.DataBases;
 using UnityEngine;
-using static RGM.Variables.Variable;
 
 namespace RGM.Modes
 {

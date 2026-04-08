@@ -1,23 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using CommandSystem.Commands.RemoteAdmin.Dummies;
-using Exiled.API.Enums;
-using Exiled.API.Features;
-using Exiled.API.Features.Items;
-using Exiled.API.Features.Roles;
-using Exiled.Events.EventArgs.Player;
-using GameCore;
-using InventorySystem.Items.Usables.Scp330;
-using ProjectMER.Features;
-using ProjectMER.Features.Serializable;
 using MEC;
 using Mirror;
 using PlayerRoles;
-using PlayerStatsSystem;
 using RGM.API.Features;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 using NetworkManagerUtils.Dummies;
 
 namespace RGM.Modes.Abilities.Rare;

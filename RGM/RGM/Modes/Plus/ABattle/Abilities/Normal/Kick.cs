@@ -1,13 +1,7 @@
-﻿using Exiled.API.Enums;
-using Exiled.API.Features;
+﻿using Exiled.API.Features;
 using Exiled.Events.EventArgs.Player;
 using MEC;
-using PlayerRoles.FirstPersonControl;
-using PlayerRoles.FirstPersonControl.Thirdperson;
-using PlayerRoles.FirstPersonControl.Thirdperson.Subcontrollers.OverlayAnims;
 using RGM.API.Features;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 namespace RGM.Modes.Abilities.Normal;

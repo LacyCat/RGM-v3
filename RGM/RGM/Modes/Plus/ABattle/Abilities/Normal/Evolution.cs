@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using Exiled.API.Enums;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace RGM.Modes.Abilities.Normal;
 

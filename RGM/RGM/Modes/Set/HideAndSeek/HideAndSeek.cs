@@ -1,25 +1,15 @@
 ﻿using AFK;
-using CustomPlayerEffects;
-using CustomRendering;
 using Exiled.API.Enums;
 using Exiled.API.Features;
 using Exiled.API.Features.Doors;
 using Exiled.Events.EventArgs.Player;
 using Exiled.Events.EventArgs.Server;
 using MEC;
-using Mirror;
-using MultiBroadcast;
 
 using PlayerRoles;
-using Respawning;
 using RGM.API.Features;
-using RGM.Modes.Abilities.Synergy;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace RGM.Modes

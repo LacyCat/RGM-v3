@@ -1,10 +1,8 @@
 ﻿using AdminToys;
 using CustomPlayerEffects;
-using Discord;
 using Exiled.API.Enums;
 using Exiled.API.Extensions;
 using Exiled.API.Features;
-using Exiled.API.Features.Core.UserSettings;
 using Exiled.API.Features.Items;
 using InventorySystem.Items.Usables.Scp330;
 using MEC;
@@ -17,18 +15,10 @@ using ProjectMER.Features;
 using ProjectMER.Features.Objects;
 using RGM.API.Interfaces;
 using RGM.Modes.SubClass;
-using RGM.Variables;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Remoting.Messaging;
-using System.Security.Policy;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.Windows;
-using UserSettings.ServerSpecific;
-using Utils.Networking;
 using static RGM.Variables.Variable;
 
 namespace RGM.API.Features

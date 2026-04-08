@@ -1,14 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using CommandSystem;
-using Exiled.API.Extensions;
 using Exiled.API.Features;
-using InventorySystem.Items.Firearms.Modules;
 using MEC;
-
-using PlayerRoles;
 using RGM.API.Features;
 using RGM.API.Interfaces;
 using UnityEngine;

@@ -1,11 +1,5 @@
-﻿using Exiled.API.Enums;
-using Exiled.API.Extensions;
-using Exiled.Events.EventArgs.Player;
-using Exiled.Events.EventArgs.Scp049;
-using Exiled.Events.Patches.Events.Scp049;
-using MEC;
+﻿using Exiled.Events.EventArgs.Player;
 using RGM.Modes;
-using System.Collections.Generic;
 
 namespace RGM.RGM.Modes.Lock.Rank.RankAbilityList.변칙성
 {

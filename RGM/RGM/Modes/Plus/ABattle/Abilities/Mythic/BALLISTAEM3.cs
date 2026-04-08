@@ -1,11 +1,7 @@
-﻿using Exiled.API.Enums;
-using Exiled.API.Extensions;
-using Exiled.API.Features;
-using Exiled.API.Features.DamageHandlers;
+﻿using Exiled.API.Features;
 using Exiled.API.Features.Items;
 using Exiled.Events.EventArgs.Player;
 using MEC;
-using PlayerStatsSystem;
 using RGM.API.Features;
 using System.Collections.Generic;
 using UnityEngine;

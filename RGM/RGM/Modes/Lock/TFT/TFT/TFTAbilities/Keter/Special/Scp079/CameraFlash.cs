@@ -1,17 +1,8 @@
-﻿using DAONTFT.Core.Functions;
-using Exiled.API.Enums;
-using Exiled.API.Extensions;
-using Exiled.API.Features;
-using Exiled.API.Features.Doors;
-using Exiled.API.Features.Items;
-using Exiled.API.Features.Roles;
-using Exiled.Events.EventArgs.Player;
+﻿using Exiled.API.Features.Items;
 using Exiled.Events.EventArgs.Scp079;
-using InventorySystem.Items.Usables.Scp330;
 using LabApi.Features.Wrappers;
 using MEC;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 namespace DAONTFT.Core.TFT.Keter.Scp079;
