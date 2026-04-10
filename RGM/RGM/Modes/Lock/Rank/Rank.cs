@@ -151,7 +151,7 @@ namespace RGM.Modes
 
         void OnChangingRole(ChangingRoleEventArgs ev)
         {
-            if (ev.Player.IsDead || ev.NewRole.IsDead())
+            if (ev.NewRole.IsAlive())
             {
                 Timing.CallDelayed(Timing.WaitForOneFrame, () =>
                 {
@@ -161,8 +161,6 @@ namespace RGM.Modes
                     {
                         IEnumerator<float> enumerator()
                         {
-                            Variable.PlayersAudio[ev.Player].TryPlay("RankCountdown", 1.5f);
-
                             for (int i = 0; i < 20; i++)
                             {
                                 ev.Player.AddBroadcast(1, $"<size=30>적용까지 <size=50><b>{20 - i}</b></size>초</size>\n" +
@@ -171,6 +169,8 @@ namespace RGM.Modes
 
                                 yield return Timing.WaitForSeconds(1);
                             }
+
+                            Variable.PlayersAudio[ev.Player].TryPlay("RankStart", 1.5f);
 
                             RankCategory rankCategory = ev.Player.GetRankCategory();
 
