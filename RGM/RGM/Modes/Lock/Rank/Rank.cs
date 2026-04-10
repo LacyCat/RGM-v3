@@ -3,7 +3,9 @@ using Exiled.API.Extensions;
 using Exiled.API.Features;
 using Exiled.Events.EventArgs.Player;
 using MEC;
+using PlayerRoles;
 using RGM.API.Features;
+using RGM.Variables;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -83,9 +85,9 @@ namespace RGM.Modes
             {
                 foreach (var player in Player.List)
                 {
-                    player.AddBroadcast(1, $"<size=30>시작까지 <size=50><b>{20 - i}</b></size>초</size>\n" +
+                    player.AddBroadcast(1, $"<size=30>적용까지 <size=50><b>{20 - i}</b></size>초</size>\n" +
                         $"<size=20>[ESC] -> [Settings] -> [Server-specific]ㅣ" +
-                        $"<color={RankAbilityCategory.변칙성.GetColor()}>변칙성</color>, <color={RankAbilityCategory.가젯.GetColor()}>가젯</color>, <color={RankAbilityCategory.기어.GetColor()}>기어</color>를 미리 설정해두세요.</size>");
+                        $"<color={RankAbilityCategory.변칙성.GetColor()}>변칙성</color>, <color={RankAbilityCategory.가젯.GetColor()}>가젯</color>, <color={RankAbilityCategory.기어_메인.GetColor()}>기어</color>를 미리 설정해두세요.</size>");
 
                     player.AddEffect(EffectType.Ensnared, 1, 1);
                     player.AddEffect(EffectType.HeavyFooted, 100, 1);
@@ -103,9 +105,24 @@ namespace RGM.Modes
                 RankCategory rankCategory = player.GetRankCategory();
 
                 if (!RankInfo.PlayerRankSettingAbilities.TryGetValue(player, out var playerSettings) ||
-                    playerSettings is null ||
-                    !playerSettings.TryGetValue(rankCategory, out List<RankAbilityType> list) ||
-                    list is null)
+                    playerSettings is null)
+                    continue;
+
+                List<RankAbilityType> list = new();
+
+                if (playerSettings.TryGetValue(rankCategory, out List<RankAbilityType> roleList) && roleList is not null)
+                    list.AddRange(roleList);
+
+                if (playerSettings.TryGetValue(RankCategory.공통, out List<RankAbilityType> commonList) && commonList is not null)
+                {
+                    foreach (var commonAbility in commonList)
+                    {
+                        if (!list.Contains(commonAbility))
+                            list.Add(commonAbility);
+                    }
+                }
+
+                if (list.Count == 0)
                     continue;
 
                 foreach (var ability in list)
@@ -118,8 +135,6 @@ namespace RGM.Modes
                     }
 
                     RankBattle.AddRankAbility(player, ability);
-
-                    player.AddBroadcast(3, $"<size=20>{ability.ToString()}</size>");
                 }
             }
         }
@@ -141,6 +156,60 @@ namespace RGM.Modes
                 Timing.CallDelayed(Timing.WaitForOneFrame, () =>
                 {
                     RankBattle.Reset(ev.Player);
+
+                    if (ev.NewRole.IsAlive())
+                    {
+                        IEnumerator<float> enumerator()
+                        {
+                            Variable.PlayersAudio[ev.Player].TryPlay("RankCountdown", 1.5f);
+
+                            for (int i = 0; i < 20; i++)
+                            {
+                                ev.Player.AddBroadcast(1, $"<size=30>적용까지 <size=50><b>{20 - i}</b></size>초</size>\n" +
+                                    $"<size=20>[ESC] -> [Settings] -> [Server-specific]ㅣ" +
+                                    $"<color={RankAbilityCategory.변칙성.GetColor()}>변칙성</color>, <color={RankAbilityCategory.가젯.GetColor()}>가젯</color>, <color={RankAbilityCategory.기어_메인.GetColor()}>기어</color>를 미리 설정해두세요.</size>");
+
+                                yield return Timing.WaitForSeconds(1);
+                            }
+
+                            RankCategory rankCategory = ev.Player.GetRankCategory();
+
+                            if (!RankInfo.PlayerRankSettingAbilities.TryGetValue(ev.Player, out var playerSettings) ||
+                                playerSettings is null)
+                                yield break;
+
+                            List<RankAbilityType> list = new();
+
+                            if (playerSettings.TryGetValue(rankCategory, out List<RankAbilityType> roleList) && roleList is not null)
+                                list.AddRange(roleList);
+
+                            if (playerSettings.TryGetValue(RankCategory.공통, out List<RankAbilityType> commonList) && commonList is not null)
+                            {
+                                foreach (var commonAbility in commonList)
+                                {
+                                    if (!list.Contains(commonAbility))
+                                        list.Add(commonAbility);
+                                }
+                            }
+
+                            if (list.Count == 0)
+                                yield break;
+
+                            foreach (var ability in list)
+                            {
+                                var data = ability.GetData();
+                                if (data is null)
+                                {
+                                    Log.Warn($"Rank ability data not found for {ability}.");
+                                    continue;
+                                }
+
+                                RankBattle.AddRankAbility(ev.Player, ability);
+                            }
+                        }
+
+                        Timing.RunCoroutine(enumerator());
+                    }
                 });
             }
         }

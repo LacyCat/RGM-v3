@@ -58,7 +58,21 @@ namespace RGM.Modes
             foreach (var rankAbility in playerRankAbility)
                 rankAbility.OnDisabled();
 
-            RankInfo.PlayerRankSettingAbilities.Remove(player);
+            RankInfo.PlayerRankAbilities[player].Clear();
+        }
+
+        public static bool HasRankAbility(this Player player, RankAbilityType type)
+        {
+            if (!RankInfo.PlayerRankAbilities.TryGetValue(player, out var playerRankAbility))
+                return false;
+
+            foreach (var rankAbility in playerRankAbility)
+            {
+                if (rankAbility.Data.RankAbilityType == type)
+                    return true;
+            }
+
+            return false;
         }
 
         public static void Reset(this Player player)
@@ -68,7 +82,7 @@ namespace RGM.Modes
 
         public static IEnumerator<float> UpgradeDisplay(Player Owner)
         {
-            string hintDescription = $"[ESC] -> [Settings] -> [Server-specific]ㅣ<color={RankAbilityCategory.변칙성.GetColor()}>변칙성</color>, <color={RankAbilityCategory.가젯.GetColor()}>가젯</color>, <color={RankAbilityCategory.기어.GetColor()}>기어</color>를 미리 설정해두세요.";
+            string hintDescription = $"[ESC] -> [Settings] -> [Server-specific]ㅣ<color={RankAbilityCategory.변칙성.GetColor()}>변칙성</color>, <color={RankAbilityCategory.가젯.GetColor()}>가젯</color>, <color={RankAbilityCategory.기어_메인.GetColor()}>기어</color>를 미리 설정해두세요.";
 
             HintServiceMeow.Core.Models.Hints.Hint hint = new HintServiceMeow.Core.Models.Hints.Hint
             {
@@ -100,7 +114,7 @@ namespace RGM.Modes
                             Text = $"<size=15>{string.Join("\n", queue)}</size>",
                             Id = "능력 리스트",
                             XCoordinate = -300,
-                            YCoordinate = 100,
+                            YCoordinate = 80,
                             Alignment = HintAlignment.Left
                         };
 
@@ -131,7 +145,7 @@ namespace RGM.Modes
                             Text = $"<size=15>{string.Join("\n", queue)}</size>",
                             Id = "능력 리스트",
                             XCoordinate = -300,
-                            YCoordinate = 100,
+                            YCoordinate = 80,
                             Alignment = HintAlignment.Left
                         };
 

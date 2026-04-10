@@ -188,11 +188,15 @@ namespace RGM.Modes
             },
         };
 
-        public static Dictionary<string, (string, RankAbilityType)> 기어 = new()
+        public static Dictionary<string, (string, RankAbilityType)> 기어_메인 = new()
         {
             {"공격", ("체력이 50% 이하가 되면 입히는 데미지가 10% 증가합니다.", RankAbilityType.공격)},
-            {"속도", ("이동 속도가 5% 증가합니다.", RankAbilityType.속도)},
             {"방어", ("받는 데미지가 10% 줄어듭니다.", RankAbilityType.방어)},
+        };
+
+        public static Dictionary<string, (string, RankAbilityType)> 기어_유틸 = new()
+        {
+            {"속도", ("이동 속도가 3% 증가합니다.", RankAbilityType.속도)},
             {"치유", ("회복량이 30% 증가합니다.", RankAbilityType.치유)},
             {"효율", ("가젯 재사용 대기 시간이 10% 줄어듭니다.", RankAbilityType.효율)},
         };

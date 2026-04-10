@@ -57,10 +57,11 @@ public abstract class RankGadgetAbility : RankAbility
             {
                 IsOnCooldown = true;
                 string originalDesc = gadgetAttr.Description;
+                int cooldown = player.HasRankAbility(RankAbilityType.효율) ? (int)(gadgetAttr.Cooldown * 0.9f) : gadgetAttr.Cooldown;
 
-                for (int i = 0; i < gadgetAttr.Cooldown; i++)
+                for (int i = 0; i < cooldown; i++)
                 {
-                    Data.Description = $"{originalDesc} ({gadgetAttr.Cooldown - i})";
+                    Data.Description = $"{originalDesc} ({cooldown - i})";
                     yield return Timing.WaitForSeconds(1);
                 }
 
@@ -134,7 +135,8 @@ public static class RankAbilityCategoryExtensions
         {
             RankAbilityCategory.변칙성 => "변칙성",
             RankAbilityCategory.가젯 => "가젯",
-            RankAbilityCategory.기어 => "기어",
+            RankAbilityCategory.기어_메인 => "메인 기어",
+            RankAbilityCategory.기어_유틸 => "유틸 기어",
             _ => "?"
         };
     }
@@ -145,7 +147,8 @@ public static class RankAbilityCategoryExtensions
         {
             RankAbilityCategory.변칙성 => "#e4ea4c",
             RankAbilityCategory.가젯 => "#78f168",
-            RankAbilityCategory.기어 => "#91edd3",
+            RankAbilityCategory.기어_메인 => "#91edd3",
+            RankAbilityCategory.기어_유틸 => "#91edd3",
             _ => "white"
         };
     }
@@ -272,7 +275,8 @@ public enum RankAbilityCategory
 {
     변칙성,
     가젯,
-    기어
+    기어_메인,
+    기어_유틸
 }
 
 public enum RankAbilityType
@@ -402,3 +406,4 @@ public enum RankAbilityType
     트릭,
     외골격,
 }
+

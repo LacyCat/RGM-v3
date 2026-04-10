@@ -13,6 +13,7 @@ namespace RGM.Modes
     {
         private const int RankSettingIdStart = 2044;
         private static readonly Dictionary<int, (RankAbilityCategory AbilityCategory, RankCategory? RankCategory)> RankDropdownMeta = new();
+        private static readonly Dictionary<Player, Dictionary<RankAbilityCategory, RankAbilityType>> PlayerSelectedGears = new();
 
         public static HeaderSetting RankHeader { get; private set; } = new HeaderSetting(190023, "경쟁전");
 
@@ -36,6 +37,7 @@ namespace RGM.Modes
         public static void Init()
         {
             List<SettingBase> list = new();
+            PlayerSelectedGears.Clear();
 
             RankInfoKey = new KeybindSetting(
                id: 289289922,
@@ -102,15 +104,25 @@ namespace RGM.Modes
                 }
             }
 
-            int gearSettingId = nextSettingId++;
+            int gearMainSettingId = nextSettingId++;
             list.Add(new DropdownSetting(
-                id: gearSettingId,
-                label: $"<color={RankAbilityCategoryExtensions.GetColor(RankAbilityCategory.기어)}>기어</color>",
-                hintDescription: string.Join("\n", RankInfo.기어.Select(x => $"• {GetFormattedOption(x.Key, x.Value.Item2)}: {x.Value.Item1}")),
-                options: RankInfo.기어.Select(x => GetFormattedOption(x.Key, x.Value.Item2)),
+                id: gearMainSettingId,
+                label: $"<color={RankAbilityCategoryExtensions.GetColor(RankAbilityCategory.기어_메인)}>메인 기어</color>",
+                hintDescription: string.Join("\n", RankInfo.기어_메인.Select(x => $"• {GetFormattedOption(x.Key, x.Value.Item2)}: {x.Value.Item1}")),
+                options: RankInfo.기어_메인.Select(x => GetFormattedOption(x.Key, x.Value.Item2)),
                 header: RankHeader
             ));
-            RankDropdownMeta[gearSettingId] = (RankAbilityCategory.기어, null);
+            RankDropdownMeta[gearMainSettingId] = (RankAbilityCategory.기어_메인, RankCategory.공통);
+
+            int gearUtilSettingId = nextSettingId++;
+            list.Add(new DropdownSetting(
+                id: gearUtilSettingId,
+                label: $"<color={RankAbilityCategoryExtensions.GetColor(RankAbilityCategory.기어_유틸)}>유틸 기어</color>",
+                hintDescription: string.Join("\n", RankInfo.기어_유틸.Select(x => $"• {GetFormattedOption(x.Key, x.Value.Item2)}: {x.Value.Item1}")),
+                options: RankInfo.기어_유틸.Select(x => GetFormattedOption(x.Key, x.Value.Item2)),
+                header: RankHeader
+            ));
+            RankDropdownMeta[gearUtilSettingId] = (RankAbilityCategory.기어_유틸, RankCategory.공통);
 
             SettingBase.Register(list);
         }
@@ -183,7 +195,11 @@ namespace RGM.Modes
                 }
                 else
                 {
-                    var match = RankInfo.기어.FirstOrDefault(x => GetFormattedOption(x.Key, x.Value.Item2) == selectedOption);
+                    var gearSource = meta.AbilityCategory == RankAbilityCategory.기어_유틸
+                        ? RankInfo.기어_유틸
+                        : RankInfo.기어_메인;
+
+                    var match = gearSource.FirstOrDefault(x => GetFormattedOption(x.Key, x.Value.Item2) == selectedOption);
                     if (match.Key == null)
                         return;
 
@@ -193,10 +209,31 @@ namespace RGM.Modes
                 if (!RankInfo.PlayerRankSettingAbilities.ContainsKey(player))
                     RankInfo.PlayerRankSettingAbilities[player] = new();
 
+                if (meta.AbilityCategory == RankAbilityCategory.기어_메인 || meta.AbilityCategory == RankAbilityCategory.기어_유틸)
+                {
+                    if (!PlayerSelectedGears.ContainsKey(player))
+                        PlayerSelectedGears[player] = new();
+
+                    PlayerSelectedGears[player][meta.AbilityCategory] = abilityType;
+
+                    if (!RankInfo.PlayerRankSettingAbilities[player].ContainsKey(RankCategory.공통))
+                        RankInfo.PlayerRankSettingAbilities[player][RankCategory.공통] = new();
+
+                    var gearList = RankInfo.PlayerRankSettingAbilities[player][RankCategory.공통];
+                    gearList.Clear();
+
+                    foreach (var gear in PlayerSelectedGears[player].Values.Distinct())
+                        gearList.Add(gear);
+
+                    return;
+                }
+
                 if (!RankInfo.PlayerRankSettingAbilities[player].ContainsKey(rankCategory))
                     RankInfo.PlayerRankSettingAbilities[player][rankCategory] = new();
 
                 var list = RankInfo.PlayerRankSettingAbilities[player][rankCategory];
+
+                list.RemoveAll(x => x.GetData()?.RankAbilityCategory == meta.AbilityCategory);
 
                 if (!list.Contains(abilityType))
                     list.Add(abilityType);
