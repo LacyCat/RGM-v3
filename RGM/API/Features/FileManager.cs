@@ -15,6 +15,11 @@ namespace RGM.API.Features
 
         private static readonly Mutex _fileMutex = new Mutex(false, "Global\\RGM_FileManager_Mutex");
 
+        private static string ResolvePath(string fileName)
+        {
+            return Path.IsPathRooted(fileName) ? fileName : Path.Combine(FolderPath, fileName);
+        }
+
         public static void CreateFolder()
         {
             if (!Directory.Exists(FolderPath))
@@ -33,9 +38,13 @@ namespace RGM.API.Features
                     return;
                 }
 
-                string tempFile = Path.Combine(FolderPath, fileName + ".tmp");
-                string backupFile = Path.Combine(FolderPath, fileName + ".bak");
-                string targetFile = Path.Combine(FolderPath, fileName);
+                string targetFile = ResolvePath(fileName);
+                string directory = Path.GetDirectoryName(targetFile);
+                if (!string.IsNullOrWhiteSpace(directory) && !Directory.Exists(directory))
+                    Directory.CreateDirectory(directory);
+
+                string tempFile = targetFile + ".tmp";
+                string backupFile = targetFile + ".bak";
 
                 File.WriteAllText(tempFile, content, Encoding.UTF8);
 
@@ -66,13 +75,15 @@ namespace RGM.API.Features
             try
             {
                 acquired = _fileMutex.WaitOne(5000);
-
-                string targetFile = Path.Combine(FolderPath, fileName);
-                if (!File.Exists(targetFile))
+                if (!acquired)
                 {
-                    File.WriteAllText(targetFile, "", Encoding.UTF8);
-                    return "";
+                    Log.Warn($"[FileManager] File {fileName} is currently busy. Skipping read to prevent corruption.");
+                    return string.Empty;
                 }
+
+                string targetFile = ResolvePath(fileName);
+                if (!File.Exists(targetFile))
+                    return string.Empty;
 
                 return File.ReadAllText(targetFile);
             }
@@ -168,12 +179,12 @@ namespace RGM.API.Features
 
             foreach (var line in text.Split('\n'))
             {
-                var parts = line.Split(';');
+                var parts = line.TrimEnd('\r').Split(';');
 
-                if (parts.Length != parts.Count())
+                if (parts.Length < 2 || string.IsNullOrWhiteSpace(parts[0]))
                     continue;
 
-                UsersCache.Add(parts[0], parts.Skip(1).ToList());
+                UsersCache[parts[0]] = parts.Skip(1).ToList();
             }
 
             IsUsersFileLoaded = true;
