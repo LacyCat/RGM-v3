@@ -201,7 +201,7 @@ namespace RGM.Variables
                     UsedItems.Add("모드 제안서");
 
                     string modeName = ModeList.Keys.First(x => x.GetModeData().Name == arg && x.GetModeData().Category != ModeCategory.Private).GetModeData().Name;
-                    bool flag = UnityEngine.Random.Range(1, 11) == 1;
+                    bool flag = Random.Range(1, 11) == 1;
 
                     if (flag)
                     {
@@ -246,7 +246,7 @@ namespace RGM.Variables
                 {
                     UsedItems.Add("모드 리롤권");
 
-                    bool flag = UnityEngine.Random.Range(1, 11) == 1;
+                    bool flag = Random.Range(1, 11) == 1;
 
                     if (flag)
                     {
@@ -285,7 +285,7 @@ namespace RGM.Variables
                 Check = (player, arg) => { return Round.IsLobby && !게임칩사용자.Contains(player.UserId); },
                 Script = (player, arg) =>
                 {
-                                    게임칩사용자.Add(player.UserId);
+                    게임칩사용자.Add(player.UserId);
                 }
             },
         };

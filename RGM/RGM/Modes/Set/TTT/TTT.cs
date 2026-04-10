@@ -462,7 +462,7 @@ Trouble in Terrorist Town의 약자.
                 {
                     if (ev.Attacker != detective && !traitors.Contains(ev.Attacker))
                     {
-                        if (ev.Player != detective && !traitors.Contains(ev.Player))
+                        if (ev.Player != detective && !traitors.Contains(ev.Player) && ev.Player != jester && ev.Player != O5)
                         {
                             ev.Attacker.Hurt(50, "같은 무죄인을 죽이는 실수를 범해서는 안됐습니다.");
                         }
