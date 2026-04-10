@@ -17,7 +17,7 @@ using UnityEngine;
 
 namespace RGM.RGM.Modes.Lock.Rank.RankAbilityList.가젯
 {
-    [RankGadget("외골격", "흄 쉴드를 모두 소모하여 50% 만큼 체력으로 치환합니다.", RankAbilityType.외골격, RankCategory.SCP_3114, "💀")]
+    [RankGadget("외골격", "흄 쉴드를 모두 소모하여 50% 만큼 체력으로 치환합니다.", RankAbilityType.외골격, RankCategory.SCP_3114, "💀", 110)]
     public class 외골격 : RankGadgetAbility
     {
         protected override bool CanUseGadget()

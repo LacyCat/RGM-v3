@@ -13,7 +13,7 @@ using System.Linq;
 
 namespace RGM.RGM.Modes.Lock.Rank.RankAbilityList.가젯
 {
-    [RankGadget("분노조절문제", "즉시 분노합니다. 대신 유지 시간이 10초로 조정됩니다.", RankAbilityType.분노조절문제, RankCategory.SCP_096, "😠")]
+    [RankGadget("분노조절문제", "즉시 분노합니다. 대신 유지 시간이 10초로 조정됩니다.", RankAbilityType.분노조절문제, RankCategory.SCP_096, "😠", 50)]
     public class 분노조절문제 : RankGadgetAbility
     {
         protected override bool CanUseGadget()

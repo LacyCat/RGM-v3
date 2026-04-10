@@ -17,7 +17,7 @@ using UnityEngine;
 
 namespace RGM.RGM.Modes.Lock.Rank.RankAbilityList.가젯
 {
-    [RankGadget("트릭", "변장하지 않은 상태여도 20초간 인간으로 보입니다.", RankAbilityType.트릭, RankCategory.SCP_3114, "🃏")]
+    [RankGadget("트릭", "변장하지 않은 상태여도 20초간 인간으로 보입니다.", RankAbilityType.트릭, RankCategory.SCP_3114, "🃏", 120)]
     public class 트릭 : RankGadgetAbility
     {
         protected override bool CanUseGadget()

@@ -15,7 +15,7 @@ using System.Linq;
 
 namespace RGM.RGM.Modes.Lock.Rank.RankAbilityList.가젯
 {
-    [RankGadget("Brake", "보고 있는 방의 인간들에게 2초간 부식 효과를 적용합니다.", RankAbilityType.Brake, RankCategory.SCP_079, "🔮")]
+    [RankGadget("Brake", "보고 있는 방의 인간들에게 2초간 부식 효과를 적용합니다.", RankAbilityType.Brake, RankCategory.SCP_079, "🔮", 110)]
     public class Brake : RankGadgetAbility
     {
 

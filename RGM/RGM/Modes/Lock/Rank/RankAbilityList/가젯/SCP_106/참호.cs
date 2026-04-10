@@ -15,7 +15,7 @@ using UnityEngine;
 
 namespace RGM.RGM.Modes.Lock.Rank.RankAbilityList.가젯
 {
-    [RankGadget("참호", "근처에 있는 문을 닫고, 5초간 잠급니다.", RankAbilityType.참호, RankCategory.SCP_106, "🛅")]
+    [RankGadget("참호", "근처에 있는 문을 닫고, 5초간 잠급니다.", RankAbilityType.참호, RankCategory.SCP_106, "🛅", 70)]
     public class 참호 : RankGadgetAbility
     {
         protected override bool CanUseGadget()

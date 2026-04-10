@@ -7,7 +7,7 @@ using RGM.API.Features;
 
 namespace RGM.RGM.Modes.Lock.Rank.RankAbilityList.가젯
 {
-    [RankGadget("연결 확인", "반란이 몇 명 살아있는지 확인합니다.", RankAbilityType.연결_확인, RankCategory.반란, "🚦")]
+    [RankGadget("연결 확인", "반란이 몇 명 살아있는지 확인합니다.", RankAbilityType.연결_확인, RankCategory.반란, "🚦", 50)]
     public class 연결_확인 : RankGadgetAbility
     {
         protected override void OnGadgetUsed()
@@ -18,7 +18,7 @@ namespace RGM.RGM.Modes.Lock.Rank.RankAbilityList.가젯
             {
                 for (int i = 0; i < count; i++)
                 {
-                    Tools.PlaySound(Owner.Transform, "");
+                    Tools.PlaySound(Owner.Transform, "RankCheckAlive", 1.5f);
 
                     yield return Timing.WaitForSeconds(1);
                 }    

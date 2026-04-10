@@ -6,7 +6,7 @@ using RGM.API.Features;
 
 namespace RGM.RGM.Modes.Lock.Rank.RankAbilityList.가젯
 {
-    [RankGadget("구보", "5초간 아무런 아이템을 들 수 없는 대신, 이동 속도가 12% 증가합니다.", RankAbilityType.구보, RankCategory.시설_경비, "🎽")]
+    [RankGadget("구보", "5초간 아무런 아이템을 들 수 없는 대신, 이동 속도가 12% 증가합니다.", RankAbilityType.구보, RankCategory.시설_경비, "🎽", 30)]
     public class 구보 : RankGadgetAbility
     {
         protected override void OnGadgetUsed()
