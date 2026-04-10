@@ -102,6 +102,8 @@ namespace RGM.Modes
                 if (player is null)
                     continue;
 
+                player.ClearEffect();
+
                 RankCategory rankCategory = player.GetRankCategory();
 
                 if (!RankInfo.PlayerRankSettingAbilities.TryGetValue(player, out var playerSettings) ||

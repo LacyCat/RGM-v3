@@ -157,6 +157,15 @@ namespace RGM.API.Features
             }
         }
 
+        public static void ClearEffect(this Player player)
+        {
+            foreach (var effect in player.ActiveEffects.ToList())
+                player.DisableEffect(effect.GetEffectType());
+
+            if (EffectIntensities.ContainsKey(player))
+                EffectIntensities[player].Clear();
+        }
+
         public static void Hit(this Player player, Player attacker, float damage)
         {
             attacker.ShowHitMarker(damage / 10);
