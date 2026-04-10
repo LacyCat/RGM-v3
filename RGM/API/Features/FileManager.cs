@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using Exiled.API.Features;
 using MEC;
 using static RGM.Variables.Variable;
@@ -12,6 +13,8 @@ namespace RGM.API.Features
     {
         public static string FolderPath => Path.Combine(Paths.Configs, "RGM");
 
+        private static readonly Mutex _fileMutex = new Mutex(false, "Global\\RGM_FileManager_Mutex");
+
         public static void CreateFolder()
         {
             if (!Directory.Exists(FolderPath))
@@ -20,25 +23,69 @@ namespace RGM.API.Features
 
         public static void WriteFile(string fileName, string content)
         {
-            string tempFile = Path.Combine(FolderPath, fileName + ".tmp");
-
-            File.WriteAllText(tempFile, content, Encoding.UTF8);
-
-            string backupFile = Path.Combine(FolderPath, fileName + ".bak");
-            if (File.Exists(Path.Combine(FolderPath, fileName)))
+            bool acquired = false;
+            try
             {
-                File.Copy(Path.Combine(FolderPath, fileName), backupFile, true);
-            }
+                acquired = _fileMutex.WaitOne(5000);
+                if (!acquired)
+                {
+                    Log.Warn($"[FileManager] File {fileName} is currently busy. Skipping save to prevent corruption.");
+                    return;
+                }
 
-            File.Replace(tempFile, Path.Combine(FolderPath, fileName), backupFile, true);
+                string tempFile = Path.Combine(FolderPath, fileName + ".tmp");
+                string backupFile = Path.Combine(FolderPath, fileName + ".bak");
+                string targetFile = Path.Combine(FolderPath, fileName);
+
+                File.WriteAllText(tempFile, content, Encoding.UTF8);
+
+                if (File.Exists(targetFile))
+                {
+                    File.Copy(targetFile, backupFile, true);
+                    File.Replace(tempFile, targetFile, backupFile, true);
+                }
+                else
+                {
+                    File.Move(tempFile, targetFile);
+                }
+            }
+            catch (System.Exception ex)
+            {
+                Log.Error($"[FileManager] Exception while writing file {fileName}: {ex}");
+            }
+            finally
+            {
+                if (acquired)
+                    _fileMutex.ReleaseMutex();
+            }
         }
 
         public static string ReadFile(string fileName)
         {
-            if (!File.Exists(Path.Combine(FolderPath, fileName)))
-                File.WriteAllText(Path.Combine(FolderPath, fileName), "");
+            bool acquired = false;
+            try
+            {
+                acquired = _fileMutex.WaitOne(5000);
 
-            return File.ReadAllText(Path.Combine(FolderPath, fileName));
+                string targetFile = Path.Combine(FolderPath, fileName);
+                if (!File.Exists(targetFile))
+                {
+                    File.WriteAllText(targetFile, "", Encoding.UTF8);
+                    return "";
+                }
+
+                return File.ReadAllText(targetFile);
+            }
+            catch (System.Exception ex)
+            {
+                Log.Error($"[FileManager] Exception while reading file {fileName}: {ex}");
+                return string.Empty;
+            }
+            finally
+            {
+                if (acquired)
+                    _fileMutex.ReleaseMutex();
+            }
         }
     }
 
