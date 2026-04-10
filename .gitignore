@@ -404,3 +404,6 @@ FodyWeavers.xsd
 /RGM/obj
 /RGM/packages
 /RGM/.vs
+
+# solution data (Not damaging for main repo.)
+*.sln 
