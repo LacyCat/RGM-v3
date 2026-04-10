@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading;
 using Exiled.API.Features;
 using MEC;
+using Newtonsoft.Json;
 using static RGM.Variables.Variable;
 
 namespace RGM.API.Features
@@ -136,7 +137,10 @@ namespace RGM.API.Features
         현재 연속 출석 일수 - 30
         */
 
-        public static string UsersFileName = Path.Combine(Paths.Configs, "RGM/Users.txt");
+        private static readonly object _usersLock = new object();
+
+        public static string UsersFileName = Path.Combine(Paths.Configs, "RGM/Users.db");
+        public static string LegacyUsersFileName = Path.Combine(Paths.Configs, "RGM/Users.txt");
         public static Dictionary<string, List<string>> UsersCache = new Dictionary<string, List<string>>();
 
         public static string CheckUser(string userId, int num)
@@ -147,7 +151,7 @@ namespace RGM.API.Features
             return null;
         }
 
-        public static bool AddUser(string userId, List<string> UserInfo) 
+        public static bool AddUser(string userId, List<string> UserInfo)
         {
             UsersCache[userId] = UserInfo;
 
@@ -156,55 +160,70 @@ namespace RGM.API.Features
 
         public static void SaveUsers()
         {
-            if (IsUsersFileLoaded)
+            lock (_usersLock)
             {
+                if (!IsUsersFileLoaded)
+                    return;
+
                 Timing.RunCoroutine(RefreshDiscordId());
 
-                if (UsersCache.Count == 0)
-                {
-                    string existing = FileManager.ReadFile(UsersFileName);
-                    if (!string.IsNullOrWhiteSpace(existing))
-                    {
-                        Log.Warn("[UsersManager] UsersCache is empty while existing users file has data. Skip save to prevent reset.");
-                        return;
-                    }
-                }
-
-                var text = string.Join("\n", UsersCache.Select(x => $"{x.Key};{string.Join(";", x.Value)}"));
-
+                var text = JsonConvert.SerializeObject(UsersCache, Formatting.None);
                 FileManager.WriteFile(UsersFileName, text);
             }
         }
 
         public static void LoadUsers()
         {
-            Timing.RunCoroutine(RefreshDiscordId());
-
-            var text = FileManager.ReadFile(UsersFileName);
-
-            if (string.IsNullOrWhiteSpace(text))
-                return;
-
-            Dictionary<string, List<string>> loaded = new Dictionary<string, List<string>>();
-
-            foreach (var line in text.Split('\n'))
+            lock (_usersLock)
             {
-                var parts = line.TrimEnd('\r').Split(';');
+                if (IsUsersFileLoaded)
+                    return;
 
-                if (parts.Length < 2 || string.IsNullOrWhiteSpace(parts[0]))
-                    continue;
+                Timing.RunCoroutine(RefreshDiscordId());
 
-                loaded[parts[0]] = parts.Skip(1).ToList();
+                var dbText = FileManager.ReadFile(UsersFileName);
+                if (!string.IsNullOrWhiteSpace(dbText))
+                {
+                    try
+                    {
+                        var loadedDb = JsonConvert.DeserializeObject<Dictionary<string, List<string>>>(dbText);
+                        if (loadedDb != null)
+                            UsersCache = loadedDb;
+
+                        IsUsersFileLoaded = true;
+                        return;
+                    }
+                    catch (System.Exception ex)
+                    {
+                        Log.Warn($"[UsersManager] Failed to parse Users.db, trying legacy txt. {ex.Message}");
+                    }
+                }
+
+                var text = FileManager.ReadFile(LegacyUsersFileName);
+                if (!string.IsNullOrWhiteSpace(text))
+                {
+                    Dictionary<string, List<string>> loaded = new Dictionary<string, List<string>>();
+
+                    foreach (var line in text.Split('\n'))
+                    {
+                        var parts = line.TrimEnd('\r').Split(';');
+
+                        if (parts.Length < 2 || string.IsNullOrWhiteSpace(parts[0]))
+                            continue;
+
+                        loaded[parts[0]] = parts.Skip(1).ToList();
+                    }
+
+                    if (loaded.Count > 0)
+                    {
+                        UsersCache = loaded;
+                        FileManager.WriteFile(UsersFileName, JsonConvert.SerializeObject(UsersCache, Formatting.None));
+                        Log.Info("[UsersManager] Migrated Users.txt -> Users.db");
+                    }
+                }
+
+                IsUsersFileLoaded = true;
             }
-
-            if (loaded.Count == 0)
-            {
-                Log.Warn("[UsersManager] Users file had content but no valid rows were parsed. Keeping previous cache.");
-                return;
-            }
-
-            UsersCache = loaded;
-            IsUsersFileLoaded = true;
         }
 
         public static IEnumerator<float> RefreshDiscordId()
