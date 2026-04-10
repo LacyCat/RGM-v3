@@ -160,6 +160,16 @@ namespace RGM.API.Features
             {
                 Timing.RunCoroutine(RefreshDiscordId());
 
+                if (UsersCache.Count == 0)
+                {
+                    string existing = FileManager.ReadFile(UsersFileName);
+                    if (!string.IsNullOrWhiteSpace(existing))
+                    {
+                        Log.Warn("[UsersManager] UsersCache is empty while existing users file has data. Skip save to prevent reset.");
+                        return;
+                    }
+                }
+
                 var text = string.Join("\n", UsersCache.Select(x => $"{x.Key};{string.Join(";", x.Value)}"));
 
                 FileManager.WriteFile(UsersFileName, text);
@@ -175,7 +185,7 @@ namespace RGM.API.Features
             if (string.IsNullOrWhiteSpace(text))
                 return;
 
-            UsersCache.Clear();
+            Dictionary<string, List<string>> loaded = new Dictionary<string, List<string>>();
 
             foreach (var line in text.Split('\n'))
             {
@@ -184,9 +194,16 @@ namespace RGM.API.Features
                 if (parts.Length < 2 || string.IsNullOrWhiteSpace(parts[0]))
                     continue;
 
-                UsersCache[parts[0]] = parts.Skip(1).ToList();
+                loaded[parts[0]] = parts.Skip(1).ToList();
             }
 
+            if (loaded.Count == 0)
+            {
+                Log.Warn("[UsersManager] Users file had content but no valid rows were parsed. Keeping previous cache.");
+                return;
+            }
+
+            UsersCache = loaded;
             IsUsersFileLoaded = true;
         }
 
