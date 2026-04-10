@@ -79,11 +79,9 @@ namespace RGM.Commands.ClientCommands
 
                 string suffix = "</size>";
 
-                // What we translate is ONLY the user's raw message, not the rich-text wrapper.
                 string rawMessage = args.Replace("</noparse>", "");
                 string rawMessageNoParse = $"<noparse>{rawMessage}</noparse>";
 
-                // For logging/console response, show the original formatted string.
                 string text2 = $"{prefix}{rawMessageNoParse}{suffix}";
 
                 Chats[player].Add(args);
@@ -124,7 +122,7 @@ namespace RGM.Commands.ClientCommands
                     return false;
                 }
 
-                foreach (Player ply in Player.List)
+                foreach (Player ply in Player.List.Where(x => !x.IsNPC)) // PlayerManager를 쓰지 않는 이유: 훈련장의 인원들도 듣긴 들어야지..
                 {
                     if (Check(ply))
                     {
@@ -140,46 +138,46 @@ namespace RGM.Commands.ClientCommands
 
             if (arguments.Count == 0)
             {
-                response =  "보낼 메세지를 입력해주세요.";
+                response = "보낼 메세지를 입력해주세요.";
                 return false;
             }
 
             if (IntercomPlayers.Contains(player))
             {
-                response = ChatFormat( "전체");
+                response = ChatFormat("전체");
                 return true;
             }
                 
             if (player.IsScp || player.Role.Type == RoleTypeId.ZombieFlamingo)
             {
-                response = ChatFormat( "SCP");
+                response = ChatFormat("SCP");
                 return true;
             }
 
             if (new List<RoleTypeId>() { RoleTypeId.Flamingo, RoleTypeId.AlphaFlamingo }.Contains(player.Role.Type))
             {
-                response = ChatFormat( "플라밍고");
+                response = ChatFormat("플라밍고");
                 return true;
             }
 
             if (player.IsDead || NonePlayer.Players.Contains(player))
             {
-                response = ChatFormat( "관전자");
+                response = ChatFormat("관전자");
                 return true;
             }
                 
-            if (player.CurrentItem is Exiled.API.Features.Items.Scp1576 scp1576)
+            if (player.CurrentItem is Scp1576 scp1576)
             {
                 if (scp1576.IsUsing)
                 {
                     if (player.HasItem(ItemType.Radio))
                     {
-                        response = ChatFormat( "SCP-1576 + 무전기");
+                        response = ChatFormat("SCP-1576 + 무전기");
                         return true;
                     }
                     else
                     {
-                        response = ChatFormat( "SCP-1576");
+                        response = ChatFormat("SCP-1576");
                         return true;
                     }
                 }
@@ -187,11 +185,11 @@ namespace RGM.Commands.ClientCommands
                 
             if (player.HasItem(ItemType.Radio))
             {
-                response = ChatFormat( "무전기");
+                response = ChatFormat("무전기");
                 return true;
             }
 
-            response = ChatFormat( "근거리");
+            response = ChatFormat("근거리");
             return true;
         }
 

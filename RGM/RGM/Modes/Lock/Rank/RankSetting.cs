@@ -71,6 +71,26 @@ namespace RGM.Modes
             RankDropdownMeta.Clear();
             int nextSettingId = RankSettingIdStart;
 
+            int gearMainSettingId = nextSettingId++;
+            list.Add(new DropdownSetting(
+                id: gearMainSettingId,
+                label: $"<color={RankAbilityCategoryExtensions.GetColor(RankAbilityCategory.기어_메인)}>메인 기어</color>",
+                hintDescription: string.Join("\n", RankInfo.기어_메인.Select(x => $"• {GetFormattedOption(x.Key, x.Value.Item2)}: {x.Value.Item1}")),
+                options: RankInfo.기어_메인.Select(x => GetFormattedOption(x.Key, x.Value.Item2)),
+                header: RankHeader
+            ));
+            RankDropdownMeta[gearMainSettingId] = (RankAbilityCategory.기어_메인, RankCategory.공통);
+
+            int gearUtilSettingId = nextSettingId++;
+            list.Add(new DropdownSetting(
+                id: gearUtilSettingId,
+                label: $"<color={RankAbilityCategoryExtensions.GetColor(RankAbilityCategory.기어_유틸)}>유틸 기어</color>",
+                hintDescription: string.Join("\n", RankInfo.기어_유틸.Select(x => $"• {GetFormattedOption(x.Key, x.Value.Item2)}: {x.Value.Item1}")),
+                options: RankInfo.기어_유틸.Select(x => GetFormattedOption(x.Key, x.Value.Item2)),
+                header: RankHeader
+            ));
+            RankDropdownMeta[gearUtilSettingId] = (RankAbilityCategory.기어_유틸, RankCategory.공통);
+
             var categories = RankInfo.변칙성.Keys.Union(RankInfo.가젯.Keys).Distinct();
 
             foreach (var category in categories)
@@ -103,26 +123,6 @@ namespace RGM.Modes
                     RankDropdownMeta[settingId] = (RankAbilityCategory.가젯, category);
                 }
             }
-
-            int gearMainSettingId = nextSettingId++;
-            list.Add(new DropdownSetting(
-                id: gearMainSettingId,
-                label: $"<color={RankAbilityCategoryExtensions.GetColor(RankAbilityCategory.기어_메인)}>메인 기어</color>",
-                hintDescription: string.Join("\n", RankInfo.기어_메인.Select(x => $"• {GetFormattedOption(x.Key, x.Value.Item2)}: {x.Value.Item1}")),
-                options: RankInfo.기어_메인.Select(x => GetFormattedOption(x.Key, x.Value.Item2)),
-                header: RankHeader
-            ));
-            RankDropdownMeta[gearMainSettingId] = (RankAbilityCategory.기어_메인, RankCategory.공통);
-
-            int gearUtilSettingId = nextSettingId++;
-            list.Add(new DropdownSetting(
-                id: gearUtilSettingId,
-                label: $"<color={RankAbilityCategoryExtensions.GetColor(RankAbilityCategory.기어_유틸)}>유틸 기어</color>",
-                hintDescription: string.Join("\n", RankInfo.기어_유틸.Select(x => $"• {GetFormattedOption(x.Key, x.Value.Item2)}: {x.Value.Item1}")),
-                options: RankInfo.기어_유틸.Select(x => GetFormattedOption(x.Key, x.Value.Item2)),
-                header: RankHeader
-            ));
-            RankDropdownMeta[gearUtilSettingId] = (RankAbilityCategory.기어_유틸, RankCategory.공통);
 
             SettingBase.Register(list);
         }
