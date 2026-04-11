@@ -97,6 +97,7 @@
     <Compile Include="RGM\Commands\RemoteAdminCommands\AdminFeatures\PlayAudio.cs" />
     <Compile Include="RGM\Commands\RemoteAdminCommands\AdminFeatures\Translator.cs" />
     <Compile Include="RGM\Commands\RemoteAdminCommands\AdminFeatures\Suggest.cs" />
+    <Compile Include="RGM\Commands\RemoteAdminCommands\AdminFeatures\PrintPos.cs" />
     <Compile Include="RGM\Commands\RemoteAdminCommands\AdminFeatures\Warn.cs" />
     <Compile Include="RGM\Commands\RemoteAdminCommands\ShopFeatures\Badge.cs" />
     <Compile Include="RGM\Commands\RemoteAdminCommands\ShopFeatures\Item.cs" />
@@ -209,6 +210,7 @@
     <Compile Include="RGM\Modes\Lock\TFT\EventArgs\ServerEvents.cs" />
     <Compile Include="RGM\Modes\Lock\TFT\EventArgs\WarheadEvents.cs" />
     <Compile Include="RGM\Modes\Lock\TFT\IEnumerators\Base.cs" />
+    <Compile Include="RGM\Modes\Lock\TFT\TFT\TFTSetting.cs" />
     <Compile Include="RGM\Modes\Lock\TFT\TFT\TFTBattle.cs" />
     <Compile Include="RGM\Modes\Lock\TFT\TFT\TFTAbilities\Euclid\All\AddDefense2.cs" />
     <Compile Include="RGM\Modes\Lock\TFT\TFT\TFTAbilities\Euclid\All\AddHealth2.cs" />
@@ -587,6 +589,7 @@
     <Compile Include="RGM\Modes\Set\Agar\Agar.cs" />
     <Compile Include="RGM\Modes\Set\Alone\Alone.cs" />
     <Compile Include="RGM\Modes\Set\BombParty\BombParty.cs" />
+    <Compile Include="RGM\Modes\Set\Chess\Chess.cs" />
     <Compile Include="RGM\Modes\Set\Cell\Cell.cs" />
     <Compile Include="RGM\Modes\Plus\Collector\Collector.cs" />
     <Compile Include="RGM\Modes\Set\ChangedFate\ChangedFate.cs" />
