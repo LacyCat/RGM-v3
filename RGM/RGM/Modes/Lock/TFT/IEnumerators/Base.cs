@@ -41,7 +41,7 @@ namespace DAONTFT.Core.IEnumerators
                     {
                         Text = $"<size=15>{string.Join("\n", queue)}</size>",
                         Id = "증강 리스트",
-                        XCoordinate = -500,
+                        XCoordinate = -1000,
                         YCoordinate = 80,
                         Alignment = HintAlignment.Right
                     };
@@ -72,7 +72,7 @@ namespace DAONTFT.Core.IEnumerators
                     {
                         Text = $"<size=15>{string.Join("\n", queue)}</size>",
                         Id = "증강 리스트",
-                        XCoordinate = -500,
+                        XCoordinate = -1000,
                         YCoordinate = 80,
                         Alignment = HintAlignment.Right
                     };
