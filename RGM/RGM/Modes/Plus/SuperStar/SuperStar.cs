@@ -28,6 +28,7 @@ namespace RGM.Modes
         public override void OnDisabled()
         {
             Timing.KillCoroutines(_onModeStarted);
+            IntercomPlayers.Clear();
         }
 
         public IEnumerator<float> OnModeStarted()
