@@ -47,7 +47,6 @@ namespace RGM.Modes
                 if (count >= 120)
                 {
                     IntercomPlayers.Clear();
-                    Log.Info("[RGM:SuperStar] 2분이 되어 자동으로 IntercomPlayers를 초기화합니다. ");
                     count = 0;
 
                     yield return Timing.WaitForSeconds(.2f);
