@@ -44,7 +44,7 @@ namespace RGM.Modes
                     }
                 }
                 
-                if (count >= 120)
+                if (count >= 50)
                 {
                     IntercomPlayers.Clear();
                     count = 0;
