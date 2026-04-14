@@ -27,7 +27,9 @@ public class KoreanSpeed : Mode
         Exiled.Events.Handlers.Player.Died -= OnDied;
         Exiled.Events.Handlers.Player.SearchingPickup -= OnSearchingPickup;
         Exiled.Events.Handlers.Player.ThrowingRequest -= OnThrowingRequest;
+        UnloadEffects();
     }
+
     public override void OnEnabled()
     {
         Exiled.Events.Handlers.Player.Spawned += OnSpawn;
@@ -69,6 +71,15 @@ public class KoreanSpeed : Mode
         {
             player.EnableEffect(EffectType.MovementBoost, (byte)(count * 3));
             player.EnableEffect(EffectType.Scp1853, (byte)count);
+        }
+    }
+
+    private void UnloadEffects()
+    {
+        foreach (var player in PlayerManager.List.Where(player => player != null && !player.IsDead))
+        {
+            player.DisableEffect(EffectType.MovementBoost);
+            player.DisableEffect(EffectType.Scp1853);
         }
     }
 }
