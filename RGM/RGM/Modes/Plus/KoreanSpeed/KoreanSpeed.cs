@@ -19,15 +19,7 @@ public class KoreanSpeed : Mode
 
     public static KoreanSpeed Instance;
 
-        int count;
-
-    public override void OnEnabled()
-    {
-        Exiled.Events.Handlers.Player.Spawned += OnSpawn;
-        Exiled.Events.Handlers.Player.Died += OnDied;
-        Exiled.Events.Handlers.Player.SearchingPickup += OnSearchingPickup;
-        Exiled.Events.Handlers.Player.ThrowingRequest += OnThrowingRequest;
-    }
+    int count;
 
     public override void OnDisabled()
     {
@@ -36,13 +28,20 @@ public class KoreanSpeed : Mode
         Exiled.Events.Handlers.Player.SearchingPickup -= OnSearchingPickup;
         Exiled.Events.Handlers.Player.ThrowingRequest -= OnThrowingRequest;
     }
+    public override void OnEnabled()
+    {
+        Exiled.Events.Handlers.Player.Spawned += OnSpawn;
+        Exiled.Events.Handlers.Player.Died += OnDied;
+        Exiled.Events.Handlers.Player.SearchingPickup += OnSearchingPickup;
+        Exiled.Events.Handlers.Player.ThrowingRequest += OnThrowingRequest;
+    }
 
     private void OnDied(DiedEventArgs ev)
     {
         if (count != 125)
             count++;
 
-        AddEffect();
+        AddEffects();
     }
 
     private void OnSearchingPickup(SearchingPickupEventArgs ev)
@@ -57,17 +56,18 @@ public class KoreanSpeed : Mode
 
     private void OnSpawn(SpawnedEventArgs ev)
     {
-        Timing.WaitForSeconds(Timing.WaitForOneFrame);
-
-        if (!ev.Player.IsAlive || ev.Player.IsNonePlayer()) return;
-        AddEffect();
+        Timing.CallDelayed(Timing.WaitForOneFrame, () =>
+        {
+            if (ev.Player == null || !ev.Player.IsAlive || ev.Player.IsNonePlayer()) return;
+            AddEffects();
+        });
     }
 
-    private void AddEffect()
+    private void AddEffects()
     {
         foreach (var player in PlayerManager.List.Where(player => player != null && !player.IsDead))
         {
-            player.EnableEffect(EffectType.MovementBoost, (byte)(count * 2));
+            player.EnableEffect(EffectType.MovementBoost, (byte)(count * 3));
             player.EnableEffect(EffectType.Scp1853, (byte)count);
         }
     }
