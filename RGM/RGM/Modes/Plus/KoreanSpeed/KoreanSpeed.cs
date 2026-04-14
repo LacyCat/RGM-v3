@@ -1,5 +1,7 @@
-﻿using Exiled.API.Enums;
+﻿using System.Linq;
+using Exiled.API.Enums;
 using Exiled.Events.EventArgs.Player;
+using MEC;
 using RGM.API.Features;
 
 namespace RGM.Modes;
@@ -19,30 +21,29 @@ public class KoreanSpeed : Mode
 
         int count;
 
-        public override void OnEnabled()
-        {
-            Exiled.Events.Handlers.Player.Died += OnDied;
-            Exiled.Events.Handlers.Player.SearchingPickup += OnSearchingPickup;
-            Exiled.Events.Handlers.Player.ThrowingRequest += OnThrowingRequest;
-        }
+    public override void OnEnabled()
+    {
+        Exiled.Events.Handlers.Player.Spawned += OnSpawn;
+        Exiled.Events.Handlers.Player.Died += OnDied;
+        Exiled.Events.Handlers.Player.SearchingPickup += OnSearchingPickup;
+        Exiled.Events.Handlers.Player.ThrowingRequest += OnThrowingRequest;
+    }
 
-        public override void OnDisabled()
-        {
-            Exiled.Events.Handlers.Player.Died -= OnDied;
-            Exiled.Events.Handlers.Player.SearchingPickup -= OnSearchingPickup;
-            Exiled.Events.Handlers.Player.ThrowingRequest -= OnThrowingRequest;
-        }
+    public override void OnDisabled()
+    {
+        Exiled.Events.Handlers.Player.Spawned -= OnSpawn;
+        Exiled.Events.Handlers.Player.Died -= OnDied;
+        Exiled.Events.Handlers.Player.SearchingPickup -= OnSearchingPickup;
+        Exiled.Events.Handlers.Player.ThrowingRequest -= OnThrowingRequest;
+    }
 
     private void OnDied(DiedEventArgs ev)
     {
         if (count != 125)
             count++;
 
-            foreach (var player in PlayerManager.List)
-            {
-                player.EnableEffect(EffectType.MovementBoost, (byte)(count * 2));
-            }
-        }
+        AddEffect();
+    }
 
     private void OnSearchingPickup(SearchingPickupEventArgs ev)
     {
@@ -54,5 +55,20 @@ public class KoreanSpeed : Mode
         ev.Throwable.PinPullTime -= count * 0.1f;
     }
 
+    private void OnSpawn(SpawnedEventArgs ev)
+    {
+        Timing.WaitForSeconds(Timing.WaitForOneFrame);
 
+        if (!ev.Player.IsAlive || ev.Player.IsNonePlayer()) return;
+        AddEffect();
+    }
+
+    private void AddEffect()
+    {
+        foreach (var player in PlayerManager.List.Where(player => player != null && !player.IsDead))
+        {
+            player.EnableEffect(EffectType.MovementBoost, (byte)(count * 2));
+            player.EnableEffect(EffectType.Scp1853, (byte)count);
+        }
+    }
 }
