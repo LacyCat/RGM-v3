@@ -499,6 +499,8 @@ public static class TFTBattle
             cursor += selections.Count;
 
         SelectionCursor[player] = cursor;
+
+        PlayersAudio[player].TryPlay("Select");
     }
 
     public static bool ConfirmSelectionByCursor(this Player player, out string response)

@@ -202,87 +202,81 @@ Use this setting to break the language barrier.
                         return;
                     }
                 }
+            }
 
-                if (setting.SettingId == 12055 || setting.SettingId == 12056 || setting.SettingId == 12057 || setting.SettingId == 12058)
-                    PlayersAudio[player].TryPlay("Select", 3);
-
-                if (setting.SettingId == 12059)
-                    PlayersAudio[player].TryPlay("SelectConfirm", 2);
-
-                // 투버튼인 경우
-                if (setting is SSTwoButtonsSetting twoButton)
+            // 투버튼인 경우
+            if (setting is SSTwoButtonsSetting twoButton)
+            {
+                if (setting.SettingId == 12053)
                 {
-                    if (setting.SettingId == 12053)
+                    if (twoButton.SyncIsA)
                     {
-                        if (twoButton.SyncIsA)
-                        {
-                            if (!MuteBGMPlayers.Contains(player))
-                                MuteBGMPlayers.Add(player);
-                        }
-                        else
-                        {
-                            if (MuteBGMPlayers.Contains(player))
-                                MuteBGMPlayers.Remove(player);
-                        }
+                        if (!MuteBGMPlayers.Contains(player))
+                            MuteBGMPlayers.Add(player);
+                    }
+                    else
+                    {
+                        if (MuteBGMPlayers.Contains(player))
+                            MuteBGMPlayers.Remove(player);
                     }
                 }
+            }
 
-                // 드롭다운인 경우
-                if (setting is SSDropdownSetting dropdown)
+            // 드롭다운인 경우
+            if (setting is SSDropdownSetting dropdown)
+            {
+                if (setting.SettingId == 12054)
                 {
-                    if (setting.SettingId == 12054)
-                    {
-                        TranslatorPlayers[player] = dropdown.SyncSelectionText.Split('(')[1].Replace(")", "");
-                    }
+                    TranslatorPlayers[player] = dropdown.SyncSelectionText.Split('(')[1].Replace(")", "");
                 }
+            }
 
-                if (setting.SettingId == 12051)
+            if (setting.SettingId == 12051)
+            {
+                if ((CurrentMode == ModeType.None || CurrentMode.GetModeData().Info == ModeInfo.Plus) &&
+                    IsNonePlayerAllowed &&
+                    (Round.IsLobby || (DateTime.UtcNow - PlayersReport[player.UserId].LastDeath).TotalSeconds >= 10))
                 {
-                    if ((CurrentMode == ModeType.None || CurrentMode.GetModeData().Info == ModeInfo.Plus) &&
-                        IsNonePlayerAllowed &&
-                        (Round.IsLobby || (DateTime.UtcNow - PlayersReport[player.UserId].LastDeath).TotalSeconds >= 10))
+                    if (player.IsAlive && NonePlayer.Players.Contains(player))
                     {
-                        if (player.IsAlive && NonePlayer.Players.Contains(player))
-                        {
-                            player.ClearInventory();
-                            player.Kill("관전석으로 되돌아갑니다.");
-                        }
-                        else if (Round.IsLobby ? true : player.IsDead)
-                        {
-                            NonePlayer.Create(player);
-                        }
-                        else
-                        {
-                            PlayersAudio[player].TryPlay($"nope");
-                        }
+                        player.ClearInventory();
+                        player.Kill("관전석으로 되돌아갑니다.");
+                    }
+                    else if (Round.IsLobby ? true : player.IsDead)
+                    {
+                        NonePlayer.Create(player);
                     }
                     else
                     {
                         PlayersAudio[player].TryPlay($"nope");
                     }
                 }
-
-                if (setting.SettingId == 12052)
+                else
                 {
-                    if ((DateTime.UtcNow - PlayersReport[player.UserId].LastDeath).TotalSeconds >= 10)
+                    PlayersAudio[player].TryPlay($"nope");
+                }
+            }
+
+            if (setting.SettingId == 12052)
+            {
+                if ((DateTime.UtcNow - PlayersReport[player.UserId].LastDeath).TotalSeconds >= 10)
+                {
+                    if (player.Role.Type == RoleTypeId.Overwatch)
                     {
-                        if (player.Role.Type == RoleTypeId.Overwatch)
-                        {
-                            player.Role.Set(RoleTypeId.Spectator);
-                        }
-                        else if (player.Role.Type == RoleTypeId.Spectator)
-                        {
-                            player.Role.Set(RoleTypeId.Overwatch);
-                        }
-                        else
-                        {
-                            PlayersAudio[player].TryPlay($"nope");
-                        }
+                        player.Role.Set(RoleTypeId.Spectator);
+                    }
+                    else if (player.Role.Type == RoleTypeId.Spectator)
+                    {
+                        player.Role.Set(RoleTypeId.Overwatch);
                     }
                     else
                     {
                         PlayersAudio[player].TryPlay($"nope");
                     }
+                }
+                else
+                {
+                    PlayersAudio[player].TryPlay($"nope");
                 }
             }
         }

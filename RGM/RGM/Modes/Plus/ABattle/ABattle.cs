@@ -945,6 +945,8 @@ public class ABattle : Mode
             cursor += abilities.Count;
 
         SelectionCursor[player] = cursor;
+
+        PlayersAudio[player].TryPlay("Select");
     }
 
     public bool ConfirmSelectionByCursor(Player player, out string response)
@@ -957,6 +959,8 @@ public class ABattle : Mode
 
         if (!SelectionCursor.ContainsKey(player))
             SelectionCursor[player] = 0;
+
+        PlayersAudio[player].TryPlay("SelectConfirm", 1.5f);
 
         int cursor = Math.Max(0, Math.Min(SelectionCursor[player], abilities.Count - 1));
         return Select(player, cursor + 1, out response);
