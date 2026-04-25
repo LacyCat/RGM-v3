@@ -21,14 +21,14 @@ public class KoreanSpeed : Mode
 
     public static KoreanSpeed Instance;
 
-    int count;
-
     public override void OnDisabled()
     {
         Exiled.Events.Handlers.Player.Spawned -= OnSpawn;
         Exiled.Events.Handlers.Player.Died -= OnDied;
         Exiled.Events.Handlers.Player.SearchingPickup -= OnSearchingPickup;
         Exiled.Events.Handlers.Player.ThrowingRequest -= OnThrowingRequest;
+        SpeedStore.Clear();
+        SpeedStore.isEnabled = false;
         UnloadEffects();
     }
 
@@ -38,24 +38,26 @@ public class KoreanSpeed : Mode
         Exiled.Events.Handlers.Player.Died += OnDied;
         Exiled.Events.Handlers.Player.SearchingPickup += OnSearchingPickup;
         Exiled.Events.Handlers.Player.ThrowingRequest += OnThrowingRequest;
+        SpeedStore.Clear();
+        SpeedStore.isEnabled = true;
     }
 
     private void OnDied(DiedEventArgs ev)
     {
-        if (count != 125)
-            count++;
+        if (SpeedStore.Count != 125)
+            SpeedStore.Count++;
 
         AddEffects();
     }
 
     private void OnSearchingPickup(SearchingPickupEventArgs ev)
     {
-        ev.SearchTime -= count * 0.1f;
+        ev.SearchTime -= SpeedStore.Count * 0.1f;
     }
 
     private void OnThrowingRequest(ThrowingRequestEventArgs ev)
     {
-        ev.Throwable.PinPullTime -= count * 0.1f;
+        ev.Throwable.PinPullTime -= SpeedStore.Count * 0.1f;
     }
 
     private void OnSpawn(SpawnedEventArgs ev)
@@ -67,14 +69,14 @@ public class KoreanSpeed : Mode
         });
     }
 
-    private void AddEffects()
+    internal static void AddEffects()
     {
         try
         {
             foreach (var player in PlayerManager.List.Where(player => player != null && !player.IsDead))
             {
-                player.EnableEffect(EffectType.MovementBoost, (byte)(count * 2));
-                player.EnableEffect(EffectType.Scp1853, count <= 5 ? (byte)count : (byte)5);
+                player.EnableEffect(EffectType.MovementBoost, (byte)(SpeedStore.Count * 2));
+                player.EnableEffect(EffectType.Scp1853, SpeedStore.Count <= 5 ? SpeedStore.Count : (byte)5);
             }
         }
         catch (Exception e)
