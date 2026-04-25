@@ -32,39 +32,31 @@ public class SetCount : ICommand
                 return true;
             }
 
-            if (byte.TryParse(arguments.At(1), out var data) &&
-                Regex.IsMatch(arguments.At(0), "[A-Za-z]"))
+            if (Regex.IsMatch(arguments.At(0), @"^[A-Za-z]+$") || arguments.At(0).Contains(""))
+            {
+                response = "알 수 없는 조건입니다. /setcount help으로 사용방법을 확인하세요.";
+                return false;
+            }
+            
+            if (byte.TryParse(arguments.At(1), out var data))
+            {
+                if (data <= 0)
+                {
+                    response = "최소한, 0 이상의 값을 입력하세요.";
+                    return false;
+                }
+                
                 switch (arguments.At(0))
                 {
                     case "add":
-                        // 다른 용도(제거)로 인해 가능성 버그를 방지
-                        if (data <= 0)
-                        {
-                            response = "최소한, 0 이상의 값을 입력하세요.";
-                            return false;
-                        }
-
                         SpeedStore.Count += data + SpeedStore.Count > 125 ? (byte)125 : data;
                         break;
                     case "set":
-                        // Stack overflow 방지
-                        if (data <= 0)
-                        {
-                            response = "최소한, 0 이상의 값을 입력하세요.";
-                            return false;
-                        }
-
                         SpeedStore.Count = data + SpeedStore.Count > 125 ? (byte)125 : data;
                         break;
                     case "remove":
                     case "rm":
-                        if (data <= 0)
-                        {
-                            response = "최소한, 0 이상의 값을 입력하세요.";
-                            return false;
-                        }
-
-                        SpeedStore.Count = SpeedStore.Count - data < 0 ? (byte)0 : data;
+                        SpeedStore.Count -= (int)SpeedStore.Count - data < 0 ? (byte)125 : (byte)(SpeedStore.Count - data);
                         break;
                     case "clear":
                         SpeedStore.Clear();
@@ -73,11 +65,14 @@ public class SetCount : ICommand
                         response = "알 수 없는 조건입니다.";
                         return false;
                 }
+            }
             else
+            {
                 response = """
                            수가 알맞지 않거나, 너무 큽니다.
                            0 ~ 255 사이의 수이면서 문자가 들어가지 않은 수를 입력해주세요.
                            """;
+            }
 
             KoreanSpeed.AddEffects();
 

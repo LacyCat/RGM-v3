@@ -50,17 +50,17 @@ public class KoreanSpeed : Mode
         AddEffects();
     }
 
-    private void OnSearchingPickup(SearchingPickupEventArgs ev)
+    private static void OnSearchingPickup(SearchingPickupEventArgs ev)
     {
         ev.SearchTime -= SpeedStore.Count * 0.1f;
     }
 
-    private void OnThrowingRequest(ThrowingRequestEventArgs ev)
+    private static void OnThrowingRequest(ThrowingRequestEventArgs ev)
     {
         ev.Throwable.PinPullTime -= SpeedStore.Count * 0.1f;
     }
 
-    private void OnSpawn(SpawnedEventArgs ev)
+    private static void OnSpawn(SpawnedEventArgs ev)
     {
         Timing.CallDelayed(Timing.WaitForOneFrame, () =>
         {
@@ -85,7 +85,7 @@ public class KoreanSpeed : Mode
         }
     }
 
-    private void UnloadEffects()
+    private static void UnloadEffects()
     {
         try
         {
