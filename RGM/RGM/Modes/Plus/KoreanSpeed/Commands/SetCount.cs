@@ -37,7 +37,7 @@ public class SetCount : ICommand
                 return true;
             }
 
-            if (arguments.At(0).Equals("clear", StringComparison.OrdinalIgnoreCase))
+            if (arguments.At(0).ToLower().Equals("clear", StringComparison.OrdinalIgnoreCase))
             {
                 SpeedStore.Clear();
                 KoreanSpeed.AddEffects();
@@ -45,10 +45,23 @@ public class SetCount : ICommand
                 return true;
             }
 
-            if (arguments.At(0).Equals("help", StringComparison.OrdinalIgnoreCase))
+            if (arguments.At(0).ToLower().Equals("help", StringComparison.OrdinalIgnoreCase))
             {
                 response = """ 
                            /setcount 명령어 by babycat_official
+                           add <숫자> - 현재 횟수에 숫자를 추가합니다.
+                           set <숫자> - 현재 횟수를 숫자로 설정합니다.
+                           remove (또는 rm) <숫자> - 현재 횟수에서 숫자를 제거합니다.
+                           clear - 현재 횟수를 0으로 설정합니다.
+                           help - 도움말을 표시합니다.
+                           """;
+                return true;
+            }
+
+            if (!Regex.IsMatch(arguments.At(0).ToLower(), "^(add|set|remove|rm)+$"))
+            {
+                response = """ 
+                           알 수 없는 명령어입니다.
                            add <숫자> - 현재 횟수에 숫자를 추가합니다.
                            set <숫자> - 현재 횟수를 숫자로 설정합니다.
                            remove (또는 rm) <숫자> - 현재 횟수에서 숫자를 제거합니다.
@@ -65,30 +78,22 @@ public class SetCount : ICommand
             }
 
             var data = byte.TryParse(arguments.At(1), out var value);
-
-            if (Regex.IsMatch(arguments.At(1), @"^[0-9]+$") && data && value <= 125)
+            
+            if (data && value <= 125)
             {
-                switch (arguments.At(0))
+                switch (arguments.At(0).ToLower())
                 {
                     case "add":
-                        SpeedStore.Count += value + SpeedStore.Count > 125 ? (byte)125 : value;
+                        SpeedStore.Count = (byte)(value + SpeedStore.Count) > 125 ? 
+                            (byte)125 : 
+                            (byte)(SpeedStore.Count + value);
                         break;
                     case "set":
-                        SpeedStore.Count = value + SpeedStore.Count > 125 ? (byte)125 : value;
+                        SpeedStore.Count = value;
                         break;
                     case "remove":
                     case "rm":
                         return SpeedStore.TryRemove(value, out response);
-                    default:
-                        response = """ 
-                                   알 수 없는 명령어입니다.
-                                   add <숫자> - 현재 횟수에 숫자를 추가합니다.
-                                   set <숫자> - 현재 횟수를 숫자로 설정합니다.
-                                   remove (또는 rm) <숫자> - 현재 횟수에서 숫자를 제거합니다.
-                                   clear - 현재 횟수를 0으로 설정합니다.
-                                   help - 도움말을 표시합니다.
-                                   """;
-                        return false;
                 }
 
                 KoreanSpeed.AddEffects();
