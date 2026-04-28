@@ -624,7 +624,6 @@
     <Compile Include="RGM\Modes\Set\PVE\PveExiled\Enemies\Tranquilizer.cs" />
     <Compile Include="RGM\Modes\Set\PVE\PveExiled\Enemies\Zombie.cs" />
     <Compile Include="RGM\Modes\Set\PVE\PveExiled\Enemy.cs" />
-    <Compile Include="RGM\Modes\Set\PVE\PveExiled\Main.cs" />
     <Compile Include="RGM\Modes\Set\PVE\PveExiled\RoundHandler.cs" />
     <Compile Include="RGM\Modes\Set\PVE\PveExiled\SpecialWave.cs" />
     <Compile Include="RGM\Modes\Set\PVE\PveExiled\SpecialWaves\Blackout.cs" />
