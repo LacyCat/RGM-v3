@@ -730,7 +730,7 @@ namespace RGM.EventArgs
 
                         ev.IsAllowed = false;
 
-                        ev.Player.Kill(new PlayerStatsSystem.ScpDamageHandler(attacker.ReferenceHub, DeathTranslations.PocketDecay));
+                        ev.Player.Kill(new ScpDamageHandler(attacker.ReferenceHub, DeathTranslations.PocketDecay));
                     }
                 }
             }
