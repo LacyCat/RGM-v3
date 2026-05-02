@@ -56,7 +56,7 @@ namespace RGM.RGM.Modes.Tiny.대인전
                 ply.Role.Set(RoleTypeId.ClassD);
                 ply.AddItem(item);
                 ply.AddItem(ItemType.ArmorCombat);
-                ply.Position = Door.Get(DoorType.CheckpointGateA).Position + new Vector3(0, 2, 0);
+                ply.Position = new Vector3(150.292969f, -99.04036f, 59.80078f);
                 ply.AddEffect(EffectType.Ensnared, 1, 10);
             }
 
@@ -66,7 +66,7 @@ namespace RGM.RGM.Modes.Tiny.대인전
                 ply.ClearInventory();
                 ply.AddItem(item);
                 ply.AddItem(ItemType.ArmorCombat);
-                ply.Position = Door.Get(DoorType.CheckpointGateB).Position + new Vector3(0, 2, 0);
+                ply.Position = new Vector3(180.074219f, -99.04036f, 75.16016f);
                 ply.AddEffect(EffectType.Ensnared, 1, 10);
             }
 

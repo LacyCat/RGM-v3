@@ -132,7 +132,7 @@ namespace RGM.EventArgs
                     Map.Broadcast(10, "대기 중..");
                     yield return Timing.WaitForSeconds(10);
 
-                    while (true)
+                    for (int _ = 0; _ < 30; _++)
                     {
                         while (Player.List.Count(x => !x.IsNPC) <= 1)
                         {
@@ -148,11 +148,13 @@ namespace RGM.EventArgs
 
                         for (int i = 0; i < 30; i++)
                         {
-                            Map.Broadcast(1, $"{30 - i}초 후 대인전이 시작됩니다.");
+                            Map.Broadcast(1, $"{30 - i}초 후 대인전이 시작됩니다.\n<size=20>{30 - _} 라운드 후 서버가 재시작됩니다.</size>");
 
                             yield return Timing.WaitForSeconds(1);
                         }
                     }
+
+                    Server.ExecuteCommand("/sr");
                 }
 
                 Timing.RunCoroutine(enumerator());
