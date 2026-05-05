@@ -531,10 +531,10 @@ namespace RGM.EventArgs
         {
             if (Server.Port != 7803)
             {
-                ev.Player.AddEffect(EffectType.FogControl, 1);
+                ev.Player.EnableEffect(EffectType.FogControl, 1);
 
                 if (MapUtils.LoadedMaps.Keys.Any(Maps.Contains))
-                    ev.Player.AddEffect(EffectType.NightVision, 255);
+                    ev.Player.EnableEffect(EffectType.NightVision, 255);
             }
 
             if (ev.Player.IsAlive)
@@ -542,7 +542,7 @@ namespace RGM.EventArgs
                 if (Round.IsStarted)
                 {
                     DateTime kst = DateTime.UtcNow.AddHours(9); // 어린이날 전용
-                    if (kst.Month == 5 && kst.Day == 5)
+                    if (!ev.Player.IsNonePlayer() && kst.Month == 5 && kst.Day == 5)
                     {
                         if (UnityEngine.Random.Range(1, 201) == 1)
                         {
