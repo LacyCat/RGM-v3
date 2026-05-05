@@ -1,5 +1,4 @@
 ﻿using CustomPlayerEffects;
-using Discord;
 using DiscordInteraction.Discord;
 using Exiled.API.Enums;
 using Exiled.API.Extensions;
@@ -18,10 +17,8 @@ using RGM.Modes;
 using RGM.Modes.SubClass;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.DedicatedServer;
 using static RGM.IEnumerators.ServerIEnumerator;
 using static RGM.Variables.Variable;
 
@@ -539,10 +536,10 @@ namespace RGM.EventArgs
 
             if (ev.Player.IsAlive)
             {
-                if (Round.IsStarted)
+                if (Round.IsStarted && !ev.Player.IsNonePlayer() && Server.PlayerCount >= 20)
                 {
                     DateTime kst = DateTime.UtcNow.AddHours(9); // 어린이날 전용
-                    if (!ev.Player.IsNonePlayer() && kst.Month == 5 && kst.Day == 5)
+                    if (kst.Month == 5 && kst.Day == 5)
                     {
                         if (UnityEngine.Random.Range(1, 201) == 1)
                         {

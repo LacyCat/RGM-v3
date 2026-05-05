@@ -2,17 +2,14 @@
 using Exiled.API.Enums;
 using Exiled.API.Extensions;
 using Exiled.API.Features;
-using Exiled.API.Features.Doors;
 using Exiled.Events.EventArgs.Player;
 using MEC;
 using PlayerRoles;
 using ProjectMER.Features;
 using RGM.API.Features;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace RGM.RGM.Modes.Tiny.대인전

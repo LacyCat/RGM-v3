@@ -1,12 +1,7 @@
-﻿using Exiled.API.Features;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using PlayerEventArgs = Exiled.Events.EventArgs.Player;
 using MapEventArgs = Exiled.Events.EventArgs.Map;
 using ServerEventArgs = Exiled.Events.EventArgs.Server;
-using Exiled.API.Features.Items;
-using Mirror;
-using CustomPlayerEffects;
-using MEC;
 
 namespace RGM.Modes.PveExiledSystem
 {

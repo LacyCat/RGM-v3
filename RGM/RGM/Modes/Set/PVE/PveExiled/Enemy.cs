@@ -4,18 +4,15 @@ using Mirror;
 using NetworkManagerUtils.Dummies;
 using PlayerRoles;
 using PlayerStatsSystem;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
-using Exiled;
 using Exiled.API.Features;
 using Exiled.API.Enums;
 using MEC;
 using RelativePositioning;
 using PlayerRoles.FirstPersonControl;
 using System.Linq;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
+using UnityEngine.AI;
 
 namespace RGM.Modes.PveExiledSystem
 {

@@ -1,13 +1,8 @@
 ﻿using Exiled.API.Features;
 using MEC;
 using System.Collections.Generic;
-using Exiled.Events.EventArgs;
-using PlayerEventArgs = Exiled.Events.EventArgs.Player;
-using PlayerEvents = Exiled.Events.Handlers.Player;
-using UnityEngine;
 using CustomPlayerEffects;
 using System.Linq;
-using NetworkManagerUtils.Dummies;
 
 namespace RGM.Modes.PveExiledSystem.SpecialWaves
 {

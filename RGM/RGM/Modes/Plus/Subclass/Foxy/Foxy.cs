@@ -1,10 +1,7 @@
 ﻿using Exiled.API.Features;
 using Exiled.Events.EventArgs.Player;
 using MEC;
-using ProjectMER.Features;
-using ProjectMER.Features.Objects;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace RGM.Modes.SubClass
 {

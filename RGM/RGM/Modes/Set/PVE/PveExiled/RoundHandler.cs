@@ -1,33 +1,22 @@
-﻿using CustomPlayerEffects;
-using Exiled;
+﻿using CentralAuth;
+using CustomPlayerEffects;
 using Exiled.API.Enums;
 using Exiled.API.Features;
 using Exiled.API.Features.Doors;
 using Exiled.API.Features.Pickups;
 using InventorySystem;
-using MapGeneration;
 using MEC;
+using Mirror;
 using NetworkManagerUtils.Dummies;
 using PlayerRoles;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
-using AdminToys;
-using Mirror;
 using mbc = MultiBroadcast;
-
 using PlayerEvents = Exiled.Events.Handlers.Player;
 using ServerEventArgs = Exiled.Events.EventArgs.Server;
-using LabApi;
-using CentralAuth;
-using Exiled.API.Features.Spawn;
-using System;
-using System.CodeDom;
-using static PlayerList;
-using System.IO;
-using static WaveConfig;
-using RGM.Modes.Abilities.Unique.Scp0492;
 
 namespace RGM.Modes.PveExiledSystem
 {

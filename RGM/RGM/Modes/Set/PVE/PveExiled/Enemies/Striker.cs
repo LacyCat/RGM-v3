@@ -1,29 +1,13 @@
-﻿using Exiled.API.Features.Pickups;
-using Exiled.API.Features.Items;
-using MEC;
+﻿using MEC;
 using PlayerRoles.FirstPersonControl;
 using UnityEngine;
-using System.Linq;
-using InventorySystem.Items.Firearms.Modules;
 using InventorySystem;
 using InventorySystem.Items;
-using Exiled.API.Features;
 using System.Collections.Generic;
-using SemanticVersioning;
-using InventorySystem.Items.Firearms.Modules.Misc;
-using Mirror;
-using Exiled.API.Features.Roles;
-using NetworkManagerUtils.Dummies;
-using Exiled.Events.Handlers;
 using Exiled.API.Enums;
 using CustomPlayerEffects;
 using PlayerRoles;
 using Exiled.API.Features.Toys;
-using Exiled.API.Interfaces;
-using RelativePositioning;
-using Exiled.API.Extensions;
-using LabApi.Features.Wrappers;
-using RemoteAdmin.Communication;
 
 namespace RGM.Modes.PveExiledSystem.Enemies
 {
