@@ -58,7 +58,7 @@ namespace RGM.API.Features
                     File.Move(tempFile, targetFile);
                 }
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 Log.Error($"[FileManager] Exception while writing file {fileName}: {ex}");
             }
