@@ -526,13 +526,10 @@ namespace RGM.EventArgs
 
         public static void OnSpawned(SpawnedEventArgs ev)
         {
-            if (Server.Port != 7803)
-            {
-                ev.Player.EnableEffect(EffectType.FogControl, 1);
+            ev.Player.EnableEffect(EffectType.FogControl, 1);
 
-                if (MapUtils.LoadedMaps.Keys.Any(Maps.Contains))
-                    ev.Player.EnableEffect(EffectType.NightVision, 255);
-            }
+            if (MapUtils.LoadedMaps.Keys.Any(Maps.Contains))
+                ev.Player.EnableEffect(EffectType.NightVision, 255);
 
             if (ev.Player.IsAlive)
             {
