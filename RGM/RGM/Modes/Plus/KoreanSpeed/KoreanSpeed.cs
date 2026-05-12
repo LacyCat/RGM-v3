@@ -74,8 +74,8 @@ public class KoreanSpeed : Mode
         {
             foreach (var player in PlayerManager.List.Where(player => player != null && !player.IsDead))
             {
-                player.EnableEffect(EffectType.MovementBoost, (byte)(SpeedStore.Count * 2));
-                player.EnableEffect(EffectType.Scp1853, SpeedStore.Count <= 5 ? SpeedStore.Count : (byte)5);
+                player.AddEffect(EffectType.MovementBoost, (byte)(SpeedStore.Count * 2));
+                player.AddEffect(EffectType.Scp1853, SpeedStore.Count <= 5 ? SpeedStore.Count : 5);
             }
         }
         catch (Exception e)
@@ -90,8 +90,8 @@ public class KoreanSpeed : Mode
         {
             foreach (var player in PlayerManager.List.Where(player => player != null && !player.IsDead))
             {
-                player.DisableEffect(EffectType.MovementBoost);
-                player.DisableEffect(EffectType.Scp1853);
+                player.RemoveEffect(EffectType.MovementBoost, (byte)(SpeedStore.Count * 2));
+                player.RemoveEffect(EffectType.Scp1853, SpeedStore.Count <= 5 ? SpeedStore.Count : 5);
             }
         }
         catch (Exception e)
