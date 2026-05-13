@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Linq;
 using CommandSystem;
 using Exiled.API.Enums;
 using Exiled.API.Features;
+using static RGM.Variables.Variable;
 
 namespace RGM.Commands.ClientCommands
 {
@@ -15,6 +17,12 @@ namespace RGM.Commands.ClientCommands
             if (player.IsScp)
             {
                 response = "SCP는 이 명령어를 사용할 수 없습니다.";
+                return false;
+            }
+
+            if (EnabledModeList.Select(x => x.Data.Type).Contains(ModeType.Spirit))
+            {
+                response = "이 모드에서는 이 명령어를 사용할 수 없습니다.";
                 return false;
             }
 
