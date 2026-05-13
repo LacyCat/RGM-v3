@@ -14,7 +14,7 @@ using RGM.Modes.Plus.Store;
 
 namespace RGM.Modes;
 
-[Mode(ModeCategory.Public, ModeInfo.Plus, ModeType.Store)]  
+[Mode(ModeCategory.Private, ModeInfo.Plus, ModeType.Store)]  
 public class Store : Mode
 {
     public override string Name => "스토어";
