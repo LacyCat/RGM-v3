@@ -4,8 +4,25 @@ namespace RGM.Modes;
 
 public class SpeedStore
 {
+    /// <summary>
+    /// 모드 "한국인이 좋아하는 속도"에서 속도 관련 계산을 처리할 때 사용합니다.
+    /// </summary>
     public static byte Count { get; set; }
+    
+    /// <summary>
+    /// SCP 관련 코루틴을 저장합니다.
+    /// <br />
+    /// 일정 시각마다 Check 변수로 존재 유무를 따지기 위해 사용됩니다.
+    /// </summary>
+    private static readonly Dictionary<Player, Dictionary<int, CoroutineHandle>> ScpCoroutines = new();
+
+    /// <summary>
+    /// SCP 관련 코루틴을 검증하기 위해 사용되는 로직입니다.
+    /// </summary>
+    private static readonly Dictionary<Player, List<int>> ScpCoroutinesCheck = new();
+    
     public static bool IsEnabled { get; private set; }
+    
     public static void Clear() => Count = 0;
 
     public static void Ignition()
