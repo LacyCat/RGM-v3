@@ -787,10 +787,10 @@
       <HintPath>$(EXILED_REFERENCES)\ProjectMER.dll</HintPath>
     </Reference>
     <Reference Include="SecretAPI">
-      <HintPath>..\..\..\EXILED_REFERENCES\SecretAPI.dll</HintPath>
+      <HintPath>$(EXILED_REFERENCES)\SecretAPI.dll</HintPath>
     </Reference>
     <Reference Include="SemanticVersioning">
-      <HintPath>..\..\..\EXILED_REFERENCES\SemanticVersioning.dll</HintPath>
+      <HintPath>$(EXILED_REFERENCES)\SemanticVersioning.dll</HintPath>
     </Reference>
     <Reference Include="SLPlayerRotation">
       <HintPath>$(EXILED_REFERENCES)\SLPlayerRotation.dll</HintPath>
@@ -811,7 +811,7 @@
     </Reference>
     <Reference Include="UnityEngine.AIModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\EXILED_REFERENCES\UnityEngine.AIModule.dll</HintPath>
+      <HintPath>$(EXILED_REFERENCES)\UnityEngine.AIModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AnimationModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
