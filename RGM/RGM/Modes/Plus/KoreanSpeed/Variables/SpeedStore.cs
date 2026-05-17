@@ -13,8 +13,6 @@ public class SpeedStore
     
     /// <summary>
     /// SCP 관련 코루틴을 저장합니다.
-    /// <br />
-    /// 일정 시각마다 Check 변수로 존재 유무를 따지기 위해 사용됩니다.
     /// </summary>
     private static readonly Dictionary<Player, Dictionary<int, CoroutineHandle>> ScpCoroutines = new();
     
@@ -47,5 +45,56 @@ public class SpeedStore
             message = "해당 삭제 명령이 성공적으로 처리되었습니다.";
             KoreanSpeed.AddEffects();
             return true;
+    }
+
+    internal static void AddCoroutine(
+        Player player,
+        CoroutineHandle handle)
+    {
+        if (player == null) return;
+        if (ScpCoroutines[player!].ContainsKey(handle.Key)) return;
+
+        ScpCoroutines.Add(player!, new()
+        {
+            { handle.Key, handle }
+        });
+        
+    }
+
+    internal static void AddCoroutine(
+        Player player,
+        IEnumerable<CoroutineHandle> handle)
+    {
+        if (player == null) return;
+        foreach (var items in handle)
+        {
+            if (ScpCoroutines[player!].ContainsKey(items.Key)) continue;
+            ScpCoroutines.Add(player, new()
+            {
+                { items.Key, items }
+            });
+        }
+    }
+
+    internal static void RemoveCoroutine(
+        Player player, 
+        CoroutineHandle handle)
+    {
+        if (!ScpCoroutines.TryGetValue(player, out var coroutine)) return;
+        
+        Timing.KillCoroutines(coroutine[handle.Key]);
+        ScpCoroutines[player].Remove(handle.Key);
+    }
+    
+    internal static void RemoveCoroutine(
+        Player player, 
+        IEnumerable<CoroutineHandle> handle)
+    {
+        foreach (var items in handle) {
+            if (!ScpCoroutines[player].ContainsKey(items.Key)) continue;
+
+            Timing.KillCoroutines(ScpCoroutines[player][items.Key]);
+            ScpCoroutines[player].Remove(items.Key);
+        }
     }
 }
