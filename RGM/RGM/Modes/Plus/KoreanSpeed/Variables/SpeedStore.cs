@@ -1,4 +1,6 @@
-﻿using System;
+﻿using System.Collections.Generic;
+using Exiled.API.Features;
+using MEC;
 
 namespace RGM.Modes;
 
@@ -15,11 +17,6 @@ public class SpeedStore
     /// 일정 시각마다 Check 변수로 존재 유무를 따지기 위해 사용됩니다.
     /// </summary>
     private static readonly Dictionary<Player, Dictionary<int, CoroutineHandle>> ScpCoroutines = new();
-
-    /// <summary>
-    /// SCP 관련 코루틴을 검증하기 위해 사용되는 로직입니다.
-    /// </summary>
-    private static readonly Dictionary<Player, List<int>> ScpCoroutinesCheck = new();
     
     public static bool IsEnabled { get; private set; }
     
