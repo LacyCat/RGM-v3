@@ -58,7 +58,7 @@ public class SetCount : ICommand
                 return true;
             }
 
-            if (!Regex.IsMatch(arguments.At(0).ToLower(), "^(add|set|remove|rm)+$"))
+            if (!Regex.IsMatch(arguments.At(0).ToLower(), "^(add|set|remove|rm|scp_power|scp_pw)+$"))
             {
                 response = """ 
                            알 수 없는 명령어입니다.
@@ -66,6 +66,7 @@ public class SetCount : ICommand
                            set <숫자> - 현재 횟수를 숫자로 설정합니다.
                            remove (또는 rm) <숫자> - 현재 횟수에서 숫자를 제거합니다.
                            clear - 현재 횟수를 0으로 설정합니다.
+                           scp_power (또는 scp_pw) <숫자(소숫점 허용> - SCP의 유틸속도 향상에 필요한 로직의 속도를 설정합니다.
                            help - 도움말을 표시합니다.
                            """;
                 return false;
@@ -94,6 +95,23 @@ public class SetCount : ICommand
                     case "remove":
                     case "rm":
                         return SpeedStore.TryRemove(value, out response);
+                    
+                    case "scp_power":
+                    case "scp_pw":
+                        var result = float.TryParse(arguments.At(1), out var power);
+                        if (result && !(power > 10.0f) && !(power < 0.1f))
+                        {
+                            SpeedStore.ScpMultiplier = power;
+                        }
+                        else
+                        {
+                            response = """
+                                       수가 알맞지 않거나, 너무 큽니다.
+                                       0.1 ~ 10.0 사이의 수이면서 문자가 들어가지 않은 수를 입력해주세요.
+                                       """;
+                            return false;
+                        }
+                        break;
                 }
 
                 KoreanSpeed.AddEffects();
