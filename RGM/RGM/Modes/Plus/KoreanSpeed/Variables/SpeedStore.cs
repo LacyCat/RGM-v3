@@ -11,6 +11,7 @@ public class SpeedStore
     /// </summary>
     public static byte Count { get; set; }
     
+    public static float ScpMultiplier { get; private set; } = 0.1f;
     /// <summary>
     /// SCP 관련 코루틴을 저장합니다.
     /// </summary>
