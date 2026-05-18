@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using Exiled.API.Features;
-using MEC;
-
-namespace RGM.Modes;
+﻿namespace RGM.Modes;
 
 public class SpeedStore
 {
@@ -12,11 +8,10 @@ public class SpeedStore
     public static byte Count { get; set; }
     
     public static float ScpMultiplier { get; internal set; } = 0.1f;
-    /// <summary>
-    /// SCP 관련 코루틴을 저장합니다.
-    /// </summary>
-    internal static readonly Dictionary<Player, Dictionary<ScpEffectEnum, CoroutineHandle>> ScpCoroutines = new();
     
+    /// <summary>
+    /// 모드의 활성화 유무를 따질 때 사용합니다.
+    /// </summary>
     public static bool IsEnabled { get; private set; }
     
     public static void Clear() => Count = 0;

@@ -95,7 +95,10 @@ public class SetCount : ICommand
                         break;
                     case "remove":
                     case "rm":
-                        return SpeedStore.TryRemove(value, out response);
+                        var results = SpeedStore.TryRemove(value, out response);
+                        if (!results)
+                            return false;
+                        break;
                     
                     case "scp_power":
                     case "scp_pw":
