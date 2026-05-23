@@ -1,9 +1,6 @@
-﻿using System;
-using System.Linq;
-using Exiled.API.Enums;
-using Exiled.API.Features;
-using Exiled.Events.EventArgs.Player;
+﻿using Exiled.Events.EventArgs.Player;
 using MEC;
+using PlayerRoles.PlayableScps.Scp049;
 using RGM.API.Features;
 
 namespace RGM.Modes;
@@ -21,34 +18,40 @@ public class KoreanSpeed : Mode
 
     public static KoreanSpeed Instance;
 
+    private ScpEffects _scpEffects;
     public override void OnDisabled()
     {
+        
         Exiled.Events.Handlers.Player.Spawned -= OnSpawn;
         Exiled.Events.Handlers.Player.Died -= OnDied;
         Exiled.Events.Handlers.Player.SearchingPickup -= OnSearchingPickup;
         Exiled.Events.Handlers.Player.ThrowingRequest -= OnThrowingRequest;
-        UnloadEffects();
-        ScpEffects.Stop();
+        _scpEffects = null;
+        
+        PlayerEffects.UnloadEffects();
         SpeedStore.Disable();
     }
 
     public override void OnEnabled()
     {
+        _scpEffects = new ScpEffects();
+        
         Exiled.Events.Handlers.Player.Spawned += OnSpawn;
         Exiled.Events.Handlers.Player.Died += OnDied;
         Exiled.Events.Handlers.Player.SearchingPickup += OnSearchingPickup;
         Exiled.Events.Handlers.Player.ThrowingRequest += OnThrowingRequest;
         SpeedStore.Clear();
         SpeedStore.Ignition();
-        ScpEffects.Start();
+        _scpEffects.Run();
+        Scp049ResurrectAbility._mask = 5;
     }
 
     private static void OnDied(DiedEventArgs ev)
     {
-        if (SpeedStore.Count != 125)
+        if (!(SpeedStore.Count > 125))
             SpeedStore.Count++;
 
-        AddEffects();
+        PlayerEffects.AddEffects();
     }
 
     private static void OnSearchingPickup(SearchingPickupEventArgs ev)
@@ -66,39 +69,8 @@ public class KoreanSpeed : Mode
         Timing.CallDelayed(Timing.WaitForOneFrame, () =>
         {
             if (ev.Player == null || !ev.Player.IsAlive || ev.Player.IsNonePlayer()) return;
-            AddEffects();
+            PlayerEffects.AddEffects();
         });
     }
-
-    internal static void AddEffects()
-    {
-        try
-        {
-            foreach (var player in PlayerManager.List.Where(player => !player.IsNonePlayer() && !player.IsDead))
-            {
-                player.AddEffect(EffectType.MovementBoost, (byte)(SpeedStore.Count * 2));
-                player.AddEffect(EffectType.Scp1853, SpeedStore.Count <= 5 ? SpeedStore.Count : 5);
-            }
-        }
-        catch (Exception e)
-        {
-            Log.Error($"Error while adding effects, Deception: {e.Message}");
-        }
-    }
-
-    private static void UnloadEffects()
-    {
-        try
-        {
-            foreach (var player in PlayerManager.List.Where(player => player != null && !player.IsDead))
-            {
-                player.RemoveEffect(EffectType.MovementBoost, (byte)(SpeedStore.Count * 2));
-                player.RemoveEffect(EffectType.Scp1853, SpeedStore.Count <= 5 ? SpeedStore.Count : 5); 
-            }
-        }
-        catch (Exception e)
-        {
-            Log.Error($"Error while removing effects, Deception: {e.Message}");
-        }
-    }
+    
 }
