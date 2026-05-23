@@ -162,21 +162,25 @@ public class ScpEffects : IScpEffects
                         ? scp079.BlackoutZoneCooldown
                         : scp079.BlackoutZoneCooldown - SpeedStore.Count * SpeedStore.ScpMultiplier;
 
-            EnergyCreator();
+            Timing.RunCoroutine(EnergyCreator());
         }
         return;
 
-        void EnergyCreator()
+        IEnumerator<float> EnergyCreator()
         {
-            foreach (var player in PlayerManager.List.Where(target =>
-                         target.IsScpRole() && target.Role.Type == RoleTypeId.Scp079))
+            while (SpeedStore.IsEnabled) 
             {
-                if (player.Role is not Scp079Role scp079) continue;
+                foreach (var player in PlayerManager.List.Where(target =>
+                             target.IsScpRole() && target.Role.Type == RoleTypeId.Scp079))
+                {
+                    if (player.Role is not Scp079Role scp079) continue;
 
-                if (Mathf.Approximately(scp079.MaxEnergy, scp079.Energy))
-                    continue;
+                    if (Mathf.Approximately(scp079.MaxEnergy, scp079.Energy))
+                        continue;
 
-                scp079.Energy += 1;
+                    scp079.Energy += 1;
+                }
+                yield return Timing.WaitForSeconds(10 - SpeedStore.Count * SpeedStore.ScpMultiplier);
             }
         } 
     }
