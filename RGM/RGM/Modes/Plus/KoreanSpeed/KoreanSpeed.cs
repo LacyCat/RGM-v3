@@ -44,7 +44,6 @@ public class KoreanSpeed : Mode
         Exiled.Events.Handlers.Player.ThrowingRequest += OnThrowingRequest;
         SpeedStore.Clear();
         SpeedStore.Ignition();
-        _scpEffects.Run();
         
         _scpFeatures.Run();
         Scp049ResurrectAbility._mask = 5;
