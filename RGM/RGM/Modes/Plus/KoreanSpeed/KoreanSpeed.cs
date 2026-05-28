@@ -1,6 +1,4 @@
-﻿using Exiled.Events.EventArgs.Item;
-using Exiled.Events.EventArgs.Player;
-using InventorySystem.Items.MicroHID.Modules;
+﻿using Exiled.Events.EventArgs.Player;
 using MEC;
 using PlayerRoles.PlayableScps.Scp049;
 using RGM.API.Features;
