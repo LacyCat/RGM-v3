@@ -28,7 +28,6 @@ public class KoreanSpeed : Mode
         Exiled.Events.Handlers.Player.ThrowingRequest -= OnThrowingRequest;
         Exiled.Events.Handlers.Scp173.Blinking -= On173Blink;
 
-        PlayerEffects.DeActivate();
         SpeedStore.Disable();
         _scpFeatures = null;
     }
