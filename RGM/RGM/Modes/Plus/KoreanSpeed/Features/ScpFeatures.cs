@@ -63,7 +63,7 @@ public class ScpFeatures : ILogicFeatures
     private static void Scp096Effect()
     {
         foreach (var player in PlayerManager.List.Where(target =>
-                     target.IsScpRole() && target.Role.Type == RoleTypeId.Scp096))
+                     target.IsScpRole() && target.Role.Type == RoleTypeId.Scp096 && !target.IsNPC))
         {
             if (player.Role is not Scp096Role scp096) continue;
 
@@ -76,7 +76,7 @@ public class ScpFeatures : ILogicFeatures
     private static void Scp106Effect()
     {
         foreach (var player in PlayerManager.List.Where(target =>
-                     target.IsScpRole() && target.Role.Type == RoleTypeId.Scp106))
+                     target.IsScpRole() && target.Role.Type == RoleTypeId.Scp106 && !target.IsNPC))
         {
             if (player.Role is not Scp106Role scp106) continue;
 
@@ -93,7 +93,7 @@ public class ScpFeatures : ILogicFeatures
     private static void Scp939Effect()
     {
         foreach (var player in PlayerManager.List.Where(target =>
-                     target.IsScpRole() && target.Role.Type == RoleTypeId.Scp939))
+                     target.IsScpRole() && target.Role.Type == RoleTypeId.Scp939 && !target.IsNPC))
         {
             if (player.Role is not Scp939Role scp939) continue;
 
@@ -118,7 +118,7 @@ public class ScpFeatures : ILogicFeatures
     private static void Scp049Effect()
     {
         foreach (var player in PlayerManager.List.Where(target =>
-                     target.IsScpRole() && target.Role.Type == RoleTypeId.Scp049))
+                     target.IsScpRole() && target.Role.Type == RoleTypeId.Scp049 && !target.IsNPC))
         {
             if (player.Role is not Scp049Role scp049) continue;
 
@@ -138,7 +138,7 @@ public class ScpFeatures : ILogicFeatures
     private static void Scp079Effect()
     {
         foreach (var player in PlayerManager.List.Where(target =>
-                     target.IsScpRole() && target.Role.Type == RoleTypeId.Scp079))
+                     target.IsScpRole() && target.Role.Type == RoleTypeId.Scp079 && !target.IsNPC))
         {
             if (player.Role is not Scp079Role scp079) continue;
 
@@ -157,7 +157,7 @@ public class ScpFeatures : ILogicFeatures
             while (SpeedStore.IsEnabled)
             {
                 foreach (var player in PlayerManager.List.Where(target =>
-                             target.IsScpRole() && target.Role.Type == RoleTypeId.Scp079))
+                             target.IsScpRole() && target.Role.Type == RoleTypeId.Scp079 && !target.IsNPC))
                 {
                     if (player.Role is not Scp079Role scp079) continue;
 
@@ -176,9 +176,11 @@ public class ScpFeatures : ILogicFeatures
     private static void Scp173Effect()
     {
         foreach (var player in PlayerManager.List.Where(target =>
-                     target.IsScpRole() && target.Role.Type == RoleTypeId.Scp173))
+                     target.IsScpRole() && target.Role.Type == RoleTypeId.Scp173 && !target.IsNPC))
         {
             if (player.Role is not Scp173Role scp173) continue;
+            if (scp173.BreakneckActive && SpeedStore.Count > 15)
+                continue;
 
             if (scp173.RemainingBreakneckCooldown != 0 && !(scp173.RemainingBreakneckCooldown <= .3f))
                 scp173.RemainingBreakneckCooldown = Math.Max(0.1f,
@@ -198,9 +200,12 @@ public class ScpFeatures : ILogicFeatures
             while (SpeedStore.IsEnabled)
             {
                 foreach (var player in PlayerManager.List.Where(target =>
-                             target.IsScpRole() && target.Role.Type == RoleTypeId.Scp173))
+                             target.IsScpRole() && target.Role.Type == RoleTypeId.Scp173 && !target.IsNPC))
                 {
                     if (player.Role is not Scp173Role scp173) continue;
+                    
+                    if (scp173.BreakneckActive)
+                        continue;
                     
                     if (scp173.BlinkCooldown != 0)  
                         scp173.BlinkCooldown = Math.Max(0.1f,
@@ -214,7 +219,7 @@ public class ScpFeatures : ILogicFeatures
     private static void Scp3114Effect()
     {
         foreach (var player in
-                 PlayerManager.List.Where(target => target.IsScp && target.Role.Type == RoleTypeId.Scp3114))
+                 PlayerManager.List.Where(target => target.IsScp && target.Role.Type == RoleTypeId.Scp3114 && !target.IsNPC))
         {
             if (player.Role is not Scp3114Role scp3114) continue;
 

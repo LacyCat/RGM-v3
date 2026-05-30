@@ -19,6 +19,7 @@ public class KoreanSpeed : Mode
     public static KoreanSpeed Instance;
 
     private ScpFeatures _scpFeatures;
+
     public override void OnDisabled()
     {
         Exiled.Events.Handlers.Player.Spawned -= OnSpawn;
