@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Exiled.API.Features;
 using Exiled.API.Features.Roles;
+using Exiled.Events.EventArgs.Scp1509;
+using Exiled.Events.EventArgs.Scp173;
 using MEC;
 using PlayerRoles;
 using RGM.API.Features;
@@ -14,13 +16,19 @@ namespace RGM.Modes;
 public class ScpFeatures : ILogicFeatures
 {
     private static bool _isRunning;
+    
     private static CoroutineHandle _isRunning079;
     private static CoroutineHandle _isRunning173;
+    
+    public static event EventHandler Start;
 
     public void Run() => Timing.RunCoroutine(RegisterFeatures());
 
     private static IEnumerator<float> RegisterFeatures()
     {
+        Exiled.Events.Handlers.Scp1509.TriggeringAttack += On1509Attack;
+        Exiled.Events.Handlers.Scp173.Blinking += On173Blink;
+        
         while (SpeedStore.IsEnabled)
         {
             if (!_isRunning)
@@ -31,6 +39,7 @@ public class ScpFeatures : ILogicFeatures
                     "SCP 움직임 시스템이 가동되었습니다.",
                     true);
                 _isRunning = true;
+                Start?.Invoke(nameof(RegisterFeatures), null);
             }
             else
             {
@@ -45,13 +54,15 @@ public class ScpFeatures : ILogicFeatures
             }
         }
 
-        Cleaner();
+        UnregisterScpFeatures();
     }
 
-    private static void Cleaner()
+    private static void UnregisterScpFeatures()
     {
         try
         {
+            Exiled.Events.Handlers.Scp1509.TriggeringAttack -= On1509Attack;
+            Exiled.Events.Handlers.Scp173.Blinking -= On173Blink;
             _isRunning = false;
         }
         catch (Exception e)
@@ -225,5 +236,17 @@ public class ScpFeatures : ILogicFeatures
 
             scp3114.StaminaRegenMultiplier += SpeedStore.Count * SpeedStore.ScpMultiplier;
         }
+    }
+
+    private static void On173Blink(BlinkingEventArgs e)
+    {
+        // 버그 해결용 쿨타임 추가 장치
+        e.Scp173.BlinkCooldown = 5.0f;
+    }
+
+    private static void On1509Attack(TriggeringAttackEventArgs e)
+    {
+        e.Scp1509.MeleeCooldown =
+            Math.Max(0.1f, e.Scp1509.MeleeCooldown - SpeedStore.Count * .01f);
     }
 }

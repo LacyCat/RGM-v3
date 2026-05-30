@@ -1,10 +1,7 @@
-﻿using Exiled.Events.EventArgs.Player;
-using Exiled.Events.EventArgs.Scp173;
-using MEC;
-using System;
+﻿using System;
+using HarmonyLib;
 using PlayerRoles;
 using PlayerRoles.PlayableScps.Scp049;
-using PlayerRoles.PlayableScps.Scp049.Zombies;
 using RGM.API.Features;
 using RGM.Modes.Patches;
 
@@ -25,54 +22,46 @@ public class KoreanSpeed : Mode
 
     private ScpFeatures _scpFeatures;
 
+    private static Harmony _harmony = new($"Harmony - {DateTime.Now.Ticks} - KoreanSpeed");
+
     public override void OnDisabled()
     {
         PlayerFeatures.DeActivate();
         SpeedStore.Disable();
         _scpFeatures = null;
+        ScpFeatures.Start -= AddPatches;
     }
 
     public override void OnEnabled()
     {
         SpeedStore.Ignition();
-        // PlayerEffects.Activate();
-        
         PlayerFeatures.Activate();
 
         _scpFeatures = new ScpFeatures();
         _scpFeatures.Run();
     }
 
-    private static void OnDied(DiedEventArgs ev)
+    private static void AddPatches(object sender, System.EventArgs e)
     {
-        if (!(SpeedStore.Count > 125))
-            SpeedStore.Count++;
-
-        PlayerEffects.AddEffects();
+        Scp049Patch();
     }
 
-    private static void OnSearchingPickup(SearchingPickupEventArgs ev)
+    private static void RemovePatches(object sender, System.EventArgs e)
     {
-        ev.SearchTime -= SpeedStore.Count * 0.1f;
+        _harmony?.UnpatchAll();
+        _harmony = null;
     }
 
-    private static void OnThrowingRequest(ThrowingRequestEventArgs ev)
+    private static void Scp049Patch()
     {
-        ev.Throwable.PinPullTime -= SpeedStore.Count * 0.1f;
+        if (!PlayerManager.List.Exists(player =>
+                player.IsAlive && !player.IsNonePlayer() && !player.IsNPC &&
+                player.Role.Type == RoleTypeId.Scp049)) return;
+
+        _harmony.Patch(AccessTools.PropertyGetter(
+                typeof(Scp049ResurrectAbility), nameof(Scp049ResurrectAbility.Duration)),
+            postfix: new HarmonyMethod(typeof(ScpPatch), nameof(ScpPatch.Scp049Postfix)));
     }
 
-    private static void OnSpawn(SpawnedEventArgs ev)
-    {
-        Timing.CallDelayed(Timing.WaitForOneFrame, () =>
-        {
-            if (ev.Player == null || !ev.Player.IsAlive || ev.Player.IsNonePlayer()) return;
-            PlayerEffects.AddEffects();
-        });
-    }
 
-    private static void On173Blink(BlinkingEventArgs e)
-    {
-        // 버그 해결용 쿨타임 추가 장치
-        e.Scp173.BlinkCooldown = 5.0f;
-    }
 }

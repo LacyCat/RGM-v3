@@ -33,13 +33,13 @@ public class SetCount : ICommand
                 response = SpeedStore.Count <= 0 ? "그 누구도 죽지 않았습니다." :
                     SpeedStore.Count >= 125 ? "이 시체더미의 제단 속에서 당신의 속도는 한계까지 빨라집니다." :
                     $"{SpeedStore.Count}번의 죽음만큼 속도가 빨라집니다.";
-                PlayerEffects.AddEffects();
+                PlayerFeatures.AddEffects();
                 return true;
             }
 
             if (arguments.At(0).ToLower().Equals("clear", StringComparison.OrdinalIgnoreCase))
             {
-                PlayerEffects.UnloadEffects();
+                PlayerFeatures.UnloadEffects();
                 SpeedStore.Clear();
                 response = "해당 명령이 성공적으로 처리되었습니다.";
                 return true;
@@ -93,14 +93,14 @@ public class SetCount : ICommand
                         break;
                     case "remove":
                     case "rm":
-                        PlayerEffects.UnloadEffects();
+                        PlayerFeatures.UnloadEffects();
                         var results = SpeedStore.TryRemove(value, out response);
                         if (!results)
                             return false;
                         break;
                 }
 
-                PlayerEffects.AddEffects();
+                PlayerFeatures.AddEffects();
             }
             else
             {

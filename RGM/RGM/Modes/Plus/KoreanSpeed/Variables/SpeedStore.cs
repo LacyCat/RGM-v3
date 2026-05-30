@@ -39,7 +39,7 @@ public class SpeedStore
 
             Count -= value;
             message = "해당 삭제 명령이 성공적으로 처리되었습니다.";
-            PlayerEffects.AddEffects();
+            PlayerFeatures.AddEffects();
             return true;
     }
 }
