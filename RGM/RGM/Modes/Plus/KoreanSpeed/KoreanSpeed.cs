@@ -21,14 +21,13 @@ public class KoreanSpeed : Mode
     private ScpFeatures _scpFeatures;
     public override void OnDisabled()
     {
-        
         Exiled.Events.Handlers.Player.Spawned -= OnSpawn;
         Exiled.Events.Handlers.Player.Died -= OnDied;
         Exiled.Events.Handlers.Player.SearchingPickup -= OnSearchingPickup;
         Exiled.Events.Handlers.Player.ThrowingRequest -= OnThrowingRequest;
         Exiled.Events.Handlers.Scp173.Blinking -= On173Blink;
 
-        PlayerEffects.DeActivate();
+        // PlayerEffects.DeActivate();
         SpeedStore.Disable();
         _scpFeatures = null;
     }
@@ -42,8 +41,8 @@ public class KoreanSpeed : Mode
         Exiled.Events.Handlers.Player.SearchingPickup += OnSearchingPickup;
         Exiled.Events.Handlers.Player.ThrowingRequest += OnThrowingRequest;
         Exiled.Events.Handlers.Scp173.Blinking += On173Blink;
-        SpeedStore.Clear();
         SpeedStore.Ignition();
+        // PlayerEffects.Activate();
         
         _scpFeatures.Run();
     }

@@ -7,8 +7,8 @@ public class SpeedStore
     /// </summary>
     public static byte Count { get; set; }
     
-    public static float ScpMultiplier { get; internal set; } = 0.1f;
-    
+    public static float ScpMultiplier => 0.1f;
+
     /// <summary>
     /// 모드의 활성화 유무를 따질 때 사용합니다.
     /// </summary>
