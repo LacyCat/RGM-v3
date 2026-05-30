@@ -1,7 +1,12 @@
 ﻿using Exiled.Events.EventArgs.Player;
 using Exiled.Events.EventArgs.Scp173;
 using MEC;
+using System;
+using PlayerRoles;
+using PlayerRoles.PlayableScps.Scp049;
+using PlayerRoles.PlayableScps.Scp049.Zombies;
 using RGM.API.Features;
+using RGM.Modes.Patches;
 
 namespace RGM.Modes;
 
@@ -22,29 +27,19 @@ public class KoreanSpeed : Mode
 
     public override void OnDisabled()
     {
-        Exiled.Events.Handlers.Player.Spawned -= OnSpawn;
-        Exiled.Events.Handlers.Player.Died -= OnDied;
-        Exiled.Events.Handlers.Player.SearchingPickup -= OnSearchingPickup;
-        Exiled.Events.Handlers.Player.ThrowingRequest -= OnThrowingRequest;
-        Exiled.Events.Handlers.Scp173.Blinking -= On173Blink;
-
-        // PlayerEffects.DeActivate();
+        PlayerFeatures.DeActivate();
         SpeedStore.Disable();
         _scpFeatures = null;
     }
 
     public override void OnEnabled()
     {
-        _scpFeatures = new ScpFeatures();
-        
-        Exiled.Events.Handlers.Player.Spawned += OnSpawn;
-        Exiled.Events.Handlers.Player.Died += OnDied;
-        Exiled.Events.Handlers.Player.SearchingPickup += OnSearchingPickup;
-        Exiled.Events.Handlers.Player.ThrowingRequest += OnThrowingRequest;
-        Exiled.Events.Handlers.Scp173.Blinking += On173Blink;
         SpeedStore.Ignition();
         // PlayerEffects.Activate();
         
+        PlayerFeatures.Activate();
+
+        _scpFeatures = new ScpFeatures();
         _scpFeatures.Run();
     }
 
