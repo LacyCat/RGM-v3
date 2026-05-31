@@ -59,16 +59,9 @@ public class ScpFeatures : ILogicFeatures
 
     private static void UnregisterScpFeatures()
     {
-        try
-        {
             Exiled.Events.Handlers.Scp1509.TriggeringAttack -= On1509Attack;
             Exiled.Events.Handlers.Scp173.Blinking -= On173Blink;
             _isRunning = false;
-        }
-        catch (Exception e)
-        {
-            Log.Error($"ScpEffects.cs(KoreanSpeed)에서 코루틴 초기화 도중 오류 발생\n내용: {e}");
-        }
     }
 
     private static void Scp096Effect()
