@@ -241,7 +241,8 @@ public class ScpFeatures : ILogicFeatures
     private static void On173Blink(BlinkingEventArgs e)
     {
         // 버그 해결용 쿨타임 추가 장치
-        e.Scp173.BlinkCooldown = 5.0f;
+        if (SpeedStore.Count > 15)
+            e.Scp173.BlinkCooldown = 5.0f;
     }
 
     private static void On1509Attack(TriggeringAttackEventArgs e)
