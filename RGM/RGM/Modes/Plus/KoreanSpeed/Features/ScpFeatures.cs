@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Exiled.API.Features;
 using Exiled.API.Features.Roles;
 using Exiled.Events.EventArgs.Scp1509;
 using Exiled.Events.EventArgs.Scp173;
@@ -15,6 +14,7 @@ namespace RGM.Modes;
 
 public class ScpFeatures : ILogicFeatures
 {
+    private const float WaitTime = .2f;
     private static bool _isRunning;
     
     private static CoroutineHandle _isRunning079;
@@ -50,7 +50,7 @@ public class ScpFeatures : ILogicFeatures
                 Scp173Effect();
                 Scp3114Effect();
                 Scp939Effect();
-                yield return Timing.WaitForSeconds(.4f);
+                yield return Timing.WaitForSeconds(WaitTime);
             }
         }
 
@@ -179,7 +179,7 @@ public class ScpFeatures : ILogicFeatures
                 }
 
                 yield return 
-                    Timing.WaitForSeconds(Math.Max(.1f, 2.5f - SpeedStore.Count * SpeedStore.ScpMultiplier));
+                    Timing.WaitForSeconds(Math.Max(WaitTime - .1f, 2.5f - SpeedStore.Count * SpeedStore.ScpMultiplier));
             } 
         }
     }
@@ -222,7 +222,7 @@ public class ScpFeatures : ILogicFeatures
                         scp173.BlinkCooldown = Math.Max(0.1f,
                             scp173.BlinkCooldown - SpeedStore.Count * .01f);
                 }
-                yield return Timing.WaitForSeconds(.1f);
+                yield return Timing.WaitForSeconds(WaitTime);
             }
         }
     }
