@@ -28,11 +28,9 @@ public class KoreanSpeed : Mode
     {
         SpeedStore.Disable();
         PlayerFeatures.DeActivate();
-        SpeedStore.Disable();
         ScpFeatures.Start -= AddPatches;
         RemovePatches();
         _scpFeatures = null;
-        ScpFeatures.Start -= AddPatches;
     }
 
     public override void OnEnabled()
@@ -82,6 +80,8 @@ public class KoreanSpeed : Mode
     /// </summary>
     private static void LogicPatch()
     {
+        return;
+        // 이 기능은 아직 개발 단계입니다. 따라서 사용되지 않습니다.
         _harmony.Patch(AccessTools.PropertyGetter(
                 typeof(CustomPlayerEffects.Scp1853), nameof(CustomPlayerEffects.Scp1853.MaxIntensity)),
             postfix: new HarmonyMethod(typeof(SystemPatch), nameof(SystemPatch.Scp1853MaxIntensityPostfix)));
