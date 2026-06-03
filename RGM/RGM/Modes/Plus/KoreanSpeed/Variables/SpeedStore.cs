@@ -1,6 +1,6 @@
 ﻿namespace RGM.Modes;
 
-public class SpeedStore
+public static class SpeedStore
 {
     /// <summary>
     /// 모드 "한국인이 좋아하는 속도"에서 속도 관련 계산을 처리할 때 사용합니다.
@@ -8,6 +8,8 @@ public class SpeedStore
     public static byte Count { get; set; }
     
     public static float ScpMultiplier => 0.1f;
+
+    public static float RailgunMultiplier { get; internal set; } = 2.5f;
 
     /// <summary>
     /// 모드의 활성화 유무를 따질 때 사용합니다.
