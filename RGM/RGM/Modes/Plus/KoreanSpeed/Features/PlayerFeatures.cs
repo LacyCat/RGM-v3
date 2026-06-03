@@ -46,6 +46,8 @@ public static class PlayerFeatures
                 UnloadEffects();
                 player.AddEffect(EffectType.MovementBoost, (byte)(SpeedStore.Count * 2));
                 player.AddEffect(EffectType.Scp1853, Math.Min(SpeedStore.Count, (byte)5));
+                // 곧 적용예정.
+                // player.AddEffect(EffectType.Scp1853, Math.Min(SpeedStore.Count, (byte)100));
             }
         }
         catch (Exception e)
@@ -59,7 +61,7 @@ public static class PlayerFeatures
         try
         {
             foreach (var player in PlayerManager.List.Where(player =>
-                         player != null && !player.IsDead && !player.IsNonePlayer()))
+                         player != null && !player.IsDead && !player.IsNonePlayer() && !player.IsNPC))
             {
                 player.RemoveEffect(EffectType.MovementBoost, 255);
                 player.RemoveEffect(EffectType.Scp1853, 5);
@@ -73,6 +75,8 @@ public static class PlayerFeatures
 
     private static void OnChanging(ChangingMicroHIDStateEventArgs ev)
     {
+        if (SpeedStore.Count > 30) 
+            SpeedStore.RailgunMultiplier = 6.0f;
         if (!Timing.IsRunning(_hidCoroutine))
             _hidCoroutine = Timing.RunCoroutine(Run());
         return;
@@ -81,19 +85,17 @@ public static class PlayerFeatures
         {
             while (SpeedStore.IsEnabled)
             {
-                foreach (var _ in Item.List.Where(x =>
+                foreach (var items in Item.List.Where(x =>
                              x.Type == ItemType.MicroHID))
                 {
-                    if (ev.NewPhase is not MicroHidPhase.WindingUp)
-                    {
-                        yield return Timing.WaitForSeconds(Timing.WaitForOneFrame);
+                    if (items is not MicroHid hid) continue;
+                    if (hid.State is not MicroHidPhase.WindingUp)
                         continue;
-                    }
 
-                    ev.MicroHID.WindUpProgress += 0.1f;
+                    hid.WindUpProgress += 0.1f;
                     
                 }
-                yield return Timing.WaitForSeconds(5.5f - SpeedStore.Count * 0.1f);
+                yield return Timing.WaitForSeconds(SpeedStore.RailgunMultiplier - SpeedStore.Count * 0.1f);
             }
         }
     }
