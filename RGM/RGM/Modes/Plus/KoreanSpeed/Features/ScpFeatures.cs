@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Exiled.API.Features.Roles;
-using Exiled.Events.EventArgs.Scp1509;
 using Exiled.Events.EventArgs.Scp173;
 using MEC;
 using PlayerRoles;
@@ -26,7 +25,6 @@ public class ScpFeatures : ILogicFeatures
 
     private static IEnumerator<float> RegisterFeatures()
     {
-        Exiled.Events.Handlers.Scp1509.TriggeringAttack += On1509Attack;
         Exiled.Events.Handlers.Scp173.Blinking += On173Blink;
         
         while (SpeedStore.IsEnabled)
@@ -59,7 +57,6 @@ public class ScpFeatures : ILogicFeatures
 
     private static void UnregisterScpFeatures()
     {
-            Exiled.Events.Handlers.Scp1509.TriggeringAttack -= On1509Attack;
             Exiled.Events.Handlers.Scp173.Blinking -= On173Blink;
             _isRunning = false;
     }
@@ -236,11 +233,5 @@ public class ScpFeatures : ILogicFeatures
         // 버그 해결용 쿨타임 추가 장치
         if (SpeedStore.Count > 15)
             e.Scp173.BlinkCooldown = 5.0f;
-    }
-
-    private static void On1509Attack(TriggeringAttackEventArgs e)
-    {
-        e.Scp1509.MeleeCooldown =
-            Math.Max(0.1f, e.Scp1509.MeleeCooldown - SpeedStore.Count * .01f);
     }
 }
