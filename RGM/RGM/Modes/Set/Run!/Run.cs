@@ -91,22 +91,14 @@ namespace RGM.Modes
 
         public IEnumerator<float> OnModeStarted()
         {
-            if (UnityEngine.Random.Range(1, 11) == 1)
-            {
-                hellMode = true;
-
-                foreach (var player in PlayerManager.List)
-                {
-                    player.AddBroadcast(10, "<color=red><b><size=25>지옥 모드 활성화</size></b></color>");
-                }
-            }
+            hellMode = true;
 
             for (int i = 0; i < 400; i++)
             {
                 SchematicObject schematic = ObjectSpawner.SpawnSchematic(
                     $"{objects.GetRandomValue()}", 
-                    new Vector3(UnityEngine.Random.Range(-235.5703f, 121.7918f), UnityEngine.Random.Range(336.903f, 346.5427f), UnityEngine.Random.Range(-42.98623f, -51.62109f)), 
-                    new Quaternion(UnityEngine.Random.Range(0, 360), UnityEngine.Random.Range(0, 360), UnityEngine.Random.Range(0, 360), UnityEngine.Random.Range(0, 360))
+                    new Vector3(Random.Range(-235.5703f, 121.7918f), Random.Range(336.903f, 346.5427f), Random.Range(-42.98623f, -51.62109f)), 
+                    new Quaternion(Random.Range(0, 360), Random.Range(0, 360), Random.Range(0, 360), Random.Range(0, 360))
                 );
             }
 
