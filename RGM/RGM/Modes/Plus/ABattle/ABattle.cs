@@ -52,6 +52,10 @@ public class ABattle : Mode
 
     public static ABattle Instance;
 
+    // 동기화 객체
+    private readonly object _selectionLock = new object();
+    private readonly object _cursorLock = new object();
+
     public Dictionary<Player, List<WorkstationController>> PlayerWorkstations = new Dictionary<Player, List<WorkstationController>>();
     public Dictionary<AbilityType, AbilityData> Abilities = new Dictionary<AbilityType, AbilityData>();
     public Dictionary<AbilityType, List<AbilityType>> SynergyAbilities = new Dictionary<AbilityType, List<AbilityType>>();
@@ -643,7 +647,10 @@ public class ABattle : Mode
         if (!Selections.ContainsKey(player))
             Selections.Add(player, new List<AbilityType>());
 
-        IsSelecting[player] = true;
+        lock (_selectionLock)
+        {
+            IsSelecting[player] = true;
+        }
 
         var category = GetCategory(player);
 
@@ -771,8 +778,11 @@ public class ABattle : Mode
                 player.AddAbility(AbilityType.DUMMY_LEGENDTRANSITIONFAILURE);
         }
 
-        Selections[player] = abilities;
-        SelectionCursor[player] = 0;
+        lock (_selectionLock)
+        {
+            Selections[player] = abilities;
+            SelectionCursor[player] = 0;
+        }
 
         // 다음 타자, 코루틴!!!
         Timing.RunCoroutine(SelectionCoroutine(player));
@@ -830,15 +840,18 @@ public class ABattle : Mode
 
         for (var i = 0; i < 200; i++)
         {
-            if (player.IsDead || !Selections.ContainsKey(player))
+            lock (_selectionLock)
             {
-                if (Selections.ContainsKey(player))
-                    Selections.Remove(player);
+                if (player.IsDead || !Selections.ContainsKey(player))
+                {
+                    if (Selections.ContainsKey(player))
+                        Selections.Remove(player);
 
-                SelectionCursor.Remove(player);
-                IsSelecting[player] = false;
+                    SelectionCursor.Remove(player);
+                    IsSelecting[player] = false;
 
-                yield break;
+                    yield break;
+                }
             }
 
             var text = BuildSelectionText();
@@ -849,17 +862,20 @@ public class ABattle : Mode
             yield return Timing.WaitForSeconds(0.1f);
         }
 
-        IsSelecting[player] = false;
+        lock (_selectionLock)
+        {
+            IsSelecting[player] = false;
 
-        if (!Selections.ContainsKey(player))
-            yield break;
+            if (!Selections.ContainsKey(player))
+                yield break;
 
-        var random = Random.Range(0, abilities.Count);
+            var random = Random.Range(0, abilities.Count);
 
-        player.AddAbility(abilities[random]);
+            player.AddAbility(abilities[random]);
 
-        Selections.Remove(player);
-        SelectionCursor.Remove(player);
+            Selections.Remove(player);
+            SelectionCursor.Remove(player);
+        }
     }
 
     public AbilityCategory GetCategory(Player player)
@@ -905,29 +921,32 @@ public class ABattle : Mode
 
     public bool Select(Player player, int index, out string response)
     {
-        if (!Selections.ContainsKey(player))
+        lock (_selectionLock)
         {
-            response = "선택할 수 있는 능력이 없습니다.";
-            return false;
+            if (!Selections.ContainsKey(player))
+            {
+                response = "선택할 수 있는 능력이 없습니다.";
+                return false;
+            }
+
+            Log.Info("Select called with " + player.Nickname + " and " + index);
+
+            AbilityType ability;
+
+            Log.Info("All abilities are not the same");
+
+            ability = Selections[player][index - 1];
+
+            player.AddAbility(ability);
+
+            Selections.Remove(player);
+            SelectionCursor.Remove(player);
+
+            player.AddHint("/?/", "", 0.1f);
+
+            response = $"{index}번 능력 선택 완료!";
+            return true;
         }
-
-        Log.Info("Select called with " + player.Nickname + " and " + index);
-
-        AbilityType ability;
-
-        Log.Info("All abilities are not the same");
-
-        ability = Selections[player][index - 1];
-
-        player.AddAbility(ability);
-
-        Selections.Remove(player);
-        SelectionCursor.Remove(player);
-
-        player.AddHint("/?/", "", 0.1f);
-
-        response = $"{index}번 능력 선택 완료!";
-        return true;
     }
 
     public void MoveSelectionCursor(Player player, int delta)
@@ -935,35 +954,41 @@ public class ABattle : Mode
         if (!Selections.TryGetValue(player, out var abilities) || abilities.Count == 0)
             return;
 
-        if (!SelectionCursor.ContainsKey(player))
-            SelectionCursor[player] = 0;
+        lock (_cursorLock) // 교차 동기화 방지
+        {
+            if (!SelectionCursor.ContainsKey(player))
+                SelectionCursor[player] = 0;
 
-        int cursor = SelectionCursor[player];
-        cursor = (cursor + delta) % abilities.Count;
+            int cursor = SelectionCursor[player];
+            cursor = (cursor + delta) % abilities.Count;
 
-        if (cursor < 0)
-            cursor += abilities.Count;
+            if (cursor < 0)
+                cursor += abilities.Count;
 
-        SelectionCursor[player] = cursor;
+            SelectionCursor[player] = cursor;
+        }
 
         PlayersAudio[player].TryPlay("Select");
     }
 
     public bool ConfirmSelectionByCursor(Player player, out string response)
     {
-        if (!Selections.TryGetValue(player, out var abilities) || abilities.Count == 0)
+        lock (_cursorLock)
         {
-            response = "선택할 수 있는 능력이 없습니다.";
-            return false;
+            if (!Selections.TryGetValue(player, out var abilities) || abilities.Count == 0)
+            {
+                response = "선택할 수 있는 능력이 없습니다.";
+                return false;
+            }
+
+            if (!SelectionCursor.ContainsKey(player))
+                SelectionCursor[player] = 0;
+
+            PlayersAudio[player].TryPlay("SelectConfirm", 1.5f);
+
+            int cursor = Math.Max(0, Math.Min(SelectionCursor[player], abilities.Count - 1));
+            return Select(player, cursor + 1, out response);
         }
-
-        if (!SelectionCursor.ContainsKey(player))
-            SelectionCursor[player] = 0;
-
-        PlayersAudio[player].TryPlay("SelectConfirm", 1.5f);
-
-        int cursor = Math.Max(0, Math.Min(SelectionCursor[player], abilities.Count - 1));
-        return Select(player, cursor + 1, out response);
     }
 
     public void Reset(Player player)
@@ -971,8 +996,13 @@ public class ABattle : Mode
         player.RemoveAllAbilities();
 
         PlayerWorkstations[player].Clear();
-        IsSelecting[player] = false;
-        SelectionCursor.Remove(player);
+        
+        lock (_selectionLock)
+        {
+            IsSelecting[player] = false;
+            SelectionCursor.Remove(player);
+        }
+        
         IsLifeUsed[player] = false;
     }
 
