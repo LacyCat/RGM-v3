@@ -423,10 +423,21 @@ namespace RGM.EventArgs
         {
             if (HolidayUtils.IsHolidayActive(HolidayType.Christmas) && UnityEngine.Random.Range(0, 100) < 10)
             {
+                Exiled.API.Features.Cassie.Clear();
+                Exiled.API.Features.Cassie.MessageTranslated("$pitch_0.10 .G6", "");
+
                 foreach (var player in ev.Players)
                 {
                     player.Role.Set(ev.Wave.TargetFaction == Faction.FoundationStaff ? RoleTypeId.NtfFlamingo : RoleTypeId.ChaosFlamingo, RoleSpawnFlags.AssignInventory);
                 }
+            }
+
+            if (UnityEngine.Random.Range(1, 21) == 1)
+            {
+                Exiled.API.Features.Cassie.Clear();
+                Exiled.API.Features.Cassie.MessageTranslated("$pitch_0.10 .G7", "");
+
+                Tools.CallSnakeHand(null, ev.Players.ToList());
             }
         }
     }

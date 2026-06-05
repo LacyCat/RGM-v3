@@ -551,42 +551,45 @@ $"""
             SuggestPlayers.Clear();
         }
 
-        public static void CallSnakeHand(Player Convener, List<Player> PlayerList)
+        public static void MakeSnake(Player player)
         {
-            List<Player> SnakeHands = PlayerList;
-
             List<ItemType> Items = new List<ItemType>
-                {
-                    ItemType.KeycardFacilityManager,
-                    ItemType.GunFSP9,
-                    ItemType.GunRevolver,
-                    ItemType.Adrenaline,
-                    ItemType.AntiSCP207
-                };
+            {
+                ItemType.KeycardFacilityManager,
+                ItemType.GunFSP9,
+                ItemType.GunRevolver,
+                ItemType.Adrenaline,
+                ItemType.AntiSCP207
+            };
 
             List<ItemType> Ammos = new List<ItemType>
-                {
-                    ItemType.Ammo44cal,
-                    ItemType.Ammo9x19
-                };
-
-            foreach (var p in SnakeHands)
             {
-                p.Role.Set(RoleTypeId.Tutorial);
-                p.Position = new Vector3(0.125f, 300.9572f, 4.960938f);
+                ItemType.Ammo44cal,
+                ItemType.Ammo9x19
+            };
 
-                foreach (ItemType Item in Items)
-                    p.AddItem(Item);
+            player.Role.Set(RoleTypeId.Tutorial);
+            player.Position = new Vector3(0.125f, 300.9572f, 4.960938f);
 
-                for (int i = 1; i < 3; i++)
-                {
-                    foreach (var Ammo in Ammos)
-                        p.AddItem(Ammo);
-                }
+            foreach (ItemType Item in Items)
+                player.AddItem(Item);
+
+            for (int i = 1; i < 3; i++)
+            {
+                foreach (var Ammo in Ammos)
+                    player.AddItem(Ammo);
             }
+        }
 
-            if (Convener != null)
-                Convener.AddHint("뱀의 손", $"{SnakeHands.Count()}명의 <color=#FE2EF7>동료</color>들이 당신과 함께합니다..", 5f);
+        public static void CallSnakeHand(Player convener, List<Player> playerList)
+        {
+            List<Player> snakeHands = playerList;
+
+            foreach (var p in snakeHands)
+                MakeSnake(p);
+
+            if (convener != null)
+                convener.AddHint("뱀의 손", $"{snakeHands.Count()}명의 <color=#FE2EF7>동료</color>들이 당신과 함께합니다..", 5f);
         }
 
         public static string ColorFormat(string cn)
