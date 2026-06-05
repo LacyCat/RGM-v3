@@ -947,5 +947,18 @@ namespace RGM.EventArgs
                 ShootingTargetSignal = true;
             }
         }
+
+        public static void OnEscaping(EscapingEventArgs ev)
+        {
+            if (ev.Player.IsCuffed && ev.IsAllowed)
+            {
+                if (ev.Player.Cuffer.Role.Type == RoleTypeId.Tutorial)
+                {
+                    ev.IsAllowed = false;
+
+                    Tools.MakeSnake(ev.Player);
+                }
+            }
+        }
     }
 }
