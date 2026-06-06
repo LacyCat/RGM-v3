@@ -22,6 +22,9 @@ public class ScpFeatures : ILogicFeatures
     private static CoroutineHandle _isRunning079;
     private static CoroutineHandle _isRunning173;
 
+    /// <summary>
+    /// 해당 로직이 가동 시 발동됩니다.
+    /// </summary>
     public static event EventHandler Start;
 
     public void OnEnabled()
@@ -40,6 +43,9 @@ public class ScpFeatures : ILogicFeatures
         LabApi.Events.Handlers.Scp049Events.SenseKilledTarget -= On049SenseKilled;
         LabApi.Events.Handlers.Scp049Events.SenseLostTarget -= On049SenseLost;
         _isRunning = false;
+        
+        Timing.KillCoroutines(_isRunning079);
+        Timing.KillCoroutines(_isRunning173);
     }
 
     private static IEnumerator<float> RegisterFeatures()

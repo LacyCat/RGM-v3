@@ -11,8 +11,14 @@ public static class SpeedStore
     /// </summary>
     public static byte Count { get; set; }
 
+    /// <summary>
+    /// SCP의 쿨타임 감소 관련에 사용되는 상수입니다.
+    /// </summary>
     public const float ScpMultiplier = 0.1f;
 
+    /// <summary>
+    /// SCP-049의 GoodSense 활성화 여부입니다.
+    /// </summary>
     public static HashSet<Player> CurrentSensePlayers { get; } = [];
 
     /// <summary>
@@ -20,20 +26,35 @@ public static class SpeedStore
     /// </summary>
     public static bool IsEnabled { get; private set; }
     
+    /// <summary>
+    /// Count를 초기화합니다.
+    /// </summary>
     public static void Clear() => Count = 0;
 
+    /// <summary>
+    /// SpeedStore내 변수를 초기화합니다. (활성화)
+    /// </summary>
     public static void Ignition()
     {
         Count = 0;
         IsEnabled = true;
     }
 
+    /// <summary>
+    /// SpeedStore내 변수를 초기화합니다. (비활성화)
+    /// </summary>
     public static void Disable()
     {
         Count = 0;
         IsEnabled = false;
     }
 
+    /// <summary>
+    /// Count에서 특정 값을 빼는 기능을 시도합니다.
+    /// </summary>
+    /// <param name="value">빼려는 값입니다.</param>
+    /// <param name="message">Message입니다. 오직 이 값을 저장할려는 변수에 넣으세요.</param>
+    /// <returns>성공 시 true를, 실패 시 false를 반환합니다.</returns>
     public static bool TryRemove(byte value,
         out string message)
     {
@@ -50,8 +71,27 @@ public static class SpeedStore
     }
     
     /// <summary>
-    /// Count와 특정 값으로 Sin 값을 조합합니다.
+    /// Count와 특정 값으로 Sin 값을 반환합니다.
     /// </summary>
-    /// <returns></returns>
-    public static float Sin(float div = 2f) => Mathf.Abs(Mathf.Sin(Count / (div is 0 ? 2 : div)));
+    public static float Sin(float div = 2f) => Mathf.Abs(Mathf.Sin(Count / (Mathf.Approximately(div, 0) ? 2 : div)));
+
+    /// <summary>
+    /// Count와 특정 값으로 Cos 값을 반환합니다.
+    /// </summary>
+    /// <param name="div">엄준식</param>
+    public static float Cos(float div = 2f) => Mathf.Abs(Mathf.Cos(Count / (Mathf.Approximately(div, 0) ? 2 : div)));
+
+    /// <summary>
+    /// Count만으로 Sin 값을 반환합니다.
+    /// <br />
+    /// Count만을 사용하므로, 쿨타임이 과도하게 줄여지지 않았는지 확인하세요.
+    /// </summary>
+    public static float SinReg() => Mathf.Abs(Mathf.Sin(Count));
+
+    /// <summary>
+    /// Count만으로 Cos 값을 반환합니다.
+    /// <br />
+    /// Count만을 사용하므로, 쿨타임이 과도하게 줄여지지 않았는지 확인하세요.
+    /// </summary>
+    public static float CosReg() => Mathf.Abs(Mathf.Cos(Count));
 }
