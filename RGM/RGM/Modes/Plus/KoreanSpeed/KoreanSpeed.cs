@@ -70,8 +70,8 @@ public class KoreanSpeed : Mode
     /// </summary>
     private static void Scp049Patch()
     {
-            _harmony.Patch(AccessTools.PropertyGetter(
-                    typeof(Scp049ResurrectAbility), nameof(Scp049ResurrectAbility.Duration)),
-               postfix: new HarmonyMethod(typeof(ScpPatch), nameof(ScpPatch.Scp049Postfix)));
+        _harmony.Patch(AccessTools.PropertyGetter(
+                typeof(Scp049ResurrectAbility), nameof(Scp049ResurrectAbility.Duration)),
+            postfix: new HarmonyMethod(typeof(ScpPatch), nameof(ScpPatch.Scp049Postfix)));
     }
 }   
