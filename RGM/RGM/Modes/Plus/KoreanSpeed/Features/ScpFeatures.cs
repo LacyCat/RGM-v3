@@ -151,23 +151,9 @@ public class ScpFeatures : ILogicFeatures
 
     private static void Scp079Effect()
     {
-        foreach (var player in PlayerManager.List.Where(target =>
-                     target.IsScpRole() && target.Role.Type == RoleTypeId.Scp079 && !target.IsNPC))
-        {
-            if (player.Role is not Scp079Role scp079) continue;
-
-            if (scp079.BlackoutZoneCooldown != 0)
-                scp079.BlackoutZoneCooldown =
-                    Mathf.Max(0.0f, scp079.BlackoutZoneCooldown - SpeedStore.Count * SpeedStore.ScpMultiplier);
-            
-            if (scp079.RoomLockdownCooldown != 0)
-                scp079.RoomLockdownCooldown =
-                    Mathf.Max(0.0f, scp079.RoomLockdownCooldown - SpeedStore.Count * SpeedStore.ScpMultiplier);
-
-            if (!Timing.IsRunning(_isRunning079))
-                _isRunning079 = Timing.RunCoroutine(EnergyCreator());   
-        }
-
+        if (!Timing.IsRunning(_isRunning079))
+            _isRunning079 = Timing.RunCoroutine(EnergyCreator());
+        // BUG: SCP:SL 자체 버그로 인해 추후 복구 예정
         return;
 
         IEnumerator<float> EnergyCreator()
@@ -185,7 +171,7 @@ public class ScpFeatures : ILogicFeatures
                     scp079.Energy += 1;
                 }
 
-                yield return Timing.WaitForSeconds(SpeedStore.Sin(.1f));
+                yield return Timing.WaitForSeconds(SpeedStore.SinReg());
             }
         }
     }
@@ -196,9 +182,7 @@ public class ScpFeatures : ILogicFeatures
                      target.IsScpRole() && target.Role.Type == RoleTypeId.Scp173 && !target.IsNPC))
         {
             if (player.Role is not Scp173Role scp173) continue;
-            if (scp173.BreakneckActive && SpeedStore.Count > 15)
-                continue;
-
+            
             if (scp173.RemainingBreakneckCooldown != 0 && !(scp173.RemainingBreakneckCooldown <= .3f))
                 scp173.RemainingBreakneckCooldown = Mathf.Max(0.0f,
                     scp173.RemainingBreakneckCooldown - SpeedStore.Count * 0.1f);
@@ -221,15 +205,12 @@ public class ScpFeatures : ILogicFeatures
                 {
                     if (player.Role is not Scp173Role scp173) continue;
 
-                    if (scp173.BreakneckActive)
-                        continue;
-
                     if (scp173.BlinkCooldown != 0)
                         scp173.BlinkCooldown = Mathf.Max(0.0f,
-                            scp173.BlinkCooldown - SpeedStore.Count * .01f);
+                            scp173.BlinkCooldown - SpeedStore.Count * .05f);
                 }
 
-                yield return Timing.WaitForSeconds(SpeedStore.Sin());
+                yield return Timing.WaitForSeconds(SpeedStore.CosReg() * 10);
             }
         }
     }
