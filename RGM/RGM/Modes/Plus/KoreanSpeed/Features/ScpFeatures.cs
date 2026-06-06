@@ -209,7 +209,7 @@ public class ScpFeatures : ILogicFeatures
                     if (scp173.BreakneckActive) continue;
                    
                     if (scp173.BlinkCooldown != 0 && !(scp173.BlinkCooldown <= 1f))
-                        scp173.BlinkCooldown = Mathf.Max(.5f,
+                        scp173.BlinkCooldown = Mathf.Max(1f,
                             scp173.BlinkCooldown - SpeedStore.Count * .05f);
                 }
 
