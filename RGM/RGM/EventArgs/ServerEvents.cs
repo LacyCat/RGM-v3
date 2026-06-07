@@ -342,7 +342,7 @@ namespace RGM.EventArgs
                 Log.Error($"Error sending webhook: {e}");
             }
 
-            while (true)
+            while (Round.IsEnded)
             {
                 var top10 = PlayersReport
                 .OrderByDescending(kv => kv.Value.Damage)
