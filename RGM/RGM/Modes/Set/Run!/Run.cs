@@ -13,6 +13,7 @@ using Exiled.API.Extensions;
 using ProjectMER.Features.Objects;
 
 using Exiled.API.Enums;
+using Mirror;
 
 namespace RGM.Modes
 {
@@ -60,6 +61,7 @@ namespace RGM.Modes
             "Washer",
             "Whiteboard",
         };
+        List<SchematicObject> spawnedObjects = new();
 
         Vector3 pos;
         Vector3 finalDoor;
@@ -87,6 +89,9 @@ namespace RGM.Modes
             Timing.KillCoroutines(_onModeStarted);
 
             if (audio != null) audio.IsPaused = true;
+
+            foreach (var obj in spawnedObjects)
+                NetworkServer.Destroy(obj.gameObject);
         }
 
         public IEnumerator<float> OnModeStarted()
@@ -100,6 +105,7 @@ namespace RGM.Modes
                     new Vector3(Random.Range(-235.5703f, 121.7918f), Random.Range(336.903f, 346.5427f), Random.Range(-42.98623f, -51.62109f)), 
                     new Quaternion(Random.Range(0, 360), Random.Range(0, 360), Random.Range(0, 360), Random.Range(0, 360))
                 );
+                spawnedObjects.Add(schematic);
             }
 
             lightSources = Tools.GetObjectList("LightSource");
@@ -170,15 +176,21 @@ namespace RGM.Modes
         {
             while (!Round.IsEnded)
             {
-                if (hellMode ? true : UnityEngine.Random.Range(1, 3) == 1)
+                if (hellMode ? true : Random.Range(1, 3) == 1)
                 {
                     SchematicObject raser = ObjectSpawner.SpawnSchematic(
-                        $"Raser{UnityEngine.Random.Range(1, 11)}",
+                        $"Raser{Random.Range(1, 11)}",
                         new Vector3(finalDoor.x, finalDoor.y - 2.5f, finalDoor.z),
                         new Quaternion(0, new List<int> { 0, 180 }.GetRandomValue(), 0, 0)
                     );
 
-                    raser.AttachedBlocks.Where(x => x.name == "Oh no").ToList().ForEach(x => x.GetComponent<PrimitiveObjectToy>().NetworkMaterialColor = new Color(12.5f, 0, 0));
+                    spawnedObjects.Add(raser);
+
+                    foreach (var block in raser.AttachedBlocks)
+                    {
+                        if (block.name == "Oh no")
+                            block.GetComponent<PrimitiveObjectToy>().NetworkMaterialColor = new Color(12.5f, 0, 0);
+                    }
 
                     IEnumerator<float> enumerator()
                     {
@@ -208,9 +220,7 @@ namespace RGM.Modes
                         if (Physics.Raycast(player.Position, vector, out RaycastHit hit, 0.8f))
                         {
                             if (new List<string> { "Oh no", "BorderForSomething" }.Contains(hit.transform.name))
-                            {
                                 player.Kill("안타깝군요..");
-                            }
                         }
                     }
                 }
