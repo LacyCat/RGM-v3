@@ -81,17 +81,4 @@ public static class SpeedStore
     /// </summary>
     /// <returns>Cos값을 반환합니다.</returns>
     public static float Cos(float div = 2f) => Mathf.Abs(Mathf.Cos(Count / (Mathf.Approximately(div, 0) ? 2 : div)));
-    
-    /// <summary>
-    /// Log 값을 반환합니다.
-    /// </summary>
-    /// <param name="div">특정 값입니다.</param>
-    /// <returns>Log값을 반환합니다.</returns>
-    public static float Log(float div) =>  Mathf.Log(Count) / Mathf.Log(Mathf.Approximately(div, 0) ? 2 : div);
-    
-    /// <summary>
-    /// Log 값을 반환힙니다.
-    /// </summary>
-    /// <returns>Log값을 반환합니다.</returns>
-    public static float Log() =>  Mathf.Log(Count);
 }

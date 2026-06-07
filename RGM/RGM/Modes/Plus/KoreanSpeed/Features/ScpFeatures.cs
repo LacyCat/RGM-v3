@@ -169,7 +169,7 @@ public class ScpFeatures : ILogicFeatures
                     scp079.Energy += 1;
                 }
 
-                yield return Timing.WaitForSeconds(SpeedStore.Log(.1f));
+                yield return Timing.WaitForSeconds(SpeedStore.Cos(.1f));
             }
         }
     }
@@ -209,7 +209,7 @@ public class ScpFeatures : ILogicFeatures
                             scp173.BlinkCooldown - SpeedStore.Count * .05f);
                 }
 
-                yield return Timing.WaitForSeconds(SpeedStore.Log());
+                yield return Timing.WaitForSeconds(SpeedStore.Cos(3f));
             }
         }
     }

@@ -105,7 +105,7 @@ public static class PlayerFeatures
                     hid.WindUpProgress -= 0.1f;
                 }
 
-                yield return Timing.WaitForSeconds(SpeedStore.Log());
+                yield return Timing.WaitForSeconds(SpeedStore.Sin(.1f));
             }
         }
     }
