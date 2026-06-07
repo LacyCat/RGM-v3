@@ -84,6 +84,12 @@ public class SetCount : ICommand
                 switch (arguments.At(0).ToLower())
                 {
                     case "add":
+                        if (SpeedStore.Count - value < 0)
+                        {
+                            response = $"현재 횟수({SpeedStore.Count}) 보다 작거나 같은 값을 입력해주세요.";
+                            return false;
+                        }
+                        
                         SpeedStore.Count = (byte)(value + SpeedStore.Count) > 125 ? 
                             (byte)125 : 
                             (byte)(SpeedStore.Count + value);
@@ -98,6 +104,8 @@ public class SetCount : ICommand
                         if (!results)
                             return false;
                         break;
+                    default:
+                        throw new ArgumentException($"알 수 없는 명령어입니다. 해당 로직에 들어온 값은 {arguments.At(0)}입니다.");
                 }
 
                 PlayerFeatures.AddEffects();

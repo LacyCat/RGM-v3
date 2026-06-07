@@ -9,8 +9,7 @@ namespace RGM.Modes;
 public class KoreanSpeed : Mode
 {
     public override string Name => "한국인이 좋아하는 속도";
-    public override string Description => "누군가가 사망할 때마다 모두의 속도가 증가합니다." +
-                                          "\n 경고, 해당 모드는 아직 <b><color=#F72D2D>오류가 많을 수 있습니다.</color></b>";
+    public override string Description => "누군가가 사망할 때마다 모두의 속도가 증가합니다.";
 
     public override string Detail =>
         "<b><color=#FB00FF>슈</color><color=#D200D5>우</color><color=#A901AB>우</color><color=#800282>우</color><color=#570358>웅</color><color=#2E042E>화</color></b>";

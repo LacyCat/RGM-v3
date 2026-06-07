@@ -43,7 +43,7 @@ public static class PlayerFeatures
         try
         {
             foreach (var player in PlayerManager.List.Where(player =>
-                         !player.IsNonePlayer() && !player.IsDead && !player.IsNPC))
+                         player != null && !player.IsNonePlayer() && !player.IsDead && !player.IsNPC))
             {
                 UnloadEffects();
                 player.AddEffect(EffectType.MovementBoost, (byte)(SpeedStore.Count * 2));
