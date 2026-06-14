@@ -863,23 +863,6 @@ namespace RGM.API.Features
                     Log.Warn("Failure to fetch object 'light'.");
                 }
             }
-
-            if (L.Contains(item.Type))
-            {
-                Tools.PlaySound(player.Transform, "L 등급", 4);
-                Light(Color.red);
-            }
-            if (S.Contains(item.Type))
-            {
-                Tools.PlaySound(player.Transform, "S 등급", 2);
-                Light(Color.yellow);
-            }
-            if (A.Contains(item.Type))
-            {
-                Light(new Color(2.33f, 0.92f, 2.55f));
-            }
-
-            return item;
         }
 
         public static void AddRandomCandy(this Player player)
