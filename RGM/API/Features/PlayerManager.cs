@@ -26,6 +26,8 @@ namespace RGM.API.Features
 {
     public static class PlayerManager
     {
+        private static readonly Dictionary<Player, List<byte>> PlayerRandomValueCount = [];
+        
         public static List<Player> List
         {
             get => Main.Instance.Config.FixedModes.Count() > 0 ? Player.List.ToList() : Player.List.Where(x => x.IsNPC ? true : (!x.IsDND() && !x.IsNonePlayer())).ToList();
@@ -647,16 +649,15 @@ namespace RGM.API.Features
             subcontroller._overlayAnimations[1].OnStarted();
             subcontroller._overlayAnimations[1].SendRpc();
         }
-
+        
         public static Item AddRandomItem(this Player player)
         {
             Random rand = new(Map.Seed);
             
-            List<ItemType> poll = new();
-
-            List<ItemType> L = new()
-            {
-                // SCP 아이템
+            List<ItemType> poll = [];
+            
+            List<ItemType> mythos =
+            [
                 ItemType.GunSCP127,
                 ItemType.SCP1509,
                 ItemType.SCP268,
@@ -665,11 +666,10 @@ namespace RGM.API.Features
                 // 무기
                 ItemType.Jailbird,
                 ItemType.MicroHID,
-                ItemType.ParticleDisruptor,
-            };
-            List<ItemType> S = new()
-            {
-                // SCP 아이템
+                ItemType.ParticleDisruptor
+            ];
+            List<ItemType> legendary =
+            [
                 ItemType.AntiSCP207,
                 ItemType.SCP2176,
                 ItemType.SCP018,
@@ -680,11 +680,10 @@ namespace RGM.API.Features
 
                 // 무기
                 ItemType.GunLogicer,
-                ItemType.GunFRMG0,
-            };
-            List<ItemType> A = new()
-            {
-                // SCP 아이템
+                ItemType.GunFRMG0
+            ];
+            List<ItemType> epic =
+            [
                 ItemType.SCP207,
                 ItemType.SCP244a,
                 ItemType.SCP244b,
@@ -712,10 +711,9 @@ namespace RGM.API.Features
 
                 // 기타
                 ItemType.GrenadeHE
-            };
-            List<ItemType> B = new()
-            {
-                // SCP 아이템
+            ];
+            List<ItemType> rare =
+            [
                 ItemType.SCP330,
 
                 // 카드
@@ -738,10 +736,9 @@ namespace RGM.API.Features
                 // 기타
                 ItemType.Radio,
                 ItemType.GrenadeFlash
-            };
-            List<ItemType> C = new()
-            {
-                // 카드
+            ];
+            List<ItemType> general =
+            [
                 ItemType.KeycardJanitor,
                 ItemType.KeycardScientist,
                 ItemType.KeycardResearchCoordinator,
@@ -767,57 +764,84 @@ namespace RGM.API.Features
                 // 기타
                 ItemType.Flashlight,
                 ItemType.Lantern,
-                ItemType.Coin,
-            };
-            List<ItemType> D = new()
-            {
-                // 카드
+                ItemType.Coin
+            ];
+            List<ItemType> customKeycard =
+            [
                 ItemType.KeycardCustomManagement,
                 ItemType.KeycardCustomMetalCase,
                 ItemType.KeycardCustomSite02,
                 ItemType.KeycardCustomTaskForce,
 
                 // 기타
-                ItemType.DebugRagdollMover,
-            };
+                ItemType.DebugRagdollMover
+            ];
             
-            foreach (var iL in L)
+            if (!PlayerRandomValueCount.ContainsKey(player))
+                PlayerRandomValueCount.Add(player, [0, 0]);
+            
+            if (PlayerRandomValueCount[player][0] >= 80)
+            {
+                Light(Color.red);
+                PlayerRandomValueCount[player][0] -= (byte) Math.Max(0, PlayerRandomValueCount[player][0] - 5);
+                
+                return player.AddItem(mythos.GetRandomValue());
+            }
+
+            if (PlayerRandomValueCount[player][1] >= 10)
+            {
+                Light(Color.yellow);
+                PlayerRandomValueCount[player][1] -= (byte) Math.Max(0, PlayerRandomValueCount[player][1] - 4);
+                
+                return player.AddItem(legendary.GetRandomValue());
+            }
+            
+            foreach (var iL in mythos)
                 if (Mathf.Clamp01((float) rand.NextDouble()) <= .1f)
                     poll.Add(iL);
 
             for (int i = 0; i < 2; i++)
-            {
                 if (Mathf.Clamp01((float) rand.NextDouble()) <= .2f)
-                    foreach (var iS in S)
+                    foreach (var iS in legendary)
                         poll.Add(iS);
-            }
 
             for (int i = 0; i < 5; i++)
-            {
-                foreach (var iA in A)
+                foreach (var iA in epic)
                     poll.Add(iA);
-            }
 
             for (int i = 0; i < 10; i++)
-            {
-                foreach (var iB in B)
+                foreach (var iB in rare)
                     poll.Add(iB);
-            }
 
             for (int i = 0; i < 20; i++)
-            {
-                foreach (var iC in C)
+                foreach (var iC in general)
                     poll.Add(iC);
-            }
 
             for (int i = 0; i < 2; i++)
-            {
-                foreach (var iD in D)
+                foreach (var iD in customKeycard)
                     poll.Add(iD);
-            }
-
+            
             Item item = player.AddItem(poll.GetRandomValue());
 
+            if (mythos.Contains(item.Type))
+            {
+                Tools.PlaySound(player.Transform, "L 등급", 4);
+                Light(Color.red);
+                PlayerRandomValueCount[player][0] -= (byte) Math.Max(0, PlayerRandomValueCount[player][0] - 5);
+            }
+            if (legendary.Contains(item.Type))
+            {
+                Tools.PlaySound(player.Transform, "S 등급", 2);
+                Light(Color.yellow);
+                PlayerRandomValueCount[player][1] -= (byte) Math.Max(0, PlayerRandomValueCount[player][1] - 4);
+            }
+            if (epic.Contains(item.Type))
+            {
+                Light(new Color(2.33f, 0.92f, 2.55f));
+            }
+
+            return item;
+            
             void Light(Color color)
             {
                 try
