@@ -121,7 +121,7 @@ namespace RGM.API.Features
                 {
                     case 1:
                         player.AddItem(ItemType.GunRevolver);
-                        player.AddAmmo(AmmoType.Ammo44Cal, 1205);
+                        player.AddAmmo(AmmoType.Ammo44Cal, 120);
                         break;
 
                     case 2:

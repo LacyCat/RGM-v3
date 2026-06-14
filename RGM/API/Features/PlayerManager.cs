@@ -648,6 +648,21 @@ namespace RGM.API.Features
         }
 
         public static Item AddRandomItem(this Player player)
+            /*
+             알고리즘 구상: 천장 시스템 추가
+
+            1. L등급 아이템 확률 2%로 감소
+            2. S등급 아이템 확률 4%로 감소
+            3. 이외 A등급 이하의 아이템은 비율에 맞춰 조정
+
+            4. 총 10회 뽑기 마다 S등급 아이템 확정 드랍
+            4-1. 단, 10회 이전에 S등급 아이템이 등장할 경우 4의 횟수를 초기화
+
+            5. 총 80회 뽑기 마다 L등급 아이템 확정 드랍
+            5-1. 단, 80회 이전에 L등급 아이템이 등장할 경우 5의 횟수를 초기화
+
+            6. 4와 5의 횟수는 별개 적용.
+             */
         {
             List<ItemType> poll = new();
 
@@ -778,34 +793,34 @@ namespace RGM.API.Features
                 ItemType.DebugRagdollMover,
             };
 
-            foreach (var iL in L)
+            foreach (var iL in L) // 2.00%
                 poll.Add(iL);
 
-            for (int i = 0; i < 2; i++)
+            for (int i = 0; i < 2; i++)// 4.00%
             {
                 foreach (var iS in S)
                     poll.Add(iS);
             }
 
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 8; i++)// 16.00%
             {
                 foreach (var iA in A)
                     poll.Add(iA);
             }
 
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 13; i++)// 26.00%
             {
                 foreach (var iB in B)
                     poll.Add(iB);
             }
 
-            for (int i = 0; i < 20; i++)
+            for (int i = 0; i < 23; i++)// 46.00%
             {
                 foreach (var iC in C)
                     poll.Add(iC);
             }
 
-            for (int i = 0; i < 2; i++)
+            for (int i = 0; i < 3; i++)// 6.00%
             {
                 foreach (var iD in D)
                     poll.Add(iD);

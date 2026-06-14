@@ -627,7 +627,7 @@ namespace RGM.EventArgs
                             ev.Player.Role.Set(RoleTypeId.NtfPrivate);
                     }
 
-                    int rand = UnityEngine.Random.Range(1, 1001); // 시작 좀?비
+                    int rand = UnityEngine.Random.Range(1, 1001); // 시작 049-2
 
                     if (rand == 1)
                     {
@@ -647,10 +647,10 @@ namespace RGM.EventArgs
                 new List<SpawnReason> 
                 {
                     SpawnReason.RoundStart, 
-                    SpawnReason.Respawn, 
+                    SpawnReason.Respawn,
+                    SpawnReason.RespawnMiniwave,
                     SpawnReason.ItemUsage, 
-                    SpawnReason.Escaped, 
-                    SpawnReason.RespawnMiniwave
+                    SpawnReason.Escaped
                 }.Contains(ev.Reason) &&
                 CurrentMode.GetModeData().Info == ModeInfo.Plus)
             {
