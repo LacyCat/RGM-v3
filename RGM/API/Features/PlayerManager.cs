@@ -795,18 +795,18 @@ namespace RGM.API.Features
             if (!PlayerRandomValueCount.ContainsKey(player))
                 PlayerRandomValueCount.Add(player, [0, 0]);
             
-            if (PlayerRandomValueCount[player][0] >= 80)
+            if (PlayerRandomValueCount[player][0] >= 79)
             {
                 Light(Color.red);
-                PlayerRandomValueCount[player][0] -= (byte) Math.Max(0, PlayerRandomValueCount[player][0] - 5);
+                PlayerRandomValueCount[player][0] = 0;
                 
                 return player.AddItem(mythos.GetRandomValue());
             }
 
-            if (PlayerRandomValueCount[player][1] >= 10)
+            if (PlayerRandomValueCount[player][1] >= 9)
             {
                 Light(Color.yellow);
-                PlayerRandomValueCount[player][1] -= (byte) Math.Max(0, PlayerRandomValueCount[player][1] - 4);
+                PlayerRandomValueCount[player][1] = 0;
                 
                 return player.AddItem(legendary.GetRandomValue());
             }
@@ -820,35 +820,37 @@ namespace RGM.API.Features
                     foreach (var iS in legendary)
                         poll.Add(iS);
 
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 8; i++)
                 foreach (var iA in epic)
                     poll.Add(iA);
 
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 13; i++)
                 foreach (var iB in rare)
                     poll.Add(iB);
 
-            for (int i = 0; i < 20; i++)
+            for (int i = 0; i < 23; i++)
                 foreach (var iC in general)
                     poll.Add(iC);
 
-            for (int i = 0; i < 2; i++)
+            for (int i = 0; i < 3; i++)
                 foreach (var iD in customKeycard)
                     poll.Add(iD);
             
             Item item = player.AddItem(poll.GetRandomValue());
+            PlayerRandomValueCount[player][0] += 1;
+            PlayerRandomValueCount[player][1] += 1;
 
             if (mythos.Contains(item.Type))
             {
                 Tools.PlaySound(player.Transform, "L 등급", 4);
                 Light(Color.red);
-                PlayerRandomValueCount[player][0] -= (byte) Math.Max(0, PlayerRandomValueCount[player][0] - 5);
+                PlayerRandomValueCount[player][0] = 0;
             }
             if (legendary.Contains(item.Type))
             {
                 Tools.PlaySound(player.Transform, "S 등급", 2);
                 Light(Color.yellow);
-                PlayerRandomValueCount[player][1] -= (byte) Math.Max(0, PlayerRandomValueCount[player][1] - 4);
+                PlayerRandomValueCount[player][1] = 0;
             }
             if (epic.Contains(item.Type))
             {
