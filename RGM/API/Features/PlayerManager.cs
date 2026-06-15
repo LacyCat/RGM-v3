@@ -20,11 +20,14 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using static RGM.Variables.Variable;
+using Random = System.Random;
 
 namespace RGM.API.Features
 {
     public static class PlayerManager
     {
+        private static readonly Dictionary<Player, List<byte>> PlayerRandomValueCount = [];
+        
         public static List<Player> List
         {
             get => Main.Instance.Config.FixedModes.Count() > 0 ? Player.List.ToList() : Player.List.Where(x => x.IsNPC ? true : (!x.IsDND() && !x.IsNonePlayer())).ToList();
@@ -646,7 +649,7 @@ namespace RGM.API.Features
             subcontroller._overlayAnimations[1].OnStarted();
             subcontroller._overlayAnimations[1].SendRpc();
         }
-
+        
         public static Item AddRandomItem(this Player player)
             /*
              알고리즘 구상: 천장 시스템 추가
@@ -664,11 +667,12 @@ namespace RGM.API.Features
             6. 4와 5의 횟수는 별개 적용.
              */
         {
-            List<ItemType> poll = new();
-
-            List<ItemType> L = new()
-            {
-                // SCP 아이템
+            Random rand = new(Map.Seed);
+            
+            List<ItemType> poll = [];
+            
+            List<ItemType> mythos =
+            [
                 ItemType.GunSCP127,
                 ItemType.SCP1509,
                 ItemType.SCP268,
@@ -677,11 +681,10 @@ namespace RGM.API.Features
                 // 무기
                 ItemType.Jailbird,
                 ItemType.MicroHID,
-                ItemType.ParticleDisruptor,
-            };
-            List<ItemType> S = new()
-            {
-                // SCP 아이템
+                ItemType.ParticleDisruptor
+            ];
+            List<ItemType> legendary =
+            [
                 ItemType.AntiSCP207,
                 ItemType.SCP2176,
                 ItemType.SCP018,
@@ -692,11 +695,10 @@ namespace RGM.API.Features
 
                 // 무기
                 ItemType.GunLogicer,
-                ItemType.GunFRMG0,
-            };
-            List<ItemType> A = new()
-            {
-                // SCP 아이템
+                ItemType.GunFRMG0
+            ];
+            List<ItemType> epic =
+            [
                 ItemType.SCP207,
                 ItemType.SCP244a,
                 ItemType.SCP244b,
@@ -724,10 +726,9 @@ namespace RGM.API.Features
 
                 // 기타
                 ItemType.GrenadeHE
-            };
-            List<ItemType> B = new()
-            {
-                // SCP 아이템
+            ];
+            List<ItemType> rare =
+            [
                 ItemType.SCP330,
 
                 // 카드
@@ -750,10 +751,9 @@ namespace RGM.API.Features
                 // 기타
                 ItemType.Radio,
                 ItemType.GrenadeFlash
-            };
-            List<ItemType> C = new()
-            {
-                // 카드
+            ];
+            List<ItemType> general =
+            [
                 ItemType.KeycardJanitor,
                 ItemType.KeycardScientist,
                 ItemType.KeycardResearchCoordinator,
@@ -779,86 +779,105 @@ namespace RGM.API.Features
                 // 기타
                 ItemType.Flashlight,
                 ItemType.Lantern,
-                ItemType.Coin,
-            };
-            List<ItemType> D = new()
-            {
-                // 카드
+                ItemType.Coin
+            ];
+            List<ItemType> customKeycard =
+            [
                 ItemType.KeycardCustomManagement,
                 ItemType.KeycardCustomMetalCase,
                 ItemType.KeycardCustomSite02,
                 ItemType.KeycardCustomTaskForce,
 
                 // 기타
-                ItemType.DebugRagdollMover,
-            };
-
-            foreach (var iL in L) // 2.00%
-                poll.Add(iL);
-
-            for (int i = 0; i < 2; i++)// 4.00%
+                ItemType.DebugRagdollMover
+            ];
+            
+            if (!PlayerRandomValueCount.ContainsKey(player))
+                PlayerRandomValueCount.Add(player, [0, 0]);
+            
+            if (PlayerRandomValueCount[player][0] >= 80)
             {
-                foreach (var iS in S)
-                    poll.Add(iS);
+                Light(Color.red);
+                PlayerRandomValueCount[player][0] -= (byte) Math.Max(0, PlayerRandomValueCount[player][0] - 5);
+                
+                return player.AddItem(mythos.GetRandomValue());
             }
 
-            for (int i = 0; i < 8; i++)// 16.00%
+            if (PlayerRandomValueCount[player][1] >= 10)
             {
-                foreach (var iA in A)
+                Light(Color.yellow);
+                PlayerRandomValueCount[player][1] -= (byte) Math.Max(0, PlayerRandomValueCount[player][1] - 4);
+                
+                return player.AddItem(legendary.GetRandomValue());
+            }
+            
+            foreach (var iL in mythos)
+                if (Mathf.Clamp01((float) rand.NextDouble()) <= .1f)
+                    poll.Add(iL);
+
+            for (int i = 0; i < 2; i++)
+                if (Mathf.Clamp01((float) rand.NextDouble()) <= .2f)
+                    foreach (var iS in legendary)
+                        poll.Add(iS);
+
+            for (int i = 0; i < 5; i++)
+                foreach (var iA in epic)
                     poll.Add(iA);
-            }
 
-            for (int i = 0; i < 13; i++)// 26.00%
-            {
-                foreach (var iB in B)
+            for (int i = 0; i < 10; i++)
+                foreach (var iB in rare)
                     poll.Add(iB);
-            }
 
-            for (int i = 0; i < 23; i++)// 46.00%
-            {
-                foreach (var iC in C)
+            for (int i = 0; i < 20; i++)
+                foreach (var iC in general)
                     poll.Add(iC);
-            }
 
-            for (int i = 0; i < 3; i++)// 6.00%
-            {
-                foreach (var iD in D)
+            for (int i = 0; i < 2; i++)
+                foreach (var iD in customKeycard)
                     poll.Add(iD);
-            }
-
+            
             Item item = player.AddItem(poll.GetRandomValue());
 
-            void light(Color color)
-            {
-                SchematicObject schematic = ObjectSpawner.SpawnSchematic("Light", Vector3.zero);
-                LightSourceToy light = schematic.GetComponentsInChildren<LightSourceToy>().First();
-
-                schematic.transform.parent = player.Transform;
-                schematic.transform.localPosition = Vector3.zero;
-
-                light.NetworkLightColor = color;
-                light.NetworkLightRange = 50;
-                light.NetworkLightIntensity = 10;
-
-                Timing.CallDelayed(3, schematic.Destroy);
-            }
-
-            if (L.Contains(item.Type))
+            if (mythos.Contains(item.Type))
             {
                 Tools.PlaySound(player.Transform, "L 등급", 4);
-                light(Color.red);
+                Light(Color.red);
+                PlayerRandomValueCount[player][0] -= (byte) Math.Max(0, PlayerRandomValueCount[player][0] - 5);
             }
-            if (S.Contains(item.Type))
+            if (legendary.Contains(item.Type))
             {
                 Tools.PlaySound(player.Transform, "S 등급", 2);
-                light(Color.yellow);
+                Light(Color.yellow);
+                PlayerRandomValueCount[player][1] -= (byte) Math.Max(0, PlayerRandomValueCount[player][1] - 4);
             }
-            if (A.Contains(item.Type))
+            if (epic.Contains(item.Type))
             {
-                light(new Color(2.33f, 0.92f, 2.55f));
+                Light(new Color(2.33f, 0.92f, 2.55f));
             }
 
             return item;
+            
+            void Light(Color color)
+            {
+                try
+                {
+                    SchematicObject schematic = ObjectSpawner.SpawnSchematic("Light", Vector3.zero);
+                    LightSourceToy light = schematic.GetComponentsInChildren<LightSourceToy>().First();
+
+                    schematic.transform.parent = player.Transform;
+                    schematic.transform.localPosition = Vector3.zero;
+
+                    light.NetworkLightColor = color;
+                    light.NetworkLightRange = 50;
+                    light.NetworkLightIntensity = 10;
+
+                    Timing.CallDelayed(3, schematic.Destroy);
+                }
+                catch (NullReferenceException e)
+                {
+                    Log.Warn("Failure to fetch object 'light'.");
+                }
+            }
         }
 
         public static void AddRandomCandy(this Player player)
