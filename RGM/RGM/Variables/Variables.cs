@@ -81,14 +81,14 @@ namespace RGM.Variables
             "Airplane6",
             "OperationHarvest",
             "OperationNightFlight",
-            "China",
+            //"China",
             "CityPlusCITY",
             "Castle",
             "FNAF2"
         };
         public static List<string> Specials = new()
         {
-            "TRRBR",
+            //"TRRBR",
             "Moszka",
             "Agar",
         };
