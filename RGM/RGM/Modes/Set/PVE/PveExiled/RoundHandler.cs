@@ -25,6 +25,9 @@ namespace RGM.Modes.PveExiledSystem
         private bool roundStarted = false;
         private WaveConfig waveConfig;
 
+        public bool AllWavesCleared { get; private set; }
+        public int SelectedDifficulty { get; private set; } = -1;
+
         private NavMeshDataInstance navMesh;
         public Vector3 playerSpawnPoint;
         public List<Vector3> enemySpawnPoints = new List<Vector3>();
@@ -44,6 +47,8 @@ namespace RGM.Modes.PveExiledSystem
             OnEndingRound();
 
             roundStarted = true;
+            AllWavesCleared = false;
+            SelectedDifficulty = -1;
 
             NavMesh.RemoveAllNavMeshData();
 
@@ -134,6 +139,7 @@ namespace RGM.Modes.PveExiledSystem
             //이벤트해제
             if (waveConfig != null)
             {
+                SelectedDifficulty = waveConfig.Difficulty;
                 PlayerEvents.Hurting -= waveConfig.OnHurting;
                 Exiled.Events.Handlers.Map.PickupAdded -= waveConfig.OnPickupAdded;
                 Exiled.Events.Handlers.Map.PlacingBulletHole -= waveConfig.OnPlacingBulletHole;
@@ -435,6 +441,7 @@ namespace RGM.Modes.PveExiledSystem
             {
                 mbc.API.MultiBroadcast.AddMapBroadcast(duration: 10, text: "<color=#1010ff>Site-02</color> 시설이 <color=#80ff80>혼돈의 반란</color> 세력에게 점령당했습니다.");
             }
+            AllWavesCleared = won;
             OnEndingRound();
         }
 
