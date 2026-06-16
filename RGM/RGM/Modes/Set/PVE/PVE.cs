@@ -44,13 +44,16 @@ namespace RGM.Modes
 
         public void OnRoundEnded(RoundEndedEventArgs ev)
         {
-            IEnumerable<Player> players = PlayerManager.List.Where(x => x.IsAlive && !x.IsNPC);
+            List<Player> players = PlayerManager.List.Where(x => !x.IsNPC).ToList();
+            if (players.Count == 0 || roundHandler.SelectedDifficulty < 0)
+                return;
 
-            if (players.Count() == 1)
-                Timing.RunCoroutine(Tools.SetWinner(players.ToList(), 5));
+            int[] difficultyRewards = { 6, 12, 18 };
+            int reward = difficultyRewards[roundHandler.SelectedDifficulty];
+            if (!roundHandler.AllWavesCleared)
+                reward /= 3;
 
-            else if (players.Count() > 1)
-                Timing.RunCoroutine(Tools.SetWinner(players.ToList(), 1));
+            Timing.RunCoroutine(Tools.SetWinner(players, reward));
         }
     }
 }
