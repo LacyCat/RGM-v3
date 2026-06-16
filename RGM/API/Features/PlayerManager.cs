@@ -659,10 +659,10 @@ namespace RGM.API.Features
             3. 이외 A등급 이하의 아이템은 비율에 맞춰 조정
 
             4. 총 10회 뽑기 마다 S등급 아이템 확정 드랍
-            4-1. 단, 10회 이전에 S등급 아이템이 등장할 경우 4의 횟수를 초기화
+            4-1. 단, 10회 이전에 S등급 아이템이 등장할 경우 4번의 뽑기 횟수를 초기화
 
             5. 총 80회 뽑기 마다 L등급 아이템 확정 드랍
-            5-1. 단, 80회 이전에 L등급 아이템이 등장할 경우 5의 횟수를 초기화
+            5-1. 단, 80회 이전에 L등급 아이템이 등장할 경우 5번의 뽑기 횟수를 초기화
 
             6. 4와 5의 횟수는 별개 적용.
              */
@@ -673,6 +673,7 @@ namespace RGM.API.Features
             
             List<ItemType> mythos =
             [
+                ItemType.SCP018,
                 ItemType.GunSCP127,
                 ItemType.SCP1509,
                 ItemType.SCP268,
@@ -687,33 +688,33 @@ namespace RGM.API.Features
             [
                 ItemType.AntiSCP207,
                 ItemType.SCP2176,
-                ItemType.SCP018,
-                ItemType.SCP1576,
+                ItemType.SCP500,
 
                 // 카드
                 ItemType.KeycardO5,
-
+                ItemType.KeycardMTFCaptain,
+                ItemType.KeycardChaosInsurgency,
+                
                 // 무기
                 ItemType.GunLogicer,
-                ItemType.GunFRMG0
+                ItemType.GunFRMG0,
+                ItemType.GunE11SR,
+                ItemType.GunAK
             ];
             List<ItemType> epic =
             [
                 ItemType.SCP207,
                 ItemType.SCP244a,
                 ItemType.SCP244b,
-                ItemType.SCP500,
+                ItemType.SCP1576,
                 ItemType.SCP1853,
 
                 // 카드
-                ItemType.KeycardMTFCaptain,
                 ItemType.KeycardMTFOperative,
-                ItemType.KeycardChaosInsurgency,
+                ItemType.KeycardMTFPrivate,
                 ItemType.KeycardFacilityManager,
 
                 // 무기
-                ItemType.GunE11SR,
-                ItemType.GunAK,
                 ItemType.GunA7,
                 ItemType.GunShotgun,
                 ItemType.GunCom45,
@@ -734,7 +735,6 @@ namespace RGM.API.Features
                 // 카드
                 ItemType.KeycardZoneManager,
                 ItemType.KeycardGuard,
-                ItemType.KeycardMTFPrivate,
                 ItemType.KeycardContainmentEngineer,
 
                 // 무기
@@ -762,13 +762,6 @@ namespace RGM.API.Features
                 // 무기
                 ItemType.GunCOM18,
                 ItemType.GunCOM15,
-
-                // 탄약
-                //ItemType.Ammo12gauge,
-                //ItemType.Ammo44cal,
-                //ItemType.Ammo556x45,
-                //ItemType.Ammo762x39,
-                //ItemType.Ammo9x19,
 
                 // 치료
                 ItemType.Painkillers,
@@ -837,8 +830,8 @@ namespace RGM.API.Features
                     poll.Add(iD);
             
             Item item = player.AddItem(poll.GetRandomValue());
-            PlayerRandomValueCount[player][0] += 1;
-            PlayerRandomValueCount[player][1] += 1;
+            PlayerRandomValueCount[player][0]++;
+            PlayerRandomValueCount[player][1]++;
 
             if (mythos.Contains(item.Type))
             {
@@ -854,7 +847,7 @@ namespace RGM.API.Features
             }
             if (epic.Contains(item.Type))
             {
-                Light(new Color(2.33f, 0.92f, 2.55f));
+                Light(Color.magenta);
             }
 
             return item;
