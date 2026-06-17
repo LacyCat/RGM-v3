@@ -50,6 +50,8 @@ public class ABattle : Mode
     public override string Color => "00FFFF";
     public override string Map => "ABattle";
 
+    public override string Author => "GoldenPig1205, RGM Contributors :D";
+
     public static ABattle Instance;
 
     // 동기화 객체
