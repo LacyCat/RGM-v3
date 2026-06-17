@@ -355,6 +355,7 @@ public enum AbilityType
     EPIC_FOODRESEARCHER, // [영웅] 요리 연구가,
     EPIC_SCP1509, // [영웅] 마체테
     EPIC_MARSHMELLOW, // [영웅] !!마쉬멜로우!!
+    EPIC_CONTEXPERT, // [영웅] 격리 전문가
 
     // 전설 //
     LEGEND_SPEEDWAGON, // [전설] 스피드왜건
