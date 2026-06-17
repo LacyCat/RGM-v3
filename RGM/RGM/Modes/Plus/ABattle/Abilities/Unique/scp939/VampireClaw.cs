@@ -3,7 +3,7 @@ using Exiled.Events.EventArgs.Player;
 
 namespace RGM.Modes.Abilities.Unique.Scp939;
 
-[Ability("흡혈 발톱", "공격 시 40의 HS가 회복됩니다.", AbilityCategory.Scp939, AbilityType.SCP939_VAMPIRECLAW)]
+[Ability("흡혈 발톱", "공격 시 25의 HS가 회복됩니다.", AbilityCategory.Scp939, AbilityType.SCP939_VAMPIRECLAW)]
 public class VampireClaw : Ability
 {
     public override void OnEnabled()
