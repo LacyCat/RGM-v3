@@ -30,17 +30,21 @@ public class BALLISTAEM3 : Ability
     public override void OnDisabled()
     {
     }
-
-    public IEnumerator<float> PlanBAmmo()
+    
+    private IEnumerator<float> PlanBAmmo()
     {
         while (true)
         {
-            yield return Timing.WaitForSeconds(30f);
-            
-            Firearm firearm = (Firearm)Item.Get(serial);
+            yield return Timing.WaitForSeconds(10f);
 
-            if (firearm.MaxMagazineAmmo > firearm.MagazineAmmo)
+            if (Owner != null && Owner.IsAlive && Owner.CurrentItem != null)
+            {
+                var firearm = (Firearm)Item.Get(serial);
+                
+                if (firearm.MaxMagazineAmmo > firearm.MagazineAmmo) {}
+
                 firearm.MagazineAmmo += 1;
+            }
         }
     }
 
@@ -61,18 +65,28 @@ public class BALLISTAEM3 : Ability
             {
                 bool enemy = false;
 
-                foreach (var player in players.Where(
-                             player => HitboxIdentity.IsEnemy(ev.Player.ReferenceHub, player.ReferenceHub)))
+                foreach (var player in players.Where(player =>
+                             HitboxIdentity.IsEnemy(ev.Player.ReferenceHub, player.ReferenceHub)))
                 {
-                    player.Hit(player, 16384.1972f);
-                        
+                    if (!ABattle.Instance.PlayerAbilities.TryGetValue(player, out var ability) || ability.Count <= 0)
+                        player.Hit(ev.Player, 1200);
+                    else
+                    {
+                        if (Random.Range(1, 11) <= 9)
+                        {
+                            player.DisableAllEffects();
+                            player.RemoveAllAbilities();
+                            
+                            ABattle.Instance.PlayerAbilities[player].Clear();
+                            ABattle.Instance.PlayerWorkstations[player].Clear();
+                        }
+                        player.Hit(ev.Player, 1200);
+                    }
+
                     enemy = true;
                 }
 
-                if (!enemy)
-                {
-                }
-                else
+                if (enemy)
                 {
                     Hitmarker.SendHitmarkerDirectly(ev.Player.ReferenceHub, 3f);
                 }
