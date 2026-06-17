@@ -22,8 +22,8 @@ public class Hurger : Ability
 
         Timing.CallDelayed(0.1f, () =>
         {
-            ev.Player.Health += 65;
             ev.Player.MaxHealth += 65;
+            ev.Player.Health += 65;
         });
     }
 }
