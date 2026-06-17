@@ -654,7 +654,7 @@ namespace RGM.EventArgs
                 }.Contains(ev.Reason) &&
                 CurrentMode.GetModeData().Info == ModeInfo.Plus)
             {
-                ev.Player.ApplyGodMode(10);
+                ev.Player.ApplyGodMode(9);
             }
         }
 

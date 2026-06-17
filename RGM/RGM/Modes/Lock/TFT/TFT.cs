@@ -197,9 +197,8 @@ public class TFT : Mode
 
             if (DAONTFT.Core.Variables.Base.Encounter == RoleTypeId.FacilityGuard)
                 return 180;
-
-            else
-                return 300;
+            
+            return 300;
         }
 
         int waitTime = getTime();
