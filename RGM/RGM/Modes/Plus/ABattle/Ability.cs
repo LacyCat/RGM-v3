@@ -356,6 +356,8 @@ public enum AbilityType
     EPIC_SCP1509, // [영웅] 마체테
     EPIC_MARSHMELLOW, // [영웅] !!마쉬멜로우!!
     EPIC_CONTEXPERT, // [영웅] 격리 전문가
+    EPIC_BULLSEYE, // [영웅] 불스아이
+    EPIC_RAMBO, // [영웅] 람보
 
     // 전설 //
     LEGEND_SPEEDWAGON, // [전설] 스피드왜건
