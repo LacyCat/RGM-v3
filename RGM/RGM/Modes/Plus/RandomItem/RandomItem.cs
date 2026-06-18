@@ -89,7 +89,16 @@ namespace RGM.Modes
             yield return Timing.WaitForOneFrame;
 
             player.ClearInventory();
-
+            for (int i = 1; i < 7; i++) {
+                player.AddItem(ItemType.Ammo9x19);
+                player.AddItem(ItemType.Ammo12gauge);
+                player.AddItem(ItemType.Ammo44cal);
+            }
+            for (int i = 1; i < 4; i++)
+            {
+                player.AddItem(ItemType.Ammo556x45);
+                player.AddItem(ItemType.Ammo762x39);
+            }
             for (int i = 1; i < 9; i++)
             {
                 player.AddRandomItem();
