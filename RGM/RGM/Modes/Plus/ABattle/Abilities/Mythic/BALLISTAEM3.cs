@@ -5,6 +5,7 @@ using MEC;
 using RGM.API.Features;
 using System.Collections.Generic;
 using System.Linq;
+using PlayerRoles;
 using UnityEngine;
 
 namespace RGM.Modes.Abilities.Mythic;
@@ -26,14 +27,12 @@ public class BALLISTAEM3 : Ability
         _serial = item.Serial;
 
         Exiled.Events.Handlers.Player.ChangedItem += OnChangedItem;
-        Exiled.Events.Handlers.Player.Shot += OnShot;
+        Exiled.Events.Handlers.Player.Hurting += OnHurting;
 
         Timing.RunCoroutine(PlanBAmmo());
     }
 
-    public override void OnDisabled()
-    {
-    }
+    public override void OnDisabled() { }
     
     private IEnumerator<float> PlanBAmmo()
     {
@@ -54,43 +53,41 @@ public class BALLISTAEM3 : Ability
 
     private void OnChangedItem(ChangedItemEventArgs ev)
     {
-        if (_serial == ev.Player.CurrentItem.Serial && ev.Item != null)
-        {
-            if (_serial == ev.Item.Serial)
-                ev.Player.AddHint("발리스타 MP3", $"<b><color={ABattle.RatingColor["신화"]}>발리스타 MP3</color></b> 능력이 있는 <b>입자 분열기</b>입니다!");
-        }
+        if (ev.Item == null) return;
+        
+        if (_serial != ev.Player.CurrentItem.Serial) return;
+            ev.Player.AddHint("발리스타 MP3",  $"<b><color={ABattle.RatingColor["신화"]}>발리스타 MP3</color></b> 능력이 있는 <b>입자 분열기</b>입니다!");
     }
-
-    private void OnShot(ShotEventArgs ev)
+    
+    private void OnHurting(HurtingEventArgs ev)
     {
-        if (_serial != ev.Item.Serial) return;
-        if (!Tools.TryGetLookPlayers(ev.Player, 75f, out List<Player> players, out _)) return;
+        if (_serial != ev.Attacker.CurrentItem.Serial) return;
+        if (!Tools.TryGetLookPlayers(ev.Attacker, 75f, out List<Player> players, out _)) return;
         bool enemy = false;
-
-        foreach (var player in players.Where(player =>
-                     HitboxIdentity.IsEnemy(ev.Player.ReferenceHub, player.ReferenceHub)))
+        
+        foreach (var player in players.Where(player => HitboxIdentity.IsEnemy(ev.Attacker.ReferenceHub, player.ReferenceHub)))
         {
+            if (player.Role == RoleTypeId.Spectator) continue;
+            
             if (!ABattle.Instance.PlayerAbilities.TryGetValue(player, out var ability) || ability.Count <= 0)
-                player.Hit(ev.Player, 1500 * 2.7f);
+                player.Hit(ev.Attacker, 1500 * 2.7f);
             else
             {
-                if (Random.Range(1, 11) <= 9)
+                if (Mathf.Clamp01(Random.Range(0.0f, 1f)) >= .2f)
                 {
                     player.DisableAllEffects();
                     player.RemoveAllAbilities();
-                            
+
                     ABattle.Instance.PlayerAbilities[player].Clear();
                     ABattle.Instance.PlayerWorkstations[player].Clear();
+                    
                 }
-                player.Hit(ev.Player, 1500);
+
+                player.Hit(ev.Attacker, 1600 * 2.7f);
+                enemy = true;
             }
-
-            enemy = true;
         }
-
         if (enemy)
-        {
-            Hitmarker.SendHitmarkerDirectly(ev.Player.ReferenceHub, 3f);
-        }
+            Hitmarker.SendHitmarkerDirectly(ev.Attacker.ReferenceHub, 3f);
     }
 }
