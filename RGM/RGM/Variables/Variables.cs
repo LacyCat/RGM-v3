@@ -295,6 +295,11 @@ namespace RGM.Variables
         [
             ModeType.Spirit
         ];
+
+        public static readonly List<ModeType> ScpSuicideAvailableModes =
+        [
+            ModeType.Infection
+        ];
         
         // -------------------------------------------------------------------------------------------------
 
