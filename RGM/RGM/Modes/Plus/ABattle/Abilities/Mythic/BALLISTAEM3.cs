@@ -18,6 +18,8 @@ namespace RGM.Modes.Abilities.Mythic;
 public class BALLISTAEM3 : Ability
 {
     private ushort _serial;
+    private bool _isActive;
+    private const float Damage = 1500 * 2.7f;
 
     public override void OnEnabled()
     {
@@ -61,33 +63,42 @@ public class BALLISTAEM3 : Ability
     
     private void OnHurting(HurtingEventArgs ev)
     {
+        if (_isActive) return;
+        Waiting();     
         if (_serial != ev.Attacker.CurrentItem.Serial) return;
         if (!Tools.TryGetLookPlayers(ev.Attacker, 75f, out List<Player> players, out _)) return;
         bool enemy = false;
+
+        Log.Info(players.Count);
         
-        foreach (var player in players.Where(player => HitboxIdentity.IsEnemy(ev.Attacker.ReferenceHub, player.ReferenceHub)))
+        foreach (var player in players.Where(player => HitboxIdentity.IsEnemy(ev.Attacker.ReferenceHub, player.ReferenceHub)).Where(player => player.Role != RoleTypeId.Spectator))
         {
-            if (player.Role == RoleTypeId.Spectator) continue;
-            
             if (!ABattle.Instance.PlayerAbilities.TryGetValue(player, out var ability) || ability.Count <= 0)
-                player.Hit(ev.Attacker, 1500 * 2.7f);
-            else
+                player.Hit(ev.Attacker, Damage);
+            else if (Mathf.Clamp01(Random.Range(0.0f, 1f)) >= .1f)
             {
-                if (Mathf.Clamp01(Random.Range(0.0f, 1f)) >= .2f)
-                {
-                    player.DisableAllEffects();
-                    player.RemoveAllAbilities();
-
-                    ABattle.Instance.PlayerAbilities[player].Clear();
-                    ABattle.Instance.PlayerWorkstations[player].Clear();
+                player.Hit(ev.Attacker, Damage);
+                
+                player.DisableAllEffects();
+                player.RemoveAllAbilities();
                     
-                }
-
-                player.Hit(ev.Attacker, 1600 * 2.7f);
-                enemy = true;
+                ABattle.Instance.PlayerAbilities[player].Clear();
+                ABattle.Instance.PlayerWorkstations[player].Clear();
             }
+            else
+                player.Hit(ev.Attacker, 4105);
+            
+            enemy = true;
         }
+
+        
         if (enemy)
             Hitmarker.SendHitmarkerDirectly(ev.Attacker.ReferenceHub, 3f);
+    }
+
+    private void Waiting()
+    {
+        _isActive = true;
+        Timing.CallDelayed(3f, () => _isActive = false);
     }
 }

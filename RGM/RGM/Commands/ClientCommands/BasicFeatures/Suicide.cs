@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Linq;
 using CommandSystem;
 using Exiled.API.Enums;
 using Exiled.API.Features;
+using PlayerRoles;
 using static RGM.Variables.Variable;
 
 namespace RGM.Commands.ClientCommands
@@ -12,7 +12,7 @@ namespace RGM.Commands.ClientCommands
     {
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
-            Player player = Player.Get(sender);
+            var player = Player.Get(sender);
 
             if (player.IsScp)
             {
@@ -20,7 +20,7 @@ namespace RGM.Commands.ClientCommands
                 return false;
             }
 
-            if (EnabledModeList.Select(x => x.Data.Type).Contains(ModeType.Spirit))
+            if (EnabledModeList.Exists(x => SuicideBlockedModes.Contains(x.Data.Type)) && player.Role.Type != RoleTypeId.Tutorial)
             {
                 response = "이 모드에서는 이 명령어를 사용할 수 없습니다.";
                 return false;
