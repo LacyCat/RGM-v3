@@ -2,6 +2,7 @@
 using Exiled.Events.EventArgs.Player;
 using System.Collections.Generic;
 using System.Linq;
+using Achievements.Handlers;
 using Exiled.API.Features;
 using MEC;
 using UnityEngine;
@@ -15,11 +16,16 @@ using RGM.API.DataBases;
 using static RGM.Variables.Variable;
 using Respawning;
 using Exiled.API.Features.Waves;
-using Exiled.API.Features.Doors;
+using LabApi.Features.Wrappers;
+using Door = Exiled.API.Features.Doors.Door;
+using Player = Exiled.API.Features.Player;
+using Round = Exiled.API.Features.Round;
+using Server = Exiled.API.Features.Server;
+using Warhead = Exiled.API.Features.Warhead;
 
 namespace RGM.Modes
 {
-    [Mode(ModeCategory.Public, ModeInfo.Set, ModeType.Juggernaut)]
+    [Mode(ModeCategory.Private, ModeInfo.Set, ModeType.Juggernaut)]
     class Juggernaut : Mode
     {
         public override string Name => "저거너트";
@@ -268,7 +274,7 @@ namespace RGM.Modes
                         if (ev.DamageHandler.CustomBase is FirearmDamageHandler { Hitbox: HitboxType.Headshot } damageHandler)
                             damageHandler.Damage /= 2;
 
-                        ev.DamageHandler.Damage *= 3.28f;
+                        ev.DamageHandler.Damage *= 3.25f;
                     }
                     else if (ev.Attacker != juggernaut && ev.Player == juggernaut)
                     {
