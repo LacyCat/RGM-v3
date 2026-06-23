@@ -5,7 +5,9 @@ using RGM.API.Features;
 using RGM.Modes.SubClass;
 using SecretAPI.Features.UserSettings;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using MEC;
 using UnityEngine;
 using static RGM.Variables.Variable;
 
@@ -13,6 +15,8 @@ namespace RGM.UserSettings
 {
     public static class MainSetting
     {
+        private static CoroutineHandle _reloader;
+        
         public static CustomHeader Setting { get; } = new("<b>랜덤게임모드</b>");
 
         public static CustomKeybindSetting ScpCanEquipRandomItem { get; private set; }
@@ -25,10 +29,13 @@ namespace RGM.UserSettings
         public static CustomKeybindSetting LeftKey { get; private set; }
         public static CustomKeybindSetting RightKey { get; private set; }
         public static CustomKeybindSetting EnterKey { get; private set; }
-        public static CustomKeybindSetting DetailInfoKey { get; private set; }
+        public static CustomKeybindSetting DetailInfoKey { get; private set; }  
 
         public static void Init()
         {
+            if (!Timing.IsRunning(_reloader))
+                _reloader = Timing.RunCoroutine(Reloader());
+            
             if (ScpCanEquipRandomItem != null)
                 return;
 
@@ -56,6 +63,39 @@ namespace RGM.UserSettings
                 RightKey,
                 EnterKey,
                 DetailInfoKey);
+        }
+
+        private static IEnumerator<float> Reloader()
+        {
+            while (true)
+            {
+                yield return Timing.WaitForSeconds(120f);
+                
+                CustomSetting.UnRegister(
+                    ScpCanEquipRandomItem,
+                    SpectatorToNone,
+                    SwitchToSpectator,
+                    MuteBGM,
+                    Translation,
+                    UpKey,
+                    DownKey,
+                    LeftKey,
+                    RightKey,
+                    EnterKey,
+                    DetailInfoKey);
+                CustomSetting.Register(
+                    ScpCanEquipRandomItem,
+                    SpectatorToNone,
+                    SwitchToSpectator,
+                    MuteBGM,
+                    Translation,
+                    UpKey,
+                    DownKey,
+                    LeftKey,
+                    RightKey,
+                    EnterKey,
+                    DetailInfoKey);
+            }
         }
 
         private sealed class ScpCanEquipRandomItemSetting : CustomKeybindSetting
