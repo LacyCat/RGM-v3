@@ -20,7 +20,7 @@ using static RGM.Variables.Variable;
 
 namespace RGM.Modes;
 
-[Mode(ModeCategory.Private, ModeInfo.Lock, ModeType.TFT)]
+[Mode(ModeCategory.Public, ModeInfo.Lock, ModeType.TFT)]
 public class TFT : Mode
 {
     public override string Name => "전략적 팀 전투";
