@@ -40,7 +40,7 @@ public class TFT : Mode
     readonly List<TFTAbilityLevel> _upgradeLevelSequence = new();
     int _upgradeWaitTime = 240;
     bool _isUpgradeTimerReady;
-    const bool DebugUpgradeTimer = true;
+    const bool DebugUpgradeTimer = false;
 
     public override void OnEnabled()
     {
@@ -189,7 +189,7 @@ public class TFT : Mode
             }
             catch { }
 
-            /*Round.IsLocked = false;*/
+            Round.IsLocked = false;
         });
 
         // --------------------------------------------------
