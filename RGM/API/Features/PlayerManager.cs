@@ -862,9 +862,7 @@ namespace RGM.API.Features
         }
 
         public static void AddRandomCandy(this Player player)
-        {
-            player.AddCandy(Tools.PickRandomCandy());
-        }
+            => player.AddCandy(Tools.PickRandomCandy());
 
         public static void AddBroadcast(this Player player, ushort duration, string message, byte priority = 0, string tag = "")
         {
