@@ -661,21 +661,6 @@ namespace RGM.API.Features
         }
         
         public static Item AddRandomItem(this Player player)
-            /*
-             알고리즘 구상: 천장 시스템 추가
-
-            1. L등급 아이템 확률 2%로 감소
-            2. S등급 아이템 확률 4%로 감소
-            3. 이외 A등급 이하의 아이템은 비율에 맞춰 조정
-
-            4. 총 10회 뽑기 마다 S등급 아이템 확정 드랍
-            4-1. 단, 10회 이전에 S등급 아이템이 등장할 경우 4번의 뽑기 횟수를 초기화
-
-            5. 총 80회 뽑기 마다 L등급 아이템 확정 드랍
-            5-1. 단, 80회 이전에 L등급 아이템이 등장할 경우 5번의 뽑기 횟수를 초기화
-
-            6. 4와 5의 횟수는 별개 적용.
-             */
         {
             Random rand = new(Map.Seed);
             
@@ -855,10 +840,8 @@ namespace RGM.API.Features
                 Light(Color.yellow);
                 PlayerRandomValueCount[player][1] = 0;
             }
-            if (epic.Contains(item.Type))
-            {
+            if (epic.Contains(item.Type)) 
                 Light(Color.magenta);
-            }
 
             return item;
             
