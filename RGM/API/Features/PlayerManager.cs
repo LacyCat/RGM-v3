@@ -643,14 +643,12 @@ namespace RGM.API.Features
 
         public static void Grab(this Player player)
         {
-            OverlayAnimationsSubcontroller subcontroller;
             if (!(player.ReferenceHub.roleManager.CurrentRole is IFpcRole currentRole) ||
                 !(currentRole.FpcModule.CharacterModelInstance is AnimatedCharacterModel
                     characterModelInstance) ||
-                !characterModelInstance.TryGetSubcontroller<OverlayAnimationsSubcontroller>(out subcontroller))
-            {
+                !characterModelInstance.TryGetSubcontroller(out OverlayAnimationsSubcontroller subcontroller))
                 return;
-            }
+            
             subcontroller._overlayAnimations[1].OnStarted();
             subcontroller._overlayAnimations[1].SendRpc();
         }
