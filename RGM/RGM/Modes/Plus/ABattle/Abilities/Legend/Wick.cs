@@ -2,11 +2,12 @@ using System.Collections.Generic;
 
 namespace RGM.Modes.Abilities.Legend;
 
-[Ability("존 윅", "권총류 데미지가 650% 증가합니다.", AbilityCategory.Legend, AbilityType.LEGEND_JOHNWICK)]
+[Ability("존 윅", "권총류 데미지가 770% 증가합니다. Com18 1정을 얻습니다.", AbilityCategory.Legend, AbilityType.LEGEND_JOHNWICK)]
 public class Wick : Ability
 {
     public override void OnEnabled()
     {
+        Owner.AddItem(ItemType.GunCOM18);
         Exiled.Events.Handlers.Player.Hurting += OnHurting;
     }
 
@@ -29,7 +30,7 @@ public class Wick : Ability
 
             if (pistols.Contains(ev.Attacker.CurrentItem.Type))
             {
-                ev.DamageHandler.Damage *= 6.5f;
+                ev.DamageHandler.Damage *= 7.7f;
             }
         }
     }
