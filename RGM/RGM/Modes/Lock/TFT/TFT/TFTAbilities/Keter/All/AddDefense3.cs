@@ -23,7 +23,7 @@ public class AddDefense3 : TFTAbility
 
     public void OnHurting(HurtingEventArgs ev)
     {
-        if (ev.Player != Owner)
+        if (ev.Player != Owner || ev.DamageHandler.Type == DamageType.Crushed)
             return;
 
         if (ev.IsInstantKill)
