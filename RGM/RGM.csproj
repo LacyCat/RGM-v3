@@ -746,27 +746,27 @@
     <Reference Include="DiscordInteraction">
       <HintPath>$(EXILED_REFERENCES)\DiscordInteraction.dll</HintPath>
     </Reference>
-    <Reference Include="Exiled.API, Version=9.13.1.0, Culture=neutral, processorArchitecture=AMD64">
+    <Reference Include="Exiled.API, Version=9.14.2.0, Culture=neutral, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>$(EXILED_REFERENCES)\Exiled.API.dll</HintPath>
     </Reference>
-    <Reference Include="Exiled.CreditTags, Version=9.13.1.0, Culture=neutral, processorArchitecture=AMD64">
+    <Reference Include="Exiled.CreditTags, Version=9.14.2.0, Culture=neutral, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>$(EXILED_REFERENCES)\Exiled.CreditTags.dll</HintPath>
     </Reference>
-    <Reference Include="Exiled.CustomItems, Version=9.13.1.0, Culture=neutral, processorArchitecture=AMD64">
+    <Reference Include="Exiled.CustomItems, Version=9.14.2.0, Culture=neutral, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>$(EXILED_REFERENCES)\Exiled.CustomItems.dll</HintPath>
     </Reference>
-    <Reference Include="Exiled.CustomRoles, Version=9.13.1.0, Culture=neutral, processorArchitecture=AMD64">
+    <Reference Include="Exiled.CustomRoles, Version=9.14.2.0, Culture=neutral, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>$(EXILED_REFERENCES)\Exiled.CustomRoles.dll</HintPath>
     </Reference>
-    <Reference Include="Exiled.Events, Version=9.13.1.0, Culture=neutral, processorArchitecture=AMD64">
+    <Reference Include="Exiled.Events, Version=9.14.2.0, Culture=neutral, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>$(EXILED_REFERENCES)\Exiled.Events.dll</HintPath>
     </Reference>
-    <Reference Include="Exiled.Permissions, Version=9.13.1.0, Culture=neutral, processorArchitecture=AMD64">
+    <Reference Include="Exiled.Permissions, Version=9.14.2.0, Culture=neutral, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>$(EXILED_REFERENCES)\Exiled.Permissions.dll</HintPath>
     </Reference>
