@@ -24,50 +24,85 @@ using Random = System.Random;
 
 namespace RGM.API.Features
 {
-    /**
-     * <summary>플레이어 관련 작업을 처리합니다</summary>
-     */
+    ///
+    ///<summary>플레이어 관련 작업을 처리합니다</summary>
+     ///
     public static class PlayerManager
     {
         /// <summary>
-        /// 천장 시스템 관련 리스트 (잘 모르겠음...)
+        /// <c>AddRandomItem()</c> 메서드 사용 시 해당 유저의 <b>무작위 값을 저장하는 역할</b>을 수행합니다.
         /// </summary>
         private static readonly Dictionary<Player, List<byte>> PlayerRandomValueCount = [];
 
+        /// <summary>
+        /// <c>Player</c>의 리스트를 가져옵니다.
+        /// <c>NonePlayer</c>에 등록된 <c>Player</c> 객체는 제외됩니다.
+        /// </summary>
+        /// <returns><c>Player</c>의 리스트를 반환합니다.</returns>
         public static List<Player> List =>
             Main.Instance.Config.FixedModes.Any()
                 ? Player.List.ToList()
                 : Player.List.Where(x => x.IsNPC || (!x.IsDND() && !x.IsNonePlayer())).ToList();
 
-        public static bool IsUsingTranslator(this Player player)
-        {
-            return !Main.Instance.Config.FixedModes.Any() && TranslatorPlayers[player] != "ko";
-        }
+        /// <summary>
+        /// 해당 유저의 <b>번역기 사용 여부</b>를 반환합니다.
+        /// </summary>
+        /// <param name="player">대상 <c>Player</c>입니다. <code>
+        /// 
+        /// if(player.IsUsingTranslator()) 
+        /// </code>으로 활용할 수 있습니다.</param>
+        /// <returns>번역기 사용 시 <b>True</b>를 반환합니다.</returns>
+        public static bool IsUsingTranslator(this Player player) 
+            => !Main.Instance.Config.FixedModes.Any() && TranslatorPlayers[player] != "ko";
 
+        /// <summary>
+        /// <c>Player</c>의 방해 금지 활성 여부를 반환합니다.
+        /// </summary>
+        /// <param name="player">대상 <c>Player</c>입니다. <b>NPC(null)은 제외</b>됩니다.</param>
+        /// <returns>방해 금지 활성 시 <b>True</b>를 반환합니다.</returns>
         public static bool IsDND(this Player player)
         {
-            return !Main.Instance.Config.FixedModes.Any() && UsersManager.UsersCache[player.UserId][23] == "1";
+            if (player.IsNPC)
+                return true;
+            
+            return !Main.Instance.Config.FixedModes.Any() && UsersManager.UsersCache[player.UserId][23] is "1";
         }
 
+        /// <summary>
+        /// <c>Player</c>가 NonePlayer인지 확인합니다.
+        /// </summary>
+        /// <param name="player">대상 <c>Player</c>입니다.</param>
+        /// <returns>NonePlayer일 경우 <b>True</b>를 반환합니다.</returns>
         public static bool IsNonePlayer(this Player player)
         {
             return NonePlayer.Players.Contains(player);
         }
 
+        /// <summary>
+        /// <c>Player</c>가 SCP 역할인지 확인합니다.
+        /// </summary>
+        /// <param name="player">대상 <c>Player</c>입니다.</param>
+        /// <returns>SCP 역할일 경우 <b>True</b>를 반환합니다.</returns>
         public static bool IsScpRole(this Player player)
         {
             return player.Role.Type.IsScpRole();
         }
 
+        /// <summary>
+        /// 해당 <c>RoleTypeId</c>이(가) SCP 역할인지 확인합니다.
+        /// </summary>
+        /// <param name="roleTypeId">대상 <c>RoleTypeId</c>입니다.</param>
+        /// <returns>SCP 역할일 경우 <b>True</b>를 반환합니다.</returns>
         public static bool IsScpRole(this RoleTypeId roleTypeId)
         {
             return roleTypeId.IsScp() || roleTypeId.ToString().Contains("Flamingo");
         }
-
-        /**
-         * <summary>Player에 확장 메서드로서 플레이어를 세팅하는 메서드를 추가합니다</summary>
-         * <param name="player"></param>
-         */
+        
+        ///<summary>
+        /// <c>Player</c>의 확장 메서드로서 플레이어를 세팅하는 메서드를 추가합니다
+        /// </summary>
+        ///<param name="player">대상 플레이어입니다.</param>
+        ///
         public static void Setup(this Player player)
         {
             TranslatorPlayers.Add(player, "ko");
@@ -88,7 +123,7 @@ namespace RGM.API.Features
                         return (ply == player && !MuteBGMPlayers.Contains(ply)) ||
                                (player.CurrentSpectatingPlayers.Contains(ply) && !MuteBGMPlayers.Contains(ply));
                     }
-                    , onIntialCreation: (p) =>
+                    , onIntialCreation: p =>
                     {
                         Speaker speaker = p.AddSpeaker("Main", isSpatial: false, minDistance: 0, maxDistance: 5000);
                     });
@@ -111,6 +146,14 @@ namespace RGM.API.Features
             }
         }
 
+        /// <summary>
+        /// 대상 <c>Player</c>에게 효과를 추가합니다.
+        /// </summary>
+        /// <param name="player">대상 <c>Player</c>입니다.</param>
+        /// <param name="type">대상 <c>EffectType</c>입니다.</param>
+        /// <param name="intensity">대상 <c>EffectType</c>의 강도입니다.</param>
+        /// <param name="duration">대상 <c>EffectType</c>의 지속 시간입니다.</param>
+        /// <param name="addDuration">지속시간입니다.</param>
         public static void AddEffect(this Player player, EffectType type, int intensity, float duration = 0f,
             bool addDuration = false)
         {
@@ -155,6 +198,12 @@ namespace RGM.API.Features
             }
         }
 
+        /// <summary>
+        /// 해당 <c>Player</c>의 <c>EffectType</c>을 제거합니다.
+        /// </summary>
+        /// <param name="player">대상 <c>Player</c>입니다.</param>
+        /// <param name="type">해당되는 <c>EffectType</c>입니다.</param>
+        /// <param name="intensity">해당 효과의 강도입니다.</param>
         public static void RemoveEffect(this Player player, EffectType type, int intensity)
         {
             if (!EffectIntensities.ContainsKey(player) || !EffectIntensities[player].ContainsKey(type))
@@ -173,6 +222,10 @@ namespace RGM.API.Features
             }
         }
 
+        /// <summary>
+        /// 대상 <c>Player</c>의 모든 <c>EffectType</c>을 제거합니다.
+        /// </summary>
+        /// <param name="player">대상 <c>Player</c>입니다.</param>
         public static void ClearEffect(this Player player)
         {
             foreach (var effect in player.ActiveEffects.ToList())
