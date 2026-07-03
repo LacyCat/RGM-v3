@@ -34,23 +34,19 @@ namespace RGM.API.Features
         /// </summary>
         private static readonly Dictionary<Player, List<byte>> PlayerRandomValueCount = [];
 
-        public static List<Player> List
-        {
-            get => Main.Instance.Config.FixedModes.Count() > 0
+        public static List<Player> List =>
+            Main.Instance.Config.FixedModes.Any()
                 ? Player.List.ToList()
-                : Player.List.Where(x => x.IsNPC ? true : (!x.IsDND() && !x.IsNonePlayer())).ToList();
-        }
+                : Player.List.Where(x => x.IsNPC || (!x.IsDND() && !x.IsNonePlayer())).ToList();
 
         public static bool IsUsingTranslator(this Player player)
         {
-            return Main.Instance.Config.FixedModes.Count() > 0 ? false : TranslatorPlayers[player] != "ko";
+            return !Main.Instance.Config.FixedModes.Any() && TranslatorPlayers[player] != "ko";
         }
 
         public static bool IsDND(this Player player)
         {
-            return Main.Instance.Config.FixedModes.Count() > 0
-                ? false
-                : UsersManager.UsersCache[player.UserId][23] == "1";
+            return !Main.Instance.Config.FixedModes.Any() && UsersManager.UsersCache[player.UserId][23] == "1";
         }
 
         public static bool IsNonePlayer(this Player player)
@@ -60,7 +56,7 @@ namespace RGM.API.Features
 
         public static bool IsScpRole(this Player player)
         {
-            return IsScpRole(player.Role.Type);
+            return player.Role.Type.IsScpRole();
         }
 
         public static bool IsScpRole(this RoleTypeId roleTypeId)
@@ -126,8 +122,8 @@ namespace RGM.API.Features
 
             EffectIntensities[player][type] += intensity;
 
-            const byte MaxIntensity = 255;
-            byte applyIntensity = (byte)Math.Min(EffectIntensities[player][type], MaxIntensity);
+            const byte maxIntensity = 255;
+            byte applyIntensity = (byte)Math.Min(EffectIntensities[player][type], maxIntensity);
 
             var effect = player.ActiveEffects.FirstOrDefault(x => x.GetEffectType() == type);
             float newDuration = effect != null && addDuration
@@ -601,7 +597,7 @@ namespace RGM.API.Features
             RaycastHit? validHit = null;
             foreach (var h in hits.OrderBy(hit => hit.distance))
             {
-                if (h.collider.TryGetComponent<IDestructible>(out IDestructible destructible)) continue;
+                if (h.collider.TryGetComponent<IDestructible>(out var destructible)) continue;
 
                 validHit = h;
                 break;
@@ -626,9 +622,9 @@ namespace RGM.API.Features
 
         public static void Grab(this Player player)
         {
-            if (!(player.ReferenceHub.roleManager.CurrentRole is IFpcRole currentRole) ||
-                !(currentRole.FpcModule.CharacterModelInstance is AnimatedCharacterModel
-                    characterModelInstance) ||
+            if (player.ReferenceHub.roleManager.CurrentRole is not IFpcRole currentRole ||
+                currentRole.FpcModule.CharacterModelInstance is not AnimatedCharacterModel
+                    characterModelInstance ||
                 !characterModelInstance.TryGetSubcontroller(out OverlayAnimationsSubcontroller subcontroller))
                 return;
 
@@ -638,6 +634,9 @@ namespace RGM.API.Features
 
         public static Item AddRandomItem(this Player player)
         {
+            if (player.IsNonePlayer() || player.IsNPC)
+                return Item.Create(ItemType.None);
+            
             // 맵의 시드를 활용하여 난수 생성 오브젝트 생성
             Random rand = new(Map.Seed);
             List<ItemType> poll = [];
