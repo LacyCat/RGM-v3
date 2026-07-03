@@ -36,7 +36,6 @@ public class Rosehip : Ability
     public void OnHurting(HurtingEventArgs ev)
     {
         if (ev.Attacker == null ||
-            //ev.Attacker != Owner ||
             ev.Attacker.CurrentItem == null ||
             ev.Attacker.CurrentItem.Serial != serial) return;
         if (UnityEngine.Random.Range(1, 101) <= 27)

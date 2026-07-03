@@ -1,4 +1,6 @@
-﻿using Exiled.API.Features.Roles;
+﻿using Exiled.API.Enums;
+using Exiled.API.Features.Roles;
+using Exiled.Events.EventArgs.Player;
 
 namespace RGM.Modes.Abilities.Unique.Scp939;
 
@@ -13,5 +15,11 @@ public class HugMe : Ability
     public override void OnDisabled()
     {
         
+    }
+
+    public void OnHurting(HurtingEventArgs ev)
+    {
+        byte intensity = ev.Player.GetEffect(EffectType.MovementBoost).Intensity;
+        float duration = ev.Player.GetEffect(EffectType.MovementBoost).Duration;
     }
 }
