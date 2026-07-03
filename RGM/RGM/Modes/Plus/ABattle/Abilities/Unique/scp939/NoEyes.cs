@@ -20,11 +20,12 @@ public class NoEyes : Ability
         Exiled.Events.Handlers.Player.ReceivingEffect -= OnReceivingEffect;
     }
 
-    List<EffectType> effects = new List<EffectType>() {
+    List<EffectType> _effects =
+    [
         EffectType.Blurred,
         EffectType.Deafened,
         EffectType.Flashed
-    };
+    ];
     public void OnReceivingEffect(ReceivingEffectEventArgs ev)
     {
         if (ev.Player != Owner) return;
@@ -32,7 +33,7 @@ public class NoEyes : Ability
         if (ev.Effect.GetEffectType() == EffectType.Flashed)
         {
             Timing.CallDelayed(Timing.WaitForOneFrame, () => {
-                foreach (var effect in effects) {
+                foreach (var effect in _effects) {
                     ev.Player.DisableEffect(effect);
                 }
             });

@@ -28,7 +28,7 @@ public class Joker : Ability
         ev.IsAllowed = false;
 
         GodModePlayers.Add(ev.Player);
-
+        
         Timing.CallDelayed(5f, () =>
         {
             if (GodModePlayers.Contains(ev.Player))
@@ -36,7 +36,8 @@ public class Joker : Ability
         });
 
         ev.Player.MaxHealth = Random.Range(3, 7) * ev.Player.MaxHealth;
-
+        ev.Player.Heal(ev.Player.MaxHealth);
+        
         if (ev.Attacker != null)
             ev.Attacker.RemoveAbility(ev.Attacker.GetAbilities().GetRandomValue());
         

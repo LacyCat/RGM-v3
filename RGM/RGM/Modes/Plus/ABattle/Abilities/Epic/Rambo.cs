@@ -42,7 +42,7 @@ public class Rambo : Ability
     {
         if (ev.Attacker == null || ev.Player == ev.Attacker) return;
         if (ev.Attacker.CurrentItem != null && InfinityGunSerial == ev.Attacker.CurrentItem.Serial) {
-            ev.DamageHandler.Damage *= 0.88f;
+            ev.DamageHandler.Damage *= 0.84f;
         }
     }
 }

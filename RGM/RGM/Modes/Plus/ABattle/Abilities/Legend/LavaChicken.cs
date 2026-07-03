@@ -47,7 +47,7 @@ public class LavaChicken : Ability
 
                         if (player.HasAbility(AbilityType.RARE_UNDINE))
                         {
-                            damage /= player.AbilityCount(AbilityType.RARE_UNDINE);
+                            damage /= 1 + player.AbilityCount(AbilityType.RARE_UNDINE);
 
                             player.AddHint("운디네", $"<color={ABattle.RatingColor["희귀"]}><b>운디네</b></color>가 화염으로부터 당신을 보호하기 위해 노력하고 있습니다.", 0.5f);
                         }
