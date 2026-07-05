@@ -1,7 +1,6 @@
 ﻿using Exiled.API.Enums;
 using Exiled.API.Features;
 using Exiled.API.Features.Items;
-using Exiled.API.Features.Pickups.Projectiles;
 using Exiled.Events.EventArgs.Player;
 using MEC;
 using RGM.API.Features;
@@ -9,9 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using PlayerRoles;
-using RGM.Modes;
-using System.Xml.Linq;
-using Exiled.API.Extensions;
+using Exiled.Events.EventArgs.Scp049;
 
 namespace RGM.Modes.Abilities.Mythic;
 
@@ -37,6 +34,7 @@ public class Anchor : Ability
         Exiled.Events.Handlers.Player.Shooting += OnShooting;
         Exiled.Events.Handlers.Player.TogglingNoClip += OnTogglingNoClip;
         Exiled.Events.Handlers.Player.Hurting += OnHurting;
+        Exiled.Events.Handlers.Scp049.Attacking += On049Attack;
 
         Timing.RunCoroutine(Main());
     }
@@ -152,10 +150,10 @@ public class Anchor : Ability
                 byte Fintensity = player.GetEffect(EffectType.Lightweight).Intensity;
                 float Fduration = player.GetEffect(EffectType.Lightweight).Duration;
 
-                player.EnableEffect(EffectType.Fade, 179, 0.05f); //시야 방해 방지
+                player.EnableEffect(EffectType.Fade, 179, 1f); //시야 방해 방지
                 player.EnableEffect(EffectType.Ensnared, 1, 3f);
                 player.EnableEffect(EffectType.Lightweight, 1, 3f);
-                player.AddHint("알림", $"{Owner.DisplayNickname}에게 붙잡혔습니다.\n다른 플레이어를 공격 할 수 없습니다.", 0.05f);
+                player.AddHint("알림", $"{Owner.DisplayNickname}에게 붙잡혔습니다.\n다른 플레이어를 공격 할 수 없습니다.", 0.1f);
             }
              yield return Timing.WaitForSeconds(0.05f);
         }
@@ -195,6 +193,12 @@ public class Anchor : Ability
         {
             ev.IsAllowed = false;
         }
+    }
+
+    public void On049Attack(AttackingEventArgs ev)
+    {
+        if (ev.Player == null) return;
+        if (TargetPlayer.Contains(ev.Player)) ev.IsAllowed = false;
     }
 }
 
