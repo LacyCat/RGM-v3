@@ -39,10 +39,15 @@ namespace RGM.API.Features
         /// <c>NonePlayer</c>에 등록된 <c>Player</c> 객체는 제외됩니다.
         /// </summary>
         /// <returns><c>Player</c>의 리스트를 반환합니다.</returns>
-        public static List<Player> List =>
-            Main.Instance.Config.FixedModes.Any()
-                ? Player.List.ToList()
-                : Player.List.Where(x => x.IsNPC || (!x.IsDND() && !x.IsNonePlayer())).ToList();
+        public static List<Player> List
+        {
+            get
+            {
+                return Main.Instance.Config.FixedModes.Any()
+                    ? Player.List.ToList()
+                    : Player.List.Where(x => !x.IsNPC || (!x.IsDND() && !x.IsNonePlayer())).ToList();
+            }
+        }
 
         /// <summary>
         /// 해당 유저의 <b>번역기 사용 여부</b>를 반환합니다.
@@ -52,8 +57,11 @@ namespace RGM.API.Features
         /// if(player.IsUsingTranslator()) 
         /// </code>으로 활용할 수 있습니다.</param>
         /// <returns>번역기 사용 시 <b>True</b>를 반환합니다.</returns>
-        public static bool IsUsingTranslator(this Player player) 
-            => !Main.Instance.Config.FixedModes.Any() && TranslatorPlayers[player] != "ko";
+        public static bool IsUsingTranslator(this Player player)
+        {
+            if (player.IsNPC) return false;
+            return !Main.Instance.Config.FixedModes.Any() && TranslatorPlayers[player] != "ko";
+        }
 
         /// <summary>
         /// <c>Player</c>의 방해 금지 활성 여부를 반환합니다.
@@ -62,9 +70,7 @@ namespace RGM.API.Features
         /// <returns>방해 금지 활성 시 <b>True</b>를 반환합니다.</returns>
         public static bool IsDND(this Player player)
         {
-            if (player.IsNPC)
-                return true;
-            
+            if (player.IsNPC) return true;
             return !Main.Instance.Config.FixedModes.Any() && UsersManager.UsersCache[player.UserId][23] is "1";
         }
 
@@ -73,10 +79,8 @@ namespace RGM.API.Features
         /// </summary>
         /// <param name="player">대상 <c>Player</c>입니다.</param>
         /// <returns>NonePlayer일 경우 <b>True</b>를 반환합니다.</returns>
-        public static bool IsNonePlayer(this Player player)
-        {
-            return NonePlayer.Players.Contains(player);
-        }
+        public static bool IsNonePlayer(this Player player) 
+            => NonePlayer.Players.Contains(player);
 
         /// <summary>
         /// <c>Player</c>가 SCP 역할인지 확인합니다.
