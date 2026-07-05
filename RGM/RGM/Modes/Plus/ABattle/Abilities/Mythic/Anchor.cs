@@ -151,9 +151,9 @@ public class Anchor : Ability
                 byte Fintensity = player.GetEffect(EffectType.Lightweight).Intensity;
                 float Fduration = player.GetEffect(EffectType.Lightweight).Duration;
 
-                player.EnableEffect(EffectType.Fade, 179, 1f); //시야 방해 방지
-                player.EnableEffect(EffectType.Ensnared, 1, 3f);
-                player.EnableEffect(EffectType.Lightweight, 1, 3f);
+                player.EnableEffect(EffectType.Fade, 179, 0.5f); //시야 방해 방지
+                player.EnableEffect(EffectType.Ensnared, 1, 2f);
+                player.EnableEffect(EffectType.Lightweight, 1, 0.5f);
                 player.AddHint("알림", $"{Owner.DisplayNickname}에게 붙잡혔습니다.\n다른 플레이어를 공격 할 수 없습니다.", 0.1f);
             }
              yield return Timing.WaitForSeconds(0.034f);
@@ -200,6 +200,12 @@ public class Anchor : Ability
     {
         if (ev.Player == null) return;
         if (TargetPlayer.Contains(ev.Player)) ev.IsAllowed = false;
+    }
+
+    public void OnArrest(HandcuffingEventArgs ev)
+    {
+        if (ev.Target == null || ev.Player == null) return;
+        if (ev.Target == Owner) ev.IsAllowed = false;
     }
 }
 
