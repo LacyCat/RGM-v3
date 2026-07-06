@@ -180,14 +180,14 @@
     <Compile Include="RGM\Modes\Lock\Rank\RankAbilityList\변칙성\SCP_173\좋아_자연스러웠어.cs" />
     <Compile Include="RGM\Modes\Lock\Rank\RankAbilityList\변칙성\SCP_3114\단백질.cs" />
     <Compile Include="RGM\Modes\Lock\Rank\RankAbilityList\변칙성\SCP_3114\살점은_나의_힘.cs" />
-    <Compile Include="RGM\Modes\Lock\Rank\RankAbilityList\변칙성\SCP_939\흉내쟁이.cs" />
+    <Compile Include="RGM\Modes\Lock\Rank\RankAbilityList\변칙성\SCP_939\발톱강화.cs" />
     <Compile Include="RGM\Modes\Lock\Rank\RankAbilityList\변칙성\SCP_939\암살_조장.cs" />
     <Compile Include="RGM\Modes\Lock\Rank\RankAbilityList\변칙성\과학자\지문_인식.cs" />
     <Compile Include="RGM\Modes\Lock\Rank\RankAbilityList\변칙성\과학자\선임_연구원.cs" />
     <Compile Include="RGM\Modes\Lock\Rank\RankAbilityList\변칙성\구미호\조직.cs" />
     <Compile Include="RGM\Modes\Lock\Rank\RankAbilityList\변칙성\구미호\베테랑.cs" />
     <Compile Include="RGM\Modes\Lock\Rank\RankAbilityList\변칙성\반란\송수신_해킹.cs" />
-    <Compile Include="RGM\Modes\Lock\Rank\RankAbilityList\변칙성\반란\방독면.cs" />
+    <Compile Include="RGM\Modes\Lock\Rank\RankAbilityList\변칙성\반란\보호장비.cs" />
     <Compile Include="RGM\Modes\Lock\Rank\RankAbilityList\변칙성\시설_경비\변칙_감지.cs" />
     <Compile Include="RGM\Modes\Lock\Rank\RankAbilityList\변칙성\시설_경비\위기_감지.cs" />
     <Compile Include="RGM\Modes\Lock\Rank\RankAbilityList\변칙성\튜토리얼\선천적_체질.cs" />
