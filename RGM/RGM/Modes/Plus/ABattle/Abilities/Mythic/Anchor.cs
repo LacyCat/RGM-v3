@@ -13,7 +13,7 @@ using Exiled.Events.EventArgs.Scp049;
 namespace RGM.Modes.Abilities.Mythic;
 
 [Ability(
-    "구속", "공격불가 상태로 대상을 끌고다닐 수 있고, 벽을 관통할 수 있는(이때 데미지는 없음) 리볼버를 얻습니다. (사거리 100)\nalt를 눌러 상태를 해제시킬 수 있습니다.",
+    "구속", "적을 공격불가상태로 구속할 수 있는 리볼버를 얻습니다. (사거리 100)\nalt를 눌러 구속을 해제시킬 수 있습니다.",
     AbilityCategory.Mythic,
     AbilityType.MYTHIC_ANCHOR)] 
 public class Anchor : Ability
