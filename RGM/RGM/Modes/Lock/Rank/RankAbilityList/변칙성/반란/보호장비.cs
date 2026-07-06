@@ -7,7 +7,7 @@ using RGM.Modes;
 
 namespace RGM.RGM.Modes.Lock.Rank.RankAbilityList.변칙성
 {
-    [RankAbility("보호 장비", "섬광 및 화상 효과에 면역을 가집니다.", RankAbilityType.방독면, RankCategory.반란, RankAbilityCategory.변칙성, "😷")]
+    [RankAbility("보호 장비", "섬광 및 화상 효과에 면역을 가집니다.", RankAbilityType.보호장비, RankCategory.반란, RankAbilityCategory.변칙성, "😷")]
     public class 보호장비 : RankAbility
     {
         public override void OnEnabled()
