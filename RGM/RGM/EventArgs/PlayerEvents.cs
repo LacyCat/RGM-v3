@@ -758,6 +758,8 @@ namespace RGM.EventArgs
 
         public static void OnHurting(HurtingEventArgs ev)
         {
+            if (ev.Player.IsNPC || ev.Player.IsNonePlayer()) return;
+            
             if (ev.DamageHandler.Type == DamageType.Falldown &&
                 ev.Player.TryGetEffect(EffectType.Lightweight, out StatusEffectBase lightweight) &&
                 lightweight.IsEnabled)

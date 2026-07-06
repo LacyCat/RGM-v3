@@ -675,7 +675,7 @@ $"""
 
         public static AudioClipPlayback PlayGlobalAudio(string clipName, float volume = 1, bool loop = false, bool destroyOnEnd = true, bool isNoNotice = false)
         {
-            string notice = $"로드된 오디오: {clipName} {(isNoNotice ? "[음악 정보가 공개되지 않음]" : "")}";
+            string notice = $"로드된 오디오: {clipName}";
 
             if (!isNoNotice)
                 foreach (var player in PlayerManager.List)
