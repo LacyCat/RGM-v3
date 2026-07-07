@@ -183,7 +183,7 @@
     <Compile Include="RGM\Modes\Lock\Rank\RankAbilityList\변칙성\SCP_939\발톱강화.cs" />
     <Compile Include="RGM\Modes\Lock\Rank\RankAbilityList\변칙성\SCP_939\암살_조장.cs" />
     <Compile Include="RGM\Modes\Lock\Rank\RankAbilityList\변칙성\과학자\지문_인식.cs" />
-    <Compile Include="RGM\Modes\Lock\Rank\RankAbilityList\변칙성\과학자\선임_연구원.cs" />
+    <Compile Include="RGM\Modes\Lock\Rank\RankAbilityList\변칙성\과학자\스피드런.cs" />
     <Compile Include="RGM\Modes\Lock\Rank\RankAbilityList\변칙성\구미호\조직.cs" />
     <Compile Include="RGM\Modes\Lock\Rank\RankAbilityList\변칙성\구미호\베테랑.cs" />
     <Compile Include="RGM\Modes\Lock\Rank\RankAbilityList\변칙성\반란\송수신_해킹.cs" />

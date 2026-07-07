@@ -20,7 +20,7 @@ namespace RGM.Modes
             },
             { RankCategory.과학자, new()
             {
-            {"선임 연구원", ("구역 관리자 키카드를 얻습니다.", RankAbilityType.선임_연구원)},
+            {"스피드런", ("시설 관리자 키카드를 얻으며, 즉시 고위험군으로 이동합니다.", RankAbilityType.스피드런)},
             {"지문 인식", ("모든 잠긴 문에 엑세스할 수 있으며, 테슬라를 작동시키지 않습니다.", RankAbilityType.지문_인식)},
             }
             },
@@ -38,7 +38,7 @@ namespace RGM.Modes
             },
             { RankCategory.반란, new()
             {
-            {"보호 장비", ("섬광 및 화상 효과에 면역을 가집니다.", RankAbilityType.보호장비)},
+            {"보호 장비", ("부정적 특성 효과를 받을 경우 4초 뒤 강제 해제합니다.", RankAbilityType.보호장비)},
             {"송수신 해킹", ("무전기가 지급됩니다.", RankAbilityType.송수신_해킹)},
             }
             },
@@ -57,7 +57,7 @@ namespace RGM.Modes
             },
             { RankCategory.SCP_049_2, new()
             {
-            {"광기", ("체력이 200 추가되고, SCP-207 효과를 얻습니다. 단, 받는 피해가 25% 증가합니다.", RankAbilityType.광기)},
+            {"광기", ("체력이 100 추가되고, SCP-207 효과를 얻습니다. 단, 받는 피해가 25% 증가합니다.", RankAbilityType.광기)},
             {"요리사", ("체력 회복량이 100% 추가됩니다.", RankAbilityType.요리사)},
             }
             },
@@ -76,7 +76,7 @@ namespace RGM.Modes
             },
             { RankCategory.SCP_106, new()
             {
-            {"23분 카레", ("체력이 1200이 되는 대신 탄약을 사용하는 총기 관련 데미지에 80% 저항을 가지며, 흄 쉴드가 95% 감소합니다.", RankAbilityType.이십삼분_카레)},
+            {"23분 카레", ("체력이 1200이 되는 대신 탄약을 사용하는 총기 관련 데미지에 85% 저항을 가지며, 흄 쉴드가 90% 감소합니다.", RankAbilityType.이십삼분_카레)},
             {"가벼운 주머니", ("한방에 차원 주머니로 보내는 대신, 차원 주머니 탈출 확률이 50%로 조정됩니다.", RankAbilityType.가벼운_주머니)},
             }
             },
@@ -176,8 +176,8 @@ namespace RGM.Modes
             },
             { RankCategory.SCP_939, new()
             {
-            {"목표를 포착했다", ("8초 동안 시야가 개선되고 스테미나가 무제한이 됩니다.", RankAbilityType.목표를_포착했다)},
-            {"유독성 가스", ("안개에 있는 적들에게 2초간 부식 효과를 적용하고 20의 데미지를 입힙니다.", RankAbilityType.유독성_가스)},
+            {"목표를 포착했다", ("15초 동안 시야가 개선되고 스테미나가 무제한이 됩니다.", RankAbilityType.목표를_포착했다)},
+            {"유독성 가스", ("안개에 있는 적들에게 4초간 부식 효과를 적용하고 40의 데미지를 입힙니다.", RankAbilityType.유독성_가스)},
             }
             },
             { RankCategory.SCP_3114, new()

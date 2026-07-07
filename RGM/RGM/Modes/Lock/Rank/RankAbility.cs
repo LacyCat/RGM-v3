@@ -296,7 +296,7 @@ public enum RankAbilityType
     강렬한_의지,
 
     // 과학자
-    선임_연구원,
+    스피드런,
     지문_인식,
 
     // 시설 경비
