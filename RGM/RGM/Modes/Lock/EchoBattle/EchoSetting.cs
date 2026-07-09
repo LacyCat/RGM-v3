@@ -5,7 +5,7 @@ using System.Linq;
 using UnityEngine;
 using UserSettings.ServerSpecific;
 
-namespace RGM.RGM.Modes.Lock.EchoBattle;
+namespace RGM.Modes;
 
 public static class EchoSetting
 {

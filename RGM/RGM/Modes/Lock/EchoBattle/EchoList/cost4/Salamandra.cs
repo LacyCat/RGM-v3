@@ -2,6 +2,7 @@ using Exiled.API.Enums;
 using Exiled.Events.EventArgs.Player;
 using MEC;
 using RGM.API.Features;
+using RGM.Modes;
 
 namespace RGM.RGM.Modes.Lock.EchoBattle.EchoList.cost4;
 

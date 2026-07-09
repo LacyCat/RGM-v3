@@ -1,5 +1,6 @@
 using Exiled.API.Enums;
 using RGM.API.Features;
+using RGM.Modes;
 
 namespace RGM.RGM.Modes.Lock.EchoBattle.EchoList.cost4;
 
