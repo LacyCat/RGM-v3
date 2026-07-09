@@ -3,7 +3,7 @@ using Exiled.Events.EventArgs.Player;
 using MEC;
 using System.Collections.Generic;
 
-namespace RGM.RGM.Modes.Lock.EchoBattle;
+namespace RGM.Modes;
 
 /// <summary>
 /// 반복 가능 내부 Quest.

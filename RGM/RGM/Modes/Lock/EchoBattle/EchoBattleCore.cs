@@ -10,7 +10,7 @@ using System.Linq;
 using System.Reflection;
 using Hint = HintServiceMeow.Core.Models.Hints.Hint;
 
-namespace RGM.RGM.Modes.Lock.EchoBattle;
+namespace RGM.Modes;
 
 public static class EchoBattleCore
 {

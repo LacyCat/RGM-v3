@@ -2,7 +2,7 @@ using Exiled.API.Features;
 using System;
 using System.Collections.Generic;
 
-namespace RGM.RGM.Modes.Lock.EchoBattle;
+namespace RGM.Modes;
 
 public static class EchoInfo
 {

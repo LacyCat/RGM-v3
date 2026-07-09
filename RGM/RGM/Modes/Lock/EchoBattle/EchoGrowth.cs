@@ -3,7 +3,7 @@ using RGM.API.Features;
 using System;
 using System.Collections.Generic;
 
-namespace RGM.RGM.Modes.Lock.EchoBattle;
+namespace RGM.Modes;
 
 /// <summary>
 /// Echo 성장 XP 공식.

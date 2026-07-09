@@ -3,6 +3,7 @@ using Exiled.API.Features;
 using RGM.API.Features;
 using System.Linq;
 using UnityEngine;
+using RGM.Modes;
 
 namespace RGM.RGM.Modes.Lock.EchoBattle.EchoList.cost4;
 

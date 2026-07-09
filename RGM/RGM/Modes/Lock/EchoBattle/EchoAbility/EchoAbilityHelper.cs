@@ -1,4 +1,5 @@
 using System;
+using RGM.Modes;
 
 namespace RGM.RGM.Modes.Lock.EchoBattle.EchoAbility;
 

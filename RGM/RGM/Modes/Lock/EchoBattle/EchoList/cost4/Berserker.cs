@@ -1,5 +1,6 @@
 using Exiled.Events.EventArgs.Player;
 using MEC;
+using RGM.Modes;
 
 namespace RGM.RGM.Modes.Lock.EchoBattle.EchoList.cost4;
 

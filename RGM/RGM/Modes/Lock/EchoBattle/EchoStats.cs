@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace RGM.RGM.Modes.Lock.EchoBattle;
+namespace RGM.Modes;
 
 /// <summary>
 /// Echo Main/Sub 스탯 및 부가 옵션 수치 계산/적용.

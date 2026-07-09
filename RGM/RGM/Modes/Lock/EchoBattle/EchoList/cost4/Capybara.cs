@@ -1,5 +1,6 @@
 using MEC;
 using System.Collections.Generic;
+using RGM.Modes;
 
 namespace RGM.RGM.Modes.Lock.EchoBattle.EchoList.cost4;
 

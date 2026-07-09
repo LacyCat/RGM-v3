@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UserSettings.ServerSpecific;
 
-namespace RGM.RGM.Modes.Lock.EchoBattle;
+namespace RGM.Modes;
 
 [Mode(ModeCategory.Private, ModeInfo.Lock, ModeType.EchoBattle)]
 public class EchoBattle : Mode

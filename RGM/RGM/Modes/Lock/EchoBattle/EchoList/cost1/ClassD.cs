@@ -1,3 +1,5 @@
+using RGM.Modes;
+
 namespace RGM.RGM.Modes.Lock.EchoBattle.EchoList.cost1;
 
 [Echo("ClassD", "Cost 1 샘플 Echo", EchoType.ClassD, EchoCost.Cost1, EchoMainStatType.AttackPercent, "🟠")]
