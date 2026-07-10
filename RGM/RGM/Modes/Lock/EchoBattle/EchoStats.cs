@@ -4,6 +4,7 @@ using Exiled.API.Features.DamageHandlers;
 using Exiled.Events.EventArgs.Player;
 using MEC;
 using PlayerRoles;
+using PlayerStatsSystem;
 using RGM.API.Features;
 using System;
 using System.Collections.Generic;
@@ -23,6 +24,15 @@ public static class EchoStats
         RoleTypeId.Scp173,
         RoleTypeId.Scp049,
         RoleTypeId.Scp079
+    };
+
+    static readonly DamageType[] DefenseFlatIgnoredDamageTypes =
+    {
+        DamageType.Warhead,
+        DamageType.Crushed,
+        DamageType.PocketDimension,
+        DamageType.Falldown,
+        DamageType.Scp106
     };
 
     static readonly float[] SubOptionGradeWeights = { 250, 220, 190, 150, 110, 80 };
@@ -385,7 +395,7 @@ public static class EchoStats
         {
             float hp = value;
             if (player.IsScp)
-                hp *= 11f;
+                hp *= 8f;
             snapshot.HpFlat += hp;
         }
         else
@@ -465,11 +475,57 @@ public static class EchoStats
         if (prev.Lightweight > 0)
             player.RemoveEffect(EffectType.Lightweight, prev.Lightweight);
 
+        if (prev.EchoAhpKillCode.HasValue)
+            KillEchoAhpProcess(player, prev.EchoAhpKillCode.Value);
+
         EchoInfo.PlayerPassiveEffects.Remove(player);
     }
 
-    public static void ApplyPassiveEffects(Player player, EchoStatSnapshot snapshot)
+    static void KillEchoAhpProcess(Player player, int killCode)
     {
+        if (player?.ReferenceHub?.playerStats == null)
+            return;
+
+        var ahpStat = player.ReferenceHub.playerStats.GetModule<AhpStat>();
+        ahpStat?.ServerKillProcess(killCode);
+    }
+
+    static bool TryGetEchoAhpProcess(Player player, int? killCode, out AhpProcess process)
+    {
+        process = null;
+        if (!killCode.HasValue || player?.ReferenceHub?.playerStats == null)
+            return false;
+
+        var ahpStat = player.ReferenceHub.playerStats.GetModule<AhpStat>();
+        return ahpStat != null && ahpStat.ServerTryGetProcess(killCode.Value, out process);
+    }
+
+    /// <summary>
+    /// ClearPassiveEffects / RemoveAllEchoes 호출 전에 스탯 AHP 현재량을 읽습니다.
+    /// </summary>
+    public static bool TryPeekEchoAhpAmount(Player player, out float amount)
+    {
+        amount = 0f;
+        if (player == null
+            || !EchoInfo.PlayerPassiveEffects.TryGetValue(player, out var state)
+            || !TryGetEchoAhpProcess(player, state.EchoAhpKillCode, out var process))
+            return false;
+
+        amount = process.CurrentAmount;
+        return true;
+    }
+
+    public static void ApplyPassiveEffects(Player player, EchoStatSnapshot snapshot, float? preservedEchoAhp = null)
+    {
+        // 호출 측에서 넘기지 않은 경우(직접 재적용)에만 여기서 보존 시도
+        bool hadEchoAhp = preservedEchoAhp.HasValue;
+        float echoAhpAmount = preservedEchoAhp ?? 0f;
+        if (!hadEchoAhp && TryPeekEchoAhpAmount(player, out float peeked))
+        {
+            hadEchoAhp = true;
+            echoAhpAmount = peeked;
+        }
+
         ClearPassiveEffects(player);
 
         // HP: 역할 기본 MaxHealth 기준으로만 계산 (레벨업 재적용 시 복리 방지)
@@ -509,23 +565,30 @@ public static class EchoStats
 
         EchoInfo.PlayerPassiveEffects[player] = effectState;
 
-        // AHP / HS: 기본값 + 스냅샷만 설정 (재적용 시 Max/현재값 복리 방지)
+        // AHP / HS: 역할 기본값 + 스냅샷 증가량 (재적용 시 Max/현재값 복리 방지)
         if (player.IsScp)
         {
+            // Role/SCP별 기본 HS를 최초 1회 저장한 뒤, 증가량만 더함
             if (!EchoInfo.PlayerBaseMaxHs.TryGetValue(player, out float baseHs))
             {
                 baseHs = player.MaxHumeShield;
                 EchoInfo.PlayerBaseMaxHs[player] = baseHs;
             }
 
-            float targetHsMax = snapshot.HsMax > 0 ? Math.Max(baseHs, snapshot.HsMax) : baseHs;
+            float targetHsMax = baseHs + snapshot.HsMax;
             player.MaxHumeShield = targetHsMax;
             player.HumeShield = Math.Min(player.HumeShield, player.MaxHumeShield);
         }
         else if (snapshot.AhpMax > 0)
         {
-            player.MaxArtificialHealth = snapshot.AhpMax;
-            player.ArtificialHealth = Math.Min(player.ArtificialHealth, player.MaxArtificialHealth);
+            // 스탯 AHP만 decay=0 별도 프로세스로 지급. 아드레날린 등 다른 AHP는 그대로 decay.
+            float amount = hadEchoAhp
+                ? Mathf.Min(echoAhpAmount, snapshot.AhpMax)
+                : snapshot.AhpMax;
+
+            var ahpStat = player.ReferenceHub.playerStats.GetModule<AhpStat>();
+            var process = ahpStat.ServerAddProcess(amount, snapshot.AhpMax, 0f, 0.7f, 0f, true);
+            effectState.EchoAhpKillCode = process.KillCode;
         }
 
         if (snapshot.AhpRegen > 0 || snapshot.HsRegen > 0)
@@ -538,8 +601,12 @@ public static class EchoStats
         {
             if (player.IsScp && snapshot.HsRegen > 0)
                 player.HumeShield = Math.Min(player.HumeShield + snapshot.HsRegen, player.MaxHumeShield);
-            else if (!player.IsScp && snapshot.AhpRegen > 0)
-                player.ArtificialHealth = Math.Min(player.ArtificialHealth + snapshot.AhpRegen, player.MaxArtificialHealth);
+            else if (!player.IsScp && snapshot.AhpRegen > 0
+                     && EchoInfo.PlayerPassiveEffects.TryGetValue(player, out var state)
+                     && TryGetEchoAhpProcess(player, state.EchoAhpKillCode, out var echoAhp))
+            {
+                echoAhp.CurrentAmount = Math.Min(echoAhp.CurrentAmount + snapshot.AhpRegen, echoAhp.Limit);
+            }
 
             yield return Timing.WaitForSeconds(1f);
         }
@@ -564,9 +631,12 @@ public static class EchoStats
                 damage *= 1f + atkStats.HumanDamagePercent / 100f;
 
             // Headshot: 기존 200%에 합산 적용 (ABattle BullsEye 참고)
+            // PlayerStatsSystem.FirearmDamageHandler와 모호하므로 Exiled 타입을 명시
             if (atkStats.HeadshotDamage > 0
-                && ev.DamageHandler.CustomBase is FirearmDamageHandler firearm
-                && firearm.Hitbox == HitboxType.Headshot)
+                && ev.DamageHandler.CustomBase is Exiled.API.Features.DamageHandlers.FirearmDamageHandler
+                {
+                    Hitbox: HitboxType.Headshot
+                })
             {
                 damage *= 1f + atkStats.HeadshotDamage / 200f;
             }
@@ -581,7 +651,8 @@ public static class EchoStats
             ev.DamageHandler.Damage = damage;
         }
 
-        if (EchoInfo.PlayerStats.TryGetValue(ev.Player, out var defStats))
+        if (EchoInfo.PlayerStats.TryGetValue(ev.Player, out var defStats)
+            && !DefenseFlatIgnoredDamageTypes.Contains(ev.DamageHandler.Type))
         {
             // 방어력 정수: 고정 데미지 감소. 방어력%는 DamageReduction 이펙트로 처리.
             float dmg = ev.DamageHandler.Damage;
