@@ -120,6 +120,11 @@ public static class EchoBattleCore
 
     public static void ApplyLoadout(Player player)
     {
+        // RemoveAllEchoes가 스탯 AHP를 지우므로, 재적용 전 현재량을 보존
+        float? preservedEchoAhp = EchoStats.TryPeekEchoAhpAmount(player, out float echoAhp)
+            ? echoAhp
+            : null;
+
         // 레벨업 재적용 시에도 역할 기본 MaxHealth는 유지해야 복리가 나지 않음
         RemoveAllEchoes(player);
 
@@ -149,7 +154,7 @@ public static class EchoBattleCore
 
         var snapshot = EchoStats.BuildSnapshot(player, echoes);
         EchoInfo.PlayerStats[player] = snapshot;
-        EchoStats.ApplyPassiveEffects(player, snapshot);
+        EchoStats.ApplyPassiveEffects(player, snapshot, preservedEchoAhp);
 
         // 레벨업 재적용 시 생존 타이머가 리셋되지 않도록, 미추적일 때만 시작
         EchoQuest.EnsureSurviveTracking(player);
