@@ -36,16 +36,18 @@ public static class EchoStats
     };
 
     static readonly float[] SubOptionGradeWeights = { 250, 220, 190, 150, 110, 80 };
+    static readonly System.Random SubOptionRandom = new();
+    static readonly object SubOptionRandomLock = new();
 
     static readonly Dictionary<EchoSubOptionType, float[]> SubOptionValues = new()
     {
         { EchoSubOptionType.AttackPercent, [6.5f, 7.4f, 8.3f, 9.2f, 10.1f, 11.0f] },
         { EchoSubOptionType.AttackFlat, [2f, 4f, 6f, 8f, 10f, 12f] },
-        { EchoSubOptionType.DefensePercent, [2.0f, 2.5f, 3.0f, 3.5f, 4.0f, 4.5f] },
-        { EchoSubOptionType.DefenseFlat, [3.0f, 3.4f, 3.8f, 4.2f, 4.6f, 5.0f] },
+        { EchoSubOptionType.DefensePercent, [3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f] },
+        { EchoSubOptionType.DefenseFlat, [6.0f, 6.6f, 7.2f, 7.8f, 8.4f, 9.0f] },
         { EchoSubOptionType.HpPercent, [8.1f, 9.2f, 10.3f, 11.4f, 12.5f, 13.6f] },
         { EchoSubOptionType.HpFlat, [20f, 26f, 32f, 38f, 44f, 50f] },
-        { EchoSubOptionType.CriticalChance, [3.3f, 3.7f, 4.1f, 4.5f, 4.9f, 5.3f] },
+        { EchoSubOptionType.CriticalChance, [6.3f, 6.9f, 7.5f, 8.1f, 8.7f, 9.3f] },
         { EchoSubOptionType.ScpDamagePercent, [8.3f, 9.6f, 10.9f, 12.2f, 13.5f, 14.8f] },
         { EchoSubOptionType.HumanDamagePercent, [8.3f, 9.6f, 10.9f, 12.2f, 13.5f, 14.8f] },
         { EchoSubOptionType.MoveSpeed, [5.0f, 6.0f, 7.0f, 8.0f, 9.0f, 10.0f] },
@@ -201,7 +203,7 @@ public static class EchoStats
     /// 로드아웃에 저장된 부가 옵션을 유지한 채, 해금 개수만큼만 새로 굴립니다.
     /// 단일 Echo 안에서는 같은 종류의 부가 옵션이 중복되지 않습니다.
     /// </summary>
-    public static List<EchoSubOptionInstance> EnsureSubOptions(EchoLoadout loadout, EchoType type, int level, int seedBase)
+    public static List<EchoSubOptionInstance> EnsureSubOptions(EchoLoadout loadout, EchoType type, int level)
     {
         if (!loadout.SubOptions.TryGetValue(type, out var existing) || existing == null)
         {
@@ -222,20 +224,23 @@ public static class EchoStats
 
         while (existing.Count < targetCount && pool.Count > 0)
         {
-            int slotIndex = existing.Count;
-            var rng = new System.Random(seedBase ^ (slotIndex * 397) ^ 0x5F3759DF);
-            int pick = rng.Next(pool.Count);
-            var optionType = pool[pick];
-            pool.RemoveAt(pick);
-
-            int grade = RollGrade(rng);
-            float value = SubOptionValues[optionType][grade - 1];
-            existing.Add(new EchoSubOptionInstance
+            EchoSubOptionInstance option;
+            lock (SubOptionRandomLock)
             {
-                Type = optionType,
-                Grade = grade,
-                Value = value
-            });
+                int pick = SubOptionRandom.Next(pool.Count);
+                var optionType = pool[pick];
+                pool.RemoveAt(pick);
+
+                int grade = RollGrade(SubOptionRandom);
+                option = new EchoSubOptionInstance
+                {
+                    Type = optionType,
+                    Grade = grade,
+                    Value = SubOptionValues[optionType][grade - 1]
+                };
+            }
+
+            existing.Add(option);
         }
 
         return existing.Select(CloneSubOption).ToList();
@@ -268,23 +273,29 @@ public static class EchoStats
     {
         var result = new List<EchoSubOptionInstance>();
         int count = GetUnlockedSubOptionCount(level);
-        var rng = seed.HasValue ? new System.Random(seed.Value) : new System.Random();
+        var rng = seed.HasValue ? new System.Random(seed.Value) : null;
         var pool = GetAllSubOptionTypes();
 
         for (int i = 0; i < count && pool.Count > 0; i++)
         {
-            int pick = rng.Next(pool.Count);
-            var optionType = pool[pick];
-            pool.RemoveAt(pick);
-
-            int grade = RollGrade(rng);
-            float value = SubOptionValues[optionType][grade - 1];
-            result.Add(new EchoSubOptionInstance
+            EchoSubOptionInstance option;
+            lock (SubOptionRandomLock)
             {
-                Type = optionType,
-                Grade = grade,
-                Value = value
-            });
+                var activeRng = rng ?? SubOptionRandom;
+                int pick = activeRng.Next(pool.Count);
+                var optionType = pool[pick];
+                pool.RemoveAt(pick);
+
+                int grade = RollGrade(activeRng);
+                option = new EchoSubOptionInstance
+                {
+                    Type = optionType,
+                    Grade = grade,
+                    Value = SubOptionValues[optionType][grade - 1]
+                };
+            }
+
+            result.Add(option);
         }
 
         return result;

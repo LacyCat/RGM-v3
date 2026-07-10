@@ -16,11 +16,11 @@ public static class EchoQuest
     public const int SurviveSeconds = 30;
     public const int SurviveReward = 80;
 
-    public const float DealDamageThreshold = 50f;
-    public const int DealDamageReward = 80;
+    public const float DealDamageThreshold = 80f;
+    public const int DealDamageReward = 60;
 
-    public const float TakeDamageThreshold = 25f;
-    public const int TakeDamageReward = 80;
+    public const float TakeDamageThreshold = 40f;
+    public const int TakeDamageReward = 60;
 
     static readonly Dictionary<Player, QuestProgress> Progress = new();
     static readonly Dictionary<Player, CoroutineHandle> SurviveHandles = new();
