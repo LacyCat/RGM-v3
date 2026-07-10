@@ -77,6 +77,9 @@ public static class EchoGrowth
         if (leveledUp.Count == 0)
             return;
 
+        foreach (var (type, _, newLevel) in leveledUp)
+            EchoStats.EnsureSubOptions(loadout, type, newLevel);
+
         // 다중 Echo 동시 레벨업: 브로드캐스트를 한 번에 묶어 표시
         if (leveledUp.Count == 1)
         {

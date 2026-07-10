@@ -80,8 +80,7 @@ public static class EchoBattleCore
         echo.SelectedMainStat = loadout.ResolveMainStat(slotIndex, data);
 
         // 기존 부가 옵션 유지 + 해금분만 추가 (레벨업 재적용 시 재롤/수치 하락 방지)
-        int seedBase = (player.UserId?.GetHashCode() ?? 0) ^ (int)type;
-        echo.SubOptions = EchoStats.EnsureSubOptions(loadout, type, echo.Level, seedBase);
+        echo.SubOptions = EchoStats.EnsureSubOptions(loadout, type, echo.Level);
 
         if (!EchoInfo.PlayerEchoes.ContainsKey(player))
             EchoInfo.PlayerEchoes[player] = new();
