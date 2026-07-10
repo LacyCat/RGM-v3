@@ -185,7 +185,8 @@ public enum EchoMainStatType
     MoveSpeedAndJump,
     StaminaDrainReduction,
     HeadshotDamage,
-    AhpRegenAndMax
+    AhpRegenAndMax,
+    SizeReduction
 }
 
 public enum EchoSubStatType
@@ -210,7 +211,8 @@ public enum EchoSubOptionType
     MoveSpeed,
     JumpPower,
     StaminaDrainReduction,
-    HeadshotDamage
+    HeadshotDamage,
+    SizeReduction
 }
 
 public enum EchoType

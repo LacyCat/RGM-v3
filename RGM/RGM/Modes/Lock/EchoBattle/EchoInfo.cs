@@ -257,6 +257,7 @@ public class EchoPassiveEffectState
     public byte MovementBoost;
     public byte Lightweight;
     public bool StaminaDrainToggled;
+    public float SizeReduction;
 
     /// <summary>스탯으로 지급한 AHP 프로세스 KillCode.</summary>
     public int? EchoAhpKillCode;

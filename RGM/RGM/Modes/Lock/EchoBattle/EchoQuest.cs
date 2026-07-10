@@ -8,8 +8,8 @@ namespace RGM.Modes;
 /// <summary>
 /// 반복 가능 내부 Quest.
 /// 1) 30초 생존 → 80 XP
-/// 2) 적에게 50 데미지 → 80 XP
-/// 3) 25 데미지 받기 → 80 XP
+/// 2) 적에게 80 데미지 → 50 XP
+/// 3) 40 데미지 받기 → 50 XP
 /// </summary>
 public static class EchoQuest
 {
@@ -17,10 +17,10 @@ public static class EchoQuest
     public const int SurviveReward = 80;
 
     public const float DealDamageThreshold = 80f;
-    public const int DealDamageReward = 60;
+    public const int DealDamageReward = 50;
 
     public const float TakeDamageThreshold = 40f;
-    public const int TakeDamageReward = 60;
+    public const int TakeDamageReward = 50;
 
     static readonly Dictionary<Player, QuestProgress> Progress = new();
     static readonly Dictionary<Player, CoroutineHandle> SurviveHandles = new();

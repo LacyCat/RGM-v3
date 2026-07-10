@@ -143,8 +143,8 @@ public static class EchoSetting
     {
         return
             "장착한 Echo의 Cost에 맞는 메인 스탯을 고르세요.\n" +
-            "• Cost4: 공격%/HP%/방어%/크리%/이속·점프\n" +
-            "• Cost3: 공격%/HP%/방어%/SCP데미지%/인간데미지%/스태미나감소%/헤드샷%/AHP·HS\n" +
+            "• Cost4: 공격%/HP%/방어%/크리%/이속·점프/스태미나감소\n" +
+            "• Cost3: 공격%/HP%/방어%/SCP데미지%/인간데미지%/헤드샷%/AHP·HS/크기감소\n" +
             "• Cost1: 공격%/HP%/방어%\n" +
             $"• '{AutoOption}'이면 Echo 기본 메인 스탯을 사용합니다.\n" +
             "• Cost에 없는 스탯을 고르면 적용되지 않습니다.";
