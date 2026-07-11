@@ -107,7 +107,10 @@ public class FrostBurn : ExcWeapon
             target.EnableEffect(EffectType.Ensnared, 1, rootDuration);
             ClearFrost(target, state);
             _states.Remove(id);
-            Owner.ShowHint($"<color=#66ccff>서리 속박</color> {rootDuration:0.#}초", 1.5f);
+            EchoBattleCore.ShowNotification(
+                Owner,
+                $"<color=#66ccff>서리 속박</color> {rootDuration:0.#}초",
+                1.5f);
             return;
         }
 

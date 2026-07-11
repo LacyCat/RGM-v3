@@ -218,10 +218,13 @@ public static class EchoSetting
 
         if (setting is SSKeybindSetting keybind && keybind.SyncIsPressed && keybind.SettingId == InfoKeyId)
         {
-            if (!EchoInfo.PlayerShowHints.ContainsKey(player))
-                EchoInfo.PlayerShowHints[player] = true;
-
-            EchoInfo.PlayerShowHints[player] = !EchoInfo.PlayerShowHints[player];
+            bool currentlyShown = !EchoInfo.PlayerShowHints.TryGetValue(player, out bool shown) || shown;
+            bool showStatus = !currentlyShown;
+            EchoInfo.PlayerShowHints[player] = showStatus;
+            EchoBattleCore.ShowNotification(
+                player,
+                $"에코 전투 상태창: <color={(showStatus ? "#7CFC00" : "#ff6666")}>{(showStatus ? "ON" : "OFF")}</color>",
+                1.5f);
             return;
         }
 
@@ -274,7 +277,7 @@ public static class EchoSetting
         if (selected == NoneOption)
         {
             loadout.EquippedWeapon = null;
-            player.ShowHint("전용무기 해제", 2);
+            EchoBattleCore.ShowNotification(player, "전용무기 해제", 2);
             return;
         }
 
@@ -286,7 +289,7 @@ public static class EchoSetting
         var progress = ExclusiveWeaponInfo.GetOrCreateProgress(player);
         int level = progress.GetLevel(match.WeaponType);
         int resonance = progress.GetResonance(match.WeaponType);
-        player.ShowHint($"전용무기: {match.Name}  Lv.{level}  공진 {resonance}", 3);
+        EchoBattleCore.ShowNotification(player, $"전용무기: {match.Name}  Lv.{level}  공진 {resonance}", 3);
     }
 
     static void HandleEchoSelection(Player player, EchoLoadout loadout, SettingMeta meta, string selected)
@@ -301,7 +304,7 @@ public static class EchoSetting
 
             if (!IsEchoAllowedInSlot(meta.Slot, match))
             {
-                player.ShowHint("<color=red>메인 슬롯에는 Cost4/Cost3 Echo만 장착할 수 있습니다.</color>", 3);
+                EchoBattleCore.ShowNotification(player, "<color=red>메인 슬롯에는 Cost4/Cost3 Echo만 장착할 수 있습니다.</color>", 3);
                 return;
             }
 
@@ -309,7 +312,7 @@ public static class EchoSetting
 
             if (loadout.Contains(selectedType.Value) && GetCurrentSlotType(loadout, meta.Slot) != selectedType)
             {
-                player.ShowHint("<color=red>같은 Echo는 중복 장착할 수 없습니다.</color>", 3);
+                EchoBattleCore.ShowNotification(player, "<color=red>같은 Echo는 중복 장착할 수 없습니다.</color>", 3);
                 return;
             }
         }
@@ -321,7 +324,7 @@ public static class EchoSetting
             || loadout.GetTotalCost() > EchoInfo.MaxTotalCost)
         {
             SetSlot(loadout, meta.Slot, previous);
-            player.ShowHint($"<color=red>제한 초과</color> (최대 {EchoInfo.MaxEquippedEchoes}개 / Cost {EchoInfo.MaxTotalCost})", 3);
+            EchoBattleCore.ShowNotification(player, $"<color=red>제한 초과</color> (최대 {EchoInfo.MaxEquippedEchoes}개 / Cost {EchoInfo.MaxTotalCost})", 3);
             return;
         }
 
@@ -334,7 +337,7 @@ public static class EchoSetting
 
         if (!selectedType.HasValue)
         {
-            player.ShowHint($"Echo 장착: {count}/{EchoInfo.MaxEquippedEchoes} | Cost {cost}/{EchoInfo.MaxTotalCost}", 2);
+            EchoBattleCore.ShowNotification(player, $"Echo 장착: {count}/{EchoInfo.MaxEquippedEchoes} | Cost {cost}/{EchoInfo.MaxTotalCost}", 2);
             return;
         }
 
@@ -342,7 +345,8 @@ public static class EchoSetting
         string defaultStat = data != null
             ? EchoStats.GetMainStatDisplayName(loadout.ResolveMainStat(meta.SlotIndex, data))
             : "?";
-        player.ShowHint(
+        EchoBattleCore.ShowNotification(
+            player,
             $"Echo 장착: {count}/{EchoInfo.MaxEquippedEchoes} | Cost {cost}/{EchoInfo.MaxTotalCost}\n" +
             $"<color=#ffcc66>메인 스탯 드롭다운을 '{AutoOption}' 또는 원하는 스탯으로 다시 선택하세요.</color>\n" +
             $"(현재 적용: {defaultStat})",
@@ -355,7 +359,7 @@ public static class EchoSetting
         if (!echoType.HasValue)
         {
             loadout.SetSlotMainStat(meta.SlotIndex, null);
-            player.ShowHint("<color=red>먼저 Echo를 장착하세요.</color>", 2);
+            EchoBattleCore.ShowNotification(player, "<color=red>먼저 Echo를 장착하세요.</color>", 2);
             return;
         }
 
@@ -367,7 +371,7 @@ public static class EchoSetting
         {
             loadout.SetSlotMainStat(meta.SlotIndex, null);
             var resolved = loadout.ResolveMainStat(meta.SlotIndex, data);
-            player.ShowHint($"메인 스탯: {EchoStats.GetMainStatDisplayName(resolved)} (기본)", 2);
+            EchoBattleCore.ShowNotification(player, $"메인 스탯: {EchoStats.GetMainStatDisplayName(resolved)} (기본)", 2);
             return;
         }
 
@@ -392,14 +396,15 @@ public static class EchoSetting
         {
             // 거부 시 이전 값(AHP 등)을 유지하지 않고 초기화
             loadout.SetSlotMainStat(meta.SlotIndex, null);
-            player.ShowHint(
+            EchoBattleCore.ShowNotification(
+                player,
                 $"<color=red>{data.Cost.GetTranslation()}에서는 '{FormatMainStatOption(selectedStat.Value)}'을(를) 쓸 수 없습니다.</color>",
                 3);
             return;
         }
 
         loadout.SetSlotMainStat(meta.SlotIndex, selectedStat.Value);
-        player.ShowHint($"메인 스탯: {FormatMainStatOption(selectedStat.Value)}", 2);
+        EchoBattleCore.ShowNotification(player, $"메인 스탯: {FormatMainStatOption(selectedStat.Value)}", 2);
     }
 
     static EchoType? GetCurrentSlotType(EchoLoadout loadout, EchoSlotKind kind)

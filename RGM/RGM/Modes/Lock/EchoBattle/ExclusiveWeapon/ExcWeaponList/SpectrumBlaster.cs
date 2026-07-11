@@ -67,7 +67,10 @@ public class SpectrumBlaster : ExcWeapon
         {
             _hitCount = 0;
             _pierceArmed = true;
-            Owner.ShowHint($"<color=#88aaff>스펙트럼</color> 다음 공격 관통 +{10 * Resonance}%", 1.5f);
+            EchoBattleCore.ShowNotification(
+                Owner,
+                $"<color=#88aaff>스펙트럼</color> 다음 공격 관통 +{10 * Resonance}%",
+                1.5f);
         }
     }
 }

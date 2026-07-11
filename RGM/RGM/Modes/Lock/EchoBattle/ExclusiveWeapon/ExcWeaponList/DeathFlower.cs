@@ -91,7 +91,8 @@ public class DeathFlower : ExcWeapon
         Timing.KillCoroutines($"DeathFlower_{Owner.UserId}");
         Timing.RunCoroutine(InvulnerabilityRoutine(duration), $"DeathFlower_{Owner.UserId}");
 
-        Owner.ShowHint(
+        EchoBattleCore.ShowNotification(
+            Owner,
             $"<color=#ff6699>피안화</color> 발동 ({_triggersUsed}/{MaxTriggers}) · {duration:0.#}초 무적",
             2f);
     }

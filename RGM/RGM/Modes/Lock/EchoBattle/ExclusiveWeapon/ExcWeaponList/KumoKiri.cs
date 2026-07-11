@@ -53,6 +53,9 @@ public class KumoKiri : ExcWeapon
             return;
 
         ev.DamageHandler.Damage += FixedDamage;
-        Owner.ShowHint($"<color=#cc88ff>KumoKiri</color> 고정 피해 +{FixedDamage:0.##}", 1.2f);
+        EchoBattleCore.ShowNotification(
+            Owner,
+            $"<color=#cc88ff>KumoKiri</color> 고정 피해 +{FixedDamage:0.##}",
+            1.2f);
     }
 }

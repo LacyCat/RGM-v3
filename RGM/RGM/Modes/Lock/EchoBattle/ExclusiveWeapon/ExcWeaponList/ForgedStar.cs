@@ -149,7 +149,10 @@ public class ForgedStar : ExcWeapon
             DealDamage(other, explosion * SplashRatio);
         }
 
-        Owner.ShowHint($"<color=#ff8844>불꽃 폭발</color> {explosion:0.#}", 1.5f);
+        EchoBattleCore.ShowNotification(
+            Owner,
+            $"<color=#ff8844>불꽃 폭발</color> {explosion:0.#}",
+            1.5f);
     }
 
     void DealDamage(Player target, float amount)

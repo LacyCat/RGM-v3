@@ -367,6 +367,9 @@ public static class EchoQuest
     {
         EchoGrowth.GrantExpToEquipped(player, reward, questName);
         ExclusiveWeaponGrowth.GrantExp(player, reward, questName);
-        player.ShowHint($"<color=#88aaff>Quest</color> {questName} <color=#7CFC00>+{reward} XP</color>", 2);
+        EchoBattleCore.ShowNotification(
+            player,
+            $"<color=#88aaff>Quest</color> {questName} <color=#7CFC00>+{reward} XP</color>",
+            2);
     }
 }
