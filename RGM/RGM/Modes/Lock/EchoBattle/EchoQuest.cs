@@ -1,6 +1,9 @@
 using Exiled.API.Features;
+using Exiled.API.Extensions;
 using Exiled.Events.EventArgs.Player;
 using MEC;
+using PlayerRoles;
+using RGM.API.Features;
 using System.Collections.Generic;
 
 namespace RGM.Modes;
@@ -10,6 +13,11 @@ namespace RGM.Modes;
 /// 1) 30초 생존 → 80 XP
 /// 2) 적에게 80 데미지 → 50 XP
 /// 3) 40 데미지 받기 → 50 XP
+/// 4) SCP 아이템 획득 → 200 XP
+/// 5) 적 1명 처치 → 80 XP
+/// 6) SCP로 적 1회 타격 → 15 XP
+/// 7) SCP 격리(049-2 제외) → 1200 XP
+/// 8) SCP-049-2 처치 → 150 XP
 /// </summary>
 public static class EchoQuest
 {
@@ -22,8 +30,22 @@ public static class EchoQuest
     public const float TakeDamageThreshold = 40f;
     public const int TakeDamageReward = 50;
 
+    public const int ScpItemReward = 200;
+    public const int KillEnemyReward = 80;
+    public const int ScpHitReward = 15;
+    public const int ContainScpReward = 1200;
+    public const int KillScp0492Reward = 150;
+
+    enum QuestSide
+    {
+        Common,
+        Human,
+        Scp
+    }
+
     static readonly Dictionary<Player, QuestProgress> Progress = new();
     static readonly Dictionary<Player, CoroutineHandle> SurviveHandles = new();
+    static readonly HashSet<(Player Player, ItemType ItemType)> RecentScpItemQuestGrants = new();
 
     public class QuestProgress
     {
@@ -35,16 +57,27 @@ public static class EchoQuest
     public static void Register()
     {
         Exiled.Events.Handlers.Player.Hurting += OnHurting;
+        Exiled.Events.Handlers.Player.PickingUpItem += OnPickingUpItem;
+        Exiled.Events.Handlers.Player.ItemAdded += OnItemAdded;
+        Exiled.Events.Handlers.Player.Died += OnDied;
+        Exiled.Events.Handlers.Scp049.Attacking += OnScp049Attacking;
+        Exiled.Events.Handlers.Scp106.Attacking += OnScp106Attacking;
     }
 
     public static void Unregister()
     {
         Exiled.Events.Handlers.Player.Hurting -= OnHurting;
+        Exiled.Events.Handlers.Player.PickingUpItem -= OnPickingUpItem;
+        Exiled.Events.Handlers.Player.ItemAdded -= OnItemAdded;
+        Exiled.Events.Handlers.Player.Died -= OnDied;
+        Exiled.Events.Handlers.Scp049.Attacking -= OnScp049Attacking;
+        Exiled.Events.Handlers.Scp106.Attacking -= OnScp106Attacking;
 
         foreach (var handle in SurviveHandles.Values)
             Timing.KillCoroutines(handle);
 
         SurviveHandles.Clear();
+        RecentScpItemQuestGrants.Clear();
         Progress.Clear();
     }
 
@@ -95,7 +128,15 @@ public static class EchoQuest
     /// </summary>
     public static bool CanProgressQuests(Player player)
     {
+        return CanProgressQuests(player, QuestSide.Common);
+    }
+
+    static bool CanProgressQuests(Player player, QuestSide questSide)
+    {
         if (player == null)
+            return false;
+
+        if (!CanProgressQuestSide(player, questSide))
             return false;
 
         if (!EchoInfo.PlayerEchoes.TryGetValue(player, out var echoes) || echoes.Count == 0)
@@ -105,6 +146,16 @@ public static class EchoQuest
             return false;
 
         return loadout.HasGrowableEquipped();
+    }
+
+    static bool CanProgressQuestSide(Player player, QuestSide questSide)
+    {
+        return questSide switch
+        {
+            QuestSide.Human => !player.IsScpRole(),
+            QuestSide.Scp => player.IsScpRole(),
+            _ => true
+        };
     }
 
     public static void StopSurviveTracking(Player player)
@@ -125,6 +176,7 @@ public static class EchoQuest
     {
         StopSurviveTracking(player);
         Progress.Remove(player);
+        RecentScpItemQuestGrants.RemoveWhere(x => x.Player == player);
     }
 
     static IEnumerator<float> SurviveRoutine(Player player)
@@ -146,8 +198,7 @@ public static class EchoQuest
             if (progress.SurviveTimer >= SurviveSeconds)
             {
                 progress.SurviveTimer = 0f;
-                EchoGrowth.GrantExpToEquipped(player, SurviveReward, "30초 생존");
-                player.ShowHint($"<color=#88aaff>Quest</color> 30초 생존 <color=#7CFC00>+{SurviveReward} XP</color>", 2);
+                GrantQuestReward(player, SurviveReward, "30초 생존");
             }
 
             yield return Timing.WaitForSeconds(1f);
@@ -157,14 +208,25 @@ public static class EchoQuest
     static void OnHurting(HurtingEventArgs ev)
     {
         float damage = ev.DamageHandler?.Damage ?? 0f;
+        bool isDamagingAttack = damage > 0f || ev.IsInstantKill;
+        bool isEnemyAttack = ev.Attacker != null
+            && ev.Attacker != ev.Player
+            && HitboxIdentity.IsEnemy(ev.Attacker.ReferenceHub, ev.Player.ReferenceHub);
+
+        // SCP 타격: 049/106은 전용 Attacking 이벤트로 처리해 중복 지급을 막습니다.
+        if (isEnemyAttack
+            && isDamagingAttack
+            && CanProgressQuests(ev.Attacker, QuestSide.Scp)
+            && !UsesSpecialScpAttackingEvent(ev.Attacker.Role.Type))
+        {
+            GrantQuestReward(ev.Attacker, ScpHitReward, "SCP 적 1회 타격");
+        }
+
         if (damage <= 0f)
             return;
 
         // 가해: 적에게 데미지
-        if (ev.Attacker != null
-            && ev.Attacker != ev.Player
-            && CanProgressQuests(ev.Attacker)
-            && HitboxIdentity.IsEnemy(ev.Attacker.ReferenceHub, ev.Player.ReferenceHub))
+        if (isEnemyAttack && CanProgressQuests(ev.Attacker))
         {
             var atkProgress = GetOrCreate(ev.Attacker);
             atkProgress.DamageDealt += damage;
@@ -172,8 +234,7 @@ public static class EchoQuest
             while (atkProgress.DamageDealt >= DealDamageThreshold)
             {
                 atkProgress.DamageDealt -= DealDamageThreshold;
-                EchoGrowth.GrantExpToEquipped(ev.Attacker, DealDamageReward, "데미지 가함");
-                ev.Attacker.ShowHint($"<color=#88aaff>Quest</color> 데미지 50 가함 <color=#7CFC00>+{DealDamageReward} XP</color>", 2);
+                GrantQuestReward(ev.Attacker, DealDamageReward, "데미지 80 가함");
             }
         }
 
@@ -186,9 +247,124 @@ public static class EchoQuest
             while (defProgress.DamageTaken >= TakeDamageThreshold)
             {
                 defProgress.DamageTaken -= TakeDamageThreshold;
-                EchoGrowth.GrantExpToEquipped(ev.Player, TakeDamageReward, "데미지 받음");
-                ev.Player.ShowHint($"<color=#88aaff>Quest</color> 데미지 25 받음 <color=#7CFC00>+{TakeDamageReward} XP</color>", 2);
+                GrantQuestReward(ev.Player, TakeDamageReward, "데미지 40 받음");
             }
         }
+    }
+
+    static void OnPickingUpItem(PickingUpItemEventArgs ev)
+    {
+        if (ev.Player == null || ev.Pickup == null)
+            return;
+
+        TryGrantScpItemReward(ev.Player, ev.Pickup.Type, ev.IsAllowed);
+    }
+
+    static void OnItemAdded(ItemAddedEventArgs ev)
+    {
+        if (ev.Player == null || ev.Item == null)
+            return;
+
+        TryGrantScpItemReward(ev.Player, ev.Item.Type, true);
+    }
+
+    static void OnScp049Attacking(Exiled.Events.EventArgs.Scp049.AttackingEventArgs ev)
+    {
+        TryGrantSpecialScpHitReward(ev.Player, ev.Target, ev.IsAllowed);
+    }
+
+    static void OnScp106Attacking(Exiled.Events.EventArgs.Scp106.AttackingEventArgs ev)
+    {
+        TryGrantSpecialScpHitReward(ev.Player, ev.Target, ev.IsAllowed);
+    }
+
+    static void OnDied(DiedEventArgs ev)
+    {
+        if (ev.Attacker == null
+            || ev.Player == null
+            || ev.Attacker == ev.Player
+            || !CanProgressQuests(ev.Attacker, QuestSide.Common)
+            || !IsEnemyRole(ev.Attacker.Role.Type, ev.TargetOldRole))
+            return;
+
+        GrantQuestReward(ev.Attacker, KillEnemyReward, "적 1명 처치");
+
+        if (!CanProgressQuests(ev.Attacker, QuestSide.Human))
+            return;
+
+        if (ev.TargetOldRole == RoleTypeId.Scp0492)
+        {
+            GrantQuestReward(ev.Attacker, KillScp0492Reward, "SCP-049-2 처치");
+        }
+        else if (ev.TargetOldRole.IsScpRole())
+        {
+            GrantQuestReward(ev.Attacker, ContainScpReward, "SCP 격리");
+        }
+    }
+
+    static bool IsScpItem(ItemType itemType)
+    {
+        return itemType switch
+        {
+            ItemType.SCP018
+                or ItemType.SCP1576
+                or ItemType.SCP2176
+                or ItemType.SCP207
+                or ItemType.AntiSCP207
+                or ItemType.SCP268
+                or ItemType.SCP500
+                or ItemType.SCP1344
+                or ItemType.SCP1853
+                or ItemType.SCP330
+                or ItemType.SCP244a
+                or ItemType.SCP244b
+                or ItemType.GunSCP127
+                or ItemType.SCP1507Tape => true,
+            _ => false
+        };
+    }
+
+    static bool UsesSpecialScpAttackingEvent(RoleTypeId roleType)
+    {
+        return roleType is RoleTypeId.Scp049 or RoleTypeId.Scp106;
+    }
+
+    static void TryGrantScpItemReward(Player player, ItemType itemType, bool isAllowed)
+    {
+        if (!isAllowed
+            || !CanProgressQuests(player, QuestSide.Human)
+            || !IsScpItem(itemType))
+            return;
+
+        var key = (player, itemType);
+        if (!RecentScpItemQuestGrants.Add(key))
+            return;
+
+        Timing.CallDelayed(0.25f, () => RecentScpItemQuestGrants.Remove(key));
+        GrantQuestReward(player, ScpItemReward, "SCP 아이템 획득");
+    }
+
+    static bool IsEnemyRole(RoleTypeId attackerRole, RoleTypeId targetRole)
+    {
+        return HitboxIdentity.IsEnemy(RoleExtensions.GetTeam(attackerRole), RoleExtensions.GetTeam(targetRole));
+    }
+
+    static void TryGrantSpecialScpHitReward(Player attacker, Player target, bool isAllowed)
+    {
+        if (!isAllowed
+            || attacker == null
+            || target == null
+            || attacker == target
+            || !CanProgressQuests(attacker, QuestSide.Scp)
+            || !HitboxIdentity.IsEnemy(attacker.ReferenceHub, target.ReferenceHub))
+            return;
+
+        GrantQuestReward(attacker, ScpHitReward, "SCP 적 1회 타격");
+    }
+
+    static void GrantQuestReward(Player player, int reward, string questName)
+    {
+        EchoGrowth.GrantExpToEquipped(player, reward, questName);
+        player.ShowHint($"<color=#88aaff>Quest</color> {questName} <color=#7CFC00>+{reward} XP</color>", 2);
     }
 }
