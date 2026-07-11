@@ -19,8 +19,8 @@ namespace RGM.Modes.ExclusiveWeapon;
     ExclusiveWeaponType.DeathFlower)]
 public class DeathFlower : ExcWeapon
 {
-    public override float AttackFlatMin => 5.7f;
-    public override float AttackFlatMax => 71.4f;
+    public override float AttackFlatMin => 4f;
+    public override float AttackFlatMax => 50f;
     public override ExclusiveWeaponSecondaryStat SecondaryStat => ExclusiveWeaponSecondaryStat.HpPercent;
     public override float SecondaryStatMin => 13.2f;
     public override float SecondaryStatMax => 59.6f;
@@ -91,7 +91,8 @@ public class DeathFlower : ExcWeapon
         Timing.KillCoroutines($"DeathFlower_{Owner.UserId}");
         Timing.RunCoroutine(InvulnerabilityRoutine(duration), $"DeathFlower_{Owner.UserId}");
 
-        Owner.ShowHint(
+        EchoBattleCore.ShowNotification(
+            Owner,
             $"<color=#ff6699>피안화</color> 발동 ({_triggersUsed}/{MaxTriggers}) · {duration:0.#}초 무적",
             2f);
     }

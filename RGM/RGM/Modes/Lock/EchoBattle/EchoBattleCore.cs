@@ -14,10 +14,74 @@ namespace RGM.Modes;
 
 public static class EchoBattleCore
 {
-    // 화면 5x5 그리드에서 19번 위치 (0-index: row3 col3 → 우측 하단에서 약간 위)
-    // Rank 힌트(-300, 80) 대비 우측 하단 쪽으로 배치
-    const float HintX = 420f;
-    const float HintY = 620f;
+    // 상태표는 우측 상단, 알림은 화면 중앙에 분리해 서로 가리지 않도록 배치합니다.
+    const float HintX = 240f;
+    const float HintY = 310f;
+    const float NotificationX = 0f;
+    const float NotificationY = 750f;
+    const int MaxNotifications = 5;
+
+    sealed class Notification
+    {
+        public string Text;
+        public DateTime ExpiresAt;
+    }
+
+    static readonly Dictionary<Player, List<Notification>> Notifications = new();
+
+    public static void ShowNotification(Player player, string text, float duration = 3f)
+    {
+        if (player == null || string.IsNullOrWhiteSpace(text))
+            return;
+
+        DateTime now = DateTime.UtcNow;
+        if (!Notifications.TryGetValue(player, out var queue))
+        {
+            queue = new List<Notification>();
+            Notifications[player] = queue;
+        }
+
+        queue.RemoveAll(x => x.ExpiresAt <= now);
+
+        // 같은 알림이 연속으로 들어오면 줄을 늘리지 않고 표시 시간만 갱신합니다.
+        var duplicate = queue.FirstOrDefault(x => x.Text == text);
+        if (duplicate != null)
+        {
+            duplicate.ExpiresAt = now.AddSeconds(Math.Max(0.1f, duration));
+            return;
+        }
+
+        queue.Add(new Notification
+        {
+            Text = text,
+            ExpiresAt = now.AddSeconds(Math.Max(0.1f, duration))
+        });
+
+        while (queue.Count > MaxNotifications)
+            queue.RemoveAt(0);
+    }
+
+    static string BuildNotificationText(Player player)
+    {
+        if (player == null || !Notifications.TryGetValue(player, out var queue))
+            return null;
+
+        DateTime now = DateTime.UtcNow;
+        queue.RemoveAll(x => x.ExpiresAt <= now);
+        if (queue.Count == 0)
+        {
+            Notifications.Remove(player);
+            return null;
+        }
+
+        return string.Join("\n", queue.Select(x => x.Text));
+    }
+
+    public static void ClearNotifications(Player player)
+    {
+        if (player != null)
+            Notifications.Remove(player);
+    }
 
     public static void RegisterEchoes()
     {
@@ -177,29 +241,30 @@ public static class EchoBattleCore
     {
         EchoQuest.StopSurviveTracking(player);
         ExclusiveWeaponCore.Reset(player);
+        ClearNotifications(player);
         ClearPlayerRuntime(player);
     }
 
     public static IEnumerator<float> HintDisplay(Player owner)
     {
-        Hint hint = new() { Text = "" };
-
         while (true)
         {
             Player target = owner;
-            bool shown = false;
+            Hint statusHint = null;
+            Hint notificationHint = null;
 
             try
             {
                 if (owner.Role is SpectatorRole spectator && spectator.SpectatedPlayer != null)
                     target = spectator.SpectatedPlayer;
 
-                if (target != null && target.IsAlive)
+                bool showStatus = !EchoInfo.PlayerShowHints.TryGetValue(owner, out bool enabled) || enabled;
+                if (showStatus && target != null && target.IsAlive)
                 {
                     string text = BuildHintText(target);
                     if (!string.IsNullOrEmpty(text))
                     {
-                        hint = new Hint
+                        statusHint = new Hint
                         {
                             Text = $"<size=14>{text}</size>",
                             Id = "EchoBattleHint",
@@ -208,9 +273,23 @@ public static class EchoBattleCore
                             Alignment = HintAlignment.Right
                         };
 
-                        owner.AddCustomHint(hint);
-                        shown = true;
+                        owner.AddCustomHint(statusHint);
                     }
+                }
+
+                string notificationText = BuildNotificationText(owner);
+                if (!string.IsNullOrEmpty(notificationText))
+                {
+                    notificationHint = new Hint
+                    {
+                        Text = $"<size=22>{notificationText}</size>",
+                        Id = "EchoBattleNotification",
+                        XCoordinate = NotificationX,
+                        YCoordinate = NotificationY,
+                        Alignment = HintAlignment.Center
+                    };
+
+                    owner.AddCustomHint(notificationHint);
                 }
             }
             catch (Exception e)
@@ -218,15 +297,12 @@ public static class EchoBattleCore
                 Log.Debug($"[EchoBattle] Hint error: {e.Message}");
             }
 
-            if (shown)
-            {
-                yield return Timing.WaitForOneFrame;
-                owner.RemoveHint(hint);
-            }
-            else
-            {
-                yield return Timing.WaitForOneFrame;
-            }
+            yield return Timing.WaitForOneFrame;
+
+            if (statusHint != null)
+                owner.RemoveHint(statusHint);
+            if (notificationHint != null)
+                owner.RemoveHint(notificationHint);
         }
     }
 

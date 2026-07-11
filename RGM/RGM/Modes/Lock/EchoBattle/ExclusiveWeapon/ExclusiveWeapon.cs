@@ -29,25 +29,29 @@ public abstract class ExcWeapon
     public abstract void OnEnabled();
     public abstract void OnDisabled();
 
-    public virtual void ContributeStats(EchoStatSnapshot snapshot)
+    public virtual void ContributeStats(EchoStatSnapshot snapshot, bool includeAttackStats = true)
     {
         if (snapshot == null)
             return;
 
-        snapshot.AttackFlat += ExclusiveWeaponStats.LerpStat(AttackFlatMin, AttackFlatMax, Level);
+        if (includeAttackStats)
+            snapshot.AttackFlat += ExclusiveWeaponStats.LerpStat(AttackFlatMin, AttackFlatMax, Level);
 
         float secondary = ExclusiveWeaponStats.LerpStat(SecondaryStatMin, SecondaryStatMax, Level);
         switch (SecondaryStat)
         {
             case ExclusiveWeaponSecondaryStat.CriticalChance:
-                snapshot.CriticalChance += secondary;
+                if (includeAttackStats)
+                    snapshot.CriticalChance += secondary;
                 break;
             case ExclusiveWeaponSecondaryStat.HpPercent:
                 snapshot.HpPercent += secondary;
                 break;
         }
 
-        snapshot.AttackPercent += PassiveAttackPercent;
+        if (includeAttackStats)
+            snapshot.AttackPercent += PassiveAttackPercent;
+
         snapshot.HpPercent += PassiveHpPercent;
     }
 

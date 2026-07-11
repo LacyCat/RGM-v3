@@ -1,3 +1,4 @@
+using Exiled.API.Enums;
 using Exiled.API.Features;
 using Exiled.API.Extensions;
 using Exiled.Events.EventArgs.Player;
@@ -210,12 +211,13 @@ public static class EchoQuest
     {
         float damage = ev.DamageHandler?.Damage ?? 0f;
         bool isDamagingAttack = damage > 0f || ev.IsInstantKill;
-        bool isEnemyAttack = ev.Attacker != null
+        bool isDirectEnemyAttack = ev.Attacker != null
             && ev.Attacker != ev.Player
-            && HitboxIdentity.IsEnemy(ev.Attacker.ReferenceHub, ev.Player.ReferenceHub);
+            && HitboxIdentity.IsEnemy(ev.Attacker.ReferenceHub, ev.Player.ReferenceHub)
+            && ev.DamageHandler?.Type != DamageType.Tesla;
 
         // SCP 타격: 049/106은 전용 Attacking 이벤트로 처리해 중복 지급을 막습니다.
-        if (isEnemyAttack
+        if (isDirectEnemyAttack
             && isDamagingAttack
             && CanProgressQuests(ev.Attacker, QuestSide.Scp)
             && !UsesSpecialScpAttackingEvent(ev.Attacker.Role.Type))
@@ -227,7 +229,7 @@ public static class EchoQuest
             return;
 
         // 가해: 적에게 데미지
-        if (isEnemyAttack && CanProgressQuests(ev.Attacker))
+        if (isDirectEnemyAttack && CanProgressQuests(ev.Attacker))
         {
             var atkProgress = GetOrCreate(ev.Attacker);
             atkProgress.DamageDealt += damage;
@@ -239,8 +241,8 @@ public static class EchoQuest
             }
         }
 
-        // 피격: 데미지 받기
-        if (CanProgressQuests(ev.Player))
+        // 피격: 적 플레이어에게 직접 받은 데미지만 인정 (아군 사격/환경/Tesla 제외)
+        if (isDirectEnemyAttack && CanProgressQuests(ev.Player))
         {
             var defProgress = GetOrCreate(ev.Player);
             defProgress.DamageTaken += damage;
@@ -365,6 +367,9 @@ public static class EchoQuest
     {
         EchoGrowth.GrantExpToEquipped(player, reward, questName);
         ExclusiveWeaponGrowth.GrantExp(player, reward, questName);
-        player.ShowHint($"<color=#88aaff>Quest</color> {questName} <color=#7CFC00>+{reward} XP</color>", 2);
+        EchoBattleCore.ShowNotification(
+            player,
+            $"<color=#88aaff>Quest</color> {questName} <color=#7CFC00>+{reward} XP</color>",
+            2);
     }
 }

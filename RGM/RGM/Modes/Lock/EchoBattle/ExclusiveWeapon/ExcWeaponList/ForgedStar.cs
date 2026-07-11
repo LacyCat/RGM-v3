@@ -18,8 +18,8 @@ namespace RGM.Modes.ExclusiveWeapon;
     ExclusiveWeaponType.ForgedStar)]
 public class ForgedStar : ExcWeapon
 {
-    public override float AttackFlatMin => 5.7f;
-    public override float AttackFlatMax => 71.4f;
+    public override float AttackFlatMin => 4.0f;
+    public override float AttackFlatMax => 50.0f;
     public override ExclusiveWeaponSecondaryStat SecondaryStat => ExclusiveWeaponSecondaryStat.CriticalChance;
     public override float SecondaryStatMin => 8.0f;
     public override float SecondaryStatMax => 36.0f;
@@ -78,6 +78,9 @@ public class ForgedStar : ExcWeapon
             return;
 
         if (!HitboxIdentity.IsEnemy(ev.Attacker.ReferenceHub, ev.Player.ReferenceHub))
+            return;
+
+        if (EchoStats.AreAttackModifiersIgnored(Owner))
             return;
 
         TryAddFlame(ev.Player);
@@ -146,7 +149,10 @@ public class ForgedStar : ExcWeapon
             DealDamage(other, explosion * SplashRatio);
         }
 
-        Owner.ShowHint($"<color=#ff8844>불꽃 폭발</color> {explosion:0.#}", 1.5f);
+        EchoBattleCore.ShowNotification(
+            Owner,
+            $"<color=#ff8844>불꽃 폭발</color> {explosion:0.#}",
+            1.5f);
     }
 
     void DealDamage(Player target, float amount)

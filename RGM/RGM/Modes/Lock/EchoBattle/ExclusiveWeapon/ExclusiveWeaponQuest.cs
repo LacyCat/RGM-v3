@@ -1,3 +1,4 @@
+using Exiled.API.Enums;
 using Exiled.API.Features;
 using Exiled.API.Extensions;
 using Exiled.Events.EventArgs.Player;
@@ -126,18 +127,19 @@ public static class ExclusiveWeaponQuest
         if (damage <= 0f)
             return;
 
-        bool isEnemy = ev.Attacker != null
+        bool isDirectEnemyAttack = ev.Attacker != null
             && ev.Attacker != ev.Player
-            && HitboxIdentity.IsEnemy(ev.Attacker.ReferenceHub, ev.Player.ReferenceHub);
+            && HitboxIdentity.IsEnemy(ev.Attacker.ReferenceHub, ev.Player.ReferenceHub)
+            && ev.DamageHandler?.Type != DamageType.Tesla;
 
-        if (isEnemy && TryGetEquipped(ev.Attacker, out var atkType, out var atkProgress))
+        if (isDirectEnemyAttack && TryGetEquipped(ev.Attacker, out var atkType, out var atkProgress))
         {
             var quest = atkProgress.GetOrCreateQuest(atkType);
             quest.DamageDealt += damage;
             TryAdvanceResonance(ev.Attacker, atkType, atkProgress);
         }
 
-        if (TryGetEquipped(ev.Player, out var defType, out var defProgress))
+        if (isDirectEnemyAttack && TryGetEquipped(ev.Player, out var defType, out var defProgress))
         {
             var quest = defProgress.GetOrCreateQuest(defType);
             quest.DamageTaken += damage;

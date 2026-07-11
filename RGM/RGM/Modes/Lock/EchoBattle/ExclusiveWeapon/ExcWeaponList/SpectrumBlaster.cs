@@ -16,8 +16,8 @@ namespace RGM.Modes.ExclusiveWeapon;
     ExclusiveWeaponType.SpectrumBlaster)]
 public class SpectrumBlaster : ExcWeapon
 {
-    public override float AttackFlatMin => 6.8f;
-    public override float AttackFlatMax => 83.9f;
+    public override float AttackFlatMin => 4.7f;
+    public override float AttackFlatMax => 57.6f;
     public override ExclusiveWeaponSecondaryStat SecondaryStat => ExclusiveWeaponSecondaryStat.CriticalChance;
     public override float SecondaryStatMin => 5.4f;
     public override float SecondaryStatMax => 24.3f;
@@ -52,6 +52,9 @@ public class SpectrumBlaster : ExcWeapon
         if (!HitboxIdentity.IsEnemy(ev.Attacker.ReferenceHub, ev.Player.ReferenceHub))
             return;
 
+        if (EchoStats.AreAttackModifiersIgnored(Owner))
+            return;
+
         if (_pierceArmed)
         {
             float pierce = 0.10f * Resonance;
@@ -64,7 +67,10 @@ public class SpectrumBlaster : ExcWeapon
         {
             _hitCount = 0;
             _pierceArmed = true;
-            Owner.ShowHint($"<color=#88aaff>스펙트럼</color> 다음 공격 관통 +{10 * Resonance}%", 1.5f);
+            EchoBattleCore.ShowNotification(
+                Owner,
+                $"<color=#88aaff>스펙트럼</color> 다음 공격 관통 +{10 * Resonance}%",
+                1.5f);
         }
     }
 }

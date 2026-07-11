@@ -93,7 +93,7 @@ public static class ExclusiveWeaponCore
         if (!ExclusiveWeaponInfo.PlayerWeapons.TryGetValue(player, out var weapon) || weapon == null)
             return;
 
-        weapon.ContributeStats(snapshot);
+        weapon.ContributeStats(snapshot, !EchoStats.AreAttackModifiersIgnored(player));
     }
 
     public static void Reset(Player player)

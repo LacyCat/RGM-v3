@@ -39,6 +39,9 @@ public class Berserker : EchoActiveAbility
         if (!HitboxIdentity.IsEnemy(ev.Attacker.ReferenceHub, ev.Player.ReferenceHub))
             return;
 
+        if (EchoStats.AreAttackModifiersIgnored(Owner))
+            return;
+
         ev.DamageHandler.Damage += Owner.MaxHealth * 0.4f;
         _armed = false;
 
