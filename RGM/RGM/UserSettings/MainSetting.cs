@@ -20,8 +20,6 @@ namespace RGM.UserSettings
         public static CustomHeader Setting { get; } = new("<b>랜덤게임모드</b>");
 
         public static CustomKeybindSetting ScpCanEquipRandomItem { get; private set; }
-        public static CustomButtonSetting SpectatorToNone { get; private set; }
-        public static CustomButtonSetting SwitchToSpectator { get; private set; }
         public static CustomTwoButtonSetting MuteBGM { get; private set; }
         public static CustomDropdownSetting Translation { get; private set; }
         public static CustomKeybindSetting UpKey { get; private set; }
@@ -40,8 +38,6 @@ namespace RGM.UserSettings
                 return;
 
             ScpCanEquipRandomItem = new ScpCanEquipRandomItemSetting();
-            SpectatorToNone = new SpectatorToNoneSetting();
-            SwitchToSpectator = new SwitchToSpectatorSetting();
             MuteBGM = new MuteBGMSetting();
             Translation = new TranslationSetting();
             UpKey = new UpKeySetting();
@@ -53,8 +49,6 @@ namespace RGM.UserSettings
 
             CustomSetting.Register(
                 ScpCanEquipRandomItem,
-                SpectatorToNone,
-                SwitchToSpectator,
                 MuteBGM,
                 Translation,
                 UpKey,
@@ -73,8 +67,6 @@ namespace RGM.UserSettings
                 
                 CustomSetting.UnRegister(
                     ScpCanEquipRandomItem,
-                    SpectatorToNone,
-                    SwitchToSpectator,
                     MuteBGM,
                     Translation,
                     UpKey,
@@ -85,8 +77,6 @@ namespace RGM.UserSettings
                     DetailInfoKey);
                 CustomSetting.Register(
                     ScpCanEquipRandomItem,
-                    SpectatorToNone,
-                    SwitchToSpectator,
                     MuteBGM,
                     Translation,
                     UpKey,
@@ -130,90 +120,7 @@ namespace RGM.UserSettings
                 player.CurrentItem = candidates.GetRandomValue();
             }
         }
-
-        private sealed class SpectatorToNoneSetting : CustomButtonSetting
-        {
-            public SpectatorToNoneSetting()
-                : base(12051, "관전석 <-> 훈련장ㅣSpectator <-> Training ground", "GO!", 0.5f, "관전석에서 훈련장으로 이동합니다.\n• Set 모드 또는 특정 모드에서 사용 불가\n• 사망 후 10초가 지나야 사용 가능\n\nMove from the spectator seats to the training grounds.\n• Not available in Set mode or certain modes.\n• Available 10 seconds after death.")
-            {
-            }
-
-            public override CustomHeader Header => Setting;
-
-            protected override CustomSetting CreateDuplicate() => new SpectatorToNoneSetting();
-
-            protected override void HandleSettingUpdate()
-            {
-                if (KnownOwner == null)
-                    return;
-
-                Player player = Player.Get(KnownOwner.ReferenceHub);
-
-                if ((CurrentMode == ModeType.None || CurrentMode.GetModeData().Info == ModeInfo.Plus) &&
-                    IsNonePlayerAllowed &&
-                    (Round.IsLobby || (DateTime.UtcNow - PlayersReport[player.UserId].LastDeath).TotalSeconds >= 10))
-                {
-                    if (player.IsAlive && NonePlayer.Players.Contains(player))
-                    {
-                        player.ClearInventory();
-                        player.Kill("관전석으로 되돌아갑니다.");
-                    }
-                    else if (Round.IsLobby || player.IsDead)
-                    {
-                        NonePlayer.Create(player);
-                    }
-                    else
-                    {
-                        PlayersAudio[player].TryPlay("nope");
-                    }
-                }
-                else
-                {
-                    PlayersAudio[player].TryPlay("nope");
-                }
-            }
-        }
-
-        private sealed class SwitchToSpectatorSetting : CustomButtonSetting
-        {
-            public SwitchToSpectatorSetting()
-                : base(12052, "관전자 <-> 오버워치ㅣSpectator <-> Overwatch", "<->", 0.5f, "관전자와 오버워치 상태를 변경합니다.\n• 사망 후 10초가 지나야 사용 가능\n\nChanges between spectator and Overwatch status.\n• Available 10 seconds after death.")
-            {
-            }
-
-            public override CustomHeader Header => Setting;
-
-            protected override CustomSetting CreateDuplicate() => new SwitchToSpectatorSetting();
-
-            protected override void HandleSettingUpdate()
-            {
-                if (KnownOwner == null)
-                    return;
-
-                Player player = Player.Get(KnownOwner.ReferenceHub);
-
-                if ((DateTime.UtcNow - PlayersReport[player.UserId].LastDeath).TotalSeconds >= 10)
-                {
-                    if (player.Role.Type == RoleTypeId.Overwatch)
-                    {
-                        player.Role.Set(RoleTypeId.Spectator);
-                    }
-                    else if (player.Role.Type == RoleTypeId.Spectator)
-                    {
-                        player.Role.Set(RoleTypeId.Overwatch);
-                    }
-                    else
-                    {
-                        PlayersAudio[player].TryPlay("nope");
-                    }
-                }
-                else
-                {
-                    PlayersAudio[player].TryPlay("nope");
-                }
-            }
-        }
-
+        
         private sealed class MuteBGMSetting : CustomTwoButtonSetting
         {
             public MuteBGMSetting()
