@@ -16,8 +16,8 @@ namespace RGM.Modes.ExclusiveWeapon;
     ExclusiveWeaponType.NightskyCalculator)]
 public class NightskyCalculator : ExcWeapon
 {
-    public override float AttackFlatMin => 4.7f;
-    public override float AttackFlatMax => 58.8f;
+    public override float AttackFlatMin => 3.3f;
+    public override float AttackFlatMax => 41.2f;
     public override ExclusiveWeaponSecondaryStat SecondaryStat => ExclusiveWeaponSecondaryStat.HpPercent;
     public override float SecondaryStatMin => 16.0f;
     public override float SecondaryStatMax => 72.2f;

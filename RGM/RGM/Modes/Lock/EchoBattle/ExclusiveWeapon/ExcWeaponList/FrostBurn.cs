@@ -10,24 +10,25 @@ namespace RGM.Modes.ExclusiveWeapon;
 
 /// <summary>
 /// Frost Burn.
-/// Passive: Attack 8%+(res*2%). On hit apply Slowness stacks, clear after 3s no-hit.
+/// Passive: Attack 8%+(res*2%). On hit apply Slowness stacks at most once every 0.7s, clear after 5s no-hit.
 /// At 10 stacks: Ensnared for 3+(0.6*res) seconds.
 /// </summary>
 [ExclusiveWeapon(
     "서리",
-    "공격력 8% + (공진 수치 * 2%) 증가. 적 타격 시 Slowness를 1% + (1% * 공진 수치) 중첩(3초 미타격 시 해제). 10스택 시 3초 + (0.6초 * 공진 수치) 속박.",
+    "공격력 8% + (공진 수치 * 2%) 증가. 적 타격 시 0.7초마다 최대 1회 Slowness를 (1% * 공진 수치) 중첩(5초 미타격 시 해제). 10스택 시 3초 + (0.6초 * 공진 수치) 속박.",
     ExclusiveWeaponType.FrostBurn)]
 public class FrostBurn : ExcWeapon
 {
-    public override float AttackFlatMin => 6.8f;
-    public override float AttackFlatMax => 83.9f;
+    public override float AttackFlatMin => 4.7f;
+    public override float AttackFlatMax => 58.7f;
     public override ExclusiveWeaponSecondaryStat SecondaryStat => ExclusiveWeaponSecondaryStat.CriticalChance;
     public override float SecondaryStatMin => 5.4f;
     public override float SecondaryStatMax => 24.3f;
 
     public override float PassiveAttackPercent => 8f + Resonance * 2f;
 
-    const float DecaySeconds = 3f;
+    const float StackIntervalSeconds = 0.7f;
+    const float DecaySeconds = 5f;
     const int MaxStacks = 10;
 
     class FrostState
@@ -85,9 +86,12 @@ public class FrostBurn : ExcWeapon
             _states[id] = state;
         }
 
+        if (state.Stacks > 0 && Time.time - state.LastHitAt < StackIntervalSeconds)
+            return;
+
         Timing.KillCoroutines(state.DecayHandle);
 
-        int perStack = 1 + Resonance;
+        int perStack = Resonance;
         state.Stacks = Mathf.Min(MaxStacks, state.Stacks + 1);
         state.LastHitAt = Time.time;
 

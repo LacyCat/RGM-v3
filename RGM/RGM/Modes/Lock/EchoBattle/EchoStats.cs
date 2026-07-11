@@ -25,6 +25,11 @@ public static class EchoStats
         RoleTypeId.Scp079
     };
 
+    public static bool AreAttackModifiersIgnored(Player player)
+    {
+        return player != null && AttackFlagIgnoredRoles.Contains(player.Role.Type);
+    }
+
     static readonly DamageType[] DefenseFlatIgnoredDamageTypes =
     {
         DamageType.Warhead,
@@ -41,11 +46,11 @@ public static class EchoStats
     static readonly Dictionary<EchoSubOptionType, float[]> SubOptionValues = new()
     {
         { EchoSubOptionType.AttackPercent, [6.5f, 7.4f, 8.3f, 9.2f, 10.1f, 11.0f] },
-        { EchoSubOptionType.AttackFlat, [10f, 14f, 18f, 22f, 26f, 30f] },
-        { EchoSubOptionType.DefensePercent, [5.0f, 6.0f, 7.0f, 8.0f, 9.0f, 10.0f] },
+        { EchoSubOptionType.AttackFlat, [5f, 7f, 9f, 11f, 13f, 15f] },
+        { EchoSubOptionType.DefensePercent, [8.0f, 9.0f, 10.0f, 11.0f, 12.0f, 13.0f] },
         { EchoSubOptionType.DefenseFlat, [9.4f, 10.0f, 10.6f, 11.2f, 11.8f, 12.4f] },
         { EchoSubOptionType.HpPercent, [10.2f, 11.1f, 12.0f, 12.9f, 13.8f, 14.7f] },
-        { EchoSubOptionType.HpFlat, [45f, 54f, 63f, 72f, 81f, 90f] },
+        { EchoSubOptionType.HpFlat, [90f, 102f, 114f, 126f, 138f, 150f] },
         { EchoSubOptionType.CriticalChance, [6.9f, 7.5f, 8.1f, 8.7f, 9.3f, 9.9f] },
         { EchoSubOptionType.ScpDamagePercent, [8.3f, 9.6f, 10.9f, 12.2f, 13.5f, 14.8f] },
         { EchoSubOptionType.HumanDamagePercent, [8.3f, 9.6f, 10.9f, 12.2f, 13.5f, 14.8f] },
@@ -179,9 +184,9 @@ public static class EchoStats
     {
         return cost switch
         {
-            EchoCost.Cost4 => LerpStat(8f, 80f, level),
-            EchoCost.Cost3 => LerpStat(40f, 200f, level),
-            EchoCost.Cost1 => LerpStat(15f, 180f, level),
+            EchoCost.Cost4 => LerpStat(7f, 70f, level),
+            EchoCost.Cost3 => LerpStat(35f, 175f, level),
+            EchoCost.Cost1 => LerpStat(15f, 200f, level),
             _ => 0f
         };
     }
@@ -401,9 +406,9 @@ public static class EchoStats
             case EchoMainStatType.AhpRegenAndMax:
                 // Cost3 전용. regen value + max 테이블
                 snapshot.AhpRegen += value;
-                snapshot.AhpMax += LerpStat(20f, 180f, level);
-                snapshot.HsRegen += LerpStat(2f, 20f, level);
-                snapshot.HsMax += LerpStat(150f, 1000f, level);
+                snapshot.AhpMax += LerpStat(18f, 175f, level);
+                snapshot.HsRegen += LerpStat(2f, 25f, level);
+                snapshot.HsMax += LerpStat(200f, 1000f, level);
                 break;
             case EchoMainStatType.SizeReduction:
                 snapshot.SizeReduction += value;
@@ -419,7 +424,7 @@ public static class EchoStats
         {
             float hp = value;
             if (player.IsScp)
-                hp *= 7f;
+                hp *= 8f;
             snapshot.HpFlat += hp;
         }
         else if (cost == EchoCost.Cost3)
@@ -460,7 +465,7 @@ public static class EchoStats
                 snapshot.HpPercent += option.Value;
                 break;
             case EchoSubOptionType.HpFlat:
-                snapshot.HpFlat += player.IsScp ? option.Value * 7f : option.Value;
+                snapshot.HpFlat += player.IsScp ? option.Value * 8f : option.Value;
                 break;
             case EchoSubOptionType.CriticalChance:
                 snapshot.CriticalChance += option.Value;
@@ -581,14 +586,6 @@ public static class EchoStats
 
         var effectState = new EchoPassiveEffectState();
 
-        // 방어력%: DamageReduction (intensity ≈ percent * 2, Rank 방어 참고)
-        // 스냅샷에 이미 모든 Echo 합산값이 들어 있으므로 한 번만 적용
-        if (snapshot.DefensePercent > 0)
-        {
-            effectState.DefenseReduction = (byte)Mathf.Clamp(Mathf.RoundToInt(snapshot.DefensePercent * 2f), 1, 255);
-            player.AddEffect(EffectType.DamageReduction, effectState.DefenseReduction);
-        }
-
         // 이동속도 / 점프력: 스냅샷 합산값을 이펙트로 1회 적용
         if (snapshot.MoveSpeed > 0)
         {
@@ -690,13 +687,15 @@ public static class EchoStats
 
     public static void OnHurting(HurtingEventArgs ev)
     {
+        bool ignoresAttackModifiers = AreAttackModifiersIgnored(ev.Attacker);
+
         if (ev.Attacker == null || !EchoInfo.PlayerStats.TryGetValue(ev.Attacker, out var atkStats))
         {
             // defender-only path
         }
         else if (ev.Attacker != null && HitboxIdentity.IsEnemy(ev.Attacker.ReferenceHub, ev.Player.ReferenceHub))
         {
-            if (!AttackFlagIgnoredRoles.Contains(ev.Attacker.Role.Type))
+            if (!ignoresAttackModifiers)
             {
                 float damage = ev.DamageHandler.Damage;
 
@@ -735,11 +734,17 @@ public static class EchoStats
         }
 
         if (EchoInfo.PlayerStats.TryGetValue(ev.Player, out var defStats)
-            && !DefenseFlatIgnoredDamageTypes.Contains(ev.DamageHandler.Type))
+            && !ignoresAttackModifiers)
         {
-            // 방어력 정수: 고정 데미지 감소. 방어력%는 DamageReduction 이펙트로 처리.
             float dmg = ev.DamageHandler.Damage;
-            dmg = Math.Max(0f, dmg - defStats.DefenseFlat);
+
+            // 이벤트에서 직접 계산해야 특정 공격자 역할이 방어력%와 고정 방어력을 모두 우회할 수 있다.
+            if (defStats.DefensePercent > 0f)
+                dmg *= Mathf.Max(0f, 1f - defStats.DefensePercent / 100f);
+
+            if (!DefenseFlatIgnoredDamageTypes.Contains(ev.DamageHandler.Type))
+                dmg = Math.Max(0f, dmg - defStats.DefenseFlat);
+
             ev.DamageHandler.Damage = dmg;
         }
     }
