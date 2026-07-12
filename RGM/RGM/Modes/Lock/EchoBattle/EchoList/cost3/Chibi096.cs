@@ -53,6 +53,7 @@ public class Chibi096 : EchoActiveAbility
     {
         if (_damageReductionActive
             && ev.Player == Owner
+            && !EchoStats.IsApplyingFixedDamage(ev.Player)
             && ev.DamageHandler?.Type != DamageType.Crushed)
         {
             ev.Amount *= 0.75f;

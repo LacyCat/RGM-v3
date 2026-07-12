@@ -39,6 +39,9 @@ public class KumoKiri : ExcWeapon
         if (ev.Attacker != Owner || Owner == null)
             return;
 
+        if (EchoStats.IsApplyingFixedDamage(ev.Player))
+            return;
+
         if (ev.DamageHandler == null || ev.DamageHandler.Damage <= 0f)
             return;
 
@@ -52,10 +55,10 @@ public class KumoKiri : ExcWeapon
         if (Random.Range(0f, 100f) >= chance)
             return;
 
-        ev.DamageHandler.Damage += FixedDamage;
+        EchoStats.DealFixedDamage(ev.Player, Owner, FixedDamage);
         EchoBattleCore.ShowNotification(
             Owner,
-            $"<color=#cc88ff>KumoKiri</color> 고정 피해 +{FixedDamage:0.##}",
+            $"<color=#cc88ff>쿠모키리</color> 고정 피해 +{FixedDamage:0.##}",
             1.2f);
     }
 }

@@ -42,6 +42,7 @@ public static class EchoStats
     static readonly float[] SubOptionGradeWeights = [250, 220, 190, 150, 110, 80];
     static readonly System.Random SubOptionRandom = new();
     static readonly object SubOptionRandomLock = new();
+    static readonly HashSet<Player> FixedDamageTargets = new();
 
     static readonly Dictionary<EchoSubOptionType, float[]> SubOptionValues = new()
     {
@@ -697,6 +698,10 @@ public static class EchoStats
 
     public static void OnHurting(HurtingEventArgs ev)
     {
+        // 별도 고정 피해는 공격력 증가와 대상의 에코 피해 감소를 모두 무시한다.
+        if (IsApplyingFixedDamage(ev.Player))
+            return;
+
         // Crushed는 수치 기반 피해가 아닌 게임의 특수 사망 판정이므로,
         // 핸들러의 Damage 값을 읽거나 다시 할당하지 않고 원본 처리를 유지한다.
         if (ev.DamageHandler?.Type == DamageType.Crushed)
@@ -763,6 +768,27 @@ public static class EchoStats
                 dmg = Math.Max(0f, dmg - defStats.DefenseFlat);
 
             ev.DamageHandler.Damage = dmg;
+        }
+    }
+
+    public static bool IsApplyingFixedDamage(Player player)
+    {
+        return player != null && FixedDamageTargets.Contains(player);
+    }
+
+    public static void DealFixedDamage(Player target, Player attacker, float amount)
+    {
+        if (target == null || !target.IsAlive || amount <= 0f)
+            return;
+
+        FixedDamageTargets.Add(target);
+        try
+        {
+            target.Hurt(attacker: attacker, amount: amount, damageType: DamageType.Custom);
+        }
+        finally
+        {
+            FixedDamageTargets.Remove(target);
         }
     }
 
