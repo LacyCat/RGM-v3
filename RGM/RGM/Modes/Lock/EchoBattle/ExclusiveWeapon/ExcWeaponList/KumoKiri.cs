@@ -51,7 +51,7 @@ public class KumoKiri : ExcWeapon
         if (EchoStats.AreAttackModifiersIgnored(Owner))
             return;
 
-        float chance = Resonance * (Resonance + 1) % 2;
+        float chance = Resonance * (Resonance + 1) / 2f;
         if (Random.Range(0f, 100f) >= chance)
             return;
 

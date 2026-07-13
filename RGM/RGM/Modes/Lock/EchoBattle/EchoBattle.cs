@@ -270,11 +270,15 @@ Quest (반복)
         }
         IEnumerable<Player> players = PlayerManager.List.Where(x => x.IsAlive && !x.IsNPC);
 
-        if (players.Count() == 1)
-            Timing.RunCoroutine(Tools.SetWinner(players.ToList(), 15));
-
-        else if (players.Count() > 1)
-            Timing.RunCoroutine(Tools.SetWinner(players.ToList(), 3));
+        switch (players.Count())
+        {
+            case 1:
+                Timing.RunCoroutine(Tools.SetWinner(players.ToList(), 15));
+                break;
+            case > 1:
+                Timing.RunCoroutine(Tools.SetWinner(players.ToList(), 3));
+                break;
+        }
     }
 
     void OnKicking(KickingEventArgs ev)
