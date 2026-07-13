@@ -18,8 +18,8 @@ namespace RGM.Modes.ExclusiveWeapon;
     ExclusiveWeaponType.ForgedStar)]
 public class ForgedStar : ExcWeapon
 {
-    public override float AttackFlatMin => 3.3f;
-    public override float AttackFlatMax => 41.7f;
+    public override float AttackFlatMin => 2.5f;
+    public override float AttackFlatMax => 31.3f;
     public override ExclusiveWeaponSecondaryStat SecondaryStat => ExclusiveWeaponSecondaryStat.CriticalChance;
     public override float SecondaryStatMin => 8.0f;
     public override float SecondaryStatMax => 36.0f;

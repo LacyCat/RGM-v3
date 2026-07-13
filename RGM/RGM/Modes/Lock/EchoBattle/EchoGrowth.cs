@@ -121,7 +121,7 @@ public static class EchoGrowth
             PendingApplyLoadout.Remove(player);
 
             if (player != null && player.IsAlive && EchoInfo.PlayerLoadouts.ContainsKey(player))
-                EchoBattleCore.ApplyLoadout(player);
+                EchoBattleCore.RefreshGrowthStats(player);
         });
     }
 

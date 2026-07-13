@@ -16,8 +16,8 @@ namespace RGM.Modes.ExclusiveWeapon;
     ExclusiveWeaponType.SpectrumBlaster)]
 public class SpectrumBlaster : ExcWeapon
 {
-    public override float AttackFlatMin => 3.9f;
-    public override float AttackFlatMax => 48.9f;
+    public override float AttackFlatMin => 3.0f;
+    public override float AttackFlatMax => 36.7f;
     public override ExclusiveWeaponSecondaryStat SecondaryStat => ExclusiveWeaponSecondaryStat.CriticalChance;
     public override float SecondaryStatMin => 5.4f;
     public override float SecondaryStatMax => 24.3f;

@@ -119,7 +119,7 @@ public static class ExclusiveWeaponGrowth
             PendingApply.Remove(player);
 
             if (player != null && player.IsAlive && EchoInfo.PlayerLoadouts.ContainsKey(player))
-                EchoBattleCore.ApplyLoadout(player);
+                EchoBattleCore.RefreshGrowthStats(player);
         });
     }
 
