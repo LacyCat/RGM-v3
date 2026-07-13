@@ -6,7 +6,7 @@ using System.Collections.Generic;
 namespace RGM.Modes;
 
 /// <summary>
-/// 전용무기 XP. 1레벨 기준 40, 이후 ceil(1.05x + 15). 최대 90.
+/// 전용무기 XP. 1레벨 기준 20, 이후 ceil(1.05x + 15). 최대 90.
 /// </summary>
 public static class ExclusiveWeaponGrowth
 {
