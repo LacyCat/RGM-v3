@@ -237,6 +237,52 @@ public static class EchoBattleCore
         ExclusiveWeaponQuest.EnsureTracking(player);
     }
 
+    /// <summary>
+    /// 레벨업에 따른 스탯만 다시 계산합니다.
+    /// 액티브 Echo/전용무기 인스턴스를 유지하여 사용 중인 지속 효과와 쿨타임이 초기화되지 않습니다.
+    /// </summary>
+    public static void RefreshGrowthStats(Player player)
+    {
+        if (player == null || !EchoInfo.PlayerLoadouts.TryGetValue(player, out var loadout))
+            return;
+
+        bool hasEchoes = EchoInfo.PlayerEchoes.TryGetValue(player, out var echoes);
+        bool hasWeapon = ExclusiveWeaponInfo.PlayerWeapons.TryGetValue(player, out var weapon) && weapon != null;
+
+        // 장착 변경, 역할 변경 등으로 런타임 인스턴스가 없거나 불일치하면 기존 전체 적용 경로를 사용합니다.
+        if ((!hasEchoes && !hasWeapon)
+            || (loadout.MainSlot.HasValue && !echoes.Any(x => x.IsMainSlot && x.Data?.EchoType == loadout.MainSlot.Value))
+            || (loadout.EquippedWeapon.HasValue && (!hasWeapon || weapon.Data?.WeaponType != loadout.EquippedWeapon.Value)))
+        {
+            ApplyLoadout(player);
+            return;
+        }
+
+        float? preservedEchoAhp = EchoStats.TryPeekEchoAhpAmount(player, out float echoAhp)
+            ? echoAhp
+            : null;
+
+        foreach (var echo in echoes)
+        {
+            if (echo?.Data == null)
+                continue;
+
+            echo.Level = loadout.GetLevel(echo.Data.EchoType);
+            echo.SubOptions = EchoStats.EnsureSubOptions(loadout, echo.Data.EchoType, echo.Level);
+        }
+
+        if (hasWeapon)
+        {
+            weapon.Level = ExclusiveWeaponInfo.GetOrCreateProgress(player).GetLevel(weapon.Data.WeaponType);
+            weapon.Resonance = ExclusiveWeaponInfo.GetOrCreateProgress(player).GetResonance(weapon.Data.WeaponType);
+        }
+
+        var snapshot = hasEchoes ? EchoStats.BuildSnapshot(player, echoes) : new EchoStatSnapshot();
+        ExclusiveWeaponCore.MergeStats(player, snapshot);
+        EchoInfo.PlayerStats[player] = snapshot;
+        EchoStats.ApplyPassiveEffects(player, snapshot, preservedEchoAhp);
+    }
+
     public static void Reset(Player player)
     {
         EchoQuest.StopSurviveTracking(player);
