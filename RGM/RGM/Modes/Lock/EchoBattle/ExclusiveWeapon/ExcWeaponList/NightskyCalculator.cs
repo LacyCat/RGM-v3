@@ -12,7 +12,7 @@ namespace RGM.Modes.ExclusiveWeapon;
 /// </summary>
 [ExclusiveWeapon(
     "밤하늘 연산 측정기",
-    "HP 12% + (공진 수치 * 4%) 증가. AHP(또는 HS)가 피해를 입을 경우, AHP(HS)의 순수 차감량의 (12% * 공진 수치)만큼 HP 회복. 단, HP 최대치를 초과하여 회복할 수 없음.",
+    "HP 12% + (공진 수치 * 4%) 증가. AHP(또는 HS)가 피해를 입을 경우, AHP(HS)의 순수 차감량의 (16% * 공진 수치)만큼 HP 회복. 단, HP 최대치를 초과하여 회복할 수 없음.",
     ExclusiveWeaponType.NightskyCalculator)]
 public class NightskyCalculator : ExcWeapon
 {
@@ -66,7 +66,7 @@ public class NightskyCalculator : ExcWeapon
         if (pureShieldLost <= 0f)
             return;
 
-        float heal = pureShieldLost * (0.12f * Resonance);
+        float heal = pureShieldLost * (0.16f * Resonance);
         if (heal <= 0f)
             return;
 

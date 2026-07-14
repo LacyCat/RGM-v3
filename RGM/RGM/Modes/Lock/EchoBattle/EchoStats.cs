@@ -191,7 +191,7 @@ public static class EchoStats
         {
             EchoCost.Cost4 => LerpStat(4f, 40f, level),
             EchoCost.Cost3 => LerpStat(40f, 200f, level),
-            EchoCost.Cost1 => LerpStat(20f, 228f, level),
+            EchoCost.Cost1 => LerpStat(46f, 228f, level),
             _ => 0f
         };
     }

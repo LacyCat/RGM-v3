@@ -15,7 +15,7 @@ namespace RGM.Modes.ExclusiveWeapon;
 /// </summary>
 [ExclusiveWeapon(
     "피안화",
-    "HP 12% + (공진 수치 * 4%) 증가. 사망에 이르는 피해 시 (1초 * 공진 수치)간 무적·투명·이속 증가(최대 3회). 발동 시 최대 체력의 10% + (5% * 공진 수치) 회복.",
+    "HP 12% + (공진 수치 * 4%) 증가. 사망에 이르는 피해 시 (1.2초 * 공진 수치)간 무적·투명·이속 증가(최대 3회). 발동 시 최대 체력의 15% + (5% * 공진 수치) 회복.",
     ExclusiveWeaponType.DeathFlower)]
 public class DeathFlower : ExcWeapon
 {
@@ -75,7 +75,7 @@ public class DeathFlower : ExcWeapon
         ev.IsAllowed = false;
         ev.DamageHandler.Damage = 0f;
 
-        float duration = 1f * Resonance;
+        float duration = 1.2f * Resonance;
         float speedBonus = 16f + 4f * Resonance;
         float heal = Owner.MaxHealth * (0.10f + 0.05f * Resonance);
 
