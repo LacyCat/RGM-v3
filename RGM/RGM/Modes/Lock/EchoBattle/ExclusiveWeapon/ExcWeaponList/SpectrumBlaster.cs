@@ -19,8 +19,8 @@ public class SpectrumBlaster : ExcWeapon
     public override float AttackFlatMin => 3.0f;
     public override float AttackFlatMax => 36.7f;
     public override ExclusiveWeaponSecondaryStat SecondaryStat => ExclusiveWeaponSecondaryStat.CriticalChance;
-    public override float SecondaryStatMin => 5.4f;
-    public override float SecondaryStatMax => 24.3f;
+    public override float SecondaryStatMin => 10.4f;
+    public override float SecondaryStatMax => 29.3f;
 
     public override float PassiveAttackPercent => 8f + Resonance * 2f;
 

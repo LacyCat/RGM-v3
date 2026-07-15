@@ -10,12 +10,12 @@ namespace RGM.Modes.ExclusiveWeapon;
 
 /// <summary>
 /// Death Flower.
-/// Passive: HP 12%+(res*4%). On lethal hit: invuln/invis/speed for (1s*res), max 3 times.
+/// Passive: HP 16%+(res*4%) and critical chance 5%. On lethal hit: invuln/invis/speed for (1.2s*res), max 3 times.
 /// On trigger: heal MaxHP * (10% + 5%*res).
 /// </summary>
 [ExclusiveWeapon(
     "피안화",
-    "HP 12% + (공진 수치 * 4%) 증가. 사망에 이르는 피해 시 (1.2초 * 공진 수치)간 무적·투명·이속 증가(최대 3회). 발동 시 최대 체력의 15% + (5% * 공진 수치) 회복.",
+    "HP 16% + (공진 수치 * 4%) 및 크리티컬 확률 5% 증가. 사망에 이르는 피해 시 (1.2초 * 공진 수치)간 무적·투명·이속 증가(최대 3회). 발동 시 최대 체력의 10% + (5% * 공진 수치) 회복.",
     ExclusiveWeaponType.DeathFlower)]
 public class DeathFlower : ExcWeapon
 {
@@ -25,7 +25,8 @@ public class DeathFlower : ExcWeapon
     public override float SecondaryStatMin => 13.2f;
     public override float SecondaryStatMax => 59.6f;
 
-    public override float PassiveHpPercent => 12f + Resonance * 4f;
+    public override float PassiveHpPercent => 16f + Resonance * 4f;
+    public override float PassiveCriticalChance => 5f;
 
     const int MaxTriggers = 3;
 
