@@ -24,9 +24,9 @@ public static class ExclusiveWeaponQuest
     const float SurviveTargetHuman = 540f;
     const float SurviveTargetScp = 720f;
     const float DealDamageTarget = 11500f;
-    const float TakeDamageTargetScp = 7000f;
+    const float TakeDamageTargetScp = 7500f;
     const float HealTargetHuman = 1200f;
-    const float HsRecoverTargetScp = 6000f;
+    const float HsRecoverTargetScp = 5000f;
 
     static readonly Dictionary<Player, CoroutineHandle> TrackHandles = new();
     static readonly Dictionary<Player, float> PrevHs = new();

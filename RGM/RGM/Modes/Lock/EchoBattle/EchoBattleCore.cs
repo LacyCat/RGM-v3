@@ -18,7 +18,7 @@ public static class EchoBattleCore
     const float HintX = 420f;
     const float HintY = 330f;
     const float NotificationX = 0f;
-    const float NotificationY = 750f;
+    const float NotificationY = 770f;
     const int MaxNotifications = 5;
 
     sealed class Notification

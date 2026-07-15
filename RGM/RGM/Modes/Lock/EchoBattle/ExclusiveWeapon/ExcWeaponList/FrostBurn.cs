@@ -15,19 +15,19 @@ namespace RGM.Modes.ExclusiveWeapon;
 /// </summary>
 [ExclusiveWeapon(
     "서리",
-    "공격력 8% + (공진 수치 * 2%) 증가. 적 타격 시 0.7초마다 최대 1회 Slowness를 (1% * 공진 수치) 중첩(5초 미타격 시 해제). 10스택 시 3초 + (0.6초 * 공진 수치) 속박.",
+    "공격력 8% + (공진 수치 * 2%) 증가. 적 타격 시 0.5초마다 최대 1회 Slowness를 (1% * 공진 수치) 중첩(5초 미타격 시 해제). 10스택 시 3초 + (0.6초 * 공진 수치) 속박.",
     ExclusiveWeaponType.FrostBurn)]
 public class FrostBurn : ExcWeapon
 {
     public override float AttackFlatMin => 3.0f;
     public override float AttackFlatMax => 36.7f;
     public override ExclusiveWeaponSecondaryStat SecondaryStat => ExclusiveWeaponSecondaryStat.CriticalChance;
-    public override float SecondaryStatMin => 5.4f;
-    public override float SecondaryStatMax => 24.3f;
+    public override float SecondaryStatMin => 10.4f;
+    public override float SecondaryStatMax => 29.3f;
 
     public override float PassiveAttackPercent => 8f + Resonance * 2f;
 
-    const float StackIntervalSeconds = 0.7f;
+    const float StackIntervalSeconds = 0.5f;
     const float DecaySeconds = 5f;
     const int MaxStacks = 10;
 
