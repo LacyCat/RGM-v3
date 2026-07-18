@@ -445,8 +445,8 @@ public static class EchoStats
                 return;
 
             float attack = value;
-            if (player.Role.Type == RoleTypeId.Scp939)
-                attack *= 2f;
+            if (player.Role.Type is RoleTypeId.Scp049 or RoleTypeId.Scp106)
+                attack *= 0.5f;
             snapshot.AttackFlat += attack;
         }
     }
@@ -461,7 +461,10 @@ public static class EchoStats
             case EchoSubOptionType.AttackFlat:
                 if (AttackFlagIgnoredRoles.Contains(player.Role.Type))
                     break;
-                snapshot.AttackFlat += player.Role.Type == RoleTypeId.Scp939 ? option.Value * 2f : option.Value;
+                float attack = option.Value;
+                if (player.Role.Type is RoleTypeId.Scp049 or RoleTypeId.Scp106)
+                    attack *= 0.5f;
+                snapshot.AttackFlat += attack;
                 break;
             case EchoSubOptionType.DefensePercent:
                 snapshot.DefensePercent += option.Value;
