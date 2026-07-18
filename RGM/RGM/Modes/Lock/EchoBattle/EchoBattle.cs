@@ -273,10 +273,10 @@ Quest (반복)
         switch (players.Count())
         {
             case 1:
-                Timing.RunCoroutine(Tools.SetWinner(players.ToList(), 15));
+                Timing.RunCoroutine(Tools.SetWinner(players.ToList(), 20));
                 break;
             case > 1:
-                Timing.RunCoroutine(Tools.SetWinner(players.ToList(), 3));
+                Timing.RunCoroutine(Tools.SetWinner(players.ToList(), 4));
                 break;
         }
     }
