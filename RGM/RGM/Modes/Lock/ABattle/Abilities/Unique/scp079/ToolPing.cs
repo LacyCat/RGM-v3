@@ -24,7 +24,7 @@ public class ToolGun : Ability
 
     public override void OnDisabled()
     {
-
+        Exiled.Events.Handlers.Scp079.Pinging -= OnPinging;
     }
 
     public void OnPinging(PingingEventArgs ev)
