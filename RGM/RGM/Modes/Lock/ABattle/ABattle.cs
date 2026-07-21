@@ -717,8 +717,14 @@ public class ABattle : Mode
 
         if (player.HasAbility(AbilityType.RARE_TRANSITION))
         {
-            player.RemoveAbility(AbilityType.RARE_TRANSITION);
-
+            try
+            {
+                player.RemoveAbility(AbilityType.RARE_TRANSITION);
+            }
+            catch (Exception e)
+            {
+                Log.Error($"하급 변이 능력을 제거하는 데 실패했습니다. : {e.Message}");
+            }
             var transition = Random.Range(1, 5) == 1;
 
             if (transition)
@@ -733,8 +739,14 @@ public class ABattle : Mode
 
         if (player.HasAbility(AbilityType.EPIC_TRANSITION))
         {
-            player.RemoveAbility(AbilityType.EPIC_TRANSITION);
-
+            try
+            {
+                player.RemoveAbility(AbilityType.EPIC_TRANSITION);
+            }
+            catch (Exception e)
+            {
+                Log.Error($"변이 능력을 제거하는 데 실패했습니다. : {e.Message}");
+            }
             var transition = Random.Range(1, 5) == 1;
 
             if (transition)
@@ -749,8 +761,14 @@ public class ABattle : Mode
 
         if (player.HasAbility(AbilityType.LEGEND_TRANSITION))
         {
-            player.RemoveAbility(AbilityType.LEGEND_TRANSITION);
-
+            try
+            {
+                player.RemoveAbility(AbilityType.LEGEND_TRANSITION);
+            }
+            catch (Exception e) 
+            { 
+                 Log.Error($"상급 변이 능력을 제거하는 데 실패했습니다. : {e.Message}");
+            }
             var transition = Random.Range(1, 5) == 1;
 
             if (transition)
@@ -780,21 +798,26 @@ public class ABattle : Mode
 
         if (Random.Range(1, 101) <= RoleAbilityChance) // 전용 능력
         {
-            int index;
-
-            do
+            if (player.Role != RoleTypeId.Scp079)
             {
-                index = Random.Range(0, 3);
-            } while (ignoredIndexes.Contains(index));
 
-            ignoredIndexes.Add(index);
+                int index;
 
-            var ability = GetRandomAbilities(player, category, 1,
-                                             roleAbility: player.HasAbility(AbilityType.SYNERGY_BLACKMARKET) 
-                                             ? Tools.EnumToList<RoleAbility>().GetRandomValue()
-                                             : player.GetRoleAbility()).FirstOrDefault();
-            if (ability != AbilityType.NONE)
-                abilities[index] = ability;
+                do
+                {
+                    index = Random.Range(0, 3);
+                } while (ignoredIndexes.Contains(index));
+
+                ignoredIndexes.Add(index);
+
+                var ability = GetRandomAbilities(player,
+                                                 player.HasAbility(AbilityType.SYNERGY_BLACKMARKET) ? Tools.EnumToList<AbilityCategory>().GetRandomValue(x => !new List<AbilityCategory> { AbilityCategory.None, AbilityCategory.Dummy, AbilityCategory.Synergy }.Contains(x)) : category, 1,
+                                                 roleAbility: player.HasAbility(AbilityType.SYNERGY_BLACKMARKET)
+                                                 ? Tools.EnumToList<RoleAbility>().GetRandomValue()
+                                                 : player.GetRoleAbility()).FirstOrDefault();
+                if (ability != AbilityType.NONE)
+                    abilities[index] = ability;
+            }
         }
         // 다음 타자, 코루틴!!!
         Timing.RunCoroutine(SelectionCoroutine(player));
